@@ -59,6 +59,17 @@ HIGH_YIELD_ROOTS = [
     "Cyto",
 ]
 
+QUICK_ROOT_CHIPS = [
+    "Skin",
+    "HN",
+    "BST",
+    "GI",
+    "Molecular",
+    "Breast",
+    "Cyto_GYN",
+    "Endo",
+]
+
 TAG_FIELDS = [
     "primary_tag_governed",
     "approved_tag",
@@ -426,6 +437,10 @@ def write_sqlite(path: Path, records: Sequence[Dict[str, Any]], node_counts: Cou
         conn.close()
 
 
+def fmt_num(value: int) -> str:
+    return f"{value:,}"
+
+
 def write_browser(path: Path, summary: Dict[str, Any], nodes: List[Dict[str, Any]], review_count: int, rejected_count: int, high_yield_rows: List[Dict[str, Any]]) -> None:
     roots = sorted({row["root"] for row in nodes if row["root"]})
     root_counts = Counter(row["root"] for row in nodes for _ in range(int(row["record_count"])))
@@ -437,55 +452,270 @@ def write_browser(path: Path, summary: Dict[str, Any], nodes: List[Dict[str, Any
         f"<tr><td>{html.escape(row['root'])}</td><td>{html.escape(row['tag'])}</td><td>{html.escape(row['source'])}</td><td>{html.escape(row['title'])}</td></tr>"
         for row in high_yield_rows
     )
-    root_options = "\n".join(f"<option value='{html.escape(root)}'>{html.escape(root)} ({root_counts[root]})</option>" for root in roots)
+    root_options = "\n".join(
+        f"<option value='{html.escape(root)}'>{html.escape(root)} ({root_counts[root]})</option>" for root in roots
+    )
+    root_chip_buttons = "\n".join(
+        f'<button type="button" class="chip" data-root="{html.escape(root)}">{html.escape(root)}</button>'
+        for root in QUICK_ROOT_CHIPS
+    )
+    hy_root_chip_buttons = "\n".join(
+        f'<button type="button" class="chip" data-hy-root="{html.escape(root)}">{html.escape(root)}</button>'
+        for root in HIGH_YIELD_ROOTS
+    )
+    hy_sources = sorted({row["source"] for row in high_yield_rows if row.get("source")})
+    hy_source_options = "\n".join(
+        f'<option value="{html.escape(source)}">{html.escape(source)}</option>' for source in hy_sources
+    )
+
+    build_status = html.escape(summary["build_status"])
+    generated_date = html.escape(str(summary.get("generated_at_utc", ""))[:10])
+    node_count = summary.get("curriculum_node_count", len(nodes))
+    visible = summary["records_visible_in_curriculum"]
+    forbidden = summary["forbidden_visible_tag_count"]
+    total = summary["total_records_processed"]
+    badge_class = "badge-pass" if forbidden == 0 and summary["build_status"] == "passed_local_visibility_gate" else "badge"
+    badge_prefix = "✓ " if summary["build_status"] == "passed_local_visibility_gate" else ""
+
     doc = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Curriculum Map v0.2</title>
 <style>
-body {{ font-family: Arial, sans-serif; margin: 24px; color: #1f2933; }}
-h1, h2 {{ margin-bottom: 8px; }}
-.metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 16px 0; }}
-.metric {{ border: 1px solid #d9e2ec; border-radius: 6px; padding: 10px; background: #f8fafc; }}
-label {{ margin-right: 8px; }}
-input, select {{ padding: 6px; margin: 4px 12px 12px 0; }}
-table {{ border-collapse: collapse; width: 100%; margin-top: 8px; }}
-th, td {{ border-bottom: 1px solid #e5e7eb; padding: 6px; text-align: left; vertical-align: top; }}
-th {{ background: #eef2f7; position: sticky; top: 0; }}
-.status {{ font-weight: 700; }}
+:root {{
+  --bg: #f4f6f9;
+  --surface: #fff;
+  --text: #1f2933;
+  --muted: #52606d;
+  --border: #d9e2ec;
+  --accent: #2563eb;
+  --pass: #059669;
+  --pass-bg: #ecfdf5;
+}}
+* {{ box-sizing: border-box; }}
+body {{ font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; margin: 0; color: var(--text); background: var(--bg); line-height: 1.45; }}
+.page {{ max-width: 1280px; margin: 0 auto; padding: 20px 24px 48px; }}
+h1 {{ margin: 0 0 4px; font-size: 1.6rem; }}
+h2 {{ margin: 0 0 12px; font-size: 1.1rem; }}
+.subtitle {{ color: var(--muted); margin: 0 0 16px; font-size: 0.92rem; }}
+.summary-panel {{ background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; }}
+.summary-top {{ display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 14px; }}
+.badge {{ display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; }}
+.badge-pass {{ background: var(--pass-bg); color: var(--pass); border: 1px solid #a7f3d0; }}
+.meta {{ color: var(--muted); font-size: 0.85rem; }}
+.metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }}
+.metric {{ border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: #f8fafc; }}
+.metric-label {{ font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }}
+.metric-value {{ font-size: 1.25rem; font-weight: 700; }}
+.metric-primary {{ background: #eff6ff; border-color: #bfdbfe; }}
+.metric-safe {{ background: var(--pass-bg); border-color: #a7f3d0; }}
+.metric-info {{ background: #fffbeb; border-color: #fde68a; }}
+.metric-muted {{ background: #f1f5f9; }}
+.guide {{ background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0 16px; margin-bottom: 16px; }}
+.guide summary {{ cursor: pointer; font-weight: 600; padding: 14px 0; }}
+.guide ul {{ margin: 0 0 14px 1.2rem; padding: 0; color: var(--muted); font-size: 0.9rem; }}
+.guide li {{ margin-bottom: 6px; }}
+.queue-note {{ background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.9rem; color: var(--muted); }}
+.queue-note strong {{ color: var(--text); }}
+.tabs {{ display: flex; gap: 8px; margin-bottom: 12px; }}
+.tab {{ padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px 8px 0 0; background: #e2e8f0; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--muted); border-bottom: none; }}
+.tab.active {{ background: var(--surface); color: var(--text); }}
+.panel {{ display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 0 10px 10px 10px; padding: 16px; }}
+.panel.active {{ display: block; }}
+.toolbar {{ display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }}
+.field {{ display: flex; flex-direction: column; gap: 4px; }}
+.field label {{ font-size: 0.78rem; font-weight: 600; color: var(--muted); }}
+.field input, .field select {{ padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; min-width: 200px; }}
+.field-grow {{ flex: 1 1 260px; }}
+.field-grow input {{ width: 100%; min-width: 0; }}
+.chips {{ display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }}
+.chip {{ padding: 5px 10px; border: 1px solid var(--border); border-radius: 999px; background: #fff; font-size: 0.78rem; cursor: pointer; color: var(--muted); }}
+.chip:hover {{ border-color: var(--accent); color: var(--accent); }}
+.chip.active {{ background: #dbeafe; border-color: var(--accent); color: #1d4ed8; font-weight: 600; }}
+.result-count {{ margin-left: auto; font-size: 0.85rem; color: var(--muted); align-self: center; }}
+.table-wrap {{ max-height: 62vh; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }}
+table {{ border-collapse: collapse; width: 100%; }}
+th, td {{ border-bottom: 1px solid #e5e7eb; padding: 7px 10px; text-align: left; vertical-align: top; font-size: 0.88rem; }}
+th {{ background: #eef2f7; position: sticky; top: 0; z-index: 1; }}
+tbody tr:hover {{ background: #f8fafc; }}
+.tag-cell {{ font-family: ui-monospace, Consolas, monospace; font-size: 0.82rem; word-break: break-word; }}
+.section-intro {{ font-size: 0.88rem; color: var(--muted); margin: 0 0 12px; }}
+@media (max-width: 640px) {{ .page {{ padding: 12px; }} .result-count {{ width: 100%; margin-left: 0; }} }}
 </style>
 </head>
 <body>
+<div class="page">
 <h1>Curriculum Map v0.2</h1>
-<p class="status">Build status: {html.escape(summary['build_status'])}</p>
-<div class="metrics">
-<div class="metric">Total records<br><strong>{summary['total_records_processed']}</strong></div>
-<div class="metric">Visible curriculum records<br><strong>{summary['records_visible_in_curriculum']}</strong></div>
-<div class="metric">Review queue<br><strong>{review_count}</strong></div>
-<div class="metric">Rejected/hidden<br><strong>{rejected_count}</strong></div>
-<div class="metric">Forbidden visible tags<br><strong>{summary['forbidden_visible_tag_count']}</strong></div>
+<p class="subtitle">Local Evidence/Lesson/Research RAG curriculum browser — not live, not uploaded.</p>
+
+<section class="summary-panel" aria-label="Build summary">
+<div class="summary-top">
+<span class="badge {badge_class}" title="Local visibility gate">{badge_prefix}{build_status}</span>
+<span class="meta">Generated {generated_date} · {fmt_num(node_count)} curriculum nodes · {fmt_num(total)} records processed</span>
 </div>
-<label for="search">Search</label><input id="search" type="search" placeholder="tag text">
-<label for="root">Root</label><select id="root"><option value="">All roots</option>{root_options}</select>
+<div class="metrics">
+<div class="metric metric-primary"><div class="metric-label">Visible curriculum records</div><div class="metric-value">{fmt_num(visible)}</div></div>
+<div class="metric metric-safe"><div class="metric-label">Forbidden visible tags</div><div class="metric-value">{fmt_num(forbidden)}</div></div>
+<div class="metric metric-info"><div class="metric-label">Review queue</div><div class="metric-value">{fmt_num(review_count)}</div></div>
+<div class="metric metric-muted"><div class="metric-label">Rejected / hidden</div><div class="metric-value">{fmt_num(rejected_count)}</div></div>
+<div class="metric metric-muted"><div class="metric-label">Total processed</div><div class="metric-value">{fmt_num(total)}</div></div>
+</div>
+</section>
+
+<details class="guide">
+<summary>How to interpret this map</summary>
+<ul>
+<li><strong>Curriculum nodes</strong> are ABPath-approved tags with visible record counts. Only tags that passed the local visibility gate appear here.</li>
+<li><strong>High-yield sections</strong> show representative tags for major organ systems (Ovary, Prostate, Breast, GI, Lung, Derm, Bone, Soft tissue, Cyto).</li>
+<li><strong>Review queue</strong> ({fmt_num(review_count)}) holds PathOut and WHO tags awaiting manual review — they are not shown as curriculum nodes.</li>
+<li><strong>Rejected / hidden</strong> ({fmt_num(rejected_count)}) includes non-matching textbook/lecture tags, forbidden patterns, and generated junk — intentionally excluded from this view.</li>
+<li><strong>Forbidden visible tags = {fmt_num(forbidden)}</strong> confirms no lecture, textbook, slide, or error patterns leaked into the visible curriculum.</li>
+</ul>
+</details>
+
+<p class="queue-note">The review queue and rejected counts are <strong>expected governance outcomes</strong>, not errors. They reflect tags held back until reviewed or matched to ABPath. Full lists live in <code>review_queue_v0_2.csv</code> and <code>rejected_tags_v0_2.csv</code>.</p>
+
+<div class="tabs" role="tablist">
+<button type="button" class="tab active" data-panel="panel-nodes" role="tab" aria-selected="true">Curriculum nodes</button>
+<button type="button" class="tab" data-panel="panel-high-yield" role="tab" aria-selected="false">High-yield sections</button>
+</div>
+
+<section id="panel-nodes" class="panel active" role="tabpanel">
+<div class="toolbar">
+<div class="field field-grow"><label for="search">Search tags</label><input id="search" type="search" placeholder="Filter by tag or root name…" autocomplete="off"></div>
+<div class="field"><label for="root">Root</label><select id="root"><option value="">All roots</option>{root_options}</select></div>
+<span id="nodes-count" class="result-count"></span>
+</div>
+<div class="chips" id="root-chips" aria-label="Quick root filters">
+<button type="button" class="chip active" data-root="">All</button>
+{root_chip_buttons}
+</div>
+<div class="table-wrap">
 <table id="nodes"><thead><tr><th>Root</th><th>Curriculum node</th><th>Records</th></tr></thead><tbody>{node_rows}</tbody></table>
-<h2>High-yield Sections</h2>
-<table><thead><tr><th>Root</th><th>Tag</th><th>Source</th><th>Example</th></tr></thead><tbody>{high_rows}</tbody></table>
+</div>
+</section>
+
+<section id="panel-high-yield" class="panel" role="tabpanel" hidden>
+<h2>High-yield sections</h2>
+<p class="section-intro">Representative ABPath tags for major organ systems. Use filters to narrow by root or source.</p>
+<div class="toolbar">
+<div class="field field-grow"><label for="hy-search">Search</label><input id="hy-search" type="search" placeholder="Filter high-yield tags…" autocomplete="off"></div>
+<div class="field"><label for="hy-source">Source</label><select id="hy-source"><option value="">All sources</option>{hy_source_options}</select></div>
+<span id="hy-count" class="result-count"></span>
+</div>
+<div class="chips" id="hy-root-chips" aria-label="High-yield root filters">
+<button type="button" class="chip active" data-hy-root="">All</button>
+{hy_root_chip_buttons}
+</div>
+<div class="table-wrap">
+<table id="high-yield"><thead><tr><th>Root</th><th>Tag</th><th>Source</th><th>Example</th></tr></thead><tbody>{high_rows}</tbody></table>
+</div>
+</section>
+</div>
 <script>
-const search = document.getElementById('search');
-const root = document.getElementById('root');
-const rows = [...document.querySelectorAll('#nodes tbody tr')];
-function filterRows() {{
-  const q = search.value.toLowerCase();
-  const r = root.value;
-  rows.forEach(row => {{
-    const text = row.innerText.toLowerCase();
-    const show = (!q || text.includes(q)) && (!r || row.dataset.root === r);
-    row.style.display = show ? '' : 'none';
+(function () {{
+  const search = document.getElementById('search');
+  const rootSelect = document.getElementById('root');
+  const nodeRows = [...document.querySelectorAll('#nodes tbody tr')];
+  const nodesCount = document.getElementById('nodes-count');
+  const rootChips = document.getElementById('root-chips');
+
+  const hySearch = document.getElementById('hy-search');
+  const hySource = document.getElementById('hy-source');
+  const hyRows = [...document.querySelectorAll('#high-yield tbody tr')];
+  const hyCount = document.getElementById('hy-count');
+  const hyRootChips = document.getElementById('hy-root-chips');
+
+  let activeHyRoot = '';
+
+  function setRootChips(value) {{
+    rootChips.querySelectorAll('.chip').forEach(chip => {{
+      chip.classList.toggle('active', chip.dataset.root === value);
+    }});
+  }}
+
+  function setHyRootChips(value) {{
+    activeHyRoot = value;
+    hyRootChips.querySelectorAll('.chip').forEach(chip => {{
+      chip.classList.toggle('active', chip.dataset.hyRoot === value);
+    }});
+  }}
+
+  function filterNodes() {{
+    const q = search.value.trim().toLowerCase();
+    const r = rootSelect.value;
+    let visible = 0;
+    nodeRows.forEach(row => {{
+      const text = row.innerText.toLowerCase();
+      const show = (!q || text.includes(q)) && (!r || row.dataset.root === r);
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    }});
+    nodesCount.textContent = visible + ' of ' + nodeRows.length + ' nodes';
+  }}
+
+  function filterHighYield() {{
+    const q = hySearch.value.trim().toLowerCase();
+    const src = hySource.value;
+    let visible = 0;
+    hyRows.forEach(row => {{
+      const cells = row.cells;
+      const rowRoot = cells[0]?.innerText.trim() || '';
+      const rowSource = cells[2]?.innerText.trim() || '';
+      const text = row.innerText.toLowerCase();
+      const show = (!q || text.includes(q))
+        && (!src || rowSource === src)
+        && (!activeHyRoot || rowRoot === activeHyRoot);
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    }});
+    hyCount.textContent = visible + ' of ' + hyRows.length + ' examples';
+  }}
+
+  search.addEventListener('input', filterNodes);
+  rootSelect.addEventListener('change', () => {{
+    setRootChips(rootSelect.value);
+    filterNodes();
   }});
-}}
-search.addEventListener('input', filterRows);
-root.addEventListener('change', filterRows);
+  rootChips.addEventListener('click', e => {{
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    rootSelect.value = chip.dataset.root;
+    setRootChips(chip.dataset.root);
+    filterNodes();
+  }});
+
+  hySearch.addEventListener('input', filterHighYield);
+  hySource.addEventListener('change', filterHighYield);
+  hyRootChips.addEventListener('click', e => {{
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    setHyRootChips(chip.dataset.hyRoot);
+    filterHighYield();
+  }});
+
+  document.querySelectorAll('.tab').forEach(tab => {{
+    tab.addEventListener('click', () => {{
+      document.querySelectorAll('.tab').forEach(t => {{
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      }});
+      document.querySelectorAll('.panel').forEach(p => {{
+        p.classList.remove('active');
+        p.hidden = true;
+      }});
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      const panel = document.getElementById(tab.dataset.panel);
+      panel.classList.add('active');
+      panel.hidden = false;
+    }});
+  }});
+
+  filterNodes();
+  filterHighYield();
+}})();
 </script>
 </body>
 </html>
