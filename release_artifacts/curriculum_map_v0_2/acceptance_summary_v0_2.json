@@ -1,0 +1,40 @@
+{
+  "abpath_approved_tag_count": 136928,
+  "build_status": "passed_local_visibility_gate",
+  "curriculum_node_count": 6105,
+  "forbidden_examples": [],
+  "forbidden_visible_tag_count": 0,
+  "gcs_read_only_inputs_downloaded": true,
+  "gcs_uploaded_or_mutated": false,
+  "generated_at_utc": "2026-07-04T21:09:10+00:00",
+  "input_dir": "data/curriculum_map_v0_2",
+  "known_limitations": [
+    "Local build only; curriculum mapping is not live and no GCS upload/deployment/schema update was performed.",
+    "PathOut non-ABPath tags are placed in review_queue and not exposed as curriculum nodes.",
+    "WHO mappings use standard-library fuzzy matching; accepted mappings require score >= 90.",
+    "Textbook and lecture tags only become visible when they exactly match loaded ABPath tags and contain no forbidden pattern."
+  ],
+  "output_dir": "outputs/curriculum_map_v0_2",
+  "pathout_local_review_count": 2645,
+  "records_hidden_rejected": 36284,
+  "records_visible_in_curriculum": 137293,
+  "review_queue_count": 4245,
+  "sample_size": 0,
+  "schema_version": "curriculum_map_v0_2",
+  "source_counts": {
+    "abpath": 6105,
+    "lectures": 84138,
+    "pathout": 4397,
+    "textbooks": 81117,
+    "who": 2065
+  },
+  "status_counts": {
+    "approved_abpath": 136928,
+    "mapped_who_abpath": 365,
+    "pathout_local_review": 2645,
+    "rejected_or_hidden": 36284,
+    "who_review": 1600
+  },
+  "total_records_processed": 177822,
+  "who_mapped_count": 365
+}
