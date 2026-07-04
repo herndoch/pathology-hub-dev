@@ -30,3 +30,15 @@ This is a local Curriculum Map build for Evidence/Lesson/Research RAG. It is not
 - No GPT Builder schema update.
 - No v11 promotion.
 - Forbidden patterns are never exposed as curriculum nodes.
+
+## Browser (`curriculum_browser_v0_2.html`)
+
+Open locally in any browser (single self-contained HTML file, no server required).
+
+**Summary panel** — build status, visible record count (137,293), review queue (4,245), rejected/hidden (36,284), and forbidden visible tags (must stay 0).
+
+**Curriculum nodes tab** — searchable, filterable list of 6,105 visible curriculum nodes with root dropdown and quick-filter chips for high-volume roots (Skin, HN, BST, GI, etc.).
+
+**High-yield sections tab** — representative ABPath tags for major organ systems (Ovary, Prostate, Breast, GI, Lung, Derm, Bone, Soft tissue, Cyto) with root and source filters.
+
+Review queue and rejected counts are shown for transparency; those tags are intentionally excluded from the node tables. See `review_queue_v0_2.csv` and `rejected_tags_v0_2.csv` for full lists.
