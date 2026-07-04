@@ -1,0 +1,28 @@
+{
+  "schema_version": "pathology_hub.curriculum_map_staging_manifest.v0.2",
+  "workstream": "HTML rendering / Curriculum mapping",
+  "build_status": "passed_local_visibility_gate",
+  "git_commit": "57065c04518fe1288740372b503308c1ecdc8c1b",
+  "git_branch": "master",
+  "created_at_utc": "2026-07-04T22:04:55Z",
+  "local_output_dir": "outputs/curriculum_map_v0_2",
+  "gcs_staging_paths": {
+    "html": "gs://pathology_hub/05_html/curriculum_map/v0_2/",
+    "normalized": "gs://pathology_hub/02_normalized/curriculum_map/v0_2/",
+    "audit": "gs://pathology_hub/06_audits/curriculum_map/v0_2/"
+  },
+  "acceptance": {
+    "build_status": "passed_local_visibility_gate",
+    "forbidden_visible_tag_count": 0,
+    "visible_curriculum_records": 137293,
+    "review_queue_count": 4245,
+    "rejected_hidden_count": 36284
+  },
+  "known_limitations": [
+    "Local staged curriculum map only; not live API integration.",
+    "Does not change Custom GPT Action schema.",
+    "PathOut local tags remain partly review-oriented.",
+    "WHO fuzzy mapping requires future review.",
+    "Browser table is capped for usability; full record file is in JSONL/SQLite outputs."
+  ]
+}
