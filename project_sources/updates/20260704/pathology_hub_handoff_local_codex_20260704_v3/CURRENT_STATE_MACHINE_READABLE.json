@@ -1,0 +1,78 @@
+{
+  "schema_version": "pathology_hub_local_codex_handoff_state.v3",
+  "generated_at_utc": "2026-07-04T18:47:04+00:00",
+  "project": "Pathology Hub",
+  "canonical_truth": "Conversation A \u2014 Master Project Spine remains canonical; this handoff is an operational addendum from the journal/tag governance workstream.",
+  "api": {
+    "base_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app",
+    "health_endpoint": "/health",
+    "search_endpoint": "/evidence/search",
+    "method": "POST",
+    "auth_header": "X-API-Key",
+    "local_secret_env_names": [
+      "PATHOLOGY_HUB_API_KEY",
+      "HUB_API",
+      "X_API_KEY"
+    ],
+    "colab_secret_names": [
+      "HUB_API",
+      "X-API-Key",
+      "X_API_KEY",
+      "PATHOLOGY_HUB_API_KEY"
+    ]
+  },
+  "journal_v4_4": {
+    "status": "promoted_live_by_audit; API health shows record_count 129209 but content proof should be repeated with targeted Virchows queries",
+    "previous_rows": 103830,
+    "new_rows_added": 25379,
+    "union_rows": 129209,
+    "union_articles": 8654,
+    "journal_counts": {
+      "Modern Pathology": 22229,
+      "The American Journal of Surgical Pathology": 81601,
+      "Virchows Archiv": 25379
+    },
+    "embedding_model": "text-embedding-3-small",
+    "embedding_dim": 1536,
+    "faiss_ntotal": 129209,
+    "zero_norm_rows": 0,
+    "cloud_run_restart_returncode": 0,
+    "vector_artifact_paths": {
+      "embeddings_npy": "gs://pathology_hub/03_indexes/journals/vector/journal_embeddings.npy",
+      "faiss_index": "gs://pathology_hub/03_indexes/journals/vector/journal_faiss.index",
+      "docstore_jsonl": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_docstore.jsonl",
+      "manifest_json": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_manifest.json"
+    },
+    "stage_root": "gs://pathology_hub/03_indexes/journals/vector_union_v4_4/20260704T174528Z",
+    "audit_root": "gs://pathology_hub/06_audits/journals/vector_union_v4_4/20260704T174528Z",
+    "backup_root": "gs://pathology_hub/99_backups/journal_union_vector_v4_4/20260704T174528Z/",
+    "api_proof_file_bug": "journal_union_v4_api_proof.json failed due missing requests import; user manual proof had health 200 but broad Virchows queries returned AJSP FTS-only hits"
+  },
+  "histopathology": {
+    "status": "located_not_vectorized_live",
+    "normalized_chunks": "gs://pathology_hub/02_normalized/journals_batches/histopathology/journal_chunks.jsonl",
+    "normalized_articles": "gs://pathology_hub/02_normalized/journals_batches/histopathology/journal_articles.jsonl",
+    "normalized_figures": "gs://pathology_hub/02_normalized/journals_batches/histopathology/journal_figures.jsonl",
+    "output_audit": "gs://pathology_hub/02_normalized/journals_batches/histopathology/journal_output_audit.json",
+    "legacy_assets_prefix": "gs://pathology-hub-0/_asset_library/journals/Wiley_Histopathology/",
+    "legacy_content_prefix": "gs://pathology-hub-0/_content_library/journals/Wiley_Histopathology/"
+  },
+  "tag_governance": {
+    "current_assertion": "PathOut tags mostly useful; lecture/textbook generated tags should map to approved tags or inherit nearest meaningful sequence tag; no secondary facets yet.",
+    "decisions": {
+      "pathout_local_tags": "auto-approve unless junk/root-error",
+      "who_fuzzy_to_abpath": "auto-accept >= 90",
+      "lecture_textbook_weak_context": "sequence inheritance with max distance",
+      "no_context": "__UNMAPPED__, vector-searchable but hidden from tag browsing",
+      "secondary_facets": "hold off",
+      "pathout_only_local": "keep and approve all non-junk"
+    },
+    "v11_curriculum_hardening": "generated in conversation but not evidenced live in this handoff; run/audit before claiming live"
+  },
+  "do_not_claim": [
+    "Do not claim Histopathology is in the live API vector index yet.",
+    "Do not claim Virchows API retrieval is content-validated until targeted proof returns Virchows rows.",
+    "Do not claim curriculum hardening v11 is live without its run ZIP/audit.",
+    "Do not claim uploaded/source files are indexed unless manifest/audit proves vectorized/searchable/API-exposed."
+  ]
+}

@@ -1,0 +1,6 @@
+source,retrieval_status,tag_status,vector_status,caveats
+who,upstream/passthrough,WHO processed JSON tag-bearing source exists,not locally vectorized by current proof,tag source at gs://pathology-hub-0/WHO/WHO_JSON_PROCESSED/*.json; WHO→ABPath fuzzy >=90 in v11 design
+textbooks,API-live hybrid FTS+FAISS,governed v10.5 metadata live,"vectorized 79,320 records",artifact tags excluded from proof search surfaces
+pathout,API-live AP-diagnostic vector,v2.3/v10.5 governed; PathOut local tags approved,"vectorized 4,397 records",full raw all-site PathOut not claimed fully tagged
+lectures/videos,API-live local vector,v10.3/v10.5 governed,"vectorized 42,069 records",video_time_url may be null; timestamp patch separate
+journals,API-live hybrid upstream FTS+FAISS,no tag registry claimed,"vectorized 103,830 records",use for research/literature

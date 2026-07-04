@@ -1,0 +1,16 @@
+name,gcs_uri,notes
+raw_textbook_pdfs,gs://pathology-hub-0/source_pdfs/,Raw textbook PDFs; do not delete.
+raw_lecture_videos,gs://pathology-hub-0/source_videos/,Raw lecture/video sources; do not delete.
+who_processed_json,gs://pathology-hub-0/WHO/WHO_JSON_PROCESSED/*.json,User-confirmed WHO processed tag-bearing JSON files.
+textbook_vector_docstore,gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl,Backend-consumed textbook vector docstore; v10.5 governed metadata live.
+textbook_vector_manifest,gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_manifest.json,Backend-consumed textbook vector manifest; v10.5 summary cleanup.
+textbook_public_figure_map,gs://pathology_hub/02_normalized/textbooks/lean/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl,Served public figure map; v10.5 strict filter promoted but conservative.
+pathout_vector_docstore,gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_docstore.jsonl,Backend-consumed PathOut AP-diagnostic vector docstore; v2.3/v10.5 governed.
+pathout_vector_manifest,gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_manifest.json,Backend-consumed PathOut AP manifest.
+lecture_vector_docstore,gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl,Backend-consumed lecture vector docstore; v10.3/v10.5 governed.
+lecture_vector_manifest,gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_manifest_STRICT_CYTO_v9.json,Backend-consumed lecture manifest.
+journal_vector_docstore,gs://pathology_hub/03_indexes/journals/vector/journal_vector_docstore.jsonl,Journal vector docstore; no tag registry claimed.
+governance_v10_5_stage,gs://pathology_hub/02_normalized/tags/governance/v10_5/,v10.5 staging outputs.
+governance_v10_5_audits,gs://pathology_hub/06_audits/tags/governance/v10_5/,v10.5 audits/proofs.
+governance_v10_5_proof,gs://pathology_hub/06_audits/tags/governance/v10_5/PATHOLOGY_HUB_GOVERNED_CLEANUP_API_PROOF_v10_5_2.json,Final user-run API proof after using HUB_API key.
+curriculum_v11_tag_index_target,gs://pathology_hub/03_indexes/tags/curriculum_hardening/v11/pathology_hub_approved_curriculum_tag_index_v11.sqlite,Target if v11 is run/promoted; not proven live.

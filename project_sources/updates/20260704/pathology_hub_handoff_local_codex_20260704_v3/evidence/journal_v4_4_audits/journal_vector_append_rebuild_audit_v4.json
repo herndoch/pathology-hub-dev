@@ -1,0 +1,18 @@
+{
+  "schema_version": "journal_vector_append_rebuild_audit.v4",
+  "generated_at_utc": "2026-07-04T17:49:56+00:00",
+  "build_and_promote_vector": true,
+  "performed": true,
+  "new_rows_to_embed": 25379,
+  "previous_rows": 103830,
+  "new_rows_added": 25379,
+  "new_articles_added": 3378,
+  "union_rows": 129209,
+  "union_articles": 8654,
+  "journal_counts": {
+    "Modern Pathology": 22229,
+    "The American Journal of Surgical Pathology": 81601,
+    "Virchows Archiv": 25379
+  },
+  "cloud_run_restart_returncode": 0
+}

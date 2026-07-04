@@ -1,0 +1,9 @@
+{
+  "texts_count": 25379,
+  "texts_fingerprint": "3bb78b2fdfc6d3e1c4b6956281ab12f333a6a1e224d5e44d7f362dc078b4c0a6",
+  "embedded_rows": 25379,
+  "updated_at_utc": "2026-07-04T18:13:51+00:00",
+  "embedding_model": "text-embedding-3-small",
+  "batch_size": 64,
+  "tpm_budget": 700000
+}

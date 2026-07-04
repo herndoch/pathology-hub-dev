@@ -1,0 +1,49 @@
+{
+  "schema_version": "journal_union_v4_api_proof",
+  "generated_at_utc": "2026-07-04T18:17:36+00:00",
+  "health": {
+    "error": "name 'requests' is not defined"
+  },
+  "api_probes": [
+    {
+      "payload": {
+        "query": "Virchows Archiv colorectal carcinoma",
+        "sources": [
+          "journals"
+        ],
+        "max_results": 5,
+        "compact": true,
+        "excerpt_char_limit": 900
+      },
+      "error": "name 'requests' is not defined"
+    },
+    {
+      "payload": {
+        "query": "Virchows Archiv lymphoma pathology",
+        "sources": [
+          "journals"
+        ],
+        "max_results": 5,
+        "compact": true,
+        "excerpt_char_limit": 900
+      },
+      "error": "name 'requests' is not defined"
+    },
+    {
+      "payload": {
+        "query": "Modern Pathology lung adenocarcinoma AJSP",
+        "sources": [
+          "journals"
+        ],
+        "max_results": 5,
+        "compact": true,
+        "excerpt_char_limit": 900
+      },
+      "error": "name 'requests' is not defined"
+    }
+  ],
+  "api_key_secret_used": "env:PATHOLOGY_HUB_API_KEY",
+  "api_key_secret_names_tried": [
+    "env:PATHOLOGY_HUB_API_KEY"
+  ]
+}

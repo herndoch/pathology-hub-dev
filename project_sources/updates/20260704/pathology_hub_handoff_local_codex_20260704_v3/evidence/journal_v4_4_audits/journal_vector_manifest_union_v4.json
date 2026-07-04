@@ -1,0 +1,35 @@
+{
+  "schema_version": "journal_vector_manifest.v4_union",
+  "created_at_utc": "2026-07-04T18:14:18+00:00",
+  "corpus": "journals_union",
+  "workstream": "Journal RAG / Vectorization / Union append",
+  "index_type": "faiss_IndexFlatIP_cosine_normalized",
+  "searchable": true,
+  "vectorized": true,
+  "api_exposed": true,
+  "api_exposed_note": "Vector artifacts built. API requires v04.5 patch before journal vector retrieval is exposed.",
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dim": 1536,
+  "record_count": 129209,
+  "source_checkpoint_prefix_gcs": "gs://pathology_hub/03_indexes/journals/vector/_build_shards_v1",
+  "artifact_paths": {
+    "embeddings_npy": "gs://pathology_hub/03_indexes/journals/vector/journal_embeddings.npy",
+    "faiss_index": "gs://pathology_hub/03_indexes/journals/vector/journal_faiss.index",
+    "docstore_jsonl": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_docstore.jsonl",
+    "manifest_json": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_manifest.json"
+  },
+  "checks": {
+    "embedding_rows": 129209,
+    "docstore_rows": 129209,
+    "faiss_ntotal": 129209,
+    "zero_norm_rows": 0
+  },
+  "previous_record_count": 103830,
+  "new_record_count_added": 25379,
+  "article_count": 8654,
+  "journal_counts": {
+    "Modern Pathology": 22229,
+    "The American Journal of Surgical Pathology": 81601,
+    "Virchows Archiv": 25379
+  }
+}

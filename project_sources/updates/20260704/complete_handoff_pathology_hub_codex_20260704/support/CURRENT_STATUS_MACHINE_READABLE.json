@@ -1,0 +1,70 @@
+{
+  "schema_version": "pathology_hub_codex_handoff.current_status.v1",
+  "generated_at_utc": "2026-07-04T18:53:19+00:00",
+  "canonical_project": "pathology-annotation-project",
+  "artifact_bucket": "gs://pathology_hub",
+  "legacy_source_bucket": "gs://pathology-hub-0",
+  "live_api": {
+    "service": "pathology-hub-v04",
+    "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app",
+    "endpoint": "POST /evidence/search",
+    "operationId": "searchEvidence",
+    "auth_header": "X-API-Key",
+    "health_schema_seen": "pathology_hub_health.v1.5.8",
+    "service_version_seen": "1.5.8-pathout-lecture-tags-v04",
+    "working_secret_value_source_in_colab": "HUB_API; same fingerprint/value as GCP Secret Manager pathology-hub-api-key",
+    "bad_colab_secret_names_seen": [
+      "X-API-Key",
+      "PATHOLOGY_HUB_API_KEY"
+    ]
+  },
+  "governed_cleanup_v10_5": {
+    "promoted": true,
+    "restart_requested": true,
+    "api_proof": {
+      "health_status": 200,
+      "search_status_codes": [
+        200,
+        200,
+        200
+      ],
+      "forbidden_primary_tag_counts": [
+        0,
+        0,
+        0
+      ],
+      "gcs_audit_path": "gs://pathology_hub/06_audits/tags/governance/v10_5/PATHOLOGY_HUB_GOVERNED_CLEANUP_API_PROOF_v10_5_2.json"
+    },
+    "metadata_scan_counts_from_v10_5_zip": {
+      "textbooks": {
+        "total": 79320,
+        "primary_tag_mapped": 79320,
+        "primary_tag_governed_mapped": 79320,
+        "unique_primary_tags": 2597
+      },
+      "pathout": {
+        "total": 4397,
+        "primary_tag_mapped": 4397,
+        "primary_tag_governed_mapped": 4397,
+        "unique_primary_tags": 4048
+      },
+      "lectures": {
+        "total": 42069,
+        "primary_tag_mapped": 42069,
+        "primary_tag_governed_mapped": 42069,
+        "unique_primary_tags": 1647
+      }
+    },
+    "figure_filter_counts_from_v10_5_zip": {
+      "total": 49526,
+      "kept": 49525,
+      "excluded": 1
+    },
+    "caveat": "Figure cleanup remains conservative; explicit tag-browse API is not yet proven live."
+  },
+  "not_live_yet": {
+    "explicit_tag_browse_api": "Drafted but not proven live; current live schema remains v1.5.8 unless Codex/backend patch deploys tag-aware modes.",
+    "curriculum_hardening_v11": "Notebook/package generated with promotion enabled; no output ZIP/health proof reviewed.",
+    "full_junk_figure_elimination": "v10.5 excluded only 1 served figure; deeper image crop analysis may be needed."
+  }
+}

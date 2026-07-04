@@ -1,0 +1,242 @@
+[
+  {
+    "path": "README_START_HERE.md",
+    "size_bytes": 948,
+    "sha256": "a05ae53184bb4d6372b24eafebec8bcb638ac24ac0952e290daefefaf193d4f8"
+  },
+  {
+    "path": "codex_local/api_smoke_test.py",
+    "size_bytes": 1883,
+    "sha256": "5029eeeb5bad12970fb425488ebd144977f75c949219ea9b35c08c7c41e0f307"
+  },
+  {
+    "path": "codex_local/build_minimal_tag_index.py",
+    "size_bytes": 2177,
+    "sha256": "1f966ae583bc0a8fac6c82a6ab7623c5d9558060f69d2846e5a6a0142de1ee2b"
+  },
+  {
+    "path": "codex_local/curriculum_tag_index_runtime_helper_v11.py",
+    "size_bytes": 2022,
+    "sha256": "f896d583900bec80ffe6322698205372dbeba2e974ff393c7218e50135c09d35"
+  },
+  {
+    "path": "codex_local/download_core_gcs_artifacts.sh",
+    "size_bytes": 1339,
+    "sha256": "00755cfd60831bdf01ecb46727335ee0923c5bf4173b6a06c82c2bb4823312d2"
+  },
+  {
+    "path": "codex_local/tag_search_backend_patch_v1_6_1_REFERENCE.py",
+    "size_bytes": 5035,
+    "sha256": "36df4ac5f9c9b723621d45f3ffdb8f594433ba9c1a01a5d02943aee477d66dae"
+  },
+  {
+    "path": "docs/00_MASTER_HANDOFF_FOR_CODEX.md",
+    "size_bytes": 6972,
+    "sha256": "12b7a4714c3356433792ca0ba29b1e9222ee1e83e40f088ebb12023ff0b158f1"
+  },
+  {
+    "path": "docs/01_LIVE_STATE_AND_PROOF.md",
+    "size_bytes": 1393,
+    "sha256": "e4e16e2d88664d1546832236de36903ba80b959dcc346c1632f6b978cbb2d06e"
+  },
+  {
+    "path": "docs/02_VERSION_CHRONOLOGY_AND_ARTIFACT_MAP.md",
+    "size_bytes": 1222,
+    "sha256": "1dd5b51e3f86a6a93772cd7116653b4d133ca0aacbb7556d98be791de71c788e"
+  },
+  {
+    "path": "docs/03_GCS_PATHS_AND_OBJECTS.md",
+    "size_bytes": 1769,
+    "sha256": "8c6ff9ff7481509265ecc6fccf033f170987b10f6a58f4267d548e1c442597b3"
+  },
+  {
+    "path": "docs/04_LOCAL_VSCODE_CODEX_RUNBOOK.md",
+    "size_bytes": 1443,
+    "sha256": "6636d2301bb2e0ec3827380687eadc167466782798369558624623b60f5d0268"
+  },
+  {
+    "path": "docs/05_BACKEND_TAG_RUNTIME_IMPLEMENTATION_PLAN.md",
+    "size_bytes": 2299,
+    "sha256": "c53dee699af642a4d5f93686ba900f9d0548fd6c6b4cb8f51c20a5467686c8b8"
+  },
+  {
+    "path": "docs/06_TAG_POLICY_AND_GOVERNANCE.md",
+    "size_bytes": 897,
+    "sha256": "68b37d42b77b8ec786852f8544b24ee94889b3886c38813c4c3c74a441c3cec9"
+  },
+  {
+    "path": "docs/07_CURRICULUM_MAPPING_STRATEGY_AND_V11.md",
+    "size_bytes": 1078,
+    "sha256": "b68b69e5690e5e070ab01beb34a9fb6290c91451d43039692f1568734c3d159a"
+  },
+  {
+    "path": "docs/08_GPT_BUILDER_AND_FRONTEND_GUIDANCE.md",
+    "size_bytes": 699,
+    "sha256": "8a37aac6b0364913fdb7e2f1ac8ff3f773ccb351242b521b37c99ef95774b9aa"
+  },
+  {
+    "path": "docs/09_REGRESSION_TESTS_AND_QA.md",
+    "size_bytes": 613,
+    "sha256": "02019d72a94799116edfe1da098107473c36ed22311de3d9a1b6d47dacd7d4ef"
+  },
+  {
+    "path": "docs/10_ROLLBACK_AND_SAFETY.md",
+    "size_bytes": 522,
+    "sha256": "14170faac4e3d14709df84c9178e078e04095a98c7a26ab401607734a9717e52"
+  },
+  {
+    "path": "docs/11_OPEN_ITEMS_AND_NEXT_STEPS.md",
+    "size_bytes": 467,
+    "sha256": "c853d40d16a67a1d351280785c4a4644eb9c4ad99fefcc0d03bb9de32c88aaa2"
+  },
+  {
+    "path": "notebooks/Pathology_Hub_Curriculum_Tag_Hardening_v11_SINGLE_NOTEBOOK.ipynb",
+    "size_bytes": 78268,
+    "sha256": "4f97b268083a0c285b509477cc79aa7e46587b76f639cc43ea1fd06a9f67b8f5"
+  },
+  {
+    "path": "notebooks/Pathology_Hub_Governed_Cleanup_v10_5_2_API_PROOF_ONLY_HUB_API.ipynb",
+    "size_bytes": 11560,
+    "sha256": "a1039a883250bcd08541b96e0e13465eec04e1b3ac54486682bcde51474097e3"
+  },
+  {
+    "path": "notebooks/Pathology_Hub_Governed_Cleanup_v10_5_Manifest_API_Figure_Strict.ipynb",
+    "size_bytes": 31339,
+    "sha256": "e5cd62982bf845b0244fd61a7330f11938bb76aa8bc2c98631948fb2ede9ac38"
+  },
+  {
+    "path": "project_source_patches/API_CONTRACT_NOTE_CODEX_HANDOFF_V10_5.md",
+    "size_bytes": 436,
+    "sha256": "dcdc75ff0c39ba0deb0314a016a081a672e0e06cbf5d945a17b62af1cd0b5d7a"
+  },
+  {
+    "path": "project_source_patches/CURRENT_MASTER_SPINE_PATCH_CODEX_HANDOFF_V10_5.md",
+    "size_bytes": 874,
+    "sha256": "0c9e351a57972b152547cfb0d70f8d2b088fa1cfe779ed2220f1d09d110184ec"
+  },
+  {
+    "path": "project_source_patches/DECISIONS_LOG_PATCH_CODEX_HANDOFF_V10_5.md",
+    "size_bytes": 815,
+    "sha256": "3ee817d514536891d54bcf6bebbea4ef6c280c8976738697832fae55332301fb"
+  },
+  {
+    "path": "project_source_patches/SCHEMA_REGISTRY_PATCH_CODEX_HANDOFF_V10_5.md",
+    "size_bytes": 601,
+    "sha256": "659c6f892d50b2417ea3e999a295cb0dfac895f0590e76d7c99dd3c7839f1fea"
+  },
+  {
+    "path": "project_source_patches/WORKSTREAM_STATUS_PATCH_CODEX_HANDOFF_V10_5.md",
+    "size_bytes": 842,
+    "sha256": "56b98b9d68266c2d07d2b46d23aa8854ffc744ebb16df7c7dfc30a8d79941a5f"
+  },
+  {
+    "path": "prompts/PROMPT_FOR_NEXT_CHATGPT_CODEX_GUIDE.md",
+    "size_bytes": 1279,
+    "sha256": "69f32bcd19776ad5c8aad91f7a382fc18b70347c17ac2b4639ea9de2ee03f9d6"
+  },
+  {
+    "path": "proofs/API_PROOF_V10_5_2_USER_REPORTED_SUMMARY.json",
+    "size_bytes": 783,
+    "sha256": "a96d09b59a836ca72e7d37be982190a2bb06fd64d3ff612a09177604c29bb8e7"
+  },
+  {
+    "path": "reference_artifacts/API_CONTRACT_20260629_v1_5_8.md",
+    "size_bytes": 1632,
+    "sha256": "38a25eccb76b0c9b4efd62698e58c1046bf625ed9ba33f6c9560429f746bbe9f"
+  },
+  {
+    "path": "reference_artifacts/CURRENT_MASTER_SPINE_20260629_v04_8.md",
+    "size_bytes": 3044,
+    "sha256": "8d9d23f8e4142b1173fcd41d3f4c3eaf98ff9f30b9d262ef2f0f09563ae48f3b"
+  },
+  {
+    "path": "reference_artifacts/DECISIONS_LOG_20260629_v04_8.md",
+    "size_bytes": 1677,
+    "sha256": "0d87a253c3afba750a56c4014e5b462b6dec5356e80367dbe3cbd68526bf4950"
+  },
+  {
+    "path": "reference_artifacts/HANDOFF_GOVERNED_TAG_CLEANUP_V10_5_20260704_PREVIOUS.zip",
+    "size_bytes": 37134,
+    "sha256": "ef83a4c266dfca8fb7a8e61f7ab6e1a4e6840ea37b8ad840cc8309a2213e3626"
+  },
+  {
+    "path": "reference_artifacts/PATHOLOGY_HUB_GOVERNED_CLEANUP_V10_5_OUTPUTS_WITH_EARLY_401_PROOF.zip",
+    "size_bytes": 14035,
+    "sha256": "6f0796bb1e574b4cc51803c41742205c3c0f0b7d8f5598cc149ec3d513c44de2"
+  },
+  {
+    "path": "reference_artifacts/SCHEMA_REGISTRY_20260629_v04_8.md",
+    "size_bytes": 1892,
+    "sha256": "f67b0ac7e59222c90cb0eac789e89229bd1cf6c94066b2393e56cc601f3378b1"
+  },
+  {
+    "path": "reference_artifacts/WORKSTREAM_STATUS_20260629_v04_8.md",
+    "size_bytes": 1895,
+    "sha256": "9bf9275cff22c3ba1ef9bb77a2922d0759a15b4cd74e5a7787ae3f4f0abf419a"
+  },
+  {
+    "path": "reference_artifacts/openapi_pathology_hub_unified_searchEvidence_v1_5_8.yaml",
+    "size_bytes": 2204,
+    "sha256": "0ca2a25bd213911657dcc6aa501a5e31b201f1d3958a656eeabce8e71f3b30f2"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_abpath_source_tags.zip",
+    "size_bytes": 83201,
+    "sha256": "1f7a0411770d2ce13bc8c72f16c5e92f693c71d8f8b2796431ae355feb31f9d2"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_api_proof_fix_v10_5_2.zip",
+    "size_bytes": 4476,
+    "sha256": "1740edf0f17fe85d57fee84f47c6c891182c4bb7fedbc37dda0b6f0eaf032aba"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_curriculum_tag_hardening_v11_package.zip",
+    "size_bytes": 102479,
+    "sha256": "59fbb74738ed6faca23404fd3f879f647380580a0851e67fde6c1dff3e5a94cd"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_elr_tag_runtime_v09_3_source_locator_who_fix_REFERENCE.zip",
+    "size_bytes": 9835,
+    "sha256": "04a5b0c48f6409cbf1aff5d1222d5bb75d30f3cd503a1c59137603c636dd564d"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_governed_cleanup_v10_5_manifest_api_figure_fix_package.zip",
+    "size_bytes": 9055,
+    "sha256": "dd766454424571aaa8b95c75c54cf7df8b0af243457e1fd396f72de6a469d0d7"
+  },
+  {
+    "path": "reference_artifacts/pathology_hub_governed_tag_inheritance_figure_cleanup_v10_4_package.zip",
+    "size_bytes": 101576,
+    "sha256": "8272ef724f94c768d70287df11855f0e781bb9e814a20734ad72cf1e24ee07d9"
+  },
+  {
+    "path": "schemas/openapi_pathology_hub_ELR_current_v1_5_8.yaml",
+    "size_bytes": 2204,
+    "sha256": "0ca2a25bd213911657dcc6aa501a5e31b201f1d3958a656eeabce8e71f3b30f2"
+  },
+  {
+    "path": "schemas/openapi_pathology_hub_ELR_tagaware_v1_6_1_DRAFT.yaml",
+    "size_bytes": 3214,
+    "sha256": "6b48b26caf647a5aa9a77694460a290968faa23d5ae254bb57dbe58c3e93d539"
+  },
+  {
+    "path": "schemas/openapi_pathology_hub_ELR_tagaware_v1_7_0_DRAFT.yaml",
+    "size_bytes": 2298,
+    "sha256": "3318ccf07bf9285fe7c30e6a7bd2ad9491ccd4363c6dcbb71d9d1b81a6709e06"
+  },
+  {
+    "path": "support/CURRENT_STATUS_MACHINE_READABLE.json",
+    "size_bytes": 2462,
+    "sha256": "81ab5f83c14f8e0a62d5119d4d71c3914eafe6de19a6f0626a2b4499076d0460"
+  },
+  {
+    "path": "support/GCS_PATH_REGISTRY.csv",
+    "size_bytes": 2440,
+    "sha256": "48c550c0643b9a541fa0608acc74aeb624db3239772730bdb64a14de40ad7577"
+  },
+  {
+    "path": "support/SOURCE_STATUS_MATRIX_AFTER_V10_5.csv",
+    "size_bytes": 850,
+    "sha256": "8548cf0daadca19c16dc190bf7cf212ef4d69c5e25600350547e0775a67ee397"
+  }
+]

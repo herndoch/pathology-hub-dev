@@ -1,0 +1,16 @@
+{
+  "schema_version": "journal_browser_union_promotion.v4",
+  "generated_at_utc": "2026-07-04T17:49:47+00:00",
+  "promote_browser": true,
+  "performed": true,
+  "objects": [
+    {
+      "live": "gs://pathology_hub/05_html/article_browser/article_browser.html",
+      "backup": "gs://pathology_hub/99_backups/journal_union_vector_v4_4/20260704T174528Z/article_browser.html"
+    },
+    {
+      "live": "gs://pathology_hub/05_html/article_browser/journal_chunk_browser.html",
+      "backup": null
+    }
+  ]
+}

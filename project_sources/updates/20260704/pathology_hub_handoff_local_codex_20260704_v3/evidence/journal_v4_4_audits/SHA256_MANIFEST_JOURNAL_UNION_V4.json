@@ -1,0 +1,85 @@
+{
+  "schema_version": "journal_union_v4_checksum_manifest",
+  "files": [
+    {
+      "name": "journal_chunk_browser_v4_chunks.csv",
+      "size_bytes": 226428654,
+      "sha256": "72ab86a67df6151f3ed6d2d9203ed4d6da5301f7c0fe893a821416010dbae770"
+    },
+    {
+      "name": "journal_chunk_browser_v4.html",
+      "size_bytes": 90674168,
+      "sha256": "be563f959fd990793759be939b58081602085de41d7a3df5fd85a8ea99541119"
+    },
+    {
+      "name": "journal_article_browser_v4_articles.csv",
+      "size_bytes": 6705071,
+      "sha256": "606d329e58d6db3276110ba030423f0c72fd3fd354f11695d9de96ebfec73efa"
+    },
+    {
+      "name": "new_embeddings_checkpoint_v4_4.npy",
+      "size_bytes": 155928704,
+      "sha256": "899fc45d451c0f27f8b6f1588cdb151693cafdc6722e69a64285febdc03c66f5"
+    },
+    {
+      "name": "journal_embeddings_union_v4.npy",
+      "size_bytes": 793860224,
+      "sha256": "923567dd1ce78cb7f85f239388dcf8b5f6a95200d2fdfbc9b75bdb1ace122258"
+    },
+    {
+      "name": "JOURNAL_UNION_VECTOR_REBUILD_REPORT_v4.json",
+      "size_bytes": 6133,
+      "sha256": "9c688b032bd393e1aed3c75f95dc78bcb2d61dbe5722ff906f2d07efb2d443d6"
+    },
+    {
+      "name": "journal_vector_docstore_union_v4.jsonl",
+      "size_bytes": 582635732,
+      "sha256": "91050a5f4146ebe99e4ccd685d01c3ed944a4a7759d6f2c0041da77f2f22cdac"
+    },
+    {
+      "name": "journal_vector_manifest_union_v4.json",
+      "size_bytes": 1414,
+      "sha256": "9ffe0c9763bb867a6fada03b9f23a130fc5dfffcfbdcc0aafc3303d0c2fecbb4"
+    },
+    {
+      "name": "journal_article_browser_v4_articles.jsonl",
+      "size_bytes": 7665805,
+      "sha256": "6c5c7c2d60ab0b00d6b53abe59534abc536d283de0299ec24281c4766d8291bf"
+    },
+    {
+      "name": "new_embeddings_checkpoint_v4_4_meta.json",
+      "size_bytes": 283,
+      "sha256": "794d4500cd26f098961e504fc5c0de3074759bbbf3881b2e421ff28be74e3e86"
+    },
+    {
+      "name": "journal_faiss_union_v4.index",
+      "size_bytes": 793860141,
+      "sha256": "fc254a3ce461ab3c9d45b5d41a821d993a70a85f128a4da141e180f2465c5533"
+    },
+    {
+      "name": "journal_article_browser_v4.html",
+      "size_bytes": 2218384,
+      "sha256": "d785a21132329f214dc3e0e07d36a128dffc4c8736a5c24dfecbd6ba39881779"
+    },
+    {
+      "name": "journal_vector_append_rebuild_audit_v4.json",
+      "size_bytes": 517,
+      "sha256": "0eedae1e2fcd92c197cad0719ffd9f0b951bfffa7d5a6ae65d9d4a715656d433"
+    },
+    {
+      "name": "journal_union_coverage_audit_v4.json",
+      "size_bytes": 3078,
+      "sha256": "1c509d4692e30699bc471d75f8d5ab71c837ebf63b8964d8fd59d991d035390d"
+    },
+    {
+      "name": "journal_browser_union_promotion_audit_v4.json",
+      "size_bytes": 505,
+      "sha256": "6594d8d2e83eaa55f6d0ccef389d5054594f33b83f8007373dccf9690e4f4595"
+    },
+    {
+      "name": "journal_union_v4_api_proof.json",
+      "size_bytes": 1170,
+      "sha256": "5af9c221aa1577be2eaaca64ccb4562838cd2709ca3085ef06f5c1cba28dc61c"
+    }
+  ]
+}

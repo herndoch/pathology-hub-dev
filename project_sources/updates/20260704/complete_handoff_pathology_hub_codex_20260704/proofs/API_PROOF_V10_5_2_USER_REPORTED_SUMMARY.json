@@ -1,0 +1,34 @@
+{
+  "schema_version": "pathology_hub_governed_cleanup_api_proof.v10_5_2.user_reported_summary",
+  "api_key_source": "HUB_API / GCP Secret Manager pathology-hub-api-key",
+  "http_header": "X-API-Key",
+  "health_status": 200,
+  "tests": [
+    {
+      "sources": [
+        "lectures"
+      ],
+      "status_code": 200,
+      "forbidden_count": 0
+    },
+    {
+      "sources": [
+        "who",
+        "textbooks",
+        "pathout",
+        "journals"
+      ],
+      "status_code": 200,
+      "forbidden_count": 0
+    },
+    {
+      "sources": [
+        "textbooks",
+        "pathout"
+      ],
+      "status_code": 200,
+      "forbidden_count": 0
+    }
+  ],
+  "gcs_audit_path": "gs://pathology_hub/06_audits/tags/governance/v10_5/PATHOLOGY_HUB_GOVERNED_CLEANUP_API_PROOF_v10_5_2.json"
+}

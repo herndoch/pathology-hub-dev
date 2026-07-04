@@ -1,0 +1,108 @@
+{
+  "schema_version": "journal_union_coverage_audit.v4",
+  "generated_at_utc": "2026-07-04T17:49:04+00:00",
+  "current_summary": {
+    "source_name": "current_vector_docstore",
+    "gcs_uri": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_docstore.jsonl",
+    "row_count": 103830,
+    "article_count": 5276,
+    "journal_counts": {
+      "Modern Pathology": 22229,
+      "The American Journal of Surgical Pathology": 81601
+    },
+    "field_coverage": {
+      "journal": 103830,
+      "title": 103830,
+      "doi": 22073,
+      "url": 22229,
+      "published": 0,
+      "year": 0
+    },
+    "excerpt_rows": 103830
+  },
+  "candidate_count": 3,
+  "candidate_summaries": [
+    {
+      "source_name": "candidate_0",
+      "gcs_uri": "gs://pathology_hub/02_normalized/journals/ajsp/ajsp_journal_chunks.jsonl",
+      "row_count": 81813,
+      "article_count": 3830,
+      "journal_counts": {
+        "The American Journal of Surgical Pathology": 81813
+      },
+      "field_coverage": {
+        "journal": 81813,
+        "title": 81813,
+        "doi": 0,
+        "url": 0,
+        "published": 0,
+        "year": 0
+      },
+      "excerpt_rows": 81813
+    },
+    {
+      "source_name": "candidate_1",
+      "gcs_uri": "gs://pathology_hub/02_normalized/journals/journal_chunks.jsonl",
+      "row_count": 104054,
+      "article_count": 5276,
+      "journal_counts": {
+        "Modern Pathology": 22241,
+        "The American Journal of Surgical Pathology": 81813
+      },
+      "field_coverage": {
+        "journal": 104054,
+        "title": 104054,
+        "doi": 22085,
+        "url": 22241,
+        "published": 22085,
+        "year": 0
+      },
+      "excerpt_rows": 104054
+    },
+    {
+      "source_name": "candidate_2",
+      "gcs_uri": "gs://pathology_hub/02_normalized/journals/springer_virchows_archiv_v0_7/journal_chunks.jsonl",
+      "row_count": 25379,
+      "article_count": 3378,
+      "journal_counts": {
+        "Virchows Archiv": 25379
+      },
+      "field_coverage": {
+        "journal": 25379,
+        "title": 25379,
+        "doi": 25379,
+        "url": 25379,
+        "published": 25379,
+        "year": 0
+      },
+      "excerpt_rows": 25379
+    }
+  ],
+  "new_rows_added": 25379,
+  "new_articles_added": 3378,
+  "new_rows_by_source_uri": {
+    "gs://pathology_hub/02_normalized/journals/springer_virchows_archiv_v0_7/journal_chunks.jsonl": 25379
+  },
+  "union_summary": {
+    "source_name": "union_current_plus_missing_normalized_chunks",
+    "gcs_uri": "union",
+    "row_count": 129209,
+    "article_count": 8654,
+    "journal_counts": {
+      "Modern Pathology": 22229,
+      "The American Journal of Surgical Pathology": 81601,
+      "Virchows Archiv": 25379
+    },
+    "field_coverage": {
+      "journal": 129209,
+      "title": 129209,
+      "doi": 47452,
+      "url": 47608,
+      "published": 25379,
+      "year": 0
+    },
+    "excerpt_rows": 129209
+  },
+  "stage_root": "gs://pathology_hub/03_indexes/journals/vector_union_v4_4/20260704T174528Z",
+  "audit_root": "gs://pathology_hub/06_audits/journals/vector_union_v4_4/20260704T174528Z"
+}
