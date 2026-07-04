@@ -1,0 +1,233 @@
+openapi: 3.1.0
+info:
+  title: Pathology Hub Unified Evidence API
+  version: 1.5.9
+  description: Single-action evidence search for Pathology Hub. Adds curriculum as an optional source on the existing searchEvidence operation.
+servers:
+  - url: https://pathology-hub-v04-vorn5q2kga-uc.a.run.app
+paths:
+  /evidence/search:
+    post:
+      operationId: searchEvidence
+      summary: Search Pathology Hub evidence and curriculum sources.
+      description: Use one Action only. Use source curriculum for navigation/map/tag/root discovery, and evidence sources for diagnostic detail.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchEvidenceRequest"
+            examples:
+              curriculum_navigation:
+                summary: Curriculum navigation
+                value:
+                  query: ovary granulosa
+                  sources:
+                    - curriculum
+                  max_results: 5
+                  compact: true
+              evidence_search:
+                summary: Evidence search
+                value:
+                  query: ovarian granulosa cell tumor
+                  sources:
+                    - who
+                    - textbooks
+                    - pathout
+                  max_results: 5
+                  compact: true
+                  excerpt_char_limit: 900
+      responses:
+        "200":
+          description: Unified search response. Response is intentionally additive and may include source-specific result arrays.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchEvidenceResponse"
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Server error.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    SearchEvidenceRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: Short keyword-style pathology query.
+        sources:
+          type: array
+          items:
+            type: string
+            enum:
+              - who
+              - textbooks
+              - journals
+              - pathout
+              - lectures
+              - videos
+              - curriculum
+          default:
+            - textbooks
+          description: Source list. Use curriculum for navigation; use other sources for evidence.
+        max_results:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+        include_figures:
+          type: boolean
+          default: false
+        max_figures:
+          type: integer
+          minimum: 0
+          maximum: 10
+          default: 0
+        compact:
+          type: boolean
+          default: true
+        excerpt_char_limit:
+          type: integer
+          minimum: 200
+          maximum: 4000
+          default: 900
+    CurriculumStatus:
+      type: object
+      additionalProperties: true
+      properties:
+        version:
+          type: string
+          example: v0.2
+        build_status:
+          type: string
+          example: passed_local_visibility_gate
+        forbidden_visible_tag_count:
+          type: integer
+          example: 0
+        visible_curriculum_records:
+          type: integer
+          example: 137293
+        review_queue_count:
+          type: integer
+          example: 4245
+        rejected_hidden_count:
+          type: integer
+          example: 36284
+        html_url:
+          type: string
+        gcs_paths_used:
+          type: object
+          additionalProperties: true
+    CurriculumResult:
+      type: object
+      additionalProperties: true
+      properties:
+        tag:
+          type: string
+        root:
+          type: string
+        status:
+          type: string
+        source_counts:
+          type: object
+          additionalProperties:
+            type: integer
+        sources:
+          type: array
+          items:
+            type: string
+        visible_record_count:
+          type: integer
+        review_count:
+          type: integer
+        example_records:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        examples:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        matched_by:
+          type: string
+        score:
+          type: number
+        rank:
+          type: integer
+        warning:
+          type: string
+    SearchEvidenceResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        schema_version:
+          type: string
+        query:
+          type: string
+        source_status:
+          type: object
+          additionalProperties:
+            type: string
+        search_mode:
+          type: object
+          additionalProperties: true
+        who_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        textbook_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        journal_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pathout_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        lecture_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        video_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        curriculum_status:
+          $ref: "#/components/schemas/CurriculumStatus"
+        curriculum_results:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurriculumResult"
+        figures:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        warnings:
+          type: array
+          items:
+            type: string
