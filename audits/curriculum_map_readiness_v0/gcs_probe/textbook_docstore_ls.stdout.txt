@@ -1,0 +1,2 @@
+ 230912231  2026-07-04T15:32:16Z  gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl
+TOTAL: 1 objects, 230912231 bytes (220.22MiB)

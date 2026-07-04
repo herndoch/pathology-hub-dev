@@ -1,0 +1,2 @@
+     10306  2026-07-04T16:19:08Z  gs://pathology_hub/06_audits/tags/governance/v10_5/PATHOLOGY_HUB_GOVERNED_CLEANUP_API_PROOF_v10_5_2.json
+TOTAL: 1 objects, 10306 bytes (10.06kiB)

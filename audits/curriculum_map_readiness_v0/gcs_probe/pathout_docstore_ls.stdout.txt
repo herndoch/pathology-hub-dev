@@ -1,0 +1,2 @@
+  29416947  2026-07-04T15:32:39Z  gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_docstore.jsonl
+TOTAL: 1 objects, 29416947 bytes (28.05MiB)

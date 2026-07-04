@@ -1,0 +1,19 @@
+{
+  "files_seen": [],
+  "gcs_commands_run": [],
+  "gcs_touched": false,
+  "generated_at_utc": "2026-07-04T20:14:06+00:00",
+  "input_dir": "data/curriculum_map_readiness_v0",
+  "known_limitations": [
+    "Local-only audit script; no gcloud calls, GCS downloads, GCS uploads, deployments, v11 promotion, or GPT Builder schema updates.",
+    "Source and tag extraction are defensive heuristics based on local JSON/JSONL fields and filenames.",
+    "Missing fields are treated as absent rather than fatal.",
+    "WHO to ABPath fuzzy matching requires local ABPath terms; if absent, results are limitation rows."
+  ],
+  "mode": "probe_only",
+  "output_dir": "audits/curriculum_map_readiness_v0",
+  "probe_only_note": "Input files were inventoried only; records were not parsed.",
+  "record_count": 0,
+  "sample_size": null,
+  "schema_version": "curriculum_map_readiness_audit.v0"
+}

@@ -1,0 +1,2 @@
+ 109448933  2026-07-04T15:33:02Z  gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl
+TOTAL: 1 objects, 109448933 bytes (104.38MiB)
