@@ -1,0 +1,12 @@
+gcs_mirror/
+gcs_mounts/
+outputs/
+audits/tmp/
+.venv/
+__pycache__/
+*.pyc
+.env
+*.key
+*.pem
+application_default_credentials.json
+.DS_Store

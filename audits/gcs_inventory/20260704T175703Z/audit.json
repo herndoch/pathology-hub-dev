@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "timestamp_utc": "20260704T175703Z",
+  "project": "pathology-annotation-project",
+  "buckets_checked": [
+    "gs://pathology_hub",
+    "gs://pathology-hub-0"
+  ],
+  "output_directory": "audits/gcs_inventory/20260704T175703Z",
+  "command_outputs_saved": [
+    {
+      "bucket": "gs://pathology_hub",
+      "listing_level": "level1",
+      "command": "gcloud storage ls --project=pathology-annotation-project \"gs://pathology_hub\"",
+      "stdout_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level1.stdout.txt",
+      "stderr_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level1.stderr.txt",
+      "status_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level1.status.txt",
+      "exit_status": 0,
+      "stdout_line_count": 14,
+      "stderr_line_count": 0
+    },
+    {
+      "bucket": "gs://pathology_hub",
+      "listing_level": "level2",
+      "command": "gcloud storage ls --project=pathology-annotation-project \"gs://pathology_hub/*\"",
+      "stdout_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level2.stdout.txt",
+      "stderr_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level2.stderr.txt",
+      "status_path": "audits/gcs_inventory/20260704T175703Z/pathology_hub_level2.status.txt",
+      "exit_status": 0,
+      "stdout_line_count": 79,
+      "stderr_line_count": 0
+    },
+    {
+      "bucket": "gs://pathology-hub-0",
+      "listing_level": "level1",
+      "command": "gcloud storage ls --project=pathology-annotation-project \"gs://pathology-hub-0\"",
+      "stdout_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level1.stdout.txt",
+      "stderr_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level1.stderr.txt",
+      "status_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level1.status.txt",
+      "exit_status": 0,
+      "stdout_line_count": 15,
+      "stderr_line_count": 0
+    },
+    {
+      "bucket": "gs://pathology-hub-0",
+      "listing_level": "level2",
+      "command": "gcloud storage ls --project=pathology-annotation-project \"gs://pathology-hub-0/*\"",
+      "stdout_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level2.stdout.txt",
+      "stderr_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level2.stderr.txt",
+      "status_path": "audits/gcs_inventory/20260704T175703Z/pathology-hub-0_level2.status.txt",
+      "exit_status": 0,
+      "stdout_line_count": 1935,
+      "stderr_line_count": 0
+    }
+  ],
+  "known_limitations": [
+    "This is a read-only inventory using gcloud storage ls; it does not upload, modify, normalize, tag, vectorize, index, or API-expose any source.",
+    "GCS is a flat object store; level1 and level2 are prefix-oriented listings based on gcloud storage wildcard behavior, not authoritative directory traversal.",
+    "The inventory is intentionally limited to the top two listing levels and does not recursively enumerate deeper objects.",
+    "Line counts are counts of saved listing output lines, not independently verified object totals.",
+    "Permissions, transient API errors, shell environment, and gcloud version/configuration may affect listing completeness; stderr and exit status are saved for audit."
+  ]
+}
