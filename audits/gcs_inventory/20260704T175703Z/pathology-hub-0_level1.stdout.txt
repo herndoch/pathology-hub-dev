@@ -1,0 +1,15 @@
+gs://pathology-hub-0/index.html
+gs://pathology-hub-0/template_v01.html
+gs://pathology-hub-0/template_v02.html
+gs://pathology-hub-0/template_v03.html
+gs://pathology-hub-0/Miscellaneous/
+gs://pathology-hub-0/Tags/
+gs://pathology-hub-0/WHO/
+gs://pathology-hub-0/_WSI/
+gs://pathology-hub-0/_asset_library/
+gs://pathology-hub-0/_content_library/
+gs://pathology-hub-0/_journal_browser/
+gs://pathology-hub-0/_pathout_raw/
+gs://pathology-hub-0/_tools/
+gs://pathology-hub-0/source_pdfs/
+gs://pathology-hub-0/source_videos/

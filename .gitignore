@@ -1,5 +1,6 @@
 gcs_mirror/
 gcs_mounts/
+data/
 outputs/
 audits/tmp/
 .venv/

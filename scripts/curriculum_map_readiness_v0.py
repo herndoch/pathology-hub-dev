@@ -78,6 +78,9 @@ HIGH_YIELD_ROOTS = [
     "Cyto",
 ]
 
+MAX_WHO_FUZZY_TERMS = 1000
+MAX_ABPATH_CANDIDATES_PER_TERM = 500
+
 SOURCE_HINTS = {
     "textbook": "textbooks",
     "textbooks": "textbooks",
@@ -297,6 +300,19 @@ def best_abpath_match(term: str, abpath_terms: Sequence[str]) -> Tuple[str, int,
     return best_term, best_score, bucket
 
 
+def first_token(value: str) -> str:
+    match = re.search(r"[A-Za-z0-9]+", value)
+    return match.group(0).lower() if match else ""
+
+
+def candidate_abpath_terms(term: str, abpath_terms: Sequence[str]) -> List[str]:
+    token = first_token(term)
+    candidates = [candidate for candidate in abpath_terms if first_token(candidate) == token]
+    if not candidates:
+        candidates = list(abpath_terms)
+    return candidates[:MAX_ABPATH_CANDIDATES_PER_TERM]
+
+
 def get_numeric(record: Dict[str, Any], keys: Sequence[str]) -> Optional[float]:
     for key in keys:
         value = record.get(key)
@@ -401,13 +417,15 @@ def parse_all_records(input_dir: Path, sample_size: Optional[int]) -> Tuple[List
     parse_errors: List[Dict[str, Any]] = []
     count = 0
     for path in find_json_files(input_dir):
+        file_count = 0
         for raw in read_records(path):
             if "_parse_error" in raw:
                 parse_errors.append(raw)
                 continue
+            if sample_size is not None and file_count >= sample_size:
+                break
             count += 1
-            if sample_size is not None and len(parsed) >= sample_size:
-                return parsed, parse_errors
+            file_count += 1
             source = detect_source(path, raw)
             tags, tags_by_field = extract_tags(raw)
             statuses = extract_statuses(raw)
@@ -454,6 +472,7 @@ def build_outputs(input_dir: Path, output_dir: Path, sample_size: Optional[int],
             "Source and tag extraction are defensive heuristics based on local JSON/JSONL fields and filenames.",
             "Missing fields are treated as absent rather than fatal.",
             "WHO to ABPath fuzzy matching requires local ABPath terms; if absent, results are limitation rows.",
+            f"WHO to ABPath fuzzy matching is capped at {MAX_WHO_FUZZY_TERMS} WHO terms and {MAX_ABPATH_CANDIDATES_PER_TERM} ABPath candidates per WHO term in this local scaffold.",
         ],
     }
 
@@ -520,6 +539,8 @@ def build_outputs(input_dir: Path, output_dir: Path, sample_size: Optional[int],
 
     abpath_terms = collect_abpath_terms(records)
     who_rows = []
+    who_terms_total = 0
+    who_terms_compared = 0
     if not abpath_terms:
         who_rows.append(
             {
@@ -532,11 +553,14 @@ def build_outputs(input_dir: Path, output_dir: Path, sample_size: Optional[int],
             }
         )
     else:
-        seen_who_terms = sorted(
+        all_who_terms = sorted(
             set(tag for rec in records if rec["source"] == "who" for tag in rec["visible_tags"])
         )
+        who_terms_total = len(all_who_terms)
+        seen_who_terms = all_who_terms[:MAX_WHO_FUZZY_TERMS]
+        who_terms_compared = len(seen_who_terms)
         for term in seen_who_terms:
-            match, score, bucket = best_abpath_match(term, abpath_terms)
+            match, score, bucket = best_abpath_match(term, candidate_abpath_terms(term, abpath_terms))
             who_rows.append(
                 {
                     "who_term": term,
@@ -643,6 +667,10 @@ def build_outputs(input_dir: Path, output_dir: Path, sample_size: Optional[int],
             "forbidden_visible_tag_example_count": len(forbidden_rows),
             "inheritance_fields_seen": bool(inheritance_records),
             "who_abpath_fuzzy_rows": len(who_rows),
+            "who_terms_total_seen": who_terms_total,
+            "who_terms_compared": who_terms_compared,
+            "who_fuzzy_term_cap": MAX_WHO_FUZZY_TERMS,
+            "abpath_candidate_cap_per_who_term": MAX_ABPATH_CANDIDATES_PER_TERM,
             "pathout_local_tag_rows": len(pathout_rows),
             "high_yield_root_example_rows": len(high_yield_rows),
             "abpath_terms_found": len(abpath_terms),

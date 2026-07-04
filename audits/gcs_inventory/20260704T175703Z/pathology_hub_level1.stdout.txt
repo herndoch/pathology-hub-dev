@@ -1,0 +1,14 @@
+gs://pathology_hub/index.html
+gs://pathology_hub/00_manifests/
+gs://pathology_hub/01_source/
+gs://pathology_hub/01_sources/
+gs://pathology_hub/01_staged/
+gs://pathology_hub/02_normalized/
+gs://pathology_hub/03_indexes/
+gs://pathology_hub/04_api_artifacts/
+gs://pathology_hub/05_html/
+gs://pathology_hub/06_audits/
+gs://pathology_hub/07_handoffs/
+gs://pathology_hub/99_backups/
+gs://pathology_hub/99_share/
+gs://pathology_hub/gcloud/

@@ -1,19 +1,189 @@
 {
-  "files_seen": [],
+  "abpath_candidate_cap_per_who_term": 500,
+  "abpath_terms_found": 8802,
+  "files_seen": [
+    {
+      "path": "data/curriculum_map_readiness_v0/PATHOLOGY_HUB_GOVERNED_CLEANUP_API_PROOF_v10_5_2.json",
+      "size_bytes": 10306,
+      "source_hint": "proof",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/abpath_source_tags.jsonl",
+      "size_bytes": 997950,
+      "source_hint": "abpath",
+      "suffix": ".jsonl"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.sample5000.jsonl",
+      "size_bytes": 13867166,
+      "source_hint": "lectures",
+      "suffix": ".jsonl"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/pathout_ap_diagnostic_vector_docstore.sample5000.jsonl",
+      "size_bytes": 29416947,
+      "source_hint": "pathout",
+      "suffix": ".jsonl"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/textbook_lean_vector_docstore.sample5000.jsonl",
+      "size_bytes": 11484855,
+      "source_hint": "textbooks",
+      "suffix": ".jsonl"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/BREAST.json",
+      "size_bytes": 394134,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/BST.json",
+      "size_bytes": 1083394,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/CYTO_HEME.json",
+      "size_bytes": 307309,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/CYTO_LUNG.json",
+      "size_bytes": 269160,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/CYTO_PANCREAS.json",
+      "size_bytes": 298718,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/CYTO_PANCREAS1.json",
+      "size_bytes": 357363,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/CYTO_SOFTTISSUE.json",
+      "size_bytes": 499858,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/ENDO.json",
+      "size_bytes": 509245,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/EYE.json",
+      "size_bytes": 1000568,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/GENETICS.json",
+      "size_bytes": 449929,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/GI.json",
+      "size_bytes": 631349,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/GU.json",
+      "size_bytes": 954415,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/GYN.json",
+      "size_bytes": 1229549,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/HEME.json",
+      "size_bytes": 643729,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/HN.json",
+      "size_bytes": 1585377,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/NEURO.json",
+      "size_bytes": 494897,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/PEDS.json",
+      "size_bytes": 1619401,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/SKIN.json",
+      "size_bytes": 1532577,
+      "source_hint": "who",
+      "suffix": ".json"
+    },
+    {
+      "path": "data/curriculum_map_readiness_v0/who_processed/THORACIC.json",
+      "size_bytes": 784749,
+      "source_hint": "who",
+      "suffix": ".json"
+    }
+  ],
+  "forbidden_visible_tag_example_count": 945,
   "gcs_commands_run": [],
   "gcs_touched": false,
-  "generated_at_utc": "2026-07-04T20:14:06+00:00",
+  "generated_at_utc": "2026-07-04T20:33:05+00:00",
+  "hidden_record_counts": {
+    "proof": 1,
+    "who": 80
+  },
+  "high_yield_root_example_rows": 225,
+  "inheritance_fields_seen": true,
   "input_dir": "data/curriculum_map_readiness_v0",
   "known_limitations": [
     "Local-only audit script; no gcloud calls, GCS downloads, GCS uploads, deployments, v11 promotion, or GPT Builder schema updates.",
     "Source and tag extraction are defensive heuristics based on local JSON/JSONL fields and filenames.",
     "Missing fields are treated as absent rather than fatal.",
-    "WHO to ABPath fuzzy matching requires local ABPath terms; if absent, results are limitation rows."
+    "WHO to ABPath fuzzy matching requires local ABPath terms; if absent, results are limitation rows.",
+    "WHO to ABPath fuzzy matching is capped at 1000 WHO terms and 500 ABPath candidates per WHO term in this local scaffold."
   ],
-  "mode": "probe_only",
+  "mode": "audit",
   "output_dir": "audits/curriculum_map_readiness_v0",
-  "probe_only_note": "Input files were inventoried only; records were not parsed.",
-  "record_count": 0,
-  "sample_size": null,
-  "schema_version": "curriculum_map_readiness_audit.v0"
+  "parse_error_count": 0,
+  "parse_errors": [],
+  "pathout_local_tag_rows": 4048,
+  "record_count": 21463,
+  "sample_size": 5000,
+  "schema_version": "curriculum_map_readiness_audit.v0",
+  "source_counts": {
+    "abpath": 5000,
+    "lectures": 5000,
+    "pathout": 4397,
+    "proof": 1,
+    "textbooks": 5000,
+    "who": 2065
+  },
+  "visible_tag_count_rows": 12791,
+  "who_abpath_fuzzy_rows": 1000,
+  "who_fuzzy_term_cap": 1000,
+  "who_terms_compared": 1000,
+  "who_terms_total_seen": 1934
 }
