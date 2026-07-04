@@ -1,0 +1,256 @@
+openapi: 3.1.0
+info:
+  title: Pathology Hub Unified Evidence API
+  version: 1.5.9-curriculum-draft
+  description: |
+    Single-action evidence search for Pathology Hub (DRAFT).
+
+    Extends v1.5.8 with optional `curriculum` source on the existing
+    `searchEvidence` operation. One Action only — no separate curriculum endpoint.
+
+    **DRAFT status:** Do not install in GPT Builder until backend deploy and
+    health proof confirm `curriculum` is live with `forbidden_visible_tag_count == 0`.
+
+    Curriculum is for teaching/navigation/curriculum browsing, not final diagnostic
+    evidence. For diagnostic answers, use who/textbooks/journals/pathout/lectures/videos.
+servers:
+  - url: https://pathology-hub-v04-vorn5q2kga-uc.a.run.app
+paths:
+  /evidence/search:
+    post:
+      operationId: searchEvidence
+      summary: Search Pathology Hub evidence and curriculum sources.
+      description: |
+        Unified search across evidence sources and the governed curriculum index.
+        Required field unchanged: `query` only.
+
+        Recommended GPT pattern:
+        1. `sources: ["curriculum"]` to navigate nodes/roots.
+        2. `sources: ["who", "textbooks", ...]` for evidentiary detail.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchEvidenceRequest"
+            examples:
+              curriculum_navigation:
+                summary: Curriculum navigation probe
+                value:
+                  query: "melanoma invasive overview"
+                  sources:
+                    - curriculum
+                  max_results: 10
+                  compact: true
+              evidence_then_curriculum:
+                summary: Evidence search (unchanged v1.5.8 shape)
+                value:
+                  query: "basal cell carcinoma criteria"
+                  sources:
+                    - who
+                    - textbooks
+                    - pathout
+                  max_results: 5
+                  compact: true
+                  excerpt_char_limit: 900
+      responses:
+        "200":
+          description: Unified search response (evidence and/or curriculum).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchEvidenceResponse"
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Server error.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    EvidenceSource:
+      type: string
+      enum:
+        - who
+        - textbooks
+        - journals
+        - pathout
+        - lectures
+        - videos
+        - curriculum
+      description: |
+        Evidence sources return citations/excerpts. `curriculum` returns governed
+        ABPath curriculum nodes for navigation — not diagnostic proof.
+    SearchEvidenceRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: Short keyword-style pathology query (required).
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/EvidenceSource"
+          default:
+            - textbooks
+          description: |
+            Sources to search. Include `curriculum` for curriculum navigation.
+            Omit or use evidence sources only for diagnostic/teaching citations.
+        max_results:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+        include_figures:
+          type: boolean
+          default: false
+        max_figures:
+          type: integer
+          minimum: 0
+          maximum: 10
+          default: 0
+        compact:
+          type: boolean
+          default: true
+          description: When true, omit empty/null fields. Supported for curriculum.
+        excerpt_char_limit:
+          type: integer
+          minimum: 200
+          maximum: 4000
+          default: 900
+          description: Applies to evidence sources; ignored for curriculum hits.
+    SourceStatusMap:
+      type: object
+      additionalProperties:
+        type: string
+        enum:
+          - ok
+          - disabled
+          - not_loaded
+          - error
+          - visibility_gate_failed
+      description: Per-source status. Includes `curriculum` when requested.
+    CurriculumStatus:
+      type: object
+      additionalProperties: true
+      description: |
+        Curriculum index governance/health summary. `forbidden_visible_tag_count`
+        must be 0 before curriculum is considered safe to expose.
+      properties:
+        api_exposed:
+          type: boolean
+        index_version:
+          type: string
+          example: curriculum_map_v0_2
+        build_status:
+          type: string
+          example: passed_local_visibility_gate
+        curriculum_node_count:
+          type: integer
+          example: 6105
+        records_visible_in_curriculum:
+          type: integer
+          example: 137293
+        forbidden_visible_tag_count:
+          type: integer
+          example: 0
+        review_queue_count:
+          type: integer
+        records_hidden_rejected:
+          type: integer
+    CurriculumResult:
+      type: object
+      additionalProperties: true
+      properties:
+        curriculum_node:
+          type: string
+          description: Full governed ABPath-style tag path.
+        root:
+          type: string
+          description: Curriculum root (e.g. Skin, GU::Prostate).
+        record_count:
+          type: integer
+          description: Visible governed records mapped to this node.
+        status:
+          type: string
+          description: Governance status (e.g. approved_abpath).
+        match_basis:
+          type: string
+          description: Optional match basis (exact_tag, tag_prefix, fuzzy_who).
+        score:
+          type: number
+          description: Optional rank/score for fuzzy matches.
+        retrieval_mode:
+          type: string
+          example: curriculum_tag_index
+    SearchEvidenceResponse:
+      type: object
+      additionalProperties: true
+      description: |
+        v1.5.8 fields preserved. When `curriculum` is requested, response may
+        include `curriculum_status` and `curriculum_results`.
+      properties:
+        schema_version:
+          type: string
+          example: evidence_search_response.v1.5.9
+        query:
+          type: string
+        source_status:
+          $ref: "#/components/schemas/SourceStatusMap"
+        search_mode:
+          type: string
+        who_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        journal_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pathout_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        textbook_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        lecture_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        video_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        curriculum_status:
+          $ref: "#/components/schemas/CurriculumStatus"
+        curriculum_results:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurriculumResult"
+        figures:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        warnings:
+          type: array
+          items:
+            type: string

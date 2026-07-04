@@ -4,6 +4,8 @@ data/
 outputs/
 audits/tmp/
 .venv/
+.venv_curriculum/
+recovered_backend/
 __pycache__/
 *.pyc
 .env
