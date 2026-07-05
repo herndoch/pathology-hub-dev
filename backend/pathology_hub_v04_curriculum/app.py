@@ -1,5 +1,5 @@
 
-import os, re, json, sqlite3, time, hmac, hashlib, base64, io, urllib.parse, csv
+import os, re, json, sqlite3, time, hmac, hashlib, base64, io, urllib.parse, csv, html
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import requests
@@ -58,6 +58,12 @@ class EvidenceSearchRequest(BaseModel):
     max_figures: int = Field(0, ge=0, le=10)
     compact: bool = True
     excerpt_char_limit: int = Field(900, ge=200, le=4000)
+    render_html: bool = False
+    html_profile: str = Field("teaching_page", description="teaching_page, gallery, or evidence_packet")
+    html_title: Optional[str] = None
+    target_figure_count: int = Field(10, ge=1, le=50)
+    html_include_toc: bool = True
+    html_include_source_sections: bool = True
 
 _INDEX = None
 _DOCSTORE = None
@@ -593,7 +599,14 @@ def vector_search_pool(query: str, pool_size: int):
 def hybrid_textbook_search(query: str, max_results: int, excerpt_char_limit: int):
     ensure_artifacts()
     fts_hits = fts_search_pool(query, max(FTS_POOL, max_results))
-    vector_hits = vector_search_pool(query, max(VECTOR_POOL, max_results))
+    vector_warnings = []
+    try:
+        vector_hits = vector_search_pool(query, max(VECTOR_POOL, max_results))
+    except Exception as e:
+        vector_hits = []
+        vector_warnings.append(
+            f"textbook_vector_unavailable_using_fts_only: {repr(e)}"
+        )
     merged = {}
 
     for h in fts_hits:
@@ -642,11 +655,18 @@ def hybrid_textbook_search(query: str, max_results: int, excerpt_char_limit: int
             mode = "fts_only"
         results.append(row_to_textbook_result(item["doc"], query, excerpt_char_limit, rank, mode, extra))
 
-    warnings = [
-        "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
-        "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
-        "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
-    ]
+    if vector_hits:
+        warnings = [
+            "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+            "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+            "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed.",
+        ]
+    else:
+        warnings = [
+            "Textbook retrieval is using SQLite FTS only because vector embeddings were unavailable.",
+            "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed.",
+        ]
+    warnings.extend(vector_warnings)
     return results, warnings
 
 def manifest_summary(path: Path):
@@ -2687,3 +2707,496 @@ def search_evidence_v159(req: EvidenceSearchRequest, request: Request, x_api_key
         resp["figures"] = (resp.get("figures") or [])[:req.max_figures]
 
     return resp
+
+
+# ============================================================
+# v1.5.10 HTML BUNDLE PATCH
+# Adds optional static HTML bundle rendering to existing
+# searchEvidence only. No new GPT Action.
+# ============================================================
+
+APP_VERSION_V1510 = "1.5.10-html-bundle"
+HTML_BUNDLE_VERSION = "v1.5.10"
+HTML_BUNDLE_GCS_PREFIX = os.environ.get(
+    "HTML_BUNDLE_GCS_PREFIX",
+    "gs://pathology_hub/05_html/generated/searchEvidence_html/v1_5_10/",
+)
+
+HTML_PROFILES_V1510 = {"teaching_page", "gallery", "evidence_packet"}
+HTML_RESULT_GROUPS_V1510 = [
+    ("curriculum_results", "Curriculum map"),
+    ("who_results", "WHO"),
+    ("textbook_results", "Textbooks"),
+    ("pathout_results", "Pathology Outlines"),
+    ("journal_results", "Journals"),
+    ("lecture_results", "Lectures"),
+    ("video_results", "Videos"),
+]
+
+def _utc_now_v1510():
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+def _html_escape_v1510(value):
+    return html.escape(str(value or ""), quote=True)
+
+def _first_text_v1510(obj: dict, keys: list):
+    if not isinstance(obj, dict):
+        return None
+    for k in keys:
+        v = obj.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+def _clean_html_profile_v1510(profile: str):
+    p = str(profile or "teaching_page").strip().lower()
+    return p if p in HTML_PROFILES_V1510 else "teaching_page"
+
+def _sanitize_filename_v1510(title: str):
+    base = re.sub(r"[^A-Za-z0-9._-]+", "_", str(title or "searchEvidence_html")).strip("._-")
+    return (base or "searchEvidence_html")[:80]
+
+def _clone_html_request_v1510(req: EvidenceSearchRequest, query: str = None, max_figures: int = 10):
+    data = req.dict()
+    data["query"] = query or req.query
+    data["render_html"] = False
+    data["compact"] = True
+    data["include_figures"] = True
+    data["max_figures"] = max(0, min(10, int(max_figures or 0)))
+    data["max_results"] = max(1, min(10, int(req.max_results or 3)))
+    data["excerpt_char_limit"] = min(1200, max(200, int(req.excerpt_char_limit or 900)))
+    return EvidenceSearchRequest(**data)
+
+def _safe_url_v1510(value):
+    if not isinstance(value, str):
+        return None
+    v = value.strip()
+    if v.startswith("http://") or v.startswith("https://"):
+        return v
+    return None
+
+def _figure_key_v1510(fig: dict):
+    if not isinstance(fig, dict):
+        return None
+    for key in ["image_url", "figure_url", "page_image_url", "source_page_url"]:
+        url = _safe_url_v1510(fig.get(key))
+        if url:
+            return key + ":" + url
+    caption = str(fig.get("caption") or fig.get("title") or "").strip().lower()
+    source = str(fig.get("source_id") or fig.get("source") or fig.get("source_name") or "").strip().lower()
+    if caption or source:
+        return "caption_source:" + hashlib.sha256((caption + "|" + source).encode("utf-8")).hexdigest()
+    return None
+
+def _collect_figures_v1510(resp: dict, seen: set, out: list, limit: int):
+    candidates = []
+    if isinstance(resp.get("figures"), list):
+        candidates.extend(resp.get("figures") or [])
+    for group, _label in HTML_RESULT_GROUPS_V1510:
+        for hit in resp.get(group) or []:
+            if not isinstance(hit, dict):
+                continue
+            for key in ["page_image_url", "figure_url", "image_url", "source_page_url"]:
+                url = _safe_url_v1510(hit.get(key))
+                if url:
+                    candidates.append({
+                        "title": hit.get("title") or hit.get("source_name") or hit.get("source_id"),
+                        "caption": hit.get("caption") or hit.get("excerpt") or hit.get("section"),
+                        key: url,
+                        "source": hit.get("source") or hit.get("source_name"),
+                        "source_id": hit.get("source_id"),
+                        "page": hit.get("page"),
+                    })
+    for fig in candidates:
+        if len(out) >= limit:
+            break
+        if not isinstance(fig, dict):
+            continue
+        key = _figure_key_v1510(fig)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(fig)
+    return out
+
+def _count_evidence_v1510(resp: dict):
+    total = 0
+    for group, _label in HTML_RESULT_GROUPS_V1510:
+        total += len(resp.get(group) or [])
+    return total
+
+def _source_status_ok_v1510(resp: dict, source: str):
+    ss = resp.get("source_status") or {}
+    if source == "lectures":
+        return ss.get("lectures") == "ok" or ss.get("videos") == "ok"
+    return ss.get(source) == "ok"
+
+def _curriculum_gate_ok_v1510(resp: dict):
+    ss = resp.get("source_status") or {}
+    cs = resp.get("curriculum_status") or {}
+    if ss.get("curriculum") in (None, "not_requested"):
+        return True
+    return ss.get("curriculum") == "ok" and cs.get("forbidden_visible_tag_count") == 0
+
+def _filter_forbidden_curriculum_v1510(resp: dict):
+    clean = []
+    removed = 0
+    for row in resp.get("curriculum_results") or []:
+        tag = str((row or {}).get("tag") or "")
+        if _contains_forbidden_curriculum_tag_v159(tag):
+            removed += 1
+            continue
+        clean.append(row)
+    if "curriculum_results" in resp:
+        resp["curriculum_results"] = clean
+    if removed:
+        resp.setdefault("warnings", []).append(f"html_removed_forbidden_curriculum_tags:{removed}")
+    return resp
+
+def _render_link_v1510(label: str, url: str):
+    safe = _safe_url_v1510(url)
+    if not safe:
+        return ""
+    return f'<a href="{_html_escape_v1510(safe)}" target="_blank" rel="noopener">{_html_escape_v1510(label)}</a>'
+
+def _render_hit_card_v1510(hit: dict, query: str):
+    title = _first_text_v1510(hit, ["title", "source_name", "source_id", "tag", "root"]) or "Untitled"
+    excerpt = _first_text_v1510(hit, ["excerpt", "text", "section", "caption"]) or ""
+    source = _first_text_v1510(hit, ["source", "source_name", "source_type"]) or ""
+    tag = _first_text_v1510(hit, ["primary_tag", "tag"]) or ""
+    links = []
+    for key, label in [
+        ("source_url", "Source"),
+        ("url", "URL"),
+        ("source_page_url", "Page"),
+        ("page_image_url", "Page image"),
+        ("figure_url", "Figure"),
+        ("image_url", "Image"),
+        ("video_time_url", "Timestamp"),
+        ("video_url", "Video"),
+    ]:
+        link = _render_link_v1510(label, hit.get(key))
+        if link and link not in links:
+            links.append(link)
+    return f"""
+    <article class="card">
+      <h3>{_html_escape_v1510(title)}</h3>
+      <div class="meta">{_html_escape_v1510(source)}{(' · ' + _html_escape_v1510(tag)) if tag else ''}</div>
+      <p>{_html_escape_v1510(excerpt[:1200])}</p>
+      <div class="links">{' '.join(links)}</div>
+    </article>
+    """
+
+def _render_figure_v1510(fig: dict):
+    url = _safe_url_v1510(fig.get("image_url") or fig.get("figure_url") or fig.get("page_image_url") or fig.get("source_page_url"))
+    if not url:
+        return ""
+    title = _first_text_v1510(fig, ["title", "source_title", "source_id"]) or "Figure"
+    caption = _first_text_v1510(fig, ["caption", "legend", "text"]) or ""
+    return f"""
+    <figure class="figure-card">
+      <a href="{_html_escape_v1510(url)}" target="_blank" rel="noopener">
+        <img src="{_html_escape_v1510(url)}" alt="{_html_escape_v1510(title)}" loading="lazy">
+      </a>
+      <figcaption><strong>{_html_escape_v1510(title)}</strong>{(': ' + _html_escape_v1510(caption[:500])) if caption else ''}</figcaption>
+    </figure>
+    """
+
+def _build_html_v1510(query: str, title: str, profile: str, responses: list, figures: list, include_toc: bool, include_sections: bool, warnings: list):
+    generated = _utc_now_v1510()
+    safe_title = title or f"Pathology Hub: {query}"
+    evidence_total = sum(_count_evidence_v1510(r) for r in responses)
+    toc = ""
+    if include_toc:
+        toc = """
+        <nav class="toc">
+          <a href="#summary">Summary</a>
+          <a href="#figures">Figures</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#warnings">Warnings</a>
+        </nav>
+        """
+    fig_html = "\n".join(_render_figure_v1510(f) for f in figures)
+    if not fig_html:
+        fig_html = '<p class="muted">No figure or page image URLs were returned by the evidence sources.</p>'
+    sections = []
+    if include_sections:
+        for group, label in HTML_RESULT_GROUPS_V1510:
+            hits = []
+            for resp in responses:
+                hits.extend(resp.get(group) or [])
+            if not hits:
+                continue
+            cards = "\n".join(_render_hit_card_v1510(h, query) for h in hits[:20])
+            sections.append(f'<section><h2>{_html_escape_v1510(label)}</h2>{cards}</section>')
+    evidence_html = "\n".join(sections) or '<p class="muted">No source sections were returned.</p>'
+    warning_html = "".join(f"<li>{_html_escape_v1510(w)}</li>" for w in warnings) or "<li>No warnings.</li>"
+    profile_note = {
+        "gallery": "Gallery bundle focused on returned figure, page image, and source page URLs.",
+        "evidence_packet": "Compact evidence packet with source-separated evidence cards.",
+        "teaching_page": "Teaching page with source-separated sections and returned media links.",
+    }.get(profile, "")
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{_html_escape_v1510(safe_title)}</title>
+  <style>
+    body {{ font-family: Arial, sans-serif; margin: 0; color: #1f2933; background: #f7f7f4; line-height: 1.5; }}
+    header {{ background: #12343b; color: white; padding: 28px 32px; }}
+    main {{ max-width: 1160px; margin: 0 auto; padding: 24px; }}
+    h1 {{ margin: 0 0 8px; font-size: 30px; }}
+    h2 {{ margin-top: 32px; border-bottom: 2px solid #d6d3c8; padding-bottom: 6px; }}
+    h3 {{ margin: 0 0 6px; font-size: 18px; }}
+    .toc {{ display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }}
+    .toc a, .links a {{ color: #0f766e; font-weight: 700; margin-right: 12px; }}
+    .summary, .card, .figure-card {{ background: white; border: 1px solid #ddd8c8; border-radius: 8px; padding: 16px; margin: 12px 0; }}
+    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }}
+    .figure-card img {{ width: 100%; max-height: 360px; object-fit: contain; background: #eceae2; border-radius: 6px; }}
+    .meta, .muted {{ color: #65727c; font-size: 13px; }}
+    figcaption {{ font-size: 13px; margin-top: 8px; }}
+    ul {{ padding-left: 22px; }}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{_html_escape_v1510(safe_title)}</h1>
+    <div>Generated {generated} · Profile: {_html_escape_v1510(profile)} · Query: {_html_escape_v1510(query)}</div>
+    {toc}
+  </header>
+  <main>
+    <section id="summary" class="summary">
+      <h2>Summary</h2>
+      <p>{_html_escape_v1510(profile_note)}</p>
+      <p><strong>Evidence cards:</strong> {evidence_total} · <strong>Figures/media links:</strong> {len(figures)}</p>
+      <p class="muted">This bundle contains only URLs, excerpts, and metadata returned by Pathology Hub sources. It does not invent citations, page numbers, timestamps, or image URLs.</p>
+    </section>
+    <section id="figures">
+      <h2>Figures and Media</h2>
+      <div class="grid">{fig_html}</div>
+    </section>
+    <section id="evidence">
+      <h2>Evidence</h2>
+      {evidence_html}
+    </section>
+    <section id="warnings">
+      <h2>Warnings</h2>
+      <ul>{warning_html}</ul>
+    </section>
+  </main>
+</body>
+</html>
+"""
+
+def _upload_html_v1510(html_text: str, title: str, audit_metadata: Optional[dict] = None):
+    bucket_name, prefix = _parse_gs_uri(HTML_BUNDLE_GCS_PREFIX.rstrip("/") + "/placeholder")
+    prefix = prefix.rsplit("/", 1)[0].rstrip("/")
+    generated = _utc_now_v1510().replace(":", "").replace("-", "")
+    digest = hashlib.sha256(html_text.encode("utf-8")).hexdigest()[:12]
+    filename = f"{generated}_{_sanitize_filename_v1510(title)}_{digest}.html"
+    blob_name = f"{prefix}/{filename}" if prefix else filename
+    audit_blob_name = f"{blob_name}.audit.json"
+    html_gcs_uri = f"gs://{bucket_name}/{blob_name}"
+    audit_gcs_uri = f"gs://{bucket_name}/{audit_blob_name}"
+    audit = {
+        "schema_version": "pathology_hub.html_bundle_generation_audit.v1.5.10",
+        "created_at_utc": _utc_now_v1510(),
+        "input_paths": {
+            "search_endpoint": "/evidence/search",
+            "html_bundle_gcs_prefix": HTML_BUNDLE_GCS_PREFIX,
+        },
+        "output_paths": {
+            "html": html_gcs_uri,
+            "audit": audit_gcs_uri,
+        },
+        "counts": {},
+        "known_limitations": [
+            "HTML bundle contains only URLs, excerpts, and metadata returned by Pathology Hub sources.",
+            "Image pixels are not interpreted during bundle generation.",
+            "No citations, image URLs, page numbers, timestamps, or captions are invented.",
+        ],
+    }
+    if isinstance(audit_metadata, dict):
+        audit.update({k: v for k, v in audit_metadata.items() if k not in {"schema_version", "output_paths"}})
+        audit.setdefault("counts", audit_metadata.get("counts", {}))
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    audit_blob = bucket.blob(audit_blob_name)
+    audit_blob.upload_from_string(
+        json.dumps(audit, indent=2, sort_keys=True),
+        content_type="application/json; charset=utf-8",
+    )
+    blob = bucket.blob(blob_name)
+    blob.upload_from_string(html_text, content_type="text/html; charset=utf-8")
+    return html_gcs_uri, f"https://storage.googleapis.com/{bucket_name}/{urllib.parse.quote(blob_name)}", audit_gcs_uri
+
+def _html_query_variants_v1510(query: str):
+    q = str(query or "").strip()
+    variants = [q]
+    for suffix in ["histology", "gross", "microscopy", "diagnosis", "figure", "image", "pathology"]:
+        v = f"{q} {suffix}".strip()
+        if v.lower() not in {x.lower() for x in variants}:
+            variants.append(v)
+    return variants
+
+def _build_html_bundle_response_v1510(req: EvidenceSearchRequest, request: Request, x_api_key: Optional[str]):
+    profile = _clean_html_profile_v1510(req.html_profile)
+    title = req.html_title or f"{req.query} {profile.replace('_', ' ')}"
+    target_figs = max(1, min(50, int(req.target_figure_count or 10)))
+    warnings = []
+    responses = []
+    figures = []
+    seen_figures = set()
+
+    if not _OLD_SEARCH_ENDPOINT_V1510:
+        raise HTTPException(status_code=500, detail="Previous searchEvidence endpoint not found for v1.5.10 wrapper.")
+
+    variants = _html_query_variants_v1510(req.query) if profile == "gallery" else [req.query]
+    for variant in variants:
+        if profile != "gallery" and responses:
+            break
+        if profile == "gallery" and len(figures) >= target_figs:
+            break
+        internal_req = _clone_html_request_v1510(req, query=variant, max_figures=min(10, target_figs))
+        try:
+            resp = _OLD_SEARCH_ENDPOINT_V1510(internal_req, request, x_api_key)
+        except TypeError:
+            resp = _OLD_SEARCH_ENDPOINT_V1510(req=internal_req, request=request, x_api_key=x_api_key)
+        if not isinstance(resp, dict):
+            warnings.append("html_internal_search_returned_non_dict")
+            continue
+        resp = _filter_forbidden_curriculum_v1510(resp)
+        if not _curriculum_gate_ok_v1510(resp):
+            warnings.append("curriculum_visibility_gate_failed_for_html")
+            resp["curriculum_results"] = []
+        responses.append(resp)
+        _collect_figures_v1510(resp, seen_figures, figures, target_figs)
+
+    if profile == "gallery" and len(figures) < target_figs:
+        warnings.append(f"requested_{target_figs}_figures_but_only_{len(figures)}_unique_returned")
+
+    for resp in responses:
+        warnings.extend(resp.get("warnings") or [])
+    warnings = list(dict.fromkeys(str(w) for w in warnings if w))
+
+    html_text = _build_html_v1510(
+        query=req.query,
+        title=title,
+        profile=profile,
+        responses=responses,
+        figures=figures,
+        include_toc=bool(req.html_include_toc),
+        include_sections=bool(req.html_include_source_sections),
+        warnings=warnings,
+    )
+    evidence_count = sum(_count_evidence_v1510(r) for r in responses)
+    sources_used = sorted({
+        source
+        for resp in responses
+        for source, status in (resp.get("source_status") or {}).items()
+        if status == "ok"
+    })
+    status = "ok"
+    if profile == "gallery" and len(figures) < target_figs:
+        status = "partial"
+    generated_at_utc = _utc_now_v1510()
+    audit_metadata = {
+        "workstream": "Backend API / HTML rendering / Custom GPT frontend",
+        "build_status": "generated_by_searchEvidence_html_bundle",
+        "request": {
+            "query": req.query,
+            "sources": req.sources,
+            "max_results": req.max_results,
+            "compact": req.compact,
+            "include_figures": req.include_figures,
+            "max_figures": req.max_figures,
+            "render_html": req.render_html,
+            "html_profile": profile,
+            "html_title": title,
+            "target_figure_count": target_figs,
+        },
+        "counts": {
+            "figure_count": len(figures),
+            "evidence_count": evidence_count,
+            "internal_response_count": len(responses),
+            "warning_count": len(warnings),
+        },
+        "sources_used": sources_used,
+        "known_limitations": [
+            "Static HTML artifact only; not a live API integration.",
+            "HTML content is derived from compact internal search results.",
+            "Source availability depends on the configured backend indexes and upstream services.",
+            "OpenAI embedding quota failures fall back where local keyword indexes are available.",
+        ],
+    }
+    html_gcs_uri, html_url, audit_gcs_uri = _upload_html_v1510(html_text, title, audit_metadata)
+
+    result = {
+        "schema_version": "evidence_search_response.v1.5.10",
+        "query": req.query,
+        "source_status": responses[0].get("source_status", {}) if responses else {},
+        "warnings": warnings,
+        "html_result": {
+            "status": status,
+            "profile": profile,
+            "title": title,
+            "html_url": html_url,
+            "html_gcs_uri": html_gcs_uri,
+            "figure_count": len(figures),
+            "evidence_count": evidence_count,
+            "sources_used": sources_used,
+            "warnings": warnings,
+            "generated_at_utc": generated_at_utc,
+            "audit_gcs_uri": audit_gcs_uri,
+        },
+    }
+    if responses and responses[0].get("curriculum_status"):
+        result["curriculum_status"] = responses[0].get("curriculum_status")
+    return result
+
+_OLD_HEALTH_ENDPOINT_V1510 = None
+_OLD_SEARCH_ENDPOINT_V1510 = None
+for _r in list(app.router.routes):
+    if getattr(_r, "path", None) == "/health" and "GET" in getattr(_r, "methods", set()):
+        _OLD_HEALTH_ENDPOINT_V1510 = getattr(_r, "endpoint", None)
+    if getattr(_r, "path", None) == "/evidence/search" and "POST" in getattr(_r, "methods", set()):
+        _OLD_SEARCH_ENDPOINT_V1510 = getattr(_r, "endpoint", None)
+
+app.router.routes = [
+    r for r in app.router.routes
+    if not (
+        (getattr(r, "path", None) == "/evidence/search" and "POST" in getattr(r, "methods", set()))
+        or (getattr(r, "path", None) == "/health" and "GET" in getattr(r, "methods", set()))
+    )
+]
+
+@app.get("/health")
+def health_v1510():
+    base = {}
+    if _OLD_HEALTH_ENDPOINT_V1510:
+        try:
+            base = _OLD_HEALTH_ENDPOINT_V1510()
+        except Exception as e:
+            base = {"old_health_error": repr(e)}
+    if not isinstance(base, dict):
+        base = {"old_health": str(base)}
+    base["schema_version"] = "pathology_hub_health.v1.5.10"
+    base["version"] = APP_VERSION_V1510
+    base["html_bundle_enabled"] = True
+    base["html_bundle_version"] = HTML_BUNDLE_VERSION
+    base["html_bundle_gcs_prefix"] = HTML_BUNDLE_GCS_PREFIX
+    return base
+
+@app.post("/evidence/search")
+def search_evidence_v1510(req: EvidenceSearchRequest, request: Request, x_api_key: Optional[str] = Header(None, alias="X-API-Key")):
+    require_key(x_api_key)
+    if not bool(req.render_html):
+        if not _OLD_SEARCH_ENDPOINT_V1510:
+            raise HTTPException(status_code=500, detail="Previous searchEvidence endpoint not found for v1.5.10 wrapper.")
+        try:
+            return _OLD_SEARCH_ENDPOINT_V1510(req, request, x_api_key)
+        except TypeError:
+            return _OLD_SEARCH_ENDPOINT_V1510(req=req, request=request, x_api_key=x_api_key)
+
+    return _build_html_bundle_response_v1510(req, request, x_api_key)
