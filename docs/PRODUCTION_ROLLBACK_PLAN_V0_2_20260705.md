@@ -1,4 +1,16 @@
-# Production Rollback Plan — Evidence Search Reliability v0_2 (2026-07-05, finalized 2026-07-06)
+# Production Rollback Plan — Evidence Search Reliability v0_2 (2026-07-05, finalized 2026-07-06, updated 2026-07-06 post cold-start fix)
+
+## UPDATE (2026-07-06, after the cold-start fix): rollback target unaffected
+
+Production traffic was moved from `pathology-hub-v04-00028-guf` to
+`pathology-hub-v04-00029-rnt` (100%) to apply a min-instances fix (see
+`docs/PRODUCTION_COLD_START_FIX_APPLIED_20260706.md`). **`pathology-hub-v04-00029-rnt`
+is the exact same v0_2 application code/image as `00028-guf`** (identical image
+digest, re-verified immediately before the traffic shift) — this was a pure
+scaling-config traffic-pointer change, not a new code deploy. **The rollback target
+for reverting to the pre-v0_2 baseline remains
+`pathology-hub-v04-00027-tjm`, unaffected by this change.** The exact rollback
+command below is unchanged and still valid.
 
 **STATUS UPDATE (2026-07-06): Phase 8/9 were explicitly approved and executed.**
 Production `pathology-hub-v04` is now at **100% traffic on revision

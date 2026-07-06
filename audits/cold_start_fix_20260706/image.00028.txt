@@ -1,0 +1,1 @@
+us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-v04@sha256:05f8a9d17cc19f006efadcd166f0feeb19659b51e3e87302468d86e94b16d62a
