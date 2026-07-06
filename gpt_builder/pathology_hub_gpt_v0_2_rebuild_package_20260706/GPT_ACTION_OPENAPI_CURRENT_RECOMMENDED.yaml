@@ -1,0 +1,222 @@
+openapi: 3.1.0
+info:
+  title: Pathology Hub Unified Evidence API
+  version: 1.5.10-html-bundle-v0.2-prod
+  description: >
+    Single-action searchEvidence with optional HTML bundle rendering and
+    server-side Evidence Search Reliability v0_2 (query expansion, root gating,
+    WHO rerank). v0_2 is transparent to this schema: it adds only optional,
+    additive response fields under additionalProperties: true. Request schema is
+    unchanged. This file is the same schema already registered for the live GPT
+    Action (docs/openapi_pathology_hub_unified_searchEvidence_v1_5_10_html_bundle_DRAFT.yaml
+    in the pathology-hub-dev repo), with query_expansion_applied explicitly
+    documented for clarity. A reimport using this exact file is OPTIONAL, not
+    required -- see GPT_ACTION_SCHEMA_DECISION_20260706.md.
+servers:
+  - url: https://pathology-hub-v04-vorn5q2kga-uc.a.run.app
+paths:
+  /evidence/search:
+    post:
+      operationId: searchEvidence
+      summary: Search evidence sources and optionally render a static HTML bundle.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchEvidenceRequest"
+      responses:
+        "200":
+          description: Search response. When render_html is true, includes a compact html_result object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchEvidenceResponse"
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Server error.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    SearchEvidenceRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: >
+            Short keyword-style query. No abbreviation expansion is required
+            client-side -- governed synonym/abbreviation expansion (v0_2) happens
+            server-side automatically.
+        sources:
+          type: array
+          items:
+            type: string
+            enum:
+              - who
+              - textbooks
+              - journals
+              - pathout
+              - lectures
+              - videos
+              - curriculum
+          default:
+            - textbooks
+        max_results:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+        include_figures:
+          type: boolean
+          default: false
+          description: >
+            When true, include figure/image URLs in the response (requires max_figures > 0).
+            When false, text hits may still return; absence of figures means figures were not requested,
+            not that figures are unavailable. Set true when the user asks for images or photomicrographs.
+        max_figures:
+          type: integer
+          minimum: 0
+          maximum: 10
+          default: 0
+          description: Maximum figure URLs to return per source when include_figures is true.
+        compact:
+          type: boolean
+          default: true
+        excerpt_char_limit:
+          type: integer
+          minimum: 200
+          maximum: 4000
+          default: 900
+        render_html:
+          type: boolean
+          default: false
+        html_profile:
+          type: string
+          enum:
+            - teaching_page
+            - gallery
+            - evidence_packet
+          default: teaching_page
+        html_title:
+          type: string
+        target_figure_count:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 10
+        html_include_toc:
+          type: boolean
+          default: true
+        html_include_source_sections:
+          type: boolean
+          default: true
+    HtmlResult:
+      type: object
+      additionalProperties: true
+      properties:
+        status:
+          type: string
+        profile:
+          type: string
+        title:
+          type: string
+        html_url:
+          type: string
+        html_gcs_uri:
+          type: string
+        audit_gcs_uri:
+          type: string
+        figure_count:
+          type: integer
+        evidence_count:
+          type: integer
+        sources_used:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        generated_at_utc:
+          type: string
+    SearchEvidenceResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        schema_version:
+          type: string
+        query:
+          type: string
+        query_expansion_applied:
+          type: boolean
+          description: >
+            v0_2 (new, optional). True only when governed server-side query
+            expansion actually changed the effective query text for this
+            request. Do not fabricate what the expansion term was if not shown
+            elsewhere in the response.
+        source_status:
+          type: object
+          additionalProperties:
+            type: string
+        html_result:
+          $ref: "#/components/schemas/HtmlResult"
+        curriculum_status:
+          type: object
+          additionalProperties: true
+        curriculum_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        who_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        textbook_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        journal_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pathout_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        lecture_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        video_results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        figures:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        warnings:
+          type: array
+          items:
+            type: string
