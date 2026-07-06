@@ -1,0 +1,488 @@
+{
+  "schema_version": "evidence_query_expansion_rules.v0_2_1",
+  "description": "Governed abbreviation and synonym expansion for evidence search. C/AR/F are never map_status. v0_2.1: added allow_standalone for single-allowed-root abbreviations proven safe in diagnostics; added WHO 5th-edition NOS/NST title-boost alias.",
+  "rules": [
+    {
+      "abbreviation": "LCIS",
+      "expansions": [
+        "lobular carcinoma in situ"
+      ],
+      "allowed_roots": [
+        "Breast"
+      ],
+      "required_context_terms": [
+        "breast",
+        "lobular",
+        "mammary"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "allow_standalone": true,
+      "enabled": true,
+      "notes": "Breast in-situ lesion; standalone expansion allowed (high pathology specificity)."
+    },
+    {
+      "abbreviation": "SSL",
+      "expansions": [
+        "sessile serrated lesion",
+        "sessile serrated polyp"
+      ],
+      "allowed_roots": [
+        "GI"
+      ],
+      "required_context_terms": [
+        "colon",
+        "colorectal",
+        "rectum",
+        "serrated",
+        "polyp",
+        "gi",
+        "gastrointestinal"
+      ],
+      "blocked_roots": [
+        "Cyto_Soft_Tissue"
+      ],
+      "ambiguity_risk": "high",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Block secure-sockets-layer false positives in textbook cyto/informatics chunks. [v0_2_1: allow_standalone enabled -- single allowed_root, proven safe against BST/GI/GYN/Skin cross-root regression set in miss diagnostics 2026-07-05.]",
+      "allow_standalone": true
+    },
+    {
+      "abbreviation": "CRC",
+      "expansions": [
+        "colorectal adenocarcinoma",
+        "colorectal carcinoma"
+      ],
+      "allowed_roots": [
+        "GI"
+      ],
+      "required_context_terms": [
+        "colon",
+        "colorectal",
+        "rectum",
+        "gi",
+        "gastrointestinal",
+        "large bowel"
+      ],
+      "blocked_roots": [
+        "GU"
+      ],
+      "ambiguity_risk": "high",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Do not expand to renal cell carcinoma (RCC) in GU context. [v0_2_1: allow_standalone enabled -- single allowed_root, proven safe against BST/GI/GYN/Skin cross-root regression set in miss diagnostics 2026-07-05.]",
+      "allow_standalone": true
+    },
+    {
+      "abbreviation": "CIS",
+      "expansions": [
+        "carcinoma in situ"
+      ],
+      "allowed_roots": [
+        "GU",
+        "GYN",
+        "Skin"
+      ],
+      "required_context_terms": [
+        "bladder",
+        "urothelial",
+        "urinary",
+        "cervix",
+        "cervical",
+        "skin",
+        "squamous",
+        "bowen"
+      ],
+      "blocked_roots": [
+        "HN",
+        "Breast"
+      ],
+      "ambiguity_risk": "high",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Global CIS expansion disabled without urinary/GYN/skin context."
+    },
+    {
+      "abbreviation": "AIS",
+      "expansions": [
+        "adenocarcinoma in situ"
+      ],
+      "allowed_roots": [
+        "GYN"
+      ],
+      "required_context_terms": [
+        "cervix",
+        "cervical",
+        "endocervical",
+        "gyn",
+        "gynecologic"
+      ],
+      "blocked_roots": [
+        "GI"
+      ],
+      "ambiguity_risk": "high",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Cervical glandular in-situ; not LIS/informatics AIS. [v0_2_1: allow_standalone enabled -- single allowed_root, proven safe against BST/GI/GYN/Skin cross-root regression set in miss diagnostics 2026-07-05.]",
+      "allow_standalone": true
+    },
+    {
+      "abbreviation": "IPMN",
+      "expansions": [
+        "intraductal papillary mucinous neoplasm"
+      ],
+      "allowed_roots": [
+        "GI"
+      ],
+      "required_context_terms": [
+        "pancreas",
+        "pancreatic",
+        "gi",
+        "duct",
+        "mucinous"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "allow_standalone": true,
+      "enabled": true,
+      "notes": "Pancreatic/IPMN; branch-duct vs main-duct variants."
+    },
+    {
+      "abbreviation": "HGSC",
+      "expansions": [
+        "high-grade serous carcinoma"
+      ],
+      "allowed_roots": [
+        "GYN",
+        "HN"
+      ],
+      "required_context_terms": [
+        "ovary",
+        "ovarian",
+        "fallopian",
+        "tubal",
+        "serous",
+        "gyn",
+        "endometrium"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Ovarian/tubal/peritoneal HGSC family."
+    },
+    {
+      "abbreviation": "IDC NOS",
+      "expansions": [
+        "invasive ductal carcinoma not otherwise specified",
+        "invasive ductal carcinoma NOS"
+      ],
+      "allowed_roots": [
+        "Breast"
+      ],
+      "required_context_terms": [
+        "breast",
+        "mammary",
+        "ductal"
+      ],
+      "blocked_roots": [
+        "HN",
+        "GU"
+      ],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Breast IDC NOS; penalize lacrimal/salivary IDC without breast context."
+    },
+    {
+      "abbreviation": "IDC",
+      "expansions": [
+        "invasive ductal carcinoma"
+      ],
+      "allowed_roots": [
+        "Breast"
+      ],
+      "required_context_terms": [
+        "breast",
+        "mammary",
+        "ductal"
+      ],
+      "blocked_roots": [
+        "HN",
+        "Eye_Orbit"
+      ],
+      "ambiguity_risk": "high",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Require breast context; avoid lacrimal gland IDC."
+    },
+    {
+      "abbreviation": "SCCIS",
+      "expansions": [
+        "squamous cell carcinoma in situ",
+        "bowen disease"
+      ],
+      "allowed_roots": [
+        "Skin"
+      ],
+      "required_context_terms": [
+        "skin",
+        "derm",
+        "squamous",
+        "cutaneous"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "Synonym Bowen disease included as secondary expansion term. [v0_2_1: allow_standalone enabled -- single allowed_root, proven safe against BST/GI/GYN/Skin cross-root regression set in miss diagnostics 2026-07-05.]",
+      "allow_standalone": true
+    },
+    {
+      "abbreviation": "CMF",
+      "expansions": [
+        "chondromyxoid fibroma"
+      ],
+      "allowed_roots": [
+        "BST"
+      ],
+      "required_context_terms": [
+        "bone",
+        "skeletal",
+        "cartilage",
+        "chondro",
+        "bst"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "high",
+      "expansion_mode": "replace_short_token",
+      "enabled": true,
+      "notes": "Do not collapse to generic fibroma; replace token only when bone context present. [v0_2_1: allow_standalone enabled -- single allowed_root, proven safe against BST/GI/GYN/Skin cross-root regression set in miss diagnostics 2026-07-05.]",
+      "allow_standalone": true
+    },
+    {
+      "abbreviation": "ccRCC",
+      "expansions": [
+        "clear cell renal cell carcinoma"
+      ],
+      "allowed_roots": [
+        "GU"
+      ],
+      "required_context_terms": [
+        "kidney",
+        "renal",
+        "gu",
+        "clear cell"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "low",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "pRCC",
+      "expansions": [
+        "papillary renal cell carcinoma"
+      ],
+      "allowed_roots": [
+        "GU"
+      ],
+      "required_context_terms": [
+        "kidney",
+        "renal",
+        "gu",
+        "papillary"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "low",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "PTC",
+      "expansions": [
+        "papillary thyroid carcinoma"
+      ],
+      "allowed_roots": [
+        "HN",
+        "Endo"
+      ],
+      "required_context_terms": [
+        "thyroid",
+        "papillary",
+        "endocrine"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "MTC",
+      "expansions": [
+        "medullary thyroid carcinoma"
+      ],
+      "allowed_roots": [
+        "HN",
+        "Endo"
+      ],
+      "required_context_terms": [
+        "thyroid",
+        "medullary",
+        "endocrine",
+        "calcitonin"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "DSRCT",
+      "expansions": [
+        "desmoplastic small round cell tumor"
+      ],
+      "allowed_roots": [
+        "BST"
+      ],
+      "required_context_terms": [
+        "soft tissue",
+        "abdomen",
+        "desmoplastic",
+        "round cell",
+        "sarcoma",
+        "bst"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "DFSP",
+      "expansions": [
+        "dermatofibrosarcoma protuberans"
+      ],
+      "allowed_roots": [
+        "Skin",
+        "BST"
+      ],
+      "required_context_terms": [
+        "skin",
+        "derm",
+        "cd34",
+        "protuberans"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "low",
+      "expansion_mode": "append_query",
+      "allow_standalone": true,
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "DCIS",
+      "expansions": [
+        "ductal carcinoma in situ"
+      ],
+      "allowed_roots": [
+        "Breast"
+      ],
+      "required_context_terms": [
+        "breast",
+        "mammary",
+        "ductal"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": "High-yield breast premalignant entity."
+    },
+    {
+      "abbreviation": "GIST",
+      "expansions": [
+        "gastrointestinal stromal tumor"
+      ],
+      "allowed_roots": [
+        "GI",
+        "BST"
+      ],
+      "required_context_terms": [
+        "stomach",
+        "gi",
+        "gastrointestinal",
+        "kit",
+        "cd117"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "low",
+      "expansion_mode": "append_query",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "abbreviation": "NOS",
+      "expansions": [
+        "no special type",
+        "NST",
+        "not otherwise specified"
+      ],
+      "allowed_roots": [
+        "Breast"
+      ],
+      "required_context_terms": [
+        "breast",
+        "ductal",
+        "invasive",
+        "mammary"
+      ],
+      "blocked_roots": [],
+      "ambiguity_risk": "medium",
+      "expansion_mode": "title_boost_only",
+      "allow_standalone": false,
+      "enabled": true,
+      "notes": "[v0_2_1] WHO 5th-edition breast terminology uses 'invasive carcinoma of no special type (NST)' rather than 'NOS'; title-boost only so query text/dispatch is unchanged, only WHO reranking is affected. Requires breast/ductal context so it never fires for non-breast NOS usage (added 2026-07-05 from miss diagnostics BREAST_002)."
+    }
+  ],
+  "generic_terms_never_override_root": [
+    "adenoma",
+    "carcinoma",
+    "fibroma",
+    "lipoma",
+    "cyst",
+    "melanoma",
+    "squamous cells"
+  ],
+  "organ_root_hints": {
+    "breast": "Breast",
+    "mammary": "Breast",
+    "colon": "GI",
+    "colorectal": "GI",
+    "rectum": "GI",
+    "pancreas": "GI",
+    "esophagus": "GI",
+    "stomach": "GI",
+    "bladder": "GU",
+    "kidney": "GU",
+    "renal": "GU",
+    "prostate": "GU",
+    "cervix": "GYN",
+    "endometrium": "GYN",
+    "ovary": "GYN",
+    "vulva": "GYN",
+    "skin": "Skin",
+    "derm": "Skin",
+    "bone": "BST",
+    "thyroid": "HN",
+    "salivary": "HN"
+  }
+}

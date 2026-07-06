@@ -1,0 +1,11 @@
+{
+  "latestReadyRevisionName": "pathology-hub-v04-00027-tjm",
+  "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app",
+  "image": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3",
+  "resources": {
+    "limits": {
+      "cpu": "4",
+      "memory": "12Gi"
+    }
+  }
+}

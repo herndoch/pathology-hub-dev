@@ -1,0 +1,146 @@
+{
+  "schema_version": "evidence_search_response.v1.5.9",
+  "query": "lobular carcinoma in situ",
+  "source_status": {
+    "who": "ok",
+    "journals": "not_requested",
+    "pathout": "not_requested",
+    "textbooks": "not_requested",
+    "curriculum": "not_requested"
+  },
+  "who_results": [
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "subtypes",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: subtypes Ductal carcinoma in situ; lobular carcinoma in situ; Paget disease of the nipple",
+      "score": -17.310768682709853,
+      "record_id": "whochunk:breast:carcinoma_in_situ:subtypes:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ]
+    },
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "microscopic",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: microscopic Although the entire spectrum of carcinoma in situ observed in the female breast can also be found in the male breast, the vast majority (97.9%) of male carcinoma in situ is DCIS, whereas lobular carcinoma in situ is rare. Most pure DCIS is of low or intermediate nuclear grade and of papillary or micropapillary architecture, whereas high-grade DCIS with comedonecrosis is usually associated with high-grade invasive carcinoma. The nuclear grade, histotype, and immunophenotype of DCIS usually correlate with the grade and type of associated invasive carcinoma. DCIS seems to be associated with invasive carcinoma of no special type (NST), whereas the rare cases of lobular carcinoma in situ were associated with invasive lobular carcinoma, invasive carcinoma NST, or invasive carcinoma of mixed type. The ER, PR, and ERBB2 (HER2) status in the in situ...",
+      "score": -14.31963460509653,
+      "record_id": "whochunk:breast:carcinoma_in_situ:microscopic:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ]
+    },
+    {
+      "title": "CDH1-associated breast cancer",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "CDH1-associated breast cancer",
+      "section": "clinical",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Cdh1_Associated_Breast_Cancer.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Cdh1_Associated_Breast_Cancer.html",
+      "excerpt": "Entity: CDH1-associated breast cancer Section: clinical Female CDH1 mutation carriers have a 40% lifetime risk of developing lobular breast carcinoma. The clinical presentation of invasive lobular carcinoma (ILC) is described in detail in the section section Invasive lobular carcinoma . There are no widely used clinical criteria for CDH1 genetic screening with respect to lobular carcinoma predisposition not associated with gastric cancer. However, an international expert panel on hereditary lobular breast carcinoma suggested criteria for CDH1 testing (see Essential and desirable diagnostic criteria, below). --- The frequency of a germline CDH1 mutation is very low (~1%) in women with early-onset or familial lobular breast carcinoma without a family history of gastric carcinoma. Pathogenic germline CDH1 mutations have been identified in 4 of 50 patients with bilateral lobular carcinoma in...",
+      "score": -13.423954072493272,
+      "record_id": "whochunk:breast:cdh1_associated_breast_cancer:clinical:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Cdh1_Associated_Breast_Cancer.html",
+          "source_family": "who"
+        }
+      ]
+    },
+    {
+      "title": "Adenocarcinoma of mammary gland type",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "SKIN",
+      "entity_name": "Adenocarcinoma of mammary gland type",
+      "section": "microscopic",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Adenocarcinoma_Of_Mammary_Gland_Type.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Adenocarcinoma_Of_Mammary_Gland_Type.html",
+      "excerpt": "Entity: Adenocarcinoma of mammary gland type Section: microscopic The most common type is adenocarcinoma, which is identical to mammary invasive ductal carcinoma and may (uncommonly) have an identifiable in situ component in the adjacent glands. Rare types include lobular, tubulolobular, mixed ductal and lobular, and mammary analogue secretory carcinoma. There is commonly expression of ER, PR, GATA3, and ERBB2. Based on the immunoprofile, they can be classified like their breast counterparts into luminal A, luminal B, HER2-enriched, and basal-like subtypes.",
+      "score": -11.408203262748907,
+      "record_id": "whochunk:skin:adenocarcinoma_of_mammary_gland_type:microscopic:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Adenocarcinoma_Of_Mammary_Gland_Type.html",
+          "source_family": "who"
+        }
+      ]
+    },
+    {
+      "title": "Adenocarcinoma in situ, HPV-independent, of the uterine cervix",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "GYN",
+      "entity_name": "Adenocarcinoma in situ, HPV-independent, of the uterine cervix",
+      "section": "microscopic",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Adenocarcinoma_In_Situ_Hpv_Independent_Of_The_Uterine_Cervix.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Adenocarcinoma_In_Situ_Hpv_Independent_Of_The_Uterine_Cervix.html",
+      "excerpt": "Entity: Adenocarcinoma in situ, HPV-independent, of the uterine cervix Section: microscopic gAIS is characterized by cuboidal to columnar cells with distinct cell borders, eosinophilic to pale and/or foamy vacuolated cytoplasm, and nuclear atypia that ranges from mild to severe. Mitoses and apoptosis are present but not conspicuous, and they are usually identified under high magnification. Intestinal (goblet cell) differentiation (to varying degrees) is often observed. The proliferation involves pre-existing normal endocervical glands and thus lacks haphazard gland crowding or confluence. However, intraglandular complexity (cribriform, papillary) can occur. On occasion, the lesion grows proximally to involve endometrial glands. A related lesion, atypical lobular endocervical glandular hyperplasia, is defined as cytological atypia within the confines of a lobulated proliferation consisten...",
+      "score": -10.671164684656064,
+      "record_id": "whochunk:gyn:adenocarcinoma_in_situ_hpv_independent_of_the_uterine_cervix:microscopic:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Adenocarcinoma_In_Situ_Hpv_Independent_Of_The_Uterine_Cervix.html",
+          "source_family": "who"
+        }
+      ]
+    }
+  ],
+  "journal_results": [],
+  "pathout_results": [],
+  "textbook_results": [],
+  "figures": [],
+  "warnings": [],
+  "search_mode": {
+    "textbooks": "hybrid_fts_faiss_vector_rrf",
+    "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+    "who": "upstream",
+    "pathout": "upstream"
+  },
+  "source_locator_status": {
+    "enabled": true,
+    "registry_records_loaded": 280,
+    "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+  },
+  "page_image_locator_status": {
+    "enabled": true,
+    "inventory_records_loaded": 28705,
+    "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+  },
+  "curriculum_results": [],
+  "curriculum_status": null
+}

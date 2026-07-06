@@ -1,0 +1,163 @@
+{
+  "schema_version": "evidence_search_response.v1.5.9",
+  "query": "LCIS lobular carcinoma in situ",
+  "source_status": {
+    "who": "ok",
+    "journals": "not_requested",
+    "pathout": "not_requested",
+    "textbooks": "not_requested",
+    "curriculum": "not_requested"
+  },
+  "who_results": [
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ definition: Carcinoma in situ of the male breast is a neoplastic proliferation of epithelial cells confined to the mammary ducts encompassing the entire spectrum of carcinoma in situ observed in the female breast. related_terminology: None essential_and_desirable_diagnostic_criteria: The diagnostic criteria are similar to those of invasive carcinoma of the female breast and are discussed in section that section .",
+      "score": -9.917631467450311,
+      "record_id": "whochunk:breast:carcinoma_in_situ:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.0,
+      "rank": 1
+    },
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "definition",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: definition Carcinoma in situ of the male breast is a neoplastic proliferation of epithelial cells confined to the mammary ducts encompassing the entire spectrum of carcinoma in situ observed in the female breast.",
+      "score": -10.551466174460076,
+      "record_id": "whochunk:breast:carcinoma_in_situ:definition:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.0,
+      "rank": 2
+    },
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "macroscopic",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: macroscopic Pure carcinoma in situ presents as an irregular, sometimes cystic mass.",
+      "score": -10.751380692011606,
+      "record_id": "whochunk:breast:carcinoma_in_situ:macroscopic:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.0,
+      "rank": 3
+    },
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "microscopic",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: microscopic Although the entire spectrum of carcinoma in situ observed in the female breast can also be found in the male breast, the vast majority (97.9%) of male carcinoma in situ is DCIS, whereas lobular carcinoma in situ is rare. Most pure DCIS is of low or intermediate nuclear grade and of papillary or micropapillary architecture, whereas high-grade DCIS with comedonecrosis is usually associated with high-grade invasive carcinoma. The nuclear grade, histotype, and immunophenotype of DCIS usually correlate with the grade and type of associated invasive carcinoma. DCIS seems to be associated with invasive carcinoma of no special type (NST), whereas the rare cases of lobular carcinoma in situ were associated with invasive lobular carcinoma, invasive carcinoma NST, or invasive carcinoma of mixed type. The ER, PR, and ERBB2 (HER2) status in the in situ...",
+      "score": -14.31963460509653,
+      "record_id": "whochunk:breast:carcinoma_in_situ:microscopic:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.75,
+      "rank": 4
+    },
+    {
+      "title": "Carcinoma in situ",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "BREAST",
+      "entity_name": "Carcinoma in situ",
+      "section": "subtypes",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+      "excerpt": "Entity: Carcinoma in situ Section: subtypes Ductal carcinoma in situ; lobular carcinoma in situ; Paget disease of the nipple",
+      "score": -17.310768682709853,
+      "record_id": "whochunk:breast:carcinoma_in_situ:subtypes:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.75,
+      "rank": 5
+    }
+  ],
+  "journal_results": [],
+  "pathout_results": [],
+  "textbook_results": [],
+  "figures": [],
+  "warnings": [],
+  "search_mode": {
+    "textbooks": "hybrid_fts_faiss_vector_rrf",
+    "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+    "who": "upstream",
+    "pathout": "upstream"
+  },
+  "source_locator_status": {
+    "enabled": true,
+    "registry_records_loaded": 280,
+    "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+  },
+  "page_image_locator_status": {
+    "enabled": true,
+    "inventory_records_loaded": 28705,
+    "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+  },
+  "curriculum_results": [],
+  "curriculum_status": null,
+  "query_expansion_applied": true,
+  "version": "1.5.10-html-bundle-v0.2-prod"
+}

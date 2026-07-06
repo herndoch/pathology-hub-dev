@@ -68,11 +68,16 @@ components:
         include_figures:
           type: boolean
           default: false
+          description: >
+            When true, include figure/image URLs in the response (requires max_figures > 0).
+            When false, text hits may still return; absence of figures means figures were not requested,
+            not that figures are unavailable. Set true when the user asks for images or photomicrographs.
         max_figures:
           type: integer
           minimum: 0
           maximum: 10
           default: 0
+          description: Maximum figure URLs to return per source when include_figures is true.
         compact:
           type: boolean
           default: true

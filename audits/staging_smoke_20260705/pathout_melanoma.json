@@ -1,0 +1,210 @@
+{
+  "schema_version": "evidence_search_response.v1.5.9",
+  "query": "melanoma staging",
+  "source_status": {
+    "who": "not_requested",
+    "journals": "not_requested",
+    "pathout": "ok",
+    "textbooks": "not_requested",
+    "curriculum": "not_requested"
+  },
+  "who_results": [],
+  "journal_results": [],
+  "pathout_results": [
+    {
+      "rank": 1,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::dermatopathology::skintumormelanocyticmelanomastaging",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanomastaging.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanomastaging.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "Skin::Concept::Staging::Staging",
+      "tag_status": "generated_consolidated",
+      "excerpt": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging Header: Pathology Outlines - Staging URL: https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanomastaging.html Primary tag: __UNMAPPED__ Top headings: All cutaneous melanomas are covered by this staging system | Mucosal melanoma of the head and neck | Essential features | ICD coding | Primary tumor (pT) | Notes | Measured with a calibrated ocular micrometer | Regional lymph nodes (pN) | Clinically occult: nodal metastasis detectable only by microscopic evaluation | Satellite metastasis: intralymphatic metastasis within 2 cm of the primary melanoma | Distant metastasis (pM) | Prefixes | Incorporates histologic information from the biopsy with clinical (radiologic) staging data | Stage group IA: T1a N0 M0 | Stage group IIA: T2b - T3a N0 M0 | Stage group IV: Any T Any N M1 | Generally reserv...",
+      "text": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging Header: Pathology Outlines - Staging URL: https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanomastaging.html Primary tag: __UNMAPPED__ Top headings: All cutaneous melanomas are covered by this staging system | Mucosal melanoma of the head and neck | Essential features | ICD coding | Primary tumor (pT) | Notes | Measured with a calibrated ocular micrometer | Regional lymph nodes (pN) | Clinically occult: nodal metastasis detectable only by microscopic evaluation | Satellite metastasis: intralymphatic metastasis within 2 cm of the primary melanoma | Distant metastasis (pM) | Prefixes | Incorporates histologic information from the biopsy with clinical (radiologic) staging data | Stage group IA: T1a N0 M0 | Stage group IIA: T2b - T3a N0 M0 | Stage group IV: Any T Any N M1 | Generally reserv...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 1,
+      "vector_score": 0.6840771436691284,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanomastaging.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::head_neck::oralcavitystagingmucosalmelanoma",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/oralcavitystagingmucosalmelanoma.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/oralcavitystagingmucosalmelanoma.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "HN::Melanocytic::Mucosal_Melanoma",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "Source: Pathology Outlines Subject: head_neck Title: Pathology Outlines - Staging-mucosal melanoma of the head & neck Header: Pathology Outlines - Staging-mucosal melanoma of the head & neck URL: https://www.pathologyoutlines.com/topic/oralcavitystagingmucosalmelanoma.html Primary tag: HN::Melanocytic::Mucosal_Melanoma Top headings: Essential features | Even small cancers behave aggressively with high rates of recurrence and death | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Size of largest nodal metastatic deposit is not applicable for mucosal melanoma | Distant metastasis (pM) | Prefixes | Margin status assessment | AJCC prognostic stage groups | Stage IVA | Stage IVC | Histologic grade (G) | Given the rarity of mucosal melanoma, grading and subtyping are not required | Gross imagesImages hosted on other servers | Pathologic staging of mucosal melanoma begins...",
+      "text": "Source: Pathology Outlines Subject: head_neck Title: Pathology Outlines - Staging-mucosal melanoma of the head & neck Header: Pathology Outlines - Staging-mucosal melanoma of the head & neck URL: https://www.pathologyoutlines.com/topic/oralcavitystagingmucosalmelanoma.html Primary tag: HN::Melanocytic::Mucosal_Melanoma Top headings: Essential features | Even small cancers behave aggressively with high rates of recurrence and death | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Size of largest nodal metastatic deposit is not applicable for mucosal melanoma | Distant metastasis (pM) | Prefixes | Margin status assessment | AJCC prognostic stage groups | Stage IVA | Stage IVC | Histologic grade (G) | Given the rarity of mucosal melanoma, grading and subtyping are not required | Gross imagesImages hosted on other servers | Pathologic staging of mucosal melanoma begins...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 2,
+      "vector_score": 0.6122219562530518,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/oralcavitystagingmucosalmelanoma.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::dermatopathology::skintumormelanocyticnodularmelanoma",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Nodular",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Nodular melanoma Header: Pathology Outlines - Nodular melanoma URL: https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html Primary tag: Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Nodular Top headings: Essential features | Tumor (Breslow) depth is the most important prognostic indicator | Epidemiology | Sites | Pathophysiology | Chromosomal abnormalities | V600E most common | More common in older patients | TERT promoter mutations or amplifications | PTEN deletions or mutations | Less frequent BRAF mutations versus LCSD | Lower prevalence of mutated genes compared to SSM | Etiology | Clinical features | Frequently ulcerated | White streaks | Scoop shave biopsy or excisional biopsy preferred | Sentinel lymph node biopsy | Prognostic factors | Dermal mitoses ## Essential featur...",
+      "text": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Nodular melanoma Header: Pathology Outlines - Nodular melanoma URL: https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html Primary tag: Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Nodular Top headings: Essential features | Tumor (Breslow) depth is the most important prognostic indicator | Epidemiology | Sites | Pathophysiology | Chromosomal abnormalities | V600E most common | More common in older patients | TERT promoter mutations or amplifications | PTEN deletions or mutations | Less frequent BRAF mutations versus LCSD | Lower prevalence of mutated genes compared to SSM | Etiology | Clinical features | Frequently ulcerated | White streaks | Scoop shave biopsy or excisional biopsy preferred | Sentinel lymph node biopsy | Prognostic factors | Dermal mitoses ## Essential featur...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 3,
+      "vector_score": 0.5917955040931702,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::dermatopathology::skintumornonmelanocyticstagingskincarcinoma",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticstagingskincarcinoma.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticstagingskincarcinoma.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "Skin::Neoplastic::Epidermal::Malignant::Staging_Nonmelanocytic_Carcinoma",
+      "tag_status": "generated_consolidated",
+      "excerpt": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging-nonmelanocytic carcinoma Header: Pathology Outlines - Staging-nonmelanocytic carcinoma URL: https://www.pathologyoutlines.com/topic/skintumornonmelanocyticstagingskincarcinoma.html Primary tag: __UNMAPPED__ Top headings: Squamous cell carcinoma of the vulva | Essential features | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Single metastasis in contralateral node of any size with extranodal extension | Not applicable: metastasis unable to be detected from provided specimen | AJCC prognostic stage groups | Stage group III | Stage group IV | High risk factors (select all that apply) | Poorly differentiated histology | BWH tumor classification | T2a: 1 high risk factor | T3: 4 high risk factors or bone invasion | Registry data collection variables | Extranodal extension patholog...",
+      "text": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging-nonmelanocytic carcinoma Header: Pathology Outlines - Staging-nonmelanocytic carcinoma URL: https://www.pathologyoutlines.com/topic/skintumornonmelanocyticstagingskincarcinoma.html Primary tag: __UNMAPPED__ Top headings: Squamous cell carcinoma of the vulva | Essential features | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Single metastasis in contralateral node of any size with extranodal extension | Not applicable: metastasis unable to be detected from provided specimen | AJCC prognostic stage groups | Stage group III | Stage group IV | High risk factors (select all that apply) | Poorly differentiated histology | BWH tumor classification | T2a: 1 high risk factor | T3: 4 high risk factors or bone invasion | Registry data collection variables | Extranodal extension patholog...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 4,
+      "vector_score": 0.5733155608177185,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticstagingskincarcinoma.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::dermatopathology::skintumornonmelanocyticmerkelstaging",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticmerkelstaging.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticmerkelstaging.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "Skin::Neoplastic::Soft_Tissue::Neural::Merkel_Cell_Carcinoma",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging-Merkel cell carcinoma Header: Pathology Outlines - Staging-Merkel cell carcinoma URL: https://www.pathologyoutlines.com/topic/skintumornonmelanocyticmerkelstaging.html Primary tag: Skin::Neoplastic::Soft_Tissue::Neural::Merkel_Cell_Carcinoma Top headings: All primary cutaneous neuroendocrine carcinomas are covered by this staging system | Essential features | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Clinically occult: nodal metastasis detectable only by microscopic evaluation | Isolated tumor cells: counted as metastases whether identified on H&E or by IHC | Distant metastasis (pM) | AJCC pathological prognostic stage groups (pTNM) | Stage group I: T1 N0 M0 | Stage group IIB: T4 N0 M0 | T0 N1b M0 | Stage group IV: T0 - 4 N0 - N3 M1 | Largest tumor diameter (clinical measu...",
+      "text": "Source: Pathology Outlines Subject: dermatopathology Title: Pathology Outlines - Staging-Merkel cell carcinoma Header: Pathology Outlines - Staging-Merkel cell carcinoma URL: https://www.pathologyoutlines.com/topic/skintumornonmelanocyticmerkelstaging.html Primary tag: Skin::Neoplastic::Soft_Tissue::Neural::Merkel_Cell_Carcinoma Top headings: All primary cutaneous neuroendocrine carcinomas are covered by this staging system | Essential features | ICD coding | Primary tumor (pT) | Notes | Regional lymph nodes (pN) | Clinically occult: nodal metastasis detectable only by microscopic evaluation | Isolated tumor cells: counted as metastases whether identified on H&E or by IHC | Distant metastasis (pM) | AJCC pathological prognostic stage groups (pTNM) | Stage group I: T1 N0 M0 | Stage group IIB: T4 N0 M0 | T0 N1b M0 | Stage group IV: T0 - 4 N0 - N3 M1 | Largest tumor diameter (clinical measu...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 5,
+      "vector_score": 0.5722811222076416,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/skintumornonmelanocyticmerkelstaging.html",
+          "source_family": "pathout"
+        }
+      ]
+    }
+  ],
+  "textbook_results": [],
+  "figures": [],
+  "warnings": [
+    "pathout_endpoint=/pathout/search",
+    "Keyword-only SQLite FTS5 retrieval; not semantic/vector retrieval.",
+    "Figures are returned from figure metadata/captions; image pixels are not interpreted.",
+    "Pathology Outlines image binaries are not assumed mirrored to GCS unless gcs_uri is present in figure metadata.",
+    "PathOut retrieval includes local AP-diagnostic filtered FAISS vector search.",
+    "PathOut AP vector artifacts are filtered/tagged offline; judge semantic vector hits for specificity."
+  ],
+  "search_mode": {
+    "textbooks": "hybrid_fts_faiss_vector_rrf",
+    "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+    "who": "upstream",
+    "pathout": "upstream_plus_local_ap_diagnostic_faiss_vector"
+  },
+  "source_locator_status": {
+    "enabled": true,
+    "registry_records_loaded": 280,
+    "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+  },
+  "page_image_locator_status": {
+    "enabled": true,
+    "inventory_records_loaded": 28705,
+    "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+  },
+  "pathout_ap_vector_status": {
+    "enabled": true,
+    "api_exposed": true,
+    "manifest_gcs": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_manifest.json",
+    "records": 4397
+  },
+  "curriculum_results": [],
+  "curriculum_status": null,
+  "version": "1.5.10-html-bundle-v0.2-staging"
+}

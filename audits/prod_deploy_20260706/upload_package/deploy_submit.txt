@@ -1,0 +1,2 @@
+Building using Dockerfile and deploying container to Cloud Run service [pathology-hub-v04] in project [pathology-annotation-project] region [us-central1]
+Service [pathology-hub-v04] is deploying asynchronously.

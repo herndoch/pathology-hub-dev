@@ -1,0 +1,2 @@
+REV=pathology-hub-v04-v0-2-staging-00001-s5r
+URL=https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app

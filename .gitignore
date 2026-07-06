@@ -13,3 +13,7 @@ __pycache__/
 *.pem
 application_default_credentials.json
 .DS_Store
+.venv_test/
+
+# Pathology Hub generated audit artifacts; store in GCS/release archives, not Git
+06_audits/

@@ -1,0 +1,17 @@
+Recovered source inventory — 2026-07-05
+
+recovered_backend/v04_10_live_source/source.tgz
+  - Downloaded from: gs://pathology-annotation-project_cloudbuild/source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz
+  - Cloud Build ID: 8cd07783-a403-4cc7-a276-0c2b41c5ca37 (SUCCESS, 2026-07-05T01:12:37Z)
+  - Produces image digest: sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019
+  - This digest EXACTLY matches the image currently serving 100% of production traffic on pathology-hub-v04 (revision pathology-hub-v04-00027-tjm) as of this session's Phase 0 snapshot.
+  - Contents: app.py (3202 lines, sha256 recorded below), Dockerfile, requirements.txt, .dockerignore
+  - app.py version constant chain terminal value: APP_VERSION_V1510 = "1.5.10-html-bundle" (matches live /health exactly)
+
+recovered_backend/v04_8_cloudbuild_source/ (pre-existing from prior session, NOT this session's recovery)
+  - version 1.5.8-pathout-lecture-tags-v04 (2263 lines) — an earlier intermediate build, superseded by v04_10 above. Kept for reference/diff only.
+
+backend/pathology_hub_v04_curriculum/app.py (pre-existing stale repo copy)
+  - version 1.5.7-page-images-v04 — DO NOT use as production-equivalent. Reference only.
+
+Verdict: Live backend source is RECOVERED (exact Cloud Build source match + version + digest triple-confirmed), not reconstructed.

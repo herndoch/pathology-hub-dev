@@ -1,0 +1,11 @@
+ID                                    STATUS   CREATE_TIME                DURATION  IMAGES
+8cd07783-a403-4cc7-a276-0c2b41c5ca37  SUCCESS  2026-07-05T01:12:37+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3']
+7e4530a7-a255-4435-9df7-ac47edc40209  SUCCESS  2026-07-05T01:05:30+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r2']
+26c4e92e-13ee-41ae-8129-4af72d829687  SUCCESS  2026-07-05T00:56:54+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704']
+58ceea9d-ce94-4d69-833e-ef7ea9fd270e  SUCCESS  2026-07-04T23:12:29+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-curriculum-v1-5-9-20260704']
+1af15b61-9028-45ef-a06e-6f84343157b1  SUCCESS  2026-06-29T04:03:45+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']
+689d9fb2-4856-43ca-8e27-725ae0d07b0f  SUCCESS  2026-06-26T23:44:37+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']
+0746f972-c8c8-4aff-81d0-fa99fcaa8e6f  SUCCESS  2026-06-23T20:47:32+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']
+a611d942-6372-4096-812c-f478b4d1a674  SUCCESS  2026-06-23T04:06:03+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']
+22645343-5e79-434d-852b-d7cd180cda35  SUCCESS  2026-06-23T03:50:31+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']
+4e900a0f-e779-41ea-92f9-d142cb7c4496  SUCCESS  2026-06-23T03:43:59+00:00            ['us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest']

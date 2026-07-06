@@ -1,0 +1,32 @@
+{
+  "schema_version": "evidence_retrieval_benchmark_staging_v0_2_upload.v1",
+  "generated_at_utc": "2026-07-06T13:12:37+00:00",
+  "input_paths": [
+    "backend/pathology_hub_v04_live_recovered/ (deployed source)",
+    "06_audits/evidence_retrieval/benchmark_v0_1/benchmark_entities_v0_1.csv",
+    "06_audits/evidence_retrieval/benchmark_v0_1/benchmark_expected_hits_v0_1.json",
+    "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app (live staging service)"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/06_audits/evidence_retrieval/v0_2_staging_20260705/benchmark_v0_2_staging_cycle_1_results_raw.json",
+    "gs://pathology_hub/06_audits/evidence_retrieval/v0_2_staging_20260705/staging_run_cycle_1_summary.json",
+    "gs://pathology_hub/06_audits/evidence_retrieval/v0_2_staging_20260705/benchmark_v0_2_staging_cycle_1_summary.csv",
+    "gs://pathology_hub/06_audits/evidence_retrieval/v0_2_staging_20260705/benchmark_v0_2_staging_cycle_1_figures.csv"
+  ],
+  "counts": {
+    "total_rows": 1008,
+    "hits": 996,
+    "misses": 12,
+    "baseline_misses": 29,
+    "cycles_run": 1,
+    "cycle_budget": 3
+  },
+  "known_limitations": [
+    "Single cycle run; not needed further since target (<=14 misses) was met with zero regressions.",
+    "Benchmark exercises /evidence/search only, not render_html/curriculum (covered separately by the Phase 6 smoke test).",
+    "2 of 12 remaining misses (BREAST_002/NOS) reflect an attempted-but-unsuccessful fix, documented honestly."
+  ],
+  "deploy_performed": false,
+  "gcs_mutated_destructively": false,
+  "secrets_printed": false
+}

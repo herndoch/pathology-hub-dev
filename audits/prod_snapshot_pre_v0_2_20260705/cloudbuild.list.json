@@ -1,0 +1,2627 @@
+[
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3"
+      ]
+    },
+    "createTime": "2026-07-05T01:12:37.260273181Z",
+    "finishTime": "2026-07-05T01:13:29.163396Z",
+    "id": "8cd07783-a403-4cc7-a276-0c2b41c5ca37",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/8cd07783-a403-4cc7-a276-0c2b41c5ca37?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/8cd07783-a403-4cc7-a276-0c2b41c5ca37",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:f5f737e41d6ab0a89be14e43797c05344fc91a99be34da76eb4ad5d822be4ccc"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+          "digest": "sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3",
+          "pushTiming": {
+            "endTime": "2026-07-05T01:13:28.588586349Z",
+            "startTime": "2026-07-05T01:13:14.499452011Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213956376675",
+        "object": "source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz#1783213956376675": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "ihUwYJQdmt47Pz2ERIvt8w=="
+            },
+            {
+              "type": "SHA256",
+              "value": "4IJXWGnlWa4hCsyhOEokcyGd-Mfzqc4_mdn2PaN6r1o="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213956376675",
+        "object": "source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz"
+      }
+    },
+    "startTime": "2026-07-05T01:12:38.083789529Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-07-05T01:12:43.359398785Z",
+          "startTime": "2026-07-05T01:12:43.358260249Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-07-05T01:13:14.482065230Z",
+          "startTime": "2026-07-05T01:12:43.358260249Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-07-05T01:13:14.499375357Z",
+        "startTime": "2026-07-05T01:12:42.853691320Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-07-05T01:12:42.853602575Z",
+        "startTime": "2026-07-05T01:12:40.743397912Z"
+      },
+      "PUSH": {
+        "endTime": "2026-07-05T01:13:28.588651912Z",
+        "startTime": "2026-07-05T01:13:14.499451321Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-07-05T01:12:42.853602575Z",
+        "startTime": "2026-07-05T01:12:40.743397912Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r2"
+      ]
+    },
+    "createTime": "2026-07-05T01:05:30.515854669Z",
+    "finishTime": "2026-07-05T01:06:41.392120Z",
+    "id": "7e4530a7-a255-4435-9df7-ac47edc40209",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r2"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/7e4530a7-a255-4435-9df7-ac47edc40209?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/7e4530a7-a255-4435-9df7-ac47edc40209",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:f5f737e41d6ab0a89be14e43797c05344fc91a99be34da76eb4ad5d822be4ccc"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:ba39d490487370b73acd91c5e8fe544beb5574e18569b704850b4e0e0b956bc5",
+          "digest": "sha256:ba39d490487370b73acd91c5e8fe544beb5574e18569b704850b4e0e0b956bc5",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r2",
+          "pushTiming": {
+            "endTime": "2026-07-05T01:06:40.856371587Z",
+            "startTime": "2026-07-05T01:06:19.422450195Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213529656459",
+        "object": "source/1783213526.362669-60aa5d2bc5b84ce9aecd65cb19f1ec1e.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1783213526.362669-60aa5d2bc5b84ce9aecd65cb19f1ec1e.tgz#1783213529656459": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "KW1RlYb9PFtRF9qtc-67GA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "SKSsLHbgRTUgxHmYaxS-5wWDZNoeza7oQMS1BlOA4fw="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213529656459",
+        "object": "source/1783213526.362669-60aa5d2bc5b84ce9aecd65cb19f1ec1e.tgz"
+      }
+    },
+    "startTime": "2026-07-05T01:05:31.474005080Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r2",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-07-05T01:05:38.178362421Z",
+          "startTime": "2026-07-05T01:05:38.175984516Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-07-05T01:06:19.391314673Z",
+          "startTime": "2026-07-05T01:05:38.175984516Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-07-05T01:06:19.422370118Z",
+        "startTime": "2026-07-05T01:05:37.620653224Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-07-05T01:05:37.620528709Z",
+        "startTime": "2026-07-05T01:05:34.904822114Z"
+      },
+      "PUSH": {
+        "endTime": "2026-07-05T01:06:40.856628196Z",
+        "startTime": "2026-07-05T01:06:19.422439632Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-07-05T01:05:37.620528709Z",
+        "startTime": "2026-07-05T01:05:34.904822114Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704"
+      ]
+    },
+    "createTime": "2026-07-05T00:56:54.720624712Z",
+    "finishTime": "2026-07-05T00:58:03.688726Z",
+    "id": "26c4e92e-13ee-41ae-8129-4af72d829687",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/26c4e92e-13ee-41ae-8129-4af72d829687?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/26c4e92e-13ee-41ae-8129-4af72d829687",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:f5f737e41d6ab0a89be14e43797c05344fc91a99be34da76eb4ad5d822be4ccc"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:b4ef7631f8a970d962487dbc8f03da83f5f6c030fd79a47704b1235979c92a19",
+          "digest": "sha256:b4ef7631f8a970d962487dbc8f03da83f5f6c030fd79a47704b1235979c92a19",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704",
+          "pushTiming": {
+            "endTime": "2026-07-05T00:58:02.963867371Z",
+            "startTime": "2026-07-05T00:57:41.802422388Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213013958110",
+        "object": "source/1783213010.883524-480e24842aa4416db865dfe92d0b96d0.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1783213010.883524-480e24842aa4416db865dfe92d0b96d0.tgz#1783213013958110": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "i85RK5SW3zOja1GGR3zNXA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "UWCLOQMTsxn1A0128SS8My5OfXsCFRglrTctpIVpyfk="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783213013958110",
+        "object": "source/1783213010.883524-480e24842aa4416db865dfe92d0b96d0.tgz"
+      }
+    },
+    "startTime": "2026-07-05T00:56:55.597199884Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-07-05T00:57:01.068754133Z",
+          "startTime": "2026-07-05T00:57:01.066749728Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-07-05T00:57:41.762166034Z",
+          "startTime": "2026-07-05T00:57:01.066749728Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-07-05T00:57:41.802247851Z",
+        "startTime": "2026-07-05T00:57:00.406231149Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-07-05T00:57:00.406108250Z",
+        "startTime": "2026-07-05T00:56:57.411620230Z"
+      },
+      "PUSH": {
+        "endTime": "2026-07-05T00:58:02.964026189Z",
+        "startTime": "2026-07-05T00:57:41.802421569Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-07-05T00:57:00.406108250Z",
+        "startTime": "2026-07-05T00:56:57.411620230Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-curriculum-v1-5-9-20260704"
+      ]
+    },
+    "createTime": "2026-07-04T23:12:29.797150775Z",
+    "finishTime": "2026-07-04T23:13:35.831882Z",
+    "id": "58ceea9d-ce94-4d69-833e-ef7ea9fd270e",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-curriculum-v1-5-9-20260704"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/58ceea9d-ce94-4d69-833e-ef7ea9fd270e?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/58ceea9d-ce94-4d69-833e-ef7ea9fd270e",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:f5f737e41d6ab0a89be14e43797c05344fc91a99be34da76eb4ad5d822be4ccc"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:d1674f34ee0672913587d07b643cdc9fc1ef73addbc1e50fb045476e560cb79b",
+          "digest": "sha256:d1674f34ee0672913587d07b643cdc9fc1ef73addbc1e50fb045476e560cb79b",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-curriculum-v1-5-9-20260704",
+          "pushTiming": {
+            "endTime": "2026-07-04T23:13:35.229479045Z",
+            "startTime": "2026-07-04T23:13:17.374736717Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783206749124663",
+        "object": "source/1783206746.18467-bda95f385ba24a568cfb84846551f954.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1783206746.18467-bda95f385ba24a568cfb84846551f954.tgz#1783206749124663": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "6g5QikQbjDWb7ofI__QvvA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "Hd3u6Nc2vMMdsAM2JOpYxmt0jZxnc9McCNyRwpmRHxE="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1783206749124663",
+        "object": "source/1783206746.18467-bda95f385ba24a568cfb84846551f954.tgz"
+      }
+    },
+    "startTime": "2026-07-04T23:12:30.954472029Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-curriculum-v1-5-9-20260704",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-07-04T23:12:36.628861137Z",
+          "startTime": "2026-07-04T23:12:36.625322947Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-07-04T23:13:17.339402469Z",
+          "startTime": "2026-07-04T23:12:36.625322947Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-07-04T23:13:17.374622568Z",
+        "startTime": "2026-07-04T23:12:36.027810228Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-07-04T23:12:36.027625388Z",
+        "startTime": "2026-07-04T23:12:32.990863822Z"
+      },
+      "PUSH": {
+        "endTime": "2026-07-04T23:13:35.229585335Z",
+        "startTime": "2026-07-04T23:13:17.374735217Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-07-04T23:12:36.027625388Z",
+        "startTime": "2026-07-04T23:12:32.990863822Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-29T04:03:45.656627289Z",
+    "finishTime": "2026-06-29T04:05:02.824970Z",
+    "id": "1af15b61-9028-45ef-a06e-6f84343157b1",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/1af15b61-9028-45ef-a06e-6f84343157b1?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/1af15b61-9028-45ef-a06e-6f84343157b1",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:8a5ea9f2002aee6d652ea31e8c36a9736c93c88285a938880e2e6dd859f11d60"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:bcde59283c0af7280bc5aee9ffc17b65433e7642c3e56a39fc32e2ab595054d3",
+          "digest": "sha256:bcde59283c0af7280bc5aee9ffc17b65433e7642c3e56a39fc32e2ab595054d3",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-29T04:05:02.016169154Z",
+            "startTime": "2026-06-29T04:04:39.479787025Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:bcde59283c0af7280bc5aee9ffc17b65433e7642c3e56a39fc32e2ab595054d3",
+          "digest": "sha256:bcde59283c0af7280bc5aee9ffc17b65433e7642c3e56a39fc32e2ab595054d3",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-29T04:05:02.016169154Z",
+            "startTime": "2026-06-29T04:04:39.479787025Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782705824610390",
+        "object": "source/1782705823.737873-c38a280729284befaf8567bc1168e112.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782705823.737873-c38a280729284befaf8567bc1168e112.tgz#1782705824610390": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "XmsnWWqnoojlq4yq7qDD0w=="
+            },
+            {
+              "type": "SHA256",
+              "value": "fen02udh-geXZBhZ1VsqpPJ7kRlWUovMXD6Sk9tWDVc="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782705824610390",
+        "object": "source/1782705823.737873-c38a280729284befaf8567bc1168e112.tgz"
+      }
+    },
+    "startTime": "2026-06-29T04:03:46.607801940Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-29T04:03:52.964174279Z",
+          "startTime": "2026-06-29T04:03:52.962091003Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-29T04:04:39.446205792Z",
+          "startTime": "2026-06-29T04:03:52.962091003Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-29T04:04:39.479663289Z",
+        "startTime": "2026-06-29T04:03:52.205268696Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-29T04:03:52.205154215Z",
+        "startTime": "2026-06-29T04:03:48.919674459Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-29T04:05:02.016364115Z",
+        "startTime": "2026-06-29T04:04:39.479755166Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-29T04:03:52.205154215Z",
+        "startTime": "2026-06-29T04:03:48.919674459Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-26T23:44:37.686708114Z",
+    "finishTime": "2026-06-26T23:45:38.040500Z",
+    "id": "689d9fb2-4856-43ca-8e27-725ae0d07b0f",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/689d9fb2-4856-43ca-8e27-725ae0d07b0f?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/689d9fb2-4856-43ca-8e27-725ae0d07b0f",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:8a5ea9f2002aee6d652ea31e8c36a9736c93c88285a938880e2e6dd859f11d60"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:f377cd57cb3fefdb29adff433ac203ca48f96ded5ddc996db04e31010a30cae7",
+          "digest": "sha256:f377cd57cb3fefdb29adff433ac203ca48f96ded5ddc996db04e31010a30cae7",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-26T23:45:37.337287529Z",
+            "startTime": "2026-06-26T23:45:19.432274873Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:f377cd57cb3fefdb29adff433ac203ca48f96ded5ddc996db04e31010a30cae7",
+          "digest": "sha256:f377cd57cb3fefdb29adff433ac203ca48f96ded5ddc996db04e31010a30cae7",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-26T23:45:37.337287529Z",
+            "startTime": "2026-06-26T23:45:19.432274873Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782517477378347",
+        "object": "source/1782517476.836508-2d3bdd401c6646b99b676ccd79b831ca.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782517476.836508-2d3bdd401c6646b99b676ccd79b831ca.tgz#1782517477378347": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "nb3C5mnHJuIyPmcbDQ8GAA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "R0vLGnGi210jYyqbBNlg4fbLQOUJC6o-RYDdSN6AFHg="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782517477378347",
+        "object": "source/1782517476.836508-2d3bdd401c6646b99b676ccd79b831ca.tgz"
+      }
+    },
+    "startTime": "2026-06-26T23:44:38.622309982Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-26T23:44:44.586521631Z",
+          "startTime": "2026-06-26T23:44:44.584594057Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-26T23:45:19.409306732Z",
+          "startTime": "2026-06-26T23:44:44.584594057Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-26T23:45:19.432178665Z",
+        "startTime": "2026-06-26T23:44:44.004546785Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-26T23:44:44.004436646Z",
+        "startTime": "2026-06-26T23:44:41.799064363Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-26T23:45:37.337433131Z",
+        "startTime": "2026-06-26T23:45:19.432269412Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-26T23:44:44.004436646Z",
+        "startTime": "2026-06-26T23:44:41.799064363Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T20:47:32.157876655Z",
+    "finishTime": "2026-06-23T20:48:40.656821Z",
+    "id": "0746f972-c8c8-4aff-81d0-fa99fcaa8e6f",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/0746f972-c8c8-4aff-81d0-fa99fcaa8e6f?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/0746f972-c8c8-4aff-81d0-fa99fcaa8e6f",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:bd3543ba92410bf6ff42484a5ad57f37be2fad45e9f9b1f1f0dab64b9b3ac35f",
+          "digest": "sha256:bd3543ba92410bf6ff42484a5ad57f37be2fad45e9f9b1f1f0dab64b9b3ac35f",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T20:48:40.434478735Z",
+            "startTime": "2026-06-23T20:48:21.200914585Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:bd3543ba92410bf6ff42484a5ad57f37be2fad45e9f9b1f1f0dab64b9b3ac35f",
+          "digest": "sha256:bd3543ba92410bf6ff42484a5ad57f37be2fad45e9f9b1f1f0dab64b9b3ac35f",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T20:48:40.434478735Z",
+            "startTime": "2026-06-23T20:48:21.200914585Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782247651716261",
+        "object": "source/1782247651.392433-96e8e3a6edee4236801806d3815d9125.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782247651.392433-96e8e3a6edee4236801806d3815d9125.tgz#1782247651716261": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "fJYHopJFURXo55OHT0Yx3A=="
+            },
+            {
+              "type": "SHA256",
+              "value": "__i9Qzau47z3xi9OgXTDxU0irs6iznPvreIOButCpJ0="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782247651716261",
+        "object": "source/1782247651.392433-96e8e3a6edee4236801806d3815d9125.tgz"
+      }
+    },
+    "startTime": "2026-06-23T20:47:33.164058513Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T20:47:39.988385064Z",
+          "startTime": "2026-06-23T20:47:39.986307162Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T20:48:21.170529352Z",
+          "startTime": "2026-06-23T20:47:39.986307162Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T20:48:21.200795700Z",
+        "startTime": "2026-06-23T20:47:39.356709724Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T20:47:39.355975754Z",
+        "startTime": "2026-06-23T20:47:36.478969306Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T20:48:40.435503091Z",
+        "startTime": "2026-06-23T20:48:21.200871931Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T20:47:39.355975754Z",
+        "startTime": "2026-06-23T20:47:36.478969306Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T04:06:03.639208018Z",
+    "finishTime": "2026-06-23T04:07:15.525759Z",
+    "id": "a611d942-6372-4096-812c-f478b4d1a674",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/a611d942-6372-4096-812c-f478b4d1a674?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/a611d942-6372-4096-812c-f478b4d1a674",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:b5a73afec8e31186d172239659c4ea6f08447f1c1f21bf5088739321d204459b",
+          "digest": "sha256:b5a73afec8e31186d172239659c4ea6f08447f1c1f21bf5088739321d204459b",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T04:07:14.732589699Z",
+            "startTime": "2026-06-23T04:06:52.529180765Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:b5a73afec8e31186d172239659c4ea6f08447f1c1f21bf5088739321d204459b",
+          "digest": "sha256:b5a73afec8e31186d172239659c4ea6f08447f1c1f21bf5088739321d204459b",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T04:07:14.732589699Z",
+            "startTime": "2026-06-23T04:06:52.529180765Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782187563050669",
+        "object": "source/1782187562.793803-1549aa401b0e403ba8b8c544dfb483ed.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782187562.793803-1549aa401b0e403ba8b8c544dfb483ed.tgz#1782187563050669": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "b9Q5oZB0WB1zHSV5Mm4vwA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "JeEhkHgrhW7twdQMBTSz7PsbWhHf8pwCFH9KQ0AU33k="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782187563050669",
+        "object": "source/1782187562.793803-1549aa401b0e403ba8b8c544dfb483ed.tgz"
+      }
+    },
+    "startTime": "2026-06-23T04:06:04.562325032Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T04:06:11.856462037Z",
+          "startTime": "2026-06-23T04:06:11.854804023Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T04:06:52.503103107Z",
+          "startTime": "2026-06-23T04:06:11.854804023Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T04:06:52.529102999Z",
+        "startTime": "2026-06-23T04:06:11.201757303Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T04:06:11.200397522Z",
+        "startTime": "2026-06-23T04:06:08.188862083Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T04:07:14.733571413Z",
+        "startTime": "2026-06-23T04:06:52.529179104Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T04:06:11.200397522Z",
+        "startTime": "2026-06-23T04:06:08.188862083Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T03:50:31.682678719Z",
+    "finishTime": "2026-06-23T03:51:44.390327Z",
+    "id": "22645343-5e79-434d-852b-d7cd180cda35",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/22645343-5e79-434d-852b-d7cd180cda35?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/22645343-5e79-434d-852b-d7cd180cda35",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:92befa9a4a32a82cb2f209700b14c25cd45c10a1cae8cac7806774968d48f229",
+          "digest": "sha256:92befa9a4a32a82cb2f209700b14c25cd45c10a1cae8cac7806774968d48f229",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:51:43.722392686Z",
+            "startTime": "2026-06-23T03:51:21.557316385Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:92befa9a4a32a82cb2f209700b14c25cd45c10a1cae8cac7806774968d48f229",
+          "digest": "sha256:92befa9a4a32a82cb2f209700b14c25cd45c10a1cae8cac7806774968d48f229",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:51:43.722392686Z",
+            "startTime": "2026-06-23T03:51:21.557316385Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782186631453501",
+        "object": "source/1782186631.228468-e94b92f6f5e8466da2d2eb3abb33e997.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782186631.228468-e94b92f6f5e8466da2d2eb3abb33e997.tgz#1782186631453501": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "frOtalDFqP2lPwtpsYhtEg=="
+            },
+            {
+              "type": "SHA256",
+              "value": "8SnC29fhgAiWSlnh4hKeSUoZY66YjCSYqVxcoDii_RU="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782186631453501",
+        "object": "source/1782186631.228468-e94b92f6f5e8466da2d2eb3abb33e997.tgz"
+      }
+    },
+    "startTime": "2026-06-23T03:50:32.639235401Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T03:50:37.650739461Z",
+          "startTime": "2026-06-23T03:50:37.648810249Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T03:51:21.519235908Z",
+          "startTime": "2026-06-23T03:50:37.648810249Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T03:51:21.557199559Z",
+        "startTime": "2026-06-23T03:50:36.981272992Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T03:50:36.980251287Z",
+        "startTime": "2026-06-23T03:50:33.927574946Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T03:51:43.723468076Z",
+        "startTime": "2026-06-23T03:51:21.557267812Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T03:50:36.980251287Z",
+        "startTime": "2026-06-23T03:50:33.927574946Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T03:43:59.633754842Z",
+    "finishTime": "2026-06-23T03:45:06.499008Z",
+    "id": "4e900a0f-e779-41ea-92f9-d142cb7c4496",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/4e900a0f-e779-41ea-92f9-d142cb7c4496?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/4e900a0f-e779-41ea-92f9-d142cb7c4496",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:2edaba8b711b9fc0d17acd2221bb1d0ce93ffa27911f16baf3089bfdafe8eb5b",
+          "digest": "sha256:2edaba8b711b9fc0d17acd2221bb1d0ce93ffa27911f16baf3089bfdafe8eb5b",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:45:05.711124609Z",
+            "startTime": "2026-06-23T03:44:46.296346906Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:2edaba8b711b9fc0d17acd2221bb1d0ce93ffa27911f16baf3089bfdafe8eb5b",
+          "digest": "sha256:2edaba8b711b9fc0d17acd2221bb1d0ce93ffa27911f16baf3089bfdafe8eb5b",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:45:05.711124609Z",
+            "startTime": "2026-06-23T03:44:46.296346906Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782186239345910",
+        "object": "source/1782186239.11737-1bf107b114a24992aee43c27473e9364.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782186239.11737-1bf107b114a24992aee43c27473e9364.tgz#1782186239345910": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "ODvkxqA1L7s1KXaRxmmeGw=="
+            },
+            {
+              "type": "SHA256",
+              "value": "KqPTqF5veCNFM4ANcFtGeV3ux_1sL99LsmVPmRQ5Wfw="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782186239345910",
+        "object": "source/1782186239.11737-1bf107b114a24992aee43c27473e9364.tgz"
+      }
+    },
+    "startTime": "2026-06-23T03:44:00.606830357Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T03:44:05.857911961Z",
+          "startTime": "2026-06-23T03:44:05.856487139Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T03:44:46.267366206Z",
+          "startTime": "2026-06-23T03:44:05.856487139Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T03:44:46.296229279Z",
+        "startTime": "2026-06-23T03:44:05.227168258Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T03:44:05.226302733Z",
+        "startTime": "2026-06-23T03:44:02.366871388Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T03:45:05.712395060Z",
+        "startTime": "2026-06-23T03:44:46.296345674Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T03:44:05.226302733Z",
+        "startTime": "2026-06-23T03:44:02.366871388Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T03:15:39.671488523Z",
+    "finishTime": "2026-06-23T03:16:51.566927Z",
+    "id": "44e77080-fa72-4348-a56a-2d2e026b9717",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/44e77080-fa72-4348-a56a-2d2e026b9717?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/44e77080-fa72-4348-a56a-2d2e026b9717",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:11a9292c00e4c713fb6f0240f916109aa7c52fa7dba3a0984e5a9f03c5e78cc5",
+          "digest": "sha256:11a9292c00e4c713fb6f0240f916109aa7c52fa7dba3a0984e5a9f03c5e78cc5",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:16:50.787039824Z",
+            "startTime": "2026-06-23T03:16:28.602108213Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:11a9292c00e4c713fb6f0240f916109aa7c52fa7dba3a0984e5a9f03c5e78cc5",
+          "digest": "sha256:11a9292c00e4c713fb6f0240f916109aa7c52fa7dba3a0984e5a9f03c5e78cc5",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:16:50.787039824Z",
+            "startTime": "2026-06-23T03:16:28.602108213Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782184539385282",
+        "object": "source/1782184539.177611-eb1f77f157da46d4902ea53b1c8a3e3d.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782184539.177611-eb1f77f157da46d4902ea53b1c8a3e3d.tgz#1782184539385282": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "YjGSrnL44h4zUlh7TgSQEQ=="
+            },
+            {
+              "type": "SHA256",
+              "value": "HIOORXsoqlJuXxwMb2IWdHCfCCJMGSUyQIdjQ6V6f2o="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782184539385282",
+        "object": "source/1782184539.177611-eb1f77f157da46d4902ea53b1c8a3e3d.tgz"
+      }
+    },
+    "startTime": "2026-06-23T03:15:40.691431915Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T03:15:48.072719948Z",
+          "startTime": "2026-06-23T03:15:48.071278581Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T03:16:28.573618760Z",
+          "startTime": "2026-06-23T03:15:48.071278581Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T03:16:28.601791777Z",
+        "startTime": "2026-06-23T03:15:47.415702354Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T03:15:47.414416146Z",
+        "startTime": "2026-06-23T03:15:44.187713739Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T03:16:50.788207006Z",
+        "startTime": "2026-06-23T03:16:28.602106663Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T03:15:47.414416146Z",
+        "startTime": "2026-06-23T03:15:44.187713739Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-23T03:08:33.985663151Z",
+    "finishTime": "2026-06-23T03:09:42.748919Z",
+    "id": "025b2f37-a077-4f62-9d5b-f2fad3056e2f",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/025b2f37-a077-4f62-9d5b-f2fad3056e2f?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/025b2f37-a077-4f62-9d5b-f2fad3056e2f",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:838f08c8ceff3bb7e8498b347357a53aff757547a7a4c6ba1b1336b548345a6d",
+          "digest": "sha256:838f08c8ceff3bb7e8498b347357a53aff757547a7a4c6ba1b1336b548345a6d",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:09:41.737462771Z",
+            "startTime": "2026-06-23T03:09:20.150565396Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:838f08c8ceff3bb7e8498b347357a53aff757547a7a4c6ba1b1336b548345a6d",
+          "digest": "sha256:838f08c8ceff3bb7e8498b347357a53aff757547a7a4c6ba1b1336b548345a6d",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-23T03:09:41.737462771Z",
+            "startTime": "2026-06-23T03:09:20.150565396Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782184113709823",
+        "object": "source/1782184113.495746-06df0f722da8439f902d9f22628e08b9.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782184113.495746-06df0f722da8439f902d9f22628e08b9.tgz#1782184113709823": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "5YfScmBs9ahdI_jK7-FHhA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "ZMSY7CYBv1Gb-tpUX0OMecgfhsamiZv8FKvbTG9WKuM="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782184113709823",
+        "object": "source/1782184113.495746-06df0f722da8439f902d9f22628e08b9.tgz"
+      }
+    },
+    "startTime": "2026-06-23T03:08:35.142604762Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-23T03:08:40.794968269Z",
+          "startTime": "2026-06-23T03:08:40.793753385Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-23T03:09:20.126196125Z",
+          "startTime": "2026-06-23T03:08:40.793753385Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-23T03:09:20.150501460Z",
+        "startTime": "2026-06-23T03:08:40.206488147Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-23T03:08:40.205681650Z",
+        "startTime": "2026-06-23T03:08:37.563099151Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-23T03:09:41.738472476Z",
+        "startTime": "2026-06-23T03:09:20.150563899Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-23T03:08:40.205681650Z",
+        "startTime": "2026-06-23T03:08:37.563099151Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-22T04:28:52.347681951Z",
+    "finishTime": "2026-06-22T04:29:46.764303Z",
+    "id": "07861e63-53f8-4e20-8b6c-ca8e7e06f422",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/07861e63-53f8-4e20-8b6c-ca8e7e06f422?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/07861e63-53f8-4e20-8b6c-ca8e7e06f422",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:0596a59b10bc6b7e7c9d8e04a07e1916f315b73b8194aef3861b3e9a78f388aa",
+          "digest": "sha256:0596a59b10bc6b7e7c9d8e04a07e1916f315b73b8194aef3861b3e9a78f388aa",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-22T04:29:46.040758761Z",
+            "startTime": "2026-06-22T04:29:30.284861910Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:0596a59b10bc6b7e7c9d8e04a07e1916f315b73b8194aef3861b3e9a78f388aa",
+          "digest": "sha256:0596a59b10bc6b7e7c9d8e04a07e1916f315b73b8194aef3861b3e9a78f388aa",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-22T04:29:46.040758761Z",
+            "startTime": "2026-06-22T04:29:30.284861910Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782102532034506",
+        "object": "source/1782102531.801529-b14259d10f9f499a96e699bcc4984a97.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782102531.801529-b14259d10f9f499a96e699bcc4984a97.tgz#1782102532034506": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "w0jToSIgHqJ2tdgdTRS1sg=="
+            },
+            {
+              "type": "SHA256",
+              "value": "XKQHGMLCiYiycw5sNy5shmv_M3HePJshfSxEYut5imY="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782102532034506",
+        "object": "source/1782102531.801529-b14259d10f9f499a96e699bcc4984a97.tgz"
+      }
+    },
+    "startTime": "2026-06-22T04:28:53.387152379Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-22T04:28:58.048725762Z",
+          "startTime": "2026-06-22T04:28:58.046474243Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-22T04:29:30.259634973Z",
+          "startTime": "2026-06-22T04:28:58.046474243Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-22T04:29:30.284765710Z",
+        "startTime": "2026-06-22T04:28:57.526666947Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-22T04:28:57.526024467Z",
+        "startTime": "2026-06-22T04:28:55.422813269Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-22T04:29:46.042052460Z",
+        "startTime": "2026-06-22T04:29:30.284846630Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-22T04:28:57.526024467Z",
+        "startTime": "2026-06-22T04:28:55.422813269Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-22T02:28:22.756029813Z",
+    "finishTime": "2026-06-22T02:29:12.537123Z",
+    "id": "d41620be-a0cf-41a7-8d17-8902020dd3c5",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/d41620be-a0cf-41a7-8d17-8902020dd3c5?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/d41620be-a0cf-41a7-8d17-8902020dd3c5",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:cc93296a731eb4fa5f8327f66b3e92d84d9cedecf8180f9d67d7d7bb045f90fc",
+          "digest": "sha256:cc93296a731eb4fa5f8327f66b3e92d84d9cedecf8180f9d67d7d7bb045f90fc",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-22T02:29:11.648588741Z",
+            "startTime": "2026-06-22T02:28:56.607302032Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:cc93296a731eb4fa5f8327f66b3e92d84d9cedecf8180f9d67d7d7bb045f90fc",
+          "digest": "sha256:cc93296a731eb4fa5f8327f66b3e92d84d9cedecf8180f9d67d7d7bb045f90fc",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-22T02:29:11.648588741Z",
+            "startTime": "2026-06-22T02:28:56.607302032Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782095302388710",
+        "object": "source/1782095302.131956-2c75d95fa0044f2abaa3f71ee5764439.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782095302.131956-2c75d95fa0044f2abaa3f71ee5764439.tgz#1782095302388710": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "bwTaX3dApNwP1bzWzUKnqQ=="
+            },
+            {
+              "type": "SHA256",
+              "value": "zVLhmeWIc47vBWRVxJ38VMpKWFbcPNaOJVPHPd5bri0="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782095302388710",
+        "object": "source/1782095302.131956-2c75d95fa0044f2abaa3f71ee5764439.tgz"
+      }
+    },
+    "startTime": "2026-06-22T02:28:23.816634171Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-22T02:28:28.078188809Z",
+          "startTime": "2026-06-22T02:28:28.077232300Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-22T02:28:56.590318448Z",
+          "startTime": "2026-06-22T02:28:28.077232300Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-22T02:28:56.607273110Z",
+        "startTime": "2026-06-22T02:28:27.606470305Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-22T02:28:27.605779085Z",
+        "startTime": "2026-06-22T02:28:25.745717167Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-22T02:29:11.649141972Z",
+        "startTime": "2026-06-22T02:28:56.607301512Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-22T02:28:27.605779085Z",
+        "startTime": "2026-06-22T02:28:25.745717167Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-21T22:40:09.777611124Z",
+    "finishTime": "2026-06-21T22:41:22.685220Z",
+    "id": "c358ca0a-ac5e-4176-865a-9f52ec447cbe",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/c358ca0a-ac5e-4176-865a-9f52ec447cbe?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/c358ca0a-ac5e-4176-865a-9f52ec447cbe",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:0260f1a65cf8985e69d6723a97a6684482e1f694f3167ec763e575f9f367190d",
+          "digest": "sha256:0260f1a65cf8985e69d6723a97a6684482e1f694f3167ec763e575f9f367190d",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-21T22:41:22.108167463Z",
+            "startTime": "2026-06-21T22:40:59.139668993Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:0260f1a65cf8985e69d6723a97a6684482e1f694f3167ec763e575f9f367190d",
+          "digest": "sha256:0260f1a65cf8985e69d6723a97a6684482e1f694f3167ec763e575f9f367190d",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-21T22:41:22.108167463Z",
+            "startTime": "2026-06-21T22:40:59.139668993Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782081609147145",
+        "object": "source/1782081608.886832-b483fe3e7b3446e29a67076e8bcd46af.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782081608.886832-b483fe3e7b3446e29a67076e8bcd46af.tgz#1782081609147145": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "7SeP_c8iOBg_YRXIXeCpwA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "J0iZf0LgbnUIlTmnj8HAFfkCkqYAlNnfP6t8duRJ9LY="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782081609147145",
+        "object": "source/1782081608.886832-b483fe3e7b3446e29a67076e8bcd46af.tgz"
+      }
+    },
+    "startTime": "2026-06-21T22:40:10.915154682Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-21T22:40:18.020263606Z",
+          "startTime": "2026-06-21T22:40:18.018601356Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-21T22:40:59.108884921Z",
+          "startTime": "2026-06-21T22:40:18.018601356Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-21T22:40:59.139591891Z",
+        "startTime": "2026-06-21T22:40:17.403374034Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-21T22:40:17.402256670Z",
+        "startTime": "2026-06-21T22:40:14.414995470Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-21T22:41:22.109768477Z",
+        "startTime": "2026-06-21T22:40:59.139667903Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-21T22:40:17.402256670Z",
+        "startTime": "2026-06-21T22:40:14.414995470Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-21T21:09:16.249038515Z",
+    "finishTime": "2026-06-21T21:09:52.942238Z",
+    "id": "d9ff038a-09de-4276-a015-7623d56a5f2e",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/d9ff038a-09de-4276-a015-7623d56a5f2e?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/d9ff038a-09de-4276-a015-7623d56a5f2e",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:8232f036d8fadfe30fb0125afc85332e4d7007fa9e44122565f7a333af77dc8f",
+          "digest": "sha256:8232f036d8fadfe30fb0125afc85332e4d7007fa9e44122565f7a333af77dc8f",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-21T21:09:52.243582531Z",
+            "startTime": "2026-06-21T21:09:42.578303243Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:8232f036d8fadfe30fb0125afc85332e4d7007fa9e44122565f7a333af77dc8f",
+          "digest": "sha256:8232f036d8fadfe30fb0125afc85332e4d7007fa9e44122565f7a333af77dc8f",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-21T21:09:52.243582531Z",
+            "startTime": "2026-06-21T21:09:42.578303243Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782076155965380",
+        "object": "source/1782076155.704334-f7a660f982484df3bf66cbfdde225698.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782076155.704334-f7a660f982484df3bf66cbfdde225698.tgz#1782076155965380": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "WWsI2n3C31Ax2QhL_tgLEQ=="
+            },
+            {
+              "type": "SHA256",
+              "value": "8oqbYPOl7jr22QPFhHiSC1mFp5P-ZoQRxGRwOVHRcC8="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782076155965380",
+        "object": "source/1782076155.704334-f7a660f982484df3bf66cbfdde225698.tgz"
+      }
+    },
+    "startTime": "2026-06-21T21:09:17.194508718Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-21T21:09:21.908574561Z",
+          "startTime": "2026-06-21T21:09:21.907136836Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-21T21:09:42.559312261Z",
+          "startTime": "2026-06-21T21:09:21.907136836Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-21T21:09:42.578216501Z",
+        "startTime": "2026-06-21T21:09:21.386409903Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-21T21:09:21.385639659Z",
+        "startTime": "2026-06-21T21:09:19.249542748Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-21T21:09:52.244667072Z",
+        "startTime": "2026-06-21T21:09:42.578301804Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-21T21:09:21.385639659Z",
+        "startTime": "2026-06-21T21:09:19.249542748Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-21T20:57:16.429025542Z",
+    "finishTime": "2026-06-21T20:58:03.624723Z",
+    "id": "46888ab5-df1e-468c-8ef0-0dff4c65c946",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/46888ab5-df1e-468c-8ef0-0dff4c65c946?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/46888ab5-df1e-468c-8ef0-0dff4c65c946",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:aadb42f5633ddaa5ad41e18dcc5a6c2d483f30e701d9f12ae89488ad821f2789",
+          "digest": "sha256:aadb42f5633ddaa5ad41e18dcc5a6c2d483f30e701d9f12ae89488ad821f2789",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04",
+          "pushTiming": {
+            "endTime": "2026-06-21T20:58:02.475251699Z",
+            "startTime": "2026-06-21T20:57:48.940318340Z"
+          }
+        },
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:aadb42f5633ddaa5ad41e18dcc5a6c2d483f30e701d9f12ae89488ad821f2789",
+          "digest": "sha256:aadb42f5633ddaa5ad41e18dcc5a6c2d483f30e701d9f12ae89488ad821f2789",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "pushTiming": {
+            "endTime": "2026-06-21T20:58:02.475251699Z",
+            "startTime": "2026-06-21T20:57:48.940318340Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782075436100443",
+        "object": "source/1782075435.893391-dbb2180f931148ada41c83c0e5003b2a.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782075435.893391-dbb2180f931148ada41c83c0e5003b2a.tgz#1782075436100443": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "gEcPgz5S7UZp3oz2Eg6l6g=="
+            },
+            {
+              "type": "SHA256",
+              "value": "M1XaDZyLwS5dvzDXQEC4_r74Y7hLrRzJNWbKXYjWLMs="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782075436100443",
+        "object": "source/1782075435.893391-dbb2180f931148ada41c83c0e5003b2a.tgz"
+      }
+    },
+    "startTime": "2026-06-21T20:57:17.284479433Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-21T20:57:23.038669470Z",
+          "startTime": "2026-06-21T20:57:23.037051868Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-21T20:57:48.890557162Z",
+          "startTime": "2026-06-21T20:57:23.037051868Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-21T20:57:48.940216627Z",
+        "startTime": "2026-06-21T20:57:22.406560754Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-21T20:57:22.405562780Z",
+        "startTime": "2026-06-21T20:57:19.304764528Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-21T20:58:02.476585508Z",
+        "startTime": "2026-06-21T20:57:48.940315444Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-21T20:57:22.405562780Z",
+        "startTime": "2026-06-21T20:57:19.304764528Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "gcr.io/pathology-annotation-project/pathology-hub-v04:latest"
+      ]
+    },
+    "createTime": "2026-06-21T20:54:47.920463568Z",
+    "finishTime": "2026-06-21T20:55:51.359670Z",
+    "id": "f99045b6-2ff9-4030-9829-0161b5defa21",
+    "images": [
+      "gcr.io/pathology-annotation-project/pathology-hub-v04:latest"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/f99045b6-2ff9-4030-9829-0161b5defa21?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/f99045b6-2ff9-4030-9829-0161b5defa21",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782075287567905",
+        "object": "source/1782075287.327117-b2f0f0e2177c41d68f0ea8be0a8b92d3.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1782075287.327117-b2f0f0e2177c41d68f0ea8be0a8b92d3.tgz#1782075287567905": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "4iWOUgQyqGtqIDGKT50BQA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "qinoDayPH5CuJ5TSuSXfgSFICSvd9CmycfWIQcqx5Yg="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1782075287567905",
+        "object": "source/1782075287.327117-b2f0f0e2177c41d68f0ea8be0a8b92d3.tgz"
+      }
+    },
+    "startTime": "2026-06-21T20:54:49.008054241Z",
+    "status": "FAILURE",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "gcr.io/pathology-annotation-project/pathology-hub-v04:latest",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-21T20:54:53.244290158Z",
+          "startTime": "2026-06-21T20:54:53.242974194Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-21T20:55:13.417871867Z",
+          "startTime": "2026-06-21T20:54:53.242974194Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-21T20:55:13.435919096Z",
+        "startTime": "2026-06-21T20:54:52.697415705Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-21T20:54:52.696457892Z",
+        "startTime": "2026-06-21T20:54:50.599058364Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-21T20:55:40.132405093Z",
+        "startTime": "2026-06-21T20:55:13.435968624Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-21T20:54:52.696457892Z",
+        "startTime": "2026-06-21T20:54:50.599058364Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-unified-rag:who-v1-5-1"
+      ]
+    },
+    "createTime": "2026-06-20T00:10:14.721086432Z",
+    "finishTime": "2026-06-20T00:10:57.818591Z",
+    "id": "3caa87b9-a85a-4739-8b33-ccf8d8cceaa1",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-unified-rag:who-v1-5-1"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/3caa87b9-a85a-4739-8b33-ccf8d8cceaa1?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/3caa87b9-a85a-4739-8b33-ccf8d8cceaa1",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/cloud-run-source-deploy/packages/pathology-hub-unified-rag/versions/sha256:0244348de1fbd4994b3d499a16c7591f5f9989eb7f423c4cdf9ebfaa2445a6dd",
+          "digest": "sha256:0244348de1fbd4994b3d499a16c7591f5f9989eb7f423c4cdf9ebfaa2445a6dd",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-unified-rag:who-v1-5-1",
+          "pushTiming": {
+            "endTime": "2026-06-20T00:10:56.882314575Z",
+            "startTime": "2026-06-20T00:10:44.723425797Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1781914213386660",
+        "object": "source/1781914212.363595-abb5dd4703f3432db4031af0ef3d8d7d.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1781914212.363595-abb5dd4703f3432db4031af0ef3d8d7d.tgz#1781914213386660": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "pduWmqGfHi1Kzm7TfuV8Bg=="
+            },
+            {
+              "type": "SHA256",
+              "value": "3HR5j3tFpVTl2qvbwXet0OhwmP5GNTRtUBKHPP2Bb2c="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1781914213386660",
+        "object": "source/1781914212.363595-abb5dd4703f3432db4031af0ef3d8d7d.tgz"
+      }
+    },
+    "startTime": "2026-06-20T00:10:15.837941222Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-unified-rag:who-v1-5-1",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-20T00:10:22.017778026Z",
+          "startTime": "2026-06-20T00:10:22.015920532Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-20T00:10:44.691121350Z",
+          "startTime": "2026-06-20T00:10:22.015920532Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-20T00:10:44.723314981Z",
+        "startTime": "2026-06-20T00:10:21.366344236Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-20T00:10:21.365118601Z",
+        "startTime": "2026-06-20T00:10:18.170108542Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-20T00:10:56.883554707Z",
+        "startTime": "2026-06-20T00:10:44.723424084Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-20T00:10:21.365118601Z",
+        "startTime": "2026-06-20T00:10:18.170108542Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-journal-api:fts-v1"
+      ]
+    },
+    "createTime": "2026-06-19T21:13:10.623311791Z",
+    "finishTime": "2026-06-19T21:13:43.944990Z",
+    "id": "2ffe568e-d8af-4241-b352-edf345b54f78",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-journal-api:fts-v1"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/2ffe568e-d8af-4241-b352-edf345b54f78?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/2ffe568e-d8af-4241-b352-edf345b54f78",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:1973ea529dffe14880a7a0a8bb3a5baf9623321e870db1f2842ea059c2df2ee3"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/cloud-run-source-deploy/packages/pathology-hub-journal-api/versions/sha256:b649d96c5ad315ba83b6d6a29d39cbd64bcb6d6f6407ff53c6a9339fcc56c765",
+          "digest": "sha256:b649d96c5ad315ba83b6d6a29d39cbd64bcb6d6f6407ff53c6a9339fcc56c765",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-journal-api:fts-v1",
+          "pushTiming": {
+            "endTime": "2026-06-19T21:13:43.159766062Z",
+            "startTime": "2026-06-19T21:13:34.037733307Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1781903590317696",
+        "object": "source/1781903590.087184-595360df153642b1bc7c2172711ad198.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1781903590.087184-595360df153642b1bc7c2172711ad198.tgz#1781903590317696": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "xaWtBBl0HeSRTS_U0uWqZQ=="
+            },
+            {
+              "type": "SHA256",
+              "value": "KgeF5LWs1p7aZEVGAfoc0RFb-RplpuymqS0-Npabty0="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1781903590317696",
+        "object": "source/1781903590.087184-595360df153642b1bc7c2172711ad198.tgz"
+      }
+    },
+    "startTime": "2026-06-19T21:13:11.696383690Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-journal-api:fts-v1",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-19T21:13:16.628729183Z",
+          "startTime": "2026-06-19T21:13:16.627042913Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-19T21:13:34.017862762Z",
+          "startTime": "2026-06-19T21:13:16.627042913Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-19T21:13:34.037673453Z",
+        "startTime": "2026-06-19T21:13:16.094883347Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-19T21:13:16.093949007Z",
+        "startTime": "2026-06-19T21:13:13.759696733Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-19T21:13:43.160629870Z",
+        "startTime": "2026-06-19T21:13:34.037732177Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-19T21:13:16.093949007Z",
+        "startTime": "2026-06-19T21:13:13.759696733Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-pathout-api:v0-1"
+      ]
+    },
+    "createTime": "2026-06-06T04:05:55.339479386Z",
+    "finishTime": "2026-06-06T04:06:40.106513Z",
+    "id": "935dfab2-3273-42ae-a525-3872b496733e",
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-pathout-api:v0-1"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/935dfab2-3273-42ae-a525-3872b496733e?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/935dfab2-3273-42ae-a525-3872b496733e",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:292d1199df2575e7c14e3b022c49a39787a505cff21953b0fedb413cabde47f6"
+      ],
+      "buildStepOutputs": [
+        ""
+      ],
+      "images": [
+        {
+          "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-pathout-api/versions/sha256:23f44b282f196f24fcb07b2ef74e3524c00fa5eee314134b321cb13708ae6da0",
+          "digest": "sha256:23f44b282f196f24fcb07b2ef74e3524c00fa5eee314134b321cb13708ae6da0",
+          "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-pathout-api:v0-1",
+          "pushTiming": {
+            "endTime": "2026-06-06T04:06:39.297502624Z",
+            "startTime": "2026-06-06T04:06:25.189626007Z"
+          }
+        }
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1780718755044906",
+        "object": "source/1780718754.827249-d8f9ea585bab424487c6512d69b0c63b.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1780718754.827249-d8f9ea585bab424487c6512d69b0c63b.tgz#1780718755044906": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "BW-11RNrmxYOI4LOP0ZNxA=="
+            },
+            {
+              "type": "SHA256",
+              "value": "BW9kCdErSFv4qQnr0FylA2BwE8fpEEkmxHTfABgaKEE="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1780718755044906",
+        "object": "source/1780718754.827249-d8f9ea585bab424487c6512d69b0c63b.tgz"
+      }
+    },
+    "startTime": "2026-06-06T04:05:56.355690835Z",
+    "status": "SUCCESS",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-pathout-api:v0-1",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-06T04:06:02.115609182Z",
+          "startTime": "2026-06-06T04:06:02.113504211Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-06T04:06:25.133064363Z",
+          "startTime": "2026-06-06T04:06:02.113504211Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-06T04:06:25.189477134Z",
+        "startTime": "2026-06-06T04:06:01.406256675Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-06T04:06:01.405126812Z",
+        "startTime": "2026-06-06T04:05:58.129957379Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-06T04:06:39.299413427Z",
+        "startTime": "2026-06-06T04:06:25.189591436Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-06T04:06:01.405126812Z",
+        "startTime": "2026-06-06T04:05:58.129957379Z"
+      }
+    }
+  },
+  {
+    "artifacts": {
+      "images": [
+        "gcr.io/pathology-annotation-project/pathology-hub-pathout-api:v0-1"
+      ]
+    },
+    "createTime": "2026-06-06T03:49:20.882569818Z",
+    "finishTime": "2026-06-06T03:50:41.757600Z",
+    "id": "dbe7215b-4c40-4013-8ddc-4dc331b39842",
+    "images": [
+      "gcr.io/pathology-annotation-project/pathology-hub-pathout-api:v0-1"
+    ],
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/dbe7215b-4c40-4013-8ddc-4dc331b39842?project=830130787988",
+    "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+    "name": "projects/830130787988/locations/global/builds/dbe7215b-4c40-4013-8ddc-4dc331b39842",
+    "options": {
+      "logging": "LEGACY",
+      "pool": {}
+    },
+    "projectId": "pathology-annotation-project",
+    "queueTtl": "3600s",
+    "results": {
+      "buildStepImages": [
+        "sha256:292d1199df2575e7c14e3b022c49a39787a505cff21953b0fedb413cabde47f6"
+      ],
+      "buildStepOutputs": [
+        ""
+      ]
+    },
+    "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+    "source": {
+      "storageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1780717760571704",
+        "object": "source/1780717759.390119-f77ce7891efc4417bfefc25cc8f926ca.tgz"
+      }
+    },
+    "sourceProvenance": {
+      "fileHashes": {
+        "gs://pathology-annotation-project_cloudbuild/source/1780717759.390119-f77ce7891efc4417bfefc25cc8f926ca.tgz#1780717760571704": {
+          "fileHash": [
+            {
+              "type": "MD5",
+              "value": "YTdIrLJaZU4HFGmKp_BcBQ=="
+            },
+            {
+              "type": "SHA256",
+              "value": "BLNKxbwXzrVYvy4xibEivkPgRt81bdQ6qcnes8dBFqA="
+            }
+          ]
+        }
+      },
+      "resolvedStorageSource": {
+        "bucket": "pathology-annotation-project_cloudbuild",
+        "generation": "1780717760571704",
+        "object": "source/1780717759.390119-f77ce7891efc4417bfefc25cc8f926ca.tgz"
+      }
+    },
+    "startTime": "2026-06-06T03:49:24.638476747Z",
+    "status": "FAILURE",
+    "steps": [
+      {
+        "args": [
+          "docker",
+          "build",
+          "--network",
+          "cloudbuild",
+          "--no-cache",
+          "-t",
+          "gcr.io/pathology-annotation-project/pathology-hub-pathout-api:v0-1",
+          "."
+        ],
+        "name": "gcr.io/cloud-builders/gcb-internal",
+        "pullTiming": {
+          "endTime": "2026-06-06T03:49:29.654881827Z",
+          "startTime": "2026-06-06T03:49:29.653197813Z"
+        },
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-06-06T03:49:52.331394986Z",
+          "startTime": "2026-06-06T03:49:29.653197813Z"
+        }
+      }
+    ],
+    "timeout": "3600s",
+    "timing": {
+      "BUILD": {
+        "endTime": "2026-06-06T03:49:52.358926108Z",
+        "startTime": "2026-06-06T03:49:28.962475478Z"
+      },
+      "FETCHSOURCE": {
+        "endTime": "2026-06-06T03:49:28.961387846Z",
+        "startTime": "2026-06-06T03:49:25.850710259Z"
+      },
+      "PUSH": {
+        "endTime": "2026-06-06T03:50:30.659619554Z",
+        "startTime": "2026-06-06T03:49:52.359011551Z"
+      },
+      "STORAGE_SOURCE": {
+        "endTime": "2026-06-06T03:49:28.961387846Z",
+        "startTime": "2026-06-06T03:49:25.850710259Z"
+      }
+    }
+  }
+]

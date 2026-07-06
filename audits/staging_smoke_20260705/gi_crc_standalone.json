@@ -1,0 +1,163 @@
+{
+  "schema_version": "evidence_search_response.v1.5.9",
+  "query": "CRC colorectal adenocarcinoma colorectal carcinoma",
+  "source_status": {
+    "who": "ok",
+    "journals": "not_requested",
+    "pathout": "not_requested",
+    "textbooks": "not_requested",
+    "curriculum": "not_requested"
+  },
+  "who_results": [
+    {
+      "title": "Enteric-type adenocarcinoma of the thymus",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "THORACIC",
+      "entity_name": "Enteric-type adenocarcinoma of the thymus",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Thymus.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Thymus.html",
+      "excerpt": "Entity: Enteric-type adenocarcinoma of the thymus definition: Enteric-type adenocarcinoma is a primary thymic neoplasm having the same histological and immunohistochemical features as colorectal adenocarcinoma. related_terminology: Not recommended: intestinal-type adenocarcinoma; mucinous (colloid) adenocarcinoma. essential_and_desirable_diagnostic_criteria: Essential: Desirable:",
+      "score": -17.57554237101538,
+      "record_id": "whochunk:thoracic:enteric_type_adenocarcinoma_of_the_thymus:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Thymus.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.75,
+      "rank": 1
+    },
+    {
+      "title": "Hereditary mixed polyposis syndrome (GREM1)",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "GENETICS",
+      "entity_name": "Hereditary mixed polyposis syndrome (GREM1)",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Hereditary_Mixed_Polyposis_Syndrome_Grem1.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Hereditary_Mixed_Polyposis_Syndrome_Grem1.html",
+      "excerpt": "Entity: Hereditary mixed polyposis syndrome (GREM1) definition: Hereditary mixed polyposis syndrome (HMPS) is an autosomal dominant colorectal tumour predisposition syndrome caused by duplications upstream of GREM1, characterized by a mixture of colorectal polyps of different types, including individual polyps with mixed histology, and a predisposition to colorectal adenocarcinoma. related_terminology: Not recommended: Colorectal cancer, susceptibility to, 4 (CRCS4); Colorectal cancer, susceptibility to, on chromosome 15. essential_and_desirable_diagnostic_criteria: Essential: Identification of a duplication affecting GREM1 involving regulatory elements located between SCG5 and GREM1 is essential for diagnosis. Desirable: Different colorectal polyp types, including individual polyps with mixed histological types, seen endoscopically and confirmed by histopathological diagnosis, sometimes...",
+      "score": -19.83540545153123,
+      "record_id": "whochunk:genetics:hereditary_mixed_polyposis_syndrome_grem1:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Hereditary_Mixed_Polyposis_Syndrome_Grem1.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 2.75,
+      "rank": 2
+    },
+    {
+      "title": "Mucinous carcinoma, intestinal type, of the vagina",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "GYN",
+      "entity_name": "Mucinous carcinoma, intestinal type, of the vagina",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Mucinous_Carcinoma_Intestinal_Type_Of_The_Vagina.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Mucinous_Carcinoma_Intestinal_Type_Of_The_Vagina.html",
+      "excerpt": "Entity: Mucinous carcinoma, intestinal type, of the vagina definition: Mucinous carcinoma, intestinal type, of the vagina is a primary vaginal adenocarcinoma with features similar or identical to those seen in colorectal carcinomas. related_terminology: Not recommended: cloacogenic adenocarcinoma essential_and_desirable_diagnostic_criteria: Essential: adenocarcinoma with intestinal differentiation. Desirable: goblet cells are usually present but are not required.",
+      "score": -18.066258054218448,
+      "record_id": "whochunk:gyn:mucinous_carcinoma_intestinal_type_of_the_vagina:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GYN/Mucinous_Carcinoma_Intestinal_Type_Of_The_Vagina.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.75,
+      "rank": 3
+    },
+    {
+      "title": "Enteric-type adenocarcinoma of the lung",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "THORACIC",
+      "entity_name": "Enteric-type adenocarcinoma of the lung",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Lung.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Lung.html",
+      "excerpt": "Entity: Enteric-type adenocarcinoma of the lung definition: Enteric-type adenocarcinoma is a primary pulmonary adenocarcinoma that resembles colorectal adenocarcinoma. related_terminology: Not recommended: pulmonary intestinal-type adenocarcinoma; adenocarcinoma with intestinal differentiation. essential_and_desirable_diagnostic_criteria: Essential: Desirable:",
+      "score": -18.075928616027024,
+      "record_id": "whochunk:thoracic:enteric_type_adenocarcinoma_of_the_lung:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/THORACIC/Enteric_Type_Adenocarcinoma_Of_The_Lung.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 0.75,
+      "rank": 4
+    },
+    {
+      "title": "AXIN2-associated polyposis (AXIN2)",
+      "source_name": "WHO Classification of Tumours",
+      "source": "who",
+      "source_family": "WHO",
+      "volume_code": "GENETICS",
+      "entity_name": "AXIN2-associated polyposis (AXIN2)",
+      "section": "core",
+      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Axin2_Associated_Polyposis_Axin2.html",
+      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Axin2_Associated_Polyposis_Axin2.html",
+      "excerpt": "Entity: AXIN2-associated polyposis (AXIN2) definition: AXIN2-associated polyposis is an autosomal dominant syndrome due to constitutional (germline) loss-of-function variants in AXIN2 and is characterized by multiple colorectal adenomatous polyps, increased risk of colorectal cancer and variable extra-colonic features of oligodontia and ectodermal dysplasia. related_terminology: Acceptable: oligodontia-colorectal cancer syndrome essential_and_desirable_diagnostic_criteria: Essential Familial adenomatous polyposis (5 to >100 polyps) with increased risk of CRC, with or without oligodontia and/or ectodermal dysplasia. Exclusion of constitutional (germline) APC and MUTYH variants Identification of constitutional AXIN2 pathogenic variants See summary table #39035",
+      "score": -21.679861336447548,
+      "record_id": "whochunk:genetics:axin2_associated_polyposis_axin2:core:001",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Axin2_Associated_Polyposis_Axin2.html",
+          "source_family": "who"
+        }
+      ],
+      "retrieval_mode": "who_upstream_title_boost_v0_2",
+      "who_title_boost_v0_2": 2.15,
+      "rank": 5
+    }
+  ],
+  "journal_results": [],
+  "pathout_results": [],
+  "textbook_results": [],
+  "figures": [],
+  "warnings": [],
+  "search_mode": {
+    "textbooks": "hybrid_fts_faiss_vector_rrf",
+    "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+    "who": "upstream",
+    "pathout": "upstream"
+  },
+  "source_locator_status": {
+    "enabled": true,
+    "registry_records_loaded": 280,
+    "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+  },
+  "page_image_locator_status": {
+    "enabled": true,
+    "inventory_records_loaded": 28705,
+    "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+  },
+  "curriculum_results": [],
+  "curriculum_status": null,
+  "query_expansion_applied": true,
+  "version": "1.5.10-html-bundle-v0.2-staging"
+}

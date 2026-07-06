@@ -1,0 +1,63 @@
+{
+  "schema_version": "pathology_hub_env_var_names_redacted.v1",
+  "generated_at_utc": "2026-07-06T03:15:25Z",
+  "service": "pathology-hub-v04",
+  "note": "Names only. No values. Secret-backed vars use secretKeyRef (Secret Manager), never plaintext.",
+  "env_var_names": [
+    "TEXTBOOK_SQLITE_GCS",
+    "TEXTBOOK_MANIFEST_GCS",
+    "TEXTBOOK_FAISS_GCS",
+    "TEXTBOOK_DOCSTORE_GCS",
+    "TEXTBOOK_VECTOR_MANIFEST_GCS",
+    "TEXTBOOK_FIGURES_GCS",
+    "TEXTBOOK_WEB_MAP_GCS",
+    "JOURNAL_FAISS_GCS",
+    "JOURNAL_DOCSTORE_GCS",
+    "JOURNAL_VECTOR_MANIFEST_GCS",
+    "UPSTREAM_EVIDENCE_URL",
+    "EMBEDDING_MODEL",
+    "JOURNAL_VECTOR_POOL",
+    "JOURNAL_FTS_POOL",
+    "PATHOLOGY_HUB_API_KEY",
+    "OPENAI_API_KEY",
+    "FIGURE_PROXY_SECRET",
+    "SOURCE_LOCATOR_REGISTRY_GCS",
+    "TEXTBOOK_PAGE_IMAGE_INVENTORY_GCS",
+    "TEXTBOOK_PRIMARY_TAGGED_CHUNKS_GCS",
+    "PATHOUT_AP_FAISS_GCS",
+    "PATHOUT_AP_DOCSTORE_GCS",
+    "PATHOUT_AP_VECTOR_MANIFEST_GCS",
+    "LECTURE_FAISS_GCS",
+    "LECTURE_DOCSTORE_GCS",
+    "LECTURE_VECTOR_MANIFEST_GCS",
+    "PATHOUT_AP_VECTOR_POOL",
+    "LECTURE_VECTOR_POOL",
+    "PATHOUT_AP_VECTOR_MANIFEST_GCS_URI",
+    "PATHOUT_AP_VECTOR_DOCSTORE_GCS_URI",
+    "PATHOUT_AP_FAISS_INDEX_GCS_URI",
+    "PATHOUT_PRIMARY_TAG_SIDECAR_GCS_URI",
+    "PATHOUT_TAG_UPGRADE_TS",
+    "TEXTBOOK_TAG_REPAIR_V2_PROMOTION_TS",
+    "FORCE_RELOAD_TS",
+    "LECTURE_TAG_RELOAD_TS",
+    "LECTURE_MANIFEST_REFRESH_TS",
+    "GOVERNANCE_RESTART_TOKEN",
+    "GOVERNANCE_V10_5_RESTART_TS",
+    "JOURNAL_UNION_VECTOR_V4_3_TS",
+    "HTML_BUNDLE_GCS_PREFIX"
+  ],
+  "secret_backed_env_vars": {
+    "PATHOLOGY_HUB_API_KEY": {
+      "secretManagerName": "pathology-hub-api-key",
+      "key": "latest"
+    },
+    "OPENAI_API_KEY": {
+      "secretManagerName": "OPEN_AI_KEY_01",
+      "key": "latest"
+    },
+    "FIGURE_PROXY_SECRET": {
+      "secretManagerName": "pathology-hub-api-key",
+      "key": "latest"
+    }
+  }
+}

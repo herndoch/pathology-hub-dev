@@ -1,0 +1,321 @@
+[
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Revision",
+    "metadata": {
+      "annotations": {
+        "autoscaling.knative.dev/maxScale": "10",
+        "run.googleapis.com/build-source-location": "{\"pathology-hub-v04-v0-2-staging-1\":\"gs://run-sources-pathology-annotation-project-us-central1/services/pathology-hub-v04-v0-2-staging/1783309209.025191-f22636df0e4146c6bd9dedeabe3872ed.zip#1783309209979092\"}",
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "575.0.0",
+        "run.googleapis.com/operation-id": "7cf77d24-6b2d-4d7d-b557-66a400dfe9fe",
+        "run.googleapis.com/startup-cpu-boost": "true",
+        "serving.knative.dev/creator": "herndon.charlie@gmail.com"
+      },
+      "creationTimestamp": "2026-07-06T03:41:22.603373Z",
+      "generation": 1,
+      "labels": {
+        "client.knative.dev/nonce": "gvbaweviex",
+        "cloud.googleapis.com/location": "us-central1",
+        "run.googleapis.com/startupProbeType": "Default",
+        "serving.knative.dev/configuration": "pathology-hub-v04-v0-2-staging",
+        "serving.knative.dev/configurationGeneration": "1",
+        "serving.knative.dev/route": "pathology-hub-v04-v0-2-staging",
+        "serving.knative.dev/service": "pathology-hub-v04-v0-2-staging",
+        "serving.knative.dev/serviceUid": "b7c996a6-c005-4c3d-8dd1-90b645f2d5a5"
+      },
+      "name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+      "namespace": "830130787988",
+      "ownerReferences": [
+        {
+          "apiVersion": "serving.knative.dev/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Configuration",
+          "name": "pathology-hub-v04-v0-2-staging",
+          "uid": "fc0c1348-c9fe-4f55-9e0d-0ede45c80ffa"
+        }
+      ],
+      "resourceVersion": "AAZV6RMgf1w",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/830130787988/revisions/pathology-hub-v04-v0-2-staging-00001-s5r",
+      "uid": "9c59e986-ab31-4fd2-8e5f-e351e5311948"
+    },
+    "spec": {
+      "containerConcurrency": 160,
+      "containers": [
+        {
+          "env": [
+            {
+              "name": "TEXTBOOK_SQLITE_GCS",
+              "value": "gs://pathology_hub/03_indexes/textbooks/lean/textbook_lean_fts.sqlite"
+            },
+            {
+              "name": "TEXTBOOK_MANIFEST_GCS",
+              "value": "gs://pathology_hub/03_indexes/textbooks/lean/textbook_lean_index_manifest.json"
+            },
+            {
+              "name": "TEXTBOOK_FAISS_GCS",
+              "value": "gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_faiss.index"
+            },
+            {
+              "name": "TEXTBOOK_DOCSTORE_GCS",
+              "value": "gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl"
+            },
+            {
+              "name": "TEXTBOOK_VECTOR_MANIFEST_GCS",
+              "value": "gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_manifest.json"
+            },
+            {
+              "name": "TEXTBOOK_FIGURES_GCS",
+              "value": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl"
+            },
+            {
+              "name": "TEXTBOOK_WEB_MAP_GCS",
+              "value": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl"
+            },
+            {
+              "name": "JOURNAL_FAISS_GCS",
+              "value": "gs://pathology_hub/03_indexes/journals/vector/journal_faiss.index"
+            },
+            {
+              "name": "JOURNAL_DOCSTORE_GCS",
+              "value": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_docstore.jsonl"
+            },
+            {
+              "name": "JOURNAL_VECTOR_MANIFEST_GCS",
+              "value": "gs://pathology_hub/03_indexes/journals/vector/journal_vector_manifest.json"
+            },
+            {
+              "name": "UPSTREAM_EVIDENCE_URL",
+              "value": "https://pathology-hub-830130787988.us-central1.run.app/evidence/search"
+            },
+            {
+              "name": "EMBEDDING_MODEL",
+              "value": "text-embedding-3-small"
+            },
+            {
+              "name": "JOURNAL_VECTOR_POOL",
+              "value": "25"
+            },
+            {
+              "name": "JOURNAL_FTS_POOL",
+              "value": "10"
+            },
+            {
+              "name": "SOURCE_LOCATOR_REGISTRY_GCS",
+              "value": "gs://pathology_hub/02_normalized/source_registry/source_locator_registry_v1.jsonl"
+            },
+            {
+              "name": "TEXTBOOK_PAGE_IMAGE_INVENTORY_GCS",
+              "value": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+            },
+            {
+              "name": "TEXTBOOK_PRIMARY_TAGGED_CHUNKS_GCS",
+              "value": "gs://pathology_hub/02_normalized/textbooks/lean/tags/textbook_primary_tagged_chunks_v1.jsonl"
+            },
+            {
+              "name": "PATHOUT_AP_FAISS_GCS",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_faiss.index"
+            },
+            {
+              "name": "PATHOUT_AP_DOCSTORE_GCS",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_docstore.jsonl"
+            },
+            {
+              "name": "PATHOUT_AP_VECTOR_MANIFEST_GCS",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_manifest.json"
+            },
+            {
+              "name": "LECTURE_FAISS_GCS",
+              "value": "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_faiss_STRICT_CYTO_v9.index"
+            },
+            {
+              "name": "LECTURE_DOCSTORE_GCS",
+              "value": "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl"
+            },
+            {
+              "name": "LECTURE_VECTOR_MANIFEST_GCS",
+              "value": "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_manifest_STRICT_CYTO_v9.json"
+            },
+            {
+              "name": "PATHOUT_AP_VECTOR_POOL",
+              "value": "25"
+            },
+            {
+              "name": "LECTURE_VECTOR_POOL",
+              "value": "25"
+            },
+            {
+              "name": "PATHOUT_AP_VECTOR_MANIFEST_GCS_URI",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v2/pathout_ap_diagnostic_vector_manifest_v2.json"
+            },
+            {
+              "name": "PATHOUT_AP_VECTOR_DOCSTORE_GCS_URI",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v2/pathout_ap_diagnostic_vector_docstore_v2.jsonl"
+            },
+            {
+              "name": "PATHOUT_AP_FAISS_INDEX_GCS_URI",
+              "value": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v2/pathout_ap_diagnostic_faiss.index"
+            },
+            {
+              "name": "PATHOUT_PRIMARY_TAG_SIDECAR_GCS_URI",
+              "value": "gs://pathology_hub/02_normalized/pathology_outlines/pathout_allsite_v0_1/tags/pathout_primary_tag_sidecar_v2.jsonl"
+            },
+            {
+              "name": "PATHOUT_TAG_UPGRADE_TS",
+              "value": "20260702T233115Z"
+            },
+            {
+              "name": "TEXTBOOK_TAG_REPAIR_V2_PROMOTION_TS",
+              "value": "20260703T132452Z"
+            },
+            {
+              "name": "FORCE_RELOAD_TS",
+              "value": "20260703T135925Z"
+            },
+            {
+              "name": "LECTURE_TAG_RELOAD_TS",
+              "value": "20260703T181711Z"
+            },
+            {
+              "name": "LECTURE_MANIFEST_REFRESH_TS",
+              "value": "20260703T182641Z"
+            },
+            {
+              "name": "GOVERNANCE_RESTART_TOKEN",
+              "value": "20260704T152122Z"
+            },
+            {
+              "name": "GOVERNANCE_V10_5_RESTART_TS",
+              "value": "20260704T154155Z"
+            },
+            {
+              "name": "JOURNAL_UNION_VECTOR_V4_3_TS",
+              "value": "20260704T174528Z"
+            },
+            {
+              "name": "HTML_BUNDLE_GCS_PREFIX",
+              "value": "gs://pathology_hub/05_html/generated/searchEvidence_html/v1_5_10/"
+            },
+            {
+              "name": "EVIDENCE_V0_2_ENABLED",
+              "value": "true"
+            },
+            {
+              "name": "EVIDENCE_QUERY_EXPANSION_ENABLED",
+              "value": "true"
+            },
+            {
+              "name": "EVIDENCE_ROOT_GATING_ENABLED",
+              "value": "true"
+            },
+            {
+              "name": "EVIDENCE_WHO_RERANK_ENABLED",
+              "value": "true"
+            },
+            {
+              "name": "EVIDENCE_V0_2_DEBUG",
+              "value": "false"
+            },
+            {
+              "name": "EVIDENCE_QUERY_EXPANSION_RULES_PATH",
+              "value": "/app/query_expansion_rules_v0_2_1.json"
+            },
+            {
+              "name": "EVIDENCE_HUB_APP_VERSION_OVERRIDE",
+              "value": "1.5.10-html-bundle-v0.2-staging"
+            },
+            {
+              "name": "PATHOLOGY_HUB_API_KEY",
+              "valueFrom": {
+                "secretKeyRef": {
+                  "key": "latest",
+                  "name": "pathology-hub-api-key"
+                }
+              }
+            },
+            {
+              "name": "OPENAI_API_KEY",
+              "valueFrom": {
+                "secretKeyRef": {
+                  "key": "latest",
+                  "name": "OPEN_AI_KEY_01"
+                }
+              }
+            },
+            {
+              "name": "FIGURE_PROXY_SECRET",
+              "valueFrom": {
+                "secretKeyRef": {
+                  "key": "latest",
+                  "name": "pathology-hub-api-key"
+                }
+              }
+            }
+          ],
+          "image": "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-v04-v0-2-staging@sha256:85d0c5c093a186ebebd857ab334a3186e5ba6fae95af9214df025aa15bb2657b",
+          "name": "pathology-hub-v04-v0-2-staging-1",
+          "ports": [
+            {
+              "containerPort": 8080,
+              "name": "http1"
+            }
+          ],
+          "resources": {
+            "limits": {
+              "cpu": "4",
+              "memory": "12Gi"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 1,
+            "periodSeconds": 240,
+            "tcpSocket": {
+              "port": 8080
+            },
+            "timeoutSeconds": 240
+          }
+        }
+      ],
+      "serviceAccountName": "830130787988-compute@developer.gserviceaccount.com",
+      "timeoutSeconds": 300
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-07-06T03:43:15.621481Z",
+          "message": "Deploying revision succeeded in 1m53.02s.",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2026-07-06T03:43:15.710395Z",
+          "severity": "Info",
+          "status": "True",
+          "type": "Active"
+        },
+        {
+          "lastTransitionTime": "2026-07-06T03:43:15.565726Z",
+          "message": "Containers became healthy in 1m36.14s.",
+          "status": "True",
+          "type": "ContainerHealthy"
+        },
+        {
+          "lastTransitionTime": "2026-07-06T03:41:34.135994Z",
+          "message": "Container image import completed in 10.83s.",
+          "status": "True",
+          "type": "ContainerReady"
+        },
+        {
+          "lastTransitionTime": "2026-07-06T03:41:39.024150Z",
+          "message": "Provisioning imported containers completed in 4.89s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+          "status": "True",
+          "type": "ResourcesAvailable"
+        }
+      ],
+      "imageDigest": "us-central1-docker.pkg.dev/pathology-annotation-project/cloud-run-source-deploy/pathology-hub-v04-v0-2-staging@sha256:85d0c5c093a186ebebd857ab334a3186e5ba6fae95af9214df025aa15bb2657b",
+      "logUrl": "https://console.cloud.google.com/logs/viewer?project=pathology-annotation-project&resource=cloud_run_revision/service_name/pathology-hub-v04-v0-2-staging/revision_name/pathology-hub-v04-v0-2-staging-00001-s5r&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22pathology-hub-v04-v0-2-staging%22%0Aresource.labels.revision_name%3D%22pathology-hub-v04-v0-2-staging-00001-s5r%22",
+      "observedGeneration": 1
+    }
+  }
+]

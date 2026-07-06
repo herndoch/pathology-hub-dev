@@ -1,0 +1,9 @@
+{
+  "image_summary": {
+    "digest": "sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+    "fully_qualified_digest": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04@sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+    "registry": "us-central1-docker.pkg.dev",
+    "repository": "pathology-hub",
+    "slsa_build_level": "unknown"
+  }
+}

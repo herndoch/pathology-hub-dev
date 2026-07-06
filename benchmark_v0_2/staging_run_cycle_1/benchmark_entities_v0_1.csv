@@ -1,0 +1,36 @@
+entity_id,entity_name,root,expected_abpath_level,expected_sources,figure_expected,abbreviation,organ_context,morphology_molecular_term,likely_ambiguity,why_this_is_a_good_test
+BREAST_001,Ductal carcinoma in situ,Breast,C,"who,pathout,textbooks,curriculum",true,DCIS,breast,comedo necrosis,Overlaps with ADH and microinvasion; DCIS grading variants,Core breast premalignant entity with strong WHO/PathOut/textbook coverage
+BREAST_002,"Invasive ductal carcinoma, NOS",Breast,C,"who,pathout,textbooks,curriculum",true,IDC,breast,Nottingham grade,Many IDC subtypes and mimics; NOS wording variants,High-frequency malignant breast diagnosis; tests exact-name and abbreviation retrieval
+BREAST_003,Lobular carcinoma in situ,Breast,C,"who,pathout,textbooks,curriculum",true,LCIS,breast,E-cadherin loss,Classic vs pleomorphic LCIS; ALH overlap,Tests synonym handling and molecular qualifier queries
+BREAST_004,Radial scar,Breast,C,"who,pathout,textbooks,curriculum",true,,breast,sclerosing lesion,Complex sclerosing lesion vs radial scar naming,Benign mimic of malignancy; moderate ambiguity in naming
+BREAST_005,Phyllodes tumor,Breast,C,"who,pathout,textbooks,curriculum",true,,breast,borderline phyllodes,Benign/borderline/malignant spectrum; cystosarcoma phyllodes legacy term,Tests spectrum entity and borderline qualifier retrieval
+GI_001,Sessile serrated lesion,GI,C,"who,pathout,textbooks,curriculum",true,SSL,colon,BRAF V600E,SSL vs hyperplastic polyp vs SSA terminology drift,High-yield serrated pathway entity with known curriculum granularity gaps
+GI_002,Colorectal adenocarcinoma,GI,C,"who,pathout,textbooks,curriculum",true,CRC,colon,MSI,mucinous and medullary subtypes,Core GI malignancy; tests organ+entity and molecular add-on queries
+GI_003,Barrett esophagus with dysplasia,GI,C,"who,pathout,textbooks,curriculum",true,,esophagus,intestinal metaplasia,Indefinite for dysplasia vs LGD/HGD wording,Tests multi-word entity and dysplasia qualifier
+GI_004,Intraductal papillary mucinous neoplasm,GI,C,"who,pathout,textbooks,curriculum",true,IPMN,pancreas,main duct IPMN,Branch-duct vs main-duct IPMN; mucinous cyst overlap,Tests abbreviation expansion and organ context
+GI_005,Gastrointestinal stromal tumor,GI,C,"who,pathout,textbooks,curriculum",true,GIST,stomach,CD117 KIT,GIST vs leiomyoma/spindle cell mimics,Tests abbreviation and IHC/molecular qualifier retrieval
+GU_001,Clear cell renal cell carcinoma,GU,C,"who,pathout,textbooks,curriculum",true,ccRCC,kidney,VHL,Clear cell vs multilocular cystic RCC,Common GU malignancy; molecular and morphology qualifiers
+GU_002,Papillary renal cell carcinoma,GU,C,"who,pathout,textbooks,curriculum",true,pRCC,kidney,type 1 type 2,Many papillary RCC subtypes and grading schemes,Tests subtype ambiguity and organ pairing
+GU_003,Urothelial carcinoma in situ,GU,C,"who,pathout,textbooks,curriculum",true,CIS,bladder,flat urothelial,CIS vs reactive atypia; dysplasia terminology,Tests in-situ qualifier and bladder context
+GU_004,Prostatic adenocarcinoma,GU,C,"who,pathout,textbooks,curriculum",true,,prostate,Gleason grade,Benign mimics and PIN overlap,Very common GU entity; tests grading/molecular add-on
+GU_005,Nephrogenic adenoma,GU,AR,"who,pathout,textbooks,curriculum",unknown,,bladder,tubular architecture,Mimics adenocarcinoma; polypoid vs flat variants,Benign mimic; tests wrong-entity disambiguation risk
+GYN_001,Endometrioid adenocarcinoma,GYN,C,"who,pathout,textbooks,curriculum",true,,endometrium,FIGO grade,Endometrioid vs serous vs clear cell overlap,Core endometrial carcinoma type
+GYN_002,Serous carcinoma of endometrium,GYN,C,"who,pathout,textbooks,curriculum",true,,endometrium,p53 abnormal,Serous vs endometrioid high-grade overlap,Tests carcinoma type disambiguation within endometrium
+GYN_003,High-grade serous carcinoma and precursor,GYN,C,"who,pathout,textbooks,curriculum",true,HGSC,ovary,STIC,BRCA and tubal/ovarian/peritoneal primary ambiguity,High-yield ovarian malignancy with precursor terminology
+GYN_004,Cervical adenocarcinoma in situ,GYN,C,"who,pathout,textbooks,curriculum",true,AIS,cervix,endocervical glandular,AGC cytology overlap; HPV-associated variants,Tests glandular in-situ entity and cervix context
+GYN_005,Vulvar lichen sclerosus,GYN,C,"who,pathout,textbooks,curriculum",false,,vulva,sclerosis,LS vs lichen planus; differentiated VIN overlap,Inflammatory/precursor entity with naming variants
+SKIN_001,Bullous pemphigoid,Skin,C,"who,pathout,textbooks,curriculum",false,,skin,basement membrane,Other blistering disorders overlap,Autoimmune blistering disease; tests non-neoplastic dermatology retrieval
+SKIN_002,Basal cell carcinoma,Skin,C,"who,pathout,textbooks,curriculum",true,BCC,skin,nodular BCC,Many BCC subtypes and superficial variants,Very common skin malignancy; abbreviation query
+SKIN_003,Squamous cell carcinoma in situ,Skin,C,"who,pathout,textbooks,curriculum",true,SCCIS,skin,Bowen disease,Bowen disease vs SCC in situ naming,Tests synonym and in-situ terminology
+SKIN_004,Malignant melanoma,Skin,C,"who,pathout,textbooks,curriculum",true,,skin,Breslow thickness,Many melanoma subtypes and mimics,High-yield skin malignancy with staging/morphology qualifiers
+SKIN_005,Dermatofibrosarcoma protuberans,Skin,AR,"who,pathout,textbooks,curriculum",true,DFSP,skin,CD34,DFSP vs dermatofibroma; fibrosarcomatous change,Tests long entity name and abbreviation
+BST_001,Ewing sarcoma,BST,C,"who,pathout,textbooks,curriculum",true,,bone,CD99 FLI1,Small round blue cell differential broad,Classic bone/soft tissue sarcoma; molecular qualifier
+BST_002,Osteosarcoma,BST,C,"who,pathout,textbooks,curriculum",true,,bone,osteoid production,Parosteal/periosteal/telangiectatic variants,High-yield bone malignancy
+BST_003,Chondrosarcoma,BST,C,"who,pathout,textbooks,curriculum",true,,bone,grade,Chondrosarcoma vs enchondroma/atypical cartilaginous tumor,Tests grading and cartilage tumor spectrum
+BST_004,Chondromyxoid fibroma,BST,C,"who,pathout,textbooks,curriculum",true,CMF,bone,lobular chondroid,Rare benign cartilage tumor; name length and abbreviation,Tests rare entity exact-name retrieval
+BST_005,Desmoplastic small round cell tumor,BST,F,"who,pathout,textbooks,curriculum",true,DSRCT,soft tissue,EWSR1 WT1 fusion,Rare sarcoma; long name and abbreviation,Tests fellow-level rare entity and molecular add-on
+HN_001,Pleomorphic adenoma,HN,C,"who,pathout,textbooks,curriculum",true,,salivary gland,chondromyxoid stroma,Benign mixed tumor synonym legacy,Common salivary benign tumor
+HN_002,Mucoepidermoid carcinoma,HN,C,"who,pathout,textbooks,curriculum",true,MEC,salivary gland,low intermediate high grade,Grading and cystic variants,Tests graded salivary malignancy
+HN_003,Papillary thyroid carcinoma,HN,C,"who,pathout,textbooks,curriculum",true,PTC,thyroid,BRAF,Many PTC variants (classic/follicular/oncocytic),High-yield endocrine malignancy; abbreviation
+HN_004,Medullary thyroid carcinoma,HN,C,"who,pathout,textbooks,curriculum",true,MTC,thyroid,calcitonin RET,Sporadic vs MEN2 context,Tests endocrine malignancy with molecular marker
+HN_005,NUT carcinoma,HN,F,"who,pathout,textbooks,curriculum",unknown,NUT carcinoma,thorax,NUTM1 rearrangement,Rare aggressive carcinoma; acronym-heavy,Tests rare thoracic/HN crossover entity and molecular qualifier

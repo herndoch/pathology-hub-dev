@@ -1,0 +1,64 @@
+{
+  "schema_version": "production_deploy_v0_2.v1",
+  "generated_at_utc": "2026-07-06T13:47:20+00:00",
+  "input_paths": [
+    "backend/pathology_hub_v04_live_recovered/",
+    "gcloud run deploy/update-traffic commands"
+  ],
+  "output_paths": [
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/figures_test.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/gi_crc_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/gi_ssl_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/gyn_ais_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/html_bundle_test.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/journal_virchows.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/lecture_cyto.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/pathout_melanoma.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/summary.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/textbook_ipmn.json",
+    "audits/prod_deploy_20260706/upload_package/candidate_smoke/who_lcis_expand.json",
+    "audits/prod_deploy_20260706/upload_package/deploy_submit.txt",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/figures_test.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/gi_crc_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/gi_ssl_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/gyn_ais_standalone.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/health.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/html_bundle_test.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/journal_virchows.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/lecture_cyto.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/pathout_melanoma.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/summary.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/textbook_ipmn.json",
+    "audits/prod_deploy_20260706/upload_package/final_100pct_smoke/who_lcis_expand.json",
+    "audits/prod_deploy_20260706/upload_package/preflight/latest_ready_revision.txt",
+    "audits/prod_deploy_20260706/upload_package/preflight/service.describe.json",
+    "audits/prod_deploy_20260706/upload_package/preflight/traffic.txt",
+    "audits/prod_deploy_20260706/upload_package/prod_env_vars.yaml",
+    "audits/prod_deploy_20260706/upload_package/traffic_shift_logs/shift_100pct_submit.txt",
+    "audits/prod_deploy_20260706/upload_package/traffic_shift_logs/shift_10pct_submit.txt",
+    "audits/prod_deploy_20260706/upload_package/traffic_shift_logs/shift_50pct_submit.txt"
+  ],
+  "counts": {
+    "old_revision": "pathology-hub-v04-00027-tjm",
+    "new_revision": "pathology-hub-v04-00028-guf",
+    "traffic_stages": [
+      0,
+      10,
+      50,
+      100
+    ],
+    "rollback_occurred": false,
+    "smoke_tests_per_stage": 10,
+    "total_production_http_calls_this_session_phase8_9": 33,
+    "http_200_count": 33
+  },
+  "known_limitations": [
+    "BREAST_002/NOS and GU_005 misses accepted as known limitations per explicit repo-owner decision; tracked as v0_3 follow-up.",
+    "Production min-instances remains 0/unset (unchanged) -- a future idle period will incur the same ~90-110s cold start observed throughout this session; not fixed in this session as it was out of the approved scope (only staging min-instances was changed)."
+  ],
+  "deploy_performed": true,
+  "deploy_target": "pathology-hub-v04 (production, explicitly approved)",
+  "rollback_target_preserved": "pathology-hub-v04-00027-tjm (not deleted)",
+  "secrets_printed": false,
+  "gcs_destructive_operation": false
+}

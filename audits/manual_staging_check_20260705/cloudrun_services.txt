@@ -1,0 +1,9 @@
+NAME                                  URL                                                                   STATUS
+pathology-hub                         https://pathology-hub-vorn5q2kga-uc.a.run.app                         True
+pathology-hub-journal-api             https://pathology-hub-journal-api-vorn5q2kga-uc.a.run.app             True
+pathology-hub-pathout-api             https://pathology-hub-pathout-api-vorn5q2kga-uc.a.run.app             True
+pathology-hub-rag-v1-staging          https://pathology-hub-rag-v1-staging-vorn5q2kga-uc.a.run.app          True
+pathology-hub-v04                     https://pathology-hub-v04-vorn5q2kga-uc.a.run.app                     True
+pathology-hub-v04-curriculum-staging  https://pathology-hub-v04-curriculum-staging-vorn5q2kga-uc.a.run.app  True
+pathology-hub-v04-html-staging        https://pathology-hub-v04-html-staging-vorn5q2kga-uc.a.run.app        True
+pathology-hub-v04-v0-2-staging        https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app        True

@@ -1,0 +1,834 @@
+[
+  {
+    "insertId": "6a4b40ae0007346c588194c0",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:44:14.602375631Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:19414 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:44:14.472172Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013332655s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "325",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-830130787988.us-central1.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.77.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b40ae0007380cb4286fa7",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:44:14.603285676Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "9113c019e16148ea",
+    "timestamp": "2026-07-06T05:44:14.458113Z",
+    "trace": "projects/pathology-annotation-project/traces/a5b6b66af6c1ba88c0e153399cb2e005"
+  },
+  {
+    "insertId": "6a4b40ae0003fefc4582013d",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:44:14.270261255Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:19400 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:44:14.261884Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014463222s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "308",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b40ae0004057f5840fff6",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:44:14.272408700Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "29f2b1f6d4c9cd06",
+    "timestamp": "2026-07-06T05:44:14.238468Z",
+    "trace": "projects/pathology-annotation-project/traces/82145e7ed5649b4af82874660299af0a",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4b3fe400078cd6d2cbcb56",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:40:52.501272539Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:22386 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:40:52.494806Z"
+  },
+  {
+    "insertId": "6a4b3fe0000950e1ceed14eb",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:40:48.617204633Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"pathology-hub-v04-v0-2-staging-1\" on port 8080.",
+    "timestamp": "2026-07-06T05:40:48.610529Z"
+  },
+  {
+    "insertId": "6a4b3fe000094fc8f4c295b0",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:40:48.945976010Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)",
+    "timestamp": "2026-07-06T05:40:48.610248Z"
+  },
+  {
+    "insertId": "6a4b3fe00009412e0ca92a4a",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:40:48.613755493Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Application startup complete.",
+    "timestamp": "2026-07-06T05:40:48.606510Z"
+  },
+  {
+    "insertId": "6a4b3fd2000559a54be2e7bf",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:40:34.511448319Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:60060 - \"GET / HTTP/1.1\" 404 Not Found",
+    "timestamp": "2026-07-06T05:40:34.350629Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.002666661s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "301",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/",
+      "responseSize": "122",
+      "serverIp": "34.143.78.2",
+      "status": 404,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b3fd200055cf79836c1b1",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:40:34.511939039Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "e0ef0d4c9d3bcac7",
+    "timestamp": "2026-07-06T05:40:34.347216Z",
+    "trace": "projects/pathology-annotation-project/traces/9e02241a46d69da64e7834b0921def07"
+  },
+  {
+    "insertId": "6a4b3fd20002a0856cfc7619",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:40:34.178350294Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:60058 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:40:34.172165Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.014227529s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "308",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b3fd20002a4fe0d5d3702",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:40:34.178797088Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "af889cd63a7dd6df",
+    "timestamp": "2026-07-06T05:40:34.151776Z",
+    "trace": "projects/pathology-annotation-project/traces/e56076c99543267e6ce21e5bc73e6771",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4b3fae00065ef1fae6c2c0",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:39:58.423487116Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39918 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:39:58.417521Z"
+  },
+  {
+    "insertId": "6a4b3fab00022038e7e488f4",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:39:55.146228430Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"pathology-hub-v04-v0-2-staging-1\" on port 8080.",
+    "timestamp": "2026-07-06T05:39:55.139320Z"
+  },
+  {
+    "insertId": "6a4b3fab00021f4800da2b9f",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:39:55.474881097Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)",
+    "timestamp": "2026-07-06T05:39:55.139080Z"
+  },
+  {
+    "insertId": "6a4b3fab0002163f0c65060a",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:39:55.141944477Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Application startup complete.",
+    "timestamp": "2026-07-06T05:39:55.136767Z"
+  },
+  {
+    "insertId": "6a4b3f810007e491c0d9b314",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:39:13.860883064Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Waiting for application startup.",
+    "timestamp": "2026-07-06T05:39:13.517265Z"
+  },
+  {
+    "insertId": "6a4b3f810007e3cb81c9ab08",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:39:13.523748954Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Started server process [1]",
+    "timestamp": "2026-07-06T05:39:13.517067Z"
+  },
+  {
+    "insertId": "6a4b3f750005185e9a556be3",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0",
+      "scaling_reason": "AUTOSCALING"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:39:01.341775454Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: AUTOSCALING - Instance started due to configured scaling factors (e.g. CPU utilization, request throughput, etc.) or no existing capacity for current traffic.",
+    "timestamp": "2026-07-06T05:39:01.333918Z"
+  },
+  {
+    "insertId": "6a4b3f7200098f40cb560d8a",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T05:38:58.634000666Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:22036 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T05:38:58.626496Z"
+  },
+  {
+    "insertId": "6a4b3f6f00024268d3ab291f",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:38:55.153466685Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"pathology-hub-v04-v0-2-staging-1\" on port 8080.",
+    "timestamp": "2026-07-06T05:38:55.148072Z"
+  },
+  {
+    "insertId": "6a4b3f6f00024153333c3701",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:38:55.486819911Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)",
+    "timestamp": "2026-07-06T05:38:55.147795Z"
+  },
+  {
+    "insertId": "6a4b3f6f00023a835a748d4a",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:38:55.154876836Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Application startup complete.",
+    "timestamp": "2026-07-06T05:38:55.146051Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "110.912425963s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "308",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.73.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b3fe40007c979f9cd0df2",
+    "labels": {
+      "instanceId": "002f8ffd47947e8f4030c0bb99b76f575f953270169434c25d3488318df5ff211398ec3552b5843ba671a1429a40c8e463e9d716d2098dcec3c7e5ef85b4f414870ff670e02d7b9e18c59cdae0f0d0"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:40:52.517672145Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "f3f93799e58fa36c",
+    "timestamp": "2026-07-06T05:38:41.282123Z",
+    "trace": "projects/pathology-annotation-project/traces/772d94f4beaaf8940b818a0da23aea82",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4b3f57000557d11364f0fc",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:38:31.691438602Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Waiting for application startup.",
+    "timestamp": "2026-07-06T05:38:31.350161Z"
+  },
+  {
+    "insertId": "6a4b3f57000556b1814404cb",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:38:31.355622720Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Started server process [1]",
+    "timestamp": "2026-07-06T05:38:31.349873Z"
+  },
+  {
+    "insertId": "6a4b3f4d0003e38a0459d51f",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7",
+      "scaling_reason": "AUTOSCALING"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:38:21.262251590Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: AUTOSCALING - Instance started due to configured scaling factors (e.g. CPU utilization, request throughput, etc.) or no existing capacity for current traffic.",
+    "timestamp": "2026-07-06T05:38:21.254858Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "96.949571865s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "307",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.78.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b3fae00067c773fafc51d",
+    "labels": {
+      "instanceId": "002f8ffd471016c4c7c1da8ddbbc69bb3519f261def0c557b82b48cad44b52e2eeba1577e0a15282ec8f8b2d21f84a15db0dfdfdb4d6d1e01a84fbaa89879e07b1052d75e328a655243ce55c3041b7"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:39:58.431951829Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "62243bdfc47d7e68",
+    "timestamp": "2026-07-06T05:38:11.202797Z",
+    "trace": "projects/pathology-annotation-project/traces/0dc9c961ca94d5d14fdf067ad2f1f981",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4b3f1300082825a30ce70e",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:37:23.543926453Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Waiting for application startup.",
+    "timestamp": "2026-07-06T05:37:23.534565Z"
+  },
+  {
+    "insertId": "6a4b3f13000827d735de531b",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T05:37:23.543926453Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Started server process [1]",
+    "timestamp": "2026-07-06T05:37:23.534487Z"
+  },
+  {
+    "insertId": "6a4b3f07000c6c6b03047e8a",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f",
+      "scaling_reason": "AUTOSCALING"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-07-06T05:37:11.821597002Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: AUTOSCALING - Instance started due to configured scaling factors (e.g. CPU utilization, request throughput, etc.) or no existing capacity for current traffic.",
+    "timestamp": "2026-07-06T05:37:11.814187Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "106.390369523s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "169.230.248.14",
+      "requestMethod": "GET",
+      "requestSize": "308",
+      "requestUrl": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54180",
+      "serverIp": "34.143.77.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4b3f720009b067823ac20a",
+    "labels": {
+      "instanceId": "002f8ffd479482314b26b1dcfa1f09718a5849b92db803cde2c6701ef55db922a28694da085ac5dd43c84eb83b5c4af9efdd26c6b67918c46359f0830130ae8ff0ff39280036a521ec849e2b98737f"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T05:38:58.641027745Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "935de5eaf667b69f",
+    "timestamp": "2026-07-06T05:37:11.791592Z",
+    "trace": "projects/pathology-annotation-project/traces/718b8484a2bd8c9794c06860b19e594d",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4b285500095ef3c9060a0d",
+    "labels": {
+      "instanceId": "002f8ffd478d5aa7d49a8c50002c5f201e51b78f3b8fb6b9910cd84c950722d8a5d97ad1d383fcd98698a4cd3fdfa6051c475d4472f737deb3bf81777d73c68371e4b2e2cda3db72ee8da28e1002bf"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T04:00:21.851324082Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Finished server process [1]",
+    "timestamp": "2026-07-06T04:00:21.614131Z"
+  },
+  {
+    "insertId": "6a4b285500095db954bea733",
+    "labels": {
+      "instanceId": "002f8ffd478d5aa7d49a8c50002c5f201e51b78f3b8fb6b9910cd84c950722d8a5d97ad1d383fcd98698a4cd3fdfa6051c475d4472f737deb3bf81777d73c68371e4b2e2cda3db72ee8da28e1002bf"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T04:00:21.851324082Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Application shutdown complete.",
+    "timestamp": "2026-07-06T04:00:21.613817Z"
+  },
+  {
+    "insertId": "6a4b285500095c9357890b49",
+    "labels": {
+      "instanceId": "002f8ffd478d5aa7d49a8c50002c5f201e51b78f3b8fb6b9910cd84c950722d8a5d97ad1d383fcd98698a4cd3fdfa6051c475d4472f737deb3bf81777d73c68371e4b2e2cda3db72ee8da28e1002bf"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T04:00:21.851324082Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Waiting for application shutdown.",
+    "timestamp": "2026-07-06T04:00:21.613523Z"
+  },
+  {
+    "insertId": "6a4b28550007ca0f70d6df94",
+    "labels": {
+      "instanceId": "002f8ffd478d5aa7d49a8c50002c5f201e51b78f3b8fb6b9910cd84c950722d8a5d97ad1d383fcd98698a4cd3fdfa6051c475d4472f737deb3bf81777d73c68371e4b2e2cda3db72ee8da28e1002bf"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-07-06T04:00:21.518987754Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04-v0-2-staging",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-v0-2-staging-00001-s5r",
+        "service_name": "pathology-hub-v04-v0-2-staging"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     Shutting down",
+    "timestamp": "2026-07-06T04:00:21.510479Z"
+  }
+]

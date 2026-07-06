@@ -1,0 +1,211 @@
+{
+  "schema_version": "evidence_search_response.v1.5.9",
+  "query": "AIS adenocarcinoma in situ",
+  "source_status": {
+    "who": "not_requested",
+    "journals": "not_requested",
+    "pathout": "ok",
+    "textbooks": "not_requested",
+    "curriculum": "not_requested"
+  },
+  "who_results": [],
+  "journal_results": [],
+  "pathout_results": [
+    {
+      "rank": 1,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::thoracic::lungtumoradenoinsitu",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/lungtumoradenoinsitu.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/lungtumoradenoinsitu.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "UNRESOLVED_ROOT::Lung::Neoplastic::Precursor::Adenocarcinoma_In_Situ",
+      "tag_status": "generated_consolidated",
+      "excerpt": "...References: J Clin Oncol 2005;23:8396, Lung Cancer 2004;45:137 | Pathophysiology | Etiology | Often incidental | May or may not be seen on CT or MRI, depending on size and association with scar | Small size | Usually nonsolid | References: Eur Respir J 2018;51:1800190, J Thorac Oncol 2016;11:1204 | AIS as ground glass lesion | Reference: J Thorac Oncol 2012;7:1352 | Treatment | No adjuvant therapy | References: J Thorac Oncol 2016;11:1204, Int J Mol Sci 2018;19:1259 | Firm, tan, ill defined lesionFrozen section description | Reference: J Clin Pathol 2016;69:1076 ## Preinvasive lung adenocarcinoma Size: \u2264 30.0 mm Pure lepidic growth pattern with no invasion (neoplastic cells along pre-existing alveolar structures) ## Diagnosed only when all tumor has been sampled Diagnosis cannot be made in small biopsy or cytology specimen ## Essential features Lepidic growth with no stromal, vascular or...",
+      "text": "...References: J Clin Oncol 2005;23:8396, Lung Cancer 2004;45:137 | Pathophysiology | Etiology | Often incidental | May or may not be seen on CT or MRI, depending on size and association with scar | Small size | Usually nonsolid | References: Eur Respir J 2018;51:1800190, J Thorac Oncol 2016;11:1204 | AIS as ground glass lesion | Reference: J Thorac Oncol 2012;7:1352 | Treatment | No adjuvant therapy | References: J Thorac Oncol 2016;11:1204, Int J Mol Sci 2018;19:1259 | Firm, tan, ill defined lesionFrozen section description | Reference: J Clin Pathol 2016;69:1076 ## Preinvasive lung adenocarcinoma Size: \u2264 30.0 mm Pure lepidic growth pattern with no invasion (neoplastic cells along pre-existing alveolar structures) ## Diagnosed only when all tumor has been sampled Diagnosis cannot be made in small biopsy or cytology specimen ## Essential features Lepidic growth with no stromal, vascular or...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 1,
+      "vector_score": 0.6977522373199463,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/lungtumoradenoinsitu.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::gynecologic::cervixais",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/cervixAIS.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/cervixAIS.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "GYN::Cervix::Neoplastic::Epithelial::Precursor::Adenocarcinoma_In_Situ",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "Source: Pathology Outlines Subject: gynecologic Title: Pathology Outlines - Adenocarcinoma in situ Header: Pathology Outlines - Adenocarcinoma in situ URL: https://www.pathologyoutlines.com/topic/cervixAIS.html Primary tag: GYN::Cervix::Neoplastic::Epithelial::Precursor::Adenocarcinoma_In_Situ Top headings: Essential features | Variable histologic features based on adenocarcinoma in situ type | Terminology | Endocervical adenocarcinoma in situ | ICD-O: 8140/2 - adenocarcinoma in situ, NOS | Epidemiology | Mean age 38 years, 10 - 15 years younger than invasive endocervical adenocarcinoma | Sites | Pathophysiology | Etiology | Clinical features | Excellent prognosis in most cases | Rarely may involve endometrium or adnexa via pagetoid spread | Treatment | Referral to a qualified health care provider for medical follow up | Management after histologic diagnosis of adenocarcinoma in situ | T...",
+      "text": "Source: Pathology Outlines Subject: gynecologic Title: Pathology Outlines - Adenocarcinoma in situ Header: Pathology Outlines - Adenocarcinoma in situ URL: https://www.pathologyoutlines.com/topic/cervixAIS.html Primary tag: GYN::Cervix::Neoplastic::Epithelial::Precursor::Adenocarcinoma_In_Situ Top headings: Essential features | Variable histologic features based on adenocarcinoma in situ type | Terminology | Endocervical adenocarcinoma in situ | ICD-O: 8140/2 - adenocarcinoma in situ, NOS | Epidemiology | Mean age 38 years, 10 - 15 years younger than invasive endocervical adenocarcinoma | Sites | Pathophysiology | Etiology | Clinical features | Excellent prognosis in most cases | Rarely may involve endometrium or adnexa via pagetoid spread | Treatment | Referral to a qualified health care provider for medical follow up | Management after histologic diagnosis of adenocarcinoma in situ | T...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 2,
+      "vector_score": 0.6545721292495728,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/cervixAIS.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::genitourinary::bladderadenoinsitu",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/bladderadenoinsitu.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/bladderadenoinsitu.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "GU::Bladder::Neoplastic::Precursor::Adenocarcinoma_In_Situ",
+      "tag_status": "generated_consolidated",
+      "excerpt": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Adenocarcinoma in situ Header: Pathology Outlines - Adenocarcinoma in situ URL: https://www.pathologyoutlines.com/topic/bladderadenoinsitu.html Primary tag: __UNMAPPED__ Top headings: Primary noninvasive adenocarcinoma of bladder | Terminology | Clinical features | Associated with urothelial CIS or papillary urothelial carcinoma without invasion | Treatment | Microscopic (histologic) description | Neoplastic cells are columnar with luminal cytoplasm with occasional intracytoplasmic mucin | Moderate to severe nuclear pleomorphism, apoptosis, 5+ mitotic figures/10 HPF | Rare necrosis | Differential diagnosis | Villous adenoma: insufficient atypia to diagnosis as carcinoma in situ | Clear cell adenocarcinoma: invasive, hobnail cells ## Primary noninvasive adenocarcinoma of bladder Findings below are for patients w...",
+      "text": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Adenocarcinoma in situ Header: Pathology Outlines - Adenocarcinoma in situ URL: https://www.pathologyoutlines.com/topic/bladderadenoinsitu.html Primary tag: __UNMAPPED__ Top headings: Primary noninvasive adenocarcinoma of bladder | Terminology | Clinical features | Associated with urothelial CIS or papillary urothelial carcinoma without invasion | Treatment | Microscopic (histologic) description | Neoplastic cells are columnar with luminal cytoplasm with occasional intracytoplasmic mucin | Moderate to severe nuclear pleomorphism, apoptosis, 5+ mitotic figures/10 HPF | Rare necrosis | Differential diagnosis | Villous adenoma: insufficient atypia to diagnosis as carcinoma in situ | Clear cell adenocarcinoma: invasive, hobnail cells ## Primary noninvasive adenocarcinoma of bladder Findings below are for patients w...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 3,
+      "vector_score": 0.6469700336456299,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/bladderadenoinsitu.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::gastrointestinal::colontumoradenosquamous",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/colontumoradenosquamous.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/colontumoradenosquamous.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "GI::Stomach::Neoplastic::Carcinoma::Gastric_Adenosquamous_Carcinoma",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "...Often presents at an advanced stage | Reference: Adenosquamous carcinoma | Page views in 2025: 4,654Page views in 2026 to date: 2,220 | Practice question #1 ## Essential features Rare primary subtype of colorectal carcinoma Has higher metastatic rate and worse prognosis than conventional colorectal adenocarcinoma (Dis Colon Rectum 2012;55:509, Dis Colon Rectum 1999;42:258) ## Sites Typically arises in right colon (Dis Colon Rectum 2001;44:341) ## Pathophysiology HPV infection does not appear to play a role (Surg Today 2009;39:619, Eur J Surg Oncol 2002;28:657) ## Clinical features Tumor stage is often advanced at presentation (Dis Colon Rectum 1996;39:1265) May cause paraneoplastic hypercalcemia (Int J Clin Oncol 2005;10:144, Am Surg 2001;67:585) Can occur in patients with ulcerative colitis (Dis Colon Rectum 1988;31:323) ## Case reports 71 year old man with adenosquamous carcinoma of si...",
+      "text": "...Often presents at an advanced stage | Reference: Adenosquamous carcinoma | Page views in 2025: 4,654Page views in 2026 to date: 2,220 | Practice question #1 ## Essential features Rare primary subtype of colorectal carcinoma Has higher metastatic rate and worse prognosis than conventional colorectal adenocarcinoma (Dis Colon Rectum 2012;55:509, Dis Colon Rectum 1999;42:258) ## Sites Typically arises in right colon (Dis Colon Rectum 2001;44:341) ## Pathophysiology HPV infection does not appear to play a role (Surg Today 2009;39:619, Eur J Surg Oncol 2002;28:657) ## Clinical features Tumor stage is often advanced at presentation (Dis Colon Rectum 1996;39:1265) May cause paraneoplastic hypercalcemia (Int J Clin Oncol 2005;10:144, Am Surg 2001;67:585) Can occur in patients with ulcerative colitis (Dis Colon Rectum 1988;31:323) ## Case reports 71 year old man with adenosquamous carcinoma of si...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 4,
+      "vector_score": 0.5863760709762573,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/colontumoradenosquamous.html",
+          "source_family": "pathout"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "Pathology Outlines",
+      "source": "pathout",
+      "source_name": "Pathology Outlines",
+      "source_type": "pathout_ap_diagnostic_vector",
+      "source_id": "pathout::gastrointestinal::pancreasadenosquamous",
+      "record_id": null,
+      "document_id": null,
+      "chunk_id": null,
+      "url": "https://www.pathologyoutlines.com/topic/pancreasadenosquamous.html",
+      "source_url": "https://www.pathologyoutlines.com/topic/pancreasadenosquamous.html",
+      "section": null,
+      "topic": null,
+      "site": null,
+      "primary_tag": "GI::Stomach::Neoplastic::Carcinoma::Gastric_Adenosquamous_Carcinoma",
+      "tag_status": "chatgpt_assigned",
+      "excerpt": "...y description | Portal venous system may contain tumor thrombus (Abdom Radiol (NY) 2016;41:508) | Cystic and necrotic changesPrognostic factors | Case reports | Treatment | J Gastrointest Oncol 2015;6:115) | Gross description | Some cases are more demarcated | Microscopic (histologic) description | Adenocarcinoma and squamous components can vary greatly in the amount and distribution | CK13Cytology description | Glandular and squamous components can both be distinguished | Immunoreactivity for AE1 / AE3 is identified | Negative stains | Molecular / cytogenetics description ## Essential features Malignant tumor consisting of both squamous cell carcinoma and ductal adenocarcinoma components (Digestion 2005;72:104, Cancer 2003;99:372, Int J Pancreatol 1999;26:85, Arch Surg 1999;134:599) Closely related to and admixed with pancreatic ductal adenocarcinoma (PDAC); some require 30% squamous di...",
+      "text": "...y description | Portal venous system may contain tumor thrombus (Abdom Radiol (NY) 2016;41:508) | Cystic and necrotic changesPrognostic factors | Case reports | Treatment | J Gastrointest Oncol 2015;6:115) | Gross description | Some cases are more demarcated | Microscopic (histologic) description | Adenocarcinoma and squamous components can vary greatly in the amount and distribution | CK13Cytology description | Glandular and squamous components can both be distinguished | Immunoreactivity for AE1 / AE3 is identified | Negative stains | Molecular / cytogenetics description ## Essential features Malignant tumor consisting of both squamous cell carcinoma and ductal adenocarcinoma components (Digestion 2005;72:104, Cancer 2003;99:372, Int J Pancreatol 1999;26:85, Arch Surg 1999;134:599) Closely related to and admixed with pancreatic ductal adenocarcinoma (PDAC); some require 30% squamous di...",
+      "retrieval_mode": "pathout_ap_diagnostic_vector",
+      "vector_rank": 5,
+      "vector_score": 0.5764508247375488,
+      "api_exposed_source": "local_pathout_ap_vector_v048",
+      "reference_links": [
+        {
+          "kind": "source_url",
+          "label": "Source URL",
+          "url": "https://www.pathologyoutlines.com/topic/pancreasadenosquamous.html",
+          "source_family": "pathout"
+        }
+      ]
+    }
+  ],
+  "textbook_results": [],
+  "figures": [],
+  "warnings": [
+    "pathout_endpoint=/pathout/search",
+    "Keyword-only SQLite FTS5 retrieval; not semantic/vector retrieval.",
+    "Figures are returned from figure metadata/captions; image pixels are not interpreted.",
+    "Pathology Outlines image binaries are not assumed mirrored to GCS unless gcs_uri is present in figure metadata.",
+    "PathOut retrieval includes local AP-diagnostic filtered FAISS vector search.",
+    "PathOut AP vector artifacts are filtered/tagged offline; judge semantic vector hits for specificity."
+  ],
+  "search_mode": {
+    "textbooks": "hybrid_fts_faiss_vector_rrf",
+    "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+    "who": "upstream",
+    "pathout": "upstream_plus_local_ap_diagnostic_faiss_vector"
+  },
+  "source_locator_status": {
+    "enabled": true,
+    "registry_records_loaded": 280,
+    "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+  },
+  "page_image_locator_status": {
+    "enabled": true,
+    "inventory_records_loaded": 28705,
+    "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+  },
+  "pathout_ap_vector_status": {
+    "enabled": true,
+    "api_exposed": true,
+    "manifest_gcs": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_manifest.json",
+    "records": 4397
+  },
+  "curriculum_results": [],
+  "curriculum_status": null,
+  "query_expansion_applied": true,
+  "version": "1.5.10-html-bundle-v0.2-prod"
+}

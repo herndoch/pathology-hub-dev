@@ -1,0 +1,125 @@
+{
+  "schema_version": "evidence_retrieval_benchmark_staging_v0_2.v1",
+  "generated_at_utc": "2026-07-06T13:07:29+00:00",
+  "staging_base_url": "https://pathology-hub-v04-v0-2-staging-vorn5q2kga-uc.a.run.app",
+  "staging_revision": "pathology-hub-v04-v0-2-staging-00004-hvf",
+  "rules_file": "query_expansion_rules_v0_2_1.json",
+  "total_rows": 1008,
+  "hits": 996,
+  "misses": 12,
+  "hit_rate_pct": 98.81,
+  "baseline_v0_1_hits": 979,
+  "baseline_v0_1_misses": 29,
+  "baseline_v0_1_total": 1008,
+  "miss_reduction": 17,
+  "target_max_misses": 14,
+  "target_met": true,
+  "regressions_vs_v0_1_baseline": 0,
+  "figure_leaks_when_include_figures_false": 0,
+  "source_status_all_ok": true,
+  "wrong_root_preferred_count": 0,
+  "remaining_miss_entities": [
+    "BREAST_002",
+    "GU_003",
+    "GU_005",
+    "SKIN_001"
+  ],
+  "remaining_misses_detail": [
+    {
+      "entity_id": "BREAST_002",
+      "entity_name": "Invasive ductal carcinoma, NOS",
+      "query": "Invasive ductal carcinoma, NOS",
+      "query_type": "exact_name",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "BREAST_002",
+      "entity_name": "Invasive ductal carcinoma, NOS",
+      "query": "Invasive ductal carcinoma, NOS",
+      "query_type": "exact_name",
+      "source": "who",
+      "include_figures": "True"
+    },
+    {
+      "entity_id": "GU_003",
+      "entity_name": "Urothelial carcinoma in situ",
+      "query": "CIS",
+      "query_type": "abbreviation",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "GU_003",
+      "entity_name": "Urothelial carcinoma in situ",
+      "query": "CIS",
+      "query_type": "abbreviation",
+      "source": "who",
+      "include_figures": "True"
+    },
+    {
+      "entity_id": "GU_005",
+      "entity_name": "Nephrogenic adenoma",
+      "query": "Nephrogenic adenoma tubular architecture",
+      "query_type": "entity_plus_morphology",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "GU_005",
+      "entity_name": "Nephrogenic adenoma",
+      "query": "Nephrogenic adenoma tubular architecture",
+      "query_type": "entity_plus_morphology",
+      "source": "who",
+      "include_figures": "True"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid",
+      "query_type": "exact_name",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid",
+      "query_type": "exact_name",
+      "source": "who",
+      "include_figures": "True"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid skin",
+      "query_type": "entity_plus_organ",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid skin",
+      "query_type": "entity_plus_organ",
+      "source": "who",
+      "include_figures": "True"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid basement membrane",
+      "query_type": "entity_plus_morphology",
+      "source": "who",
+      "include_figures": "False"
+    },
+    {
+      "entity_id": "SKIN_001",
+      "entity_name": "Bullous pemphigoid",
+      "query": "Bullous pemphigoid basement membrane",
+      "query_type": "entity_plus_morphology",
+      "source": "who",
+      "include_figures": "True"
+    }
+  ]
+}

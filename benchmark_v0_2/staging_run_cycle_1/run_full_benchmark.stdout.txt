@@ -1,0 +1,6 @@
+{
+  "api_ran": true,
+  "health_status": "ok",
+  "summary_rows": 1008,
+  "figure_rows": 3370
+}

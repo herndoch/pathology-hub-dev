@@ -1,0 +1,235 @@
+[
+  {
+    "name": "who_lcis_expand",
+    "status": 200,
+    "elapsed_sec": 7.04,
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [],
+    "query_expansion_applied": true,
+    "has_html_result": false,
+    "who_results_count": 5,
+    "textbook_results_count": 0,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "gi_ssl_standalone",
+    "status": 200,
+    "elapsed_sec": 0.17,
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [],
+    "query_expansion_applied": true,
+    "has_html_result": false,
+    "who_results_count": 5,
+    "textbook_results_count": 0,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "gi_crc_standalone",
+    "status": 200,
+    "elapsed_sec": 0.17,
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [],
+    "query_expansion_applied": true,
+    "has_html_result": false,
+    "who_results_count": 5,
+    "textbook_results_count": 0,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "gyn_ais_standalone",
+    "status": 200,
+    "elapsed_sec": 22.05,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "ok",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "pathout_endpoint=/pathout/search",
+      "Keyword-only SQLite FTS5 retrieval; not semantic/vector retrieval.",
+      "Figures are returned from figure metadata/captions; image pixels are not interpreted.",
+      "Pathology Outlines image binaries are not assumed mirrored to GCS unless gcs_uri is present in figure metadata.",
+      "PathOut retrieval includes local AP-diagnostic filtered FAISS vector search.",
+      "PathOut AP vector artifacts are filtered/tagged offline; judge semantic vector hits for specificity."
+    ],
+    "query_expansion_applied": true,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 0,
+    "pathout_results_count": 5,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "textbook_ipmn",
+    "status": 200,
+    "elapsed_sec": 21.63,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "ok",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+      "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+      "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 5,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "pathout_melanoma",
+    "status": 200,
+    "elapsed_sec": 0.75,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "ok",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "pathout_endpoint=/pathout/search",
+      "Keyword-only SQLite FTS5 retrieval; not semantic/vector retrieval.",
+      "Figures are returned from figure metadata/captions; image pixels are not interpreted.",
+      "Pathology Outlines image binaries are not assumed mirrored to GCS unless gcs_uri is present in figure metadata.",
+      "PathOut retrieval includes local AP-diagnostic filtered FAISS vector search.",
+      "PathOut AP vector artifacts are filtered/tagged offline; judge semantic vector hits for specificity."
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 0,
+    "pathout_results_count": 5,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "journal_virchows",
+    "status": 200,
+    "elapsed_sec": 36.26,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "ok",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "Journal retrieval uses upstream journal FTS plus local FAISS vector search with reciprocal-rank fusion.",
+      "Hybrid journal vector search is semantic; judge article relevance, especially for broad entities.",
+      "journal_endpoint=/journal/search"
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 0,
+    "pathout_results_count": 0,
+    "journal_results_count": 5,
+    "figures_count": 0
+  },
+  {
+    "name": "lecture_cyto",
+    "status": 200,
+    "elapsed_sec": 3.71,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "lectures": "ok",
+      "videos": "ok",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "Lecture retrieval uses local STRICT_CYTO_v9 routed-only FAISS vector artifacts.",
+      "Uncertain lecture chunks are held out from this index; __UNMAPPED__ routed chunks remain searchable."
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 0,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "lecture_results_count": 5,
+    "video_results_count": 5,
+    "figures_count": 0
+  },
+  {
+    "name": "figures_test",
+    "status": 200,
+    "elapsed_sec": 0.5,
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "ok",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+      "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+      "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": false,
+    "who_results_count": 0,
+    "textbook_results_count": 3,
+    "pathout_results_count": 0,
+    "journal_results_count": 0,
+    "figures_count": 0
+  },
+  {
+    "name": "html_bundle_test",
+    "status": 200,
+    "elapsed_sec": 1.23,
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "ok",
+      "curriculum": "not_requested"
+    },
+    "warnings": [
+      "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+      "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+      "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
+    ],
+    "query_expansion_applied": null,
+    "has_html_result": true,
+    "figures_count": 0
+  }
+]

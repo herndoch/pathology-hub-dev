@@ -1,0 +1,37 @@
+{
+  "schema_version": "evidence_search_response.v1.5.10",
+  "query": "ductal carcinoma in situ",
+  "source_status": {
+    "who": "ok",
+    "journals": "not_requested",
+    "pathout": "not_requested",
+    "textbooks": "ok",
+    "curriculum": "not_requested"
+  },
+  "warnings": [
+    "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+    "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+    "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
+  ],
+  "html_result": {
+    "status": "ok",
+    "profile": "teaching_page",
+    "title": "ductal carcinoma in situ teaching page",
+    "html_url": "https://storage.googleapis.com/pathology_hub/05_html/generated/searchEvidence_html/v1_5_10/20260706T134613Z_ductal_carcinoma_in_situ_teaching_page_0ba5d793b5d8.html",
+    "html_gcs_uri": "gs://pathology_hub/05_html/generated/searchEvidence_html/v1_5_10/20260706T134613Z_ductal_carcinoma_in_situ_teaching_page_0ba5d793b5d8.html",
+    "figure_count": 10,
+    "evidence_count": 6,
+    "sources_used": [
+      "textbooks",
+      "who"
+    ],
+    "warnings": [
+      "Textbook retrieval uses hybrid SQLite FTS + FAISS vector search with reciprocal-rank fusion.",
+      "Vector search can retrieve semantically related but off-target chunks; judge relevance.",
+      "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed."
+    ],
+    "generated_at_utc": "2026-07-06T13:46:13Z",
+    "audit_gcs_uri": "gs://pathology_hub/05_html/generated/searchEvidence_html/v1_5_10/20260706T134613Z_ductal_carcinoma_in_situ_teaching_page_0ba5d793b5d8.html.audit.json"
+  },
+  "version": "1.5.10-html-bundle-v0.2-prod"
+}

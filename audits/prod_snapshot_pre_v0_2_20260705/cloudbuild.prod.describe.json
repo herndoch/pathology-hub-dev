@@ -1,0 +1,115 @@
+{
+  "artifacts": {
+    "images": [
+      "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3"
+    ]
+  },
+  "createTime": "2026-07-05T01:12:37.260273181Z",
+  "finishTime": "2026-07-05T01:13:29.163396Z",
+  "id": "8cd07783-a403-4cc7-a276-0c2b41c5ca37",
+  "images": [
+    "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3"
+  ],
+  "logUrl": "https://console.cloud.google.com/cloud-build/builds/8cd07783-a403-4cc7-a276-0c2b41c5ca37?project=830130787988",
+  "logsBucket": "gs://830130787988.cloudbuild-logs.googleusercontent.com",
+  "name": "projects/830130787988/locations/global/builds/8cd07783-a403-4cc7-a276-0c2b41c5ca37",
+  "options": {
+    "logging": "LEGACY",
+    "pool": {}
+  },
+  "projectId": "pathology-annotation-project",
+  "queueTtl": "3600s",
+  "results": {
+    "buildStepImages": [
+      "sha256:f5f737e41d6ab0a89be14e43797c05344fc91a99be34da76eb4ad5d822be4ccc"
+    ],
+    "buildStepOutputs": [
+      ""
+    ],
+    "images": [
+      {
+        "artifactRegistryPackage": "projects/pathology-annotation-project/locations/us-central1/repositories/pathology-hub/packages/pathology-hub-v04/versions/sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+        "digest": "sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019",
+        "name": "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3",
+        "pushTiming": {
+          "endTime": "2026-07-05T01:13:28.588586349Z",
+          "startTime": "2026-07-05T01:13:14.499452011Z"
+        }
+      }
+    ]
+  },
+  "serviceAccount": "projects/pathology-annotation-project/serviceAccounts/830130787988-compute@developer.gserviceaccount.com",
+  "source": {
+    "storageSource": {
+      "bucket": "pathology-annotation-project_cloudbuild",
+      "generation": "1783213956376675",
+      "object": "source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz"
+    }
+  },
+  "sourceProvenance": {
+    "fileHashes": {
+      "gs://pathology-annotation-project_cloudbuild/source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz#1783213956376675": {
+        "fileHash": [
+          {
+            "type": "MD5",
+            "value": "ihUwYJQdmt47Pz2ERIvt8w=="
+          },
+          {
+            "type": "SHA256",
+            "value": "4IJXWGnlWa4hCsyhOEokcyGd-Mfzqc4_mdn2PaN6r1o="
+          }
+        ]
+      }
+    },
+    "resolvedStorageSource": {
+      "bucket": "pathology-annotation-project_cloudbuild",
+      "generation": "1783213956376675",
+      "object": "source/1783213953.082741-022523da066d4db4970f9cc151a3ff94.tgz"
+    }
+  },
+  "startTime": "2026-07-05T01:12:38.083789529Z",
+  "status": "SUCCESS",
+  "steps": [
+    {
+      "args": [
+        "docker",
+        "build",
+        "--network",
+        "cloudbuild",
+        "--no-cache",
+        "-t",
+        "us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3",
+        "."
+      ],
+      "name": "gcr.io/cloud-builders/gcb-internal",
+      "pullTiming": {
+        "endTime": "2026-07-05T01:12:43.359398785Z",
+        "startTime": "2026-07-05T01:12:43.358260249Z"
+      },
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-07-05T01:13:14.482065230Z",
+        "startTime": "2026-07-05T01:12:43.358260249Z"
+      }
+    }
+  ],
+  "timeout": "3600s",
+  "timing": {
+    "BUILD": {
+      "endTime": "2026-07-05T01:13:14.499375357Z",
+      "startTime": "2026-07-05T01:12:42.853691320Z"
+    },
+    "FETCHSOURCE": {
+      "endTime": "2026-07-05T01:12:42.853602575Z",
+      "startTime": "2026-07-05T01:12:40.743397912Z"
+    },
+    "PUSH": {
+      "endTime": "2026-07-05T01:13:28.588651912Z",
+      "startTime": "2026-07-05T01:13:14.499451321Z"
+    },
+    "STORAGE_SOURCE": {
+      "endTime": "2026-07-05T01:12:42.853602575Z",
+      "startTime": "2026-07-05T01:12:40.743397912Z"
+    }
+  }
+}

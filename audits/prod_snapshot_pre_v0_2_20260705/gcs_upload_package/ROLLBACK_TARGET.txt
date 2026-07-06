@@ -1,0 +1,23 @@
+Rollback target identified 2026-07-05 (Phase 0, pre-v0_2-work snapshot)
+
+Current production service: pathology-hub-v04
+Region: us-central1
+Project: pathology-annotation-project
+Current active/latestReady revision: pathology-hub-v04-00027-tjm
+Current traffic: {'latestRevision': True, 'percent': 100, 'revisionName': 'pathology-hub-v04-00027-tjm'}
+Current image: us-central1-docker.pkg.dev/pathology-annotation-project/pathology-hub/pathology-hub-v04:staging-html-v1-5-10-20260704-r3
+Current image digest: sha256:1d7480629887c8150d40c6de8115c9e48197908759c7fc70ef32e35112a88019
+Live /health version at snapshot time: 1.5.10-html-bundle
+
+EXACT ROLLBACK COMMAND (to restore 100% traffic to this revision if a future v0_2 production
+deploy needs to be reverted):
+
+gcloud run services update-traffic pathology-hub-v04 \
+  --to-revisions=pathology-hub-v04-00027-tjm=100 \
+  --project=pathology-annotation-project \
+  --region=us-central1
+
+This command is NOT executed in this session (traffic is already 100% on this revision;
+nothing has been deployed to production). It is recorded here as the exact restore command
+a human would run after any future Phase 8 production deploy, if that deploy needs to be
+rolled back.

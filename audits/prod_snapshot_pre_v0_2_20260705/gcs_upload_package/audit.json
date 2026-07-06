@@ -1,0 +1,37 @@
+{
+  "schema_version": "backend_api_prod_snapshot_pre_v0_2.v1",
+  "generated_at_utc": "2026-07-06T03:15:49+00:00",
+  "input_paths": [
+    "gcloud run services describe pathology-hub-v04",
+    "gcloud run revisions list",
+    "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/health",
+    "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search (5 probes)"
+  ],
+  "output_paths": [
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/ROLLBACK_TARGET.txt",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/env_var_names_redacted.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/health_response.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/service.export.yaml",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/service_summary.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/journal_virchows.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/lecture_cyto.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/pathout_melanoma.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/summary.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/textbook_ipmn.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/smoke_tests/who_lcis.json",
+    "audits/prod_snapshot_pre_v0_2_20260705/gcs_upload_package/traffic.txt"
+  ],
+  "counts": {
+    "smoke_tests_run": 5,
+    "smoke_tests_passed": 5,
+    "env_vars_recorded_names_only": 41
+  },
+  "known_limitations": [
+    "Snapshot reflects state at 2026-07-05; production may change before Phase 8 if that is ever authorized.",
+    "No secret values captured or uploaded anywhere in this package.",
+    "Only 5 of many possible source/query combinations smoke-tested at this snapshot point (see docs/REGRESSION_AND_BENCHMARK_STRATEGY_20260705.md for full smoke/benchmark plan)."
+  ],
+  "deploy_performed": false,
+  "gcs_mutated_destructively": false,
+  "secrets_printed": false
+}

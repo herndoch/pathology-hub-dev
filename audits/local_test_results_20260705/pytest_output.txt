@@ -1,0 +1,176 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.6.0 -- /home/herndonch/pathology-hub-dev/.venv_test/bin/python
+cachedir: .pytest_cache
+rootdir: /home/herndonch/pathology-hub-dev
+configfile: pytest.ini
+plugins: anyio-4.14.1
+collecting ... collected 50 items
+
+tests/test_backend_live_recovered_health.py::test_health_returns_v1510_baseline_fields_when_v0_2_disabled PASSED [  2%]
+tests/test_backend_live_recovered_health.py::test_health_reports_v0_2_flags_when_enabled PASSED [  4%]
+tests/test_backend_live_recovered_health.py::test_health_survives_baseline_health_exception PASSED [  6%]
+tests/test_backend_live_recovered_search_contract.py::test_search_returns_baseline_response_unmodified_when_v0_2_disabled PASSED [  8%]
+tests/test_backend_live_recovered_search_contract.py::test_search_contract_preserves_required_top_level_fields PASSED [ 10%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_ais_cervix_expands PASSED [ 12%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_ais_without_context_conservative PASSED [ 14%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_cis_bladder_expands PASSED [ 16%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_cis_without_context_conservative PASSED [ 18%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_cmf_bone_not_fibroma PASSED [ 20%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_dfsp_skin_expands PASSED [ 22%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_disabled_returns_original PASSED [ 24%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_dsrcct_bst_expands PASSED [ 26%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_ipmn_pancreas_expands PASSED [ 28%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_lcis_breast_expands PASSED [ 30%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_mtc_thyroid_expands PASSED [ 32%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_no_car_f_map_status_in_rules PASSED [ 34%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_preserves_original_query PASSED [ 36%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_ptc_thyroid_expands PASSED [ 38%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_sccis_skin_expands PASSED [ 40%]
+tests/test_evidence_query_expansion_v0_2.py::QueryExpansionTests::test_ssl_colon_expands PASSED [ 42%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_cis_blocked_without_urinary_or_gyn_context PASSED [ 44%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_cmf_requires_bone_context PASSED [ 46%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_crc_no_renal_expansion PASSED [ 48%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_crc_stays_gi_with_colon PASSED [ 50%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_hgsc_ovary_context PASSED [ 52%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_idc_nos_breast_context PASSED [ 54%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_infer_breast_from_query PASSED [ 56%]
+tests/test_evidence_root_gating_v0_2.py::RootGatingTests::test_ssl_blocks_without_gi_context PASSED [ 58%]
+tests/test_evidence_root_gating_v0_2.py::WhoRankingTests::test_who_title_boost_prefers_exact_entity PASSED [ 60%]
+tests/test_evidence_v0_2_regression_gate.py::V02RegressionGateTests::test_v0_1_benchmark_regression_still_passes PASSED [ 62%]
+tests/test_evidence_v0_2_regression_gate.py::V02RegressionGateTests::test_v0_2_unit_tests_pass PASSED [ 64%]
+tests/test_figure_url_preservation.py::test_figures_pass_through_unchanged_when_v0_2_enabled PASSED [ 66%]
+tests/test_figure_url_preservation.py::test_no_figures_leak_when_include_figures_false PASSED [ 68%]
+tests/test_figure_url_preservation.py::test_who_rerank_does_not_alter_figures_field PASSED [ 70%]
+tests/test_html_bundle_preservation.py::test_render_html_flag_is_forwarded_to_baseline_unchanged PASSED [ 72%]
+tests/test_html_bundle_preservation.py::test_non_dict_html_response_passed_through_untouched PASSED [ 74%]
+tests/test_html_bundle_preservation.py::test_html_bundle_preserved_when_v0_2_disabled PASSED [ 76%]
+tests/test_source_status_contract.py::test_source_status_values_remain_within_known_contract PASSED [ 78%]
+tests/test_source_status_contract.py::test_existing_warnings_are_preserved_and_v0_2_warnings_are_additive PASSED [ 80%]
+tests/test_source_status_contract.py::test_source_unavailable_status_never_flips_to_ok_via_v0_2 PASSED [ 82%]
+tests/test_v0_2_fallback_behavior.py::test_v0_2_module_import_failure_falls_back_to_baseline_with_warning PASSED [ 84%]
+tests/test_v0_2_fallback_behavior.py::test_query_expansion_exception_falls_back_to_original_query_with_warning PASSED [ 86%]
+tests/test_v0_2_fallback_behavior.py::test_expanded_query_dispatch_failure_retries_original_query PASSED [ 88%]
+tests/test_v0_2_fallback_behavior.py::test_who_rerank_exception_still_returns_baseline_results_with_warning PASSED [ 90%]
+tests/test_v0_2_server_side_flags.py::test_v0_2_disabled_never_touches_query PASSED [ 92%]
+tests/test_v0_2_server_side_flags.py::test_v0_2_enabled_expands_known_abbreviation_query PASSED [ 94%]
+tests/test_v0_2_server_side_flags.py::test_query_expansion_disabled_flag_bypasses_expansion_even_if_v0_2_enabled PASSED [ 96%]
+tests/test_v0_2_server_side_flags.py::test_who_rerank_disabled_flag_leaves_who_results_order_untouched PASSED [ 98%]
+tests/test_v0_2_server_side_flags.py::test_debug_flag_adds_diagnostics_only_when_enabled PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:678: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_health.py: 18 warnings
+tests/test_backend_live_recovered_search_contract.py: 12 warnings
+tests/test_figure_url_preservation.py: 18 warnings
+tests/test_html_bundle_preservation.py: 18 warnings
+tests/test_source_status_contract.py: 18 warnings
+tests/test_v0_2_fallback_behavior.py: 24 warnings
+tests/test_v0_2_server_side_flags.py: 36 warnings
+  /home/herndonch/pathology-hub-dev/.venv_test/lib/python3.14/site-packages/fastapi/applications.py:4675: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:1042: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:1458: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:1655: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:2077: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_health.py: 3 warnings
+tests/test_backend_live_recovered_search_contract.py: 2 warnings
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 3 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 4 warnings
+tests/test_v0_2_server_side_flags.py: 6 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:2563: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_backend_live_recovered_search_contract.py: 1 warning
+tests/test_figure_url_preservation.py: 3 warnings
+tests/test_html_bundle_preservation.py: 2 warnings
+tests/test_source_status_contract.py: 3 warnings
+tests/test_v0_2_fallback_behavior.py: 3 warnings
+tests/test_v0_2_server_side_flags.py: 5 warnings
+  /home/herndonch/pathology-hub-dev/backend/pathology_hub_v04_live_recovered/app.py:3365: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    payload = req.dict()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 50 passed, 305 warnings in 2.15s =======================

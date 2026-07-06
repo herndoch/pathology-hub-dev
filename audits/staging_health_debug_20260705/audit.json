@@ -1,0 +1,39 @@
+{
+  "schema_version": "staging_health_debug_v0_2.v1",
+  "generated_at_utc": "2026-07-06T12:52:13+00:00",
+  "service": "pathology-hub-v04-v0-2-staging",
+  "input_paths": [
+    "gcloud run services describe pathology-hub-v04-v0-2-staging",
+    "gcloud run revisions list",
+    "gcloud logging read (staging service, 2h freshness)"
+  ],
+  "output_paths": [
+    "audits/staging_health_debug_20260705/health_final_restored.json",
+    "audits/staging_health_debug_20260705/health_steady_state.json",
+    "audits/staging_health_debug_20260705/health_v02_disabled_fallback_test.json",
+    "audits/staging_health_debug_20260705/logs.rev00002.json",
+    "audits/staging_health_debug_20260705/logs.sample.json",
+    "audits/staging_health_debug_20260705/logs.sample.stderr.txt",
+    "audits/staging_health_debug_20260705/min_instances_update_async.txt",
+    "audits/staging_health_debug_20260705/revisions.list.json",
+    "audits/staging_health_debug_20260705/service.describe.json",
+    "audits/staging_health_debug_20260705/service.describe.stderr.txt"
+  ],
+  "counts": {
+    "revisions_before_fix": 1,
+    "revisions_after_fix_and_fallback_test": 4,
+    "fix_cycles_used": 1,
+    "fix_cycle_budget": 3
+  },
+  "root_cause": "No min-instances configured on staging; scale-from-zero cold start (~80-90s, inherited from live production's own startup-time corpus loading) exceeded typical external prober timeouts.",
+  "fix": "Set --min-instances=1 on staging only via async deploy + bounded polling.",
+  "known_limitations": [
+    "A transient cold-start window (up to ~90s) still occurs immediately after any staging redeploy while Cloud Run cycles the rollout instance for a steady-state min-instance one; this is expected and bounded, not an unbounded hang.",
+    "Production (pathology-hub-v04) was not modified, inspected for this fix beyond a read-only traffic re-check, or given min-instances -- out of scope for this session.",
+    "No application code was changed to fix this; a lazy-loading refactor of the recovered baseline's startup handlers was considered but deliberately not attempted (see docs/STAGING_HEALTH_DEBUG_V0_2_20260705.md for reasoning)."
+  ],
+  "deploy_performed": true,
+  "deploy_target": "pathology-hub-v04-v0-2-staging (staging only, never production)",
+  "production_touched": false,
+  "secrets_printed": false
+}

@@ -1,0 +1,258 @@
+{
+  "schema_version": "benchmark_expected_hits.v0_1",
+  "generated_at_utc": null,
+  "notes": [
+    "Expected hits are heuristic targets for audit scoring, not production guarantees.",
+    "curriculum_tag_expected values refer to v0_4 staged nodes when present; production API may not expose curriculum.",
+    "figure_url_patterns are substring checks against returned URLs when include_figures=true."
+  ],
+  "entities": {
+    "BREAST_001": {
+      "title_substrings": ["ductal carcinoma in situ", "DCIS"],
+      "tag_substrings": ["Ductal_Carcinoma_In_Situ", "DCIS"],
+      "curriculum_tag_expected": "Breast::Ductal_Carcinoma_In_Situ",
+      "required_tokens": ["ductal", "carcinoma"],
+      "figure_url_patterns": ["storage.googleapis.com", "pathologyoutlines.com/imgau"]
+    },
+    "BREAST_002": {
+      "title_substrings": ["invasive ductal carcinoma", "invasive carcinoma of no special type"],
+      "tag_substrings": ["Invasive_Ductal", "IDC"],
+      "curriculum_tag_expected": "Breast::Invasive_Ductal",
+      "required_tokens": ["invasive", "ductal"],
+      "figure_url_patterns": ["storage.googleapis.com", "pathologyoutlines.com/imgau"]
+    },
+    "BREAST_003": {
+      "title_substrings": ["lobular carcinoma in situ", "LCIS"],
+      "tag_substrings": ["Lobular_Carcinoma_In_Situ", "LCIS"],
+      "curriculum_tag_expected": "Breast::Lobular_Carcinoma_In_Situ",
+      "required_tokens": ["lobular"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BREAST_004": {
+      "title_substrings": ["radial scar", "complex sclerosing"],
+      "tag_substrings": ["Radial_Scar", "Complex_Sclerosing"],
+      "curriculum_tag_expected": "Breast::Radial_Scar",
+      "required_tokens": ["radial"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BREAST_005": {
+      "title_substrings": ["phyllodes", "cystosarcoma phyllodes"],
+      "tag_substrings": ["Phyllodes"],
+      "curriculum_tag_expected": "Breast::Phyllodes",
+      "required_tokens": ["phyllodes"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "GI_001": {
+      "title_substrings": ["sessile serrated", "sessile serrated lesion", "sessile serrated adenoma"],
+      "tag_substrings": ["Sessile_Serrated", "SSL"],
+      "curriculum_tag_expected": "GI::Colon::Polyp::Serrated::Sessile_Serrated",
+      "wrong_root_markers": ["appendiceal", "appendix"],
+      "required_tokens": ["serrated"],
+      "figure_url_patterns": ["storage.googleapis.com", "pathologyoutlines.com/imgau"]
+    },
+    "GI_002": {
+      "title_substrings": ["colorectal adenocarcinoma", "colon adenocarcinoma"],
+      "tag_substrings": ["Colorectal_Adenocarcinoma", "Colon_Adenocarcinoma"],
+      "curriculum_tag_expected": "GI::Colon::Malignant::Adenocarcinoma",
+      "required_tokens": ["adenocarcinoma"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GI_003": {
+      "title_substrings": ["barrett", "intestinal metaplasia", "dysplasia"],
+      "tag_substrings": ["Barrett", "Esophagus"],
+      "curriculum_tag_expected": "GI::Esophagus::Barrett",
+      "required_tokens": ["barrett"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GI_004": {
+      "title_substrings": ["intraductal papillary mucinous", "IPMN"],
+      "tag_substrings": ["IPMN", "Intraductal_Papillary_Mucinous"],
+      "curriculum_tag_expected": "GI::Pancreas::IPMN",
+      "required_tokens": ["papillary", "mucinous"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GI_005": {
+      "title_substrings": ["gastrointestinal stromal", "GIST"],
+      "tag_substrings": ["GIST", "Stromal_Tumor"],
+      "curriculum_tag_expected": "GI::Stomach::GIST",
+      "required_tokens": ["stromal"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "GU_001": {
+      "title_substrings": ["clear cell renal", "clear cell carcinoma"],
+      "tag_substrings": ["Clear_Cell_Renal", "Renal_Cell_Carcinoma"],
+      "curriculum_tag_expected": "GU::Kidney::Clear_Cell_Renal_Cell_Carcinoma",
+      "required_tokens": ["clear", "cell"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GU_002": {
+      "title_substrings": ["papillary renal cell"],
+      "tag_substrings": ["Papillary_Renal"],
+      "curriculum_tag_expected": "GU::Kidney::Papillary_Renal_Cell_Carcinoma",
+      "required_tokens": ["papillary", "renal"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GU_003": {
+      "title_substrings": ["urothelial carcinoma in situ", "carcinoma in situ"],
+      "tag_substrings": ["Urothelial_Carcinoma_In_Situ", "CIS"],
+      "curriculum_tag_expected": "GU::Bladder::Urothelial_Carcinoma_In_Situ",
+      "required_tokens": ["urothelial"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "GU_004": {
+      "title_substrings": ["prostatic adenocarcinoma", "prostate adenocarcinoma"],
+      "tag_substrings": ["Prostatic_Adenocarcinoma", "Prostate_Adenocarcinoma"],
+      "curriculum_tag_expected": "GU::Prostate::Adenocarcinoma",
+      "required_tokens": ["prostat"],
+      "figure_url_patterns": ["storage.googleapis.com", "pathologyoutlines.com/imgau"]
+    },
+    "GU_005": {
+      "title_substrings": ["nephrogenic adenoma"],
+      "tag_substrings": ["Nephrogenic_Adenoma"],
+      "curriculum_tag_expected": "GU::Bladder::Nephrogenic_Adenoma",
+      "wrong_entity_markers": ["adenocarcinoma"],
+      "required_tokens": ["nephrogenic"],
+      "figure_url_patterns": []
+    },
+    "GYN_001": {
+      "title_substrings": ["endometrioid adenocarcinoma"],
+      "tag_substrings": ["Endometrioid_Adenocarcinoma"],
+      "curriculum_tag_expected": "GYN::Endometrium::Endometrioid_Adenocarcinoma",
+      "required_tokens": ["endometrioid"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GYN_002": {
+      "title_substrings": ["serous carcinoma", "endometrial serous"],
+      "tag_substrings": ["Serous_Carcinoma"],
+      "curriculum_tag_expected": "GYN::Endometrium::Serous_Carcinoma",
+      "required_tokens": ["serous"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GYN_003": {
+      "title_substrings": ["high-grade serous", "serous tubal intraepithelial", "STIC"],
+      "tag_substrings": ["High_Grade_Serous", "Serous_Carcinoma"],
+      "curriculum_tag_expected": "GYN::Ovary::High_Grade_Serous_Carcinoma",
+      "required_tokens": ["serous"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "GYN_004": {
+      "title_substrings": ["cervical adenocarcinoma in situ", "adenocarcinoma in situ"],
+      "tag_substrings": ["Adenocarcinoma_In_Situ", "AIS"],
+      "curriculum_tag_expected": "GYN::Cervix::Adenocarcinoma_In_Situ",
+      "required_tokens": ["adenocarcinoma"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "GYN_005": {
+      "title_substrings": ["lichen sclerosus"],
+      "tag_substrings": ["Lichen_Sclerosus"],
+      "curriculum_tag_expected": "GYN::Vulva::Lichen_Sclerosus",
+      "required_tokens": ["lichen", "sclerosus"],
+      "figure_url_patterns": []
+    },
+    "SKIN_001": {
+      "title_substrings": ["bullous pemphigoid"],
+      "tag_substrings": ["Bullous_Pemphigoid", "Pemphigoid"],
+      "curriculum_tag_expected": "Skin::Bullous_Pemphigoid",
+      "required_tokens": ["pemphigoid"],
+      "figure_url_patterns": []
+    },
+    "SKIN_002": {
+      "title_substrings": ["basal cell carcinoma"],
+      "tag_substrings": ["Basal_Cell_Carcinoma", "BCC"],
+      "curriculum_tag_expected": "Skin::Basal_Cell_Carcinoma",
+      "required_tokens": ["basal"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "SKIN_003": {
+      "title_substrings": ["squamous cell carcinoma in situ", "bowen"],
+      "tag_substrings": ["Squamous_Cell_Carcinoma_In_Situ", "Bowen"],
+      "curriculum_tag_expected": "Skin::Squamous_Cell_Carcinoma_In_Situ",
+      "required_tokens": ["squamous"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "SKIN_004": {
+      "title_substrings": ["malignant melanoma", "melanoma"],
+      "tag_substrings": ["Melanoma"],
+      "curriculum_tag_expected": "Skin::Melanoma",
+      "required_tokens": ["melanoma"],
+      "figure_url_patterns": ["storage.googleapis.com", "pathologyoutlines.com/imgau"]
+    },
+    "SKIN_005": {
+      "title_substrings": ["dermatofibrosarcoma protuberans", "DFSP"],
+      "tag_substrings": ["Dermatofibrosarcoma_Protuberans", "DFSP"],
+      "curriculum_tag_expected": "Skin::Dermatofibrosarcoma_Protuberans",
+      "required_tokens": ["dermatofibrosarcoma"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "BST_001": {
+      "title_substrings": ["ewing sarcoma", "ewing"],
+      "tag_substrings": ["Ewing_Sarcoma"],
+      "curriculum_tag_expected": "BST::Ewing_Sarcoma",
+      "required_tokens": ["ewing"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BST_002": {
+      "title_substrings": ["osteosarcoma"],
+      "tag_substrings": ["Osteosarcoma"],
+      "curriculum_tag_expected": "BST::Bone::Osteogenic::Malignant::Osteosarcoma",
+      "required_tokens": ["osteosarcoma"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BST_003": {
+      "title_substrings": ["chondrosarcoma"],
+      "tag_substrings": ["Chondrosarcoma"],
+      "curriculum_tag_expected": "BST::Bone::Chondrogenic::Malignant::Chondrosarcoma",
+      "required_tokens": ["chondrosarcoma"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BST_004": {
+      "title_substrings": ["chondromyxoid fibroma"],
+      "tag_substrings": ["Chondromyxoid_Fibroma"],
+      "curriculum_tag_expected": "BST::Bone::Chondrogenic::Benign::Chondromyxoid_Fibroma",
+      "required_tokens": ["chondromyxoid"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "BST_005": {
+      "title_substrings": ["desmoplastic small round cell"],
+      "tag_substrings": ["Desmoplastic_Small_Round_Cell"],
+      "curriculum_tag_expected": "BST::Soft_Tissue::Desmoplastic_Small_Round_Cell_Tumor",
+      "required_tokens": ["desmoplastic"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "HN_001": {
+      "title_substrings": ["pleomorphic adenoma", "benign mixed tumor"],
+      "tag_substrings": ["Pleomorphic_Adenoma"],
+      "curriculum_tag_expected": "HN::Salivary::Pleomorphic_Adenoma",
+      "required_tokens": ["pleomorphic", "adenoma"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "HN_002": {
+      "title_substrings": ["mucoepidermoid carcinoma"],
+      "tag_substrings": ["Mucoepidermoid"],
+      "curriculum_tag_expected": "HN::Salivary::Mucoepidermoid_Carcinoma",
+      "required_tokens": ["mucoepidermoid"],
+      "figure_url_patterns": ["pathologyoutlines.com/imgau"]
+    },
+    "HN_003": {
+      "title_substrings": ["papillary thyroid carcinoma"],
+      "tag_substrings": ["Papillary_Thyroid"],
+      "curriculum_tag_expected": "Endo::Thyroid::Papillary_Thyroid_Carcinoma",
+      "required_tokens": ["papillary", "thyroid"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "HN_004": {
+      "title_substrings": ["medullary thyroid carcinoma"],
+      "tag_substrings": ["Medullary_Thyroid"],
+      "curriculum_tag_expected": "Endo::Thyroid::Medullary_Thyroid_Carcinoma",
+      "required_tokens": ["medullary", "thyroid"],
+      "figure_url_patterns": ["storage.googleapis.com"]
+    },
+    "HN_005": {
+      "title_substrings": ["NUT carcinoma", "NUTM1"],
+      "tag_substrings": ["NUT_Carcinoma", "NUTM1"],
+      "curriculum_tag_expected": "Thorax_Mediastinum::NUT_Carcinoma",
+      "required_tokens": ["nut"],
+      "figure_url_patterns": []
+    }
+  }
+}
