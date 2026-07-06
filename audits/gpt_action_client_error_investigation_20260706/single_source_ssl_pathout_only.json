@@ -1,0 +1,214 @@
+{
+  "status": 200,
+  "body": {
+    "schema_version": "evidence_search_response.v1.5.9",
+    "query": "sessile serrated lesion",
+    "source_status": {
+      "who": "not_requested",
+      "journals": "not_requested",
+      "pathout": "ok",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "who_results": [],
+    "journal_results": [],
+    "pathout_results": [
+      {
+        "rank": 1,
+        "title": "Pathology Outlines",
+        "source": "pathout",
+        "source_name": "Pathology Outlines",
+        "source_type": "pathout_ap_diagnostic_vector",
+        "source_id": "pathout::gastrointestinal::colontumorsessileserrated",
+        "record_id": null,
+        "document_id": null,
+        "chunk_id": null,
+        "url": "https://www.pathologyoutlines.com/topic/colontumorsessileserrated.html",
+        "source_url": "https://www.pathologyoutlines.com/topic/colontumorsessileserrated.html",
+        "section": null,
+        "topic": null,
+        "site": null,
+        "primary_tag": "GI::Appendix::Neoplastic::Polyp::Appendiceal_Sessile_Serrated_Lesion",
+        "tag_status": "chatgpt_assigned",
+        "excerpt": "Source: Pathology Outlines Subject: gastrointestinal Title: Pathology Outlines - Sessile serrated adenoma Header: Pathology Outlines - Sessile serrated adenoma URL: https://www.pathologyoutlines.com/topic/colontumorsessileserrated.html Primary tag: GI::Appendix::Neoplastic::Polyp::Appendiceal_Sessile_Serrated_Lesion Top headings: WHO 2019 criteria for diagnosis of serrated polyposis syndrome are as follows | Neoplastic, premalignant lesion of the colorectum | Terminology | ICD coding | Epidemiology | More common in women and smokers (Cancer Prev Res (Phila) 2017;10:270) | Etiology | Clinical features | Diagnosis | Radiology description | Prognostic factors | Treatment | Clinical imagesImages hosted on other servers | Sessile serrated adenoma before and after endoscopic resectionGross description | Microscopic (histologic) description | Basal crypt dilation with mucous retention | Sessile...",
+        "text": "Source: Pathology Outlines Subject: gastrointestinal Title: Pathology Outlines - Sessile serrated adenoma Header: Pathology Outlines - Sessile serrated adenoma URL: https://www.pathologyoutlines.com/topic/colontumorsessileserrated.html Primary tag: GI::Appendix::Neoplastic::Polyp::Appendiceal_Sessile_Serrated_Lesion Top headings: WHO 2019 criteria for diagnosis of serrated polyposis syndrome are as follows | Neoplastic, premalignant lesion of the colorectum | Terminology | ICD coding | Epidemiology | More common in women and smokers (Cancer Prev Res (Phila) 2017;10:270) | Etiology | Clinical features | Diagnosis | Radiology description | Prognostic factors | Treatment | Clinical imagesImages hosted on other servers | Sessile serrated adenoma before and after endoscopic resectionGross description | Microscopic (histologic) description | Basal crypt dilation with mucous retention | Sessile...",
+        "retrieval_mode": "pathout_ap_diagnostic_vector",
+        "vector_rank": 1,
+        "vector_score": 0.6007219552993774,
+        "api_exposed_source": "local_pathout_ap_vector_v048",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://www.pathologyoutlines.com/topic/colontumorsessileserrated.html",
+            "source_family": "pathout"
+          }
+        ]
+      },
+      {
+        "rank": 2,
+        "title": "Pathology Outlines",
+        "source": "pathout",
+        "source_name": "Pathology Outlines",
+        "source_type": "pathout_ap_diagnostic_vector",
+        "source_id": "pathout::gastrointestinal::colonserratedlesions",
+        "record_id": null,
+        "document_id": null,
+        "chunk_id": null,
+        "url": "https://www.pathologyoutlines.com/topic/colonserratedlesions.html",
+        "source_url": "https://www.pathologyoutlines.com/topic/colonserratedlesions.html",
+        "section": null,
+        "topic": null,
+        "site": null,
+        "primary_tag": "GI::Colon::Concept::Molecular_Genetics::Serrated_Lesions_General",
+        "tag_status": "generated_consolidated",
+        "excerpt": "...ites | Mostly found in distal colon and rectum (left) | Pathophysiology | Lesions arise from BRAF serrated pathway | Lesions arise from KRAS serrated pathway | Etiology | Diagrams / tablesImages hosted on other servers | Histologic and molecular features of serrated polypsClinical features | Mostly sessile | Diagnosis | Low risk features: repeat colonoscopy in 5 years | Sessile serrated lesions with dysplasia | Case reports | Lesions with low risk pathology features: repeat colonoscopy in 5 years | Genetic testing for polyposis syndrome ## Essential features Colorectal epithelial lesion with serrated architecture and arises from serrated pathway (BRAF or KRAS mutation) Include hyperplastic polyps, sessile serrated lesions, traditional serrated adenomas and serrated adenoma, unclassified ## Presence of dysplasia should be reported but grading of dysplasia is not recommended Size or locati...",
+        "text": "...ites | Mostly found in distal colon and rectum (left) | Pathophysiology | Lesions arise from BRAF serrated pathway | Lesions arise from KRAS serrated pathway | Etiology | Diagrams / tablesImages hosted on other servers | Histologic and molecular features of serrated polypsClinical features | Mostly sessile | Diagnosis | Low risk features: repeat colonoscopy in 5 years | Sessile serrated lesions with dysplasia | Case reports | Lesions with low risk pathology features: repeat colonoscopy in 5 years | Genetic testing for polyposis syndrome ## Essential features Colorectal epithelial lesion with serrated architecture and arises from serrated pathway (BRAF or KRAS mutation) Include hyperplastic polyps, sessile serrated lesions, traditional serrated adenomas and serrated adenoma, unclassified ## Presence of dysplasia should be reported but grading of dysplasia is not recommended Size or locati...",
+        "retrieval_mode": "pathout_ap_diagnostic_vector",
+        "vector_rank": 2,
+        "vector_score": 0.5951497554779053,
+        "api_exposed_source": "local_pathout_ap_vector_v048",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://www.pathologyoutlines.com/topic/colonserratedlesions.html",
+            "source_family": "pathout"
+          }
+        ]
+      },
+      {
+        "rank": 3,
+        "title": "Pathology Outlines",
+        "source": "pathout",
+        "source_name": "Pathology Outlines",
+        "source_type": "pathout_ap_diagnostic_vector",
+        "source_id": "pathout::gastrointestinal::colonserratedepithelialchange",
+        "record_id": null,
+        "document_id": null,
+        "chunk_id": null,
+        "url": "https://www.pathologyoutlines.com/topic/colonserratedepithelialchange.html",
+        "source_url": "https://www.pathologyoutlines.com/topic/colonserratedepithelialchange.html",
+        "section": null,
+        "topic": null,
+        "site": null,
+        "primary_tag": "GI::Colon::Neoplastic::Benign::Serrated_Epithelial_Change",
+        "tag_status": "generated_consolidated",
+        "excerpt": "...RL: https://www.pathologyoutlines.com/topic/colonserratedepithelialchange.html Primary tag: __UNMAPPED__ Top headings: Essential features | Epidemiology | Sites | Pathophysiology | Clinical features | Diagnosis | Prognostic factors | Treatment | Microscopic (histologic) description | No features of sessile serrated lesion (SSL) or traditional serrated adenoma (TSA) | Endoscopically normal mucosa or nodular / polypoid lesions | No features of sessile serrated lesion or traditional serrated adenoma | Synchronous dysplasia | Serrated (epithelial) change (see comment) | Differential diagnosis | Hypermucinous dysplasia | PubMed Search: Serrated epithelial change | Nuclear atypia decreases toward the surface epithelium and may be minimal or focal | Practice answer #1B. Serrated epithelial change (SEC). This biopsy shows hyperplastic polyp-like mucosal changes without dysplasia, predominantly i...",
+        "text": "...RL: https://www.pathologyoutlines.com/topic/colonserratedepithelialchange.html Primary tag: __UNMAPPED__ Top headings: Essential features | Epidemiology | Sites | Pathophysiology | Clinical features | Diagnosis | Prognostic factors | Treatment | Microscopic (histologic) description | No features of sessile serrated lesion (SSL) or traditional serrated adenoma (TSA) | Endoscopically normal mucosa or nodular / polypoid lesions | No features of sessile serrated lesion or traditional serrated adenoma | Synchronous dysplasia | Serrated (epithelial) change (see comment) | Differential diagnosis | Hypermucinous dysplasia | PubMed Search: Serrated epithelial change | Nuclear atypia decreases toward the surface epithelium and may be minimal or focal | Practice answer #1B. Serrated epithelial change (SEC). This biopsy shows hyperplastic polyp-like mucosal changes without dysplasia, predominantly i...",
+        "retrieval_mode": "pathout_ap_diagnostic_vector",
+        "vector_rank": 3,
+        "vector_score": 0.5578457117080688,
+        "api_exposed_source": "local_pathout_ap_vector_v048",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://www.pathologyoutlines.com/topic/colonserratedepithelialchange.html",
+            "source_family": "pathout"
+          }
+        ]
+      },
+      {
+        "rank": 4,
+        "title": "Pathology Outlines",
+        "source": "pathout",
+        "source_name": "Pathology Outlines",
+        "source_type": "pathout_ap_diagnostic_vector",
+        "source_id": "pathout::gastrointestinal::colontumorhyperplastic",
+        "record_id": null,
+        "document_id": null,
+        "chunk_id": null,
+        "url": "https://www.pathologyoutlines.com/topic/colontumorhyperplastic.html",
+        "source_url": "https://www.pathologyoutlines.com/topic/colontumorhyperplastic.html",
+        "section": null,
+        "topic": null,
+        "site": null,
+        "primary_tag": "GI::Colon::Polyp::Serrated::Colorectal_Hyperplastic_Polyp_Overview",
+        "tag_status": "chatgpt_assigned",
+        "excerpt": "...ml Primary tag: GI::Colon::Polyp::Serrated::Colorectal_Hyperplastic_Polyp_Overview Top headings: Very common type of polyp in the colon and rectum | Usually small (5 mm or less) | Essential features | Associated with no significant risk of malignant progression | Main differential diagnosis is with sessile serrated lesions (SSLs) | Terminology | Microvesicular and goblet cell rich variants exist | ICD coding | Epidemiology | Identified most often in adulthood | Large intestine | Etiology | Clinical features | Diagnosis | Case reports | Treatment | Clinical imagesImages hosted on other servers | These are small mucosal lesions, typically less than 5 mm in size | Microscopic (histologic) description | Mild nuclear enlargement, stratification and hyperchromasia, limited to the crypt bases ## Very common type of polyp in the colon and rectum Often numerous, particularly within the rectum ## ...",
+        "text": "...ml Primary tag: GI::Colon::Polyp::Serrated::Colorectal_Hyperplastic_Polyp_Overview Top headings: Very common type of polyp in the colon and rectum | Usually small (5 mm or less) | Essential features | Associated with no significant risk of malignant progression | Main differential diagnosis is with sessile serrated lesions (SSLs) | Terminology | Microvesicular and goblet cell rich variants exist | ICD coding | Epidemiology | Identified most often in adulthood | Large intestine | Etiology | Clinical features | Diagnosis | Case reports | Treatment | Clinical imagesImages hosted on other servers | These are small mucosal lesions, typically less than 5 mm in size | Microscopic (histologic) description | Mild nuclear enlargement, stratification and hyperchromasia, limited to the crypt bases ## Very common type of polyp in the colon and rectum Often numerous, particularly within the rectum ## ...",
+        "retrieval_mode": "pathout_ap_diagnostic_vector",
+        "vector_rank": 4,
+        "vector_score": 0.5468423962593079,
+        "api_exposed_source": "local_pathout_ap_vector_v048",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://www.pathologyoutlines.com/topic/colontumorhyperplastic.html",
+            "source_family": "pathout"
+          }
+        ]
+      },
+      {
+        "rank": 5,
+        "title": "Pathology Outlines",
+        "source": "pathout",
+        "source_name": "Pathology Outlines",
+        "source_type": "pathout_ap_diagnostic_vector",
+        "source_id": "pathout::gastrointestinal::colontumorserratedpolyposissx",
+        "record_id": null,
+        "document_id": null,
+        "chunk_id": null,
+        "url": "https://www.pathologyoutlines.com/topic/colontumorserratedpolyposissx.html",
+        "source_url": "https://www.pathologyoutlines.com/topic/colontumorserratedpolyposissx.html",
+        "section": null,
+        "topic": null,
+        "site": null,
+        "primary_tag": "GI::Syndrome::Polyposis::Serrated::Serrated_Polyposis",
+        "tag_status": "chatgpt_assigned",
+        "excerpt": "...ot amenable to colonoscopic management Some recommend screening colonoscopy in first degree family members (Am J Gastroenterol 2012;107:770) Gross imagesContributed by Raul S. Gonzalez, M.D. ## Serrated polyposis Numerous colon polypsMicroscopic (histologic) description Lesions typically consist of sessile serrated adenomas / polyps that may have cytologic dysplasia Hyperplastic polyps, typically of the microvesicular type, are also encountered and may be large Conventional adenomas are occasionally present and may represent sessile serrated adenomas / polyps with cytologic dysplasia Microscopic (histologic) imagesContributed by Raul S. Gonzalez, M.D. ## It has been linked to MLH1 germline mutations Patients only develop sessile serrated adenomas ## Patients usually present with lower gastrointestinal bleeding There appear to exist 2 distinct subgroups ## Reference: Serrated polyposis Ba...",
+        "text": "...ot amenable to colonoscopic management Some recommend screening colonoscopy in first degree family members (Am J Gastroenterol 2012;107:770) Gross imagesContributed by Raul S. Gonzalez, M.D. ## Serrated polyposis Numerous colon polypsMicroscopic (histologic) description Lesions typically consist of sessile serrated adenomas / polyps that may have cytologic dysplasia Hyperplastic polyps, typically of the microvesicular type, are also encountered and may be large Conventional adenomas are occasionally present and may represent sessile serrated adenomas / polyps with cytologic dysplasia Microscopic (histologic) imagesContributed by Raul S. Gonzalez, M.D. ## It has been linked to MLH1 germline mutations Patients only develop sessile serrated adenomas ## Patients usually present with lower gastrointestinal bleeding There appear to exist 2 distinct subgroups ## Reference: Serrated polyposis Ba...",
+        "retrieval_mode": "pathout_ap_diagnostic_vector",
+        "vector_rank": 5,
+        "vector_score": 0.531302273273468,
+        "api_exposed_source": "local_pathout_ap_vector_v048",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://www.pathologyoutlines.com/topic/colontumorserratedpolyposissx.html",
+            "source_family": "pathout"
+          }
+        ]
+      }
+    ],
+    "textbook_results": [],
+    "figures": [],
+    "warnings": [
+      "pathout_endpoint=/pathout/search",
+      "Keyword-only SQLite FTS5 retrieval; not semantic/vector retrieval.",
+      "Figures are returned from figure metadata/captions; image pixels are not interpreted.",
+      "Pathology Outlines image binaries are not assumed mirrored to GCS unless gcs_uri is present in figure metadata.",
+      "PathOut retrieval includes local AP-diagnostic filtered FAISS vector search.",
+      "PathOut AP vector artifacts are filtered/tagged offline; judge semantic vector hits for specificity."
+    ],
+    "search_mode": {
+      "textbooks": "hybrid_fts_faiss_vector_rrf",
+      "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+      "who": "upstream",
+      "pathout": "upstream_plus_local_ap_diagnostic_faiss_vector"
+    },
+    "source_locator_status": {
+      "enabled": true,
+      "registry_records_loaded": 280,
+      "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+    },
+    "page_image_locator_status": {
+      "enabled": true,
+      "inventory_records_loaded": 28705,
+      "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+    },
+    "pathout_ap_vector_status": {
+      "enabled": true,
+      "api_exposed": true,
+      "manifest_gcs": "gs://pathology_hub/03_indexes/pathology_outlines/pathout_allsite_v0_1/vector_ap_diagnostic_v1/pathout_ap_diagnostic_vector_manifest.json",
+      "records": 4397
+    },
+    "curriculum_results": [],
+    "curriculum_status": null,
+    "version": "1.5.10-html-bundle-v0.2-prod"
+  },
+  "elapsed": 0.7192351818084717
+}

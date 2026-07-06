@@ -1,0 +1,492 @@
+[
+  {
+    "insertId": "6a4bfdd80005a6dc0bc4412a",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:20.452658345Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39546 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:20.370396Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.493421758s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "490",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "15329",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd80005aa0cda4222a7",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:20.450613079Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "4f459c9b53c8d461",
+    "timestamp": "2026-07-06T19:11:19.875732Z",
+    "trace": "projects/pathology-annotation-project/traces/e0ab3380e8017eb513986bdf23011aa6"
+  },
+  {
+    "insertId": "6a4bfdd7000c02cf629aa327",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:20.122423375Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39532 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:19.787151Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.299673515s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "493",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "30664",
+      "serverIp": "34.143.78.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd7000c0565dd866a68",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:20.126505652Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "7c6d968edf1f72df",
+    "timestamp": "2026-07-06T19:11:19.486562Z",
+    "trace": "projects/pathology-annotation-project/traces/f75db2856a4af0705c8351dabec42cbe"
+  },
+  {
+    "insertId": "6a4bfdd700061fbc94d65ff8",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:19.452089615Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39526 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:19.401340Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.040597268s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "486",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "6225",
+      "serverIp": "34.143.75.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd7000621f46b4bbab4",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:19.452143039Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "70ea87eed2fdc4c7",
+    "timestamp": "2026-07-06T19:11:19.359582Z",
+    "trace": "projects/pathology-annotation-project/traces/44198e7d7742d9bcbf3bfe7f7d681baf"
+  },
+  {
+    "insertId": "6a4bfdd700041ccf39614dd7",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:19.452089615Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39512 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:19.269519Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.618160446s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "492",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "15443",
+      "serverIp": "34.143.76.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd70004222bee967bbe",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:19.452143039Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "abf65a56fc29374f",
+    "timestamp": "2026-07-06T19:11:18.650355Z",
+    "trace": "projects/pathology-annotation-project/traces/ad07e1acd5f66b9d69f093c4fce73f65"
+  },
+  {
+    "insertId": "6a4bfdd600085a2afc06d419",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:18.789821688Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39496 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:18.547370Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.326178333s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "495",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "29631",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd600085d06098d15fe",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:18.787377793Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "2be61c7ea6d73684",
+    "timestamp": "2026-07-06T19:11:18.220264Z",
+    "trace": "projects/pathology-annotation-project/traces/2906e7a911fae0c7431e6a207dd94bc0"
+  },
+  {
+    "insertId": "6a4bfdd60001bcab24b0ff6a",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:11:18.118903895Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:39484 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:11:18.113835Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.047874617s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "488",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "7253",
+      "serverIp": "34.143.72.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdd60001bf0272c9aaca",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:11:18.120539314Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "cb7736f017389c1b",
+    "timestamp": "2026-07-06T19:11:18.064274Z",
+    "trace": "projects/pathology-annotation-project/traces/72627e3dd974558d876277ae3cb8d390",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4bfdbe00040ff5d4f8baab",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:10:54.400347845Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:38428 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:10:54.266229Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "1.431038237s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "512",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "50104",
+      "serverIp": "34.143.75.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdbe0004133ed8cdc3e1",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:10:54.415194825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "259c75cf1ee6ae01",
+    "timestamp": "2026-07-06T19:10:52.834366Z",
+    "trace": "projects/pathology-annotation-project/traces/3893334ac7a5856efb17bb01c3050883",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4bfdbc000b055f437ffc4c",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:10:52.729497336Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:63190 - \"POST /evidence/search HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:10:52.722271Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "26.351755808s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "POST",
+      "requestSize": "513",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+      "responseSize": "50209",
+      "serverIp": "34.143.74.2",
+      "status": 200,
+      "userAgent": "Python-urllib/3.14"
+    },
+    "insertId": "6a4bfdbc000b467bc24acb59",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:10:52.747678787Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "602e581027ac8567",
+    "timestamp": "2026-07-06T19:10:26.375827Z",
+    "trace": "projects/pathology-annotation-project/traces/ce783cf18dcdebe8b0fbafac7c9318eb",
+    "traceSampled": true
+  },
+  {
+    "insertId": "6a4bfcdf0001688476c2ccbc",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-07-06T19:07:11.099938509Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:     169.254.169.126:23922 - \"GET /health HTTP/1.1\" 200 OK",
+    "timestamp": "2026-07-06T19:07:11.092292Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.013424522s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "205.154.255.128",
+      "requestMethod": "GET",
+      "requestSize": "281",
+      "requestUrl": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/health",
+      "responseSize": "54177",
+      "serverIp": "34.143.73.2",
+      "status": 200,
+      "userAgent": "curl/8.18.0"
+    },
+    "insertId": "6a4bfcdf00016bcbdee480a9",
+    "labels": {
+      "instanceId": "002f8ffd473410c3e89f4a7d67489094052aefe969438f3dd7a27b48c6469aad51d7c209a7a73d4657f2c6d071538d2e186cad08de3f0abc1987e05308174a2ed4319175c4151d99753ac495e346b2"
+    },
+    "logName": "projects/pathology-annotation-project/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-07-06T19:07:11.100503811Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "pathology-hub-v04",
+        "location": "us-central1",
+        "project_id": "pathology-annotation-project",
+        "revision_name": "pathology-hub-v04-00029-rnt",
+        "service_name": "pathology-hub-v04"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "b98d7af56099d6c3",
+    "timestamp": "2026-07-06T19:07:11.069307Z",
+    "trace": "projects/pathology-annotation-project/traces/8d5f0def6a0e678a036a8cda61e208ae",
+    "traceSampled": true
+  }
+]

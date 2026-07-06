@@ -1,0 +1,161 @@
+{
+  "status": 200,
+  "body": {
+    "schema_version": "evidence_search_response.v1.5.9",
+    "query": "sessile serrated lesion",
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "who_results": [
+      {
+        "title": "Non-ampullary adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "GI",
+        "entity_name": "Non-ampullary adenoma",
+        "section": "core",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Non_Ampullary_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Non_Ampullary_Adenoma.html",
+        "excerpt": "Entity: Non-ampullary adenoma definition: Non-ampullary adenoma is a polyp of the small intestine consisting of dysplastic glandular epithelium, which may show intestinal-type or pyloric gland differentiation. related_terminology: Not recommended: Brunner gland adenoma. essential_and_desirable_diagnostic_criteria: Essential: sessile or pedunculated mucosal growth(s) in a non-ampullary location; a closely packed tubular, glandular, or tubulopapillary growth pattern with epithelial dysplasia; intestinal epithelial differentiation, pyloric gland differentiation, or a serrated growth pattern (for subtyping). Note: The degree of dysplasia is determined on the basis of architectural complexity, nuclear stratification, and nuclear atypia.",
+        "score": -10.122407596270772,
+        "record_id": "whochunk:gi:non_ampullary_adenoma:core:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Non_Ampullary_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 1
+      },
+      {
+        "title": "Serrated polyposis (RNF43)",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "GENETICS",
+        "entity_name": "Serrated polyposis (RNF43)",
+        "section": "core",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+        "excerpt": "Entity: Serrated polyposis (RNF43) definition: Serrated polyposis is a condition of largely unknown etiology, characterized by multiple serrated polyps in the large intestine and associated with an increased risk of colorectal carcinoma. related_terminology: Not recommended: hyperplastic polyposis essential_and_desirable_diagnostic_criteria: The clinical criteria for the diagnosis of serrated polyposis are presented in Box < #37551 >>. Also see summary table #37556.",
+        "score": -11.24165718752093,
+        "record_id": "whochunk:genetics:serrated_polyposis_rnf43:core:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 2
+      },
+      {
+        "title": "Serrated polyposis (RNF43)",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "GENETICS",
+        "entity_name": "Serrated polyposis (RNF43)",
+        "section": "microscopic",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+        "excerpt": "Entity: Serrated polyposis (RNF43) Section: microscopic Any patient fulfilling at least one of the clinical criteria (see Box <#37551) is diagnosed with serrated polyposis. Any subtype of serrated lesions/polyps (hyperplastic polyps, sessile serrated lesions with or without dysplasia and traditional serrated adenomas) is included in the final count. The diagnosis may require more than one colonoscopy.",
+        "score": -17.938734184317113,
+        "record_id": "whochunk:genetics:serrated_polyposis_rnf43:microscopic:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GENETICS/Serrated_Polyposis_Rnf43.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 3
+      },
+      {
+        "title": "Appendiceal serrated lesions and polyps",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "GI",
+        "entity_name": "Appendiceal serrated lesions and polyps",
+        "section": "core",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+        "excerpt": "Entity: Appendiceal serrated lesions and polyps definition: Appendiceal serrated lesions and polyps are mucosal epithelial polyps characterized by a serrated (sawtooth or stellate) architecture of the crypt lumen. related_terminology: Not recommended: diffuse mucosal hyperplasia; serrated adenoma; sessile serrated polyp/adenoma. essential_and_desirable_diagnostic_criteria: See Table #0066.",
+        "score": -18.327527927677167,
+        "record_id": "whochunk:gi:appendiceal_serrated_lesions_and_polyps:core:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 4
+      },
+      {
+        "title": "Appendiceal serrated lesions and polyps",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "GI",
+        "entity_name": "Appendiceal serrated lesions and polyps",
+        "section": "related_terminology",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+        "excerpt": "Entity: Appendiceal serrated lesions and polyps Section: related_terminology Not recommended: diffuse mucosal hyperplasia; serrated adenoma; sessile serrated polyp/adenoma.",
+        "score": -19.89776693944068,
+        "record_id": "whochunk:gi:appendiceal_serrated_lesions_and_polyps:related_terminology:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GI/Appendiceal_Serrated_Lesions_And_Polyps.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 5
+      }
+    ],
+    "journal_results": [],
+    "pathout_results": [],
+    "textbook_results": [],
+    "figures": [],
+    "warnings": [],
+    "search_mode": {
+      "textbooks": "hybrid_fts_faiss_vector_rrf",
+      "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+      "who": "upstream",
+      "pathout": "upstream"
+    },
+    "source_locator_status": {
+      "enabled": true,
+      "registry_records_loaded": 280,
+      "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+    },
+    "page_image_locator_status": {
+      "enabled": true,
+      "inventory_records_loaded": 28705,
+      "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+    },
+    "curriculum_results": [],
+    "curriculum_status": null,
+    "version": "1.5.10-html-bundle-v0.2-prod"
+  },
+  "elapsed": 0.15089678764343262
+}

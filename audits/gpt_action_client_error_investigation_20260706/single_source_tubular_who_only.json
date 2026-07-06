@@ -1,0 +1,161 @@
+{
+  "status": 200,
+  "body": {
+    "schema_version": "evidence_search_response.v1.5.9",
+    "query": "tubular adenoma colon",
+    "source_status": {
+      "who": "ok",
+      "journals": "not_requested",
+      "pathout": "not_requested",
+      "textbooks": "not_requested",
+      "curriculum": "not_requested"
+    },
+    "who_results": [
+      {
+        "title": "Tubular adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "EYE",
+        "entity_name": "Tubular adenoma",
+        "section": "core",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+        "excerpt": "Entity: Tubular adenoma definition: Tubular adenoma is a benign apocrine neoplasm comprising lobules of multiple irregularly shaped tubular structures that have a double-to several-layered cell lining (inner epithelial and outer myoepithelial), embedded in a fibrous stroma. related_terminology: Acceptable: Tubular papillary adenoma; papillary eccrine adenoma; tubular apocrine adenoma essential_and_desirable_diagnostic_criteria: Essential: Lobules consisting of multiple irregularly shaped tubular structures that have a double- to several-layered epithelial lining, embedded in a fibrous stroma.",
+        "score": -14.248138702631657,
+        "record_id": "whochunk:eye:tubular_adenoma:core:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 1
+      },
+      {
+        "title": "Tubular adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "SKIN",
+        "entity_name": "Tubular adenoma",
+        "section": "core",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "excerpt": "Entity: Tubular adenoma definition: Tubular adenoma is a benign dermal neoplasm composed of tubules and glandular structures with or without papillae. related_terminology: Acceptable: tubular papillary adenoma; tubular apocrine adenoma. Not recommended: papillary eccrine adenoma; tubular syringoadenoma. essential_and_desirable_diagnostic_criteria: Essential: lobules of irregularly shaped tubules with a dual or multilayered epithelium embedded in fibrous stroma. Desirable: intraluminal micropapillae lacking a fibrovascular core.",
+        "score": -14.371909382309418,
+        "record_id": "whochunk:skin:tubular_adenoma:core:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 2
+      },
+      {
+        "title": "Tubular adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "SKIN",
+        "entity_name": "Tubular adenoma",
+        "section": "prognosis_and_prediction",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "excerpt": "Entity: Tubular adenoma Section: prognosis_and_prediction Tubular adenoma is a benign neoplasm.",
+        "score": -14.641063946767012,
+        "record_id": "whochunk:skin:tubular_adenoma:prognosis_and_prediction:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 3
+      },
+      {
+        "title": "Tubular adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "EYE",
+        "entity_name": "Tubular adenoma",
+        "section": "related_terminology",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+        "excerpt": "Entity: Tubular adenoma Section: related_terminology Acceptable: Tubular papillary adenoma; papillary eccrine adenoma; tubular apocrine adenoma",
+        "score": -15.326874001591001,
+        "record_id": "whochunk:eye:tubular_adenoma:related_terminology:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/EYE/Tubular_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 4
+      },
+      {
+        "title": "Tubular adenoma",
+        "source_name": "WHO Classification of Tumours",
+        "source": "who",
+        "source_family": "WHO",
+        "volume_code": "SKIN",
+        "entity_name": "Tubular adenoma",
+        "section": "related_terminology",
+        "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+        "excerpt": "Entity: Tubular adenoma Section: related_terminology Acceptable: tubular papillary adenoma; tubular apocrine adenoma. Not recommended: papillary eccrine adenoma; tubular syringoadenoma.",
+        "score": -15.400991001297172,
+        "record_id": "whochunk:skin:tubular_adenoma:related_terminology:001",
+        "reference_links": [
+          {
+            "kind": "source_url",
+            "label": "Source URL",
+            "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Tubular_Adenoma.html",
+            "source_family": "who"
+          }
+        ],
+        "retrieval_mode": "who_upstream_title_boost_v0_2",
+        "rank": 5
+      }
+    ],
+    "journal_results": [],
+    "pathout_results": [],
+    "textbook_results": [],
+    "figures": [],
+    "warnings": [],
+    "search_mode": {
+      "textbooks": "hybrid_fts_faiss_vector_rrf",
+      "journals": "hybrid_upstream_fts_faiss_vector_rrf",
+      "who": "upstream",
+      "pathout": "upstream"
+    },
+    "source_locator_status": {
+      "enabled": true,
+      "registry_records_loaded": 280,
+      "note": "Textbook page links use #page=N from chunk page plus optional offset; timestamp links require start_sec/end_sec."
+    },
+    "page_image_locator_status": {
+      "enabled": true,
+      "inventory_records_loaded": 28705,
+      "inventory_gcs": "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+    },
+    "curriculum_results": [],
+    "curriculum_status": null,
+    "version": "1.5.10-html-bundle-v0.2-prod"
+  },
+  "elapsed": 0.12791061401367188
+}
