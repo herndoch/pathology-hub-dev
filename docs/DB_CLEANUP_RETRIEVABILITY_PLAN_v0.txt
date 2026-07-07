@@ -1,0 +1,346 @@
+DB_CLEANUP_RETRIEVABILITY_PLAN_V0
+Local-only, GCS-aware remediation plan for curriculum SQLite artifacts
+
+Use this as the master prompt for another AI.
+
+----------------------------------------
+OPERATING RULES (NON-NEGOTIABLE)
+----------------------------------------
+- Treat AGENTS.md and CURRENT_MASTER_SPINE as authoritative.
+- Canonical project: pathology-annotation-project
+- Canonical buckets: gs://pathology_hub, gs://pathology-hub-0
+- Do NOT propose any of:
+  - GCS uploads
+  - Cloud Run deploys
+  - live API pointer changes
+  - GPT Builder updates
+  - deletion of original source/normalized/vector artifacts
+  - first-pass destructive deletion of local DB artifacts
+- Keep stream boundaries:
+  source -> normalized -> chunked -> vector -> API-exposed -> frontend
+- Always generate audit/manifests before any candidate artifact is considered ready.
+- This pass is local-only. GCS is used for read-only inventory/provenance validation only.
+
+Scope:
+- Workspace: /home/herndonch/pathology-hub-dev
+- SQLite artifacts:
+  - outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite
+  - outputs/curriculum_map_v0_3/curriculum_tag_index_v0_3.sqlite
+  - outputs/curriculum_map_v0_4/curriculum_tag_index_v0_4.sqlite
+- Build scripts:
+  - scripts/build_curriculum_map_v0_2.py
+  - scripts/build_curriculum_map_v0_3.py
+  - scripts/curriculum_gapfill_v0_4_stage_with_low_info_gate.py
+  - scripts/curriculum_map_readiness_v0.py
+- Runtime consumer: backend/pathology_hub_v04_curriculum/app.py
+
+----------------------------------------------------------
+DEMAND FOR THIS PLAN (what the other AI should output)
+----------------------------------------------------------
+Create a complete phased cleanup plan with:
+1) phases 0-6 with goal/checks/pass-fail/rollback/risk
+2) Top-10 prioritized backlog
+3) runtime compatibility strategy for app.py vs v0_3/v0_4
+4) non-destructive migration/shadow-swap pattern
+5) validation suite and smoke checks
+6) go/no-go checklist
+7) one-page runbook
+
+Every recommendation must be tagged MUST / SHOULD / NICE-TO-HAVE.
+No markdown fluff; concise bullets + concrete commands/snippets are preferred.
+
+--------------------------------------
+PHASE 0: READ-ONLY AUDIT (MUST)
+--------------------------------------
+Goal:
+Understand actual schema, row quality, and GCS coverage before any writes.
+
+Checks/Scripts:
+- Local SQLite dump:
+  sqlite3 outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite ".schema" > audits/db_cleanup_v0/schema.v0_2.sql
+  sqlite3 outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite "PRAGMA integrity_check;" > audits/db_cleanup_v0/integrity.v0_2.txt
+  sqlite3 outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite "PRAGMA foreign_key_check;" > audits/db_cleanup_v0/fk_check.v0_2.txt
+  (repeat for v0_3/v0_4)
+- SQL surface inventory:
+  sqlite3 outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite ".tables"
+  sqlite3 outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite "PRAGMA table_info(curriculum_records);"
+- GCS read-only inventory snapshots (bounded prefixes):
+  gcloud storage ls -l --project=pathology-annotation-project gs://pathology-hub-0/source_videos/** > audits/db_cleanup_v0/gcs_inventory/hub0_source_videos.txt
+  gcloud storage ls -l --project=pathology-annotation-project gs://pathology-hub-0/source_pdfs/** > audits/db_cleanup_v0/gcs_inventory/hub0_source_pdfs.txt
+  gcloud storage ls -l --project=pathology-annotation-project gs://pathology-hub-0/WHO/WHO_HTML/** > audits/db_cleanup_v0/gcs_inventory/hub0_who_html.txt
+- Runtime compatibility query against app.py:
+  run static read of app.py for SQL table/column expectations.
+
+Pass/Fail:
+- integrity_check == ok
+- FK check empty
+- audits files exist with counts and missing-table detection
+Rollback:
+- none (read-only)
+Risk:
+- Low (pure discovery)
+
+-----------------------------------------------
+PHASE 1: SCHEMA COMPATIBILITY HARDENING (MUST)
+-----------------------------------------------
+Goal:
+Ensure a cleaned DB can be opened by app.py immediately and retain recoverable rows.
+
+Checks/Scripts:
+- Detect missing runtime tables/columns in v0_2-v0_4:
+
+  SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
+  SELECT COUNT(*) FROM pragma_table_info('tag_counts');
+
+- Build local compatibility DDL artifact:
+  audits/db_cleanup_v0/curriculum_schema_v0_cleaned.sql
+
+- Add migration script safety updates:
+  replace `path.unlink()` recreation with tmp + atomic replace in:
+  - scripts/build_curriculum_map_v0_2.py
+  - scripts/build_curriculum_map_v0_3.py
+  - scripts/curriculum_gapfill_v0_4_stage_with_low_info_gate.py
+  - scripts/curriculum_map_readiness_v0.py
+
+- Verify script writes:
+  python3 -m py_compile <all four scripts>
+
+Pass/Fail:
+- v0_4 cleaned schema contains: curriculum_records (PK), curriculum_nodes (PK), tag_counts, review_queue, high_yield_examples
+- startup smoke in app.py can verify required tables at open
+Rollback:
+- restore previous script logic from git; no artifact-level rollback needed yet
+Risk:
+- Medium (touches core builder behavior)
+
+---------------------------------------------------
+PHASE 2: GCS-LED PROVENANCE AND PTR REPAIR (MUST)
+---------------------------------------------------
+Goal:
+Expose traceability to source JSON/normalized/chunked assets and classify missing/malformed URIs.
+
+Checks/Scripts:
+- Parse canonical source JSONL as provenance source:
+  outputs/curriculum_map_v0_4/curriculum_records_v0_4.jsonl
+  (and v0_2 source JSONL similarly)
+- SQL checks after load into child table `record_sources`:
+
+  SELECT COUNT(*) FROM record_sources WHERE COALESCE(TRIM(raw_source_gcs_uri),'')='';
+  SELECT COUNT(*) FROM record_sources WHERE raw_source_gcs_uri NOT LIKE 'gs://pathology_hub/%' AND raw_source_gcs_uri NOT LIKE 'gs://pathology-hub-0/%';
+  SELECT record_id, raw_source_gcs_uri FROM record_sources WHERE LOWER(COALESCE(raw_source_gcs_uri,'')) IN ('unknown','none','n/a','placeholder');
+  SELECT record_id, raw_source_gcs_uri FROM record_sources WHERE raw_source_gcs_uri<>'' AND raw_source_gcs_uri NOT IN (SELECT gs_uri FROM gcs_inventory_table);
+
+Pass/Fail:
+- Every row has a non-empty provenance class (ok_traced / missing / malformed / stale / unsupported)
+- No malformed `gs://` URIs in visible set
+Rollback:
+- keep unresolved rows in rejects JSONL, do not fail hard unless policy requires
+Risk:
+- High if classifying heuristics are wrong; use deterministic-only transformations.
+
+-----------------------------------------------------------
+PHASE 3: MALFORMED / FLATTENED DATA REMEDIATION (SHOULD)
+-----------------------------------------------------------
+Goal:
+Make flattening losses explicit and searchable rather than hidden in opaque fields.
+
+Checks/Scripts:
+- Create child tables:
+  - record_tags(record_key, tag, tag_kind)
+  - record_pages(record_key, page, chapter_number, section_heading)
+  - record_assets(record_key, asset_kind, gcs_uri, public_url)
+- Detect flattened-like fields:
+
+  SELECT id, field FROM staging WHERE TRIM(field) LIKE '[%' OR TRIM(field) LIKE '{%';
+  SELECT id, field FROM staging WHERE field LIKE '%,%' OR field LIKE '%|%' OR field LIKE '%;%';
+
+Pass/Fail:
+- flatten indicators are normalized into child rows or reject file
+- explicit audit counts for unresolved flatten patterns
+Rollback:
+- keep all rejected rows and allow reruns; no destructive overwrite
+Risk:
+- Medium (may alter query semantics if done blindly)
+
+--------------------------------------------------------
+PHASE 4: DUPLICATE / NULL / BLANK QUALITY CONTROLS (MUST)
+--------------------------------------------------------
+Goal:
+Preserve duplicate history but prevent invalid rows from polluting curriculum/search surfaces.
+
+Checks/Scripts:
+- Duplicate semantic rows:
+  SELECT curriculum_unit_id, approved_tag, source, COUNT(*) n FROM curriculum_records
+  GROUP BY curriculum_unit_id, approved_tag, source HAVING n>1;
+- Key quality checks:
+  SELECT COUNT(*) FROM curriculum_records WHERE COALESCE(TRIM(approved_tag),'')='';
+  SELECT COUNT(*) FROM curriculum_records WHERE title IS NULL OR TRIM(title)='';
+- Reject-write pattern:
+  - rejects/blank_title.jsonl
+  - rejects/blank_or_missing_tag.jsonl
+  - rejects/duplicate_semantic.jsonl (if policy decides to drop)
+
+Pass/Fail:
+- primary API-visible set has zero blank approved_tag
+- duplicates classified and either preserved via deterministic row_key or rejected explicitly
+Rollback:
+- restore from source JSONL + re-run build
+Risk:
+- Medium
+
+----------------------------------------------
+PHASE 5: PERFORMANCE / RETRIEVABILITY TUNING (SHOULD)
+----------------------------------------------
+Goal:
+Add practical indexes and optional FTS for curriculum-search quality.
+
+Checks/Scripts:
+- Add:
+  CREATE INDEX idx_cr_tag ON curriculum_records(approved_tag);
+  CREATE INDEX idx_cr_root ON curriculum_records(root);
+  CREATE INDEX idx_cr_source ON curriculum_records(source);
+  CREATE INDEX idx_tc_tag ON tag_counts(tag);
+  CREATE INDEX idx_rq_source ON review_queue(source);
+  CREATE INDEX idx_hy_tag ON high_yield_examples(tag);
+- Add FTS:
+  CREATE VIRTUAL TABLE curriculum_records_fts USING fts5(curriculum_row_key UNINDEXED, approved_tag, root, title, search_text, tokenize='unicode61');
+
+Pass/Fail:
+- explain-query-plan for runtime paths is index-backed for at least core predicates
+- FTS smoke query returns expected matches
+Rollback:
+- keep DDL/apply within cleaned DB only
+Risk:
+- Low to Medium
+
+----------------------------------------------
+PHASE 6: MIGRATION SAFETY + GUARDRAILS (MUST)
+----------------------------------------------
+Goal:
+Make migration non-destructive and auditable end-to-end.
+
+Pattern:
+1) Read source artifacts read-only.
+2) Emit cleaned DB into temp path `<artifact>.sqlite.tmp`.
+3) Validate integrity, schema drift, quality checks.
+4) Write manifest.json / audit.json / rejects.
+5) Atomic replace.
+
+SQL checks for final validation:
+  PRAGMA integrity_check;
+  PRAGMA foreign_key_check;
+  SELECT name FROM sqlite_master WHERE type='table';
+  SELECT COUNT(*) FROM curriculum_records;
+  SELECT COUNT(*) FROM curriculum_records_fts;
+
+Pass/Fail:
+- Integrity ok, foreign_key_check empty, row deltas explained
+- required files exist: schema.sql, manifest.json, audit.json, validation/*.json
+Rollback:
+- no atomic replace until pass; if replaced, restore from previous known artifact path copy
+Risk:
+- Medium
+
+----------------------------------------------
+RUNTIME COMPAT STRATEGY (app.py vs v0_3/v0_4)
+----------------------------------------------
+- Do not change app.py query contracts first.
+- Build a cleaned v0_4 artifact containing required runtime tables:
+  - tag_counts
+  - review_queue
+  - high_yield_examples
+- Add startup guard in app.py that:
+  - validates required tables + columns exist
+  - logs missing-table details and aborts with explicit RuntimeError
+- Keep map_version/capability flags explicit to avoid silent fallback.
+- If adding FTS branch, preserve old behavior as fallback when FTS table missing.
+
+----------------------------------------------------------
+NON-DESTRUCTIVE MIGRATION BLUEPRINT (CANDIDATE ARTIFACT)
+----------------------------------------------------------
+Target output path:
+outputs/curriculum_map_v0_4_cleaned/curriculum_tag_index_v0_4_cleaned.sqlite
+
+Recommended files:
+- schema.sql
+- manifest.json
+- audit.json
+- validation/integrity.json
+- rejects/*.jsonl
+- gcs_inventory/*.txt
+
+Script plan:
+1. `scripts/build_curriculum_db_cleaned_v0.py` (new)
+2. Read JSONL source-of-truth and inventories
+3. Populate normalized parent tables + child provenance/tags/assets/pages tables
+4. Populate tag_counts/review_queue/high_yield_examples/curriculum_nodes deterministically
+5. Run validation and write audit/manifest
+6. atomic swap
+
+------------------------------------------------
+VALIDATION SUITE (REQUIRED)
+------------------------------------------------
+- integrity:
+  PRAGMA integrity_check; (must be ok)
+- foreign keys:
+  PRAGMA foreign_key_check; (must be empty)
+- schema:
+  compare against schema.sql
+- duplicates:
+  duplicate PK groups = 0
+- missing source coverage:
+  percent rows with no source pointer; must be bounded and documented
+- malformed gcs:
+  malformed and wrong-bucket count = 0 for visible rows
+- runtime smoke:
+  tag_counts exists and non-empty
+  review_queue query returns rows for known tag if seed exists
+  high_yield_examples returns rows
+- row count reconciliation:
+  input_count == kept_count + reject_count (+ optional dropped duplicates)
+
+---------------------------------------------------
+TOP-10 PRIORITIZED BACKLOG (DO-FIRST)
+---------------------------------------------------
+1) [MUST] Freeze phase0 read-only audits + tables/rowcount baseline.
+2) [MUST] Confirm runtime table requirements from app.py and current breakage points.
+3) [MUST] Patch 4 builders to atomic temp-write + replace.
+4) [MUST] Add compatibility schema with required tables in cleaned v0_4 artifact.
+5) [MUST] Build provenance extraction/reject pipeline from JSONL.
+6) [SHOULD] Add child tables for tags/pages/assets and provenance flags.
+7) [MUST] Implement deterministic duplicate/blank remediation and rejects output.
+8) [SHOULD] Add FTS and practical indexes.
+9) [SHOULD] Add startup guard in app.py for required tables.
+10) [NICE-TO-HAVE] Add governance/lineage docs and runbook for next-phase staging review.
+
+-------------------------
+GO / NO-GO CHECKLIST
+-------------------------
+GO:
+- integrity_check ok
+- no critical schema missing
+- provenance_class present for all rows
+- blank approved_tag=0 in visible set
+- runtime smoke checks pass
+- audit.json/manifest.json complete
+- all changes are local artifacts with rollback plan
+
+NO-GO:
+- destructive changes to source/normalized/vector artifacts
+- unclassified broken provenance in visible rows
+- unknown schema drift without audit trail
+- runtime table mismatch
+- missing reject records for dropped rows
+
+-----------------------------------
+ONE-PAGE EXECUTION RUNBOOK (LOCAL)
+-----------------------------------
+1) Run Phase 0 audit commands and persist outputs in audits/db_cleanup_v0.
+2) Update 4 builder scripts to temp-write + atomic replace (if not already done).
+3) Generate compatibility schema file for cleaned v0_4.
+4) Build cleaned sidecar DB from source JSONL + inventories; emit rejects and audit.
+5) Run integrity + provenance + runtime checks.
+6) Review go/no-go checklist.
+7) Stop (no uploads/deploy/pointer changes in this pass).
+
+End of plan prompt.

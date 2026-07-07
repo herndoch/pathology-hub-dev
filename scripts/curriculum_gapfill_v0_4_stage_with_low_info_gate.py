@@ -742,9 +742,10 @@ def row_key(row: dict[str, Any], occurrence: int) -> str:
 
 
 def write_sqlite(path: Path, records: list[dict[str, Any]], nodes: list[dict[str, Any]]) -> dict[str, Any]:
-    if path.exists():
-        path.unlink()
-    conn = sqlite3.connect(path)
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    if tmp_path.exists():
+        tmp_path.unlink()
+    conn = sqlite3.connect(tmp_path)
     conn.execute(
         "CREATE TABLE curriculum_records (curriculum_row_key TEXT PRIMARY KEY, record_id TEXT, approved_tag TEXT, root TEXT, source TEXT, title TEXT, input_path TEXT, content_source TEXT, ontology_source TEXT, map_status TEXT)"
     )
@@ -785,6 +786,7 @@ def write_sqlite(path: Path, records: list[dict[str, Any]], nodes: list[dict[str
     by_source = dict(conn.execute("SELECT content_source, COUNT(*) FROM curriculum_records GROUP BY content_source ORDER BY COUNT(*) DESC").fetchall())
     conn.commit()
     conn.close()
+    tmp_path.replace(path)
     if sqlite_rows != len(records):
         raise RuntimeError(f"SQLite row drop detected for v0.4: input={len(records)} sqlite={sqlite_rows}")
     return {"sqlite_rows": sqlite_rows, "by_status": by_status, "by_root": by_root, "by_source_family": by_source}

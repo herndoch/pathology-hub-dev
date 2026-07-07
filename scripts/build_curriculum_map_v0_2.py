@@ -404,9 +404,10 @@ def iter_source_records(input_dir: Path, sample_size: int) -> Iterator[Tuple[str
 
 
 def write_sqlite(path: Path, records: Sequence[Dict[str, Any]], node_counts: Counter, source_counts: Counter, tag_counts: Counter, review_rows: Sequence[Dict[str, Any]], rejected_rows: Sequence[Dict[str, Any]], high_yield_rows: Sequence[Dict[str, Any]]) -> None:
-    if path.exists():
-        path.unlink()
-    conn = sqlite3.connect(path)
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    if tmp_path.exists():
+        tmp_path.unlink()
+    conn = sqlite3.connect(tmp_path)
     try:
         conn.execute("CREATE TABLE curriculum_nodes (tag TEXT, root TEXT, record_count INTEGER)")
         conn.execute("CREATE TABLE curriculum_records (record_id TEXT, source TEXT, approved_tag TEXT, status TEXT, visible INTEGER, title TEXT)")
@@ -435,6 +436,7 @@ def write_sqlite(path: Path, records: Sequence[Dict[str, Any]], node_counts: Cou
         conn.commit()
     finally:
         conn.close()
+    tmp_path.replace(path)
 
 
 def fmt_num(value: int) -> str:

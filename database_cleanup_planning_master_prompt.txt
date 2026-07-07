@@ -1,0 +1,570 @@
+You are a senior data/platform engineer. Your task is to produce an ambitious, practical cleanup and remediation plan for the local SQLite/database layer in this codebase.
+
+This is not just SQLite tidying. Treat the local databases as downstream products of a larger GCS-backed data system. The plan must understand GCS source/provenance, malformed local records, flattened structures, runtime compatibility, and a realistic path toward a cleaned artifact that can later be promoted after explicit approval.
+
+## Workspace
+
+Root:
+- /home/herndonch/pathology-hub-dev
+
+Primary scope:
+- local SQLite artifacts
+- curriculum/tag database schemas
+- build scripts
+- runtime database expectations
+- source/provenance linkage back to GCS
+- local cleaned DB artifacts, audits, manifests, rejects, and migration scripts
+
+## Canonical project and buckets
+
+Treat CURRENT_MASTER_SPINE and AGENTS.md as authoritative.
+
+Canonical GCP project:
+- pathology-annotation-project
+
+Canonical buckets:
+- gs://pathology_hub
+- gs://pathology-hub-0 legacy/source
+
+Keep separate:
+- source files in GCS
+- staged/normalized data
+- chunked data
+- vectorized/searchable indexes
+- API-exposed capabilities
+- frontend
+
+Do not claim a source is indexed, vectorized, tagged, or API-exposed unless an audit, manifest, health check, or project source proves it.
+
+## Important posture
+
+Be ambitious and practical.
+
+The goal is not to produce a timid "do not touch anything" plan. The goal is to identify what is malformed, flattened, duplicated, blank, missing provenance, or disconnected from source GCS objects, then propose a concrete remediation path.
+
+The plan should aggressively answer:
+- What local DB rows are malformed, flattened, duplicated, blank, or missing structure?
+- What rows cannot be traced back to a real GCS source object?
+- What rows point to obsolete, placeholder, or impossible source paths?
+- What fields should be normalized into child tables instead of flattened strings?
+- What source/content/image/video/page URLs can be deterministically repaired from GCS inventory?
+- What runtime tables/views are required for the API to work against the cleaned DB?
+- What cleaned local artifact should be built first?
+- What future GCS/API promotion steps would be correct after approval?
+
+Be aggressive about finding and repairing bad data. Be disciplined about separating read-only discovery, local rebuilds, and cloud mutation.
+
+## Action categories
+
+Separate all recommendations into these categories.
+
+### 1. SAFE NOW / READ-ONLY
+
+Allowed in the plan as immediate discovery:
+- local SQLite inspection
+- local artifact inspection
+- read-only GCS inventory/probes
+- source lineage mapping
+- manifest generation
+- audit JSON generation
+- dry-run migration planning
+- read-only runtime query smoke tests against local DB files
+
+Read-only GCS understanding is required. Include exact commands where useful, such as:
+- gcloud storage ls
+- gcloud storage ls -l
+- gcloud storage cat ... | head
+- object inventory manifests
+- source/object existence probes
+- public URL derivation checks
+
+### 2. LOCAL BUILD / REVIEW ARTIFACTS
+
+Allowed as local-only remediation outputs:
+- cleaned sidecar SQLite DB
+- shadow tables
+- compatibility views
+- rejects JSONL
+- malformed row reports
+- provenance repair tables
+- schema.sql
+- manifest.json
+- audit.json
+- runtime smoke scripts pointed at the local cleaned DB
+- validation reports
+
+These should be additive and reversible. Prefer sidecars, rebuilt local artifacts, manifests, and audits over in-place mutation.
+
+### 3. APPROVAL-GATED FUTURE PROMOTION
+
+Do not perform these actions in this planning pass, but do propose them when they are the correct eventual path:
+- GCS uploads
+- replacing or adding canonical DB/index artifacts
+- Cloud Run deploys
+- live API pointer changes
+- GPT Builder updates
+- mutation of source/normalized/vector artifacts
+- deleting or replacing existing DB artifacts
+
+For every future mutation, include:
+- exact command or script
+- source artifact
+- destination artifact
+- audit prerequisite
+- rollback path
+- reason it is necessary
+- explicit approval gate
+
+Do not say "no GCS." Say:
+- GCS read-only understanding is required.
+- GCS mutation is approval-gated.
+- promotion is a later phase after local audit passes.
+
+## Known context
+
+SQLite stack:
+- raw Python sqlite3
+- no ORM
+- no formal migration framework
+
+Runtime DB access:
+- backend/pathology_hub_v04_curriculum/app.py
+
+Builder scripts:
+- scripts/build_curriculum_map_v0_2.py
+- scripts/build_curriculum_map_v0_3.py
+- scripts/curriculum_gapfill_v0_4_stage_with_low_info_gate.py
+- scripts/curriculum_map_readiness_v0.py
+
+Known local DB artifacts:
+- outputs/curriculum_map_v0_2/curriculum_tag_index_v0_2.sqlite
+- outputs/curriculum_map_v0_3/curriculum_tag_index_v0_3.sqlite
+- outputs/curriculum_map_v0_4/curriculum_tag_index_v0_4.sqlite
+
+Observed issues:
+- v0_2 has weak schema: no primary keys, weak/no indexes, weak/no NOT NULL constraints.
+- v0_2 has duplication/null/blank noise.
+- v0_3/v0_4 add some PK/indexes.
+- v0_3/v0_4 may be missing runtime tables expected by app.py, including:
+  - tag_counts
+  - review_queue
+  - high_yield_examples
+- Multiple scripts use destructive rebuild patterns like path.unlink() before recreate.
+- Existing records may be flattened in ways that lose useful structure.
+- Many records may not retain enough provenance to trace back to GCS source files, normalized files, chunk files, source pages, source videos, content JSON, or asset-library objects.
+
+## Core objective
+
+Produce a complete practical cleanup/remediation plan for the local DB layer.
+
+The goal is a cleaned local database artifact that:
+- has a stable schema
+- preserves source/provenance lineage
+- can trace rows back to GCS where possible
+- supports runtime expectations
+- makes malformed/flattened data visible and repairable
+- avoids destructive rebuild hazards
+- can be audited before future promotion
+- remains local-only until explicit approval gates are passed
+
+## Required deliverables
+
+### 1. Phased cleanup plan
+
+Create phases:
+
+- Phase 0: read-only local and GCS audit
+- Phase 1: schema/runtime compatibility hardening
+- Phase 2: provenance and GCS pointer repair
+- Phase 3: malformed/flattened data remediation
+- Phase 4: duplicate/null/blank cleanup
+- Phase 5: performance/index tuning
+- Phase 6: rebuild/migration safety guardrails
+- Phase 7: approval-gated future promotion path
+
+For each phase include:
+- goal
+- action category: SAFE NOW, LOCAL BUILD, or APPROVAL-GATED FUTURE PROMOTION
+- exact commands, SQL checks, or scripts to run
+- concrete expected outputs
+- pass/fail criteria
+- rollback strategy
+- risk level
+- recommendation level: MUST, SHOULD, or NICE-TO-HAVE
+
+### 2. Provenance/GCS pointer repair strategy
+
+Be specific about how to audit and restore links back to source material.
+
+Include checks for fields such as:
+- source_gcs_uri
+- normalized_source_path
+- chunk_source_path
+- source_json_url
+- source_content_json_url
+- source_page_url
+- page_image_url
+- video_url
+- video_time_url
+- lecture_slide_image_url
+- source_bucket
+- source_object
+- source_record_id
+- source_doc_id
+- curriculum_unit_id
+- tag/source ontology fields
+
+Include SQL snippets to find:
+- rows with no source pointer
+- rows with malformed gs:// URIs
+- rows with public URLs but no corresponding GCS URI
+- rows with GCS URI but no public URL where one is expected
+- rows whose source fields are flattened into text blobs
+- rows whose source pointer looks like a placeholder
+- rows whose source pointer does not match expected bucket conventions:
+  - gs://pathology_hub
+  - gs://pathology-hub-0
+- rows whose public storage URL cannot be deterministically converted back to a canonical GCS URI
+
+Include read-only GCS inventory strategy:
+- which prefixes to inventory first
+- how to store local inventory sidecars
+- how to compare DB source pointers against inventory
+- how to classify misses as missing local pointer, malformed pointer, stale GCS object, wrong bucket, wrong path convention, or unsupported source type
+
+### 3. Malformed/flattened data strategy
+
+Include practical checks for fields that should be structured but may be flattened, such as:
+- tags
+- evidence lists
+- source metadata
+- page ranges
+- lecture timestamps
+- modality/source type
+- ontology roots
+- accepted/review/rejected status
+- examples/high-yield rows
+- source URLs and asset URLs
+
+Include SQL snippets to detect:
+- JSON-looking strings that should be parsed or validated
+- comma-delimited fields that should become child tables
+- pipe-delimited or semicolon-delimited fields
+- repeated text prefixes
+- mixed source types in one column
+- blank strings vs NULLs
+- placeholder values
+- inconsistent casing
+- duplicate semantic records with different IDs
+- source metadata embedded only in text/excerpt/blob fields
+
+Propose normalized child tables where useful, for example:
+- record_sources
+- record_tags
+- record_evidence
+- record_assets
+- record_pages
+- record_lecture_segments
+- record_quality_flags
+- rejected_or_unresolved_records
+
+### 4. Runtime compatibility strategy
+
+Compare runtime expectations in:
+- backend/pathology_hub_v04_curriculum/app.py
+
+against local DB versions:
+- v0_2
+- v0_3
+- v0_4
+
+Plan how to make v0_4 or a new cleaned DB compatible without silently breaking runtime queries.
+
+Address expected/missing tables:
+- tag_counts
+- review_queue
+- high_yield_examples
+
+Include:
+- schema audit queries
+- runtime smoke queries
+- whether to rebuild missing tables, create views, or add compatibility sidecar tables
+- how to avoid hiding real data quality problems behind compatibility shims
+- what app.py should validate at startup before accepting a DB path
+- what error should be raised if required tables/columns are missing
+
+### 5. Non-destructive migration pattern
+
+Design a practical migration/rebuild flow using:
+- source DB opened read-only
+- source GCS inventory loaded from local sidecar manifests
+- shadow DB or sidecar DB
+- explicit schema file
+- insert-select transformations
+- Python repair scripts for fields that SQL cannot safely parse
+- validation tables
+- audit JSON
+- manifest JSON
+- rejects JSONL
+- atomic local rename/swap only after validation
+
+Include concrete file naming recommendations, for example:
+- outputs/curriculum_map_v0_4_cleaned/curriculum_tag_index_v0_4_cleaned.sqlite
+- outputs/curriculum_map_v0_4_cleaned/audit.json
+- outputs/curriculum_map_v0_4_cleaned/schema.sql
+- outputs/curriculum_map_v0_4_cleaned/manifest.json
+- outputs/curriculum_map_v0_4_cleaned/rejects/*.jsonl
+- outputs/curriculum_map_v0_4_cleaned/gcs_inventory/*.txt
+- outputs/curriculum_map_v0_4_cleaned/validation/*.json
+
+### 6. Validation suite proposal
+
+Include checks for:
+- SQLite PRAGMA integrity_check
+- SQLite PRAGMA foreign_key_check
+- schema drift
+- expected tables
+- expected indexes
+- expected NOT NULL columns
+- duplicate keys
+- duplicate semantic rows
+- blank/null fields
+- malformed JSON
+- malformed GCS URIs
+- missing source pointers
+- stale source pointers not found in GCS inventory
+- public URLs that do not map to expected bucket/object conventions
+- broken source-type classification
+- runtime query smoke tests
+- row-count deltas between old and cleaned DB
+- known example records
+
+Include concrete SQL and Python script suggestions.
+
+### 7. Script-level changes
+
+Recommend concrete changes by file path.
+
+At minimum consider:
+- scripts/build_curriculum_map_v0_2.py
+- scripts/build_curriculum_map_v0_3.py
+- scripts/curriculum_gapfill_v0_4_stage_with_low_info_gate.py
+- scripts/curriculum_map_readiness_v0.py
+- backend/pathology_hub_v04_curriculum/app.py
+
+For each file, say:
+- what to inspect
+- what to change
+- what not to change
+- whether the change is MUST, SHOULD, or NICE-TO-HAVE
+
+Expected script-level themes:
+- replace path.unlink() destructive rebuilds with shadow output paths and explicit --force or --replace-approved flags
+- write audit JSON before producing promotion-ready artifacts
+- centralize schema DDL
+- add schema/version manifests
+- add runtime DB compatibility checks
+- add source/provenance validation helpers
+- add GCS URI/public URL conversion helpers
+- add rejects output for rows that cannot be repaired deterministically
+
+### 8. Prioritized backlog
+
+Provide the top 10 do-first tasks.
+
+Rank by practical impact, not theoretical purity.
+
+Each item should include:
+- title
+- why it matters
+- action category
+- file/artifact touched
+- expected output
+- MUST/SHOULD/NICE-TO-HAVE
+
+### 9. Go/no-go checklist
+
+Create a checklist for deciding whether a cleaned local DB artifact is ready for review.
+
+Include:
+- schema checks
+- provenance/GCS pointer checks
+- malformed/flattened cleanup checks
+- runtime smoke checks
+- audit/manifest checks
+- known limitations
+- explicit confirmation that cloud mutation has not occurred yet
+- explicit list of future approval-gated promotion actions, if any
+
+### 10. Future promotion plan
+
+Include a separate section for the correct eventual promotion path after local review.
+
+This section should be explicit but approval-gated.
+
+For each proposed future step include:
+- purpose
+- exact command/script shape
+- input artifact
+- output/destination artifact
+- required audit evidence
+- rollback path
+- approval gate
+
+Possible future promotion topics:
+- uploading cleaned DB/package to GCS
+- adding a versioned manifest
+- wiring staging API to cleaned DB
+- Cloud Run staging deploy
+- staging smoke test
+- production promotion
+- GPT Builder update
+
+Do not execute these in the plan. Just define them clearly.
+
+## Concrete SQL examples to include
+
+Include SQLite snippets like these, adapted to the actual tables discovered:
+
+List tables:
+
+```sql
+SELECT name, type
+FROM sqlite_master
+WHERE type IN ('table', 'view')
+ORDER BY type, name;
+```
+
+List columns:
+
+```sql
+PRAGMA table_info(main_table_name);
+```
+
+Integrity checks:
+
+```sql
+PRAGMA integrity_check;
+PRAGMA foreign_key_check;
+```
+
+Find blank/null source pointers:
+
+```sql
+SELECT COUNT(*) AS missing_source_pointer
+FROM records
+WHERE COALESCE(TRIM(source_gcs_uri), '') = ''
+  AND COALESCE(TRIM(source_json_url), '') = ''
+  AND COALESCE(TRIM(source_page_url), '') = ''
+  AND COALESCE(TRIM(video_url), '') = '';
+```
+
+Find malformed GCS URIs:
+
+```sql
+SELECT id, source_gcs_uri
+FROM records
+WHERE source_gcs_uri IS NOT NULL
+  AND TRIM(source_gcs_uri) <> ''
+  AND source_gcs_uri NOT LIKE 'gs://pathology_hub/%'
+  AND source_gcs_uri NOT LIKE 'gs://pathology-hub-0/%'
+LIMIT 100;
+```
+
+Find public storage URLs without corresponding GCS URI:
+
+```sql
+SELECT id, source_json_url, source_page_url, page_image_url, video_url
+FROM records
+WHERE (
+    source_json_url LIKE 'https://storage.googleapis.com/%'
+    OR source_page_url LIKE 'https://storage.googleapis.com/%'
+    OR page_image_url LIKE 'https://storage.googleapis.com/%'
+    OR video_url LIKE 'https://storage.googleapis.com/%'
+  )
+  AND COALESCE(TRIM(source_gcs_uri), '') = ''
+LIMIT 100;
+```
+
+Find JSON-looking flattened fields:
+
+```sql
+SELECT id, tags
+FROM records
+WHERE TRIM(tags) LIKE '[%'
+   OR TRIM(tags) LIKE '{%'
+LIMIT 100;
+```
+
+Find comma-delimited tag fields:
+
+```sql
+SELECT id, tags
+FROM records
+WHERE tags LIKE '%,%'
+LIMIT 100;
+```
+
+Find duplicate semantic rows:
+
+```sql
+SELECT curriculum_unit_id, tag, source_type, COUNT(*) AS n
+FROM records
+GROUP BY curriculum_unit_id, tag, source_type
+HAVING COUNT(*) > 1
+ORDER BY n DESC
+LIMIT 100;
+```
+
+Find placeholder source values:
+
+```sql
+SELECT id, source_gcs_uri, source_json_url, video_url
+FROM records
+WHERE LOWER(COALESCE(source_gcs_uri, '')) IN ('unknown', 'none', 'n/a', 'placeholder')
+   OR LOWER(COALESCE(source_json_url, '')) IN ('unknown', 'none', 'n/a', 'placeholder')
+   OR LOWER(COALESCE(video_url, '')) IN ('unknown', 'none', 'n/a', 'placeholder')
+LIMIT 100;
+```
+
+## Concrete shell examples to include
+
+Include command shapes like these, adjusted to actual paths:
+
+```bash
+sqlite3 outputs/curriculum_map_v0_4/curriculum_tag_index_v0_4.sqlite ".tables"
+sqlite3 outputs/curriculum_map_v0_4/curriculum_tag_index_v0_4.sqlite "PRAGMA integrity_check;"
+sqlite3 outputs/curriculum_map_v0_4/curriculum_tag_index_v0_4.sqlite ".schema" > audits/db_cleanup_v0/schema.v0_4.sql
+```
+
+Read-only GCS inventory examples:
+
+```bash
+gcloud storage ls -l --project=pathology-annotation-project gs://pathology_hub/** > audits/db_cleanup_v0/gcs_pathology_hub_inventory.txt
+gcloud storage ls -l --project=pathology-annotation-project gs://pathology-hub-0/** > audits/db_cleanup_v0/gcs_pathology_hub_0_inventory.txt
+```
+
+If broad recursive inventory is too expensive, propose bounded prefix inventories first.
+
+## Output format
+
+Use concise sections and bullets.
+
+Include concrete SQLite SQL snippets.
+
+Include concrete shell commands where useful.
+
+Include concrete script-level recommendations by path.
+
+Mark every recommendation:
+- MUST
+- SHOULD
+- NICE-TO-HAVE
+
+End with a one-page execution runbook that someone can follow step by step.
+
+## Final instruction
+
+Do not stop at generic advice. Produce a practical plan that a database cleanup agent can execute against this repo.
+
+The plan must be GCS-aware, source-faithful, and explicit about which actions are safe now, which create local review artifacts, and which require later approval.

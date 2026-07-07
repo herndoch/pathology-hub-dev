@@ -165,9 +165,10 @@ def count_records(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def write_sqlite(path: Path, records: list[dict[str, Any]], node_rows: list[dict[str, Any]], audit_path: Path | None = None) -> dict[str, Any]:
-    if path.exists():
-        path.unlink()
-    conn = sqlite3.connect(path)
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    if tmp_path.exists():
+        tmp_path.unlink()
+    conn = sqlite3.connect(tmp_path)
     conn.execute(
         "CREATE TABLE curriculum_records ("
         "curriculum_row_key TEXT PRIMARY KEY, "
@@ -223,6 +224,7 @@ def write_sqlite(path: Path, records: list[dict[str, Any]], node_rows: list[dict
     }
     conn.commit()
     conn.close()
+    tmp_path.replace(path)
     input_counts = count_records(records)
     audit = {
         "schema_version": SCHEMA_VERSION,

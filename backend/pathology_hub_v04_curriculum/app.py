@@ -250,6 +250,27 @@ def table_columns(conn, table_name):
     except Exception:
         return set()
 
+def ensure_curriculum_db_contract_v159(conn):
+    required_tables = {
+        "curriculum_records",
+        "curriculum_nodes",
+        "tag_counts",
+        "review_queue",
+        "high_yield_examples",
+    }
+    tables = {row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
+    missing = sorted(required_tables - tables)
+    if missing:
+        raise RuntimeError(f"Curriculum DB missing required tables: {missing}")
+
+    records_cols = table_columns(conn, "curriculum_records")
+    required_columns = {"approved_tag", "source", "title"}
+    missing_columns = sorted(required_columns - records_cols)
+    if missing_columns:
+        raise RuntimeError(
+            f"Curriculum DB curriculum_records missing required columns: {missing_columns}"
+        )
+
 def detect_tables(conn):
     names = [r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view')").fetchall()]
     base = "textbook_chunks" if "textbook_chunks" in names else None
@@ -2423,6 +2444,7 @@ def _curriculum_conn_v159():
     ensure_curriculum_artifacts_v159()
     conn = sqlite3.connect(str(CURRICULUM_SQLITE_PATH))
     conn.row_factory = sqlite3.Row
+    ensure_curriculum_db_contract_v159(conn)
     return conn
 
 def _curriculum_query_mode_v159(query: str):

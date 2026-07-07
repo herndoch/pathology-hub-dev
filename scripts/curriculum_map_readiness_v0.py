@@ -374,9 +374,10 @@ def inventory_input_files(input_dir: Path) -> List[Dict[str, Any]]:
 
 
 def write_sqlite(path: Path, records: Sequence[Dict[str, Any]], tag_counts: Counter, high_yield_rows: Sequence[Dict[str, Any]]) -> None:
-    if path.exists():
-        path.unlink()
-    conn = sqlite3.connect(path)
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    if tmp_path.exists():
+        tmp_path.unlink()
+    conn = sqlite3.connect(tmp_path)
     try:
         conn.execute(
             "CREATE TABLE records (record_id TEXT, source TEXT, title TEXT, hidden INTEGER, path TEXT)"
@@ -410,6 +411,7 @@ def write_sqlite(path: Path, records: Sequence[Dict[str, Any]], tag_counts: Coun
         conn.commit()
     finally:
         conn.close()
+    tmp_path.replace(path)
 
 
 def parse_all_records(input_dir: Path, sample_size: Optional[int]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
