@@ -4,6 +4,48 @@ Last updated: 2026-07-08
 
 ## Current task
 
+Handoff to Codex: run the full-scale textbook figure/page image dimension
+audit described in `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_DIMENSION_AUDIT.md`.
+
+### Why
+
+Manual spot-checks in the curriculum provenance browser found that textbook
+figure image locators are frequently wrong or degenerate:
+
+- 71.6% of textbook rows with an image point at the first figure slot
+  (`fig01`) on the page; 95.2% of *page text chunks* with an image use this
+  `fig01` fallback (from `scripts/build_curriculum_source_locator_repairs_v0_1.py`,
+  which assigns the first figure seen on a page to any text chunk missing
+  its own image).
+- A 300-image random sample flagged ~10% as extreme aspect ratio, strip
+  shaped, or near-zero pixel dimensions.
+- 40/40 random `fig01` images from `cyto_comprehensive_part_one` /
+  `cyto_comprehensive_part_two` were exactly `2592x235` pixels regardless of
+  page or figure content — a fixed crop-region bug, not natural variation.
+  `hn_gnepp` showed a similar fixed signature near `1313x118`.
+- This matches a prior caveat already on record in
+  `project_sources/updates/20260704/complete_handoff_pathology_hub_codex_20260704/docs/00_MASTER_HANDOFF_FOR_CODEX.md`
+  about reported header/footer crop junk.
+
+### Tooling already built and validated (small scale only)
+
+`scripts/audit_textbook_figure_image_dimensions_v0_1.py` — read-only,
+sidecar-only. Parses JPEG/PNG/JP2 headers from a byte-range fetch (no PIL, no
+full-image download) and flags extreme aspect ratio / strip shape / tiny
+images. Validated on a 300-image random sample: 0 fetch errors, 0 unparsed
+headers (added JP2/`.jpx` support after the first test run caught a gap).
+Not yet run at full scale (52,540 unique textbook image locators).
+
+### Immediate next step (for Codex or next agent)
+
+Follow `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_DIMENSION_AUDIT.md` to run the
+full-scale (or large stratified) audit, then report flag rates and worst
+offending `(source_id, fig_slot)` combinations. Do not build a repair pass
+in the same session — that requires explicit user approval per the
+runbook's stop condition.
+
+## Prior task
+
 Local curriculum provenance browser for querying and debugging the repaired source locator SQLite index.
 
 ## Current state
