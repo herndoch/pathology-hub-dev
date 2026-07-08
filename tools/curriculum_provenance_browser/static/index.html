@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curriculum Provenance Browser</title>
+<style>
+:root {
+  --bg: #f4f6f9;
+  --surface: #fff;
+  --text: #1f2933;
+  --muted: #52606d;
+  --border: #d9e2ec;
+  --accent: #2563eb;
+  --complete: #059669;
+  --complete-bg: #ecfdf5;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; margin: 0; color: var(--text); background: var(--bg); line-height: 1.45; }
+.page { max-width: 1440px; margin: 0 auto; padding: 20px 24px 48px; }
+h1 { margin: 0 0 4px; font-size: 1.55rem; }
+h2 { margin: 0 0 12px; font-size: 1.05rem; }
+.subtitle { color: var(--muted); margin: 0 0 16px; font-size: 0.92rem; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.metric { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: #f8fafc; }
+.metric-label { font-size: 0.76rem; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+.metric-value { font-size: 1.2rem; font-weight: 700; }
+.metric-complete { background: var(--complete-bg); border-color: #a7f3d0; color: var(--complete); }
+.metric-partial { background: var(--partial-bg); border-color: #fde68a; color: var(--partial); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.82rem; color: var(--muted); }
+.legend-item { border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; background: #fff; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+.field-grow { flex: 1 1 240px; }
+.field label { font-size: 0.76rem; font-weight: 600; color: var(--muted); }
+.field input, .field select { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
+.field-grow input { width: 100%; min-width: 0; }
+.btn { padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px; background: #fff; cursor: pointer; font-size: 0.88rem; font-weight: 600; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn:hover { filter: brightness(0.98); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { padding: 5px 10px; border: 1px solid var(--border); border-radius: 999px; background: #fff; font-size: 0.78rem; cursor: pointer; color: var(--muted); }
+.chip.active { background: #dbeafe; border-color: var(--accent); color: #1d4ed8; font-weight: 600; }
+.result-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; font-size: 0.85rem; color: var(--muted); }
+.table-wrap { max-height: 58vh; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border-bottom: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; vertical-align: top; font-size: 0.86rem; }
+th { background: #eef2f7; position: sticky; top: 0; z-index: 1; }
+tbody tr { cursor: pointer; }
+tbody tr:hover, tbody tr.selected { background: #f8fafc; }
+tbody tr.selected { outline: 2px solid #bfdbfe; outline-offset: -2px; }
+.tag-cell { font-family: var(--mono); font-size: 0.8rem; word-break: break-word; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.badge-complete { background: var(--complete-bg); color: var(--complete); border: 1px solid #a7f3d0; }
+.badge-partial { background: var(--partial-bg); color: var(--partial); border: 1px solid #fde68a; }
+.badge-family { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.missing { color: var(--danger); font-size: 0.78rem; font-weight: 600; }
+.locator-preview { font-size: 0.8rem; color: var(--muted); max-width: 360px; word-break: break-word; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 960px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-block { border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #fafbfc; }
+.detail-block h3 { margin: 0 0 8px; font-size: 0.92rem; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 10px; font-size: 0.82rem; margin: 0; }
+.kv dt { color: var(--muted); font-weight: 600; }
+.kv dd { margin: 0; font-family: var(--mono); word-break: break-word; }
+.note { font-size: 0.82rem; color: var(--muted); margin: 8px 0 0; }
+.warn-box { background: var(--partial-bg); border: 1px solid #fde68a; border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: 0.84rem; }
+.url-list { margin: 0; padding-left: 1.1rem; font-size: 0.8rem; }
+.url-list li { margin-bottom: 4px; word-break: break-all; }
+.empty { color: var(--muted); font-size: 0.9rem; padding: 24px; text-align: center; }
+.hidden { display: none !important; }
+a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Curriculum Provenance Browser</h1>
+  <p class="subtitle">Local read-only debug UI for <code>curriculum_source_locator_index_v0_1.sqlite</code>. No GPT, no deploy.</p>
+
+  <section class="panel" id="summaryPanel">
+    <h2>Source family summary</h2>
+    <div class="summary-grid" id="summaryMetrics"></div>
+    <div class="legend" id="familyLegend"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Search provenance records</h2>
+    <form class="toolbar" id="searchForm">
+      <div class="field field-grow">
+        <label for="approved_tag">Approved tag</label>
+        <input id="approved_tag" name="approved_tag" placeholder="e.g. BST::Bone::Other">
+      </div>
+      <div class="field">
+        <label for="root">Root</label>
+        <input id="root" name="root" placeholder="e.g. BST">
+      </div>
+      <div class="field">
+        <label for="source_family">Source family</label>
+        <select id="source_family" name="source_family">
+          <option value="">All families</option>
+        </select>
+      </div>
+      <div class="field field-grow">
+        <label for="text">Title / text excerpt / locator</label>
+        <input id="text" name="text" placeholder="Substring match">
+      </div>
+      <div class="field">
+        <label for="completeness">Locator completeness</label>
+        <select id="completeness" name="completeness">
+          <option value="">All</option>
+          <option value="complete">Complete only</option>
+          <option value="partial">Partial only</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="limit">Limit</label>
+        <select id="limit" name="limit">
+          <option value="25">25</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="250">250</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn" type="button" id="resetBtn">Reset</button>
+    </form>
+    <div class="chips" id="quickFilters"></div>
+  </section>
+
+  <section class="panel">
+    <div class="result-meta">
+      <span id="resultCount">Run a search to inspect records.</span>
+      <span id="dbPath" class="tag-cell"></span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Family</th>
+            <th>Status</th>
+            <th>Approved tag</th>
+            <th>Root</th>
+            <th>Locator preview</th>
+            <th>Missing parts</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <tr><td colspan="6" class="empty">No results yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="detailPanel">
+    <h2>Record detail</h2>
+    <p class="note" id="detailHint">Select a row to view all provenance fields for that <code>record_id</code>.</p>
+    <div id="detailContent" class="hidden"></div>
+  </section>
+</div>
+
+<script>
+const FAMILY_HELP = {
+  abpath: "ABPath = ontology tag origin, not source evidence.",
+  pathout: "PathOut = web page URL and figure URLs if present.",
+  who: "WHO = local WHO HTML GCS path / entity locator.",
+  lectures: "Lectures = source video GCS URI plus timestamp when available.",
+  textbooks: "Textbooks = source PDF GCS URI plus PDF page and page/figure image when available.",
+};
+
+let selectedRecordId = null;
+
+function esc(s) {
+  return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function badge(status) {
+  const cls = status === "complete" ? "badge-complete" : "badge-partial";
+  return `<span class="badge ${cls}">${esc(status)}</span>`;
+}
+
+function familyBadge(label) {
+  return `<span class="badge badge-family">${esc(label)}</span>`;
+}
+
+function formatMissing(parts) {
+  if (!parts || !parts.length) return "—";
+  return `<span class="missing">${esc(parts.join(", "))}</span>`;
+}
+
+function locatorPreview(row) {
+  const s = row.locator_summary || {};
+  if (s.primary && s.primary.value) {
+    let html = `<strong>${esc(s.primary.label)}:</strong> ${esc(String(s.primary.value).slice(0, 180))}`;
+    if (s.secondary && s.secondary.length) {
+      html += `<div class="locator-preview">${esc(s.secondary.map(x => `${x.label}: ${x.value || (x.values || []).length + " URLs"}`).join(" · "))}</div>`;
+    }
+    if (s.note) html += `<div class="note">${esc(s.note)}</div>`;
+    return html;
+  }
+  return esc(row.locator || "—");
+}
+
+function renderSummary(data) {
+  const metrics = document.getElementById("summaryMetrics");
+  const totals = data.totals_by_status || {};
+  metrics.innerHTML = `
+    <div class="metric"><div class="metric-label">Total indexed</div><div class="metric-value">${(totals.complete || 0) + (totals.partial || 0)}</div></div>
+    <div class="metric metric-complete"><div class="metric-label">Complete locators</div><div class="metric-value">${totals.complete || 0}</div></div>
+    <div class="metric metric-partial"><div class="metric-label">Partial locators</div><div class="metric-value">${totals.partial || 0}</div></div>
+  ` + (data.rows || []).map(r => `
+    <div class="metric">
+      <div class="metric-label">${esc(r.source_family_label)} · ${esc(r.locator_status)}</div>
+      <div class="metric-value">${r.row_count.toLocaleString()}</div>
+    </div>
+  `).join("");
+
+  document.getElementById("familyLegend").innerHTML = Object.entries(FAMILY_HELP)
+    .map(([k, v]) => `<span class="legend-item"><strong>${esc(k)}</strong>: ${esc(v)}</span>`).join("");
+}
+
+function renderResults(payload) {
+  const body = document.getElementById("resultsBody");
+  document.getElementById("resultCount").textContent =
+    `${payload.total.toLocaleString()} matching records · showing ${payload.offset + 1}-${Math.min(payload.offset + payload.rows.length, payload.total)}`;
+
+  if (!payload.rows.length) {
+    body.innerHTML = `<tr><td colspan="6" class="empty">No matching records.</td></tr>`;
+    return;
+  }
+
+  body.innerHTML = payload.rows.map(row => `
+    <tr data-record-id="${esc(row.record_id)}" class="${row.record_id === selectedRecordId ? "selected" : ""}">
+      <td>${familyBadge(row.source_family_label || row.source_family)}</td>
+      <td>${badge(row.locator_status)}</td>
+      <td class="tag-cell">${esc(row.approved_tag)}</td>
+      <td>${esc(row.root)}</td>
+      <td>${locatorPreview(row)}</td>
+      <td>${formatMissing(row.missing_locator_parts)}</td>
+    </tr>
+  `).join("");
+
+  body.querySelectorAll("tr[data-record-id]").forEach(tr => {
+    tr.addEventListener("click", () => loadDetail(tr.dataset.recordId));
+  });
+}
+
+function renderDetail(data) {
+  const content = document.getElementById("detailContent");
+  document.getElementById("detailHint").classList.add("hidden");
+  content.classList.remove("hidden");
+
+  const s = data.locator_summary || {};
+  const fields = data.fields || {};
+  const missing = fields.missing_locator_parts || [];
+
+  let locatorHtml = "";
+  if (s.primary) {
+    locatorHtml += `<p><strong>${esc(s.primary.label)}:</strong> <span class="tag-cell">${esc(s.primary.value)}</span></p>`;
+  }
+  if (s.note) locatorHtml += `<p class="note">${esc(s.note)}</p>`;
+  (s.secondary || []).forEach(item => {
+    if (item.values) {
+      locatorHtml += `<p><strong>${esc(item.label)}:</strong></p><ul class="url-list">${item.values.slice(0, 12).map(u => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></li>`).join("")}${item.values.length > 12 ? `<li>… ${item.values.length - 12} more</li>` : ""}</ul>`;
+    } else {
+      locatorHtml += `<p><strong>${esc(item.label)}:</strong> <span class="tag-cell">${esc(item.value)}</span></p>`;
+    }
+  });
+
+  const kv = (entries) => entries.map(([k, v]) => {
+    const val = v == null || v === "" ? "—" : (Array.isArray(v) ? JSON.stringify(v) : String(v));
+    return `<dt>${esc(k)}</dt><dd>${esc(val)}</dd>`;
+  }).join("");
+
+  content.innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-block">
+        <h3>Source locator rendering</h3>
+        <p>${familyBadge(fields.source_family_label || fields.source_family)} ${badge(fields.locator_status)} <span class="tag-cell">${esc(fields.locator_type)}</span></p>
+        <p class="note">${esc(s.help || "")}</p>
+        ${locatorHtml}
+        ${missing.length ? `<div class="warn-box"><strong>Partial provenance:</strong> missing ${esc(missing.join(", "))}</div>` : ""}
+      </div>
+      <div class="detail-block">
+        <h3>Identity</h3>
+        <dl class="kv">${kv([
+          ["record_id", fields.record_id],
+          ["approved_tag", fields.approved_tag],
+          ["root", fields.root],
+          ["map_status", fields.map_status],
+          ["visible", fields.visible],
+          ["source_id", fields.source_id],
+          ["chunk_id", fields.chunk_id],
+        ])}</dl>
+      </div>
+      <div class="detail-block">
+        <h3>Source paths &amp; URLs</h3>
+        <dl class="kv">${kv([
+          ["locator", fields.locator],
+          ["source_url", fields.source_url],
+          ["source_video_gcs_uri", fields.source_video_gcs_uri],
+          ["time_start_sec", fields.time_start_sec],
+          ["time_end_sec", fields.time_end_sec],
+          ["source_pdf_gcs_uri", fields.source_pdf_gcs_uri],
+          ["pdf_page", fields.pdf_page],
+          ["image_path", fields.image_path],
+          ["image_url", fields.image_url],
+          ["figure_id", fields.figure_id],
+          ["figure_record_id", fields.figure_record_id],
+          ["who_entity_name", fields.who_entity_name],
+          ["who_html_gcs_path", fields.who_html_gcs_path],
+        ])}</dl>
+      </div>
+      <div class="detail-block">
+        <h3>Provenance artifacts</h3>
+        <dl class="kv">${kv([
+          ["raw_source_gcs_uri", fields.raw_source_gcs_uri],
+          ["normalized_artifact_gcs_uri", fields.normalized_artifact_gcs_uri],
+          ["input_path", fields.input_path],
+          ["direct_http_urls", fields.direct_http_urls],
+          ["gcs_uris", fields.gcs_uris],
+          ["text_excerpt", fields.text_excerpt],
+          ["missing_locator_parts", fields.missing_locator_parts],
+        ])}</dl>
+      </div>
+    </div>
+  `;
+}
+
+async function loadDetail(recordId) {
+  selectedRecordId = recordId;
+  document.querySelectorAll("#resultsBody tr.selected").forEach(tr => tr.classList.remove("selected"));
+  const row = document.querySelector(`#resultsBody tr[data-record-id="${CSS.escape(recordId)}"]`);
+  if (row) row.classList.add("selected");
+  const res = await fetch(`/api/records/${encodeURIComponent(recordId)}`);
+  const data = await res.json();
+  renderDetail(data);
+  document.getElementById("detailPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function runSearch(params) {
+  const qs = new URLSearchParams(params);
+  const res = await fetch(`/api/search?${qs}`);
+  const data = await res.json();
+  renderResults(data);
+}
+
+function currentParams() {
+  const form = document.getElementById("searchForm");
+  const fd = new FormData(form);
+  const params = {};
+  for (const [k, v] of fd.entries()) {
+    if (String(v).trim()) params[k] = String(v).trim();
+  }
+  params.offset = "0";
+  return params;
+}
+
+function setupQuickFilters() {
+  const chips = document.getElementById("quickFilters");
+  const presets = [
+    { label: "Partial textbooks", source_family: "textbooks", completeness: "partial" },
+    { label: "Partial lectures", source_family: "lectures", completeness: "partial" },
+    { label: "PathOut pages", source_family: "pathout", completeness: "complete" },
+    { label: "WHO entities", source_family: "who", completeness: "complete" },
+    { label: "ABPath ontology", source_family: "abpath", completeness: "complete" },
+  ];
+  chips.innerHTML = presets.map((p, i) => `<button type="button" class="chip" data-idx="${i}">${esc(p.label)}</button>`).join("");
+  chips.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = presets[Number(btn.dataset.idx)];
+      document.getElementById("source_family").value = p.source_family;
+      document.getElementById("completeness").value = p.completeness;
+      document.getElementById("approved_tag").value = "";
+      document.getElementById("root").value = "";
+      document.getElementById("text").value = "";
+      chips.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      runSearch(currentParams());
+    });
+  });
+}
+
+async function init() {
+  const [metaRes, summaryRes] = await Promise.all([fetch("/api/meta"), fetch("/api/summary")]);
+  const meta = await metaRes.json();
+  const summary = await summaryRes.json();
+  document.getElementById("dbPath").textContent = meta.sqlite_path;
+  const select = document.getElementById("source_family");
+  (meta.source_families || []).forEach(f => {
+    const opt = document.createElement("option");
+    opt.value = f;
+    opt.textContent = meta.source_family_labels?.[f] ? `${meta.source_family_labels[f]} (${f})` : f;
+    select.appendChild(opt);
+  });
+  renderSummary(summary);
+  setupQuickFilters();
+
+  document.getElementById("searchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    runSearch(currentParams());
+  });
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    document.getElementById("searchForm").reset();
+    document.getElementById("limit").value = "50";
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    runSearch({ limit: "50", offset: "0" });
+  });
+
+  runSearch({ limit: "50", offset: "0", completeness: "partial" });
+}
+
+init().catch(err => {
+  document.getElementById("resultsBody").innerHTML = `<tr><td colspan="6" class="empty">Failed to load: ${esc(err.message)}</td></tr>`;
+});
+</script>
+</body>
+</html>
