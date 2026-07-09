@@ -86,9 +86,14 @@
     <div class="media-modal-backdrop" data-modal-close></div>
     <div class="media-modal-panel">
       <button type="button" class="media-modal-close" data-modal-close aria-label="Close preview">&times;</button>
-      <img id="media-modal-img" class="media-modal-img" alt="" hidden />
+      <img id="media-modal-img" class="media-modal-img" alt="" />
       <p id="media-modal-caption" class="media-modal-caption"></p>
-      <a id="media-modal-open" class="media-modal-open" href="#" target="_blank" rel="noopener">Open in new tab</a>
+      <div class="media-modal-actions">
+        <a id="media-modal-figure" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Figure</a>
+        <a id="media-modal-page" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Page image</a>
+        <a id="media-modal-source" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Source</a>
+        <a id="media-modal-reference" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Reference page</a>
+      </div>
     </div>
   </div>
 

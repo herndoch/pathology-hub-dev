@@ -14,7 +14,27 @@ Run with: ./scripts/run_local.sh   (see README.md)
 from __future__ import annotations
 
 import os
+import re
 from typing import Optional
+
+_VISUAL_QUERY = re.compile(
+    r"\b("
+    r"show\s+me|show|picture|pictures|photo|photos|image|images|figure|figures|"
+    r"histology|histologic|microscopic|microscopy|gross|"
+    r"what\s+does|look\s+like|demonstrate|illustrate|visual"
+    r")\b",
+    re.IGNORECASE,
+)
+
+_SOURCE_LABELS = {
+    "who": "WHO",
+    "textbooks": "Textbooks",
+    "pathout": "PathOut",
+    "journals": "Journals",
+    "lectures": "Lectures",
+    "videos": "Videos",
+    "curriculum": "Curriculum",
+}
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
@@ -93,6 +113,59 @@ def _debug_payload(outcomes: list) -> dict:
     }
 
 
+def _apply_figure_defaults(req: ChatRequest, mode: str) -> None:
+    """Enable figure retrieval for visual mode or show-me-style queries."""
+    if mode == "visual":
+        req.include_figures = True
+        if req.max_figures <= 0:
+            req.max_figures = 5
+        return
+    if mode in {"gpt_like", "compare_sources"} and _VISUAL_QUERY.search(req.query or ""):
+        req.include_figures = True
+        if req.max_figures <= 0:
+            req.max_figures = 5
+
+
+def _build_citation_link_index(cards: list[dict]) -> list[dict]:
+    """Compact deduped URL index for synthesis prompts (never overwrites evidence)."""
+    index: list[dict] = []
+    seen: set[str] = set()
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        src = card.get("source") or "unknown"
+        source_label = _SOURCE_LABELS.get(src, src)
+        title = (card.get("title") or card.get("name") or card.get("heading") or "")[:120]
+        for field in (
+            "source_url",
+            "source_page_url",
+            "figure_url",
+            "page_image_url",
+            "image_url",
+            "video_time_url",
+        ):
+            url = card.get(field)
+            if not isinstance(url, str) or not url.startswith("http") or url in seen:
+                continue
+            seen.add(url)
+            index.append(
+                {
+                    "source": src,
+                    "source_label": source_label,
+                    "field": field,
+                    "url": url,
+                    "title": title,
+                }
+            )
+    return index[:48]
+
+
+def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
+    bundle = dict(merged)
+    bundle["_citation_link_index"] = _build_citation_link_index(cards)
+    return bundle
+
+
 @app.get("/")
 def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
@@ -132,31 +205,31 @@ def api_search(req: SearchRequest):
         return {"ok": False, "error": str(exc)}
 
 
-def _answer_gpt_like(req: ChatRequest, merged: dict) -> SynthesisResult:
+def _answer_gpt_like(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
     return synthesize(
         prompts.gpt_like_system_prompt(),
         req.query,
-        merged,
+        _evidence_for_synthesis(merged, cards),
     )
 
 
-def _answer_compare_sources(req: ChatRequest, merged: dict) -> SynthesisResult:
+def _answer_compare_sources(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
     sources = _validate_sources(req.sources)
     extra = f"Requested source families for this comparison: {', '.join(sources)}"
     return synthesize(
         prompts.compare_sources_system_prompt(),
         req.query,
-        merged,
+        _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
     )
 
 
-def _answer_visual(req: ChatRequest, merged: dict) -> SynthesisResult:
+def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
     extra = f"max_figures requested: {req.max_figures}"
     return synthesize(
         prompts.visual_figures_system_prompt(),
         req.query,
-        merged,
+        _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
     )
 
@@ -191,10 +264,7 @@ def api_chat(req: ChatRequest):
 
         if mode == "html_teaching":
             req.render_html = True
-        if mode == "visual":
-            req.include_figures = True
-            if req.max_figures <= 0:
-                req.max_figures = 3
+        _apply_figure_defaults(req, mode)
 
         outcomes, merged = _run_retrieval(req)
         cards = extract_evidence_cards(merged)
@@ -218,7 +288,11 @@ def api_chat(req: ChatRequest):
             "visual": _answer_visual,
             "html_teaching": _answer_html_teaching,
         }
-        result = handlers[mode](req, merged)
+        handler = handlers[mode]
+        if mode == "html_teaching":
+            result = handler(req, merged)
+        else:
+            result = handler(req, merged, cards)
 
         return {
             "ok": result.ok,
