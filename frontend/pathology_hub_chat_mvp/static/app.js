@@ -12,27 +12,50 @@ const SOURCE_LABELS = {
   curriculum: "Curriculum map",
 };
 
-const LINK_LABELS = {
-  source_url: "Open source page",
-  source_page_url: "Open reference page",
-  page_image_url: "View textbook page",
-  figure_url: "View figure",
-  image_url: "View image",
-  video_time_url: "Jump to lecture timestamp",
-  html_url: "Open teaching page",
-};
-
 const MODE_HINTS = {
-  gpt_like: "Default: grounded summary with inline citations from selected sources.",
-  search_only: "Returns evidence cards only — no OpenAI synthesis.",
-  compare_sources: "Answer is sectioned by source family (Textbooks, WHO, PathOut, …).",
-  visual: "Retrieval includes figures; thumbnails appear below citations.",
-  html_teaching: "Generates a hosted HTML teaching page — link appears above citations.",
+  gpt_like: "Bullet summary with inline source links. Figures auto-included when you ask to show something.",
+  search_only: "Raw evidence cards only — no OpenAI synthesis.",
+  compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
+  visual: "Figures retrieved and shown above the answer.",
+  html_teaching: "Hosted HTML teaching page — link appears above citations.",
 };
 
-const STOPWORDS = new Set([
-  "the", "a", "an", "of", "in", "for", "and", "or", "with", "is", "are", "to", "on", "at", "by",
+const VISUAL_QUERY_RE =
+  /\b(show\s+me|show|picture|pictures|photo|photos|image|images|figure|figures|histology|histologic|microscopic|microscopy|gross|what\s+does|look\s+like|demonstrate|illustrate|visual)\b/i;
+
+const QUERY_STOPWORDS = new Set([
+  "the", "a", "an", "of", "in", "for", "and", "or", "with", "is", "are", "to", "on", "at", "by", "me", "my",
 ]);
+
+/** Expand common pathology shorthand for client-side relevance checks. */
+const TERM_EXPANSIONS = {
+  cin1: ["cin", "cervical", "cervix", "intraepithelial", "squamous", "sil", "lsil"],
+  cin2: ["cin", "cervical", "cervix", "intraepithelial", "squamous", "sil", "hsil"],
+  cin3: ["cin", "cervical", "cervix", "intraepithelial", "squamous", "sil", "hsil"],
+  cin: ["cervical", "cervix", "intraepithelial", "squamous", "sil"],
+  lsil: ["squamous", "intraepithelial", "cervical", "cervix", "sil"],
+  hsil: ["squamous", "intraepithelial", "cervical", "cervix", "sil"],
+  lcis: ["lobular", "breast", "in", "situ"],
+  dcis: ["ductal", "breast", "in", "situ"],
+  ssl: ["serrated", "colon", "sessile"],
+  crc: ["colorectal", "colon", "carcinoma"],
+};
+
+/** Hard mismatches — if query implies A, block content clearly about B. */
+const TOPIC_CONFLICTS = [
+  {
+    query: ["cervical", "cervix", "cin", "lsil", "hsil", "endocervical", "colposcopy"],
+    block: ["salivary", "myoepithelial", "parotid", "submandibular", "myoepithelioma"],
+  },
+  {
+    query: ["breast", "lcis", "dcis", "mammary"],
+    block: ["salivary", "myoepithelial", "colon", "cervical", "cervix"],
+  },
+  {
+    query: ["colon", "colorectal", "rectal", "adenoma"],
+    block: ["salivary", "breast", "cervical", "cervix"],
+  },
+];
 
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
@@ -51,7 +74,10 @@ const notesStatus = document.getElementById("notes-status");
 const mediaModal = document.getElementById("media-modal");
 const mediaModalImg = document.getElementById("media-modal-img");
 const mediaModalCaption = document.getElementById("media-modal-caption");
-const mediaModalOpen = document.getElementById("media-modal-open");
+const mediaModalFigure = document.getElementById("media-modal-figure");
+const mediaModalPage = document.getElementById("media-modal-page");
+const mediaModalSource = document.getElementById("media-modal-source");
+const mediaModalReference = document.getElementById("media-modal-reference");
 
 let supportedSources = [];
 let notesSaveTimer = null;
@@ -64,112 +90,156 @@ function cardTitle(card) {
   return card.title || card.name || card.heading || card.primary_tag || "(untitled hit)";
 }
 
-function cardText(card) {
+function pickHttp(value) {
+  return typeof value === "string" && value.startsWith("http") ? value : null;
+}
+
+function wantsVisual(query, mode) {
+  return mode === "visual" || VISUAL_QUERY_RE.test(query || "");
+}
+
+function queryMatchTerms(query) {
+  const stripped = String(query || "")
+    .toLowerCase()
+    .replace(VISUAL_QUERY_RE, " ")
+    .replace(/[^\w\s]/g, " ");
+  const raw = stripped.split(/\s+/).filter((t) => t.length >= 2 && !QUERY_STOPWORDS.has(t));
+  const terms = new Set(raw);
+  for (const token of raw) {
+    for (const extra of TERM_EXPANSIONS[token] || []) {
+      terms.add(extra);
+    }
+  }
+  return [...terms];
+}
+
+function itemHaystack(item) {
   return [
-    card.title,
-    card.name,
-    card.heading,
-    card.primary_tag,
-    card.text_excerpt,
-    card.excerpt,
-    card.header,
+    item.caption,
+    item.title,
+    item.name,
+    item.heading,
+    item.primary_tag,
+    item.text_excerpt,
+    item.excerpt,
+    item.header,
+    item.source_id,
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 }
 
-function queryTerms(query) {
-  return query
-    .toLowerCase()
-    .split(/\W+/)
-    .filter((word) => word.length >= 3 && !STOPWORDS.has(word));
-}
-
-function collectCardLinks(card) {
-  const keys = [
-    "source_url",
-    "source_page_url",
-    "page_image_url",
-    "figure_url",
-    "image_url",
-    "video_time_url",
-    "html_url",
-  ];
-  const links = [];
-  for (const key of keys) {
-    const val = card[key];
-    if (typeof val === "string" && val.startsWith("http")) {
-      links.push({ key, label: LINK_LABELS[key] || key, href: val });
+function hasTopicConflict(queryTerms, haystack) {
+  for (const rule of TOPIC_CONFLICTS) {
+    const queryHit = rule.query.some((term) => queryTerms.includes(term));
+    if (!queryHit) continue;
+    if (rule.block.some((term) => haystack.includes(term))) {
+      return true;
     }
   }
-  return links;
+  return false;
 }
 
-function previewUrl(card) {
-  for (const key of ["page_image_url", "figure_url", "image_url"]) {
-    const val = card[key];
-    if (typeof val === "string" && val.startsWith("http")) return val;
-  }
-  return null;
+function relevanceScore(query, item) {
+  const terms = queryMatchTerms(query);
+  if (!terms.length) return 1;
+  const hay = itemHaystack(item);
+  if (hasTopicConflict(terms, hay)) return -1;
+  const hits = terms.filter((term) => hay.includes(term));
+  if (!hits.length) return 0;
+  return hits.length / terms.length;
 }
 
-function topCardPerSource(cards) {
-  const seen = new Map();
-  for (const card of cards || []) {
-    const src = card.source || "unknown";
-    if (!seen.has(src)) seen.set(src, card);
+function filterByQueryRelevance(query, items, { maxShown = 8 } = {}) {
+  const list = items || [];
+  if (!list.length) {
+    return { shown: [], hidden: [], note: "" };
   }
-  return seen;
+
+  const scored = list.map((item) => ({ item, score: relevanceScore(query, item) }));
+  const relevant = scored.filter((row) => row.score > 0).sort((a, b) => b.score - a.score);
+  const conflicts = scored.filter((row) => row.score < 0);
+  const irrelevant = scored.filter((row) => row.score === 0);
+
+  if (relevant.length) {
+    const shown = relevant.slice(0, maxShown).map((row) => row.item);
+    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
+    const note =
+      hiddenCount > 0
+        ? `${hiddenCount} off-topic hit${hiddenCount === 1 ? "" : "s"} hidden for this query.`
+        : "";
+    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
+  }
+
+  if (conflicts.length) {
+    return {
+      shown: [],
+      hidden: list,
+      note: `${conflicts.length} retrieved figure${conflicts.length === 1 ? "" : "s"} matched the wrong organ/topic (e.g. salivary vs cervical). Try unchecking WHO or use Search only.`,
+    };
+  }
+
+  return {
+    shown: list.slice(0, maxShown),
+    hidden: list.slice(maxShown),
+    note: "",
+  };
 }
 
-function assessRelevance(query, cards) {
-  const tokens = queryTerms(query);
-  if (!tokens.length || !cards?.length) {
-    return { weak: [], partial: [] };
+function cardPresentation(card) {
+  const figure = pickHttp(card.figure_url) || pickHttp(card.image_url);
+  const pageImage = pickHttp(card.page_image_url);
+  const source = pickHttp(card.source_url);
+  const reference = pickHttp(card.source_page_url);
+  const video = pickHttp(card.video_time_url);
+  const previewUrl = figure || pageImage;
+  const srcLabel = sourceLabel(card.source || "");
+
+  const displayLinks = [];
+  const seen = new Set();
+  const primary = source || reference || video;
+  if (primary) {
+    let label = "Open source";
+    if (source && primary === source) label = `Open ${srcLabel}`;
+    else if (video && primary === video) label = "Video timestamp";
+    else if (reference && primary === reference) label = "Reference page";
+    displayLinks.push({ label, href: primary });
+    seen.add(primary);
+  }
+  if (reference && !seen.has(reference)) {
+    displayLinks.push({ label: "Reference page", href: reference });
+    seen.add(reference);
   }
 
-  const weak = [];
-  const partial = [];
-  for (const [src, card] of topCardPerSource(cards)) {
-    const hay = cardText(card);
-    const matched = tokens.filter((term) => hay.includes(term));
-    if (matched.length === 0) {
-      weak.push({ source: src, title: cardTitle(card) });
-    } else if (matched.length < tokens.length) {
-      partial.push({
-        source: src,
-        title: cardTitle(card),
-        missing: tokens.filter((term) => !hay.includes(term)),
-      });
-    }
-  }
-  return { weak, partial };
+  return {
+    previewUrl,
+    caption: cardTitle(card),
+    modalLinks: { figure, pageImage, source, reference, video },
+    displayLinks,
+  };
 }
 
-function renderRelevanceWarning(query, cards) {
-  const { weak, partial } = assessRelevance(query, cards);
-  if (!weak.length && !partial.length) return "";
-
-  let html = '<div class="relevance-warn" role="status">';
-  html += "<strong>Review retrieval relevance</strong>";
-  html += "<ul>";
-  for (const item of weak) {
-    html += `<li><span class="source-badge">${escapeHtml(sourceLabel(item.source))}</span> top hit <em>${escapeHtml(item.title)}</em> may not match your query terms.</li>`;
-  }
-  for (const item of partial) {
-    html += `<li><span class="source-badge">${escapeHtml(sourceLabel(item.source))}</span> top hit missing terms: ${escapeHtml(item.missing.join(", "))}.</li>`;
-  }
-  html += "</ul><p class=\"hint\">Scroll citations below — stronger hits may appear further down.</p></div>";
-  return html;
+function normalizeAnswerText(text) {
+  return String(text || "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/\r\n/g, "\n");
 }
 
 function renderMarkdown(text) {
-  if (!text) return "";
+  const normalized = normalizeAnswerText(text);
+  if (!normalized.trim()) return "";
 
-  const blocks = String(text).split(/\n{2,}/);
+  const blocks = normalized.split(/\n{2,}/);
   const htmlBlocks = blocks.map((block) => {
-    const lines = block.split("\n");
+    const trimmed = block.trim();
+    if (!trimmed) return "";
+
+    if (isMarkdownTable(trimmed)) {
+      return renderMarkdownTable(trimmed);
+    }
+
+    const lines = trimmed.split("\n");
     const isList = lines.every((line) => /^\s*[-*]\s+/.test(line) || line.trim() === "");
     if (isList && lines.some((line) => /^\s*[-*]\s+/.test(line))) {
       const items = lines
@@ -179,24 +249,79 @@ function renderMarkdown(text) {
       return `<ul class="answer-list">${items}</ul>`;
     }
 
-    if (/^#{1,3}\s+/.test(block)) {
-      const level = block.match(/^(#{1,3})\s+/)[1].length;
+    if (/^#{1,3}\s+/.test(trimmed)) {
+      const level = trimmed.match(/^(#{1,3})\s+/)[1].length;
       const tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
-      const content = block.replace(/^#{1,3}\s+/, "");
+      const content = trimmed.replace(/^#{1,3}\s+/, "");
       return `<${tag} class="answer-heading">${inlineMarkdown(content)}</${tag}>`;
     }
 
-    return `<p>${inlineMarkdown(block.replace(/\n/g, "<br />"))}</p>`;
+    if (lines.length > 1 && lines.every((line) => line.trim())) {
+      return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line)}</p>`).join("");
+    }
+
+    return `<p class="answer-line">${inlineMarkdown(trimmed)}</p>`;
   });
 
   return `<div class="answer-md">${htmlBlocks.join("")}</div>`;
 }
 
+function isMarkdownTable(block) {
+  const lines = block.split("\n").filter((line) => line.trim());
+  if (lines.length < 2) return false;
+  return lines.every((line) => line.includes("|"));
+}
+
+function renderMarkdownTable(block) {
+  const lines = block.split("\n").filter((line) => line.trim() && !/^\|[\s\-:|]+\|$/.test(line.trim()));
+  if (!lines.length) return "";
+
+  const rows = lines.map((line) =>
+    line
+      .split("|")
+      .map((cell) => cell.trim())
+      .filter((cell, idx, arr) => !(idx === 0 && cell === "") && !(idx === arr.length - 1 && cell === "")),
+  );
+
+  const [header, ...body] = rows;
+  if (!header?.length) return "";
+
+  let html = '<table class="answer-table"><thead><tr>';
+  for (const cell of header) {
+    html += `<th>${inlineMarkdown(cell)}</th>`;
+  }
+  html += "</tr></thead><tbody>";
+  for (const row of body) {
+    html += "<tr>";
+    for (let i = 0; i < header.length; i += 1) {
+      html += `<td>${inlineMarkdown(row[i] || "—")}</td>`;
+    }
+    html += "</tr>";
+  }
+  html += "</tbody></table>";
+  return html;
+}
+
 function inlineMarkdown(text) {
-  let html = escapeHtml(text);
+  const links = [];
+  let scratch = String(text).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
+    const token = `__MDLINK${links.length}__`;
+    links.push({ label, url });
+    return token;
+  });
+
+  let html = escapeHtml(scratch);
   html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/(?<!\*)\*([^*\n]+?)\*(?!\*)/g, "<em>$1</em>");
   html = html.replace(/`([^`]+?)`/g, "<code>$1</code>");
+
+  links.forEach((link, index) => {
+    html = html.replace(
+      `__MDLINK${index}__`,
+      `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`,
+    );
+  });
+
   return html;
 }
 
@@ -206,74 +331,88 @@ function renderHtmlTeachingBanner(evidence) {
 
   return `<div class="teaching-banner">
     <strong>Teaching page ready</strong>
-    <p>${escapeHtml(String(htmlResult.evidence_count || 0))} evidence items, ${escapeHtml(String(htmlResult.figure_count || 0))} figures</p>
+    <p>${escapeHtml(String(htmlResult.evidence_count || 0))} evidence · ${escapeHtml(String(htmlResult.figure_count || 0))} figures</p>
     <a href="${escapeAttr(htmlResult.html_url)}" target="_blank" rel="noopener" class="teaching-link">Open HTML teaching page</a>
   </div>`;
 }
 
-function renderCitationLinks(links) {
-  if (!links.length) return "";
+function renderFiguresStrip(figures, query) {
+  const { shown, note } = filterByQueryRelevance(query, figures, { maxShown: 6 });
+  if (!shown.length) {
+    if (note) return `<p class="hint figures-note">${escapeHtml(note)}</p>`;
+    return "";
+  }
+
+  let html = '<div class="figures-strip"><div class="figures-strip-title">Figures matching your query</div>';
+  if (note) html += `<p class="hint figures-note">${escapeHtml(note)}</p>`;
+  html += '<div class="figures-grid figures-grid-prominent">';
+  for (const fig of shown) {
+    const url = fig.figure_url || fig.image_url || fig.url;
+    if (!url) continue;
+    const caption = fig.caption || fig.title || "Figure";
+    const payload = escapeAttr(
+      JSON.stringify({
+        previewUrl: url,
+        caption,
+        modalLinks: {
+          figure: pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url),
+          pageImage: pickHttp(fig.page_image_url),
+          source: pickHttp(fig.source_url),
+          reference: pickHttp(fig.source_page_url),
+        },
+      }),
+    );
+    html += `<figure><button type="button" class="figure-preview-btn" data-preview="${payload}">`;
+    html += `<img src="${escapeAttr(url)}" alt="${escapeAttr(caption)}" loading="lazy" /></button>`;
+    html += `<figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+  }
+  html += "</div></div>";
+  return html;
+}
+
+function renderCitationLinks(presentation) {
+  if (!presentation.displayLinks.length) return "";
   let html = '<div class="citation-links">';
-  for (const link of links) {
-    const previewable = ["page_image_url", "figure_url", "image_url"].includes(link.key);
-    if (previewable) {
-      html += `<button type="button" class="link-btn preview-btn" data-preview-url="${escapeAttr(link.href)}" data-preview-caption="${escapeAttr(link.label)}">${escapeHtml(link.label)}</button>`;
-    } else {
-      html += `<a href="${escapeAttr(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`;
-    }
+  for (const link of presentation.displayLinks) {
+    html += `<a href="${escapeAttr(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`;
   }
   html += "</div>";
   return html;
 }
 
-function renderCitations(cards, figures) {
-  if (!cards?.length && !figures?.length) {
+function renderCitations(cards) {
+  if (!cards?.length) {
     return '<p class="hint">No citation cards returned for this query.</p>';
   }
 
-  let html = '<details class="citations" open><summary>Sources &amp; citations</summary><ul class="citation-list">';
-  for (const card of cards || []) {
-    const title = cardTitle(card);
+  let html = '<details class="citations"><summary>Sources &amp; citations</summary><ul class="citation-list">';
+  for (const card of cards) {
     const source = card.source || card._result_key || "unknown";
-    const excerpt = (card.text_excerpt || card.excerpt || "").slice(0, 280);
-    const links = collectCardLinks(card);
-    const thumb = previewUrl(card);
-    const { weak, partial } = assessRelevance(
-      queryInput.dataset.lastQuery || "",
-      [card],
-    );
-    const relevanceClass =
-      weak.length > 0 ? " citation-weak" : partial.length > 0 ? " citation-partial" : "";
+    const excerpt = (card.text_excerpt || card.excerpt || "").slice(0, 220);
+    const presentation = cardPresentation(card);
+    const previewPayload = presentation.previewUrl
+      ? escapeAttr(
+          JSON.stringify({
+            previewUrl: presentation.previewUrl,
+            caption: presentation.caption,
+            modalLinks: presentation.modalLinks,
+          }),
+        )
+      : "";
 
-    html += `<li class="citation-item${relevanceClass}">`;
-    html += `<div class="citation-head"><strong>${escapeHtml(title)}</strong>`;
+    html += '<li class="citation-item">';
+    html += `<div class="citation-head"><strong>${escapeHtml(presentation.caption)}</strong>`;
     html += `<span class="source-badge">${escapeHtml(sourceLabel(source))}</span></div>`;
     if (excerpt) html += `<div class="citation-excerpt">${escapeHtml(excerpt)}</div>`;
-    if (thumb) {
-      html += `<button type="button" class="citation-thumb-btn" data-preview-url="${escapeAttr(thumb)}" data-preview-caption="${escapeAttr(title)}">`;
-      html += `<img src="${escapeAttr(thumb)}" alt="" class="citation-thumb" loading="lazy" />`;
-      html += `<span>Preview image</span></button>`;
+    if (previewPayload) {
+      html += `<button type="button" class="citation-thumb-btn" data-preview="${previewPayload}">`;
+      html += `<img src="${escapeAttr(presentation.previewUrl)}" alt="" class="citation-thumb" loading="lazy" />`;
+      html += `<span>Open preview</span></button>`;
     }
-    html += renderCitationLinks(links);
+    html += renderCitationLinks(presentation);
     html += "</li>";
   }
-  html += "</ul>";
-
-  if (figures?.length) {
-    html += '<div class="figures-grid">';
-    for (const fig of figures) {
-      const url = fig.figure_url || fig.image_url || fig.url;
-      if (url) {
-        const caption = fig.caption || fig.title || "figure";
-        html += `<figure><button type="button" class="figure-preview-btn" data-preview-url="${escapeAttr(url)}" data-preview-caption="${escapeAttr(caption)}">`;
-        html += `<img src="${escapeAttr(url)}" alt="${escapeAttr(caption)}" loading="lazy" /></button>`;
-        html += `<figcaption>${escapeHtml(caption)}</figcaption></figure>`;
-      }
-    }
-    html += "</div>";
-  }
-
-  html += "</details>";
+  html += "</ul></details>";
   return html;
 }
 
@@ -294,25 +433,48 @@ function selectedSources() {
 }
 
 function buildPayload(query) {
+  const mode = modeSelect.value;
+  const visual = wantsVisual(query, mode);
   return {
     query,
-    mode: modeSelect.value,
+    mode,
     sources: selectedSources(),
     max_results: Number(maxResultsInput.value) || 5,
-    include_figures: modeSelect.value === "visual",
-    max_figures: modeSelect.value === "visual" ? 5 : 0,
+    include_figures: visual,
+    max_figures: visual ? 5 : 0,
     compact: true,
     excerpt_char_limit: 900,
-    render_html: modeSelect.value === "html_teaching",
+    render_html: mode === "html_teaching",
   };
 }
 
-function openMediaPreview(url, caption) {
-  mediaModalImg.src = url;
-  mediaModalImg.alt = caption || "Preview";
-  mediaModalImg.hidden = false;
-  mediaModalCaption.textContent = caption || "";
-  mediaModalOpen.href = url;
+function setModalAction(el, url, label) {
+  if (url) {
+    el.href = url;
+    el.textContent = label;
+    el.hidden = false;
+  } else {
+    el.hidden = true;
+  }
+}
+
+function openMediaPreview(payload) {
+  if (!payload?.previewUrl) return;
+
+  mediaModalImg.src = payload.previewUrl;
+  mediaModalImg.alt = payload.caption || "Preview";
+  mediaModalCaption.textContent = payload.caption || "";
+
+  const links = payload.modalLinks || {};
+  setModalAction(mediaModalFigure, links.figure, "Open figure");
+  setModalAction(mediaModalPage, links.pageImage, "Open page image");
+  setModalAction(
+    mediaModalSource,
+    links.source || links.video,
+    links.video && !links.source ? "Open video" : "Open source",
+  );
+  setModalAction(mediaModalReference, links.reference, "Open reference page");
+
   mediaModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
@@ -320,14 +482,17 @@ function openMediaPreview(url, caption) {
 function closeMediaPreview() {
   mediaModal.classList.add("hidden");
   mediaModalImg.src = "";
-  mediaModalImg.hidden = true;
   document.body.classList.remove("modal-open");
 }
 
 function bindPreviewHandlers(root) {
-  root.querySelectorAll("[data-preview-url]").forEach((el) => {
+  root.querySelectorAll("[data-preview]").forEach((el) => {
     el.addEventListener("click", () => {
-      openMediaPreview(el.dataset.previewUrl, el.dataset.previewCaption || "");
+      try {
+        openMediaPreview(JSON.parse(el.dataset.preview));
+      } catch (err) {
+        /* ignore malformed preview payload */
+      }
     });
   });
 }
@@ -382,7 +547,6 @@ form.addEventListener("submit", async (event) => {
   const query = queryInput.value.trim();
   if (!query) return;
 
-  queryInput.dataset.lastQuery = query;
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
   sendBtn.disabled = true;
@@ -401,20 +565,26 @@ form.addEventListener("submit", async (event) => {
     if (!data.ok) {
       body = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
     } else {
-      body += renderRelevanceWarning(query, data.cards);
+      const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
+      const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
+
       body += renderHtmlTeachingBanner(data.evidence);
+      body += renderFiguresStrip(data.figures, query);
 
       if (data.answer) {
         body += renderMarkdown(data.answer);
-        if (data.model) body += `<p class="hint">Model: ${escapeHtml(data.model)}</p>`;
       } else if (data.answer_note) {
         body += `<p class="hint">${escapeHtml(data.answer_note)}</p>`;
-      } else {
+      } else if (!data.figures?.length) {
         body += '<p class="hint">Evidence retrieved (search-only).</p>';
       }
-    }
 
-    body += renderCitations(data.cards, data.figures);
+      if (cardFilter.note) {
+        body += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
+      }
+
+      body += renderCitations(sortedCards);
+    }
 
     if (debugToggle.checked && data.debug) {
       body += `<details class="debug-block"><summary>Debug</summary><pre>${escapeHtml(JSON.stringify(data.debug, null, 2))}</pre></details>`;
@@ -437,10 +607,8 @@ form.addEventListener("submit", async (event) => {
 function loadSessionNotes() {
   try {
     let saved = localStorage.getItem(NOTES_STORAGE_KEY);
-    if (saved == null) {
-      saved = localStorage.getItem(LEGACY_NOTES_STORAGE_KEY);
-    }
-    if (saved != null) sessionNotes.value = saved;
+    if (saved == null) saved = localStorage.getItem(LEGACY_NOTES_STORAGE_KEY);
+    if (saved != null && saved !== "undefined") sessionNotes.value = saved;
   } catch (err) {
     notesStatus.textContent = "Could not load saved notes.";
   }

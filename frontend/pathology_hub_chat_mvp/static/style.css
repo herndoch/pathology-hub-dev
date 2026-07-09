@@ -136,10 +136,49 @@ code {
   margin-bottom: 0.35rem;
 }
 
-.message .body .answer-heading {
-  margin: 0.75rem 0 0.35rem;
-  font-size: 1rem;
-  color: var(--text);
+.message .body .answer-line {
+  margin: 0 0 0.35rem;
+}
+
+.message .body .answer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+}
+
+.message .body .answer-table th,
+.message .body .answer-table td {
+  border: 1px solid var(--panel-border);
+  padding: 0.4rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.message .body .answer-table th {
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--accent);
+}
+
+.figures-strip {
+  margin-bottom: 0.75rem;
+}
+
+.figures-strip-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.figures-grid-prominent img {
+  max-width: 220px;
+  max-height: 170px;
+}
+
+.figures-grid-prominent {
+  margin-top: 0;
 }
 
 .message .body a {
@@ -172,16 +211,6 @@ code {
   background: rgba(0, 0, 0, 0.2);
   padding: 0.5rem 0.65rem;
   border-radius: 8px;
-  border-left: 3px solid transparent;
-}
-
-.citation-item.citation-partial {
-  border-left-color: var(--warn);
-}
-
-.citation-item.citation-weak {
-  border-left-color: var(--error);
-  opacity: 0.92;
 }
 
 .citation-head {
@@ -214,19 +243,8 @@ code {
   margin-top: 0.35rem;
 }
 
-.citation-links a,
-.link-btn {
+.citation-links a {
   font-size: 0.78rem;
-}
-
-.link-btn {
-  background: transparent;
-  color: var(--link);
-  border: none;
-  padding: 0;
-  font-weight: 500;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .citation-thumb-btn {
@@ -259,17 +277,13 @@ code {
 }
 
 .relevance-warn {
-  margin-bottom: 0.75rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 176, 32, 0.45);
-  background: rgba(255, 176, 32, 0.1);
-  font-size: 0.85rem;
+  display: none;
 }
 
-.relevance-warn ul {
-  margin: 0.35rem 0 0.25rem 1rem;
-  padding: 0;
+.message .body .answer-heading {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 1rem;
+  color: var(--text);
 }
 
 .teaching-banner {
@@ -356,9 +370,29 @@ code {
   font-size: 0.85rem;
 }
 
-.media-modal-open {
+.media-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.media-modal-action {
+  display: inline-block;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--panel-border);
   color: var(--link);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.media-modal-action:hover {
+  background: var(--accent-soft);
+}
+
+.media-modal-action[hidden] {
+  display: none;
 }
 
 body.modal-open {
