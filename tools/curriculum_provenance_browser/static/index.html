@@ -82,6 +82,11 @@ a { color: var(--accent); }
 .suppress-box strong { display: block; margin-bottom: 4px; }
 .quality-reasons { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
 .quality-dims { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+.info-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.84rem; color: #1e3a8a; }
+.evidence-panel { margin-top: 12px; }
+.evidence-json { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 12px; font-family: var(--mono); font-size: 0.78rem; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+.evidence-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+.copy-status { font-size: 0.8rem; color: var(--complete); }
 </style>
 </head>
 <body>
@@ -146,6 +151,10 @@ a { color: var(--accent); }
       <button class="btn" type="button" id="resetBtn">Reset</button>
     </form>
     <div class="chips" id="quickFilters"></div>
+    <div class="info-banner" id="qualityHint">
+      Image quality suppress/warn badges apply only when <strong>Image quality flag</strong> is set to
+      <strong>Suppressed</strong> or <strong>Flagged</strong> (default shows all locator completeness).
+    </div>
   </section>
 
   <section class="panel">
@@ -193,6 +202,50 @@ let selectedRecordId = null;
 
 function esc(s) {
   return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function gsToHttps(uri) {
+  const s = String(uri ?? "").trim();
+  if (s.startsWith("gs://")) return "https://storage.googleapis.com/" + s.slice(5);
+  return s;
+}
+
+function renderLinkedValue(key, value, linkableFields, suppressImage) {
+  if (value == null || value === "") return "—";
+  const text = Array.isArray(value) ? JSON.stringify(value) : String(value);
+  const href = (linkableFields && linkableFields[key]) || null;
+  if (href) {
+    return `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+  }
+  if (key === "image_url" && suppressImage) {
+    return `<span class="note">suppressed (Tier A quality flag)</span>`;
+  }
+  return esc(text);
+}
+
+function renderLocatorValue(item, linkableFields, suppressImage) {
+  if (item.values) {
+    return `<ul class="url-list">${item.values.slice(0, 12).map(u =>
+      `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></li>`
+    ).join("")}${item.values.length > 12 ? `<li>… ${item.values.length - 12} more</li>` : ""}</ul>`;
+  }
+  const label = item.label || "";
+  let fieldKey = null;
+  if (label === "Figure/page image") fieldKey = "image_url";
+  else if (label === "Figure/page image path") fieldKey = "image_path";
+  else if (label === "Source video") fieldKey = "source_video_gcs_uri";
+  else if (label === "Source PDF") fieldKey = "source_pdf_gcs_uri";
+  else if (label === "WHO HTML path") fieldKey = "who_html_gcs_path";
+  else if (label === "Page URL") fieldKey = "source_url";
+  const href = fieldKey && linkableFields && linkableFields[fieldKey];
+  const val = item.value == null ? "—" : String(item.value);
+  if (fieldKey === "image_url" && suppressImage) {
+    return `<span class="note">suppressed (Tier A quality flag)</span>`;
+  }
+  if (href) {
+    return `<a href="${esc(href)}" target="_blank" rel="noopener" class="tag-cell">${esc(val)}</a>`;
+  }
+  return `<span class="tag-cell">${esc(val)}</span>`;
 }
 
 function badge(status) {
@@ -303,26 +356,36 @@ function renderDetail(data) {
   const s = data.locator_summary || {};
   const fields = data.fields || {};
   const missing = fields.missing_locator_parts || [];
+  const linkableFields = data.linkable_fields || {};
+  const qf = data.quality_flag;
+  const suppressImage = !!(qf && qf.tier === "suppress_render");
 
   let locatorHtml = "";
   if (s.primary) {
-    locatorHtml += `<p><strong>${esc(s.primary.label)}:</strong> <span class="tag-cell">${esc(s.primary.value)}</span></p>`;
+    const primaryVal = renderLocatorValue(
+      { label: s.primary.label, value: s.primary.value },
+      linkableFields,
+      suppressImage
+    );
+    locatorHtml += `<p><strong>${esc(s.primary.label)}:</strong> ${primaryVal}</p>`;
   }
   if (s.note) locatorHtml += `<p class="note">${esc(s.note)}</p>`;
   (s.secondary || []).forEach(item => {
     if (item.values) {
-      locatorHtml += `<p><strong>${esc(item.label)}:</strong></p><ul class="url-list">${item.values.slice(0, 12).map(u => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></li>`).join("")}${item.values.length > 12 ? `<li>… ${item.values.length - 12} more</li>` : ""}</ul>`;
+      locatorHtml += `<p><strong>${esc(item.label)}:</strong></p>${renderLocatorValue(item, linkableFields, suppressImage)}`;
     } else {
-      locatorHtml += `<p><strong>${esc(item.label)}:</strong> <span class="tag-cell">${esc(item.value)}</span></p>`;
+      locatorHtml += `<p><strong>${esc(item.label)}:</strong> ${renderLocatorValue(item, linkableFields, suppressImage)}</p>`;
     }
   });
+  if (data.video_time_url) {
+    locatorHtml += `<p><strong>Video timestamp URL:</strong> <a href="${esc(data.video_time_url)}" target="_blank" rel="noopener" class="tag-cell">${esc(data.video_time_url)}</a></p>`;
+  }
 
   const kv = (entries) => entries.map(([k, v]) => {
-    const val = v == null || v === "" ? "—" : (Array.isArray(v) ? JSON.stringify(v) : String(v));
-    return `<dt>${esc(k)}</dt><dd>${esc(val)}</dd>`;
+    const rendered = renderLinkedValue(k, v, linkableFields, suppressImage);
+    return `<dt>${esc(k)}</dt><dd>${rendered}</dd>`;
   }).join("");
 
-  const qf = data.quality_flag;
   let qualityHtml;
   if (!qf) {
     qualityHtml = `<p class="note">No image quality flag — renders normally.</p>`;
@@ -335,6 +398,22 @@ function renderDetail(data) {
       `<div>Flag reasons: ${esc(qualityReasons(qf))}</div>` +
       `<div>Parsed dimensions: ${esc(formatDims(qf))}</div></div>`;
   }
+
+  const seq = data.suggested_evidence_query || {};
+  const evidenceJson = JSON.stringify(seq.request_body || {}, null, 2);
+  const evidenceNote = seq.note ? `<p class="note">${esc(seq.note)}</p>` : "";
+  const evidencePanel = `
+    <div class="detail-block evidence-panel">
+      <h3>Suggested evidence query</h3>
+      <p class="note">Copy this JSON for <code>${esc(seq.endpoint || "POST /evidence/search")}</code> at
+        <span class="tag-cell">${esc(seq.api_url || "")}</span>. No API key is shown here.</p>
+      ${evidenceNote}
+      <pre class="evidence-json" id="evidenceQueryJson">${esc(evidenceJson)}</pre>
+      <div class="evidence-actions">
+        <button type="button" class="btn btn-primary" id="copyEvidenceJsonBtn">Copy JSON</button>
+        <span class="copy-status hidden" id="copyEvidenceStatus">Copied</span>
+      </div>
+    </div>`;
 
   content.innerHTML = `
     <div class="detail-grid">
@@ -349,6 +428,7 @@ function renderDetail(data) {
         <h3>Image quality flag</h3>
         ${qualityHtml}
       </div>
+      ${evidencePanel}
       <div class="detail-block">
         <h3>Identity</h3>
         <dl class="kv">${kv([
@@ -366,6 +446,7 @@ function renderDetail(data) {
         <dl class="kv">${kv([
           ["locator", fields.locator],
           ["source_url", fields.source_url],
+          ["video_time_url", data.video_time_url],
           ["source_video_gcs_uri", fields.source_video_gcs_uri],
           ["time_start_sec", fields.time_start_sec],
           ["time_end_sec", fields.time_end_sec],
@@ -393,6 +474,21 @@ function renderDetail(data) {
       </div>
     </div>
   `;
+
+  const copyBtn = document.getElementById("copyEvidenceJsonBtn");
+  const copyStatus = document.getElementById("copyEvidenceStatus");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(evidenceJson);
+        copyStatus.classList.remove("hidden");
+        setTimeout(() => copyStatus.classList.add("hidden"), 2000);
+      } catch (_) {
+        copyStatus.textContent = "Copy failed — select text manually";
+        copyStatus.classList.remove("hidden");
+      }
+    });
+  }
 }
 
 async function loadDetail(recordId) {
@@ -406,10 +502,17 @@ async function loadDetail(recordId) {
   document.getElementById("detailPanel").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function updateQualityHint(params) {
+  const hint = document.getElementById("qualityHint");
+  const quality = params.quality || "all";
+  hint.classList.toggle("hidden", quality !== "all");
+}
+
 async function runSearch(params) {
   const qs = new URLSearchParams(params);
   const res = await fetch(`/api/search?${qs}`);
   const data = await res.json();
+  updateQualityHint(params);
   renderResults(data);
 }
 
@@ -475,7 +578,7 @@ async function init() {
     runSearch({ limit: "50", offset: "0" });
   });
 
-  runSearch({ limit: "50", offset: "0", completeness: "partial" });
+  runSearch({ limit: "50", offset: "0" });
 }
 
 init().catch(err => {

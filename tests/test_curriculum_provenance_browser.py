@@ -15,6 +15,7 @@ from fastapi.testclient import TestClient
 REPO_ROOT = Path(__file__).resolve().parents[1]
 APP_DIR = REPO_ROOT / "tools" / "curriculum_provenance_browser"
 APP_PATH = APP_DIR / "app.py"
+EVIDENCE_BRIDGE_PATH = APP_DIR / "evidence_bridge.py"
 
 # Two real textbook record_ids sharing a rare approved_tag (used so a narrow
 # search filter can exercise both fixture rows without scanning the full
@@ -30,6 +31,15 @@ FIXTURE_TIER_B_RECORD_ID = (
     "BST::Soft_Tissue::Skeletal_Muscle::Malignant::Ectomesenchymoma"
 )
 FIXTURE_SHARED_APPROVED_TAG = "BST::Soft_Tissue::Skeletal_Muscle::Malignant::Ectomesenchymoma"
+
+
+def load_evidence_bridge_module():
+    spec = importlib.util.spec_from_file_location("curriculum_provenance_evidence_bridge", EVIDENCE_BRIDGE_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 def load_app_module():
@@ -192,6 +202,72 @@ class CurriculumProvenanceBrowserTests(unittest.TestCase):
 
         invalid_res = self.client.get("/api/search", params={**base_params, "quality": "not-a-real-value"})
         self.assertEqual(invalid_res.status_code, 422)
+
+    def test_evidence_bridge_helpers(self) -> None:
+        bridge = load_evidence_bridge_module()
+        self.assertEqual(
+            bridge.approved_tag_to_query("BST::Soft_Tissue::Skeletal_Muscle::Malignant::Ectomesenchymoma"),
+            "Malignant Ectomesenchymoma",
+        )
+        self.assertEqual(bridge.evidence_sources_for_family("textbooks"), ["textbooks"])
+        self.assertEqual(bridge.evidence_sources_for_family("abpath"), [])
+
+        row = {
+            "source_family": "textbooks",
+            "approved_tag": "BST::Bone::Other",
+            "text_excerpt": "fallback excerpt text here",
+        }
+        suggested = bridge.build_suggested_evidence_query(row)
+        self.assertEqual(suggested["request_body"]["sources"], ["textbooks"])
+        self.assertIn("Bone", suggested["request_body"]["query"])
+        self.assertNotIn("api_key", json.dumps(suggested).lower())
+
+        video_url = bridge.make_video_time_url(
+            "gs://pathology-hub-0/source_videos/example.mp4",
+            279.52,
+            301.52,
+        )
+        self.assertEqual(
+            video_url,
+            "https://storage.googleapis.com/pathology-hub-0/source_videos/example.mp4#t=279.52,301.52",
+        )
+
+    def test_record_detail_evidence_bridge_fields(self) -> None:
+        res = self.client.get(f"/api/records/{FIXTURE_TIER_A_RECORD_ID}")
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertIn("suggested_evidence_query", body)
+        self.assertIn("request_body", body["suggested_evidence_query"])
+        self.assertEqual(body["suggested_evidence_query"]["request_body"]["sources"], ["textbooks"])
+        self.assertIn("linkable_fields", body)
+        self.assertNotIn("image_url", body["linkable_fields"])
+
+        conn = sqlite3.connect(str(self.db_copy))
+        lecture_id = conn.execute(
+            """
+            select record_id from provenance_records
+            where source_family = 'lectures' and time_start_sec is not null
+            limit 1
+            """
+        ).fetchone()[0]
+        conn.close()
+        lecture_res = self.client.get(f"/api/records/{lecture_id}")
+        self.assertEqual(lecture_res.status_code, 200)
+        lecture_body = lecture_res.json()
+        self.assertIsNotNone(lecture_body.get("video_time_url"))
+        self.assertIn("#t=", lecture_body["video_time_url"])
+        self.assertEqual(lecture_body["suggested_evidence_query"]["request_body"]["sources"], ["lectures"])
+
+        conn = sqlite3.connect(str(self.db_copy))
+        pathout_row = conn.execute(
+            "select record_id from provenance_records where source_family = 'pathout' and source_url is not null limit 1"
+        ).fetchone()
+        conn.close()
+        pathout_res = self.client.get(f"/api/records/{pathout_row[0]}")
+        self.assertEqual(pathout_res.status_code, 200)
+        pathout_body = pathout_res.json()
+        self.assertIn("source_url", pathout_body["linkable_fields"])
+        self.assertTrue(pathout_body["linkable_fields"]["source_url"].startswith("http"))
 
 
 if __name__ == "__main__":

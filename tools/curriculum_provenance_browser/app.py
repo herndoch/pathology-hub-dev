@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +14,16 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+
+APP_DIR = Path(__file__).resolve().parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
+
+from evidence_bridge import (
+    build_suggested_evidence_query,
+    link_href_for_field,
+    video_time_url_for_record,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SQLITE = REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_1.sqlite"
@@ -434,9 +445,27 @@ def record_detail(record_id: str) -> dict[str, Any]:
         if row is None:
             raise HTTPException(status_code=404, detail=f"record_id not found: {record_id}")
         data = _enrich_row(row)
+    fields = {
+        col: data.get(col.replace("_json", ""))
+        for col in PROVENANCE_COLUMNS
+        if col in data or col.replace("_json", "") in data
+    }
+    suppress_image = bool(data.get("quality_flag") and data["quality_flag"].get("tier") == "suppress_render")
+    video_time_url = video_time_url_for_record(data)
+    linkable_fields = {
+        key: link_href_for_field(key, val, suppress_image=suppress_image)
+        for key, val in {
+            **fields,
+            "video_time_url": video_time_url,
+        }.items()
+        if link_href_for_field(key, val, suppress_image=suppress_image)
+    }
     return {
         "record_id": record_id,
-        "fields": {col: data.get(col.replace("_json", "")) for col in PROVENANCE_COLUMNS if col in data or col.replace("_json", "") in data},
+        "fields": fields,
         "locator_summary": data["locator_summary"],
         "quality_flag": data["quality_flag"],
+        "video_time_url": video_time_url,
+        "linkable_fields": linkable_fields,
+        "suggested_evidence_query": build_suggested_evidence_query(data),
     }

@@ -4,6 +4,45 @@ Last updated: 2026-07-08
 
 ## Current task (completed)
 
+Phase 2 — provenance browser bridge + UX polish (local only).
+
+### What was built
+
+- **Default search UX:** page load now searches all locator completeness (not
+  partial-only). Blue info banner explains that quality suppress/warn examples
+  require setting **Image quality flag** to Suppressed or Flagged.
+- **Detail view links:** clickable `source_url`, computed `video_time_url`,
+  `image_url` (hidden when Tier A suppressed), `who_html_gcs_path`, and PDF/video
+  GCS URIs (via `storage.googleapis.com` hrefs).
+- **Suggested evidence query panel:** detail view shows a derived
+  `POST /evidence/search` JSON body (from `approved_tag` + `source_family`) with
+  **Copy JSON** button; no API key in UI.
+- `tools/curriculum_provenance_browser/evidence_bridge.py` — shared helpers for
+  query derivation, GCS→HTTPS links, and `video_time_url` computation.
+- `tools/curriculum_provenance_browser/scripts/probe_evidence_from_record.py`
+  — `--record-id` CLI; reads SQLite read-only; optional live
+  `/evidence/search` when `PATHOLOGY_HUB_API_KEY` or `HUB_API` is set; writes
+  audit JSON under `06_audits/curriculum_provenance_links/v0_1/`; never prints
+  secrets.
+- Tests extended: **8/8 pass**
+  (`tools/curriculum_provenance_browser/.venv/bin/python -m unittest
+  tests.test_curriculum_provenance_browser -v`).
+
+### Immediate next step
+
+Run the browser locally and spot-check one detail row with links + evidence JSON:
+
+```bash
+tools/curriculum_provenance_browser/scripts/run_local.sh
+# open http://127.0.0.1:8765/
+# optional: probe live evidence for a record_id when API key is in env
+tools/curriculum_provenance_browser/.venv/bin/python \
+  tools/curriculum_provenance_browser/scripts/probe_evidence_from_record.py \
+  --record-id "<record_id>"
+```
+
+## Prior task (completed)
+
 Ran the requested read-only provenance browser and live evidence-search QA pass.
 Short report saved at `docs/PROVENANCE_BROWSER_EVIDENCE_QA_20260708.md`.
 
