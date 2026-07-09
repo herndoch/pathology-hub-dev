@@ -121,3 +121,31 @@ the right job as a record-level locator/quality debugger, while evidence search
 is a retrieval endpoint with source-specific result contracts. Bridge later by
 adding record/source locator cross-links from evidence results into the
 provenance browser, rather than merging the UIs now.
+
+## Phase 2 Appendix: Local Bridge + UX Polish
+
+Phase 2 keeps the provenance debug UI separate from evidence search while
+adding a small local bridge for manual QA:
+
+- Default browser load now searches all locator completeness states instead of
+  starting on partial-only records.
+- The search panel now has a prominent hint that suppress/warn examples require
+  changing `Image quality flag` to `Suppressed` or `Flagged`.
+- Record detail now includes a suggested `POST /evidence/search` JSON payload
+  derived from the record `approved_tag` and `source_family`, plus a `Copy JSON`
+  button. The browser does not call the live API or expose API keys.
+- Record detail now exposes link helpers for `source_url`, computed
+  `video_time_url`, `image_url` when not Tier A suppressed, `who_html_gcs_path`,
+  and related GCS URI fields through browser-openable HTTPS links where
+  possible.
+- Added `tools/curriculum_provenance_browser/evidence_bridge.py` for shared
+  query/link helper logic.
+- Added optional script
+  `tools/curriculum_provenance_browser/scripts/probe_evidence_from_record.py`
+  to read one record from SQLite read-only, build the evidence payload, call the
+  live endpoint only when `PATHOLOGY_HUB_API_KEY` or `HUB_API` exists in the
+  environment, and write a local audit JSON under
+  `06_audits/curriculum_provenance_links/v0_1/`.
+
+Still out of scope: fig01-fallback repair, GCS uploads, GPT Builder
+integration, and mutation of `curriculum_source_locator_index_v0_1.sqlite`.

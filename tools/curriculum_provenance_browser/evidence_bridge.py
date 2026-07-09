@@ -114,6 +114,8 @@ def build_suggested_evidence_query(row: dict[str, Any]) -> dict[str, Any]:
 
 def video_time_url_for_record(row: dict[str, Any]) -> str | None:
     """Compute video_time_url from provenance locator fields (not stored in SQLite)."""
+    if (row.get("source_family") or "").lower() != "lectures" and not row.get("source_video_gcs_uri"):
+        return None
     video = row.get("source_video_gcs_uri") or row.get("raw_source_gcs_uri")
     return make_video_time_url(video, row.get("time_start_sec"), row.get("time_end_sec"))
 
