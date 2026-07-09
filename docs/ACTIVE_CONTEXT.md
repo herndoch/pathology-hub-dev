@@ -1,8 +1,61 @@
 # Active Context
 
-Last updated: 2026-07-08
+Last updated: 2026-07-09
 
 ## Current task (completed)
+
+Textbook index refresh after v0_2 figure-image GCS delete (docstore + web map).
+
+### What was run (2026-07-09)
+
+1. **`scripts/repair_textbook_figure_index_after_delete_v0_2.py`**
+   - Input manifest: **3,055** deleted `gs://` URIs from
+     `06_audits/.../delete_manifest_execute_20260708.txt`.
+   - Downloaded canonical GCS inputs, repaired locally under
+     `outputs/textbook_figure_index_repair_v0_2/`.
+   - **Docstore** (`textbook_lean_vector_docstore.jsonl`): **79,320** lines in/out;
+     **3,003** lines nulled `image_path` (matches pre-refresh staleness audit).
+   - **Web figure map**: **49,525 → 47,772** lines; **1,753** orphaned rows
+     dropped (matches pre-refresh staleness audit).
+   - Post-repair verification: **0** remaining deleted-URI references in either
+     artifact.
+   - Repair audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/repair_audit_repair20260709.json`
+   - Git-tracked summary:
+     `audits/textbook_figure_index_repair_v0_2/repair_summary_v0_2.json`
+
+2. **GCS upload** (`--upload`, upload audit written first per AGENTS.md)
+   - `gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl`
+   - `gs://pathology_hub/02_normalized/textbooks/lean/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl`
+   - Upload audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/upload_audit_upload20260709.json`
+
+### Follow-ups (not done)
+
+- `textbook_lean_figures.jsonl` may still reference deleted URIs (backend
+  figure pool); repair separately if figure-serving regressions appear.
+- FAISS / SQLite FTS indexes unchanged (vector rows unchanged; only metadata
+  stripped). Rebuild only if a downstream audit proves stale figure metadata
+  affects retrieval ranking.
+- Cloud Run pods cache downloaded artifacts until cold restart; new instances
+  pick up repaired GCS objects automatically.
+- **fig01-fallback** locator assignment remains a separate, not-yet-approved fix.
+
+## Prior task (completed)
+
+Post-delete sanity + downstream breakage audit (day after GCS delete and v0_2
+locator strip).
+
+### What was checked (2026-07-09)
+
+1. **Local sanity** — v0_2 SQLite stripped; deleted GCS objects return **404**.
+2. **Live evidence search** — **0** dead figure URLs in top-5 for 3 probe queries
+   (audit:
+   `06_audits/curriculum_provenance_links/v0_1/post_delete_evidence_figure_audit_20260709T223025Z.json`).
+3. **Pre-refresh staleness** — docstore **3,003** lines + web map **1,753** lines
+   still referenced deleted objects (now repaired above).
+
+## Prior task (completed)
 
 Deleted flagged textbook figure images from GCS and stripped their locators from
 the derived provenance index (v0_2).

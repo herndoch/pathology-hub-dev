@@ -1,0 +1,35 @@
+{
+  "schema_version": "textbook_figure_index_repair.v0_2",
+  "created_at": "2026-07-09T22:41:19+00:00",
+  "script": "scripts/repair_textbook_figure_index_after_delete_v0_2.py",
+  "input_paths": {
+    "delete_manifest": "06_audits/curriculum_provenance_links/v0_1/figure_image_gcs_delete_v0_2/delete_manifest_execute_20260708.txt",
+    "docstore_gcs": "gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl",
+    "web_map_gcs": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl"
+  },
+  "output_paths": {
+    "docstore_repaired_local": "outputs/textbook_figure_index_repair_v0_2/textbook_lean_vector_docstore_v0_2.jsonl",
+    "web_map_repaired_local": "outputs/textbook_figure_index_repair_v0_2/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN_v0_2.jsonl",
+    "docstore_gcs_uploaded": "gs://pathology_hub/03_indexes/textbooks/vector/textbook_lean_vector_docstore.jsonl",
+    "web_map_gcs_uploaded": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl",
+    "full_repair_audit": "06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/repair_audit_repair20260709.json",
+    "full_upload_audit": "06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/upload_audit_upload20260709.json"
+  },
+  "counts": {
+    "deleted_uris_in_manifest": 3055,
+    "docstore_input_lines": 79320,
+    "docstore_output_lines": 79320,
+    "docstore_lines_repaired": 3003,
+    "web_map_input_lines": 49525,
+    "web_map_output_lines": 47772,
+    "web_map_lines_dropped": 1753,
+    "post_repair_deleted_ref_docstore_lines": 0,
+    "post_repair_deleted_ref_web_map_lines": 0,
+    "gcs_upload_ok": true
+  },
+  "known_limitations": [
+    "textbook_lean_figures.jsonl and FAISS/SQLite FTS indexes not updated.",
+    "Cloud Run pods may serve cached pre-repair artifacts until cold restart.",
+    "Web-map rows referencing deleted originals were dropped, not partially stripped."
+  ]
+}
