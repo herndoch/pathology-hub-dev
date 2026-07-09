@@ -18,11 +18,19 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SQLITE = REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_1.sqlite"
 DEFAULT_INDEX_AUDIT = REPO_ROOT / "06_audits/curriculum_provenance_links/v0_1/source_locator_index_audit_v0_1.json"
 DEFAULT_REPAIR_AUDIT = REPO_ROOT / "06_audits/curriculum_provenance_links/v0_1/source_locator_repair_audit_v0_1.json"
+DEFAULT_QUALITY_FLAGS_JSONL = (
+    REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl"
+)
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 SQLITE_PATH = Path(os.environ.get("CURRICULUM_LOCATOR_SQLITE", str(DEFAULT_SQLITE)))
 INDEX_AUDIT_PATH = Path(os.environ.get("CURRICULUM_LOCATOR_INDEX_AUDIT", str(DEFAULT_INDEX_AUDIT)))
 REPAIR_AUDIT_PATH = Path(os.environ.get("CURRICULUM_LOCATOR_REPAIR_AUDIT", str(DEFAULT_REPAIR_AUDIT)))
+QUALITY_FLAGS_JSONL_PATH = Path(
+    os.environ.get("CURRICULUM_QUALITY_FLAGS_JSONL", str(DEFAULT_QUALITY_FLAGS_JSONL))
+)
+
+QUALITY_FILTER_VALUES = {"all", "suppressed", "flagged", "clean"}
 
 SOURCE_FAMILY_LABELS = {
     "abpath": "ABPath",
@@ -183,6 +191,7 @@ def _build_locator_summary(row: dict[str, Any]) -> dict[str, Any]:
 def _enrich_row(row: sqlite3.Row) -> dict[str, Any]:
     data = _row_to_dict(row)
     data["locator_summary"] = _build_locator_summary(data)
+    data["quality_flag"] = _quality_flag_for(data.get("record_id"))
     return data
 
 
@@ -190,6 +199,65 @@ def _load_audit(path: Path) -> dict[str, Any] | None:
     if not path.exists():
         return None
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+# In-memory quality-flag join (read-only JSONL, no DB connection). Cached by
+# source path so tests can point QUALITY_FLAGS_JSONL_PATH at a fixture and
+# get a fresh load without restarting the process.
+_quality_flags_cache: dict[str, dict[str, Any]] | None = None
+_quality_flags_cache_path: Path | None = None
+
+
+def _load_quality_flags(path: Path) -> dict[str, dict[str, Any]]:
+    """Load the textbook figure image quality-flag sidecar JSONL, keyed by record_id.
+
+    Read-only: this never opens curriculum_source_locator_index_v0_1.sqlite or
+    curriculum_record_provenance_sidecar_repaired_v0_1.jsonl, and never mutates
+    the sidecar file itself.
+    """
+    if not path.exists():
+        return {}
+    flags_by_record: dict[str, dict[str, Any]] = {}
+    with path.open("r", encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            row = json.loads(line)
+            record_id = row.get("record_id")
+            if not record_id:
+                continue
+            flags_by_record[record_id] = {
+                "tier": row.get("tier"),
+                "flags": row.get("flags") or [],
+                "width": row.get("width"),
+                "height": row.get("height"),
+            }
+    return flags_by_record
+
+
+def _quality_flags() -> dict[str, dict[str, Any]]:
+    global _quality_flags_cache, _quality_flags_cache_path
+    if _quality_flags_cache is None or _quality_flags_cache_path != QUALITY_FLAGS_JSONL_PATH:
+        _quality_flags_cache = _load_quality_flags(QUALITY_FLAGS_JSONL_PATH)
+        _quality_flags_cache_path = QUALITY_FLAGS_JSONL_PATH
+    return _quality_flags_cache
+
+
+def _quality_flag_for(record_id: str | None) -> dict[str, Any] | None:
+    if not record_id:
+        return None
+    return _quality_flags().get(record_id)
+
+
+def _matches_quality(quality_flag: dict[str, Any] | None, quality: str) -> bool:
+    if quality == "suppressed":
+        return bool(quality_flag) and quality_flag.get("tier") == "suppress_render"
+    if quality == "flagged":
+        return bool(quality_flag)
+    if quality == "clean":
+        return quality_flag is None
+    return True
 
 
 @app.get("/")
@@ -203,6 +271,8 @@ def health() -> dict[str, Any]:
         "ok": True,
         "sqlite_path": str(SQLITE_PATH),
         "sqlite_exists": SQLITE_PATH.exists(),
+        "quality_flags_jsonl_path": str(QUALITY_FLAGS_JSONL_PATH),
+        "quality_flags_jsonl_exists": QUALITY_FLAGS_JSONL_PATH.exists(),
         "read_only": True,
     }
 
@@ -278,9 +348,23 @@ def search(
         None,
         description="Alias filter: complete | partial | all. Overrides locator_status when set.",
     ),
+    quality: str | None = Query(
+        None,
+        description=(
+            "Optional textbook figure image quality-flag filter, applied in-memory after the "
+            "SQL query: all (default) | suppressed | flagged | clean."
+        ),
+    ),
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
 ) -> SearchResponse:
+    if quality is not None and quality not in QUALITY_FILTER_VALUES:
+        raise HTTPException(
+            status_code=422,
+            detail=f"quality must be one of {sorted(QUALITY_FILTER_VALUES)}, got: {quality}",
+        )
+    quality = quality or "all"
+
     where: list[str] = []
     params: list[Any] = []
 
@@ -306,19 +390,38 @@ def search(
         params.append(locator_status)
 
     clause = f"where {' and '.join(where)}" if where else ""
-    count_sql = f"select count(*) from provenance_records {clause}"
-    data_sql = f"""
+
+    if quality == "all":
+        # Unchanged SQL-side pagination path (existing behavior).
+        count_sql = f"select count(*) from provenance_records {clause}"
+        data_sql = f"""
+            select * from provenance_records
+            {clause}
+            order by source_family, locator_status, approved_tag, record_id
+            limit ? offset ?
+        """
+        with _connect() as conn:
+            total = conn.execute(count_sql, params).fetchone()[0]
+            rows = [_enrich_row(row) for row in conn.execute(data_sql, [*params, limit, offset]).fetchall()]
+        return SearchResponse(total=total, limit=limit, offset=offset, rows=rows)
+
+    # quality filter is applied in-memory after the existing SQL query (same
+    # WHERE clause, unchanged). SQL-side limit/offset is dropped here so the
+    # reported total and page reflect the post-filter set rather than a
+    # partially-filtered single page of the unfiltered SQL result.
+    all_sql = f"""
         select * from provenance_records
         {clause}
         order by source_family, locator_status, approved_tag, record_id
-        limit ? offset ?
     """
-
     with _connect() as conn:
-        total = conn.execute(count_sql, params).fetchone()[0]
-        rows = [_enrich_row(row) for row in conn.execute(data_sql, [*params, limit, offset]).fetchall()]
+        matched_rows = [_enrich_row(row) for row in conn.execute(all_sql, params).fetchall()]
 
-    return SearchResponse(total=total, limit=limit, offset=offset, rows=rows)
+    filtered_rows = [r for r in matched_rows if _matches_quality(r.get("quality_flag"), quality)]
+    total = len(filtered_rows)
+    page_rows = filtered_rows[offset : offset + limit]
+
+    return SearchResponse(total=total, limit=limit, offset=offset, rows=page_rows)
 
 
 @app.get("/api/records/{record_id:path}")
@@ -335,4 +438,5 @@ def record_detail(record_id: str) -> dict[str, Any]:
         "record_id": record_id,
         "fields": {col: data.get(col.replace("_json", "")) for col in PROVENANCE_COLUMNS if col in data or col.replace("_json", "") in data},
         "locator_summary": data["locator_summary"],
+        "quality_flag": data["quality_flag"],
     }

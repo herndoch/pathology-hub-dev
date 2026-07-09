@@ -76,6 +76,12 @@ tbody tr.selected { outline: 2px solid #bfdbfe; outline-offset: -2px; }
 .empty { color: var(--muted); font-size: 0.9rem; padding: 24px; text-align: center; }
 .hidden { display: none !important; }
 a { color: var(--accent); }
+.badge-suppress { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+.badge-warn { background: var(--partial-bg); color: var(--partial); border: 1px solid #fde68a; }
+.suppress-box { background: var(--danger-bg); border: 1px solid #fecaca; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 0.84rem; color: #7f1d1d; }
+.suppress-box strong { display: block; margin-bottom: 4px; }
+.quality-reasons { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+.quality-dims { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -119,6 +125,15 @@ a { color: var(--accent); }
         </select>
       </div>
       <div class="field">
+        <label for="quality">Image quality flag</label>
+        <select id="quality" name="quality">
+          <option value="all" selected>All</option>
+          <option value="suppressed">Suppressed only (Tier A)</option>
+          <option value="flagged">Flagged only (Tier A + B)</option>
+          <option value="clean">Clean only (no flag)</option>
+        </select>
+      </div>
+      <div class="field">
         <label for="limit">Limit</label>
         <select id="limit" name="limit">
           <option value="25">25</option>
@@ -147,11 +162,12 @@ a { color: var(--accent); }
             <th>Approved tag</th>
             <th>Root</th>
             <th>Locator preview</th>
+            <th>Image quality</th>
             <th>Missing parts</th>
           </tr>
         </thead>
         <tbody id="resultsBody">
-          <tr><td colspan="6" class="empty">No results yet.</td></tr>
+          <tr><td colspan="7" class="empty">No results yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -193,12 +209,40 @@ function formatMissing(parts) {
   return `<span class="missing">${esc(parts.join(", "))}</span>`;
 }
 
+const IMAGE_SECONDARY_LABELS = new Set(["Figure/page image", "Figure/page image path"]);
+
+function formatDims(qf) {
+  if (!qf || qf.width == null || qf.height == null) return "dimensions unavailable";
+  return `${qf.width} x ${qf.height}`;
+}
+
+function qualityReasons(qf) {
+  return (qf && qf.flags && qf.flags.length) ? qf.flags.join(", ") : "no reason recorded";
+}
+
+function qualityColumnCell(qf) {
+  if (!qf) return '<span class="note">—</span>';
+  const badgeCls = qf.tier === "suppress_render" ? "badge-suppress" : "badge-warn";
+  const badgeText = qf.tier === "suppress_render" ? "Suppressed" : "⚠ Suspect dimensions";
+  return `<span class="badge ${badgeCls}">${esc(badgeText)}</span>` +
+    `<div class="quality-dims">${esc(formatDims(qf))}</div>` +
+    `<div class="quality-reasons">${esc(qualityReasons(qf))}</div>`;
+}
+
 function locatorPreview(row) {
   const s = row.locator_summary || {};
+  const qf = row.quality_flag;
+  const suppressImage = !!(qf && qf.tier === "suppress_render");
   if (s.primary && s.primary.value) {
     let html = `<strong>${esc(s.primary.label)}:</strong> ${esc(String(s.primary.value).slice(0, 180))}`;
-    if (s.secondary && s.secondary.length) {
-      html += `<div class="locator-preview">${esc(s.secondary.map(x => `${x.label}: ${x.value || (x.values || []).length + " URLs"}`).join(" · "))}</div>`;
+    const secondary = (s.secondary || []).filter(x => !(suppressImage && IMAGE_SECONDARY_LABELS.has(x.label)));
+    if (secondary.length) {
+      html += `<div class="locator-preview">${esc(secondary.map(x => `${x.label}: ${x.value || (x.values || []).length + " URLs"}`).join(" · "))}</div>`;
+    }
+    if (suppressImage) {
+      html += `<div class="suppress-box"><strong>Known extraction defect — image suppressed</strong>${esc(qualityReasons(qf))} · ${esc(formatDims(qf))}</div>`;
+    } else if (qf) {
+      html += `<div class="quality-reasons">⚠ suspect dimensions: ${esc(qualityReasons(qf))} · ${esc(formatDims(qf))}</div>`;
     }
     if (s.note) html += `<div class="note">${esc(s.note)}</div>`;
     return html;
@@ -230,7 +274,7 @@ function renderResults(payload) {
     `${payload.total.toLocaleString()} matching records · showing ${payload.offset + 1}-${Math.min(payload.offset + payload.rows.length, payload.total)}`;
 
   if (!payload.rows.length) {
-    body.innerHTML = `<tr><td colspan="6" class="empty">No matching records.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="7" class="empty">No matching records.</td></tr>`;
     return;
   }
 
@@ -241,6 +285,7 @@ function renderResults(payload) {
       <td class="tag-cell">${esc(row.approved_tag)}</td>
       <td>${esc(row.root)}</td>
       <td>${locatorPreview(row)}</td>
+      <td>${qualityColumnCell(row.quality_flag)}</td>
       <td>${formatMissing(row.missing_locator_parts)}</td>
     </tr>
   `).join("");
@@ -277,6 +322,20 @@ function renderDetail(data) {
     return `<dt>${esc(k)}</dt><dd>${esc(val)}</dd>`;
   }).join("");
 
+  const qf = data.quality_flag;
+  let qualityHtml;
+  if (!qf) {
+    qualityHtml = `<p class="note">No image quality flag — renders normally.</p>`;
+  } else if (qf.tier === "suppress_render") {
+    qualityHtml = `<div class="suppress-box"><strong>Known extraction defect — image suppressed</strong>` +
+      `<div>Flag reasons: ${esc(qualityReasons(qf))}</div>` +
+      `<div>Parsed dimensions: ${esc(formatDims(qf))}</div></div>`;
+  } else {
+    qualityHtml = `<div class="warn-box"><span class="badge badge-warn">⚠ Suspect dimensions</span>` +
+      `<div>Flag reasons: ${esc(qualityReasons(qf))}</div>` +
+      `<div>Parsed dimensions: ${esc(formatDims(qf))}</div></div>`;
+  }
+
   content.innerHTML = `
     <div class="detail-grid">
       <div class="detail-block">
@@ -285,6 +344,10 @@ function renderDetail(data) {
         <p class="note">${esc(s.help || "")}</p>
         ${locatorHtml}
         ${missing.length ? `<div class="warn-box"><strong>Partial provenance:</strong> missing ${esc(missing.join(", "))}</div>` : ""}
+      </div>
+      <div class="detail-block">
+        <h3>Image quality flag</h3>
+        ${qualityHtml}
       </div>
       <div class="detail-block">
         <h3>Identity</h3>
@@ -416,7 +479,7 @@ async function init() {
 }
 
 init().catch(err => {
-  document.getElementById("resultsBody").innerHTML = `<tr><td colspan="6" class="empty">Failed to load: ${esc(err.message)}</td></tr>`;
+  document.getElementById("resultsBody").innerHTML = `<tr><td colspan="7" class="empty">Failed to load: ${esc(err.message)}</td></tr>`;
 });
 </script>
 </body>
