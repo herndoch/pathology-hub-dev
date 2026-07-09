@@ -4,6 +4,33 @@ Last updated: 2026-07-09
 
 ## Current task (completed)
 
+Pathology Hub Chat MVP — local GPT-style frontend over live `POST /evidence/search`.
+
+### What was built
+
+- Restored and committed `frontend/pathology_hub_chat_mvp/` (source had been lost; only
+  `__pycache__` remained). FastAPI app + static chat UI.
+- Backend client: `pathology_backend.py` — single operation `POST /evidence/search`,
+  staged multi-source retrieval, citation card extraction, debug payloads.
+- Optional OpenAI synthesis (`gpt_like`, `compare_sources`, `visual`, `html_teaching`) or
+  `search_only` raw evidence.
+- Secrets via `PATHOLOGY_HUB_API_KEY` / `HUB_API` and `OPENAI_API_KEY` (never logged).
+- Tests: `tests/test_pathology_hub_chat_mvp.py` (offline parsing + mocked `/api/search`).
+
+### Run locally
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# open http://127.0.0.1:8000/
+```
+
+### Immediate next step
+
+Set API keys in env and spot-check one pathology query with citations + debug panel.
+Bridge to provenance browser (record_id links) is a v2 item.
+
+## Prior task (completed)
+
 Textbook index refresh after v0_2 figure-image GCS delete (docstore + web map).
 
 ### What was run (2026-07-09)

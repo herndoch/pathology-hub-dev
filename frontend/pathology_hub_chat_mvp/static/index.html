@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub Chat</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Pathology Hub Chat</h1>
+      <p class="subtitle">Evidence-grounded pathology Q&amp;A via live <code>POST /evidence/search</code></p>
+    </div>
+    <div class="status" id="health-status">Checking…</div>
+  </header>
+
+  <main class="layout">
+    <section class="chat-panel">
+      <div class="messages" id="messages" aria-live="polite"></div>
+      <form class="composer" id="chat-form">
+        <textarea
+          id="query-input"
+          rows="3"
+          placeholder="Ask a pathology question (e.g. LCIS breast, tubular adenoma colon)…"
+          required
+        ></textarea>
+        <div class="composer-actions">
+          <button type="submit" id="send-btn">Send</button>
+          <label class="inline-check">
+            <input type="checkbox" id="debug-toggle" />
+            Show debug panel
+          </label>
+        </div>
+      </form>
+    </section>
+
+    <aside class="controls">
+      <h2>Settings</h2>
+
+      <label for="mode-select">Answer mode</label>
+      <select id="mode-select">
+        <option value="gpt_like" selected>GPT-like (synthesized answer)</option>
+        <option value="search_only">Search only (raw evidence)</option>
+        <option value="compare_sources">Compare sources</option>
+        <option value="visual">Visual / figures</option>
+        <option value="html_teaching">HTML teaching page</option>
+      </select>
+
+      <fieldset>
+        <legend>Evidence sources</legend>
+        <div id="source-checkboxes" class="source-grid"></div>
+      </fieldset>
+
+      <label for="max-results">Max results per source</label>
+      <input type="number" id="max-results" min="1" max="10" value="5" />
+
+      <p class="hint">
+        Requires <code>PATHOLOGY_HUB_API_KEY</code> or <code>HUB_API</code> for retrieval.
+        GPT-like modes also need <code>OPENAI_API_KEY</code>.
+        This UI does not claim sources are indexed unless the backend returns them.
+      </p>
+    </aside>
+  </main>
+
+  <template id="message-template">
+    <article class="message">
+      <div class="role"></div>
+      <div class="body"></div>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
