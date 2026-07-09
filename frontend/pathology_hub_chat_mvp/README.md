@@ -59,8 +59,13 @@ frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_patholog
 - Does not claim a source is indexed/vectorized unless the live API returns results and `source_status`
 - Not a substitute for clinical diagnosis
 
+## Experiment notes
+
+The right sidebar includes a collapsible **Experiment notes** panel. Type freeform observations while testing queries; content auto-saves to browser `localStorage` (`pathology_hub_experiment_notes`) and survives refresh. Use **Copy notes** for the clipboard or **Export markdown** to download a `.md` file.
+
 ## v2 gaps
 
+- Modal previews for citation `page_image_url`, `figure_url`, and `video_time_url` (lecture screenshots, textbook pages)
 - Link citations into the curriculum provenance browser by `record_id`
 - Streaming answers and conversation memory across turns
 - Smarter default source routing (tag-aware API when live)

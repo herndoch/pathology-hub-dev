@@ -1,4 +1,5 @@
 const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
+const NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
@@ -9,8 +10,13 @@ const maxResultsInput = document.getElementById("max-results");
 const debugToggle = document.getElementById("debug-toggle");
 const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
+const experimentNotes = document.getElementById("experiment-notes");
+const copyNotesBtn = document.getElementById("copy-notes-btn");
+const exportNotesBtn = document.getElementById("export-notes-btn");
+const notesStatus = document.getElementById("notes-status");
 
 let supportedSources = [];
+let notesSaveTimer = null;
 
 function linkFields(card) {
   const keys = [
@@ -45,6 +51,7 @@ function renderCitations(cards, figures) {
     return "<p class=\"hint\">No citation cards returned for this query.</p>";
   }
 
+  // v2: modal previews for page_image_url, figure_url, video_time_url
   let html = "<details class=\"citations\" open><summary>Sources &amp; citations</summary><ul class=\"citation-list\">";
   for (const card of cards || []) {
     const title = card.title || card.name || card.primary_tag || "(untitled hit)";
@@ -196,4 +203,65 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
+function loadExperimentNotes() {
+  try {
+    const saved = localStorage.getItem(NOTES_STORAGE_KEY);
+    if (saved != null) experimentNotes.value = saved;
+  } catch (err) {
+    notesStatus.textContent = "Could not load saved notes.";
+  }
+}
+
+function saveExperimentNotes() {
+  try {
+    localStorage.setItem(NOTES_STORAGE_KEY, experimentNotes.value);
+    notesStatus.textContent = "Saved locally.";
+  } catch (err) {
+    notesStatus.textContent = "Could not save notes.";
+  }
+}
+
+function scheduleNotesSave() {
+  clearTimeout(notesSaveTimer);
+  notesSaveTimer = setTimeout(saveExperimentNotes, 300);
+}
+
+function notesMarkdownExport() {
+  const body = experimentNotes.value.trim();
+  const stamp = new Date().toISOString();
+  return `# Pathology Hub experiment notes\n\nExported: ${stamp}\n\n---\n\n${body}\n`;
+}
+
+async function copyExperimentNotes() {
+  const text = experimentNotes.value;
+  if (!text.trim()) {
+    notesStatus.textContent = "Nothing to copy.";
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    notesStatus.textContent = "Copied to clipboard.";
+  } catch (err) {
+    notesStatus.textContent = "Copy failed — select and copy manually.";
+  }
+}
+
+function exportExperimentNotes() {
+  const md = notesMarkdownExport();
+  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  const stamp = new Date().toISOString().slice(0, 10);
+  anchor.href = url;
+  anchor.download = `pathology_hub_experiment_notes_${stamp}.md`;
+  anchor.click();
+  URL.revokeObjectURL(url);
+  notesStatus.textContent = "Markdown file downloaded.";
+}
+
+experimentNotes.addEventListener("input", scheduleNotesSave);
+copyNotesBtn.addEventListener("click", copyExperimentNotes);
+exportNotesBtn.addEventListener("click", exportExperimentNotes);
+
+loadExperimentNotes();
 refreshHealth();
