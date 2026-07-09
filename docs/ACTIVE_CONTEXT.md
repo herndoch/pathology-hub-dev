@@ -4,6 +4,65 @@ Last updated: 2026-07-08
 
 ## Current task (completed)
 
+Ran the requested read-only provenance browser and live evidence-search QA pass.
+Short report saved at `docs/PROVENANCE_BROWSER_EVIDENCE_QA_20260708.md`.
+
+### What was checked
+
+- Confirmed the quality-flag/browser changes are already committed in
+  `dad58eb Add textbook figure quality-flag sidecar and browser suppress/warn UI.`
+- Started/used the local provenance browser at `http://127.0.0.1:8765/`.
+- `/api/health` returned `ok=true`, SQLite present, quality-flags JSONL present,
+  and `read_only=true`.
+- API filters worked:
+  - default `/api/search?limit=5`: `total=159771`
+  - `quality=suppressed`: `total=3382`
+  - `quality=flagged`: `total=4835`
+  - `root=BST`: `total=18258`
+  - `source_family=textbooks`: `total=98151`
+  - `approved_tag=BST::Bone`: `total=8087`
+- Detail API verified one suppressed row and one flagged row with expected
+  `quality_flag` payloads.
+- Opened the local UI in the Windows browser via `cmd.exe /C start`.
+- Live evidence search authenticated without printing the key and returned
+  source-specific result arrays for the three requested query bodies.
+
+### Findings
+
+- Provenance filters and quality-flag API joins work.
+- UI confusion: default search is not quality-focused; users must set the
+  `Image quality flag` dropdown to `Suppressed` or `Flagged` to reliably see
+  the red/warn quality examples.
+- Evidence response schema uses `textbook_results`, `pathout_results`,
+  `who_results`, `lecture_results`, and `video_results`; it does not use a
+  single top-level `results` list.
+- Evidence query strength:
+  - Strong: `tubular adenoma colon` with textbooks.
+  - Strong: `LCIS breast` with textbooks/pathout/who.
+  - Strong but duplicated: `branchial cleft cyst` with lectures returns both
+    `lecture_results` and `video_results`.
+- Evidence textbook page-image URLs did not hit the known Tier A suppressed
+  figure-image families in this pass.
+
+### Test status
+
+- `tools/curriculum_provenance_browser/.venv/bin/python -m unittest tests.test_curriculum_provenance_browser -v`
+  hung after `test_health ...`.
+- Diagnostic run reached `after setup` and timed out on
+  `TestClient.get('/api/health')`; live server `/api/health` and `/api/search`
+  worked, so this appears isolated to in-process FastAPI/Starlette `TestClient`
+  behavior in this environment.
+- System `python3 -m unittest ...` cannot run the suite because system Python
+  lacks `fastapi`.
+
+### Recommendation
+
+Keep the provenance debug UI separate from evidence search for now. Bridge
+later with links from evidence result locator metadata into the provenance
+browser, rather than merging the workflows now.
+
+## Current task (completed)
+
 Built the textbook figure image quality-flag sidecar and browser UI update
 described in `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_QUALITY_REPAIR_v0_1.md`, per
 the runbook's final/approved (2026-07-08) tier table (used as-is, not
