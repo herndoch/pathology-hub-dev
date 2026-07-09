@@ -16,6 +16,9 @@ Pathology Hub Chat MVP — local GPT-style frontend over live `POST /evidence/se
   `search_only` raw evidence.
 - Secrets via `PATHOLOGY_HUB_API_KEY` / `HUB_API` and `OPENAI_API_KEY` (never logged).
 - Tests: `tests/test_pathology_hub_chat_mvp.py` (offline parsing + mocked `/api/search`).
+- **Experiment notes panel** (right sidebar): freeform textarea, auto-save to
+  `localStorage` key `pathology_hub_experiment_notes`, Copy + Export markdown buttons.
+- v2 TODO stub only: modal previews for `page_image_url`, `figure_url`, `video_time_url`.
 
 ### Run locally
 
@@ -27,7 +30,7 @@ frontend/pathology_hub_chat_mvp/scripts/run_local.sh
 ### Immediate next step
 
 Set API keys in env and spot-check one pathology query with citations + debug panel.
-Bridge to provenance browser (record_id links) is a v2 item.
+Use experiment notes while testing; v2 items: citation image modals, provenance browser links.
 
 ## Prior task (completed)
 
