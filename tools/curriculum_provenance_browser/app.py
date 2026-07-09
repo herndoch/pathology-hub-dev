@@ -26,8 +26,8 @@ from evidence_bridge import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_SQLITE = REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_1.sqlite"
-DEFAULT_INDEX_AUDIT = REPO_ROOT / "06_audits/curriculum_provenance_links/v0_1/source_locator_index_audit_v0_1.json"
+DEFAULT_SQLITE = REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_2.sqlite"
+DEFAULT_INDEX_AUDIT = REPO_ROOT / "06_audits/curriculum_provenance_links/v0_1/source_locator_index_audit_v0_2.json"
 DEFAULT_REPAIR_AUDIT = REPO_ROOT / "06_audits/curriculum_provenance_links/v0_1/source_locator_repair_audit_v0_1.json"
 DEFAULT_QUALITY_FLAGS_JSONL = (
     REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl"
@@ -450,7 +450,7 @@ def record_detail(record_id: str) -> dict[str, Any]:
         for col in PROVENANCE_COLUMNS
         if col in data or col.replace("_json", "") in data
     }
-    suppress_image = bool(data.get("quality_flag") and data["quality_flag"].get("tier") == "suppress_render")
+    suppress_image = bool(data.get("quality_flag"))
     video_time_url = video_time_url_for_record(data)
     linkable_fields = {
         key: link_href_for_field(key, val, suppress_image=suppress_image)

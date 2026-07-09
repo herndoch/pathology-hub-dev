@@ -300,6 +300,10 @@ class CurriculumProvenanceBrowserTests(unittest.TestCase):
         self.assertIn("linkable_fields", body)
         self.assertNotIn("image_url", body["linkable_fields"])
 
+        tier_b_res = self.client.get(f"/api/records/{FIXTURE_TIER_B_RECORD_ID}")
+        self.assertEqual(tier_b_res.status_code, 200)
+        self.assertNotIn("image_url", tier_b_res.json()["linkable_fields"])
+
         conn = sqlite3.connect(str(self.db_copy))
         lecture_id = conn.execute(
             """

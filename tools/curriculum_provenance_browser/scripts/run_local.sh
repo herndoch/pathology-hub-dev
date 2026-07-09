@@ -13,7 +13,7 @@ else
   PYTHON="python3"
 fi
 
-export CURRICULUM_LOCATOR_SQLITE="${CURRICULUM_LOCATOR_SQLITE:-$ROOT/outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_1.sqlite}"
+export CURRICULUM_LOCATOR_SQLITE="${CURRICULUM_LOCATOR_SQLITE:-$ROOT/outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_2.sqlite}"
 
 if [[ ! -f "$CURRICULUM_LOCATOR_SQLITE" ]]; then
   echo "Missing SQLite index: $CURRICULUM_LOCATOR_SQLITE" >&2

@@ -218,7 +218,7 @@ function renderLinkedValue(key, value, linkableFields, suppressImage) {
     return `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
   }
   if (key === "image_url" && suppressImage) {
-    return `<span class="note">suppressed (Tier A quality flag)</span>`;
+    return `<span class="note">image removed (failed dimension audit)</span>`;
   }
   return esc(text);
 }
@@ -240,7 +240,7 @@ function renderLocatorValue(item, linkableFields, suppressImage) {
   const href = fieldKey && linkableFields && linkableFields[fieldKey];
   const val = item.value == null ? "—" : String(item.value);
   if (fieldKey === "image_url" && suppressImage) {
-    return `<span class="note">suppressed (Tier A quality flag)</span>`;
+    return `<span class="note">image removed (failed dimension audit)</span>`;
   }
   if (href) {
     return `<a href="${esc(href)}" target="_blank" rel="noopener" class="tag-cell">${esc(val)}</a>`;
@@ -275,8 +275,8 @@ function qualityReasons(qf) {
 
 function qualityColumnCell(qf) {
   if (!qf) return '<span class="note">—</span>';
-  const badgeCls = qf.tier === "suppress_render" ? "badge-suppress" : "badge-warn";
-  const badgeText = qf.tier === "suppress_render" ? "Suppressed" : "⚠ Suspect dimensions";
+  const badgeCls = "badge-suppress";
+  const badgeText = "Image removed";
   return `<span class="badge ${badgeCls}">${esc(badgeText)}</span>` +
     `<div class="quality-dims">${esc(formatDims(qf))}</div>` +
     `<div class="quality-reasons">${esc(qualityReasons(qf))}</div>`;
@@ -285,7 +285,7 @@ function qualityColumnCell(qf) {
 function locatorPreview(row) {
   const s = row.locator_summary || {};
   const qf = row.quality_flag;
-  const suppressImage = !!(qf && qf.tier === "suppress_render");
+  const suppressImage = !!qf;
   if (s.primary && s.primary.value) {
     let html = `<strong>${esc(s.primary.label)}:</strong> ${esc(String(s.primary.value).slice(0, 180))}`;
     const secondary = (s.secondary || []).filter(x => !(suppressImage && IMAGE_SECONDARY_LABELS.has(x.label)));
@@ -293,9 +293,7 @@ function locatorPreview(row) {
       html += `<div class="locator-preview">${esc(secondary.map(x => `${x.label}: ${x.value || (x.values || []).length + " URLs"}`).join(" · "))}</div>`;
     }
     if (suppressImage) {
-      html += `<div class="suppress-box"><strong>Known extraction defect — image suppressed</strong>${esc(qualityReasons(qf))} · ${esc(formatDims(qf))}</div>`;
-    } else if (qf) {
-      html += `<div class="quality-reasons">⚠ suspect dimensions: ${esc(qualityReasons(qf))} · ${esc(formatDims(qf))}</div>`;
+      html += `<div class="suppress-box"><strong>Image removed — failed dimension audit</strong>${esc(qualityReasons(qf))} · ${esc(formatDims(qf))}</div>`;
     }
     if (s.note) html += `<div class="note">${esc(s.note)}</div>`;
     return html;
@@ -358,7 +356,7 @@ function renderDetail(data) {
   const missing = fields.missing_locator_parts || [];
   const linkableFields = data.linkable_fields || {};
   const qf = data.quality_flag;
-  const suppressImage = !!(qf && qf.tier === "suppress_render");
+  const suppressImage = !!qf;
 
   let locatorHtml = "";
   if (s.primary) {
@@ -389,12 +387,8 @@ function renderDetail(data) {
   let qualityHtml;
   if (!qf) {
     qualityHtml = `<p class="note">No image quality flag — renders normally.</p>`;
-  } else if (qf.tier === "suppress_render") {
-    qualityHtml = `<div class="suppress-box"><strong>Known extraction defect — image suppressed</strong>` +
-      `<div>Flag reasons: ${esc(qualityReasons(qf))}</div>` +
-      `<div>Parsed dimensions: ${esc(formatDims(qf))}</div></div>`;
   } else {
-    qualityHtml = `<div class="warn-box"><span class="badge badge-warn">⚠ Suspect dimensions</span>` +
+    qualityHtml = `<div class="suppress-box"><strong>Image removed — failed dimension audit</strong>` +
       `<div>Flag reasons: ${esc(qualityReasons(qf))}</div>` +
       `<div>Parsed dimensions: ${esc(formatDims(qf))}</div></div>`;
   }

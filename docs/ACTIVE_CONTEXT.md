@@ -4,6 +4,46 @@ Last updated: 2026-07-08
 
 ## Current task (completed)
 
+Deleted flagged textbook figure images from GCS and stripped their locators from
+the derived provenance index (v0_2).
+
+### What was run
+
+1. **`scripts/build_curriculum_image_locator_strip_repairs_v0_2.py`**
+   - Cleared `image_path` / `image_url` on **7,994** textbook rows (flagged
+     `record_id` or matching flagged URL).
+   - Wrote `outputs/curriculum_map_v0_4/curriculum_record_provenance_sidecar_repaired_v0_2.jsonl`
+   - Rebuilt `outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_2.sqlite`
+   - Audit: `06_audits/curriculum_provenance_links/v0_1/curriculum_image_locator_strip_audit_v0_2.json`
+   - Textbook partial locators: **37,099** (was ~29,117 on v0_1 index).
+
+2. **`scripts/delete_flagged_textbook_figure_images_v0_2.py --execute`**
+   - Deleted **3,055** unique objects under
+     `gs://pathology_hub/01_staged/textbooks/assets/figure_images/` (from v0_1
+     flagged CSV; 4,835 flagged rows).
+   - Audit: `06_audits/curriculum_provenance_links/v0_1/figure_image_gcs_delete_v0_2/delete_audit_execute_execute_20260708.json`
+   - Spot-check: sample deleted URLs return **404**.
+
+3. **Browser defaults** now point at v0_2 SQLite; any quality-flagged row
+   treats figure images as removed (no link, no preview).
+
+### Boundaries preserved
+
+- v0_1 sidecar/SQLite unchanged on disk (gitignored outputs).
+- Normalized `curriculum_records_v0_4.jsonl` not mutated.
+- Deletes limited to audit-flagged figure-image prefix only.
+
+### Immediate next step
+
+Restart provenance browser (uses v0_2 index by default) and spot-check a
+formerly flagged row — should show no image URL and GCS 404 if probed:
+
+```bash
+tools/curriculum_provenance_browser/scripts/run_local.sh
+```
+
+## Prior task (completed)
+
 Phase 2 — provenance browser bridge + UX polish (local only).
 
 ### What was built
