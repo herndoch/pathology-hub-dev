@@ -4,8 +4,41 @@ Last updated: 2026-07-08
 
 ## Current task
 
-Handoff to Codex: run the full-scale textbook figure/page image dimension
-audit described in `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_DIMENSION_AUDIT.md`.
+Handoff to Codex: build the textbook figure image quality-flag sidecar and
+browser UI update described in
+`docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_QUALITY_REPAIR_v0_1.md`. Tier
+assignments are finalized/approved (2026-07-08) — do not re-derive them, use
+the runbook's tier table as-is.
+
+### Why (this task)
+
+The full-population image dimension audit (52,540/52,540 textbook images,
+see prior task below) actually completed after the stratified-8000 fallback
+was already summarized. Full results:
+`06_audits/curriculum_provenance_links/v0_1/figure_image_dimension_audit_v0_1/figure_image_dimension_audit_full_v0_1.json`
+— 9.16% overall flag rate. Re-analysis against the full population (not the
+sample) found `gi_atlas` fig02/03/04 as the worst offenders (81.3%, 73.5%,
+47.5% flag rates), in addition to the previously confirmed
+`cyto_comprehensive_part_one/two` fig01 (2592x235 fixed crop) and `gu_practical`
+fig01/02 (7x7 degenerate) patterns. Full evidence and tier rationale:
+`docs/PROPOSAL_TEXTBOOK_FIGURE_IMAGE_QUALITY_REPAIR_v0_1.md`.
+
+### Immediate next step (for Codex)
+
+Follow `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_QUALITY_REPAIR_v0_1.md` exactly:
+build `scripts/build_textbook_figure_image_quality_flags_v0_1.py`, the new
+sidecar JSONL + audit JSON, the browser UI update, and tests. Full local
+read/write permission is granted for this task's listed files; no GCS
+mutation is needed or should be used. Stop after this runbook's stop
+condition — do not touch the fig01-fallback logic in
+`scripts/build_curriculum_source_locator_repairs_v0_1.py` (separate,
+not-yet-approved change).
+
+## Prior task (completed)
+
+Completed the textbook figure/page image dimension audit runbook using the
+large fallback sample pass (`--sample-size 8000`) after the full 52,540-image
+run proved too slow for the current session.
 
 ### Why
 
@@ -36,13 +69,23 @@ images. Validated on a 300-image random sample: 0 fetch errors, 0 unparsed
 headers (added JP2/`.jpx` support after the first test run caught a gap).
 Not yet run at full scale (52,540 unique textbook image locators).
 
+### What was run
+
+- Exact full command was started twice:
+  `python3 scripts/audit_textbook_figure_image_dimensions_v0_1.py --sample-size 0 --concurrency 24 --run-tag full`
+- In the current environment the full run did not produce outputs within a
+  reasonable interval, so the runbook fallback was used:
+  `python3 scripts/audit_textbook_figure_image_dimensions_v0_1.py --sample-size 8000 --concurrency 24 --run-tag stratified8000`
+- A tiny diagnostic run also completed successfully:
+  `python3 scripts/audit_textbook_figure_image_dimensions_v0_1.py --sample-size 10 --concurrency 4 --run-tag diag10`
+
 ### Immediate next step (for Codex or next agent)
 
-Follow `docs/RUNBOOK_TEXTBOOK_FIGURE_IMAGE_DIMENSION_AUDIT.md` to run the
-full-scale (or large stratified) audit, then report flag rates and worst
-offending `(source_id, fig_slot)` combinations. Do not build a repair pass
-in the same session — that requires explicit user approval per the
-runbook's stop condition.
+Use the audit outputs below to decide whether a separate, explicitly-approved
+repair pass should suppress known-bad `(source_id, fig_slot)` patterns or
+prefer different textbook image assignment logic for `page_text_chunk` rows.
+Do not write repairs in the same session unless the user explicitly reopens
+that scope.
 
 ## Prior task
 
@@ -88,6 +131,10 @@ tools/curriculum_provenance_browser/scripts/run_local.sh
 - `tools/curriculum_provenance_browser/static/index.html`
 - `tools/curriculum_provenance_browser/scripts/run_local.sh`
 - `tests/test_curriculum_provenance_browser.py`
+- `06_audits/curriculum_provenance_links/v0_1/figure_image_dimension_audit_v0_1/figure_image_dimension_audit_stratified8000_v0_1.json`
+- `06_audits/curriculum_provenance_links/v0_1/figure_image_dimension_audit_v0_1/flagged_figure_images_stratified8000_v0_1.csv`
+- `06_audits/curriculum_provenance_links/v0_1/figure_image_dimension_audit_v0_1/figure_image_dimension_audit_diag10_v0_1.json`
+- `06_audits/curriculum_provenance_links/v0_1/figure_image_dimension_audit_v0_1/flagged_figure_images_diag10_v0_1.csv`
 
 ## Boundaries
 
@@ -97,6 +144,21 @@ tools/curriculum_provenance_browser/scripts/run_local.sh
 - No modification of raw chunks, vector docstores, FAISS indexes, or prior curriculum map outputs.
 - The browser is read-only and must not mutate the SQLite index from the UI.
 - Sidecar-only repair maps are allowed after audit evidence supports them.
+
+## Deferred ideas (not started, for later discussion)
+
+- External literature/knowledge API integration is a **separate future
+  workstream**, not yet started and not part of the current provenance/image
+  audit work. Secret Manager already has credentials for `OncoKB`, `Elsevier`,
+  `SpringerOpen`, `SpringerMeta`, and `NCBI` (see `docs/SECRET_REFERENCES.md`),
+  but none of these are called anywhere in current backend/frontend code today.
+- The existing `journals` source in `/evidence/search` is served from a local
+  FAISS vector index built ahead of time, not a live pass-through to any of
+  the five external APIs above.
+- If this workstream is picked up later: keep it separate from Evidence RAG /
+  curriculum provenance work per `AGENTS.md`'s "keep workstreams separate"
+  rule, and note that `OncoKB` (genomic variant interpretation) is a
+  different kind of API than the four literature/journal APIs.
 
 ## Coordination notes for agents
 
