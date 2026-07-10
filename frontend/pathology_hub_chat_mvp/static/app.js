@@ -57,6 +57,29 @@ const TOPIC_CONFLICTS = [
   },
 ];
 
+/** Static organ-system taxonomy for the "Browse by organ system" quick-start
+ * panel. Grounded in the real root categories used by the curriculum map
+ * (Skin, HN, BST, GI, Breast, GYN::*, GU::*, Heme, Endo, Neuro, etc.) — this
+ * is a UI-only convenience for building good starter queries, not a claim
+ * that any of these are separately indexed/exposed. Every click still goes
+ * through the single existing evidence search call. */
+const ORGAN_SYSTEMS = [
+  { id: "breast", label: "Breast", topics: ["LCIS", "DCIS", "Invasive ductal carcinoma", "Fibroadenoma", "Phyllodes tumor"] },
+  { id: "gyn_cervix", label: "Gyn — Cervix", topics: ["CIN2", "CIN3 / HSIL", "Cervical adenocarcinoma", "Endocervical polyp"] },
+  { id: "gyn_uterus", label: "Gyn — Uterus", topics: ["Endometrial hyperplasia", "Endometrioid carcinoma", "Leiomyoma", "Leiomyosarcoma uterus"] },
+  { id: "gyn_ovary", label: "Gyn — Ovary", topics: ["Serous borderline tumor", "High-grade serous carcinoma", "Mature cystic teratoma", "Granulosa cell tumor"] },
+  { id: "gi", label: "GI / Colon", topics: ["Tubular adenoma colon", "Sessile serrated lesion", "Colorectal adenocarcinoma", "Ulcerative colitis"] },
+  { id: "gu", label: "GU — Prostate/Bladder/Kidney", topics: ["Prostatic adenocarcinoma Gleason", "High-grade urothelial carcinoma", "Clear cell renal cell carcinoma", "Papillary renal cell carcinoma"] },
+  { id: "skin", label: "Skin", topics: ["Basal cell carcinoma", "Squamous cell carcinoma skin", "Melanoma", "Seborrheic keratosis"] },
+  { id: "hn", label: "Head & Neck", topics: ["Squamous cell carcinoma oral cavity", "Pleomorphic adenoma", "Warthin tumor", "Mucoepidermoid carcinoma"] },
+  { id: "bst", label: "Bone & Soft Tissue", topics: ["Osteosarcoma", "Giant cell tumor of bone", "Liposarcoma", "Leiomyosarcoma soft tissue"] },
+  { id: "heme", label: "Heme / Lymph node", topics: ["Diffuse large B-cell lymphoma", "Follicular lymphoma", "Hodgkin lymphoma", "Reactive lymphoid hyperplasia"] },
+  { id: "endo", label: "Endocrine", topics: ["Papillary thyroid carcinoma", "Follicular adenoma thyroid", "Medullary thyroid carcinoma", "Parathyroid adenoma"] },
+  { id: "neuro", label: "Neuro", topics: ["Glioblastoma", "Meningioma", "Pilocytic astrocytoma", "Schwannoma"] },
+  { id: "thorax", label: "Thorax / Mediastinum", topics: ["Lung adenocarcinoma", "Squamous cell carcinoma lung", "Thymoma", "Mesothelioma"] },
+  { id: "cyto", label: "Cytology", topics: ["Thyroid FNA Bethesda", "Pap smear HSIL", "Pancreatic FNA adenocarcinoma", "Effusion cytology adenocarcinoma"] },
+];
+
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
@@ -78,9 +101,12 @@ const mediaModalFigure = document.getElementById("media-modal-figure");
 const mediaModalPage = document.getElementById("media-modal-page");
 const mediaModalSource = document.getElementById("media-modal-source");
 const mediaModalReference = document.getElementById("media-modal-reference");
+const organChipsEl = document.getElementById("organ-chips");
+const topicChipsEl = document.getElementById("topic-chips");
 
 let supportedSources = [];
 let notesSaveTimer = null;
+let activeOrganSystem = null;
 
 function sourceLabel(source) {
   return SOURCE_LABELS[source] || source;
@@ -187,6 +213,61 @@ function filterByQueryRelevance(query, items, { maxShown = 8 } = {}) {
   };
 }
 
+/** Maps every literal URL found on a card/figure to that item's rich preview
+ * payload, so inline answer citations can open the same modal preview
+ * (page image / figure) as the citation cards, instead of blind navigation. */
+function buildUrlPreviewIndex(cards, figures) {
+  const index = new Map();
+  const addUrl = (url, payload) => {
+    if (typeof url === "string" && url.startsWith("http") && !index.has(url)) {
+      index.set(url, payload);
+    }
+  };
+
+  for (const card of cards || []) {
+    if (!card || typeof card !== "object") continue;
+    const presentation = cardPresentation(card);
+    if (!presentation.previewUrl) continue;
+    const payload = {
+      previewUrl: presentation.previewUrl,
+      caption: presentation.caption,
+      modalLinks: presentation.modalLinks,
+    };
+    for (const field of [
+      "source_url",
+      "source_page_url",
+      "source_pdf_url",
+      "figure_url",
+      "page_image_url",
+      "image_url",
+      "video_time_url",
+    ]) {
+      addUrl(card[field], payload);
+    }
+  }
+
+  for (const fig of figures || []) {
+    if (!fig || typeof fig !== "object") continue;
+    const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
+    if (!url) continue;
+    const payload = {
+      previewUrl: url,
+      caption: fig.caption || fig.title || "Figure",
+      modalLinks: {
+        figure: url,
+        pageImage: pickHttp(fig.page_image_url),
+        source: pickHttp(fig.source_url),
+        reference: pickHttp(fig.source_page_url),
+      },
+    };
+    for (const field of ["figure_url", "image_url", "url", "page_image_url", "source_url", "source_page_url"]) {
+      addUrl(fig[field], payload);
+    }
+  }
+
+  return index;
+}
+
 function cardPresentation(card) {
   const figure = pickHttp(card.figure_url) || pickHttp(card.image_url);
   const pageImage = pickHttp(card.page_image_url);
@@ -226,14 +307,40 @@ function normalizeAnswerText(text) {
     .replace(/\r\n/g, "\n");
 }
 
-function renderMarkdown(text) {
-  const normalized = normalizeAnswerText(text);
+/** Best-effort strip of a trailing "Sources:"/"References:" link-dump block.
+ * Inline citations already carry every URL; a closing roundup is redundant
+ * and the prompt forbids it, but models occasionally slip and add one anyway. */
+function stripTrailingLinkDump(text) {
+  const blocks = text.split(/\n{2,}/);
+  while (blocks.length > 1) {
+    const last = blocks[blocks.length - 1].trim();
+    const isDumpHeading = /^(\*\*)?(sources|references|evidence used|evidence base|links)(\*\*)?:?\s*$/im.test(
+      last.split("\n")[0].trim(),
+    );
+    const linesAfterHeading = last.split("\n").slice(1);
+    const restIsLinksOnly =
+      linesAfterHeading.length > 0 &&
+      linesAfterHeading.every((line) => {
+        const t = line.trim();
+        return !t || /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(t);
+      });
+    if (isDumpHeading && restIsLinksOnly) {
+      blocks.pop();
+      continue;
+    }
+    break;
+  }
+  return blocks.join("\n\n");
+}
+
+function renderMarkdown(text, previewIndex) {
+  const normalized = stripTrailingLinkDump(normalizeAnswerText(text));
   if (!normalized.trim()) return "";
 
   const blocks = normalized.split(/\n{2,}/);
   const htmlBlocks = blocks.map((block) => {
-    const trimmed = block.trim();
-    if (!trimmed) return "";
+    const trimmed = block.replace(/^\n+|\n+$/g, "");
+    if (!trimmed.trim()) return "";
 
     if (isMarkdownTable(trimmed)) {
       return renderMarkdownTable(trimmed);
@@ -242,28 +349,64 @@ function renderMarkdown(text) {
     const lines = trimmed.split("\n");
     const isList = lines.every((line) => /^\s*[-*]\s+/.test(line) || line.trim() === "");
     if (isList && lines.some((line) => /^\s*[-*]\s+/.test(line))) {
-      const items = lines
-        .filter((line) => /^\s*[-*]\s+/.test(line))
-        .map((line) => `<li>${inlineMarkdown(line.replace(/^\s*[-*]\s+/, ""))}</li>`)
-        .join("");
-      return `<ul class="answer-list">${items}</ul>`;
+      return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
     }
 
     if (/^#{1,3}\s+/.test(trimmed)) {
       const level = trimmed.match(/^(#{1,3})\s+/)[1].length;
       const tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
       const content = trimmed.replace(/^#{1,3}\s+/, "");
-      return `<${tag} class="answer-heading">${inlineMarkdown(content)}</${tag}>`;
+      return `<${tag} class="answer-heading">${inlineMarkdown(content, previewIndex)}</${tag}>`;
     }
 
     if (lines.length > 1 && lines.every((line) => line.trim())) {
-      return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line)}</p>`).join("");
+      return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("");
     }
 
-    return `<p class="answer-line">${inlineMarkdown(trimmed)}</p>`;
+    return `<p class="answer-line">${inlineMarkdown(trimmed, previewIndex)}</p>`;
   });
 
   return `<div class="answer-md">${htmlBlocks.join("")}</div>`;
+}
+
+/** Indentation-aware bullet list renderer. Every 2 (or 1-4) leading spaces
+ * of extra indent relative to the first bullet opens one nested <ul> level. */
+function renderNestedList(lines, previewIndex) {
+  const indentOf = (line) => line.match(/^\s*/)[0].replace(/\t/g, "  ").length;
+  const baseIndent = indentOf(lines[0]);
+  const stepGuess = Math.max(
+    1,
+    ...lines.slice(1).map((line) => indentOf(line) - baseIndent).filter((delta) => delta > 0),
+  );
+
+  const root = { children: [], depth: -1 };
+  const stack = [root];
+
+  for (const line of lines) {
+    const depth = Math.max(0, Math.round((indentOf(line) - baseIndent) / stepGuess));
+    const content = line.replace(/^\s*[-*]\s+/, "");
+    const node = { html: inlineMarkdown(content, previewIndex), children: [] };
+
+    while (stack.length - 1 > depth) stack.pop();
+    while (stack.length - 1 < depth) {
+      const parent = stack[stack.length - 1];
+      const lastChild = parent.children[parent.children.length - 1];
+      const holder = lastChild || { html: "", children: [] };
+      if (!lastChild) parent.children.push(holder);
+      stack.push(holder);
+    }
+    stack[stack.length - 1].children.push(node);
+  }
+
+  const renderChildren = (nodes) => {
+    if (!nodes.length) return "";
+    const items = nodes
+      .map((n) => `<li>${n.html}${renderChildren(n.children)}</li>`)
+      .join("");
+    return `<ul class="answer-list">${items}</ul>`;
+  };
+
+  return renderChildren(root.children);
 }
 
 function isMarkdownTable(block) {
@@ -302,12 +445,23 @@ function renderMarkdownTable(block) {
   return html;
 }
 
-function inlineMarkdown(text) {
-  const links = [];
-  let scratch = String(text).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
-    const token = `__MDLINK${links.length}__`;
-    links.push({ label, url });
+function inlineMarkdown(text, previewIndex) {
+  const tokens = [];
+  const stash = (html) => {
+    const token = `__MDTOK${tokens.length}__`;
+    tokens.push(html);
     return token;
+  };
+
+  // Image syntax first: ![caption](url) -> inline preview-capable thumbnail.
+  let scratch = String(text).replace(/!\[([^\]]*)\]\((https?:[^)\s]+)\)/g, (_, alt, url) => {
+    return stash(renderInlineImage(alt, url, previewIndex));
+  });
+
+  // Plain links: [label](url) -> preview-aware link when we recognize the URL,
+  // otherwise a normal external link.
+  scratch = scratch.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
+    return stash(renderInlineLink(label, url, previewIndex));
   });
 
   let html = escapeHtml(scratch);
@@ -315,14 +469,33 @@ function inlineMarkdown(text) {
   html = html.replace(/(?<!\*)\*([^*\n]+?)\*(?!\*)/g, "<em>$1</em>");
   html = html.replace(/`([^`]+?)`/g, "<code>$1</code>");
 
-  links.forEach((link, index) => {
-    html = html.replace(
-      `__MDLINK${index}__`,
-      `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`,
-    );
+  tokens.forEach((tokenHtml, index) => {
+    html = html.replace(`__MDTOK${index}__`, tokenHtml);
   });
 
   return html;
+}
+
+function renderInlineLink(label, url, previewIndex) {
+  const preview = previewIndex?.get(url);
+  const safeHref = escapeAttr(url);
+  const safeLabel = escapeHtml(label);
+  if (preview?.previewUrl) {
+    const payload = escapeAttr(JSON.stringify(preview));
+    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link" data-preview="${payload}">${safeLabel}</a>`;
+  }
+  return `<a href="${safeHref}" target="_blank" rel="noopener">${safeLabel}</a>`;
+}
+
+function renderInlineImage(alt, url, previewIndex) {
+  const preview = previewIndex?.get(url) || { previewUrl: url, caption: alt, modalLinks: { figure: url } };
+  const payload = escapeAttr(JSON.stringify(preview));
+  const safeAlt = escapeAttr(alt || "Figure");
+  return (
+    `<button type="button" class="inline-figure-btn" data-preview="${payload}">` +
+    `<img src="${escapeAttr(url)}" alt="${safeAlt}" loading="lazy" class="inline-figure-img" />` +
+    `<span class="inline-figure-caption">${escapeHtml(alt || "View figure")}</span></button>`
+  );
 }
 
 function renderHtmlTeachingBanner(evidence) {
@@ -487,8 +660,14 @@ function closeMediaPreview() {
 
 function bindPreviewHandlers(root) {
   root.querySelectorAll("[data-preview]").forEach((el) => {
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (event) => {
+      // Preview-aware <a> tags keep their href so ctrl/cmd/middle-click still
+      // opens the raw source in a new tab; a plain click shows the rich preview.
+      const isModifiedClick =
+        el.tagName === "A" && (event.ctrlKey || event.metaKey || event.shiftKey || event.button === 1);
+      if (isModifiedClick) return;
       try {
+        if (el.tagName === "A") event.preventDefault();
         openMediaPreview(JSON.parse(el.dataset.preview));
       } catch (err) {
         /* ignore malformed preview payload */
@@ -542,6 +721,45 @@ function updateModeHint() {
   modeHint.textContent = MODE_HINTS[modeSelect.value] || "";
 }
 
+function renderOrganChips() {
+  if (!organChipsEl || organChipsEl.childElementCount) return;
+  for (const system of ORGAN_SYSTEMS) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip";
+    btn.textContent = system.label;
+    btn.dataset.organId = system.id;
+    btn.addEventListener("click", () => selectOrganSystem(system.id));
+    organChipsEl.appendChild(btn);
+  }
+}
+
+function selectOrganSystem(systemId) {
+  activeOrganSystem = systemId === activeOrganSystem ? null : systemId;
+
+  organChipsEl.querySelectorAll(".chip").forEach((chip) => {
+    chip.classList.toggle("active", chip.dataset.organId === activeOrganSystem);
+  });
+
+  topicChipsEl.innerHTML = "";
+  const system = ORGAN_SYSTEMS.find((s) => s.id === activeOrganSystem);
+  if (!system) return;
+
+  for (const topic of system.topics) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip topic-chip";
+    btn.textContent = topic;
+    btn.addEventListener("click", () => runOrganTopicQuery(topic));
+    topicChipsEl.appendChild(btn);
+  }
+}
+
+function runOrganTopicQuery(topic) {
+  queryInput.value = topic;
+  form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true }));
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const query = queryInput.value.trim();
@@ -567,12 +785,13 @@ form.addEventListener("submit", async (event) => {
     } else {
       const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
+      const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
       body += renderFiguresStrip(data.figures, query);
 
       if (data.answer) {
-        body += renderMarkdown(data.answer);
+        body += renderMarkdown(data.answer, previewIndex);
       } else if (data.answer_note) {
         body += `<p class="hint">${escapeHtml(data.answer_note)}</p>`;
       } else if (!data.figures?.length) {
@@ -689,4 +908,5 @@ exportNotesBtn.addEventListener("click", exportSessionNotes);
 
 loadSessionNotes();
 updateModeHint();
+renderOrganChips();
 refreshHealth();
