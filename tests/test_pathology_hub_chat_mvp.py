@@ -247,6 +247,35 @@ class TestCardDedupeAndCap(unittest.TestCase):
         sources = [c["source"] for c in capped]
         self.assertEqual(sources, ["textbooks", "videos", "journals"])
 
+    def test_cap_cards_diverse_min_per_source_default_zero_is_unchanged(self):
+        # Default behavior (min_per_source=0) must be byte-identical to the
+        # pre-existing plain round-robin — no surprise behavior change for
+        # any existing caller that doesn't pass the new parameter.
+        cards = [{"source": "textbooks", "rank": i} for i in range(5)] + [
+            {"source": "who", "rank": i} for i in range(5)
+        ]
+        self.assertEqual(cap_cards_diverse(cards, 4), cap_cards_diverse(cards, 4, min_per_source=0))
+
+    def test_cap_cards_diverse_min_per_source_protects_thin_family(self):
+        # Adversarial imbalance: one dominant family (100 cards) sorted
+        # entirely before a thin family (2 cards) in the input list. A cap
+        # small enough to be reached during the dominant family's initial
+        # min_per_source pass, combined with the thin family sitting late in
+        # `order`, is the scenario `min_per_source` exists to protect against.
+        cards = [{"source": "pathout", "rank": i} for i in range(100)] + [
+            {"source": "videos", "rank": i} for i in range(2)
+        ]
+        capped = cap_cards_diverse(cards, 10, min_per_source=3)
+        sources = [c["source"] for c in capped]
+        # Both of the thin family's cards must survive the cap.
+        self.assertEqual(sources.count("videos"), 2)
+        self.assertEqual(len(capped), 10)
+
+    def test_cap_cards_diverse_min_per_source_never_exceeds_max_cards(self):
+        cards = [{"source": s, "rank": i} for s in ("a", "b", "c", "d") for i in range(20)]
+        capped = cap_cards_diverse(cards, 5, min_per_source=6)
+        self.assertEqual(len(capped), 5)
+
     def test_slim_merged_from_cards_rebuilds_result_lists(self):
         cards = extract_evidence_cards(SAMPLE_RESPONSE)
         slim = slim_merged_from_cards(SAMPLE_RESPONSE, cards)
@@ -299,7 +328,13 @@ class TestAppContract(unittest.TestCase):
         self.assertIn("journals", TOPIC_PAGE_SOURCES)
         self.assertIn("textbooks", TOPIC_PAGE_SOURCES)
         self.assertIn("videos", TOPIC_PAGE_SOURCES)
-        self.assertIn("lectures", TOPIC_PAGE_SOURCES)
+        # `lectures` deliberately excluded: live-probed this session and
+        # confirmed the backend returns byte-identical lecture_results/
+        # video_results content (same chunk_ids) regardless of which of the
+        # two source names is requested — same underlying corpus, not two
+        # distinct families. Requesting both wastes a redundant backend call
+        # and duplicate cards per query variant for zero additional coverage.
+        self.assertNotIn("lectures", TOPIC_PAGE_SOURCES)
 
     def test_topic_page_mode_overrides_sidebar_sources_server_side(self):
         from fastapi.testclient import TestClient
@@ -375,6 +410,48 @@ class TestAppContract(unittest.TestCase):
         self.assertIn("debug", body)
         self.assertGreaterEqual(len(body["cards"]), 1)
 
+    def test_api_search_dedupes_lecture_video_duplicate_corpus(self):
+        # Live-confirmed this session: requesting "lectures" or "videos" both
+        # return byte-identical lecture_results/video_results (same
+        # chunk_ids). Any non-topic-page mode that ends up with both result
+        # keys populated (e.g. a sidebar user checking both boxes) must not
+        # surface the same underlying chunk twice.
+        from fastapi.testclient import TestClient
+
+        from app import app  # noqa: E402
+
+        duplicate_response = {
+            "schema_version": "evidence_search_response.v1.5.10",
+            "query": "q",
+            "source_status": {"lectures": "ok", "videos": "ok"},
+            "warnings": [],
+            "lecture_results": [
+                {"chunk_id": "lecture::x::1", "source": "videos", "title": "Case 01"},
+            ],
+            "video_results": [
+                {"chunk_id": "lecture::x::1", "source": "videos", "title": "Case 01"},
+            ],
+        }
+        mock_outcome = SearchOutcome(
+            request_payload={"query": "q", "sources": ["lectures", "videos"]},
+            url="http://mock/evidence/search",
+            status_code=200,
+            ok=True,
+            elapsed_ms=5.0,
+            response_json=duplicate_response,
+            api_key_present=True,
+        )
+
+        with patch("app.staged_retrieve", return_value=[mock_outcome]):
+            client = TestClient(app)
+            resp = client.post(
+                "/api/search",
+                json={"query": "q", "sources": ["lectures", "videos"], "max_results": 5},
+            )
+        body = resp.json()
+        self.assertTrue(body["ok"])
+        self.assertEqual(len(body["cards"]), 1)
+
 
 class TestTopicPagePrompt(unittest.TestCase):
     def test_topic_page_system_prompt_has_all_fixed_headers_in_order(self):
@@ -393,6 +470,105 @@ class TestTopicPagePrompt(unittest.TestCase):
 
         text = prompts.topic_page_system_prompt()
         self.assertIn("NEVER invent, guess, autocomplete, or reconstruct a URL", text)
+
+
+class TestWhoSectionMentions(unittest.TestCase):
+    """Fixture text below is real WHO `differential_diagnosis`-section excerpt
+    text captured live this session via `/api/search` (sources=["who"],
+    excerpt_char_limit=4000) for "myoepithelial carcinoma differential
+    diagnosis" and "traditional serrated adenoma" probes — not invented."""
+
+    @classmethod
+    def setUpClass(cls):
+        from who_section_mentions import load_taxonomy_leaf_names  # noqa: E402
+
+        cls.leaves = load_taxonomy_leaf_names()
+
+    def test_finds_real_cross_mention_in_live_captured_excerpt(self):
+        from who_section_mentions import who_section_mentions  # noqa: E402
+
+        card = {
+            "entity_name": "Epithelial-myoepithelial carcinoma",
+            "section": "differential_diagnosis",
+            "source_url": (
+                "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/"
+                "Epithelial_Myoepithelial_Carcinoma.html"
+            ),
+            "excerpt": (
+                "Entity: Epithelial-myoepithelial carcinoma Section: differential_diagnosis "
+                "The differential diagnosis includes other salivary gland tumours with biphasic "
+                "and/or clear cell morphology, such as adenoid cystic carcinoma, basal cell "
+                "adenocarcinoma, pleomorphic adenoma, myoepithelial carcinoma, and clear cell "
+                "carcinoma."
+            ),
+        }
+        matches = who_section_mentions(card, self.leaves)
+        matched_leaves = {m["matched_leaf"] for m in matches}
+        self.assertIn("Adenoid cystic carcinoma", matched_leaves)
+        self.assertIn("Pleomorphic adenoma", matched_leaves)
+        for m in matches:
+            self.assertEqual(m["source_url"], card["source_url"])
+            self.assertIn(m["candidate_phrase"].lower(), card["excerpt"].lower())
+            self.assertEqual(m["snippet"], card["excerpt"])
+
+    def test_does_not_hallucinate_generic_word_only_overlap(self):
+        # "myoepithelial carcinoma" and "clear cell carcinoma" are literal
+        # substrings of the same excerpt above, but must NOT fuzzy-match to
+        # unrelated leaves ("Endometrioid carcinoma", "Clear cell renal cell
+        # carcinoma") purely because they share the generic word "carcinoma"
+        # / "clear cell" — regression test for a real false-positive found
+        # live this session before the generic-token exclusion was added.
+        from who_section_mentions import who_section_mentions  # noqa: E402
+
+        card = {
+            "entity_name": "Epithelial-myoepithelial carcinoma",
+            "section": "differential_diagnosis",
+            "source_url": "https://example.com/emca.html",
+            "excerpt": (
+                "Entity: Epithelial-myoepithelial carcinoma Section: differential_diagnosis "
+                "such as adenoid cystic carcinoma, myoepithelial carcinoma, and clear cell carcinoma."
+            ),
+        }
+        matches = who_section_mentions(card, self.leaves)
+        matched_leaves = {m["matched_leaf"] for m in matches}
+        self.assertNotIn("Endometrioid carcinoma", matched_leaves)
+        self.assertNotIn("Clear cell renal cell carcinoma", matched_leaves)
+
+    def test_ignores_non_target_sections(self):
+        from who_section_mentions import who_section_mentions  # noqa: E402
+
+        card = {
+            "entity_name": "Myoepithelial carcinoma",
+            "section": "epidemiology",
+            "source_url": "https://example.com/x.html",
+            "excerpt": "such as adenoid cystic carcinoma and pleomorphic adenoma.",
+        }
+        self.assertEqual(who_section_mentions(card, self.leaves), [])
+
+    def test_never_links_entitys_own_page_to_itself(self):
+        from who_section_mentions import who_section_mentions  # noqa: E402
+
+        card = {
+            "entity_name": "Chordoma",
+            "section": "differential_diagnosis",
+            "source_url": "https://example.com/chordoma.html",
+            "excerpt": (
+                "Entity: Chordoma Section: differential_diagnosis Tumours are distinguished from "
+                "chondrosarcoma, carcinoma, meningioma, and myoepithelial tumours."
+            ),
+        }
+        matches = who_section_mentions(card, self.leaves)
+        matched_leaves = {m["matched_leaf"] for m in matches}
+        self.assertIn("Chondrosarcoma", matched_leaves)
+        self.assertIn("Meningioma", matched_leaves)
+        self.assertNotIn("Chordoma", matched_leaves)
+
+    def test_empty_for_missing_or_malformed_card(self):
+        from who_section_mentions import who_section_mentions  # noqa: E402
+
+        self.assertEqual(who_section_mentions(None), [])
+        self.assertEqual(who_section_mentions({}), [])
+        self.assertEqual(who_section_mentions({"section": "microscopic"}), [])
 
 
 if __name__ == "__main__":

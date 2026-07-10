@@ -1,8 +1,39 @@
 # Active Context
 
-Last updated: 2026-07-09 (later session)
+Last updated: 2026-07-10
 
 ## Current task (completed this session)
+
+Investigation + limited prototype + planning session for the Chat MVP diversity/limits/WHO
+cross-entity-extraction/figure-quality problems flagged during live Browse/`topic_page`
+testing. Full detail, real measured numbers, and a phased next-steps plan:
+`docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md`. Summary:
+
+- **Shipped:** live-verified the backend hard-caps `max_results` at 10 for every source (not
+  an arbitrary client guess — kept `le=10` unchanged); raised `TOPIC_PAGE_MAX_CARDS` 72→120
+  and `TOPIC_PAGE_MAX_FIGURES` 20→40 based on measured token-budget headroom (gpt-4.1-mini's
+  1,047,576-token context window vs. the ~62k-107k tokens actually used); added an explicit
+  `min_per_source` floor option to `cap_cards_diverse()`; fixed a real bug found while
+  measuring (`lectures`/`videos` return byte-identical duplicate corpus content — dropped the
+  redundant `lectures` call from `TOPIC_PAGE_SOURCES` and added dedup to the regular
+  retrieval path too). Re-probed ovarian HGSC and salivary mucoepidermoid carcinoma
+  before/after live.
+- **Prototyped (not wired into the UI):** `who_section_mentions.py` — WHO cards turned out to
+  already carry explicit `entity_name`/`section` metadata fields (survives `compact=True`);
+  extracts grounded cross-entity DDx mentions from `differential_diagnosis`/`microscopic`/
+  `terminology` sections, fuzzy-matched against `BROWSE_TAXONOMY`. Working prototype with
+  real captured-excerpt fixture tests; a real false-positive (generic-word-only fuzzy match)
+  was found and fixed during the spike.
+- **Shipped:** a global client-side `<img>` `error` fallback (`static/app.js`/`style.css`) so
+  any dead/broken figure URL — including the known-bad `cyto_comprehensive_part_two` family
+  the user hit live — shows a placeholder instead of an empty broken-image box. A full
+  figure-quality remediation plan (known-bad family counts, live-vs-local-browser code-path
+  gap, phased Phase 0-3 plan) and a separate WHO/WHO-like full-taxonomy-coverage planning
+  section (explicitly not started, planning only) are both in the master plan doc.
+- Offline suite: 36/36 tests pass
+  (`frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v`).
+
+## Prior task (completed)
 
 Pathology Hub Chat MVP — the nested ExpertPath-style Browse tree (built in the immediately prior
 session, see below) plus 6 concrete fixes from live user testing of "ovarian high-grade serous

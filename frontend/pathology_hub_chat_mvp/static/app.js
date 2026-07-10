@@ -969,6 +969,45 @@ function closeMediaPreview() {
   document.body.classList.remove("modal-open");
 }
 
+// Tiny inline SVG placeholder — no extra network request, so it can never
+// itself 404. Defensive fallback for known-bad figure families (e.g. the
+// cyto_comprehensive_part_two fixed-crop bug) and for any other dead/broken
+// image URL, since a reliable join key against the offline
+// curriculum_figure_image_quality_flags_v0_1.jsonl sidecar was not available
+// from evidence-card fields alone this session (see
+// docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md, figure-quality section).
+const BROKEN_IMAGE_PLACEHOLDER =
+  "data:image/svg+xml;charset=UTF-8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200">' +
+      '<rect width="100%" height="100%" fill="#f1f3f4"/>' +
+      '<text x="50%" y="46%" dominant-baseline="middle" text-anchor="middle" ' +
+      'font-family="sans-serif" font-size="14" fill="#5f6368">Image unavailable</text>' +
+      '<text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" ' +
+      'font-family="sans-serif" font-size="11" fill="#80868b">Known extraction defect or dead link</text>' +
+      "</svg>",
+  );
+
+/** Delegated, capture-phase `error` listener (image `error` events don't
+ * bubble, but a capturing ancestor listener still sees them) — catches every
+ * broken figure/page/citation-thumbnail/modal image anywhere in the app in
+ * one place, instead of wiring an `onerror` attribute into every template
+ * string that renders an `<img>`. Swaps in a local placeholder so a dead URL
+ * (known-bad family or otherwise) never renders an empty broken-image box.
+ * `data-broken-handled` guards against a retry loop if the placeholder data
+ * URI itself somehow failed to decode. */
+document.addEventListener(
+  "error",
+  (event) => {
+    const img = event.target;
+    if (!img || img.tagName !== "IMG" || img.dataset.brokenHandled) return;
+    img.dataset.brokenHandled = "true";
+    img.src = BROKEN_IMAGE_PLACEHOLDER;
+    img.classList.add("img-broken");
+  },
+  true,
+);
+
 function bindPreviewHandlers(root) {
   root.querySelectorAll("[data-preview]").forEach((el) => {
     el.addEventListener("click", (event) => {

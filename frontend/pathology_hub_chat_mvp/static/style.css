@@ -581,6 +581,16 @@ code {
   border: 1px solid var(--panel-border);
 }
 
+/* Applied by the global `error` listener in app.js when a figure/page/
+   citation-thumbnail/modal image URL 404s or otherwise fails to load —
+   dashed border distinguishes "known broken, showing placeholder" from a
+   normal thumbnail so it never looks like an ordinary content image. */
+.img-broken {
+  object-fit: contain !important;
+  border: 1px dashed var(--panel-border) !important;
+  background: #f1f3f4;
+}
+
 .figure-preview-btn {
   padding: 0;
   background: transparent;
