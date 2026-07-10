@@ -19,6 +19,7 @@ Do not add new backend operations here. Do not mutate GCS or Cloud Run.
 from __future__ import annotations
 
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -210,6 +211,11 @@ def staged_retrieve(
     excerpt_char_limit: int = 900,
     render_html: bool = False,
 ) -> list[SearchOutcome]:
+    """Call POST /evidence/search once per requested source (still the single
+    supported backend operation — this just fans the same call out
+    concurrently instead of one-at-a-time, since each source's request is
+    independent and `requests` is synchronous). Order of the returned list
+    always matches the order of `sources`."""
     sources = sources or ["textbooks"]
     if render_html or len(sources) <= 1:
         return [
@@ -225,21 +231,51 @@ def staged_retrieve(
             )
         ]
 
-    outcomes: list[SearchOutcome] = []
-    for source in sources:
-        outcomes.append(
-            client.search(
-                query=query,
-                sources=[source],
-                max_results=max_results,
-                include_figures=include_figures,
-                max_figures=max_figures,
-                compact=compact,
-                excerpt_char_limit=excerpt_char_limit,
-                render_html=False,
-            )
+    def _search_one(source: str) -> SearchOutcome:
+        return client.search(
+            query=query,
+            sources=[source],
+            max_results=max_results,
+            include_figures=include_figures,
+            max_figures=max_figures,
+            compact=compact,
+            excerpt_char_limit=excerpt_char_limit,
+            render_html=False,
         )
-    return outcomes
+
+    with ThreadPoolExecutor(max_workers=len(sources)) as executor:
+        return list(executor.map(_search_one, sources))
+
+
+def diversify_by_source_id(items: list[dict], key: str = "source_id") -> list[dict]:
+    """Round-robin re-rank a result list by `key` (default `source_id`) so a
+    single dominant source doesn't crowd out other distinct sources covering
+    the same topic. Never drops any item — only reorders. Each source's own
+    relative rank order is preserved; sources are then interleaved one-per-
+    round. No-ops (returns the input unchanged) if there's 0 or 1 distinct
+    values for `key`, or if items aren't dicts."""
+    if not items or not isinstance(items, list):
+        return items
+
+    groups: dict[Any, list[dict]] = {}
+    order: list[Any] = []
+    for item in items:
+        group_key = item.get(key) if isinstance(item, dict) else None
+        if group_key not in groups:
+            groups[group_key] = []
+            order.append(group_key)
+        groups[group_key].append(item)
+
+    if len(order) <= 1:
+        return items
+
+    result: list[dict] = []
+    while any(groups[group_key] for group_key in order):
+        for group_key in order:
+            bucket = groups[group_key]
+            if bucket:
+                result.append(bucket.pop(0))
+    return result
 
 
 def merge_outcomes(outcomes: list[SearchOutcome]) -> dict:
