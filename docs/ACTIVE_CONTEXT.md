@@ -4,6 +4,78 @@ Last updated: 2026-07-10
 
 ## Current task (completed this session)
 
+**Phase 3:** repaired `textbook_lean_figures.jsonl` for v0_2 deleted figure URIs and
+uploaded to GCS. Branch: `cursor/pathology-hub-chat-mvp`.
+
+### What was run (2026-07-10)
+
+1. **`scripts/repair_textbook_lean_figures_after_delete_v0_3.py`** (new)
+   - Input manifest: **3,055** deleted `gs://` URIs from
+     `06_audits/.../delete_manifest_execute_20260708.txt`.
+   - Downloaded canonical GCS
+     `gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl`.
+   - Dropped rows whose `image_path`/`image_url` hit the delete manifest (web-map-style;
+     backend `load_figures()` skips rows without a resolvable image anyway).
+   - **68,218 → 65,163** lines; **3,055** dropped (exact 1:1 with delete manifest).
+   - Top dropped sources: `gu_practical` 678, `hn_gnepp` 537, `gi_atlas` 451,
+     `cyto_comprehensive_part_one` 447, `cyto_comprehensive_part_two` 421.
+   - Post-repair verification: **0** remaining deleted-URI references.
+   - Repair audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/repair_audit_repair20260710.json`
+   - Git-tracked summary:
+     `audits/textbook_lean_figures_repair_v0_3/repair_summary_v0_3.json`
+
+2. **GCS upload** (`--upload`, upload audit written first per AGENTS.md)
+   - `gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl`
+   - Upload audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/upload_audit_upload20260710.json`
+
+### Boundaries preserved
+
+- Quality-flags sidecar and curriculum SQLite untouched (read-only).
+- Docstore / web figure map already repaired in v0_2; not re-touched.
+- FAISS / SQLite FTS unchanged.
+- Chat MVP Phase 1 `suppress_render` filter still handles Tier-A quality defects
+  (separate from deleted-URI cleanup).
+
+### Explicitly NOT done (blocked or deferred)
+
+- Journals `source_url` liveness (Cloudflare bot-blocking — still inconclusive).
+- Per-lecture diversification (blocked on backend `source_id`/`lecture_id` granularity).
+- Full data-driven taxonomy expansion (approach b).
+- Cloud Run cold restart to pick up repaired figures jsonl (pods cache until restart).
+
+### Files touched
+
+- `scripts/repair_textbook_lean_figures_after_delete_v0_3.py` (new)
+- `outputs/textbook_lean_figures_repair_v0_3/` (local repaired artifact + input copy)
+- `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/`
+- `audits/textbook_lean_figures_repair_v0_3/repair_summary_v0_3.json`
+- `docs/ACTIVE_CONTEXT.md` (this file)
+
+### Immediate next step
+
+Cloud Run pods cache downloaded artifacts until cold restart — new instances pick up the
+repaired GCS object automatically. Optional: force a revision restart / scale-to-zero if
+live `/health` still reports `textbook_figure_records_loaded=67992` after a cold start
+window. Expected post-restart load ≈ **65,163** minus any rows without resolvable images
+(~226 historically → ~64,937).
+
+Optional UI spot-check:
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# Browse → Head & Neck → Salivary → Mucoepidermoid carcinoma
+```
+
+Offline suite (unchanged by this data repair):
+
+```bash
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+```
+
+## Prior task (completed)
+
 Executed the prioritized next-agent plan from
 `docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md` (items 1–6). Branch:
 `cursor/pathology-hub-chat-mvp`.
@@ -18,7 +90,7 @@ Executed the prioritized next-agent plan from
 - **Phase 2 link-liveness audit:** 99/100 URLs alive (1% dead — one WHO GYN 404). Audit:
   `06_audits/curriculum_provenance_links/v0_1/chat_mvp_figure_liveness_audit_20260710.json`.
 
-### What shipped this session (items 1–6)
+### What shipped that session (items 1–6)
 
 1. **Phase 1 figure-quality filter** — new `figure_quality_filter.py`. Read-only join against
    `outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl`. Strips
@@ -31,6 +103,7 @@ Executed the prioritized next-agent plan from
    **not** repaired in v0_2 but dead-link rate ~1% because public derivatives mask deleted
    originals. Audit:
    `06_audits/curriculum_provenance_links/v0_1/chat_mvp_textbook_figures_source_trace_20260710.json`.
+   **Superseded by Phase 3 above** — jsonl now repaired and uploaded.
 3. **Item 4 — WHO cross-mentions wired:** `_extract_who_cross_mentions()` in `app.py` returns
    `who_cross_mentions` on `/api/chat` topic_page responses. Client: **Cross-referenced
    Entities** panel in topic page (`renderWhoCrossMentions`, reuses `ddx-link-btn` nav).
@@ -43,61 +116,10 @@ Executed the prioritized next-agent plan from
    Meningioma). Also fixed `app.js` `TOPIC_PAGE_SOURCES` to drop `lectures` (matched server).
 6. **Tests:** 40/40 pass (+4 `TestFigureQualityFilter`).
 
-### Explicitly NOT done (blocked or deferred)
+### User approval granted (2026-07-10) — Phase 3 executed this session
 
-- Journals `source_url` liveness (Cloudflare bot-blocking — still inconclusive).
-- Per-lecture diversification (blocked on backend `source_id`/`lecture_id` granularity).
-- Full data-driven taxonomy expansion (approach b) — only modest curated expansion shipped.
-
-### User approval granted (2026-07-10) — next agent may proceed without re-asking
-
-The user authorized the next agent to **start Phase 3 and other GCS/Cloud Run /
-backend-side figure repair work without seeking additional approval**, including:
-
-- Repair pass for `textbook_lean_figures.jsonl` (analogous to prior
-  `repair_textbook_figure_index_after_delete_v0_2.py` pattern)
-- GCS upload of repaired artifacts when warranted by audit evidence
-- Any backend requests needed to support figure quality or figure URL correctness
-
-Still required per `AGENTS.md`: produce audit JSON (`schema_version`, input/output
-paths, counts, known limitations); do not overwrite original normalized records;
-keep quality-flags sidecar and curriculum SQLite read-only unless user explicitly
-reopens that scope.
-
-**Recommended next work:** Phase 3 scoped to findings in the local audits
-(`chat_mvp_figure_liveness_audit_20260710.json`,
-`chat_mvp_textbook_figures_source_trace_20260710.json`) — jsonl still unrepaired
-from v0_2; Phase 1 sidecar filter already mitigates known-bad families client-side.
-
-### Files touched
-
-- `frontend/pathology_hub_chat_mvp/figure_quality_filter.py` (new)
-- `frontend/pathology_hub_chat_mvp/app.py`
-- `frontend/pathology_hub_chat_mvp/static/app.js`
-- `frontend/pathology_hub_chat_mvp/static/style.css`
-- `tests/test_pathology_hub_chat_mvp.py`
-- `06_audits/curriculum_provenance_links/v0_1/chat_mvp_figure_liveness_audit_20260710.json`
-- `06_audits/curriculum_provenance_links/v0_1/chat_mvp_textbook_figures_source_trace_20260710.json`
-- `docs/ACTIVE_CONTEXT.md` (this file)
-
-### Immediate next step
-
-**Phase 3 (user pre-approved):** repair `textbook_lean_figures.jsonl` for stale/deleted
-figure URIs, audit, then GCS upload if verification passes. See local audits under
-`06_audits/curriculum_provenance_links/v0_1/chat_mvp_*_20260710.json`.
-
-Optional UI spot-check after Phase 3 or in parallel:
-
-```bash
-frontend/pathology_hub_chat_mvp/scripts/run_local.sh
-# Browse → Head & Neck → Salivary → Mucoepidermoid carcinoma
-```
-
-Offline suite:
-
-```bash
-frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
-```
+The user authorized Phase 3 figure jsonl repair + GCS upload without re-asking; that work
+is now complete (see Current task above).
 
 ## Prior task (completed)
 
@@ -245,10 +267,9 @@ Textbook index refresh after v0_2 figure-image GCS delete (docstore + web map).
    - Upload audit:
      `06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/upload_audit_upload20260709.json`
 
-### Follow-ups (not done)
+### Follow-ups
 
-- `textbook_lean_figures.jsonl` may still reference deleted URIs (backend
-  figure pool); repair separately if figure-serving regressions appear.
+- `textbook_lean_figures.jsonl` — **done in Phase 3 (2026-07-10)**; see Current task.
 - FAISS / SQLite FTS indexes unchanged (vector rows unchanged; only metadata
   stripped). Rebuild only if a downstream audit proves stale figure metadata
   affects retrieval ranking.
