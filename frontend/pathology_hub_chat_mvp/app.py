@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import os
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 _VISUAL_QUERY = re.compile(
@@ -47,12 +49,19 @@ from openai_synthesizer import SynthesisResult, ping as openai_ping, synthesize
 from pathology_backend import (
     RESULT_LIST_KEYS,
     SUPPORTED_SOURCES,
+    TOPIC_PAGE_MAX_CARDS,
+    TOPIC_PAGE_MAX_FIGURES,
     PathologyHubClient,
+    cap_cards_diverse,
+    dedupe_cards,
+    dedupe_figures,
     diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
+    slim_merged_from_cards,
     staged_retrieve,
+    topic_page_query_variants,
 )
 
 # Full source set for topic_page (ExpertPath-style reference) requests —
@@ -88,6 +97,7 @@ class SearchRequest(BaseModel):
 
 class ChatRequest(SearchRequest):
     mode: str = "gpt_like"
+    category_context: Optional[str] = None
 
 
 def _validate_sources(sources: list[str]) -> list[str]:
@@ -130,11 +140,86 @@ def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
     return outcomes, merged
 
 
-def _debug_payload(outcomes: list) -> dict:
-    return {
+def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict], dict]:
+    """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
+    merged/deduped/diversified, then capped before synthesis."""
+    sources = _validate_sources(req.sources)
+    variants = topic_page_query_variants(req.query, req.category_context)
+
+    def _retrieve_variant(query: str) -> dict:
+        start = time.monotonic()
+        outcomes = staged_retrieve(
+            _backend_client,
+            query,
+            sources,
+            max_results=req.max_results,
+            include_figures=req.include_figures,
+            max_figures=req.max_figures,
+            compact=req.compact,
+            excerpt_char_limit=req.excerpt_char_limit,
+            render_html=False,
+        )
+        elapsed_ms = (time.monotonic() - start) * 1000
+        return {"query": query, "elapsed_ms": elapsed_ms, "outcomes": outcomes}
+
+    with ThreadPoolExecutor(max_workers=len(variants)) as executor:
+        variant_results = list(executor.map(_retrieve_variant, variants))
+
+    all_outcomes: list = []
+    variant_timing: list[dict] = []
+    for result in variant_results:
+        all_outcomes.extend(result["outcomes"])
+        variant_timing.append(
+            {
+                "query": result["query"],
+                "elapsed_ms": round(result["elapsed_ms"], 1),
+                "source_call_count": len(result["outcomes"]),
+            }
+        )
+
+    merged = merge_outcomes(all_outcomes)
+    merged["query"] = req.query
+    _diversify_merged_results(merged)
+
+    raw_cards = extract_evidence_cards(merged)
+    deduped_cards = dedupe_cards(raw_cards)
+    capped_cards = cap_cards_diverse(deduped_cards, TOPIC_PAGE_MAX_CARDS)
+
+    figures = dedupe_figures(extract_figures(merged))[:TOPIC_PAGE_MAX_FIGURES]
+    slim_merged = slim_merged_from_cards(merged, capped_cards)
+    slim_merged["figures"] = figures
+
+    counts_before = {}
+    counts_after = {}
+    for card in raw_cards:
+        src = card.get("source") or "unknown"
+        counts_before[src] = counts_before.get(src, 0) + 1
+    for card in capped_cards:
+        src = card.get("source") or "unknown"
+        counts_after[src] = counts_after.get(src, 0) + 1
+
+    retrieval_meta = {
+        "multi_query": True,
+        "query_variants": variants,
+        "variant_timing": variant_timing,
+        "cards_raw": len(raw_cards),
+        "cards_deduped": len(deduped_cards),
+        "cards_capped": len(capped_cards),
+        "cards_cap_limit": TOPIC_PAGE_MAX_CARDS,
+        "cards_by_source_before_cap": counts_before,
+        "cards_by_source_after_cap": counts_after,
+    }
+    return all_outcomes, slim_merged, capped_cards, retrieval_meta
+
+
+def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dict:
+    payload = {
         "calls": [o.to_debug_dict() for o in outcomes],
         "call_count": len(outcomes),
     }
+    if retrieval_meta:
+        payload.update(retrieval_meta)
+    return payload
 
 
 def _apply_figure_defaults(req: ChatRequest, mode: str) -> None:
@@ -304,9 +389,14 @@ def api_chat(req: ChatRequest):
             req.render_html = True
         _apply_figure_defaults(req, mode)
 
-        outcomes, merged = _run_retrieval(req)
-        cards = extract_evidence_cards(merged)
-        figures = extract_figures(merged)
+        retrieval_meta: Optional[dict] = None
+        if mode == "topic_page":
+            outcomes, merged, cards, retrieval_meta = _run_topic_page_retrieval(req)
+            figures = extract_figures(merged)
+        else:
+            outcomes, merged = _run_retrieval(req)
+            cards = extract_evidence_cards(merged)
+            figures = extract_figures(merged)
 
         if mode == "search_only":
             return {
@@ -317,7 +407,7 @@ def api_chat(req: ChatRequest):
                 "evidence": merged,
                 "cards": cards,
                 "figures": figures,
-                "debug": _debug_payload(outcomes),
+                "debug": _debug_payload(outcomes, retrieval_meta),
             }
 
         handlers = {
@@ -342,7 +432,7 @@ def api_chat(req: ChatRequest):
             "evidence": merged,
             "cards": cards,
             "figures": figures,
-            "debug": _debug_payload(outcomes),
+            "debug": _debug_payload(outcomes, retrieval_meta),
         }
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}

@@ -18,6 +18,7 @@ Do not add new backend operations here. Do not mutate GCS or Cloud Run.
 
 from __future__ import annotations
 
+import hashlib
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
@@ -53,6 +54,29 @@ RESULT_LIST_KEYS = [
 ]
 
 DEFAULT_TIMEOUT_SECONDS = 60
+
+# Topic-page multi-query fan-out: each variant runs the full source set in
+# parallel, then results are deduped/diversified and capped before synthesis.
+TOPIC_PAGE_QUERY_ASPECTS = (
+    "histology microscopic morphology",
+    "immunohistochemistry IHC ancillary molecular",
+    "differential diagnosis",
+)
+TOPIC_PAGE_MAX_QUERY_VARIANTS = 4
+TOPIC_PAGE_MAX_CARDS = 72
+TOPIC_PAGE_MAX_FIGURES = 20
+
+_RESULT_KEY_TO_SOURCE = {
+    "who_results": "who",
+    "textbook_results": "textbooks",
+    "journal_results": "journals",
+    "pathout_results": "pathout",
+    "lecture_results": "lectures",
+    "video_results": "videos",
+    "curriculum_results": "curriculum",
+    "results": "unknown",
+}
+_SOURCE_TO_RESULT_KEY = {v: k for k, v in _RESULT_KEY_TO_SOURCE.items() if k != "results"}
 
 
 @dataclass
@@ -247,6 +271,175 @@ def staged_retrieve(
         return list(executor.map(_search_one, sources))
 
 
+def topic_page_query_variants(
+    entity_name: str,
+    category_context: Optional[str] = None,
+) -> list[str]:
+    """Derive up to 4 parallel query variants from a leaf entity label.
+
+    Variants are programmatic (not per-disease hardcoded): base entity name,
+    then aspect-specific suffixes for histology, ancillary/IHC, and DDx.
+    Optional browse category context enriches short entity names.
+    """
+    base = (entity_name or "").strip()
+    if not base:
+        return [base]
+
+    enriched = base
+    context = (category_context or "").strip()
+    # Only enrich abbreviated/short entity labels — skip when the name is
+    # already descriptive (e.g. "ovarian high-grade serous carcinoma").
+    if context and len(base.split()) <= 3:
+        enriched = f"{base} {context}"
+
+    variants: list[str] = []
+    seen: set[str] = set()
+    for candidate in (enriched, *(f"{enriched} {aspect}" for aspect in TOPIC_PAGE_QUERY_ASPECTS)):
+        normalized = candidate.strip().lower()
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        variants.append(candidate.strip())
+
+    return variants[:TOPIC_PAGE_MAX_QUERY_VARIANTS]
+
+
+def card_identity_key(card: dict) -> Optional[str]:
+    """Best-effort stable key for deduping evidence cards across query variants."""
+    if not isinstance(card, dict):
+        return None
+
+    for field in ("chunk_id", "record_id", "vector_id"):
+        value = card.get(field)
+        if isinstance(value, str) and value.strip():
+            return f"id:{value.strip()}"
+
+    for field in (
+        "source_url",
+        "video_time_url",
+        "figure_url",
+        "page_image_url",
+        "source_page_url",
+        "video_url",
+    ):
+        value = card.get(field)
+        if isinstance(value, str) and value.strip().startswith("http"):
+            return f"url:{value.strip()}"
+
+    title = (card.get("title") or card.get("name") or card.get("heading") or "").strip()
+    source = str(card.get("source") or "")
+    source_id = str(card.get("source_id") or "")
+    excerpt = (card.get("text_excerpt") or card.get("excerpt") or "")[:80]
+    if title or excerpt:
+        blob = f"{source}|{source_id}|{title}|{excerpt}".lower()
+        digest = hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
+        return f"hash:{digest}"
+
+    return None
+
+
+def dedupe_cards(cards: list[dict]) -> list[dict]:
+    """Drop duplicate cards (by chunk_id/url/title hash), preserving first-seen order."""
+    if not cards:
+        return cards
+
+    seen: set[str] = set()
+    result: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        key = card_identity_key(card)
+        if key is None:
+            result.append(card)
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(card)
+    return result
+
+
+def cap_cards_diverse(cards: list[dict], max_cards: int) -> list[dict]:
+    """Cap total cards while round-robin preserving source-family diversity."""
+    if not cards or len(cards) <= max_cards:
+        return cards
+
+    groups: dict[str, list[dict]] = {}
+    order: list[str] = []
+    for card in cards:
+        source = str(card.get("source") or "unknown")
+        if source not in groups:
+            groups[source] = []
+            order.append(source)
+        groups[source].append(card)
+
+    capped: list[dict] = []
+    while len(capped) < max_cards and any(groups[src] for src in order):
+        for src in order:
+            bucket = groups[src]
+            if bucket and len(capped) < max_cards:
+                capped.append(bucket.pop(0))
+    return capped
+
+
+def dedupe_figures(figures: list[dict]) -> list[dict]:
+    """Drop duplicate figures by image/figure URL."""
+    if not figures:
+        return figures
+
+    seen: set[str] = set()
+    result: list[dict] = []
+    for figure in figures:
+        if not isinstance(figure, dict):
+            continue
+        key = None
+        for field in ("figure_url", "image_url", "page_image_url"):
+            value = figure.get(field)
+            if isinstance(value, str) and value.strip().startswith("http"):
+                key = value.strip()
+                break
+        if key is None:
+            result.append(figure)
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(figure)
+    return result
+
+
+def slim_merged_from_cards(base_merged: dict, capped_cards: list[dict]) -> dict:
+    """Rebuild per-source result lists from a capped card set for synthesis."""
+    slim: dict[str, Any] = {
+        "schema_version": base_merged.get("schema_version"),
+        "query": base_merged.get("query"),
+        "source_status": dict(base_merged.get("source_status") or {}),
+        "warnings": list(base_merged.get("warnings") or []),
+        "figures": list(base_merged.get("figures") or []),
+        "query_expansion_applied": base_merged.get("query_expansion_applied"),
+        "curriculum_status": base_merged.get("curriculum_status"),
+    }
+    for key in RESULT_LIST_KEYS:
+        slim[key] = []
+
+    for card in capped_cards:
+        if not isinstance(card, dict):
+            continue
+        result_key = card.get("_result_key")
+        if not isinstance(result_key, str) or result_key not in slim:
+            source = card.get("source")
+            result_key = _SOURCE_TO_RESULT_KEY.get(source)
+        if not result_key or result_key not in slim:
+            continue
+        clean = {k: v for k, v in card.items() if not str(k).startswith("_")}
+        slim[result_key].append(clean)
+
+    if base_merged.get("html_result"):
+        slim["html_result"] = base_merged.get("html_result")
+
+    return slim
+
+
 def diversify_by_source_id(items: list[dict], key: str = "source_id") -> list[dict]:
     """Round-robin re-rank a result list by `key` (default `source_id`) so a
     single dominant source doesn't crowd out other distinct sources covering
@@ -325,15 +518,7 @@ def merge_outcomes(outcomes: list[SearchOutcome]) -> dict:
 
 
 def extract_evidence_cards(response_json: dict) -> list[dict]:
-    key_to_source = {
-        "who_results": "who",
-        "textbook_results": "textbooks",
-        "journal_results": "journals",
-        "pathout_results": "pathout",
-        "lecture_results": "lectures",
-        "video_results": "videos",
-        "curriculum_results": "curriculum",
-    }
+    key_to_source = _RESULT_KEY_TO_SOURCE
     cards: list[dict] = []
     if not isinstance(response_json, dict):
         return cards

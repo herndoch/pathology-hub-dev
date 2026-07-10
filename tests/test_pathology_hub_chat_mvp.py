@@ -14,11 +14,16 @@ if str(MVP_DIR) not in sys.path:
 from pathology_backend import (  # noqa: E402
     PathologyHubClient,
     SearchOutcome,
+    cap_cards_diverse,
+    card_identity_key,
+    dedupe_cards,
     diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
+    slim_merged_from_cards,
     staged_retrieve,
+    topic_page_query_variants,
 )
 
 
@@ -182,6 +187,73 @@ class TestDiversifyBySourceId(unittest.TestCase):
         self.assertEqual(len(result), 3)
 
 
+class TestTopicPageQueryVariants(unittest.TestCase):
+    def test_builds_four_programmatic_variants(self):
+        variants = topic_page_query_variants("High-grade serous carcinoma ovary")
+        self.assertEqual(len(variants), 4)
+        self.assertEqual(variants[0], "High-grade serous carcinoma ovary")
+        self.assertIn("histology", variants[1].lower())
+        self.assertIn("ihc", variants[2].lower())
+        self.assertIn("differential", variants[3].lower())
+
+    def test_category_context_enriches_short_entity_names(self):
+        variants = topic_page_query_variants(
+            "HGSC",
+            category_context="GYN — Ovary > Carcinomas",
+        )
+        self.assertTrue(variants[0].startswith("HGSC GYN — Ovary > Carcinomas"))
+
+    def test_category_context_skipped_for_descriptive_entity_names(self):
+        variants = topic_page_query_variants(
+            "ovarian high-grade serous carcinoma",
+            category_context="GYN — Ovary > Carcinomas",
+        )
+        self.assertEqual(variants[0], "ovarian high-grade serous carcinoma")
+
+    def test_deduplicates_identical_variants(self):
+        variants = topic_page_query_variants("  LCIS  ")
+        self.assertEqual(variants[0], "LCIS")
+
+
+class TestCardDedupeAndCap(unittest.TestCase):
+    def test_card_identity_key_prefers_chunk_id(self):
+        self.assertEqual(
+            card_identity_key({"chunk_id": "abc123", "title": "X"}),
+            "id:abc123",
+        )
+
+    def test_dedupe_cards_drops_duplicates_preserving_order(self):
+        cards = [
+            {"chunk_id": "a", "source": "textbooks", "title": "One"},
+            {"chunk_id": "a", "source": "textbooks", "title": "One dup"},
+            {"source_url": "https://example.com/x", "source": "who", "title": "Two"},
+            {"source_url": "https://example.com/x", "source": "who", "title": "Two dup"},
+        ]
+        result = dedupe_cards(cards)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0]["chunk_id"], "a")
+        self.assertEqual(result[1]["source_url"], "https://example.com/x")
+
+    def test_cap_cards_diverse_round_robins_across_sources(self):
+        cards = [
+            {"source": "textbooks", "rank": 1},
+            {"source": "textbooks", "rank": 2},
+            {"source": "textbooks", "rank": 3},
+            {"source": "videos", "rank": 1},
+            {"source": "journals", "rank": 1},
+        ]
+        capped = cap_cards_diverse(cards, 3)
+        self.assertEqual(len(capped), 3)
+        sources = [c["source"] for c in capped]
+        self.assertEqual(sources, ["textbooks", "videos", "journals"])
+
+    def test_slim_merged_from_cards_rebuilds_result_lists(self):
+        cards = extract_evidence_cards(SAMPLE_RESPONSE)
+        slim = slim_merged_from_cards(SAMPLE_RESPONSE, cards)
+        self.assertEqual(len(slim["textbook_results"]), 1)
+        self.assertEqual(len(slim["who_results"]), 1)
+
+
 class TestSearchOutcomeDebug(unittest.TestCase):
     def test_to_debug_dict_never_includes_api_key(self):
         outcome = SearchOutcome(
@@ -234,10 +306,10 @@ class TestAppContract(unittest.TestCase):
 
         from app import TOPIC_PAGE_SOURCES, app  # noqa: E402
 
-        captured = {}
+        captured_calls: list[list[str]] = []
 
         def _fake_staged_retrieve(client, query, sources, **kwargs):
-            captured["sources"] = list(sources)
+            captured_calls.append(list(sources))
             return [
                 SearchOutcome(
                     request_payload={"query": query, "sources": sources},
@@ -248,6 +320,7 @@ class TestAppContract(unittest.TestCase):
                     response_json=SAMPLE_RESPONSE,
                     api_key_present=True,
                 )
+                for _ in sources
             ]
 
         with patch("app.staged_retrieve", side_effect=_fake_staged_retrieve), patch(
@@ -266,8 +339,12 @@ class TestAppContract(unittest.TestCase):
                 },
             )
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(resp.json()["ok"])
-        self.assertEqual(sorted(captured["sources"]), sorted(TOPIC_PAGE_SOURCES))
+        body = resp.json()
+        self.assertTrue(body["ok"])
+        self.assertTrue(body["debug"]["multi_query"])
+        self.assertGreaterEqual(len(body["debug"]["query_variants"]), 3)
+        self.assertGreater(body["debug"]["call_count"], 6)
+        self.assertTrue(all(sorted(s) == sorted(TOPIC_PAGE_SOURCES) for s in captured_calls))
 
     def test_api_search_shape(self):
         from fastapi.testclient import TestClient

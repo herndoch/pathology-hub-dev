@@ -25,7 +25,7 @@ const MODE_HINTS = {
   compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
   visual: "Figures retrieved and shown above the answer.",
   html_teaching: "Hosted HTML teaching page — link appears above citations.",
-  topic_page: "ExpertPath-style reference page: Key Facts box, dark-bar sections (Terminology, Etiology, Clinical, Microscopic, Ancillary Tests, DDx), and a figure gallery. Type an entity name, e.g. 'BAP1-inactivated melanocytoma'. Also reachable via the Browse tab.",
+  topic_page: "ExpertPath-style reference page: Key Facts box, section headers, figure gallery, and multi-query retrieval (3–4 parallel aspect variants × all sources) for broader coverage. Also reachable via the Browse tab.",
 };
 
 const VISUAL_QUERY_RE =
@@ -911,11 +911,11 @@ function selectedSources() {
   return [...sourceCheckboxes.querySelectorAll("input:checked")].map((el) => el.value);
 }
 
-function buildPayload(query, modeOverride) {
+function buildPayload(query, modeOverride, options = {}) {
   const mode = modeOverride || modeSelect.value;
   const visual = wantsVisual(query, mode) || mode === "topic_page";
   const sources = mode === "topic_page" ? TOPIC_PAGE_SOURCES : selectedSources();
-  return {
+  const payload = {
     query,
     mode,
     sources: sources.length ? sources : DEFAULT_SOURCES,
@@ -926,6 +926,10 @@ function buildPayload(query, modeOverride) {
     excerpt_char_limit: 900,
     render_html: mode === "html_teaching",
   };
+  if (mode === "topic_page" && options.categoryContext) {
+    payload.category_context = options.categoryContext;
+  }
+  return payload;
 }
 
 function setModalAction(el, url, label) {
@@ -1338,6 +1342,20 @@ function renderDebugBlock(data) {
   return html;
 }
 
+function topicPageFanoutHint(data) {
+  const debug = data?.debug;
+  if (!debug?.multi_query) return "";
+  const variantCount = debug.query_variants?.length || "?";
+  const callCount = debug.call_count || "?";
+  const capped = debug.cards_capped;
+  const capLimit = debug.cards_cap_limit;
+  let text = `Retrieval used ${variantCount} parallel query variants (${callCount} total source calls) for broader coverage.`;
+  if (typeof capped === "number" && typeof capLimit === "number") {
+    text += ` ${capped} unique cards (cap ${capLimit}) sent to synthesis.`;
+  }
+  return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
+}
+
 function renderTopicPageResult(data, query) {
   const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
@@ -1346,7 +1364,8 @@ function renderTopicPageResult(data, query) {
   const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
   const sections = parseTopicPageSections(data.answer || "");
 
-  let html = renderTopicPage(sections, previewIndex, shownFigures);
+  let html = topicPageFanoutHint(data);
+  html += renderTopicPage(sections, previewIndex, shownFigures);
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
@@ -1381,11 +1400,16 @@ async function loadLeafTopicPage(categoryId, subcategoryId, entityName) {
   const seq = ++browseRequestSeq;
   browseContentEl.innerHTML = `<p class="hint">Loading live evidence for "${escapeHtml(entityName)}"…</p>`;
 
+  const category = findCategory(categoryId);
+  const subcategory = category ? findSubcategory(category, subcategoryId) : null;
+  const categoryContext =
+    category && subcategory ? `${category.label} > ${subcategory.label}` : category?.label || null;
+
   try {
     const resp = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildPayload(entityName, "topic_page")),
+      body: JSON.stringify(buildPayload(entityName, "topic_page", { categoryContext })),
     });
     const data = await resp.json();
     if (seq !== browseRequestSeq) return;
