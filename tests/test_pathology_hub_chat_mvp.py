@@ -137,6 +137,20 @@ class TestAppContract(unittest.TestCase):
         with self.assertRaises(ValueError):
             _validate_sources(["not_a_real_source"])
 
+    def test_topic_page_is_a_valid_mode(self):
+        from app import VALID_MODES  # noqa: E402
+
+        self.assertIn("topic_page", VALID_MODES)
+
+    def test_topic_page_figure_defaults_force_figures_on(self):
+        from app import ChatRequest, _apply_figure_defaults  # noqa: E402
+
+        req = ChatRequest(query="BAP1-inactivated melanocytoma", mode="topic_page")
+        self.assertFalse(req.include_figures)
+        _apply_figure_defaults(req, "topic_page")
+        self.assertTrue(req.include_figures)
+        self.assertEqual(req.max_figures, 8)
+
     def test_api_search_shape(self):
         from fastapi.testclient import TestClient
 
@@ -165,6 +179,25 @@ class TestAppContract(unittest.TestCase):
         self.assertIn("cards", body)
         self.assertIn("debug", body)
         self.assertGreaterEqual(len(body["cards"]), 1)
+
+
+class TestTopicPagePrompt(unittest.TestCase):
+    def test_topic_page_system_prompt_has_all_fixed_headers_in_order(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        last_index = -1
+        for section in prompts.TOPIC_PAGE_SECTIONS:
+            header = f"## {section}"
+            index = text.find(header)
+            self.assertGreater(index, last_index, f"missing or out-of-order header: {header!r}")
+            last_index = index
+
+    def test_topic_page_system_prompt_inherits_base_grounding_rules(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("NEVER invent, guess, autocomplete, or reconstruct a URL", text)
 
 
 if __name__ == "__main__":
