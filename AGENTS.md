@@ -44,7 +44,12 @@ Python 3.12. The startup update script creates a `.venv` at the repo root and in
 `tools/curriculum_provenance_browser/requirements.txt` + `pytest`.
 
 **Easiest path (no virtualenv knowledge needed):** use `./scripts/dev.sh` — it always runs
-the right `.venv/bin/python` for you. Commands: `setup`, `test`, `test-v02`, `check`, `browser`, `api`.
+the right `.venv/bin/python` for you. Commands: `setup`, `test`, `test-v02`, `check`, `browser`, `api`, `secrets`.
+
+Secrets: `./scripts/dev.sh secrets` shows what's configured (never prints values). Add via Cursor Cloud
+project secrets (injected as env vars) or copy `.env.example` → `.env` locally. Names:
+`PATHOLOGY_HUB_API_KEY`, `OPENAI_API_KEY`, and either `GCP_SERVICE_ACCOUNT_JSON` (full JSON string)
+or `GOOGLE_APPLICATION_CREDENTIALS` (path to a service-account JSON file).
 
 There is no configured linter; use `./scripts/dev.sh check` (compileall) as a syntax check.
 

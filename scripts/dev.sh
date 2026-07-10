@@ -7,6 +7,34 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV="$ROOT/.venv"
 PY="$VENV/bin/python"
 PIP="$VENV/bin/pip"
+GCP_ADC_FILE="/tmp/pathology-hub-gcp-adc.json"
+
+# Load secrets from .env (local) or from Cursor-injected environment variables (cloud).
+load_secrets() {
+  if [[ -f "$ROOT/.env" ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    source "$ROOT/.env"
+    set +a
+  fi
+
+  export GOOGLE_CLOUD_PROJECT="${GOOGLE_CLOUD_PROJECT:-pathology-annotation-project}"
+
+  if [[ -n "${GCP_SERVICE_ACCOUNT_JSON:-}" && -z "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]]; then
+    printf '%s' "$GCP_SERVICE_ACCOUNT_JSON" > "$GCP_ADC_FILE"
+    chmod 600 "$GCP_ADC_FILE"
+    export GOOGLE_APPLICATION_CREDENTIALS="$GCP_ADC_FILE"
+  fi
+}
+
+secret_status() {
+  local name="$1"
+  if [[ -n "${!name:-}" ]]; then
+    echo "  ✓ $name"
+  else
+    echo "  ✗ $name (missing)"
+  fi
+}
 
 ensure_venv() {
   if [[ ! -x "$PY" ]]; then
@@ -35,7 +63,14 @@ Commands:
   check      Syntax-check Python sources (compileall)
   browser    Start Curriculum Provenance Browser on http://127.0.0.1:8765
   api        Start Backend Evidence API on http://127.0.0.1:8080
+  secrets    Show which secrets are configured (values never printed)
   help       Show this message
+
+Secrets: add them in Cursor Cloud project settings, or copy .env.example → .env locally.
+  PATHOLOGY_HUB_API_KEY   — API auth (GCP Secret Manager: pathology-hub-api-key)
+  OPENAI_API_KEY          — query embeddings for local backend
+  GCP_SERVICE_ACCOUNT_JSON — full service-account JSON for gs://pathology_hub access
+    (or set GOOGLE_APPLICATION_CREDENTIALS to a JSON file path)
 
 You never need to run "source .venv/bin/activate" — this script uses .venv for you.
 
@@ -89,14 +124,32 @@ cmd_api() {
   exec "$PY" -m uvicorn app:app --host 127.0.0.1 --port 8080
 }
 
+cmd_secrets() {
+  load_secrets
+  echo "Secret status (values are never shown):"
+  secret_status PATHOLOGY_HUB_API_KEY
+  secret_status OPENAI_API_KEY
+  secret_status GOOGLE_APPLICATION_CREDENTIALS
+  secret_status GCP_SERVICE_ACCOUNT_JSON
+  secret_status GOOGLE_CLOUD_PROJECT
+  echo
+  if [[ -f "$ROOT/.env" ]]; then
+    echo "Loaded from: $ROOT/.env"
+  else
+    echo "No .env file — using environment variables only."
+    echo "Copy .env.example → .env locally, or add secrets in Cursor Cloud settings."
+  fi
+}
+
 main() {
   case "${1:-help}" in
-    setup) cmd_setup ;;
-    test) cmd_test ;;
-    test-v02) cmd_test_v02 ;;
-    check) cmd_check ;;
-    browser) cmd_browser ;;
-    api) cmd_api ;;
+    setup) load_secrets; cmd_setup ;;
+    test) load_secrets; cmd_test ;;
+    test-v02) load_secrets; cmd_test_v02 ;;
+    check) load_secrets; cmd_check ;;
+    browser) load_secrets; cmd_browser ;;
+    api) load_secrets; cmd_api ;;
+    secrets) cmd_secrets ;;
     help|-h|--help) usage ;;
     *)
       echo "Unknown command: $1" >&2
