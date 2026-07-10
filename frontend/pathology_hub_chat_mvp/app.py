@@ -46,6 +46,10 @@ from pydantic import BaseModel, Field
 import prompts
 import secrets_helper
 from openai_synthesizer import SynthesisResult, ping as openai_ping, synthesize
+from figure_quality_filter import (
+    filter_suppress_render_figures,
+    strip_suppress_render_image_urls,
+)
 from pathology_backend import (
     RESULT_LIST_KEYS,
     SUPPORTED_SOURCES,
@@ -64,6 +68,7 @@ from pathology_backend import (
     staged_retrieve,
     topic_page_query_variants,
 )
+from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 
 # Full source set for topic_page (ExpertPath-style reference) requests —
 # always comprehensive regardless of the sidebar checkbox state, since a
@@ -124,6 +129,34 @@ def _validate_sources(sources: list[str]) -> list[str]:
             f"Unsupported source(s): {unknown}. Supported: {SUPPORTED_SOURCES}"
         )
     return cleaned or ["textbooks"]
+
+
+def _apply_figure_quality_filters(cards: list[dict], figures: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Strip/drop Tier-A suppress_render textbook images using the read-only sidecar."""
+    return (
+        strip_suppress_render_image_urls(cards),
+        filter_suppress_render_figures(figures),
+    )
+
+
+def _extract_who_cross_mentions(cards: list[dict]) -> list[dict]:
+    """Grounded WHO cross-entity mentions from already-fetched who cards."""
+    leaves = load_taxonomy_leaf_names()
+    results: list[dict] = []
+    seen_leaves: set[str] = set()
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        source = str(card.get("source") or card.get("source_name") or "").lower()
+        if source != "who":
+            continue
+        for mention in who_section_mentions(card, leaves):
+            leaf = mention.get("matched_leaf")
+            if not leaf or leaf in seen_leaves:
+                continue
+            seen_leaves.add(leaf)
+            results.append(mention)
+    return results
 
 
 def _diversify_merged_results(merged: dict) -> None:
@@ -199,11 +232,15 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
 
     raw_cards = extract_evidence_cards(merged)
     deduped_cards = dedupe_cards(raw_cards)
+    raw_figures = dedupe_figures(extract_figures(merged))
+    deduped_cards, raw_figures = _apply_figure_quality_filters(deduped_cards, raw_figures)
+    who_cross_mentions = _extract_who_cross_mentions(deduped_cards)
+
     capped_cards = cap_cards_diverse(
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
 
-    figures = dedupe_figures(extract_figures(merged))[:TOPIC_PAGE_MAX_FIGURES]
+    figures = raw_figures[:TOPIC_PAGE_MAX_FIGURES]
     slim_merged = slim_merged_from_cards(merged, capped_cards)
     slim_merged["figures"] = figures
 
@@ -226,8 +263,9 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "cards_cap_limit": TOPIC_PAGE_MAX_CARDS,
         "cards_by_source_before_cap": counts_before,
         "cards_by_source_after_cap": counts_after,
+        "who_cross_mentions_count": len(who_cross_mentions),
     }
-    return all_outcomes, slim_merged, capped_cards, retrieval_meta
+    return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
 
 def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dict:
@@ -408,8 +446,9 @@ def api_chat(req: ChatRequest):
         _apply_figure_defaults(req, mode)
 
         retrieval_meta: Optional[dict] = None
+        who_cross_mentions: list[dict] = []
         if mode == "topic_page":
-            outcomes, merged, cards, retrieval_meta = _run_topic_page_retrieval(req)
+            outcomes, merged, cards, retrieval_meta, who_cross_mentions = _run_topic_page_retrieval(req)
             figures = extract_figures(merged)
         else:
             outcomes, merged = _run_retrieval(req)
@@ -419,6 +458,7 @@ def api_chat(req: ChatRequest):
             # sidebar user checks both boxes for a non-topic-page mode.
             cards = dedupe_cards(extract_evidence_cards(merged))
             figures = dedupe_figures(extract_figures(merged))
+            cards, figures = _apply_figure_quality_filters(cards, figures)
 
         if mode == "search_only":
             return {
@@ -429,6 +469,7 @@ def api_chat(req: ChatRequest):
                 "evidence": merged,
                 "cards": cards,
                 "figures": figures,
+                "who_cross_mentions": who_cross_mentions,
                 "debug": _debug_payload(outcomes, retrieval_meta),
             }
 
@@ -454,6 +495,7 @@ def api_chat(req: ChatRequest):
             "evidence": merged,
             "cards": cards,
             "figures": figures,
+            "who_cross_mentions": who_cross_mentions,
             "debug": _debug_payload(outcomes, retrieval_meta),
         }
     except ValueError as exc:
