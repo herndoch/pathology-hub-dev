@@ -1,0 +1,29 @@
+{
+  "schema_version": "textbook_lean_figures_repair.v0_3",
+  "created_at": "2026-07-10T14:38:00+00:00",
+  "script": "scripts/repair_textbook_lean_figures_after_delete_v0_3.py",
+  "input_paths": {
+    "delete_manifest": "06_audits/curriculum_provenance_links/v0_1/figure_image_gcs_delete_v0_2/delete_manifest_execute_20260708.txt",
+    "figures_gcs": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl"
+  },
+  "output_paths": {
+    "figures_repaired_local": "outputs/textbook_lean_figures_repair_v0_3/textbook_lean_figures_v0_3.jsonl",
+    "figures_gcs_uploaded": "gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl",
+    "full_repair_audit": "06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/repair_audit_repair20260710.json",
+    "full_upload_audit": "06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/upload_audit_upload20260710.json"
+  },
+  "counts": {
+    "deleted_uris_in_manifest": 3055,
+    "figures_input_lines": 68218,
+    "figures_output_lines": 65163,
+    "figures_lines_dropped": 3055,
+    "post_repair_deleted_ref_lines": 0,
+    "gcs_upload_ok": true
+  },
+  "known_limitations": [
+    "Dropped figure rows whose image URI was in the v0_2 delete manifest (web-map-style drop, not field-null).",
+    "Cloud Run pods may serve cached pre-repair artifacts until cold restart.",
+    "FAISS / docstore / web map / quality-flags sidecar / curriculum SQLite unchanged.",
+    "Tier-A suppress_render quality defects remain mitigated by Chat MVP Phase 1 client filter."
+  ]
+}

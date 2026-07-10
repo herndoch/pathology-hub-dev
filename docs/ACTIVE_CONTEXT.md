@@ -1,8 +1,245 @@
 # Active Context
 
-Last updated: 2026-07-09
+Last updated: 2026-07-10
 
-## Current task (completed)
+## Current task (completed this session)
+
+**Phase 3:** repaired `textbook_lean_figures.jsonl` for v0_2 deleted figure URIs and
+uploaded to GCS. Branch: `cursor/pathology-hub-chat-mvp`.
+
+### What was run (2026-07-10)
+
+1. **`scripts/repair_textbook_lean_figures_after_delete_v0_3.py`** (new)
+   - Input manifest: **3,055** deleted `gs://` URIs from
+     `06_audits/.../delete_manifest_execute_20260708.txt`.
+   - Downloaded canonical GCS
+     `gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl`.
+   - Dropped rows whose `image_path`/`image_url` hit the delete manifest (web-map-style;
+     backend `load_figures()` skips rows without a resolvable image anyway).
+   - **68,218 → 65,163** lines; **3,055** dropped (exact 1:1 with delete manifest).
+   - Top dropped sources: `gu_practical` 678, `hn_gnepp` 537, `gi_atlas` 451,
+     `cyto_comprehensive_part_one` 447, `cyto_comprehensive_part_two` 421.
+   - Post-repair verification: **0** remaining deleted-URI references.
+   - Repair audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/repair_audit_repair20260710.json`
+   - Git-tracked summary:
+     `audits/textbook_lean_figures_repair_v0_3/repair_summary_v0_3.json`
+
+2. **GCS upload** (`--upload`, upload audit written first per AGENTS.md)
+   - `gs://pathology_hub/02_normalized/textbooks/lean/textbook_lean_figures.jsonl`
+   - Upload audit:
+     `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/upload_audit_upload20260710.json`
+
+### Boundaries preserved
+
+- Quality-flags sidecar and curriculum SQLite untouched (read-only).
+- Docstore / web figure map already repaired in v0_2; not re-touched.
+- FAISS / SQLite FTS unchanged.
+- Chat MVP Phase 1 `suppress_render` filter still handles Tier-A quality defects
+  (separate from deleted-URI cleanup).
+
+### Explicitly NOT done (blocked or deferred)
+
+- Journals `source_url` liveness (Cloudflare bot-blocking — still inconclusive).
+- Per-lecture diversification (blocked on backend `source_id`/`lecture_id` granularity).
+- Full data-driven taxonomy expansion (approach b).
+- Cloud Run cold restart to pick up repaired figures jsonl (pods cache until restart).
+
+### Files touched
+
+- `scripts/repair_textbook_lean_figures_after_delete_v0_3.py` (new)
+- `outputs/textbook_lean_figures_repair_v0_3/` (local repaired artifact + input copy)
+- `06_audits/curriculum_provenance_links/v0_1/textbook_lean_figures_repair_v0_3/`
+- `audits/textbook_lean_figures_repair_v0_3/repair_summary_v0_3.json`
+- `docs/ACTIVE_CONTEXT.md` (this file)
+
+### Immediate next step
+
+Cloud Run pods cache downloaded artifacts until cold restart — new instances pick up the
+repaired GCS object automatically. Optional: force a revision restart / scale-to-zero if
+live `/health` still reports `textbook_figure_records_loaded=67992` after a cold start
+window. Expected post-restart load ≈ **65,163** minus any rows without resolvable images
+(~226 historically → ~64,937).
+
+Optional UI spot-check:
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# Browse → Head & Neck → Salivary → Mucoepidermoid carcinoma
+```
+
+Offline suite (unchanged by this data repair):
+
+```bash
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+```
+
+## Prior task (completed)
+
+Executed the prioritized next-agent plan from
+`docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md` (items 1–6). Branch:
+`cursor/pathology-hub-chat-mvp`.
+
+### What was verified live (items 1–2, prior turn)
+
+- **Figure quality-flags join key:** live textbook `chunk_id` matches sidecar byte-for-byte
+  (`tbchunk:...` scheme). Live cards have **empty `record_id`** — join on `chunk_id` only.
+  Standalone `figures[]` have no `chunk_id`; join via `(source_id, fig_slot)` from
+  `image_path`. Public derivatives can return HTTP 200 with degenerate dimensions (2592×235)
+  — invisible to link-liveness probes.
+- **Phase 2 link-liveness audit:** 99/100 URLs alive (1% dead — one WHO GYN 404). Audit:
+  `06_audits/curriculum_provenance_links/v0_1/chat_mvp_figure_liveness_audit_20260710.json`.
+
+### What shipped that session (items 1–6)
+
+1. **Phase 1 figure-quality filter** — new `figure_quality_filter.py`. Read-only join against
+   `outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl`. Strips
+   `figure_url`/`image_url` from Tier-A `suppress_render` cards (keeps text/page images);
+   drops flagged figures from `figures[]`. Wired into all retrieval paths in `app.py`. Live:
+   cyto query 10→8 figures (two `fig01` cyto_comprehensive_part_two strips suppressed).
+2. **Item 3 — textbook figure source trace:** confirmed live API loads
+   `textbook_lean_figures.jsonl` (67,992 records per `/health`); `image_path` matches GCS
+   jsonl row; `figure_url` served via web figure map as `public_web_derivative`. Jsonl was
+   **not** repaired in v0_2 but dead-link rate ~1% because public derivatives mask deleted
+   originals. Audit:
+   `06_audits/curriculum_provenance_links/v0_1/chat_mvp_textbook_figures_source_trace_20260710.json`.
+   **Superseded by Phase 3 above** — jsonl now repaired and uploaded.
+3. **Item 4 — WHO cross-mentions wired:** `_extract_who_cross_mentions()` in `app.py` returns
+   `who_cross_mentions` on `/api/chat` topic_page responses. Client: **Cross-referenced
+   Entities** panel in topic page (`renderWhoCrossMentions`, reuses `ddx-link-btn` nav).
+4. **Item 5 — `min_per_source=8` stress test:** "invasive ductal carcinoma breast" — 218 raw →
+   139 deduped → **120 capped** (cap engaged). Per-source after cap: who 13, textbooks 29,
+   journals 28, pathout 22, videos 28 — all families with ≥8 deduped cards kept ≥8.
+5. **Item 6 — taxonomy breadth (curated approach a):** +11 leaves in `BROWSE_TAXONOMY`
+   (Traditional serrated adenoma; salivary: Epithelial-myoepithelial carcinoma, Myoepithelial
+   carcinoma, Basal cell adenocarcinoma, Acinic cell carcinoma; bone/soft tissue: Chordoma,
+   Meningioma). Also fixed `app.js` `TOPIC_PAGE_SOURCES` to drop `lectures` (matched server).
+6. **Tests:** 40/40 pass (+4 `TestFigureQualityFilter`).
+
+### User approval granted (2026-07-10) — Phase 3 executed this session
+
+The user authorized Phase 3 figure jsonl repair + GCS upload without re-asking; that work
+is now complete (see Current task above).
+
+## Prior task (completed)
+
+Investigation + limited prototype + planning session for the Chat MVP diversity/limits/WHO
+cross-entity-extraction/figure-quality problems flagged during live Browse/`topic_page`
+testing. Full detail, real measured numbers, and phased next-steps plan:
+`docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md`. Summary:
+
+- **Shipped:** live-verified the backend hard-caps `max_results` at 10 for every source (not
+  an arbitrary client guess — kept `le=10` unchanged); raised `TOPIC_PAGE_MAX_CARDS` 72→120
+  and `TOPIC_PAGE_MAX_FIGURES` 20→40 based on measured token-budget headroom (gpt-4.1-mini's
+  1,047,576-token context window vs. the ~62k-107k tokens actually used); added an explicit
+  `min_per_source` floor option to `cap_cards_diverse()`; fixed a real bug found while
+  measuring (`lectures`/`videos` return byte-identical duplicate corpus content — dropped the
+  redundant `lectures` call from `TOPIC_PAGE_SOURCES` and added dedup to the regular
+  retrieval path too). Re-probed ovarian HGSC and salivary mucoepidermoid carcinoma
+  before/after live.
+- **Prototyped then wired (this session):** `who_section_mentions.py` — WHO cards carry
+  explicit `entity_name`/`section` metadata; now surfaced as `who_cross_mentions` on topic
+  pages with clickable taxonomy nav.
+- **Shipped:** global client-side `<img>` `error` fallback; Phase 1 sidecar suppress_render
+  filter (`figure_quality_filter.py`). Master plan at
+  `docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md`.
+
+## Prior task (completed)
+reliability, citation tags, retrieval speed, and a light Google-style color theme. Full detail in
+`frontend/pathology_hub_chat_mvp/README.md` ("Browse tab / Topic page mode", "Citation tags",
+"Color theme" sections) — summary here:
+
+1. **Source imbalance — fixed.** `topic_page` requests were reusing the sidebar's default 3
+   sources (`textbooks`, `pathout`, `who`). Now server-enforced in `app.py` (`TOPIC_PAGE_SOURCES`,
+   overridden regardless of sidebar state) to always request all 6 non-`curriculum` sources.
+   Client (`app.js`) sends the same full set too, so the debug panel matches reality.
+2. **Within-source diversity — fixed.** New `diversify_by_source_id()` in `pathology_backend.py`
+   (round-robin re-rank by `source_id`, never drops data), applied to every result list in
+   `app.py`'s `_run_retrieval`. Verified live: 3 distinct textbook `source_id`s correctly
+   interleaved for the ovarian HGSC probe. Known limitation: lecture/video `source_id` is one
+   constant across the whole corpus, so it currently has no effect there.
+3. **Journal link reliability — investigated, documented, not "fixed" with a risky filter.** Live
+   probe proves journal retrieval itself is genuinely live (`source_status.journals == "ok"`,
+   real titles/DOIs) despite a stale `api_exposed_note` in `/api/health` claiming otherwise. About
+   half of journal cards have no `source_url` at all; the ones that do point to
+   Elsevier/`modernpathology.org`, which Cloudflare-bot-blocked every automated request we tried
+   from this sandbox (also hit `pathologyoutlines.com`, a known-good domain, in the same window) —
+   so link liveness could not be conclusively tested. Deliberately did not add a server-side
+   HEAD-check filter (risk of false-positiving against the same bot-wall from Cloud Run and hiding
+   valid citations). Kept journals in the default set since retrieval is proven; documented the
+   caveat instead of hiding it.
+4. **Citation tags — done.** `renderCitations` (shared by chat + topic-page citation lists) now
+   shows a small muted chip from `primary_tag`/first `candidate_tags` entry, skipped for
+   missing/`__UNMAPPED__` tags. Verified live: 36/47 cards in the ovarian HGSC probe carried a real
+   tag.
+5. **Speed — parallelized, model unchanged.** `staged_retrieve` now uses a `ThreadPoolExecutor`
+   instead of a sequential for-loop (same single backend operation, just fanned out concurrently).
+   Live: 6-source retrieval bounded by the slowest call (~17s) instead of a sequential sum
+   (~22s) — and now requests MORE sources in LESS retrieval time than before. OpenAI synthesis
+   (~35s of a ~52s total) is now the dominant cost for this mode; did not swap `OPENAI_MODEL`
+   default since we couldn't validate a faster model's grounding compliance in this session —
+   documented as a deferred, quality-gated optimization, not a silent limitation.
+6. **Light theme — done.** `style.css` `:root` and every hardcoded color converted to a
+   Google-Sans-inspired light palette (white/light-gray surfaces, `#1a73e8` accent, dark-gray
+   text). Topic-page section bars intentionally kept dark (`#202124`) to match ExpertPath's own
+   dark section bars on a light page; organ-system tile gradients kept as their own bold per-
+   category colors (unrelated to the light/dark surface theme).
+
+New offline tests (19 total, up from 12): `diversify_by_source_id` (no-op with 0/1 distinct
+source_id, round-robin interleave without data loss, missing-key handling),
+`staged_retrieve` concurrency (timing proves parallel, order preserved), `TOPIC_PAGE_SOURCES`
+composition, and server-side source override for `topic_page` mode via `TestClient`.
+
+## Prior task (completed — superseded details below)
+
+The nested Browse tree itself (taxonomy, tile grid, chevron drill-down, dedicated topic-page
+layout, DDx cross-linking, Ask/Browse tabs) was built in the session immediately before this one.
+That session's own detailed notes are preserved below for the taxonomy/rendering implementation
+specifics (data structures, matching thresholds, etc.) — treat this current-task section above as
+the up-to-date status; the "Explicitly NOT done yet" list directly below is **stale** (all of those
+items are now done) and kept only for implementation-detail context.
+
+### What shipped that session (nested Browse tree)
+
+Pick up the plan already scoped in the prior handoff: build `BROWSE_TAXONOMY` (static, curated,
+real pathology sub-classification — ~15-17 top categories × subcategories × leaf entities) in
+`app.js`, a tile-grid home view + chevron drill-down, a dedicated topic-page renderer (Key Facts
+box, dark section bars, figure gallery reusing the existing modal-preview infra), fuzzy DDx→leaf
+matching for cross-links, and breadcrumb navigation — all UI-only, still calling `/api/chat`
+with `mode: "topic_page"` (already built and tested). Keep the existing flat organ-chip panel
+working until the new tree fully replaces it in one clean edit, not a half-swap.
+
+## Prior task (completed)
+
+Pathology Hub Chat MVP — local GPT-style frontend over live `POST /evidence/search`.
+
+### What was built
+
+- Restored and committed `frontend/pathology_hub_chat_mvp/` (source had been lost; only
+  `__pycache__` remained). FastAPI app + static chat UI.
+- Backend client: `pathology_backend.py` — single operation `POST /evidence/search`,
+  staged multi-source retrieval, citation card extraction, debug payloads.
+- Optional OpenAI synthesis (`gpt_like`, `compare_sources`, `visual`, `html_teaching`) or
+  `search_only` raw evidence.
+- Secrets via `PATHOLOGY_HUB_API_KEY` / `HUB_API` and `OPENAI_API_KEY` (never logged).
+- Tests: `tests/test_pathology_hub_chat_mvp.py` (offline parsing + mocked `/api/search`).
+- **Experiment notes panel** (right sidebar): freeform textarea, auto-save to
+  `localStorage` key `pathology_hub_experiment_notes`, Copy + Export markdown buttons.
+- v2 TODO stub only: modal previews for `page_image_url`, `figure_url`, `video_time_url`.
+
+### Run locally
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# open http://127.0.0.1:8000/
+```
+
+### Immediate next step
+
+Set API keys in env and spot-check one pathology query with citations + debug panel.
+Use experiment notes while testing; v2 items: citation image modals, provenance browser links.
+
+## Prior task (completed)
 
 Textbook index refresh after v0_2 figure-image GCS delete (docstore + web map).
 
@@ -30,10 +267,9 @@ Textbook index refresh after v0_2 figure-image GCS delete (docstore + web map).
    - Upload audit:
      `06_audits/curriculum_provenance_links/v0_1/textbook_figure_index_repair_v0_2/upload_audit_upload20260709.json`
 
-### Follow-ups (not done)
+### Follow-ups
 
-- `textbook_lean_figures.jsonl` may still reference deleted URIs (backend
-  figure pool); repair separately if figure-serving regressions appear.
+- `textbook_lean_figures.jsonl` — **done in Phase 3 (2026-07-10)**; see Current task.
 - FAISS / SQLite FTS indexes unchanged (vector rows unchanged; only metadata
   stripped). Rebuild only if a downstream audit proves stale figure metadata
   affects retrieval ranking.
