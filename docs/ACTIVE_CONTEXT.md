@@ -4,9 +4,86 @@ Last updated: 2026-07-10
 
 ## Current task (completed this session)
 
+Executed the prioritized next-agent plan from
+`docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md` (items 1–6). Branch:
+`cursor/pathology-hub-chat-mvp`.
+
+### What was verified live (items 1–2, prior turn)
+
+- **Figure quality-flags join key:** live textbook `chunk_id` matches sidecar byte-for-byte
+  (`tbchunk:...` scheme). Live cards have **empty `record_id`** — join on `chunk_id` only.
+  Standalone `figures[]` have no `chunk_id`; join via `(source_id, fig_slot)` from
+  `image_path`. Public derivatives can return HTTP 200 with degenerate dimensions (2592×235)
+  — invisible to link-liveness probes.
+- **Phase 2 link-liveness audit:** 99/100 URLs alive (1% dead — one WHO GYN 404). Audit:
+  `06_audits/curriculum_provenance_links/v0_1/chat_mvp_figure_liveness_audit_20260710.json`.
+
+### What shipped this session (items 1–6)
+
+1. **Phase 1 figure-quality filter** — new `figure_quality_filter.py`. Read-only join against
+   `outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl`. Strips
+   `figure_url`/`image_url` from Tier-A `suppress_render` cards (keeps text/page images);
+   drops flagged figures from `figures[]`. Wired into all retrieval paths in `app.py`. Live:
+   cyto query 10→8 figures (two `fig01` cyto_comprehensive_part_two strips suppressed).
+2. **Item 3 — textbook figure source trace:** confirmed live API loads
+   `textbook_lean_figures.jsonl` (67,992 records per `/health`); `image_path` matches GCS
+   jsonl row; `figure_url` served via web figure map as `public_web_derivative`. Jsonl was
+   **not** repaired in v0_2 but dead-link rate ~1% because public derivatives mask deleted
+   originals. Audit:
+   `06_audits/curriculum_provenance_links/v0_1/chat_mvp_textbook_figures_source_trace_20260710.json`.
+3. **Item 4 — WHO cross-mentions wired:** `_extract_who_cross_mentions()` in `app.py` returns
+   `who_cross_mentions` on `/api/chat` topic_page responses. Client: **Cross-referenced
+   Entities** panel in topic page (`renderWhoCrossMentions`, reuses `ddx-link-btn` nav).
+4. **Item 5 — `min_per_source=8` stress test:** "invasive ductal carcinoma breast" — 218 raw →
+   139 deduped → **120 capped** (cap engaged). Per-source after cap: who 13, textbooks 29,
+   journals 28, pathout 22, videos 28 — all families with ≥8 deduped cards kept ≥8.
+5. **Item 6 — taxonomy breadth (curated approach a):** +11 leaves in `BROWSE_TAXONOMY`
+   (Traditional serrated adenoma; salivary: Epithelial-myoepithelial carcinoma, Myoepithelial
+   carcinoma, Basal cell adenocarcinoma, Acinic cell carcinoma; bone/soft tissue: Chordoma,
+   Meningioma). Also fixed `app.js` `TOPIC_PAGE_SOURCES` to drop `lectures` (matched server).
+6. **Tests:** 40/40 pass (+4 `TestFigureQualityFilter`).
+
+### Explicitly NOT done (needs user approval or blocked)
+
+- **Phase 3** backend repair/upload of `textbook_lean_figures.jsonl` (GCS/Cloud Run — per
+  AGENTS.md, do not start without approval). Phase 2 showed ~1% dead links; Phase 1 sidecar
+  filter is the higher-value fix for known-bad families.
+- Journals `source_url` liveness (Cloudflare bot-blocking — still inconclusive).
+- Per-lecture diversification (blocked on backend `source_id`/`lecture_id` granularity).
+- Full data-driven taxonomy expansion (approach b) — only modest curated expansion shipped.
+
+### Files touched
+
+- `frontend/pathology_hub_chat_mvp/figure_quality_filter.py` (new)
+- `frontend/pathology_hub_chat_mvp/app.py`
+- `frontend/pathology_hub_chat_mvp/static/app.js`
+- `frontend/pathology_hub_chat_mvp/static/style.css`
+- `tests/test_pathology_hub_chat_mvp.py`
+- `06_audits/curriculum_provenance_links/v0_1/chat_mvp_figure_liveness_audit_20260710.json`
+- `06_audits/curriculum_provenance_links/v0_1/chat_mvp_textbook_figures_source_trace_20260710.json`
+- `docs/ACTIVE_CONTEXT.md` (this file)
+
+### Immediate next step
+
+Run locally and spot-check one topic page with WHO cross-mentions + suppressed cyto figures:
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# Browse → Head & Neck → Salivary → Mucoepidermoid carcinoma
+# or: cyto comprehensive query in topic_page mode
+```
+
+Offline suite:
+
+```bash
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+```
+
+## Prior task (completed)
+
 Investigation + limited prototype + planning session for the Chat MVP diversity/limits/WHO
 cross-entity-extraction/figure-quality problems flagged during live Browse/`topic_page`
-testing. Full detail, real measured numbers, and a phased next-steps plan:
+testing. Full detail, real measured numbers, and phased next-steps plan:
 `docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md`. Summary:
 
 - **Shipped:** live-verified the backend hard-caps `max_results` at 10 for every source (not
@@ -18,26 +95,14 @@ testing. Full detail, real measured numbers, and a phased next-steps plan:
   redundant `lectures` call from `TOPIC_PAGE_SOURCES` and added dedup to the regular
   retrieval path too). Re-probed ovarian HGSC and salivary mucoepidermoid carcinoma
   before/after live.
-- **Prototyped (not wired into the UI):** `who_section_mentions.py` — WHO cards turned out to
-  already carry explicit `entity_name`/`section` metadata fields (survives `compact=True`);
-  extracts grounded cross-entity DDx mentions from `differential_diagnosis`/`microscopic`/
-  `terminology` sections, fuzzy-matched against `BROWSE_TAXONOMY`. Working prototype with
-  real captured-excerpt fixture tests; a real false-positive (generic-word-only fuzzy match)
-  was found and fixed during the spike.
-- **Shipped:** a global client-side `<img>` `error` fallback (`static/app.js`/`style.css`) so
-  any dead/broken figure URL — including the known-bad `cyto_comprehensive_part_two` family
-  the user hit live — shows a placeholder instead of an empty broken-image box. A full
-  figure-quality remediation plan (known-bad family counts, live-vs-local-browser code-path
-  gap, phased Phase 0-3 plan) and a separate WHO/WHO-like full-taxonomy-coverage planning
-  section (explicitly not started, planning only) are both in the master plan doc.
-- Offline suite: 36/36 tests pass
-  (`frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v`).
+- **Prototyped then wired (this session):** `who_section_mentions.py` — WHO cards carry
+  explicit `entity_name`/`section` metadata; now surfaced as `who_cross_mentions` on topic
+  pages with clickable taxonomy nav.
+- **Shipped:** global client-side `<img>` `error` fallback; Phase 1 sidecar suppress_render
+  filter (`figure_quality_filter.py`). Master plan at
+  `docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md`.
 
 ## Prior task (completed)
-
-Pathology Hub Chat MVP — the nested ExpertPath-style Browse tree (built in the immediately prior
-session, see below) plus 6 concrete fixes from live user testing of "ovarian high-grade serous
-carcinoma" in `topic_page` mode: source imbalance, within-source diversity, journal link
 reliability, citation tags, retrieval speed, and a light Google-style color theme. Full detail in
 `frontend/pathology_hub_chat_mvp/README.md` ("Browse tab / Topic page mode", "Citation tags",
 "Color theme" sections) — summary here:

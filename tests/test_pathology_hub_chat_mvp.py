@@ -571,5 +571,103 @@ class TestWhoSectionMentions(unittest.TestCase):
         self.assertEqual(who_section_mentions({"section": "microscopic"}), [])
 
 
+class TestFigureQualityFilter(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import json
+        import tempfile
+        from pathlib import Path
+
+        cls.flags_file = tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False)
+        rows = [
+            {
+                "chunk_id": "tbchunk:cyto_comprehensive_part_two:cyto_comprehensive_part_two_p0479_c001",
+                "record_id": "textbooks:tbchunk:cyto_comprehensive_part_two:cyto_comprehensive_part_two_p0479_c001",
+                "source_id": "cyto_comprehensive_part_two",
+                "fig_slot": "fig01",
+                "tier": "suppress_render",
+            },
+            {
+                "chunk_id": "tbchunk:gyn_essentials:gyn_essentials_p0530_fig001_caption",
+                "record_id": "textbooks:tbchunk:gyn_essentials:gyn_essentials_p0530_fig001_caption",
+                "source_id": "gyn_essentials",
+                "fig_slot": "fig01",
+                "tier": "warn_render",
+            },
+        ]
+        for row in rows:
+            cls.flags_file.write(json.dumps(row) + "\n")
+        cls.flags_file.close()
+        cls.flags_path = cls.flags_file.name
+
+        from figure_quality_filter import _load_index  # noqa: E402
+
+        _load_index.cache_clear()
+
+    @classmethod
+    def tearDownClass(cls):
+        from figure_quality_filter import _load_index  # noqa: E402
+        import os
+
+        _load_index.cache_clear()
+        os.unlink(cls.flags_path)
+
+    def test_matches_live_chunk_id_join_key(self):
+        from figure_quality_filter import is_suppress_render  # noqa: E402
+
+        card = {
+            "chunk_id": "tbchunk:cyto_comprehensive_part_two:cyto_comprehensive_part_two_p0479_c001",
+            "source_id": "cyto_comprehensive_part_two",
+            "figure_url": "https://example.com/bad.png",
+        }
+        self.assertTrue(is_suppress_render(card, flags_path=self.flags_path))
+
+    def test_warn_render_tier_is_not_suppressed(self):
+        from figure_quality_filter import is_suppress_render  # noqa: E402
+
+        card = {
+            "chunk_id": "tbchunk:gyn_essentials:gyn_essentials_p0530_fig001_caption",
+            "source_id": "gyn_essentials",
+        }
+        self.assertFalse(is_suppress_render(card, flags_path=self.flags_path))
+
+    def test_figure_join_via_source_id_and_fig_slot(self):
+        from figure_quality_filter import filter_suppress_render_figures  # noqa: E402
+
+        figures = [
+            {
+                "source_id": "cyto_comprehensive_part_two",
+                "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/cyto_comprehensive_part_two/cyto_comprehensive_part_two_p0473_fig01_figure_35_16.png",
+                "figure_url": "https://example.com/bad.png",
+            },
+            {
+                "source_id": "gyn_essentials",
+                "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gyn_essentials/gyn_essentials_p0100_fig02_figure.png",
+                "figure_url": "https://example.com/ok.png",
+            },
+        ]
+        filtered = filter_suppress_render_figures(figures, flags_path=self.flags_path)
+        self.assertEqual(len(filtered), 1)
+        self.assertEqual(filtered[0]["source_id"], "gyn_essentials")
+
+    def test_strip_suppress_render_urls_keeps_card_text(self):
+        from figure_quality_filter import strip_suppress_render_image_urls  # noqa: E402
+
+        cards = [
+            {
+                "chunk_id": "tbchunk:cyto_comprehensive_part_two:cyto_comprehensive_part_two_p0479_c001",
+                "source_id": "cyto_comprehensive_part_two",
+                "figure_url": "https://example.com/bad.png",
+                "page_image_url": "https://example.com/page.png",
+                "excerpt": "real evidence text",
+            }
+        ]
+        cleaned = strip_suppress_render_image_urls(cards, flags_path=self.flags_path)
+        self.assertEqual(len(cleaned), 1)
+        self.assertNotIn("figure_url", cleaned[0])
+        self.assertEqual(cleaned[0]["page_image_url"], "https://example.com/page.png")
+        self.assertEqual(cleaned[0]["excerpt"], "real evidence text")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -5,7 +5,7 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
  * too so the debug panel shows the sources that are actually used, not a
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
-const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "lectures", "videos"];
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "videos"];
 const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
 const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
@@ -127,7 +127,7 @@ const BROWSE_TAXONOMY = [
     glyph: "GI",
     gradient: "linear-gradient(135deg, #c98a3f, #6b4416)",
     subcategories: [
-      { id: "polyps", label: "Polyps & Precursors", entities: ["Tubular adenoma", "Sessile serrated lesion", "Hyperplastic polyp"] },
+      { id: "polyps", label: "Polyps & Precursors", entities: ["Tubular adenoma", "Sessile serrated lesion", "Traditional serrated adenoma", "Hyperplastic polyp"] },
       { id: "carcinoma", label: "Carcinomas", entities: ["Colorectal adenocarcinoma", "Gastric adenocarcinoma", "Esophageal adenocarcinoma (Barrett-associated)"] },
       { id: "inflammatory", label: "Inflammatory Conditions", entities: ["Ulcerative colitis", "Crohn disease", "Celiac disease"] },
       { id: "other", label: "Neuroendocrine & Stromal", entities: ["Well-differentiated neuroendocrine tumor", "Gastrointestinal stromal tumor (GIST)"] },
@@ -181,7 +181,7 @@ const BROWSE_TAXONOMY = [
     gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)",
     subcategories: [
       { id: "mucosal", label: "Mucosal / Squamous", entities: ["Squamous cell carcinoma of oral cavity", "Nasopharyngeal carcinoma", "Laryngeal squamous cell carcinoma"] },
-      { id: "salivary", label: "Salivary Gland", entities: ["Pleomorphic adenoma", "Warthin tumor", "Mucoepidermoid carcinoma", "Adenoid cystic carcinoma"] },
+      { id: "salivary", label: "Salivary Gland", entities: ["Pleomorphic adenoma", "Warthin tumor", "Mucoepidermoid carcinoma", "Adenoid cystic carcinoma", "Epithelial-myoepithelial carcinoma", "Myoepithelial carcinoma", "Basal cell adenocarcinoma", "Acinic cell carcinoma"] },
     ],
   },
   {
@@ -190,8 +190,8 @@ const BROWSE_TAXONOMY = [
     glyph: "BS",
     gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)",
     subcategories: [
-      { id: "bone", label: "Bone Tumors", entities: ["Osteosarcoma", "Giant cell tumor of bone", "Chondrosarcoma", "Ewing sarcoma"] },
-      { id: "soft_tissue", label: "Soft Tissue Tumors", entities: ["Liposarcoma", "Leiomyosarcoma of soft tissue", "Synovial sarcoma", "Nodular fasciitis"] },
+      { id: "bone", label: "Bone Tumors", entities: ["Osteosarcoma", "Giant cell tumor of bone", "Chondrosarcoma", "Ewing sarcoma", "Chordoma"] },
+      { id: "soft_tissue", label: "Soft Tissue Tumors", entities: ["Liposarcoma", "Leiomyosarcoma of soft tissue", "Synovial sarcoma", "Nodular fasciitis", "Meningioma"] },
     ],
   },
   {
@@ -1340,7 +1340,32 @@ function renderDifferentialSection(content, previewIndex) {
   return `<ul class="answer-list ddx-list">${items.join("")}</ul>`;
 }
 
-function renderTopicPage(sections, previewIndex, figures) {
+function renderWhoCrossMentions(mentions) {
+  if (!mentions?.length) return "";
+  const items = [];
+  for (const mention of mentions) {
+    const leaf = mention.matched_leaf;
+    if (!leaf) continue;
+    const navTarget = findTaxonomyMatch(leaf);
+    const sourceEntity = mention.source_entity || "WHO";
+    const sourceSection = mention.source_section || "";
+    const meta = sourceSection
+      ? ` <span class="who-mention-meta">(from ${escapeHtml(sourceEntity)}, ${escapeHtml(sourceSection)})</span>`
+      : ` <span class="who-mention-meta">(from ${escapeHtml(sourceEntity)})</span>`;
+    if (navTarget) {
+      const payload = escapeAttr(JSON.stringify(navTarget));
+      items.push(
+        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(leaf)}</button>${meta}</li>`,
+      );
+    } else {
+      items.push(`<li><strong>${escapeHtml(leaf)}</strong>${meta}</li>`);
+    }
+  }
+  if (!items.length) return "";
+  return `<div class="topic-who-mentions"><div class="topic-panel-title">Cross-referenced Entities</div><ul class="answer-list ddx-list">${items.join("")}</ul></div>`;
+}
+
+function renderTopicPage(sections, previewIndex, figures, whoCrossMentions) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const keyFactsHtml = keyFacts.trim()
     ? renderMarkdown(keyFacts, previewIndex)
@@ -1351,6 +1376,8 @@ function renderTopicPage(sections, previewIndex, figures) {
   html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${keyFactsHtml}</div>`;
   html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
   html += "</div>";
+
+  html += renderWhoCrossMentions(whoCrossMentions);
 
   html += '<div class="topic-sections">';
   for (const name of TOPIC_PAGE_SECTION_ORDER) {
@@ -1404,7 +1431,7 @@ function renderTopicPageResult(data, query) {
   const sections = parseTopicPageSections(data.answer || "");
 
   let html = topicPageFanoutHint(data);
-  html += renderTopicPage(sections, previewIndex, shownFigures);
+  html += renderTopicPage(sections, previewIndex, shownFigures, data.who_cross_mentions || []);
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
