@@ -43,14 +43,31 @@ Executed the prioritized next-agent plan from
    Meningioma). Also fixed `app.js` `TOPIC_PAGE_SOURCES` to drop `lectures` (matched server).
 6. **Tests:** 40/40 pass (+4 `TestFigureQualityFilter`).
 
-### Explicitly NOT done (needs user approval or blocked)
+### Explicitly NOT done (blocked or deferred)
 
-- **Phase 3** backend repair/upload of `textbook_lean_figures.jsonl` (GCS/Cloud Run — per
-  AGENTS.md, do not start without approval). Phase 2 showed ~1% dead links; Phase 1 sidecar
-  filter is the higher-value fix for known-bad families.
 - Journals `source_url` liveness (Cloudflare bot-blocking — still inconclusive).
 - Per-lecture diversification (blocked on backend `source_id`/`lecture_id` granularity).
 - Full data-driven taxonomy expansion (approach b) — only modest curated expansion shipped.
+
+### User approval granted (2026-07-10) — next agent may proceed without re-asking
+
+The user authorized the next agent to **start Phase 3 and other GCS/Cloud Run /
+backend-side figure repair work without seeking additional approval**, including:
+
+- Repair pass for `textbook_lean_figures.jsonl` (analogous to prior
+  `repair_textbook_figure_index_after_delete_v0_2.py` pattern)
+- GCS upload of repaired artifacts when warranted by audit evidence
+- Any backend requests needed to support figure quality or figure URL correctness
+
+Still required per `AGENTS.md`: produce audit JSON (`schema_version`, input/output
+paths, counts, known limitations); do not overwrite original normalized records;
+keep quality-flags sidecar and curriculum SQLite read-only unless user explicitly
+reopens that scope.
+
+**Recommended next work:** Phase 3 scoped to findings in the local audits
+(`chat_mvp_figure_liveness_audit_20260710.json`,
+`chat_mvp_textbook_figures_source_trace_20260710.json`) — jsonl still unrepaired
+from v0_2; Phase 1 sidecar filter already mitigates known-bad families client-side.
 
 ### Files touched
 
@@ -65,12 +82,15 @@ Executed the prioritized next-agent plan from
 
 ### Immediate next step
 
-Run locally and spot-check one topic page with WHO cross-mentions + suppressed cyto figures:
+**Phase 3 (user pre-approved):** repair `textbook_lean_figures.jsonl` for stale/deleted
+figure URIs, audit, then GCS upload if verification passes. See local audits under
+`06_audits/curriculum_provenance_links/v0_1/chat_mvp_*_20260710.json`.
+
+Optional UI spot-check after Phase 3 or in parallel:
 
 ```bash
 frontend/pathology_hub_chat_mvp/scripts/run_local.sh
 # Browse → Head & Neck → Salivary → Mucoepidermoid carcinoma
-# or: cyto comprehensive query in topic_page mode
 ```
 
 Offline suite:
