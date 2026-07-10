@@ -63,8 +63,39 @@ TOPIC_PAGE_QUERY_ASPECTS = (
     "differential diagnosis",
 )
 TOPIC_PAGE_MAX_QUERY_VARIANTS = 4
-TOPIC_PAGE_MAX_CARDS = 72
-TOPIC_PAGE_MAX_FIGURES = 20
+
+# --- Limits, measured live (see docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md) ---
+#
+# `max_results` (SearchRequest in app.py, `le=10`): NOT arbitrary. Live-probed
+# directly against the Cloud Run backend (bypassing the client Pydantic bound
+# entirely) with max_results=11..100 across every supported source family —
+# the backend itself returns HTTP 422 `{"le": 10}` for every value above 10,
+# for every source. 10 is the real backend ceiling, not a client guess; do not
+# raise the client bound without first re-probing the live backend, since
+# raising it will just convert to backend 422s.
+#
+# `TOPIC_PAGE_MAX_CARDS`/`TOPIC_PAGE_MAX_FIGURES`: WAS conservative. Measured
+# live for two real topic-page probes ("ovarian high-grade serous carcinoma",
+# "salivary mucoepidermoid carcinoma") at the old cap of 72: the full
+# deduped/diversified evidence bundle was ~248k-255k JSON chars (~62k-64k
+# approx tokens by len//4). The configured OPENAI_MODEL (gpt-4.1-mini) has a
+# published 1,047,576-token context window (OpenAI API docs, verified during
+# this session) — 62k-64k tokens is under 7% of that budget. The real
+# deduped card count for both probes was only ~106-112 (well under a new
+# 120 cap), and raw figures deduped to ~39-50 (well under a new 40 cap) — so
+# raising these caps costs a modest amount of synthesis latency/$ (more input
+# tokens) but does NOT approach the model's real context ceiling, and stops
+# truncating evidence that was already unique and relevant. Re-probe if a
+# future OPENAI_MODEL choice has a materially smaller context window.
+TOPIC_PAGE_MAX_CARDS = 120
+TOPIC_PAGE_MAX_FIGURES = 40
+
+# Minimum cards guaranteed per source family (that has >=1 result) before the
+# remaining cap budget is filled by round-robin relevance order in
+# `cap_cards_diverse`. Protects thinner families (e.g. journals, videos) from
+# being crowded out by a dominant family (e.g. PathOut/WHO) when the raw pool
+# is heavily skewed — see cap_cards_diverse() docstring.
+TOPIC_PAGE_MIN_CARDS_PER_SOURCE = 8
 
 _RESULT_KEY_TO_SOURCE = {
     "who_results": "who",
@@ -359,8 +390,29 @@ def dedupe_cards(cards: list[dict]) -> list[dict]:
     return result
 
 
-def cap_cards_diverse(cards: list[dict], max_cards: int) -> list[dict]:
-    """Cap total cards while round-robin preserving source-family diversity."""
+def cap_cards_diverse(
+    cards: list[dict],
+    max_cards: int,
+    min_per_source: int = 0,
+) -> list[dict]:
+    """Cap total cards while round-robin preserving source-family diversity.
+
+    Plain round-robin (default `min_per_source=0`) already gives each present
+    source family a roughly equal share, as long as `max_cards` is not tiny
+    relative to the number of families — verified live: a 6-source ovarian
+    HGSC probe with a heavily skewed raw pool (videos 160 raw vs who 20 raw)
+    still capped down to a near-even ~14-15 cards per family. `min_per_source`
+    makes that guarantee explicit and enforced up front instead of only
+    emerging implicitly from interleave order: each source family with at
+    least one result is first given up to `min_per_source` cards (capped by
+    how many it actually has, and by the remaining budget), *before* the
+    standard round-robin spends whatever budget is left. This only changes
+    behavior from plain round-robin when a family would otherwise be
+    shortchanged early (e.g. a very small `max_cards` relative to the number
+    of families, or a family whose cards happen to sort later in `cards`).
+    Never drops data beyond `max_cards`; never fabricates cards for an empty
+    family.
+    """
     if not cards or len(cards) <= max_cards:
         return cards
 
@@ -374,6 +426,15 @@ def cap_cards_diverse(cards: list[dict], max_cards: int) -> list[dict]:
         groups[source].append(card)
 
     capped: list[dict] = []
+    if min_per_source > 0:
+        for src in order:
+            if len(capped) >= max_cards:
+                break
+            bucket = groups[src]
+            take = min(min_per_source, len(bucket), max_cards - len(capped))
+            for _ in range(take):
+                capped.append(bucket.pop(0))
+
     while len(capped) < max_cards and any(groups[src] for src in order):
         for src in order:
             bucket = groups[src]

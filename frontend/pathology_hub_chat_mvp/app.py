@@ -51,6 +51,7 @@ from pathology_backend import (
     SUPPORTED_SOURCES,
     TOPIC_PAGE_MAX_CARDS,
     TOPIC_PAGE_MAX_FIGURES,
+    TOPIC_PAGE_MIN_CARDS_PER_SOURCE,
     PathologyHubClient,
     cap_cards_diverse,
     dedupe_cards,
@@ -68,8 +69,16 @@ from pathology_backend import (
 # always comprehensive regardless of the sidebar checkbox state, since a
 # topic page is meant to summarize everything available. Excludes
 # `curriculum`, which is navigation-only per BASE_GROUNDING_RULES and is
-# never treated as citable evidence.
-TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s != "curriculum"]
+# never treated as citable evidence. Also excludes `lectures`: live-probed
+# this session and confirmed the backend returns byte-identical
+# `lecture_results`/`video_results` content (same chunk_ids) for either
+# source name — they are the same underlying corpus, not two distinct
+# families. Requesting both wastes an entire redundant backend call per query
+# variant and floods the raw card pool with duplicates that `dedupe_cards`
+# then has to filter back out; requesting only `videos` gets the identical
+# evidence for half the cost. `lectures` remains a valid standalone choice in
+# `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
+TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures")]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -87,6 +96,13 @@ VALID_MODES = frozenset(
 class SearchRequest(BaseModel):
     query: str
     sources: list[str] = Field(default_factory=lambda: ["textbooks"])
+    # le=10 is NOT an arbitrary client-side guess — live-probed directly
+    # against the Cloud Run backend this session (see
+    # docs/CHAT_MVP_DIVERSITY_AND_LIMITS_MASTER_PLAN.md, Part 1): the backend
+    # itself rejects max_results>10 with HTTP 422 for every source family. 10
+    # is the real, confirmed backend ceiling. Comprehensiveness for
+    # `topic_page` comes from the multi-query fan-out (more calls at 10 each),
+    # not from raising this bound.
     max_results: int = Field(default=3, ge=1, le=10)
     include_figures: bool = False
     max_figures: int = Field(default=0, ge=0, le=10)
@@ -183,7 +199,9 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
 
     raw_cards = extract_evidence_cards(merged)
     deduped_cards = dedupe_cards(raw_cards)
-    capped_cards = cap_cards_diverse(deduped_cards, TOPIC_PAGE_MAX_CARDS)
+    capped_cards = cap_cards_diverse(
+        deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
+    )
 
     figures = dedupe_figures(extract_figures(merged))[:TOPIC_PAGE_MAX_FIGURES]
     slim_merged = slim_merged_from_cards(merged, capped_cards)
@@ -306,8 +324,8 @@ def api_search(req: SearchRequest):
             "ok": True,
             "mode": "search_only",
             "evidence": merged,
-            "cards": extract_evidence_cards(merged),
-            "figures": extract_figures(merged),
+            "cards": dedupe_cards(extract_evidence_cards(merged)),
+            "figures": dedupe_figures(extract_figures(merged)),
             "debug": _debug_payload(outcomes),
         }
     except ValueError as exc:
@@ -395,8 +413,12 @@ def api_chat(req: ChatRequest):
             figures = extract_figures(merged)
         else:
             outcomes, merged = _run_retrieval(req)
-            cards = extract_evidence_cards(merged)
-            figures = extract_figures(merged)
+            # dedupe_cards/dedupe_figures also fix the "lectures" and "videos"
+            # source names returning byte-identical corpus content live (see
+            # TOPIC_PAGE_SOURCES comment above) — matters here whenever a
+            # sidebar user checks both boxes for a non-topic-page mode.
+            cards = dedupe_cards(extract_evidence_cards(merged))
+            figures = dedupe_figures(extract_figures(merged))
 
         if mode == "search_only":
             return {
