@@ -14,6 +14,7 @@ if str(MVP_DIR) not in sys.path:
 from pathology_backend import (  # noqa: E402
     PathologyHubClient,
     SearchOutcome,
+    diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
@@ -112,6 +113,74 @@ class TestStagedRetrieve(unittest.TestCase):
         self.assertEqual(len(outcomes), 2)
         self.assertEqual(client.search.call_count, 2)
 
+    def test_multi_source_calls_run_concurrently_and_preserve_order(self):
+        # Each source's mocked call sleeps briefly; if calls were still
+        # sequential this would take >= 4x the per-call sleep instead of
+        # ~1x, so this catches an accidental revert to the old for-loop.
+        import time as _time
+
+        sources = ["textbooks", "who", "pathout", "lectures"]
+        per_call_sleep = 0.2
+
+        def _slow_search(query, sources, **kwargs):
+            _time.sleep(per_call_sleep)
+            return SearchOutcome(
+                request_payload={"sources": sources},
+                url="u",
+                status_code=200,
+                ok=True,
+                elapsed_ms=1.0,
+                response_json={"query": query, "requested": sources},
+            )
+
+        client = MagicMock(spec=PathologyHubClient)
+        client.search.side_effect = _slow_search
+
+        start = _time.monotonic()
+        outcomes = staged_retrieve(client, "LCIS", sources)
+        elapsed = _time.monotonic() - start
+
+        self.assertEqual(len(outcomes), 4)
+        self.assertEqual(client.search.call_count, 4)
+        self.assertLess(elapsed, per_call_sleep * len(sources))
+        # Order of returned outcomes matches order of requested sources.
+        requested_order = [o.response_json["requested"][0] for o in outcomes]
+        self.assertEqual(requested_order, sources)
+
+
+class TestDiversifyBySourceId(unittest.TestCase):
+    def test_noop_with_single_distinct_source_id(self):
+        items = [{"source_id": "a", "rank": 1}, {"source_id": "a", "rank": 2}]
+        self.assertEqual(diversify_by_source_id(items), items)
+
+    def test_noop_with_empty_or_non_list(self):
+        self.assertEqual(diversify_by_source_id([]), [])
+        self.assertEqual(diversify_by_source_id(None), None)
+
+    def test_round_robin_interleaves_distinct_sources_without_dropping_data(self):
+        items = [
+            {"source_id": "textbook_a", "rank": 1},
+            {"source_id": "textbook_a", "rank": 2},
+            {"source_id": "textbook_a", "rank": 3},
+            {"source_id": "textbook_b", "rank": 1},
+        ]
+        result = diversify_by_source_id(items)
+        self.assertEqual(len(result), len(items))
+        # No data lost — same set of items, just reordered.
+        self.assertEqual(
+            sorted((i["source_id"], i["rank"]) for i in result),
+            sorted((i["source_id"], i["rank"]) for i in items),
+        )
+        # textbook_b's single item should surface right after textbook_a's
+        # first item, not get buried after all 3 textbook_a entries.
+        source_order = [i["source_id"] for i in result]
+        self.assertEqual(source_order, ["textbook_a", "textbook_b", "textbook_a", "textbook_a"])
+
+    def test_missing_key_treated_as_its_own_group(self):
+        items = [{"rank": 1}, {"source_id": "a", "rank": 2}, {"rank": 3}]
+        result = diversify_by_source_id(items)
+        self.assertEqual(len(result), 3)
+
 
 class TestSearchOutcomeDebug(unittest.TestCase):
     def test_to_debug_dict_never_includes_api_key(self):
@@ -150,6 +219,55 @@ class TestAppContract(unittest.TestCase):
         _apply_figure_defaults(req, "topic_page")
         self.assertTrue(req.include_figures)
         self.assertEqual(req.max_figures, 8)
+
+    def test_topic_page_sources_excludes_curriculum_includes_journals(self):
+        from app import TOPIC_PAGE_SOURCES  # noqa: E402
+
+        self.assertNotIn("curriculum", TOPIC_PAGE_SOURCES)
+        self.assertIn("journals", TOPIC_PAGE_SOURCES)
+        self.assertIn("textbooks", TOPIC_PAGE_SOURCES)
+        self.assertIn("videos", TOPIC_PAGE_SOURCES)
+        self.assertIn("lectures", TOPIC_PAGE_SOURCES)
+
+    def test_topic_page_mode_overrides_sidebar_sources_server_side(self):
+        from fastapi.testclient import TestClient
+
+        from app import TOPIC_PAGE_SOURCES, app  # noqa: E402
+
+        captured = {}
+
+        def _fake_staged_retrieve(client, query, sources, **kwargs):
+            captured["sources"] = list(sources)
+            return [
+                SearchOutcome(
+                    request_payload={"query": query, "sources": sources},
+                    url="http://mock/evidence/search",
+                    status_code=200,
+                    ok=True,
+                    elapsed_ms=1.0,
+                    response_json=SAMPLE_RESPONSE,
+                    api_key_present=True,
+                )
+            ]
+
+        with patch("app.staged_retrieve", side_effect=_fake_staged_retrieve), patch(
+            "app.synthesize"
+        ) as mock_synthesize:
+            mock_synthesize.return_value = MagicMock(ok=True, text="- fake answer", model="test-model")
+            client = TestClient(app)
+            resp = client.post(
+                "/api/chat",
+                json={
+                    "query": "ovarian high-grade serous carcinoma",
+                    "mode": "topic_page",
+                    # Deliberately narrow, sidebar-style default — server must
+                    # override this to the full TOPIC_PAGE_SOURCES set.
+                    "sources": ["textbooks", "pathout", "who"],
+                },
+            )
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.json()["ok"])
+        self.assertEqual(sorted(captured["sources"]), sorted(TOPIC_PAGE_SOURCES))
 
     def test_api_search_shape(self):
         from fastapi.testclient import TestClient

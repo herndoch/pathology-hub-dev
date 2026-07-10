@@ -1,53 +1,67 @@
 # Active Context
 
-Last updated: 2026-07-09
+Last updated: 2026-07-09 (later session)
 
-## Current task (in progress — paused mid-feature, safe checkpoint)
+## Current task (completed this session)
 
-Pathology Hub Chat MVP — building an ExpertPath-style nested "Browse" experience
-(home category tile grid → subcategory list → leaf entity list → live-rendered topic
-page with Key Facts/sections/figure gallery/clickable Differential Diagnosis
-cross-links) on top of the existing chat UI. Session ended early (user needed to
-shut down); shipped a clean, fully-working **backend-only** slice rather than a
-half-built frontend tree.
+Pathology Hub Chat MVP — the nested ExpertPath-style Browse tree (built in the immediately prior
+session, see below) plus 6 concrete fixes from live user testing of "ovarian high-grade serous
+carcinoma" in `topic_page` mode: source imbalance, within-source diversity, journal link
+reliability, citation tags, retrieval speed, and a light Google-style color theme. Full detail in
+`frontend/pathology_hub_chat_mvp/README.md` ("Browse tab / Topic page mode", "Citation tags",
+"Color theme" sections) — summary here:
 
-### What shipped this session
+1. **Source imbalance — fixed.** `topic_page` requests were reusing the sidebar's default 3
+   sources (`textbooks`, `pathout`, `who`). Now server-enforced in `app.py` (`TOPIC_PAGE_SOURCES`,
+   overridden regardless of sidebar state) to always request all 6 non-`curriculum` sources.
+   Client (`app.js`) sends the same full set too, so the debug panel matches reality.
+2. **Within-source diversity — fixed.** New `diversify_by_source_id()` in `pathology_backend.py`
+   (round-robin re-rank by `source_id`, never drops data), applied to every result list in
+   `app.py`'s `_run_retrieval`. Verified live: 3 distinct textbook `source_id`s correctly
+   interleaved for the ovarian HGSC probe. Known limitation: lecture/video `source_id` is one
+   constant across the whole corpus, so it currently has no effect there.
+3. **Journal link reliability — investigated, documented, not "fixed" with a risky filter.** Live
+   probe proves journal retrieval itself is genuinely live (`source_status.journals == "ok"`,
+   real titles/DOIs) despite a stale `api_exposed_note` in `/api/health` claiming otherwise. About
+   half of journal cards have no `source_url` at all; the ones that do point to
+   Elsevier/`modernpathology.org`, which Cloudflare-bot-blocked every automated request we tried
+   from this sandbox (also hit `pathologyoutlines.com`, a known-good domain, in the same window) —
+   so link liveness could not be conclusively tested. Deliberately did not add a server-side
+   HEAD-check filter (risk of false-positiving against the same bot-wall from Cloud Run and hiding
+   valid citations). Kept journals in the default set since retrieval is proven; documented the
+   caveat instead of hiding it.
+4. **Citation tags — done.** `renderCitations` (shared by chat + topic-page citation lists) now
+   shows a small muted chip from `primary_tag`/first `candidate_tags` entry, skipped for
+   missing/`__UNMAPPED__` tags. Verified live: 36/47 cards in the ovarian HGSC probe carried a real
+   tag.
+5. **Speed — parallelized, model unchanged.** `staged_retrieve` now uses a `ThreadPoolExecutor`
+   instead of a sequential for-loop (same single backend operation, just fanned out concurrently).
+   Live: 6-source retrieval bounded by the slowest call (~17s) instead of a sequential sum
+   (~22s) — and now requests MORE sources in LESS retrieval time than before. OpenAI synthesis
+   (~35s of a ~52s total) is now the dominant cost for this mode; did not swap `OPENAI_MODEL`
+   default since we couldn't validate a faster model's grounding compliance in this session —
+   documented as a deferred, quality-gated optimization, not a silent limitation.
+6. **Light theme — done.** `style.css` `:root` and every hardcoded color converted to a
+   Google-Sans-inspired light palette (white/light-gray surfaces, `#1a73e8` accent, dark-gray
+   text). Topic-page section bars intentionally kept dark (`#202124`) to match ExpertPath's own
+   dark section bars on a light page; organ-system tile gradients kept as their own bold per-
+   category colors (unrelated to the light/dark surface theme).
 
-- **New `topic_page` mode** end-to-end on the backend: `prompts.topic_page_system_prompt()`
-  (fixed ordered markdown headers — Key Facts, Terminology, Etiology/Pathogenesis, Clinical
-  Issues, Microscopic, Ancillary Tests, Differential Diagnosis; inherits `BASE_GROUNDING_RULES`
-  so it never invents facts/URLs/differentials; explicitly writes "Not covered in retrieved
-  evidence." for empty sections instead of omitting a header), added to `app.py` `VALID_MODES`
-  and the mode-handler dispatch, and `_apply_figure_defaults` now forces
-  `include_figures=True`/`max_figures=8` for this mode.
-- Minimal, safe frontend exposure: added `topic_page` as a **mode-select dropdown option**
-  (`index.html`) with a hint (`app.js` `MODE_HINTS`) so it's reachable/testable through the
-  existing Ask flow today — it renders through the same generic markdown renderer as other
-  modes (no dedicated Key-Facts-box/dark-section-bar/gallery layout yet).
-- Fixed a real (now user-facing) rendering bug in the shared `renderMarkdown` in `app.js`: a
-  `## Header` line immediately followed by bullets/prose with no blank line in between used to
-  get swallowed into one heading tag; it now renders the heading alone and processes the rest of
-  the block normally. This affects every mode, not just `topic_page`.
-- New offline tests in `tests/test_pathology_hub_chat_mvp.py`: `topic_page` is a valid mode,
-  `_apply_figure_defaults` forces figures on for it, and the prompt contains all fixed headers
-  in order and inherits the base grounding rules. 12/12 tests passing.
-- `frontend/pathology_hub_chat_mvp/README.md` and this file updated to describe what's done vs.
-  still TODO (see below) — do not assume the nested tree exists just because `topic_page` mode
-  does.
+New offline tests (19 total, up from 12): `diversify_by_source_id` (no-op with 0/1 distinct
+source_id, round-robin interleave without data loss, missing-key handling),
+`staged_retrieve` concurrency (timing proves parallel, order preserved), `TOPIC_PAGE_SOURCES`
+composition, and server-side source override for `topic_page` mode via `TestClient`.
 
-### Explicitly NOT done yet (next session's starting point)
+## Prior task (completed — superseded details below)
 
-- No nested "Browse" tree UI at all — no taxonomy data structure, no home tile grid, no
-  subcategory/leaf chevron lists, no breadcrumbs. The **existing flat "Browse by organ system"
-  chip panel from the prior commit is untouched and still the only browse affordance.**
-- No dedicated topic-page visual layout (Key Facts box + dark section header bars + right-side
-  image gallery) — `topic_page` mode currently just renders as headed bullets/tables via the
-  generic renderer.
-- No Differential Diagnosis cross-linking (clicking a DDx entity to load its own topic page) —
-  this depends on the taxonomy tree existing first.
-- No Ask/Browse tab toggle — not needed yet since there's no separate Browse view to toggle to.
+The nested Browse tree itself (taxonomy, tile grid, chevron drill-down, dedicated topic-page
+layout, DDx cross-linking, Ask/Browse tabs) was built in the session immediately before this one.
+That session's own detailed notes are preserved below for the taxonomy/rendering implementation
+specifics (data structures, matching thresholds, etc.) — treat this current-task section above as
+the up-to-date status; the "Explicitly NOT done yet" list directly below is **stale** (all of those
+items are now done) and kept only for implementation-detail context.
 
-### Immediate next step
+### What shipped that session (nested Browse tree)
 
 Pick up the plan already scoped in the prior handoff: build `BROWSE_TAXONOMY` (static, curated,
 real pathology sub-classification — ~15-17 top categories × subcategories × leaf entities) in

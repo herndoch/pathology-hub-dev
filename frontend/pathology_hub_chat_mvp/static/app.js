@@ -1,4 +1,11 @@
 const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
+/** Topic pages are meant to be comprehensive, so they always request every
+ * supported source regardless of the sidebar checkbox state — this mirrors
+ * (and is redundant with) the server-side enforcement in app.py, kept here
+ * too so the debug panel shows the sources that are actually used, not a
+ * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
+ * navigation-only and never treated as citable evidence. */
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "lectures", "videos"];
 const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
 const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
@@ -18,7 +25,7 @@ const MODE_HINTS = {
   compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
   visual: "Figures retrieved and shown above the answer.",
   html_teaching: "Hosted HTML teaching page — link appears above citations.",
-  topic_page: "Preview: fixed-section reference page (Key Facts, Terminology, Etiology, Clinical, Microscopic, Ancillary Tests, DDx). Type an entity name, e.g. 'BAP1-inactivated melanocytoma'. Renders as headed bullets for now — a full ExpertPath-style tile/gallery layout is still in progress.",
+  topic_page: "ExpertPath-style reference page: Key Facts box, dark-bar sections (Terminology, Etiology, Clinical, Microscopic, Ancillary Tests, DDx), and a figure gallery. Type an entity name, e.g. 'BAP1-inactivated melanocytoma'. Also reachable via the Browse tab.",
 };
 
 const VISUAL_QUERY_RE =
@@ -58,28 +65,291 @@ const TOPIC_CONFLICTS = [
   },
 ];
 
-/** Static organ-system taxonomy for the "Browse by organ system" quick-start
- * panel. Grounded in the real root categories used by the curriculum map
- * (Skin, HN, BST, GI, Breast, GYN::*, GU::*, Heme, Endo, Neuro, etc.) — this
- * is a UI-only convenience for building good starter queries, not a claim
- * that any of these are separately indexed/exposed. Every click still goes
- * through the single existing evidence search call. */
-const ORGAN_SYSTEMS = [
-  { id: "breast", label: "Breast", topics: ["LCIS", "DCIS", "Invasive ductal carcinoma", "Fibroadenoma", "Phyllodes tumor"] },
-  { id: "gyn_cervix", label: "Gyn — Cervix", topics: ["CIN2", "CIN3 / HSIL", "Cervical adenocarcinoma", "Endocervical polyp"] },
-  { id: "gyn_uterus", label: "Gyn — Uterus", topics: ["Endometrial hyperplasia", "Endometrioid carcinoma", "Leiomyoma", "Leiomyosarcoma uterus"] },
-  { id: "gyn_ovary", label: "Gyn — Ovary", topics: ["Serous borderline tumor", "High-grade serous carcinoma", "Mature cystic teratoma", "Granulosa cell tumor"] },
-  { id: "gi", label: "GI / Colon", topics: ["Tubular adenoma colon", "Sessile serrated lesion", "Colorectal adenocarcinoma", "Ulcerative colitis"] },
-  { id: "gu", label: "GU — Prostate/Bladder/Kidney", topics: ["Prostatic adenocarcinoma Gleason", "High-grade urothelial carcinoma", "Clear cell renal cell carcinoma", "Papillary renal cell carcinoma"] },
-  { id: "skin", label: "Skin", topics: ["Basal cell carcinoma", "Squamous cell carcinoma skin", "Melanoma", "Seborrheic keratosis"] },
-  { id: "hn", label: "Head & Neck", topics: ["Squamous cell carcinoma oral cavity", "Pleomorphic adenoma", "Warthin tumor", "Mucoepidermoid carcinoma"] },
-  { id: "bst", label: "Bone & Soft Tissue", topics: ["Osteosarcoma", "Giant cell tumor of bone", "Liposarcoma", "Leiomyosarcoma soft tissue"] },
-  { id: "heme", label: "Heme / Lymph node", topics: ["Diffuse large B-cell lymphoma", "Follicular lymphoma", "Hodgkin lymphoma", "Reactive lymphoid hyperplasia"] },
-  { id: "endo", label: "Endocrine", topics: ["Papillary thyroid carcinoma", "Follicular adenoma thyroid", "Medullary thyroid carcinoma", "Parathyroid adenoma"] },
-  { id: "neuro", label: "Neuro", topics: ["Glioblastoma", "Meningioma", "Pilocytic astrocytoma", "Schwannoma"] },
-  { id: "thorax", label: "Thorax / Mediastinum", topics: ["Lung adenocarcinoma", "Squamous cell carcinoma lung", "Thymoma", "Mesothelioma"] },
-  { id: "cyto", label: "Cytology", topics: ["Thyroid FNA Bethesda", "Pap smear HSIL", "Pancreatic FNA adenocarcinoma", "Effusion cytology adenocarcinoma"] },
+/** Static, self-contained pathology taxonomy for the "Browse" tree (home tile
+ * grid -> subcategory list -> leaf entity list). Curated editorially — real,
+ * clinically-correct sub-classification and diagnosis names — NOT sourced
+ * from any live index, and NOT read from the separate curriculum provenance
+ * browser's SQLite (different workstream). This is a navigation aid only;
+ * every leaf click still triggers exactly one fresh POST /evidence/search
+ * via /api/chat (mode: "topic_page") — no caching, no claim that any of this
+ * is "indexed" or measured. */
+const BROWSE_TAXONOMY = [
+  {
+    id: "breast",
+    label: "Breast",
+    glyph: "BR",
+    gradient: "linear-gradient(135deg, #d1477a, #6b2142)",
+    subcategories: [
+      { id: "benign", label: "Benign Changes", entities: ["Fibroadenoma", "Fibrocystic change", "Sclerosing adenosis", "Intraductal papilloma"] },
+      { id: "in_situ", label: "In Situ Lesions", entities: ["Ductal carcinoma in situ (DCIS)", "Lobular carcinoma in situ (LCIS)", "Pleomorphic LCIS", "Atypical lobular hyperplasia (ALH)", "Flat epithelial atypia"] },
+      { id: "invasive", label: "Invasive Carcinomas", entities: ["Invasive ductal carcinoma", "Invasive lobular carcinoma", "Mucinous carcinoma of breast", "Tubular carcinoma of breast"] },
+      { id: "inflammatory", label: "Inflammatory Lesions", entities: ["Granulomatous mastitis", "Duct ectasia", "Fat necrosis"] },
+      { id: "other", label: "Other Malignancies", entities: ["Phyllodes tumor", "Angiosarcoma of breast"] },
+    ],
+  },
+  {
+    id: "gyn_cervix",
+    label: "Gyn — Cervix, Vulva & Vagina",
+    glyph: "CX",
+    gradient: "linear-gradient(135deg, #b23a6b, #5c1f42)",
+    subcategories: [
+      { id: "squamous", label: "Squamous Lesions", entities: ["CIN1 / LSIL", "CIN2", "CIN3 / HSIL", "Squamous cell carcinoma of cervix"] },
+      { id: "glandular", label: "Glandular Lesions", entities: ["Endocervical adenocarcinoma in situ", "Cervical adenocarcinoma, usual type"] },
+      { id: "benign", label: "Benign / Reactive", entities: ["Endocervical polyp", "Microglandular hyperplasia"] },
+      { id: "vulvovaginal", label: "Vulva & Vagina", entities: ["Vulvar intraepithelial neoplasia (VIN/HSIL)", "Squamous cell carcinoma of vulva", "Extramammary Paget disease", "Vaginal clear cell adenocarcinoma"] },
+    ],
+  },
+  {
+    id: "gyn_uterus",
+    label: "Gyn — Uterus",
+    glyph: "UT",
+    gradient: "linear-gradient(135deg, #a84a9c, #4a2159)",
+    subcategories: [
+      { id: "hyperplasia", label: "Hyperplasia & Precursors", entities: ["Endometrial hyperplasia without atypia", "Atypical hyperplasia / EIN"] },
+      { id: "carcinoma", label: "Carcinomas", entities: ["Endometrioid carcinoma", "Serous carcinoma of endometrium", "Clear cell carcinoma of endometrium", "Carcinosarcoma"] },
+      { id: "mesenchymal", label: "Mesenchymal Tumors", entities: ["Leiomyoma", "Leiomyosarcoma", "Endometrial stromal sarcoma"] },
+    ],
+  },
+  {
+    id: "gyn_ovary",
+    label: "Gyn — Ovary",
+    glyph: "OV",
+    gradient: "linear-gradient(135deg, #8a4fc9, #3c2166)",
+    subcategories: [
+      { id: "epithelial", label: "Epithelial Tumors", entities: ["Serous borderline tumor", "High-grade serous carcinoma", "Mucinous cystadenoma", "Endometrioid carcinoma of ovary"] },
+      { id: "germ_cell", label: "Germ Cell Tumors", entities: ["Mature cystic teratoma", "Dysgerminoma", "Yolk sac tumor"] },
+      { id: "sex_cord", label: "Sex Cord-Stromal Tumors", entities: ["Granulosa cell tumor", "Sertoli-Leydig cell tumor", "Fibrothecoma"] },
+    ],
+  },
+  {
+    id: "gi",
+    label: "GI / Gastrointestinal",
+    glyph: "GI",
+    gradient: "linear-gradient(135deg, #c98a3f, #6b4416)",
+    subcategories: [
+      { id: "polyps", label: "Polyps & Precursors", entities: ["Tubular adenoma", "Sessile serrated lesion", "Hyperplastic polyp"] },
+      { id: "carcinoma", label: "Carcinomas", entities: ["Colorectal adenocarcinoma", "Gastric adenocarcinoma", "Esophageal adenocarcinoma (Barrett-associated)"] },
+      { id: "inflammatory", label: "Inflammatory Conditions", entities: ["Ulcerative colitis", "Crohn disease", "Celiac disease"] },
+      { id: "other", label: "Neuroendocrine & Stromal", entities: ["Well-differentiated neuroendocrine tumor", "Gastrointestinal stromal tumor (GIST)"] },
+    ],
+  },
+  {
+    id: "hepatobiliary",
+    label: "Hepatobiliary & Pancreatic",
+    glyph: "HP",
+    gradient: "linear-gradient(135deg, #b5722f, #5e3813)",
+    subcategories: [
+      { id: "liver", label: "Liver", entities: ["Hepatocellular carcinoma", "Focal nodular hyperplasia", "Hepatic adenoma"] },
+      { id: "pancreas", label: "Pancreas", entities: ["Pancreatic ductal adenocarcinoma", "Intraductal papillary mucinous neoplasm (IPMN)", "Pancreatic neuroendocrine tumor"] },
+    ],
+  },
+  {
+    id: "gu_prostate_bladder",
+    label: "GU — Prostate & Bladder",
+    glyph: "PB",
+    gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)",
+    subcategories: [
+      { id: "prostate", label: "Prostate", entities: ["Prostatic adenocarcinoma (Gleason grading)", "High-grade prostatic intraepithelial neoplasia (HGPIN)", "Atypical adenomatous hyperplasia (adenosis)", "Benign prostatic hyperplasia"] },
+      { id: "bladder", label: "Bladder", entities: ["High-grade urothelial carcinoma", "Low-grade papillary urothelial carcinoma", "Urothelial carcinoma in situ", "Urothelial papilloma"] },
+    ],
+  },
+  {
+    id: "gu_kidney_testis",
+    label: "GU — Kidney & Testis",
+    glyph: "KT",
+    gradient: "linear-gradient(135deg, #4aa3a3, #1f4d4d)",
+    subcategories: [
+      { id: "kidney", label: "Kidney", entities: ["Clear cell renal cell carcinoma", "Papillary renal cell carcinoma", "Chromophobe renal cell carcinoma", "Angiomyolipoma", "Oncocytoma"] },
+      { id: "testis", label: "Testis", entities: ["Seminoma", "Embryonal carcinoma", "Yolk sac tumor of testis", "Leydig cell tumor"] },
+    ],
+  },
+  {
+    id: "skin",
+    label: "Skin / Dermatopathology",
+    glyph: "SK",
+    gradient: "linear-gradient(135deg, #d9a066, #6e4a29)",
+    subcategories: [
+      { id: "melanocytic", label: "Melanocytic Lesions", entities: ["Melanoma", "Dysplastic nevus", "BAP1-inactivated melanocytoma", "Spitz nevus"] },
+      { id: "epithelial", label: "Epithelial Lesions", entities: ["Basal cell carcinoma", "Squamous cell carcinoma of skin", "Seborrheic keratosis", "Actinic keratosis"] },
+      { id: "inflammatory", label: "Inflammatory Dermatoses", entities: ["Psoriasis", "Lichen planus", "Spongiotic dermatitis"] },
+    ],
+  },
+  {
+    id: "head_neck",
+    label: "Head & Neck",
+    glyph: "HN",
+    gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)",
+    subcategories: [
+      { id: "mucosal", label: "Mucosal / Squamous", entities: ["Squamous cell carcinoma of oral cavity", "Nasopharyngeal carcinoma", "Laryngeal squamous cell carcinoma"] },
+      { id: "salivary", label: "Salivary Gland", entities: ["Pleomorphic adenoma", "Warthin tumor", "Mucoepidermoid carcinoma", "Adenoid cystic carcinoma"] },
+    ],
+  },
+  {
+    id: "bone_soft_tissue",
+    label: "Bone & Soft Tissue",
+    glyph: "BS",
+    gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)",
+    subcategories: [
+      { id: "bone", label: "Bone Tumors", entities: ["Osteosarcoma", "Giant cell tumor of bone", "Chondrosarcoma", "Ewing sarcoma"] },
+      { id: "soft_tissue", label: "Soft Tissue Tumors", entities: ["Liposarcoma", "Leiomyosarcoma of soft tissue", "Synovial sarcoma", "Nodular fasciitis"] },
+    ],
+  },
+  {
+    id: "heme",
+    label: "Hematopathology / Lymph Nodes",
+    glyph: "HM",
+    gradient: "linear-gradient(135deg, #c94f4f, #6b2323)",
+    subcategories: [
+      { id: "b_cell", label: "B-Cell Lymphomas", entities: ["Diffuse large B-cell lymphoma", "Follicular lymphoma", "Mantle cell lymphoma", "Chronic lymphocytic leukemia / SLL"] },
+      { id: "hodgkin", label: "Hodgkin & Related", entities: ["Classic Hodgkin lymphoma", "Nodular lymphocyte predominant Hodgkin lymphoma"] },
+      { id: "reactive", label: "Reactive / Benign", entities: ["Reactive lymphoid hyperplasia", "Necrotizing lymphadenitis (Kikuchi disease)"] },
+    ],
+  },
+  {
+    id: "endocrine",
+    label: "Endocrine",
+    glyph: "EN",
+    gradient: "linear-gradient(135deg, #5fb87d, #245c38)",
+    subcategories: [
+      { id: "thyroid", label: "Thyroid", entities: ["Papillary thyroid carcinoma", "Follicular adenoma of thyroid", "Medullary thyroid carcinoma", "Hashimoto thyroiditis"] },
+      { id: "other_endocrine", label: "Parathyroid & Adrenal", entities: ["Parathyroid adenoma", "Adrenal cortical adenoma", "Pheochromocytoma"] },
+    ],
+  },
+  {
+    id: "neuro",
+    label: "Neuropathology",
+    glyph: "NP",
+    gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)",
+    subcategories: [
+      { id: "tumors", label: "CNS Tumors", entities: ["Glioblastoma", "Meningioma", "Pilocytic astrocytoma", "Schwannoma"] },
+      { id: "other", label: "Other", entities: ["Metastatic carcinoma to brain"] },
+    ],
+  },
+  {
+    id: "thorax",
+    label: "Thorax / Mediastinum",
+    glyph: "TX",
+    gradient: "linear-gradient(135deg, #4d79c9, #24356b)",
+    subcategories: [
+      { id: "lung", label: "Lung", entities: ["Lung adenocarcinoma", "Squamous cell carcinoma of lung", "Small cell lung carcinoma"] },
+      { id: "mediastinum", label: "Mediastinum & Pleura", entities: ["Thymoma", "Mesothelioma"] },
+    ],
+  },
+  {
+    id: "cyto",
+    label: "Cytopathology",
+    glyph: "CY",
+    gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)",
+    subcategories: [
+      { id: "cyto_topics", label: "Common FNA / Exfoliative Cytology", entities: ["Thyroid FNA (Bethesda system)", "Pap smear HSIL", "Pancreatic FNA, adenocarcinoma", "Effusion cytology, adenocarcinoma"] },
+    ],
+  },
+  {
+    id: "peds",
+    label: "Pediatric",
+    glyph: "PD",
+    gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)",
+    subcategories: [
+      { id: "peds_tumors", label: "Pediatric Tumors", entities: ["Wilms tumor", "Neuroblastoma", "Hepatoblastoma", "Rhabdomyosarcoma"] },
+    ],
+  },
 ];
+
+function countLeaves(category) {
+  return category.subcategories.reduce((sum, sub) => sum + sub.entities.length, 0);
+}
+
+/** Common pathology abbreviations expanded to full phrases before token
+ * comparison, so a DDx bullet spelled out in full (e.g. "Pleomorphic Lobular
+ * Carcinoma In Situ") still matches a taxonomy leaf stored as a shorthand
+ * (e.g. "Pleomorphic LCIS"), and vice versa. */
+const ENTITY_ABBREVIATION_EXPANSIONS = {
+  lcis: "lobular carcinoma in situ",
+  dcis: "ductal carcinoma in situ",
+  plcis: "pleomorphic lobular carcinoma in situ",
+  alh: "atypical lobular hyperplasia",
+  adh: "atypical ductal hyperplasia",
+  cin: "cervical intraepithelial neoplasia",
+  hsil: "high grade squamous intraepithelial lesion",
+  lsil: "low grade squamous intraepithelial lesion",
+  vin: "vulvar intraepithelial neoplasia",
+  hgpin: "high grade prostatic intraepithelial neoplasia",
+  gist: "gastrointestinal stromal tumor",
+  ipmn: "intraductal papillary mucinous neoplasm",
+  dlbcl: "diffuse large b cell lymphoma",
+  sll: "small lymphocytic lymphoma",
+  cll: "chronic lymphocytic leukemia",
+};
+
+function normalizeEntityName(name) {
+  const base = String(name || "")
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return base
+    .split(" ")
+    .map((token) => ENTITY_ABBREVIATION_EXPANSIONS[token] || token)
+    .join(" ");
+}
+
+const TAXONOMY_LEAF_INDEX = (() => {
+  const list = [];
+  for (const cat of BROWSE_TAXONOMY) {
+    for (const sub of cat.subcategories) {
+      for (const entity of sub.entities) {
+        list.push({
+          categoryId: cat.id,
+          subcategoryId: sub.id,
+          entityName: entity,
+          normalized: normalizeEntityName(entity),
+        });
+      }
+    }
+  }
+  return list;
+})();
+
+/** Fuzzy-match a Differential Diagnosis bullet's entity name against the
+ * static taxonomy leaves, so we only cross-link when reasonably confident —
+ * false negatives (no link) are far safer here than false positives (a
+ * wrong link), so the overlap threshold below is deliberately conservative. */
+function findTaxonomyMatch(rawName) {
+  const norm = normalizeEntityName(rawName);
+  if (!norm) return null;
+  const normTokens = new Set(norm.split(" ").filter((t) => t.length > 2));
+  let best = null;
+  let bestScore = 0;
+  for (const leaf of TAXONOMY_LEAF_INDEX) {
+    if (leaf.normalized === norm) {
+      return { categoryId: leaf.categoryId, subcategoryId: leaf.subcategoryId, entityName: leaf.entityName };
+    }
+    if (norm.includes(leaf.normalized) || leaf.normalized.includes(norm)) {
+      const score = Math.min(leaf.normalized.length, norm.length) / Math.max(leaf.normalized.length, norm.length);
+      if (score > bestScore) {
+        bestScore = score;
+        best = leaf;
+      }
+      continue;
+    }
+    const leafTokens = new Set(leaf.normalized.split(" ").filter((t) => t.length > 2));
+    if (!leafTokens.size) continue;
+    let overlap = 0;
+    for (const t of normTokens) {
+      if (leafTokens.has(t)) overlap += 1;
+    }
+    const ratio = overlap / Math.max(leafTokens.size, normTokens.size, 1);
+    if (ratio > bestScore) {
+      bestScore = ratio;
+      best = leaf;
+    }
+  }
+  if (best && bestScore >= 0.5) {
+    return { categoryId: best.categoryId, subcategoryId: best.subcategoryId, entityName: best.entityName };
+  }
+  return null;
+}
 
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
@@ -102,12 +372,16 @@ const mediaModalFigure = document.getElementById("media-modal-figure");
 const mediaModalPage = document.getElementById("media-modal-page");
 const mediaModalSource = document.getElementById("media-modal-source");
 const mediaModalReference = document.getElementById("media-modal-reference");
-const organChipsEl = document.getElementById("organ-chips");
-const topicChipsEl = document.getElementById("topic-chips");
+const viewTabs = document.querySelectorAll(".view-tab");
+const browseViewEl = document.getElementById("browse-view");
+const askViewEl = document.getElementById("ask-view");
+const browseBreadcrumbsEl = document.getElementById("browse-breadcrumbs");
+const browseContentEl = document.getElementById("browse-content");
 
 let supportedSources = [];
 let notesSaveTimer = null;
-let activeOrganSystem = null;
+let browseState = { level: "home" };
+let browseRequestSeq = 0;
 
 function sourceLabel(source) {
   return SOURCE_LABELS[source] || source;
@@ -115,6 +389,20 @@ function sourceLabel(source) {
 
 function cardTitle(card) {
   return card.title || card.name || card.heading || card.primary_tag || "(untitled hit)";
+}
+
+/** Cards sometimes carry `primary_tag` or `candidate_tags` — surface the
+ * first real one as a small badge, but never fabricate a tag: skip entirely
+ * if missing, blank, or the literal placeholder `__UNMAPPED__`. */
+function cardTagLabel(card) {
+  let tag = card.primary_tag;
+  if (!tag && Array.isArray(card.candidate_tags) && card.candidate_tags.length) {
+    tag = card.candidate_tags[0];
+  }
+  if (typeof tag !== "string") return null;
+  const trimmed = tag.trim();
+  if (!trimmed || trimmed === "__UNMAPPED__") return null;
+  return trimmed;
 }
 
 function pickHttp(value) {
@@ -587,9 +875,13 @@ function renderCitations(cards) {
         )
       : "";
 
+    const tag = cardTagLabel(card);
+
     html += '<li class="citation-item">';
     html += `<div class="citation-head"><strong>${escapeHtml(presentation.caption)}</strong>`;
-    html += `<span class="source-badge">${escapeHtml(sourceLabel(source))}</span></div>`;
+    html += `<span class="source-badge">${escapeHtml(sourceLabel(source))}</span>`;
+    if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(tag)}</span>`;
+    html += "</div>";
     if (excerpt) html += `<div class="citation-excerpt">${escapeHtml(excerpt)}</div>`;
     if (previewPayload) {
       html += `<button type="button" class="citation-thumb-btn" data-preview="${previewPayload}">`;
@@ -619,16 +911,17 @@ function selectedSources() {
   return [...sourceCheckboxes.querySelectorAll("input:checked")].map((el) => el.value);
 }
 
-function buildPayload(query) {
-  const mode = modeSelect.value;
-  const visual = wantsVisual(query, mode);
+function buildPayload(query, modeOverride) {
+  const mode = modeOverride || modeSelect.value;
+  const visual = wantsVisual(query, mode) || mode === "topic_page";
+  const sources = mode === "topic_page" ? TOPIC_PAGE_SOURCES : selectedSources();
   return {
     query,
     mode,
-    sources: selectedSources(),
+    sources: sources.length ? sources : DEFAULT_SOURCES,
     max_results: Number(maxResultsInput.value) || 5,
     include_figures: visual,
-    max_figures: visual ? 5 : 0,
+    max_figures: mode === "topic_page" ? 8 : visual ? 5 : 0,
     compact: true,
     excerpt_char_limit: 900,
     render_html: mode === "html_teaching",
@@ -735,43 +1028,380 @@ function updateModeHint() {
   modeHint.textContent = MODE_HINTS[modeSelect.value] || "";
 }
 
-function renderOrganChips() {
-  if (!organChipsEl || organChipsEl.childElementCount) return;
-  for (const system of ORGAN_SYSTEMS) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "chip";
-    btn.textContent = system.label;
-    btn.dataset.organId = system.id;
-    btn.addEventListener("click", () => selectOrganSystem(system.id));
-    organChipsEl.appendChild(btn);
-  }
+function setActiveView(view) {
+  viewTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.view === view));
+  browseViewEl.classList.toggle("hidden", view !== "browse");
+  askViewEl.classList.toggle("hidden", view !== "ask");
 }
 
-function selectOrganSystem(systemId) {
-  activeOrganSystem = systemId === activeOrganSystem ? null : systemId;
+function findCategory(categoryId) {
+  return BROWSE_TAXONOMY.find((c) => c.id === categoryId) || null;
+}
 
-  organChipsEl.querySelectorAll(".chip").forEach((chip) => {
-    chip.classList.toggle("active", chip.dataset.organId === activeOrganSystem);
+function findSubcategory(category, subcategoryId) {
+  return (category && category.subcategories.find((s) => s.id === subcategoryId)) || null;
+}
+
+function renderBrowseBreadcrumbs() {
+  const parts = [
+    {
+      label: "Home",
+      onClick: () => {
+        browseState = { level: "home" };
+        renderBrowseView();
+      },
+    },
+  ];
+
+  const category = browseState.categoryId ? findCategory(browseState.categoryId) : null;
+  if (category && browseState.level !== "home") {
+    parts.push({
+      label: category.label,
+      onClick: () => {
+        browseState = { level: "category", categoryId: category.id };
+        renderBrowseView();
+      },
+    });
+  }
+
+  const subcategory =
+    category && browseState.subcategoryId ? findSubcategory(category, browseState.subcategoryId) : null;
+  if (subcategory && (browseState.level === "subcategory" || browseState.level === "leaf")) {
+    parts.push({
+      label: subcategory.label,
+      onClick: () => {
+        browseState = { level: "subcategory", categoryId: category.id, subcategoryId: subcategory.id };
+        renderBrowseView();
+      },
+    });
+  }
+
+  if (browseState.level === "leaf" && browseState.entityName) {
+    parts.push({ label: browseState.entityName, onClick: null });
+  }
+
+  browseBreadcrumbsEl.innerHTML = "";
+  parts.forEach((part, idx) => {
+    if (idx > 0) browseBreadcrumbsEl.appendChild(document.createTextNode(" \u203a "));
+    if (part.onClick) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "breadcrumb-link";
+      btn.textContent = part.label;
+      btn.addEventListener("click", part.onClick);
+      browseBreadcrumbsEl.appendChild(btn);
+    } else {
+      const span = document.createElement("span");
+      span.className = "breadcrumb-current";
+      span.textContent = part.label;
+      browseBreadcrumbsEl.appendChild(span);
+    }
   });
+}
 
-  topicChipsEl.innerHTML = "";
-  const system = ORGAN_SYSTEMS.find((s) => s.id === activeOrganSystem);
-  if (!system) return;
-
-  for (const topic of system.topics) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "chip topic-chip";
-    btn.textContent = topic;
-    btn.addEventListener("click", () => runOrganTopicQuery(topic));
-    topicChipsEl.appendChild(btn);
+function renderBrowseView() {
+  renderBrowseBreadcrumbs();
+  if (browseState.level === "category") {
+    renderBrowseCategory(browseState.categoryId);
+  } else if (browseState.level === "subcategory") {
+    renderBrowseSubcategory(browseState.categoryId, browseState.subcategoryId);
+  } else if (browseState.level === "leaf") {
+    loadLeafTopicPage(browseState.categoryId, browseState.subcategoryId, browseState.entityName);
+  } else {
+    renderBrowseHome();
   }
 }
 
-function runOrganTopicQuery(topic) {
-  queryInput.value = topic;
-  form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true }));
+function renderBrowseHome() {
+  let html = '<div class="browse-tile-grid">';
+  for (const cat of BROWSE_TAXONOMY) {
+    const count = countLeaves(cat);
+    html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(cat.id)}" style="background:${cat.gradient}">`;
+    html += `<span class="browse-tile-glyph">${escapeHtml(cat.glyph)}</span>`;
+    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(cat.label)}</span><span class="browse-tile-count">${count} starter topics</span></span>`;
+    html += "</button>";
+  }
+  html += "</div>";
+  browseContentEl.innerHTML = html;
+  browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
+    el.addEventListener("click", () => {
+      browseState = { level: "category", categoryId: el.dataset.categoryId };
+      renderBrowseView();
+    });
+  });
+}
+
+function renderBrowseCategory(categoryId) {
+  const cat = findCategory(categoryId);
+  if (!cat) {
+    browseState = { level: "home" };
+    renderBrowseView();
+    return;
+  }
+  let html = `<h2 class="browse-heading">${escapeHtml(cat.label)}</h2>`;
+  html +=
+    '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  html += '<div class="chevron-list">';
+  for (const sub of cat.subcategories) {
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(sub.label)}</span><span class="chevron">\u203a</span></button>`;
+  }
+  html += "</div>";
+  browseContentEl.innerHTML = html;
+  browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
+    el.addEventListener("click", () => {
+      browseState = { level: "subcategory", categoryId, subcategoryId: el.dataset.subId };
+      renderBrowseView();
+    });
+  });
+}
+
+function renderBrowseSubcategory(categoryId, subcategoryId) {
+  const cat = findCategory(categoryId);
+  const sub = findSubcategory(cat, subcategoryId);
+  if (!cat || !sub) {
+    browseState = { level: "home" };
+    renderBrowseView();
+    return;
+  }
+  let html = `<h2 class="browse-heading">${escapeHtml(cat.label)} — ${escapeHtml(sub.label)}</h2>`;
+  html += '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
+  html += '<div class="chevron-list">';
+  for (const entity of sub.entities) {
+    html += `<button type="button" class="chevron-item" data-entity="${escapeAttr(entity)}"><span>${escapeHtml(entity)}</span><span class="chevron">\u203a</span></button>`;
+  }
+  html += "</div>";
+  browseContentEl.innerHTML = html;
+  browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
+    el.addEventListener("click", () => {
+      browseState = { level: "leaf", categoryId, subcategoryId, entityName: el.dataset.entity };
+      renderBrowseView();
+    });
+  });
+}
+
+const TOPIC_PAGE_SECTION_ORDER = [
+  "Key Facts",
+  "Terminology",
+  "Etiology/Pathogenesis",
+  "Clinical Issues",
+  "Microscopic",
+  "Ancillary Tests",
+  "Differential Diagnosis",
+];
+
+function normalizeHeaderKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z]+/g, "");
+}
+
+/** Splits a topic_page answer into { headerText: content } by its own
+ * "## Header" lines — separate from the general-purpose renderMarkdown,
+ * but section bodies are still rendered with renderMarkdown/inlineMarkdown
+ * below so nested bullets, tables, and inline previews keep working. */
+function parseTopicPageSections(text) {
+  const normalized = stripTrailingLinkDump(normalizeAnswerText(text || ""));
+  const sections = {};
+  let current = null;
+  let buffer = [];
+  const flush = () => {
+    if (current != null) sections[current] = buffer.join("\n").trim();
+    buffer = [];
+  };
+  for (const line of normalized.split("\n")) {
+    const m = line.match(/^#{1,3}\s+(.+?)\s*$/);
+    if (m) {
+      flush();
+      current = m[1].trim();
+      continue;
+    }
+    if (current != null) buffer.push(line);
+  }
+  flush();
+  return sections;
+}
+
+function findSectionContent(sections, wantedName) {
+  const wanted = normalizeHeaderKey(wantedName);
+  for (const key of Object.keys(sections)) {
+    if (normalizeHeaderKey(key) === wanted) return sections[key];
+  }
+  return "";
+}
+
+function renderTopicGallery(figures) {
+  if (!figures || !figures.length) {
+    return '<p class="hint">No figures returned for this query.</p>';
+  }
+  let html = '<div class="topic-gallery-grid">';
+  for (const fig of figures.slice(0, 10)) {
+    const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
+    if (!url) continue;
+    const caption = fig.caption || fig.title || "Figure";
+    const payload = escapeAttr(
+      JSON.stringify({
+        previewUrl: url,
+        caption,
+        modalLinks: {
+          figure: url,
+          pageImage: pickHttp(fig.page_image_url),
+          source: pickHttp(fig.source_url),
+          reference: pickHttp(fig.source_page_url),
+        },
+      }),
+    );
+    html += `<button type="button" class="topic-gallery-thumb" data-preview="${payload}"><img src="${escapeAttr(url)}" alt="${escapeAttr(caption)}" loading="lazy" /></button>`;
+  }
+  html += "</div>";
+  return html;
+}
+
+/** Differential Diagnosis bullets look like "- **Entity Name** — detail".
+ * When the leading bold entity fuzzy-matches a taxonomy leaf, render it as a
+ * clickable internal nav button that loads that entity's own fresh topic
+ * page; otherwise leave it as plain text (never fabricate a link). */
+function renderDifferentialSection(content, previewIndex) {
+  const text = String(content || "").trim();
+  if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+
+  const items = [];
+  for (const rawLine of text.split("\n")) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const match = line.match(/^[-*]\s*\*\*(.+?)\*\*\s*[-\u2014:]*\s*(.*)$/);
+    if (!match) {
+      // A stray bare citation link (no bullet, no bold entity name) is a trailing
+      // reference the model shouldn't have added here — drop it rather than
+      // rendering a phantom Differential Diagnosis entry.
+      const isBareLink = /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(line);
+      if (isBareLink) continue;
+      items.push(`<li>${inlineMarkdown(line.replace(/^[-*]\s*/, ""), previewIndex)}</li>`);
+      continue;
+    }
+    const entityName = match[1].trim();
+    const rest = match[2].trim();
+    const navTarget = findTaxonomyMatch(entityName);
+    if (navTarget) {
+      const payload = escapeAttr(JSON.stringify(navTarget));
+      items.push(
+        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(entityName)}</button>` +
+          (rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : "") +
+          "</li>",
+      );
+    } else {
+      items.push(
+        `<li><strong>${escapeHtml(entityName)}</strong>${rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : ""}</li>`,
+      );
+    }
+  }
+  return `<ul class="answer-list ddx-list">${items.join("")}</ul>`;
+}
+
+function renderTopicPage(sections, previewIndex, figures) {
+  const keyFacts = findSectionContent(sections, "Key Facts");
+  const keyFactsHtml = keyFacts.trim()
+    ? renderMarkdown(keyFacts, previewIndex)
+    : '<p class="hint">Not covered in retrieved evidence.</p>';
+
+  let html = '<div class="topic-page">';
+  html += '<div class="topic-page-top">';
+  html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${keyFactsHtml}</div>`;
+  html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
+  html += "</div>";
+
+  html += '<div class="topic-sections">';
+  for (const name of TOPIC_PAGE_SECTION_ORDER) {
+    if (name === "Key Facts") continue;
+    const content = findSectionContent(sections, name);
+    html += '<div class="topic-section">';
+    html += `<div class="topic-section-header">${escapeHtml(name.toUpperCase())}</div>`;
+    html += '<div class="topic-section-body">';
+    if (name === "Differential Diagnosis") {
+      html += renderDifferentialSection(content, previewIndex);
+    } else {
+      html += content.trim()
+        ? renderMarkdown(content, previewIndex)
+        : '<p class="hint">Not covered in retrieved evidence.</p>';
+    }
+    html += "</div></div>";
+  }
+  html += "</div></div>";
+  return html;
+}
+
+function renderDebugBlock(data) {
+  if (!debugToggle.checked || !data.debug) return "";
+  let html = `<details class="debug-block"><summary>Debug</summary><pre>${escapeHtml(JSON.stringify(data.debug, null, 2))}</pre></details>`;
+  if (data.evidence?.source_status) {
+    html += `<details class="debug-block"><summary>source_status</summary><pre>${escapeHtml(JSON.stringify(data.evidence.source_status, null, 2))}</pre></details>`;
+  }
+  return html;
+}
+
+function renderTopicPageResult(data, query) {
+  const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
+  const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
+  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 10 });
+  const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
+  const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
+  const sections = parseTopicPageSections(data.answer || "");
+
+  let html = renderTopicPage(sections, previewIndex, shownFigures);
+  if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
+  if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
+  html += renderCitations(sortedCards);
+  html += renderDebugBlock(data);
+  return html;
+}
+
+function bindDdxLinks(root) {
+  root.querySelectorAll("[data-ddx-nav]").forEach((el) => {
+    el.addEventListener("click", () => {
+      try {
+        const nav = JSON.parse(el.dataset.ddxNav);
+        browseState = {
+          level: "leaf",
+          categoryId: nav.categoryId,
+          subcategoryId: nav.subcategoryId,
+          entityName: nav.entityName,
+        };
+        setActiveView("browse");
+        renderBrowseView();
+      } catch (err) {
+        /* ignore malformed nav payload */
+      }
+    });
+  });
+}
+
+/** Always issues a fresh POST /evidence/search via /api/chat (mode:
+ * "topic_page") — never cached. A monotonically increasing request sequence
+ * number guards against a stale response overwriting a newer navigation. */
+async function loadLeafTopicPage(categoryId, subcategoryId, entityName) {
+  const seq = ++browseRequestSeq;
+  browseContentEl.innerHTML = `<p class="hint">Loading live evidence for "${escapeHtml(entityName)}"…</p>`;
+
+  try {
+    const resp = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(buildPayload(entityName, "topic_page")),
+    });
+    const data = await resp.json();
+    if (seq !== browseRequestSeq) return;
+
+    if (!data.ok) {
+      browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
+      return;
+    }
+
+    browseContentEl.innerHTML = renderTopicPageResult(data, entityName);
+    bindPreviewHandlers(browseContentEl);
+    bindDdxLinks(browseContentEl);
+  } catch (err) {
+    if (seq !== browseRequestSeq) return;
+    browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
+  }
 }
 
 form.addEventListener("submit", async (event) => {
@@ -796,6 +1426,8 @@ form.addEventListener("submit", async (event) => {
 
     if (!data.ok) {
       body = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
+    } else if (data.mode === "topic_page") {
+      body += renderTopicPageResult(data, query);
     } else {
       const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
@@ -819,11 +1451,8 @@ form.addEventListener("submit", async (event) => {
       body += renderCitations(sortedCards);
     }
 
-    if (debugToggle.checked && data.debug) {
-      body += `<details class="debug-block"><summary>Debug</summary><pre>${escapeHtml(JSON.stringify(data.debug, null, 2))}</pre></details>`;
-      if (data.evidence?.source_status) {
-        body += `<details class="debug-block"><summary>source_status</summary><pre>${escapeHtml(JSON.stringify(data.evidence.source_status, null, 2))}</pre></details>`;
-      }
+    if (data.ok && data.mode !== "topic_page") {
+      body += renderDebugBlock(data);
     }
 
     const bodyEl = thinking.querySelector(".body");
@@ -920,7 +1549,12 @@ sessionNotes.addEventListener("input", scheduleNotesSave);
 copyNotesBtn.addEventListener("click", copySessionNotes);
 exportNotesBtn.addEventListener("click", exportSessionNotes);
 
+viewTabs.forEach((tab) => {
+  tab.addEventListener("click", () => setActiveView(tab.dataset.view));
+});
+
 loadSessionNotes();
 updateModeHint();
-renderOrganChips();
+setActiveView("browse");
+renderBrowseView();
 refreshHealth();

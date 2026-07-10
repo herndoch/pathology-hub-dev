@@ -45,13 +45,22 @@ import prompts
 import secrets_helper
 from openai_synthesizer import SynthesisResult, ping as openai_ping, synthesize
 from pathology_backend import (
+    RESULT_LIST_KEYS,
     SUPPORTED_SOURCES,
     PathologyHubClient,
+    diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
     staged_retrieve,
 )
+
+# Full source set for topic_page (ExpertPath-style reference) requests —
+# always comprehensive regardless of the sidebar checkbox state, since a
+# topic page is meant to summarize everything available. Excludes
+# `curriculum`, which is navigation-only per BASE_GROUNDING_RULES and is
+# never treated as citable evidence.
+TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s != "curriculum"]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -91,6 +100,18 @@ def _validate_sources(sources: list[str]) -> list[str]:
     return cleaned or ["textbooks"]
 
 
+def _diversify_merged_results(merged: dict) -> None:
+    """In place: round-robin re-rank every per-source result list by
+    `source_id` so one dominant textbook/lecture/video doesn't crowd out
+    other distinct sources covering the same topic. No-ops per list when
+    there's only one distinct source_id (e.g. WHO, PathOut single-source
+    families) — never drops data, only reorders."""
+    for key in RESULT_LIST_KEYS:
+        items = merged.get(key)
+        if isinstance(items, list) and items:
+            merged[key] = diversify_by_source_id(items)
+
+
 def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
     sources = _validate_sources(req.sources)
     outcomes = staged_retrieve(
@@ -105,6 +126,7 @@ def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
         render_html=req.render_html,
     )
     merged = merge_outcomes(outcomes)
+    _diversify_merged_results(merged)
     return outcomes, merged
 
 
@@ -271,6 +293,12 @@ def api_chat(req: ChatRequest):
     try:
         sources = _validate_sources(req.sources)
         req.sources = sources
+
+        if mode == "topic_page":
+            # A topic page is meant to be comprehensive — always request the
+            # full source set, regardless of sidebar checkbox state (server
+            # enforced so it holds for any caller, not just this frontend).
+            req.sources = TOPIC_PAGE_SOURCES
 
         if mode == "html_teaching":
             req.render_html = True
