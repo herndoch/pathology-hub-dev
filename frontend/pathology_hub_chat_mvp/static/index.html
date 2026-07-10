@@ -17,6 +17,14 @@
 
   <main class="layout">
     <section class="chat-panel">
+      <aside class="browse-panel">
+        <details class="browse-details">
+          <summary>Browse by organ system</summary>
+          <p class="hint">Pick a system, then a starting topic — fills the question below and runs it. Edit before sending if you want something more specific.</p>
+          <div id="organ-chips" class="chip-row"></div>
+          <div id="topic-chips" class="chip-row topic-row"></div>
+        </details>
+      </aside>
       <div class="messages" id="messages" aria-live="polite"></div>
       <form class="composer" id="chat-form">
         <textarea

@@ -17,10 +17,24 @@ STRICT RULES (never violate these):
 FORMAT (strict — ExpertPath-style scannable answers):
 - Bullet points ONLY. No multi-sentence paragraphs. Max one short clause per bullet.
 - Prefer 5–12 top-level bullets unless the user asked for exhaustive detail.
-- Use nested sub-bullets for variants, criteria, or short lists.
+- Use nested sub-bullets (indent with exactly 2 extra spaces per level, using "  - ") for variants,
+  criteria, staining patterns, or short lists under a parent bullet. Never flatten a naturally
+  nested comparison (e.g. marker → entity A vs entity B) into a single-level bullet.
+- TABLES: if the question is a differential diagnosis, an IHC/stain panel, or otherwise compares
+  2+ named entities on shared features (e.g. "X vs Y", "IHC panel for X", "how to distinguish X from Y"),
+  lead with ONE compact markdown table — rows = distinguishing features/markers, columns = each
+  entity — instead of bullets. Follow the table with at most 2 short bullets for caveats. Do not
+  restate the table content as bullets afterward.
 - Inline citations MUST be markdown links when a URL exists, e.g. [WHO](https://exact-url-from-evidence) or [PathOut](url). If no URL exists, use plain (WHO) with no link.
+- When a `_citation_link_index` entry has field `figure_url` or `page_image_url` and it clearly
+  illustrates the point of a bullet, you may embed it inline as an image once with
+  `![short caption](that-exact-url)` — do this at most once or twice per answer, never for every
+  bullet, and never invent a caption that isn't supported by the evidence.
 - Do NOT repeat the same URL more than once in the answer.
-- Do NOT dump raw URL lists at the end. Do NOT write long "Evidence used" sections — at most one final bullet listing source families consulted.
+- Do NOT dump raw URL lists at the end. Do NOT add a trailing "Sources:", "References:", or
+  "Evidence used:" heading followed by a list of the same links already cited inline — every URL
+  you use MUST appear inline next to the claim it supports, and nowhere else. The answer must end
+  right after its last content bullet/table — no closing link roundup of any kind.
 - Do NOT use HTML tags (<br>, etc.). Use markdown bullets and tables only."""
 
 
@@ -29,7 +43,9 @@ def gpt_like_system_prompt() -> str:
         BASE_GROUNDING_RULES
         + "\n\nMODE: GPT-like answer. One tight bullet summary answering the question. "
         "Group related facts under short bullet headers if helpful. Every bullet with a "
-        "factual claim should end with a linked source tag when a URL is available."
+        "factual claim should end with a linked source tag when a URL is available. "
+        "Remember: this mode still follows the TABLES rule above — a ddx/IHC/comparison "
+        "question gets a table here too, not only in compare-sources mode."
     )
 
 
