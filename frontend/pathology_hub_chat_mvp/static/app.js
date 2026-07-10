@@ -259,6 +259,100 @@ function countLeaves(category) {
   return category.subcategories.reduce((sum, sub) => sum + sub.entities.length, 0);
 }
 
+/** Topic-page prepop pilot (v0_1): generated combined ABPath+PathOut Browse
+ * tag index, fetched once at startup from the static build artifact. See
+ * docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md. Null until loaded (or if the
+ * fetch fails), in which case Browse falls back to the curated-only
+ * BROWSE_TAXONOMY above so the tree is never blank. */
+let browseIndex = null;
+
+/** Known-root glyph/gradient styling, keyed by the generated index's root
+ * `id`s (see build_browse_tag_index_v0_1.py). Any root not listed here
+ * (e.g. small PathOut-only residual roots) gets a neutral default look —
+ * never a hard failure. */
+const BROWSE_ROOT_STYLE = {
+  cyto: { glyph: "CY", gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)" },
+  breast: { glyph: "BR", gradient: "linear-gradient(135deg, #d1477a, #6b2142)" },
+  gyn: { glyph: "GY", gradient: "linear-gradient(135deg, #a84a9c, #4a2159)" },
+  gi: { glyph: "GI", gradient: "linear-gradient(135deg, #c98a3f, #6b4416)" },
+  gu: { glyph: "GU", gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)" },
+  skin: { glyph: "SK", gradient: "linear-gradient(135deg, #d9a066, #6e4a29)" },
+  hn: { glyph: "HN", gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)" },
+  bst: { glyph: "BS", gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)" },
+  heme: { glyph: "HM", gradient: "linear-gradient(135deg, #c94f4f, #6b2323)" },
+  endo: { glyph: "EN", gradient: "linear-gradient(135deg, #5fb87d, #245c38)" },
+  neuro: { glyph: "NP", gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)" },
+  thorax_mediastinum: { glyph: "TX", gradient: "linear-gradient(135deg, #4d79c9, #24356b)" },
+  peds: { glyph: "PD", gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)" },
+  molecular: { glyph: "MO", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
+  eye_orbit: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  eye: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  general_pathology: { glyph: "GP", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
+};
+const DEFAULT_ROOT_STYLE = { glyph: "PA", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
+
+function rootTileStyle(rootId, label) {
+  const known = BROWSE_ROOT_STYLE[rootId];
+  if (known) return known;
+  const glyph = String(label || rootId || "??").replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "PA";
+  return { glyph, gradient: DEFAULT_ROOT_STYLE.gradient };
+}
+
+/** Converts the hand-curated BROWSE_TAXONOMY into the same {roots ->
+ * subcategories -> leaves} shape as the generated index, so every render
+ * function below can operate on one unified model regardless of whether the
+ * real combined index loaded. Curated leaves have no real taxonomy `tag`
+ * (`tag: null`) — loadLeafTopicPage() treats that as "always live, never try
+ * prebuild". */
+function curatedFallbackRoots() {
+  return BROWSE_TAXONOMY.map((cat) => ({
+    id: cat.id,
+    label: cat.label,
+    kind: "curated",
+    leaf_count: countLeaves(cat),
+    subcategories: cat.subcategories.map((sub) => ({
+      id: sub.id,
+      label: sub.label,
+      leaf_count: sub.entities.length,
+      leaves: sub.entities.map((entity) => ({
+        tag: null,
+        label: entity,
+        provenance: "curated",
+        query: entity,
+      })),
+    })),
+  }));
+}
+
+function getBrowseRoots() {
+  if (browseIndex && Array.isArray(browseIndex.roots) && browseIndex.roots.length) {
+    return browseIndex.roots;
+  }
+  return curatedFallbackRoots();
+}
+
+/** Fetches the generated combined-tag Browse index once at startup. Never
+ * throws — on any failure (missing file, empty roots, bad JSON) leaves
+ * `browseIndex` as null so Browse keeps working from the curated fallback,
+ * per the plan's "thin fallback, do not silently claim the old list is the
+ * index" requirement (the home view labels which mode is active). */
+async function loadBrowseIndex() {
+  try {
+    const resp = await fetch("/static/browse_tag_index_v0_1.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if (!data || !Array.isArray(data.roots) || !data.roots.length) {
+      throw new Error("Empty or malformed browse_tag_index_v0_1.json");
+    }
+    browseIndex = data;
+  } catch (err) {
+    browseIndex = null;
+    // eslint-disable-next-line no-console
+    console.warn("Browse tag index unavailable; using curated fallback taxonomy.", err);
+  }
+  TAXONOMY_LEAF_INDEX = buildLeafIndex();
+}
+
 /** Common pathology abbreviations expanded to full phrases before token
  * comparison, so a DDx bullet spelled out in full (e.g. "Pleomorphic Lobular
  * Carcinoma In Situ") still matches a taxonomy leaf stored as a shorthand
@@ -294,27 +388,42 @@ function normalizeEntityName(name) {
     .join(" ");
 }
 
-const TAXONOMY_LEAF_INDEX = (() => {
+/** Built from getBrowseRoots() (curated fallback until loadBrowseIndex()
+ * resolves, then rebuilt from the real combined index). Mutable (`let`), not
+ * a one-time IIFE const, because the underlying roots can change once at
+ * startup when the generated index finishes loading. */
+function buildLeafIndex() {
   const list = [];
-  for (const cat of BROWSE_TAXONOMY) {
-    for (const sub of cat.subcategories) {
-      for (const entity of sub.entities) {
+  for (const root of getBrowseRoots()) {
+    for (const sub of root.subcategories) {
+      for (const leaf of sub.leaves) {
+        const displayName = String(leaf.label || "").replace(/_/g, " ");
         list.push({
-          categoryId: cat.id,
+          categoryId: root.id,
           subcategoryId: sub.id,
-          entityName: entity,
-          normalized: normalizeEntityName(entity),
+          tag: leaf.tag,
+          label: leaf.label,
+          query: leaf.query,
+          entityName: displayName,
+          normalized: normalizeEntityName(displayName),
         });
       }
     }
   }
   return list;
-})();
+}
+
+let TAXONOMY_LEAF_INDEX = buildLeafIndex();
+
+function leafRefFrom(leaf) {
+  return { categoryId: leaf.categoryId, subcategoryId: leaf.subcategoryId, tag: leaf.tag, label: leaf.label, query: leaf.query };
+}
 
 /** Fuzzy-match a Differential Diagnosis bullet's entity name against the
- * static taxonomy leaves, so we only cross-link when reasonably confident —
- * false negatives (no link) are far safer here than false positives (a
- * wrong link), so the overlap threshold below is deliberately conservative. */
+ * taxonomy leaves (curated or generated index, whichever is active), so we
+ * only cross-link when reasonably confident — false negatives (no link) are
+ * far safer here than false positives (a wrong link), so the overlap
+ * threshold below is deliberately conservative. */
 function findTaxonomyMatch(rawName) {
   const norm = normalizeEntityName(rawName);
   if (!norm) return null;
@@ -323,7 +432,7 @@ function findTaxonomyMatch(rawName) {
   let bestScore = 0;
   for (const leaf of TAXONOMY_LEAF_INDEX) {
     if (leaf.normalized === norm) {
-      return { categoryId: leaf.categoryId, subcategoryId: leaf.subcategoryId, entityName: leaf.entityName };
+      return leafRefFrom(leaf);
     }
     if (norm.includes(leaf.normalized) || leaf.normalized.includes(norm)) {
       const score = Math.min(leaf.normalized.length, norm.length) / Math.max(leaf.normalized.length, norm.length);
@@ -346,7 +455,7 @@ function findTaxonomyMatch(rawName) {
     }
   }
   if (best && bestScore >= 0.5) {
-    return { categoryId: best.categoryId, subcategoryId: best.subcategoryId, entityName: best.entityName };
+    return leafRefFrom(best);
   }
   return null;
 }
@@ -1078,7 +1187,7 @@ function setActiveView(view) {
 }
 
 function findCategory(categoryId) {
-  return BROWSE_TAXONOMY.find((c) => c.id === categoryId) || null;
+  return getBrowseRoots().find((r) => r.id === categoryId) || null;
 }
 
 function findSubcategory(category, subcategoryId) {
@@ -1119,8 +1228,8 @@ function renderBrowseBreadcrumbs() {
     });
   }
 
-  if (browseState.level === "leaf" && browseState.entityName) {
-    parts.push({ label: browseState.entityName, onClick: null });
+  if (browseState.level === "leaf" && browseState.label) {
+    parts.push({ label: String(browseState.label).replace(/_/g, " "), onClick: null });
   }
 
   browseBreadcrumbsEl.innerHTML = "";
@@ -1149,19 +1258,30 @@ function renderBrowseView() {
   } else if (browseState.level === "subcategory") {
     renderBrowseSubcategory(browseState.categoryId, browseState.subcategoryId);
   } else if (browseState.level === "leaf") {
-    loadLeafTopicPage(browseState.categoryId, browseState.subcategoryId, browseState.entityName);
+    loadLeafTopicPage(browseState);
   } else {
     renderBrowseHome();
   }
 }
 
 function renderBrowseHome() {
-  let html = '<div class="browse-tile-grid">';
-  for (const cat of BROWSE_TAXONOMY) {
-    const count = countLeaves(cat);
-    html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(cat.id)}" style="background:${cat.gradient}">`;
-    html += `<span class="browse-tile-glyph">${escapeHtml(cat.glyph)}</span>`;
-    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(cat.label)}</span><span class="browse-tile-count">${count} starter topics</span></span>`;
+  const roots = getBrowseRoots();
+  const usingIndex = Boolean(browseIndex);
+  const leavesTotal = usingIndex
+    ? browseIndex.counts?.leaves_total ?? roots.reduce((sum, r) => sum + r.leaf_count, 0)
+    : roots.reduce((sum, r) => sum + r.leaf_count, 0);
+
+  let html = usingIndex
+    ? `<p class="hint">Combined, deduped ABPath + PathOut topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; pilot prebuild covers a small sample, everything else falls back to a live query). Not a claim about API exposure or vector coverage.</p>`
+    : '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+
+  html += '<div class="browse-tile-grid">';
+  for (const root of roots) {
+    const style = rootTileStyle(root.id, root.label);
+    const countLabel = usingIndex ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`;
+    html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
+    html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
+    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(root.label)}</span><span class="browse-tile-count">${countLabel}</span></span>`;
     html += "</button>";
   }
   html += "</div>";
@@ -1182,11 +1302,12 @@ function renderBrowseCategory(categoryId) {
     return;
   }
   let html = `<h2 class="browse-heading">${escapeHtml(cat.label)}</h2>`;
-  html +=
-    '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  html += browseIndex
+    ? '<p class="hint">Combined ABPath + PathOut topic tags for this root. Pick a subcategory, then a topic.</p>'
+    : '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   html += '<div class="chevron-list">';
   for (const sub of cat.subcategories) {
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(sub.label)}</span><span class="chevron">\u203a</span></button>`;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(sub.label)}${browseIndex ? ` <span class="chevron-count">(${sub.leaf_count})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
@@ -1207,16 +1328,28 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     return;
   }
   let html = `<h2 class="browse-heading">${escapeHtml(cat.label)} — ${escapeHtml(sub.label)}</h2>`;
-  html += '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
+  html += browseIndex
+    ? '<p class="hint">Pick a topic to load a grounded topic page — prebuilt (pilot) pages load instantly, others run a live query.</p>'
+    : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
   html += '<div class="chevron-list">';
-  for (const entity of sub.entities) {
-    html += `<button type="button" class="chevron-item" data-entity="${escapeAttr(entity)}"><span>${escapeHtml(entity)}</span><span class="chevron">\u203a</span></button>`;
+  for (const leaf of sub.leaves) {
+    const displayLabel = String(leaf.label || "").replace(/_/g, " ");
+    const payload = escapeAttr(JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query }));
+    html += `<button type="button" class="chevron-item" data-leaf="${payload}"><span>${escapeHtml(displayLabel)}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
     el.addEventListener("click", () => {
-      browseState = { level: "leaf", categoryId, subcategoryId, entityName: el.dataset.entity };
+      const leaf = JSON.parse(el.dataset.leaf);
+      browseState = {
+        level: "leaf",
+        categoryId,
+        subcategoryId,
+        tag: leaf.tag,
+        label: leaf.label,
+        query: leaf.query,
+      };
       renderBrowseView();
     });
   });
@@ -1448,7 +1581,9 @@ function bindDdxLinks(root) {
           level: "leaf",
           categoryId: nav.categoryId,
           subcategoryId: nav.subcategoryId,
-          entityName: nav.entityName,
+          tag: nav.tag,
+          label: nav.label,
+          query: nav.query,
         };
         setActiveView("browse");
         renderBrowseView();
@@ -1459,25 +1594,66 @@ function bindDdxLinks(root) {
   });
 }
 
-/** Always issues a fresh POST /evidence/search via /api/chat (mode:
- * "topic_page") — never cached. A monotonically increasing request sequence
- * number guards against a stale response overwriting a newer navigation. */
-async function loadLeafTopicPage(categoryId, subcategoryId, entityName) {
-  const seq = ++browseRequestSeq;
-  browseContentEl.innerHTML = `<p class="hint">Loading live evidence for "${escapeHtml(entityName)}"…</p>`;
+/** Best-effort read-only lookup of a topic-page-prepop-pilot sidecar
+ * (outputs/chat_mvp_topic_prepop_v0_1/pages/, served via GET
+ * /api/topic_prebuild) for a real taxonomy leaf's `tag`. Returns null on any
+ * miss/error so the caller falls back to the live path unchanged — never
+ * throws, never fabricates content. */
+async function fetchPrebuiltTopicPage(tag) {
+  if (!tag) return null;
+  try {
+    const resp = await fetch(`/api/topic_prebuild?tag=${encodeURIComponent(tag)}`);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    if (!data || !data.found || !data.ok || !data.answer_markdown) return null;
+    return data;
+  } catch (err) {
+    return null;
+  }
+}
 
-  const category = findCategory(categoryId);
-  const subcategory = category ? findSubcategory(category, subcategoryId) : null;
+/** Loads a Browse leaf's topic page. `leafRef` is {categoryId,
+ * subcategoryId, tag, label, query} (tag is null for curated-fallback
+ * leaves, which always go straight to the live path). Tries the pilot
+ * prebuild cache first (instant, no OpenAI call) when `tag` is present; on
+ * any miss falls back to the existing live POST /api/chat (mode:
+ * "topic_page") path, unchanged. A monotonically increasing request
+ * sequence number guards against a stale response overwriting a newer
+ * navigation. */
+async function loadLeafTopicPage(leafRef) {
+  const seq = ++browseRequestSeq;
+  const displayLabel = String(leafRef.label || leafRef.query || "").replace(/_/g, " ");
+  browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
+
+  const category = findCategory(leafRef.categoryId);
+  const subcategory = category ? findSubcategory(category, leafRef.subcategoryId) : null;
   const categoryContext =
     category && subcategory ? `${category.label} > ${subcategory.label}` : category?.label || null;
+  const query = leafRef.query || displayLabel;
 
   try {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildPayload(entityName, "topic_page", { categoryContext })),
-    });
-    const data = await resp.json();
+    const prebuilt = await fetchPrebuiltTopicPage(leafRef.tag);
+    if (seq !== browseRequestSeq) return;
+
+    let data;
+    if (prebuilt) {
+      data = {
+        ok: true,
+        mode: "topic_page",
+        answer: prebuilt.answer_markdown,
+        cards: prebuilt.cards || [],
+        figures: prebuilt.figures || [],
+        who_cross_mentions: prebuilt.who_cross_mentions || [],
+        debug: null,
+      };
+    } else {
+      const resp = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildPayload(query, "topic_page", { categoryContext })),
+      });
+      data = await resp.json();
+    }
     if (seq !== browseRequestSeq) return;
 
     if (!data.ok) {
@@ -1485,7 +1661,11 @@ async function loadLeafTopicPage(categoryId, subcategoryId, entityName) {
       return;
     }
 
-    browseContentEl.innerHTML = renderTopicPageResult(data, entityName);
+    let html = prebuilt
+      ? '<p class="hint topic-prebuilt-hint">Prebuilt (pilot) — cached topic page from a prior run, not a fresh live query. See docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md.</p>'
+      : "";
+    html += renderTopicPageResult(data, query);
+    browseContentEl.innerHTML = html;
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
   } catch (err) {
@@ -1646,5 +1826,8 @@ viewTabs.forEach((tab) => {
 loadSessionNotes();
 updateModeHint();
 setActiveView("browse");
-renderBrowseView();
+browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';
+loadBrowseIndex().then(() => {
+  renderBrowseView();
+});
 refreshHealth();

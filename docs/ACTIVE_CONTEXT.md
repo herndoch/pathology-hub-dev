@@ -2,7 +2,96 @@
 
 Last updated: 2026-07-10
 
-## Current task (completed this session)
+## Product decision (locked 2026-07-10)
+
+**Browse nav = combined, deduped ABPath + PathOut topic tags** (not ABPath-only; not
+`cyto_*` book folders). PathOut may cover histo/entity pages ABPath misses. Books remain
+retrieval sources only. Cytopathology stays its own top-level root from `Cyto_*` tag roots.
+Browse IA plan: `docs/PLAN_CHAT_MVP_BROWSE_EXPERTPATH_INSPIRED_v0_1.md`.  
+Prepop pilot plan: `docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md` +  
+`docs/HANDOFF_TOPIC_PAGE_PREPOP_PILOT_NEXT_AGENT.md` — **pilot complete, see below**.
+
+## Current task (pilot complete — awaiting following agent)
+
+**Topic-page prepop pilot: PASS.** Built the combined deduped ABPath+PathOut Browse tag
+index (8,054 leaves, 17 roots incl. a `Cytopathology` aggregate of all `Cyto_*` roots),
+wired `static/app.js` Browse to load it live from `/static/browse_tag_index_v0_1.json`
+(curated `BROWSE_TAXONOMY` kept only as an automatic fallback if that fetch ever fails),
+drew the seeded pilot sample (N=6, seed `20260710`, ≥1 Cyto + ≥1 PathOut-only), and
+prebuilt all 6 topic pages via the existing live `/api/chat` `topic_page` path (6/6 ok,
+244 cards, 155 figures — figure-quality filters applied unchanged, no writes to the
+quality-flags sidecar or curriculum SQLite). Added a small read-only
+`GET /api/topic_prebuild?tag=…` lookup route; Browse leaf clicks try it first, else fall
+back to the unchanged live query path. Offline suite still 42/42 green; live fallback
+re-verified for a non-prebuilt leaf.
+
+- Full plan: `docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md`
+- Full results + next-batch recommendation: `docs/HANDOFF_TOPIC_PAGE_PREPOP_PILOT_NEXT_AGENT.md`
+  ("Handoff to following agent" section)
+- Outputs (local, gitignored): `outputs/chat_mvp_topic_prepop_v0_1/`
+  (`browse_tag_index_v0_1.json` + `.audit.json`, `pilot_sample_v0_1.json`,
+  `pilot_prebuild_audit_v0_1.json`, `pages/*.json`+`.md` ×6)
+- New scripts: `frontend/pathology_hub_chat_mvp/scripts/build_browse_tag_index_v0_1.py`,
+  `draw_pilot_sample_v0_1.py`, `prebuild_topic_pages_pilot_v0_1.py`
+- **Known limitation carried forward:** a couple of tiny PathOut-only roots (`Eye`,
+  `General_Pathology`, 1 leaf each) didn't fold into their closest ABPath sibling because
+  the dedupe rule is literal-casefold-only (no fuzzy alias table) — cosmetic, not a data
+  issue; flagged for a product decision before the next batch.
+- **Not yet done:** a real browser click-through of Browse (tile → subcategory → leaf) —
+  this pass verified the JS logic structurally (parse check + a Python-side replay of the
+  exact lookup chain against the real generated index) and every backend endpoint via
+  curl, but no actual DOM render was observed. Recommend that first before the next batch.
+- **Next agent:** read the handoff doc's "Recommended next batch" section before starting
+  a batch scale-up (suggested N 25–50, next seed `20260711`). Do not mutate quality-flags
+  sidecar or curriculum SQLite; still no GCS upload of prebuilt pages unless reopened.
+
+## Prior task (completed this session)
+
+**Black cyto figure thumbs (Chat MVP):** Browse → Cytopathology → Common FNA /
+Exfoliative Cytology showed solid-black Selected Images (caption "Cyto Thyroid
+Bethesda"). Not 404s — HTTP 200 near-black stubs.
+
+### Root cause
+
+**(a) quality-flag miss** on staged extraction stubs, not deleted-URI masking:
+- Live examples: `cyto_thyroid_bethesda_p0011/p0020/p0033_fig01_unidentified.jpeg`
+  — GCS originals **and** public derivatives are identical **90×90 / 1150-byte**
+  near-black JPEGs (`mean_l≈25`, `near_black≈0.37`).
+- Dimension audit `TINY_DIM=120` would have flagged them, but these figure-only
+  unidentified assets were outside the curriculum SQLite locator population, so
+  they never entered `curriculum_figure_image_quality_flags_v0_1.jsonl`.
+- At least **14** identical 1150-byte stubs under `cyto_thyroid_bethesda/`;
+  Phase 1 `suppress_render` correctly still strips Tier-A aspect strips
+  (e.g. cyto fig01 2592×235) on topic_page paths.
+
+### Fix (Chat MVP only — sidecar/SQLite untouched)
+
+- Client: after `<img>` decode, hide tiny (`<120px` edge) / near-black frames
+  like broken links (`static/app.js` + `.img-defect-hidden`).
+- Shared thresholds in `figure_quality_filter.py` (`is_tiny_decoded_image`,
+  `is_near_black_sample`) + unit tests.
+- `/api/search` now also applies Phase 1 suppress_render filter (was topic/chat
+  only).
+
+### Verify
+
+```bash
+frontend/pathology_hub_chat_mvp/scripts/run_local.sh
+# Browse → Cytopathology → Common FNA / Exfoliative Cytology
+# → Thyroid FNA (Bethesda system): black squares should disappear from gallery
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+```
+
+### Remaining
+
+Larger dark-but-contentful frames (e.g. p0262 460×306, mean_l≈45) are kept.
+CORS may block canvas sampling on some proxy URLs; tiny-dim check still catches
+the 90×90 family. Sidecar backfill of these stubs is optional later work (not
+done — no pre-approval for quality-flag mutation).
+
+ExpertPath clicking: no further help needed (parent dive already covered).
+
+## Prior task (completed)
 
 **Phase 3:** repaired `textbook_lean_figures.jsonl` for v0_2 deleted figure URIs and
 uploaded to GCS. Branch: `cursor/pathology-hub-chat-mvp`.

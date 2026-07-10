@@ -13,6 +13,7 @@ Run with: ./scripts/run_local.sh   (see README.md)
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import time
@@ -87,6 +88,14 @@ TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "l
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+
+# Topic-page prepop pilot (v0_1, read-only lookup only) — see
+# docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md. This directory is written
+# only by frontend/pathology_hub_chat_mvp/scripts/prebuild_topic_pages_pilot_v0_1.py;
+# app.py never writes into it.
+TOPIC_PREBUILD_PAGES_DIR = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_prepop_v0_1", "pages")
+)
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -334,6 +343,39 @@ def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
 @app.get("/")
 def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+def _slugify_prebuild_tag(tag: str) -> str:
+    """Must match the slug scheme used by prebuild_topic_pages_pilot_v0_1.py."""
+    slug = tag.replace("::", "__")
+    slug = re.sub(r"[^a-zA-Z0-9_]+", "_", slug)
+    return slug
+
+
+@app.get("/api/topic_prebuild")
+def api_topic_prebuild(tag: str):
+    """Read-only lookup of a pilot-prebuilt topic_page sidecar by tag, if one exists.
+
+    Only ever reads from TOPIC_PREBUILD_PAGES_DIR (local pilot cache written by
+    prebuild_topic_pages_pilot_v0_1.py) — never mutates anything, never touches the
+    figure quality-flags sidecar or curriculum SQLite. Returns
+    {"ok": False, "found": False} (HTTP 200, not an error) when nothing is
+    prebuilt yet for `tag`, so the client falls back to the live
+    POST /api/chat topic_page path unchanged.
+    """
+    if not tag or not tag.strip():
+        return {"ok": False, "found": False, "error": "Missing 'tag' query param."}
+    slug = _slugify_prebuild_tag(tag.strip())
+    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+    if not os.path.isfile(json_path):
+        return {"ok": False, "found": False, "tag": tag}
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            page = json.load(f)
+    except (OSError, ValueError) as exc:
+        return {"ok": False, "found": False, "tag": tag, "error": str(exc)}
+    page["found"] = True
+    return page
 
 
 @app.get("/api/health")

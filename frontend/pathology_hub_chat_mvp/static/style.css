@@ -240,6 +240,17 @@ code {
   font-size: 1.1rem;
 }
 
+.chevron-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.topic-prebuilt-hint {
+  color: var(--accent);
+  font-weight: 500;
+}
+
 .topic-page {
   display: flex;
   flex-direction: column;
