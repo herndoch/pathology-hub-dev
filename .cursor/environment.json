@@ -1,0 +1,4 @@
+{
+  "install": "cd frontend/pathology_hub_chat_mvp && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
+  "start": "cd frontend/pathology_hub_chat_mvp && .venv/bin/uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --reload"
+}
