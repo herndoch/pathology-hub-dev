@@ -61,7 +61,9 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 _backend_client = PathologyHubClient(api_url=os.environ.get("PATHOLOGY_HUB_API_URL"))
 
-VALID_MODES = frozenset({"gpt_like", "compare_sources", "visual", "search_only", "html_teaching"})
+VALID_MODES = frozenset(
+    {"gpt_like", "compare_sources", "visual", "search_only", "html_teaching", "topic_page"}
+)
 
 
 class SearchRequest(BaseModel):
@@ -114,11 +116,11 @@ def _debug_payload(outcomes: list) -> dict:
 
 
 def _apply_figure_defaults(req: ChatRequest, mode: str) -> None:
-    """Enable figure retrieval for visual mode or show-me-style queries."""
-    if mode == "visual":
+    """Enable figure retrieval for visual mode, topic pages, or show-me-style queries."""
+    if mode in {"visual", "topic_page"}:
         req.include_figures = True
         if req.max_figures <= 0:
-            req.max_figures = 5
+            req.max_figures = 5 if mode == "visual" else 8
         return
     if mode in {"gpt_like", "compare_sources"} and _VISUAL_QUERY.search(req.query or ""):
         req.include_figures = True
@@ -234,6 +236,14 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
     )
 
 
+def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
+    return synthesize(
+        prompts.topic_page_system_prompt(),
+        req.query,
+        _evidence_for_synthesis(merged, cards),
+    )
+
+
 def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
     html_only = {
         "query": merged.get("query"),
@@ -287,6 +297,7 @@ def api_chat(req: ChatRequest):
             "compare_sources": _answer_compare_sources,
             "visual": _answer_visual,
             "html_teaching": _answer_html_teaching,
+            "topic_page": _answer_topic_page,
         }
         handler = handlers[mode]
         if mode == "html_teaching":

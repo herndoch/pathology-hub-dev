@@ -2,7 +2,62 @@
 
 Last updated: 2026-07-09
 
-## Current task (completed)
+## Current task (in progress — paused mid-feature, safe checkpoint)
+
+Pathology Hub Chat MVP — building an ExpertPath-style nested "Browse" experience
+(home category tile grid → subcategory list → leaf entity list → live-rendered topic
+page with Key Facts/sections/figure gallery/clickable Differential Diagnosis
+cross-links) on top of the existing chat UI. Session ended early (user needed to
+shut down); shipped a clean, fully-working **backend-only** slice rather than a
+half-built frontend tree.
+
+### What shipped this session
+
+- **New `topic_page` mode** end-to-end on the backend: `prompts.topic_page_system_prompt()`
+  (fixed ordered markdown headers — Key Facts, Terminology, Etiology/Pathogenesis, Clinical
+  Issues, Microscopic, Ancillary Tests, Differential Diagnosis; inherits `BASE_GROUNDING_RULES`
+  so it never invents facts/URLs/differentials; explicitly writes "Not covered in retrieved
+  evidence." for empty sections instead of omitting a header), added to `app.py` `VALID_MODES`
+  and the mode-handler dispatch, and `_apply_figure_defaults` now forces
+  `include_figures=True`/`max_figures=8` for this mode.
+- Minimal, safe frontend exposure: added `topic_page` as a **mode-select dropdown option**
+  (`index.html`) with a hint (`app.js` `MODE_HINTS`) so it's reachable/testable through the
+  existing Ask flow today — it renders through the same generic markdown renderer as other
+  modes (no dedicated Key-Facts-box/dark-section-bar/gallery layout yet).
+- Fixed a real (now user-facing) rendering bug in the shared `renderMarkdown` in `app.js`: a
+  `## Header` line immediately followed by bullets/prose with no blank line in between used to
+  get swallowed into one heading tag; it now renders the heading alone and processes the rest of
+  the block normally. This affects every mode, not just `topic_page`.
+- New offline tests in `tests/test_pathology_hub_chat_mvp.py`: `topic_page` is a valid mode,
+  `_apply_figure_defaults` forces figures on for it, and the prompt contains all fixed headers
+  in order and inherits the base grounding rules. 12/12 tests passing.
+- `frontend/pathology_hub_chat_mvp/README.md` and this file updated to describe what's done vs.
+  still TODO (see below) — do not assume the nested tree exists just because `topic_page` mode
+  does.
+
+### Explicitly NOT done yet (next session's starting point)
+
+- No nested "Browse" tree UI at all — no taxonomy data structure, no home tile grid, no
+  subcategory/leaf chevron lists, no breadcrumbs. The **existing flat "Browse by organ system"
+  chip panel from the prior commit is untouched and still the only browse affordance.**
+- No dedicated topic-page visual layout (Key Facts box + dark section header bars + right-side
+  image gallery) — `topic_page` mode currently just renders as headed bullets/tables via the
+  generic renderer.
+- No Differential Diagnosis cross-linking (clicking a DDx entity to load its own topic page) —
+  this depends on the taxonomy tree existing first.
+- No Ask/Browse tab toggle — not needed yet since there's no separate Browse view to toggle to.
+
+### Immediate next step
+
+Pick up the plan already scoped in the prior handoff: build `BROWSE_TAXONOMY` (static, curated,
+real pathology sub-classification — ~15-17 top categories × subcategories × leaf entities) in
+`app.js`, a tile-grid home view + chevron drill-down, a dedicated topic-page renderer (Key Facts
+box, dark section bars, figure gallery reusing the existing modal-preview infra), fuzzy DDx→leaf
+matching for cross-links, and breadcrumb navigation — all UI-only, still calling `/api/chat`
+with `mode: "topic_page"` (already built and tested). Keep the existing flat organ-chip panel
+working until the new tree fully replaces it in one clean edit, not a half-swap.
+
+## Prior task (completed)
 
 Pathology Hub Chat MVP — local GPT-style frontend over live `POST /evidence/search`.
 

@@ -18,6 +18,7 @@ const MODE_HINTS = {
   compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
   visual: "Figures retrieved and shown above the answer.",
   html_teaching: "Hosted HTML teaching page — link appears above citations.",
+  topic_page: "Preview: fixed-section reference page (Key Facts, Terminology, Etiology, Clinical, Microscopic, Ancillary Tests, DDx). Type an entity name, e.g. 'BAP1-inactivated melanocytoma'. Renders as headed bullets for now — a full ExpertPath-style tile/gallery layout is still in progress.",
 };
 
 const VISUAL_QUERY_RE =
@@ -347,16 +348,29 @@ function renderMarkdown(text, previewIndex) {
     }
 
     const lines = trimmed.split("\n");
+
+    // A "## Header" line glued (no blank line) to bullets/prose right after it is common
+    // model output — render the header alone, then process the rest of the block normally,
+    // instead of swallowing everything into one heading tag.
+    if (/^#{1,3}\s+/.test(lines[0])) {
+      const level = lines[0].match(/^(#{1,3})\s+/)[1].length;
+      const tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
+      const headingContent = lines[0].replace(/^#{1,3}\s+/, "");
+      const headingHtml = `<${tag} class="answer-heading">${inlineMarkdown(headingContent, previewIndex)}</${tag}>`;
+      const restLines = lines.slice(1).filter((line) => line.trim());
+      if (!restLines.length) return headingHtml;
+      if (restLines.every((line) => /^\s*[-*]\s+/.test(line))) {
+        return headingHtml + renderNestedList(restLines, previewIndex);
+      }
+      return (
+        headingHtml +
+        restLines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("")
+      );
+    }
+
     const isList = lines.every((line) => /^\s*[-*]\s+/.test(line) || line.trim() === "");
     if (isList && lines.some((line) => /^\s*[-*]\s+/.test(line))) {
       return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
-    }
-
-    if (/^#{1,3}\s+/.test(trimmed)) {
-      const level = trimmed.match(/^(#{1,3})\s+/)[1].length;
-      const tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
-      const content = trimmed.replace(/^#{1,3}\s+/, "");
-      return `<${tag} class="answer-heading">${inlineMarkdown(content, previewIndex)}</${tag}>`;
     }
 
     if (lines.length > 1 && lines.every((line) => line.trim())) {

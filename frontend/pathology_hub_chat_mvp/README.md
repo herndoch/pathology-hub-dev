@@ -10,7 +10,7 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 - Calls live Cloud Run `pathology-hub-v04` `/evidence/search` (via `pathology_backend.py`)
 - Shows per-source result links (`source_url`, `figure_url`, `video_time_url`, etc.) when returned by the API
 - Optional debug panel: request payloads, `source_status`, warnings (never API keys)
-- Modes: `gpt_like` (default), `search_only`, `compare_sources`, `visual`, `html_teaching`
+- Modes: `gpt_like` (default), `search_only`, `compare_sources`, `visual`, `html_teaching`, `topic_page` (preview — see below)
 
 ## Prerequisites
 
@@ -71,8 +71,30 @@ The right sidebar includes a collapsible **Teaching session notes** panel for ca
 - Retrieval relevance warnings when top hits may not match query terms
 - Prominent link when HTML teaching mode generates a hosted page
 
+## Topic page mode (preview — in progress)
+
+`topic_page` is a new `/api/chat` mode for an ExpertPath-style reference page on ONE named
+diagnosis/entity (e.g. type `BAP1-inactivated melanocytoma` and select **Topic page** from
+the mode dropdown). The backend/prompt side is complete:
+
+- `prompts.topic_page_system_prompt()` instructs the model to answer strictly under a fixed,
+  ordered set of markdown headers — `## Key Facts`, `## Terminology`, `## Etiology/Pathogenesis`,
+  `## Clinical Issues`, `## Microscopic`, `## Ancillary Tests`, `## Differential Diagnosis` —
+  every time, even writing "Not covered in retrieved evidence." under a header instead of
+  omitting it. Inherits all `BASE_GROUNDING_RULES` (no invented facts/URLs/differentials).
+- `app.py` `_apply_figure_defaults` forces `include_figures=True`/`max_figures=8` for this mode
+  so a figure gallery is always requested.
+- Currently renders through the **same generic markdown renderer** as other modes (the `##`
+  headers become subheadings, bullets/tables render normally) — there is **no dedicated
+  Key-Facts-box + dark-section-bar + image-gallery layout yet**, and **no nested
+  category → subcategory → entity browse tree**, and **no clickable Differential Diagnosis
+  cross-links**. Those are the next milestone; see `docs/ACTIVE_CONTEXT.md`.
+
 ## v2 gaps
 
+- Full ExpertPath-style nested "Browse" tree (home tile grid → subcategory list → leaf entity
+  list) with a dedicated topic-page layout and clickable Differential Diagnosis cross-links —
+  designed but not yet built (see Topic page mode above)
 - Link citations into the curriculum provenance browser by `record_id`
 - Streaming answers and conversation memory across turns
 - Smarter default source routing (tag-aware API when live)

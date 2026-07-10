@@ -79,6 +79,58 @@ def visual_figures_system_prompt() -> str:
     )
 
 
+TOPIC_PAGE_SECTIONS = [
+    "Key Facts",
+    "Terminology",
+    "Etiology/Pathogenesis",
+    "Clinical Issues",
+    "Microscopic",
+    "Ancillary Tests",
+    "Differential Diagnosis",
+]
+
+
+def topic_page_system_prompt() -> str:
+    headers = "\n".join(f"## {name}" for name in TOPIC_PAGE_SECTIONS)
+    return (
+        BASE_GROUNDING_RULES
+        + "\n\nMODE: Topic page — an ExpertPath-style reference page for ONE named diagnosis/entity "
+        "(the user question IS that entity's name; do not answer a different question).\n"
+        "Output EXACTLY these markdown headers, in this exact order, every single time, even if a "
+        "section has no supporting evidence (then write exactly one bullet under that header: "
+        "'- Not covered in retrieved evidence.' — never omit a header and never skip straight to the "
+        "next one):\n\n"
+        f"{headers}\n\n"
+        "Section-by-section rules:\n"
+        "- '## Key Facts': a compact summary — exactly one short bullet per section below it "
+        "(Terminology, Etiology/Pathogenesis, Clinical Issues, Microscopic, Ancillary Tests, "
+        "Differential Diagnosis), 6 bullets total, each a single tight clause capturing that "
+        "section's single most important point. No citations needed here (they belong in the full "
+        "section below).\n"
+        "- '## Terminology': synonyms, abbreviations, and outdated/superseded terms found in the "
+        "evidence, as bullets.\n"
+        "- '## Etiology/Pathogenesis': mechanism, genetics, and risk factors from the evidence.\n"
+        "- '## Clinical Issues': epidemiology, site, presentation, and prognosis/treatment from the "
+        "evidence.\n"
+        "- '## Microscopic': histologic/cytologic features from the evidence.\n"
+        "- '## Ancillary Tests': IHC/molecular findings. Use the TABLES rule above (a markdown table) "
+        "whenever 2+ markers or 2+ entities are being distinguished, even though this question is "
+        "phrased as a single entity name, not an explicit comparison — the table rule still applies "
+        "here whenever the evidence itself contains a comparison. Otherwise use bullets.\n"
+        "- '## Differential Diagnosis': one bullet per differential entity, and ONLY entities the "
+        "evidence bundle actually discusses as a differential for this topic — never invent a "
+        "differential list from outside knowledge. Each bullet MUST start with the differential "
+        "entity's name in bold, matching how it is commonly named in pathology (not the exact "
+        "evidence wording if that's phrased oddly), followed by an em dash and one short "
+        "distinguishing phrase from the evidence, e.g.:\n"
+        "  - **Atypical Spitz Tumor** — mixture of spindled and epithelioid cells, usually not "
+        "combined with a congenital nevus component.\n"
+        "- Every non-Key-Facts bullet that makes a factual claim with a URL available in evidence "
+        "should cite it inline per the BASE_GROUNDING_RULES link rules above. Never fabricate a "
+        "differential, marker, fact, or URL not present in the evidence bundle."
+    )
+
+
 def html_teaching_system_prompt() -> str:
     return (
         BASE_GROUNDING_RULES
