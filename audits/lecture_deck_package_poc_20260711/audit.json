@@ -1,0 +1,61 @@
+{
+  "schema_version": "lecture_deck_package_build_audit.v0_1",
+  "created_at_utc": "2026-07-11T23:46:46Z",
+  "package_id": "heme_sh_aggressive_b_cell_v0_1",
+  "input_paths": [
+    "/tmp/heme_deck_poc/lecture_index.json",
+    "/tmp/heme_deck_poc/transcript_segments.json",
+    "/tmp/heme_deck_poc/transcript.txt",
+    "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4",
+    "gs://pathology_hub/Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/frames.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/audit.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/audit.json",
+    "gs://pathology_hub/06_audits/lectures/deck_packages/poc_20260711/heme_sh_aggressive_b_cell_audit.json"
+  ],
+  "counts": {
+    "segments": 877,
+    "frames": 66,
+    "segments_with_video_time_url": 877,
+    "frames_with_video_time_url": 66
+  },
+  "source_zip": {
+    "name": "Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip",
+    "sha256": "9c96e395e9bee507724a900272bfda2ec6831330306bc4cb95aa2ae57f5741e6"
+  },
+  "join": {
+    "raw_source_gcs_uri": "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4",
+    "video_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive%20b%20cell%20lymphomas.mp4",
+    "raw_source_join_basis": "filename_match_source_videos"
+  },
+  "format_notes": {
+    "chatgpt_readable": {
+      "segments": "whisper-style {id,start,end,text} with real seconds",
+      "frames": "change-detected screenshots + transcript_context"
+    },
+    "legacy_content_library": {
+      "shape": "list of slide-aligned {segment_id,start_time,end_time,image_path,cleaned_transcript,title}",
+      "example": "gs://pathology-hub-0/_content_library/lectures/Other_Heme_Lecture_aggressive b cell lymphomas/"
+    }
+  },
+  "known_limitations": [
+    "PoC: primary_tag left null (untagged_poc) \u2014 tagging is a separate step.",
+    "Does not rebuild lecture FAISS/docstore or claim API exposure.",
+    "ChatGPT-readable package format differs from _content_library slide JSON.",
+    "Frames are change-detected screenshots, not the same set as _asset_library slides.",
+    "Not vectorized; not written into STRICT_CYTO_v9 docstore.",
+    "Not claiming Chat MVP Videos strip will play until a vector/API rebuild consumes this sidecar."
+  ],
+  "next_steps": [
+    "Human/AI tag primary_tag on segments (Heme aggressive B-cell entities).",
+    "Optional: upload frames/ to a deck_packages asset prefix (sidecars only).",
+    "After more packages: rebuild lecture vector index from deck sidecars with non-null video_time_url."
+  ]
+}

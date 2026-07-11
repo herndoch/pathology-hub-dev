@@ -1,0 +1,32 @@
+{
+  "schema_version": "lecture_deck_package.v0_1",
+  "package_id": "heme_sh_aggressive_b_cell_v0_1",
+  "title": "SH Aggressive B-Cell Lymphomas (Sohani)",
+  "root": "Heme",
+  "source_format": "chatgpt_readable_package_v0",
+  "video_file_declared": "Heme_SH_Aggressive_B_Cell.mp4",
+  "duration_seconds": 6102.596500000001,
+  "video_id": "heme_sh_aggressive_b_cell_v0_1",
+  "raw_source_gcs_uri": "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4",
+  "video_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive%20b%20cell%20lymphomas.mp4",
+  "raw_source_join_basis": "filename_match_source_videos",
+  "counts": {
+    "segments": 877,
+    "frames": 66,
+    "segments_with_video_time_url": 877,
+    "frames_with_video_time_url": 66
+  },
+  "input_files": {
+    "lecture_index": "lecture_index.json",
+    "transcript_segments": "transcript_segments.json",
+    "transcript": "transcript.txt",
+    "readme": "READ_ME_FIRST.txt"
+  },
+  "created_at_utc": "2026-07-11T23:46:46Z",
+  "known_limitations": [
+    "PoC: primary_tag left null (untagged_poc) \u2014 tagging is a separate step.",
+    "Does not rebuild lecture FAISS/docstore or claim API exposure.",
+    "ChatGPT-readable package format differs from _content_library slide JSON.",
+    "Frames are change-detected screenshots, not the same set as _asset_library slides."
+  ]
+}
