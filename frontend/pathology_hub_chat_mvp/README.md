@@ -21,7 +21,8 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
-- `OPENAI_MODEL` — default `gpt-4.1-mini`
+- `OPENAI_MODEL` — default `gpt-4.1-mini` (see **Synthesis model A/B** below)
+- `TOPIC_PAGE_ROOT_NARROW` — set to `1`/`true`/`yes`/`on` to narrow textbooks/pathout/videos to the topic page root (WHO + journals always kept)
 - `PORT` — local server port (default `8000`)
 
 ## Run locally
@@ -51,6 +52,36 @@ From repo root (no live API key required):
 ```bash
 frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
 ```
+
+Offline + optional live smoke:
+
+```bash
+cd frontend/pathology_hub_chat_mvp
+./.venv/bin/python scripts/smoke_test_chat_mvp_v0_1.py          # TestClient only
+./.venv/bin/python scripts/smoke_test_chat_mvp_v0_1.py --live # requires run_local.sh
+```
+
+## Topic-page prebuild (Phase 6)
+
+With `./scripts/run_local.sh` running:
+
+```bash
+# Draw high-traffic sample (HN, Eye_Orbit, Breast, GU, GI)
+python3 scripts/draw_high_traffic_sample_v0_1.py --per-root 3
+
+# Batch prebuild (parallel workers, audit JSON)
+python3 scripts/prebuild_topic_pages_pilot_v0_1.py \
+  --sample outputs/chat_mvp_topic_prepop_v0_1/high_traffic_sample_v0_1.json \
+  --parallel 2 \
+  --audit-out outputs/chat_mvp_topic_prepop_v0_1/high_traffic_prebuild_audit_v0_1.json
+
+# Explicit tags
+python3 scripts/prebuild_topic_pages_pilot_v0_1.py \
+  --tags "HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma"
+```
+
+Other ops scripts: `root_narrow_ab_v0_1.py`, `model_ab_topic_synthesis_v0_1.py` (see README
+sections above). Audits land under `outputs/chat_mvp_topic_prepop_v0_1/` (gitignored).
 
 ## Boundaries
 
@@ -105,10 +136,36 @@ in ~17s (bounded by the single slowest source) instead of the ~22s a sequential 
 calls would take — and that gap widens further whenever no single source is a severe outlier.
 OpenAI synthesis, not retrieval, is now the dominant cost for `topic_page` specifically (the
 6-source ovarian-HGSC probe was ~52s total: ~17s retrieval, ~35s synthesis) because the
-comprehensive, structured, DDx-aware prompt is long. We did not swap the default model for a
-faster one — that's a real lever, but we could not validate a faster model's grounding compliance
-within this session, and this mode's whole purpose is comprehensive correctness, so it's left as a
-documented option (`OPENAI_MODEL` env var) rather than a default change.
+comprehensive, structured, DDx-aware prompt is long.
+
+### Synthesis model A/B (G16, measured 2026-07-11)
+
+Three fixed entities (Middle Ear SCC, GCT of Bone, Juvenile Granulosa Cell Tumor) were probed
+with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
+`outputs/chat_mvp_topic_prepop_v0_1/model_ab_topic_synthesis_v0_1.json`):
+
+| `OPENAI_MODEL` | Avg total `/api/chat` time | All required sections present | Notes |
+|---|---|---|---|
+| `gpt-4.1-mini` (default) | ~35s | yes | Longest answers (~5–6k chars); baseline quality |
+| `gpt-4o-mini` | ~30s | yes | Shorter answers (~2.1–2.4k chars); not faster than mini here |
+| **`gpt-4o`** | **~18s** | yes | **Fastest** in this run; shorter but structurally complete |
+
+**Recommendation:** For faster live pages and prebuild throughput, set
+`OPENAI_MODEL=gpt-4o` when starting the app (`OPENAI_MODEL=gpt-4o ./scripts/run_local.sh`).
+Keep `gpt-4.1-mini` as the conservative default until reviewers confirm `gpt-4o` pages are
+adequately detailed for dense entities. Re-run the A/B script after prompt changes.
+
+### Root-narrowed retrieval (B8)
+
+`TOPIC_PAGE_ROOT_NARROW=1` drops off-root textbooks/pathout/videos after retrieval while
+keeping WHO + journals. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
+
+- **HN Pleomorphic Adenoma:** 67 → 52 cards (off-root HN noise trimmed; not starved)
+- **Eye choroidal melanoma:** 53 → 24 cards (still usable; watch thin roots)
+- **Middle Ear SCC:** 59 → 42 cards
+
+Use root narrow when off-root textbook/video noise dominates; leave off for thin roots or
+when breadth matters. Default remains **off** until broader review.
 
 **Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
 says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe
