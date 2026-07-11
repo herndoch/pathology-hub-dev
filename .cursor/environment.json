@@ -1,4 +1,4 @@
 {
-  "install": "mkdir -p \"$HOME/.config/gcp\" && if [ -n \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" ]; then printf '%s' \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" > \"$HOME/.config/gcp/cursor-sa.json\" && chmod 600 \"$HOME/.config/gcp/cursor-sa.json\"; fi && cd frontend/pathology_hub_chat_mvp && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
+  "install": "sudo apt-get update && (sudo apt-get install -y python3.12-venv python3-pip || sudo apt-get install -y python3-venv python3-pip) && mkdir -p \"$HOME/.config/gcp\" && if [ -n \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" ]; then printf '%s' \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" > \"$HOME/.config/gcp/cursor-sa.json\" && chmod 600 \"$HOME/.config/gcp/cursor-sa.json\"; fi && if [ -f \"$HOME/.config/gcp/cursor-sa.json\" ]; then export GOOGLE_APPLICATION_CREDENTIALS=\"$HOME/.config/gcp/cursor-sa.json\"; fi && cd frontend/pathology_hub_chat_mvp && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
   "start": "cd frontend/pathology_hub_chat_mvp && .venv/bin/uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --reload"
 }
