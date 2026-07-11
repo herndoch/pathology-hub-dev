@@ -25,6 +25,11 @@
       <div id="browse-view" class="view-panel">
         <div class="browse-breadcrumbs" id="browse-breadcrumbs"></div>
         <div class="browse-content" id="browse-content"></div>
+        <div id="compare-tray" class="compare-tray hidden" aria-live="polite">
+          <span id="compare-tray-count" class="compare-tray-count">0 selected</span>
+          <button type="button" id="compare-run-btn" class="btn-primary">Compare</button>
+          <button type="button" id="compare-clear-btn" class="btn-secondary">Clear</button>
+        </div>
       </div>
 
       <div id="ask-view" class="view-panel hidden">
@@ -109,6 +114,21 @@
         <a id="media-modal-source" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Source</a>
         <a id="media-modal-reference" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Reference page</a>
       </div>
+    </div>
+  </div>
+
+  <div id="flag-modal" class="flag-modal hidden" role="dialog" aria-modal="true" aria-labelledby="flag-modal-title">
+    <div class="flag-modal-backdrop" data-flag-close></div>
+    <div class="flag-modal-panel">
+      <button type="button" class="flag-modal-close" data-flag-close aria-label="Close">&times;</button>
+      <h2 id="flag-modal-title" class="flag-modal-title">Suggest Edit / Flag</h2>
+      <label for="flag-comment">Your comment / suggestion</label>
+      <textarea id="flag-comment" rows="5" placeholder="What should be changed on this page?"></textarea>
+      <div class="flag-modal-actions">
+        <button type="button" id="flag-send-btn" class="btn-primary">Send Feedback</button>
+        <button type="button" class="btn-secondary" data-flag-close>Cancel</button>
+      </div>
+      <p id="flag-status" class="hint flag-status" aria-live="polite"></p>
     </div>
   </div>
 

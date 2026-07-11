@@ -17,6 +17,8 @@ import json
 import os
 import re
 import time
+import uuid
+from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
@@ -62,9 +64,12 @@ from pathology_backend import (
     dedupe_cards,
     dedupe_figures,
     diversify_by_source_id,
+    filter_cards_by_page_root,
+    filter_figures_by_page_root,
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
+    page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
     topic_page_query_variants,
@@ -96,6 +101,17 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 TOPIC_PREBUILD_PAGES_DIR = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_prepop_v0_1", "pages")
 )
+PAGE_FLAGS_DIR = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_page_flags_v0_1")
+)
+PAGE_FLAGS_PATH = os.path.join(PAGE_FLAGS_DIR, "page_flags_v0_1.jsonl")
+
+TOPIC_PAGE_ROOT_NARROW = os.environ.get("TOPIC_PAGE_ROOT_NARROW", "").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -128,6 +144,26 @@ class SearchRequest(BaseModel):
 class ChatRequest(SearchRequest):
     mode: str = "gpt_like"
     category_context: Optional[str] = None
+    page_tag: Optional[str] = None
+
+
+class FlagRequest(BaseModel):
+    tag: Optional[str] = None
+    label: str = ""
+    query: str = ""
+    comment: str = ""
+    page_kind: str = "topic_page"
+
+
+class CompareEntity(BaseModel):
+    tag: Optional[str] = None
+    label: str
+    query: str
+    category_context: Optional[str] = None
+
+
+class CompareRequest(BaseModel):
+    entities: list[CompareEntity] = Field(..., min_length=2, max_length=4)
 
 
 def _validate_sources(sources: list[str]) -> list[str]:
@@ -249,7 +285,15 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
 
+    page_root = page_root_from_tag(req.page_tag)
+    cards_before_root = len(capped_cards)
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        capped_cards = filter_cards_by_page_root(capped_cards, page_root)
+
     figures = raw_figures[:TOPIC_PAGE_MAX_FIGURES]
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        figures = filter_figures_by_page_root(figures, page_root)
+
     slim_merged = slim_merged_from_cards(merged, capped_cards)
     slim_merged["figures"] = figures
 
@@ -273,6 +317,10 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "cards_by_source_before_cap": counts_before,
         "cards_by_source_after_cap": counts_after,
         "who_cross_mentions_count": len(who_cross_mentions),
+        "root_narrow_enabled": TOPIC_PAGE_ROOT_NARROW,
+        "page_root": page_root,
+        "cards_before_root_filter": cards_before_root,
+        "cards_after_root_filter": len(capped_cards),
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
@@ -390,6 +438,7 @@ def api_health():
         "openai_model": os.environ.get("OPENAI_MODEL", "gpt-4.1-mini (default, override with OPENAI_MODEL)"),
         "supported_sources": SUPPORTED_SOURCES,
         "supported_modes": sorted(VALID_MODES),
+        "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
     }
 
 
@@ -539,6 +588,124 @@ def api_chat(req: ChatRequest):
             "figures": figures,
             "who_cross_mentions": who_cross_mentions,
             "debug": _debug_payload(outcomes, retrieval_meta),
+        }
+    except ValueError as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+def _load_prebuilt_page(tag: Optional[str]) -> Optional[dict]:
+    if not tag or not tag.strip():
+        return None
+    slug = _slugify_prebuild_tag(tag.strip())
+    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+    if not os.path.isfile(json_path):
+        return None
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            page = json.load(f)
+        if page.get("ok") and page.get("answer_markdown"):
+            return page
+    except (OSError, ValueError):
+        return None
+    return None
+
+
+def _column_text_summary(cards: list[dict], prebuilt: Optional[dict]) -> str:
+    if prebuilt and isinstance(prebuilt.get("answer_markdown"), str):
+        text = prebuilt["answer_markdown"]
+        match = re.search(
+            r"##\s*Key Facts\s*\n(.*?)(?=\n##\s|\Z)",
+            text,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        if match and match.group(1).strip():
+            return match.group(1).strip()
+    bullets: list[str] = []
+    for card in cards[:8]:
+        excerpt = (card.get("text_excerpt") or card.get("excerpt") or "").strip()
+        if excerpt:
+            bullets.append(f"- {excerpt[:220]}")
+    return "\n".join(bullets) if bullets else "- Not covered in retrieved evidence."
+
+
+@app.post("/api/flag")
+def api_flag(req: FlagRequest):
+    """Append-only local page feedback log (separate from figure-quality sidecar)."""
+    comment = (req.comment or "").strip()
+    if not comment:
+        return {"ok": False, "error": "Comment is required."}
+    os.makedirs(PAGE_FLAGS_DIR, exist_ok=True)
+    record = {
+        "schema_version": "page_flags_v0_1",
+        "flag_id": str(uuid.uuid4()),
+        "created_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "tag": req.tag,
+        "label": req.label,
+        "query": req.query,
+        "page_kind": req.page_kind or "topic_page",
+        "comment": comment,
+        "app_version": APP_TITLE,
+    }
+    with open(PAGE_FLAGS_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    return {"ok": True, "flag_id": record["flag_id"]}
+
+
+@app.post("/api/compare")
+def api_compare(req: CompareRequest):
+    """Compare 2–4 diagnoses: per-entity retrieval + one grounded synthesis."""
+    try:
+        columns: list[dict] = []
+        compare_evidence: dict = {"entities": []}
+        for entity in req.entities:
+            sub_req = ChatRequest(
+                query=entity.query,
+                mode="topic_page",
+                sources=TOPIC_PAGE_SOURCES,
+                category_context=entity.category_context,
+                page_tag=entity.tag,
+                max_results=5,
+                include_figures=True,
+                max_figures=8,
+            )
+            _apply_figure_defaults(sub_req, "topic_page")
+            _outcomes, merged, cards, _meta, _mentions = _run_topic_page_retrieval(sub_req)
+            figures = extract_figures(merged)
+            prebuilt = _load_prebuilt_page(entity.tag)
+            text_summary = _column_text_summary(cards, prebuilt)
+            column = {
+                "label": entity.label,
+                "tag": entity.tag,
+                "query": entity.query,
+                "cards": cards,
+                "figures": figures,
+                "text_summary": text_summary,
+                "prebuilt": bool(prebuilt),
+            }
+            columns.append(column)
+            compare_evidence["entities"].append(
+                {
+                    "label": entity.label,
+                    "tag": entity.tag,
+                    "cards": cards[:24],
+                    "figures": figures[:8],
+                    "text_summary": text_summary,
+                }
+            )
+
+        labels = " vs ".join(e.label for e in req.entities)
+        synth_query = f"Compare diagnoses: {labels}"
+        result = synthesize(
+            prompts.compare_diagnoses_system_prompt(),
+            synth_query,
+            compare_evidence,
+        )
+        return {
+            "ok": result.ok,
+            "columns": columns,
+            "comparison": result.text if result.ok else None,
+            "comparison_error": None if result.ok else result.error,
+            "model": result.model,
         }
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}

@@ -16,11 +16,15 @@ from pathology_backend import (  # noqa: E402
     SearchOutcome,
     cap_cards_diverse,
     card_identity_key,
+    card_root_token,
     dedupe_cards,
     diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
+    filter_cards_by_page_root,
     merge_outcomes,
+    normalize_root_token,
+    page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
     topic_page_query_variants,
@@ -667,6 +671,50 @@ class TestFigureQualityFilter(unittest.TestCase):
         self.assertNotIn("figure_url", cleaned[0])
         self.assertEqual(cleaned[0]["page_image_url"], "https://example.com/page.png")
         self.assertEqual(cleaned[0]["excerpt"], "real evidence text")
+
+    def test_tiny_decoded_image_matches_audit_threshold(self):
+        from figure_quality_filter import is_tiny_decoded_image  # noqa: E402
+
+        # Live cyto_thyroid_bethesda unidentified stubs are 90x90.
+        self.assertTrue(is_tiny_decoded_image(90, 90))
+        self.assertTrue(is_tiny_decoded_image(119, 800))
+        self.assertFalse(is_tiny_decoded_image(120, 120))
+        self.assertFalse(is_tiny_decoded_image(460, 306))
+
+    def test_near_black_sample_classifies_bethesda_stub_stats(self):
+        from figure_quality_filter import is_near_black_sample  # noqa: E402
+
+        # Measured on live 90x90 stub: mean_l≈25.4, near_black≈0.368
+        self.assertTrue(is_near_black_sample(25.4, 0.368))
+        # Mostly solid black frame
+        self.assertTrue(is_near_black_sample(5.0, 0.92))
+        # Normal cytology-ish dark field should not trip loose threshold alone
+        self.assertFalse(is_near_black_sample(45.0, 0.27))
+        self.assertFalse(is_near_black_sample(120.0, 0.05))
+
+
+class TestRootNarrowFilter(unittest.TestCase):
+    def test_page_root_from_tag(self):
+        self.assertEqual(page_root_from_tag("HN::Salivary_Gland::Benign::Pleomorphic_Adenoma"), "hn")
+        self.assertEqual(page_root_from_tag("Breast::Neoplastic::DCIS"), "breast")
+        self.assertIsNone(page_root_from_tag(None))
+
+    def test_filter_cards_keeps_who_journals_drops_off_root_textbooks(self):
+        cards = [
+            {"source": "who", "title": "WHO entity"},
+            {"source": "journals", "journal": "Modern Pathology", "title": "Journal hit"},
+            {"source": "textbooks", "source_id": "hn_gnepp", "primary_tag": "HN::Salivary::X"},
+            {"source": "textbooks", "source_id": "cyto_milan", "primary_tag": "Cyto_Breast::X"},
+            {"source": "videos", "source_id": "breast_lecture", "title": "Off root video"},
+            {"source": "videos", "source_id": "hn_lecture", "title": "On root video"},
+        ]
+        filtered = filter_cards_by_page_root(cards, "hn")
+        sources = {c["source"] for c in filtered}
+        self.assertEqual(sources, {"who", "journals", "textbooks", "videos"})
+        self.assertEqual(len([c for c in filtered if c.get("source_id") == "hn_gnepp"]), 1)
+        self.assertEqual(len([c for c in filtered if c.get("source_id") == "cyto_milan"]), 0)
+        self.assertEqual(len([c for c in filtered if c.get("source_id") == "hn_lecture"]), 1)
+        self.assertEqual(len([c for c in filtered if c.get("source_id") == "breast_lecture"]), 0)
 
 
 if __name__ == "__main__":

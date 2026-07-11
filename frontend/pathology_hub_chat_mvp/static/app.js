@@ -492,9 +492,21 @@ const mediaModalSource = document.getElementById("media-modal-source");
 const mediaModalReference = document.getElementById("media-modal-reference");
 const mediaModalPrev = document.getElementById("media-modal-prev");
 const mediaModalNext = document.getElementById("media-modal-next");
+const compareTrayEl = document.getElementById("compare-tray");
+const compareTrayCountEl = document.getElementById("compare-tray-count");
+const compareRunBtn = document.getElementById("compare-run-btn");
+const compareClearBtn = document.getElementById("compare-clear-btn");
+const flagModal = document.getElementById("flag-modal");
+const flagCommentEl = document.getElementById("flag-comment");
+const flagSendBtn = document.getElementById("flag-send-btn");
+const flagStatusEl = document.getElementById("flag-status");
 
 /** Active lightbox gallery — ordered preview payloads + current index (C10). */
 let currentGallery = { items: [], index: 0 };
+
+const MAX_COMPARE = 4;
+let compareSet = [];
+let flagContext = null;
 const viewTabs = document.querySelectorAll(".view-tab");
 const browseViewEl = document.getElementById("browse-view");
 const askViewEl = document.getElementById("ask-view");
@@ -1107,6 +1119,9 @@ function buildPayload(query, modeOverride, options = {}) {
   if (mode === "topic_page" && options.categoryContext) {
     payload.category_context = options.categoryContext;
   }
+  if (mode === "topic_page" && options.pageTag) {
+    payload.page_tag = options.pageTag;
+  }
   return payload;
 }
 
@@ -1467,9 +1482,239 @@ function renderBrowseBreadcrumbs() {
   });
 }
 
+function compareEntityKey(entity) {
+  return entity.tag || `${entity.label}::${entity.query}`;
+}
+
+function comparePayloadFromNav(navTarget) {
+  const category = findCategory(navTarget.categoryId);
+  const sub = findSubcategory(category, navTarget.subcategoryId);
+  return {
+    tag: navTarget.tag,
+    label: navTarget.label,
+    query: navTarget.query || navTarget.label,
+    categoryId: navTarget.categoryId,
+    subcategoryId: navTarget.subcategoryId,
+    categoryContext: category && sub ? `${category.label} > ${sub.label}` : null,
+  };
+}
+
+function comparePayloadFromLeaf(categoryId, subcategoryId, leaf) {
+  const category = findCategory(categoryId);
+  const sub = findSubcategory(category, subcategoryId);
+  return {
+    tag: leaf.tag,
+    label: leaf.label,
+    query: leaf.query || leaf.label,
+    categoryId,
+    subcategoryId,
+    categoryContext: category && sub ? `${category.label} > ${sub.label}` : null,
+  };
+}
+
+function isInCompareSet(entity) {
+  const key = compareEntityKey(entity);
+  return compareSet.some((e) => compareEntityKey(e) === key);
+}
+
+function renderCompareTray() {
+  if (!compareTrayEl) return;
+  const n = compareSet.length;
+  compareTrayEl.classList.toggle("hidden", n === 0);
+  if (compareTrayCountEl) {
+    compareTrayCountEl.textContent = n === 1 ? "1 selected" : `${n} selected`;
+  }
+  if (compareRunBtn) compareRunBtn.disabled = n < 2;
+}
+
+function addToCompare(entity) {
+  if (!entity?.label) return;
+  if (isInCompareSet(entity)) return;
+  if (compareSet.length >= MAX_COMPARE) {
+    compareSet.shift();
+  }
+  compareSet.push(entity);
+  renderCompareTray();
+  document.querySelectorAll(".vs-btn").forEach((btn) => {
+    try {
+      const ent = JSON.parse(btn.dataset.compare || "{}");
+      btn.classList.toggle("in-compare", isInCompareSet(ent));
+    } catch (err) {
+      /* ignore */
+    }
+  });
+}
+
+function removeFromCompare(entity) {
+  const key = compareEntityKey(entity);
+  compareSet = compareSet.filter((e) => compareEntityKey(e) !== key);
+  renderCompareTray();
+}
+
+function clearCompareSet() {
+  compareSet = [];
+  renderCompareTray();
+  document.querySelectorAll(".vs-btn.in-compare").forEach((btn) => btn.classList.remove("in-compare"));
+}
+
+function renderVsButton(entity, extraClass = "") {
+  const payload = escapeAttr(JSON.stringify(entity));
+  const active = isInCompareSet(entity) ? " in-compare" : "";
+  return `<button type="button" class="vs-btn${extraClass}${active}" data-compare="${payload}" title="Add to comparison">VS</button>`;
+}
+
+function bindVsButtons(root) {
+  root.querySelectorAll(".vs-btn").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        addToCompare(JSON.parse(btn.dataset.compare));
+      } catch (err) {
+        /* ignore */
+      }
+    });
+  });
+}
+
+function openFlagModal(context) {
+  flagContext = context;
+  if (flagCommentEl) flagCommentEl.value = "";
+  if (flagStatusEl) flagStatusEl.textContent = "";
+  flagModal?.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+}
+
+function closeFlagModal() {
+  flagModal?.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+  flagContext = null;
+}
+
+async function submitFlag() {
+  if (!flagContext || !flagCommentEl) return;
+  const comment = flagCommentEl.value.trim();
+  if (!comment) {
+    if (flagStatusEl) flagStatusEl.textContent = "Please enter a comment.";
+    return;
+  }
+  if (flagStatusEl) flagStatusEl.textContent = "Sending…";
+  try {
+    const resp = await fetch("/api/flag", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tag: flagContext.tag || null,
+        label: flagContext.label || "",
+        query: flagContext.query || "",
+        comment,
+        page_kind: flagContext.page_kind || "topic_page",
+      }),
+    });
+    const data = await resp.json();
+    if (!data.ok) {
+      if (flagStatusEl) flagStatusEl.textContent = data.error || "Failed to send feedback.";
+      return;
+    }
+    if (flagStatusEl) flagStatusEl.textContent = "Thanks — feedback recorded.";
+    setTimeout(closeFlagModal, 900);
+  } catch (err) {
+    if (flagStatusEl) flagStatusEl.textContent = String(err);
+  }
+}
+
+function renderCompareColumn(column, colIndex) {
+  const tabId = `compare-col-${colIndex}`;
+  let html = `<div class="compare-column" data-col="${colIndex}">`;
+  html += `<div class="compare-column-title">${escapeHtml(formatDisplayLabel(column.label))}</div>`;
+  html += '<div class="compare-tab-bar">';
+  html += `<button type="button" class="compare-tab-btn active" data-col-tab="images" data-col="${colIndex}">Images</button>`;
+  html += `<button type="button" class="compare-tab-btn" data-col-tab="text" data-col="${colIndex}">Text</button>`;
+  html += "</div>";
+  html += `<div class="compare-col-panel" id="${tabId}-images">`;
+  html += `<div class="topic-panel-title">Selected Images</div>${renderTopicGallery(column.figures || [])}`;
+  html += "</div>";
+  html += `<div class="compare-col-panel hidden" id="${tabId}-text">`;
+  html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", new Map())}</div>`;
+  html += "</div></div>";
+  return html;
+}
+
+function bindCompareColumnTabs(root) {
+  root.querySelectorAll(".compare-tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const col = btn.dataset.col;
+      const tab = btn.dataset.colTab;
+      root.querySelectorAll(`.compare-column[data-col="${col}"] .compare-tab-btn`).forEach((b) => {
+        b.classList.toggle("active", b === btn);
+      });
+      root.querySelectorAll(`.compare-column[data-col="${col}"] .compare-col-panel`).forEach((panel) => {
+        panel.classList.toggle("hidden", !panel.id.endsWith(`-${tab}`));
+      });
+    });
+  });
+}
+
+async function loadCompareView() {
+  if (compareSet.length < 2) return;
+  browseContentEl.innerHTML = '<p class="hint">Generating comparison — retrieving evidence for each diagnosis…</p>';
+  try {
+    const resp = await fetch("/api/compare", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        entities: compareSet.map((e) => ({
+          tag: e.tag || null,
+          label: e.label,
+          query: e.query || e.label,
+          category_context: e.categoryContext || null,
+        })),
+      }),
+    });
+    const data = await resp.json();
+    if (!data.ok) {
+      browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.comparison_error || "Compare failed")}</p>`;
+      return;
+    }
+    let html = '<div class="compare-view-header">';
+    html += `<h2 class="browse-heading">Compare Diagnoses (${data.columns.length})</h2>`;
+    html += '<button type="button" class="btn-secondary" id="compare-back-btn">Back</button>';
+    html += '<button type="button" class="btn-secondary" id="compare-remove-all-btn">Remove all diagnoses</button>';
+    html += "</div>";
+    html += '<div class="compare-columns">';
+    for (let i = 0; i < data.columns.length; i += 1) {
+      html += renderCompareColumn(data.columns[i], i);
+    }
+    html += "</div>";
+    html += '<div class="compare-analysis"><h3>AI Comparison Analysis</h3>';
+    if (data.comparison) {
+      html += renderMarkdown(data.comparison, new Map());
+    } else {
+      html += `<p class="error-text">${escapeHtml(data.comparison_error || "Comparison synthesis failed")}</p>`;
+    }
+    html += "</div>";
+    browseContentEl.innerHTML = html;
+    bindPreviewHandlers(browseContentEl);
+    bindCompareColumnTabs(browseContentEl);
+    document.getElementById("compare-back-btn")?.addEventListener("click", () => {
+      browseState = { level: "home" };
+      renderBrowseView();
+    });
+    document.getElementById("compare-remove-all-btn")?.addEventListener("click", () => {
+      clearCompareSet();
+      browseState = { level: "home" };
+      renderBrowseView();
+    });
+  } catch (err) {
+    browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
+  }
+}
+
 function renderBrowseView() {
   renderBrowseBreadcrumbs();
-  if (browseState.level === "category") {
+  if (browseState.level === "compare") {
+    loadCompareView();
+  } else if (browseState.level === "category") {
     renderBrowseCategory(browseState.categoryId);
   } else if (browseState.level === "subcategory") {
     renderBrowseSubcategory(browseState.categoryId, browseState.subcategoryId);
@@ -1550,8 +1795,15 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   html += '<div class="chevron-list">';
   for (const leaf of sub.leaves) {
     const displayLabel = formatDisplayLabel(leaf.label);
-    const payload = escapeAttr(JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, provenance: leaf.provenance || null }));
-    html += `<button type="button" class="chevron-item" data-leaf="${payload}"><span>${escapeHtml(displayLabel)}</span><span class="chevron">\u203a</span></button>`;
+    const leafPayload = escapeAttr(
+      JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, provenance: leaf.provenance || null }),
+    );
+    const compareEntity = comparePayloadFromLeaf(categoryId, subcategoryId, leaf);
+    const comparePayload = escapeAttr(JSON.stringify(compareEntity));
+    html += '<div class="browse-leaf-row">';
+    html += `<button type="button" class="chevron-item" data-leaf="${leafPayload}"><span>${escapeHtml(displayLabel)}</span><span class="chevron">\u203a</span></button>`;
+    html += `<button type="button" class="vs-btn${isInCompareSet(compareEntity) ? " in-compare" : ""}" data-compare="${comparePayload}" title="Add to comparison">VS</button>`;
+    html += "</div>";
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
@@ -1570,6 +1822,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
       renderBrowseView();
     });
   });
+  bindVsButtons(browseContentEl);
 }
 
 const TOPIC_PAGE_SECTION_ORDER = [
@@ -1676,8 +1929,10 @@ function renderDifferentialSection(content, previewIndex) {
     const navTarget = findTaxonomyMatch(entityName);
     if (navTarget) {
       const payload = escapeAttr(JSON.stringify(navTarget));
+      const compareEnt = comparePayloadFromNav(navTarget);
       items.push(
-        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(entityName))}</button>` +
+        `<li class="ddx-row"><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(entityName))}</button>` +
+          renderVsButton(compareEnt, " vs-btn-inline") +
           (rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : "") +
           "</li>",
       );
@@ -1704,8 +1959,9 @@ function renderWhoCrossMentions(mentions) {
       : ` <span class="who-mention-meta">(from ${escapeHtml(sourceEntity)})</span>`;
     if (navTarget) {
       const payload = escapeAttr(JSON.stringify(navTarget));
+      const compareEnt = comparePayloadFromNav(navTarget);
       items.push(
-        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(leaf))}</button>${meta}</li>`,
+        `<li class="ddx-row"><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(leaf))}</button>${renderVsButton(compareEnt, " vs-btn-inline")}${meta}</li>`,
       );
     } else {
       items.push(`<li><strong>${escapeHtml(formatDisplayLabel(leaf))}</strong>${meta}</li>`);
@@ -1882,7 +2138,7 @@ async function loadLeafTopicPage(leafRef) {
       const resp = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildPayload(query, "topic_page", { categoryContext })),
+        body: JSON.stringify(buildPayload(query, "topic_page", { categoryContext, pageTag: leafRef.tag })),
       });
       data = await resp.json();
     }
@@ -1893,7 +2149,16 @@ async function loadLeafTopicPage(leafRef) {
       return;
     }
 
-    let html = prebuilt
+    const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
+      tag: leafRef.tag,
+      label: leafRef.label,
+      query,
+    });
+    let html = '<div class="topic-page-actions">';
+    html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
+    html += renderVsButton(compareEnt);
+    html += "</div>";
+    html += prebuilt
       ? '<p class="hint topic-prebuilt-hint">Prebuilt (pilot) — cached topic page from a prior run, not a fresh live query. See docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md.</p>'
       : "";
     html += renderTopicPageResult(data, query, {
@@ -1901,8 +2166,17 @@ async function loadLeafTopicPage(leafRef) {
       provenance: leafRef.provenance || null,
     });
     browseContentEl.innerHTML = html;
+    browseContentEl.querySelector(".flag-page-btn")?.addEventListener("click", () => {
+      openFlagModal({
+        tag: leafRef.tag,
+        label: displayLabel,
+        query,
+        page_kind: "topic_page",
+      });
+    });
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
+    bindVsButtons(browseContentEl);
   } catch (err) {
     if (seq !== browseRequestSeq) return;
     browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
@@ -2066,6 +2340,18 @@ exportNotesBtn.addEventListener("click", exportSessionNotes);
 viewTabs.forEach((tab) => {
   tab.addEventListener("click", () => setActiveView(tab.dataset.view));
 });
+
+compareRunBtn?.addEventListener("click", () => {
+  if (compareSet.length < 2) return;
+  browseState = { level: "compare" };
+  setActiveView("browse");
+  renderBrowseView();
+});
+compareClearBtn?.addEventListener("click", clearCompareSet);
+flagModal?.querySelectorAll("[data-flag-close]").forEach((el) => {
+  el.addEventListener("click", closeFlagModal);
+});
+flagSendBtn?.addEventListener("click", submitFlag);
 
 loadSessionNotes();
 updateModeHint();

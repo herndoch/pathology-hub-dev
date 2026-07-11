@@ -90,6 +90,23 @@ TOPIC_PAGE_SECTIONS = [
 ]
 
 
+def compare_diagnoses_system_prompt() -> str:
+    return (
+        BASE_GROUNDING_RULES
+        + "\n\nMODE: Compare diagnoses — grounded differential analysis for 2–4 entities.\n"
+        "Output EXACTLY:\n"
+        "1) ONE markdown table with these rows (in order) and one column per entity:\n"
+        "   - Clinical Presentation\n"
+        "   - Architectural/Growth Pattern\n"
+        "   - Key Histologic Hallmark\n"
+        "   - Relevant Tissue/Organ Changes\n"
+        "   - Ancillary Studies\n"
+        "2) Then a section header `## Key Differentiators (Board Pearls)` followed by "
+        "3–6 numbered bullets — each pearl must be grounded in the supplied evidence only.\n"
+        "Use '—' when a cell has no supporting evidence. Do not invent facts or URLs."
+    )
+
+
 def topic_page_system_prompt() -> str:
     headers = "\n".join(f"## {name}" for name in TOPIC_PAGE_SECTIONS)
     return (

@@ -19,6 +19,7 @@ Do not add new backend operations here. Do not mutate GCS or Cloud Run.
 from __future__ import annotations
 
 import hashlib
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
@@ -614,3 +615,74 @@ def extract_figures(response_json: dict) -> list[dict]:
         return []
     figures = response_json.get("figures")
     return list(figures) if isinstance(figures, list) else []
+
+
+_ROOT_FILTERABLE_SOURCES = frozenset({"textbooks", "pathout", "videos"})
+
+
+def normalize_root_token(token: str) -> str:
+    """Case/punctuation-insensitive root token for cross-field matching."""
+    return re.sub(r"[^a-z0-9]+", "", (token or "").casefold())
+
+
+def card_root_token(card: dict) -> Optional[str]:
+    """Detect organ/root from primary_tag or textbook/video source_id prefix."""
+    primary_tag = card.get("primary_tag")
+    if isinstance(primary_tag, str) and primary_tag.strip():
+        return normalize_root_token(primary_tag.split("::", 1)[0])
+    source_id = card.get("source_id")
+    if isinstance(source_id, str) and "_" in source_id:
+        return normalize_root_token(source_id.split("_", 1)[0])
+    return None
+
+
+def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
+    if not isinstance(tag, str) or "::" not in tag:
+        return None
+    return normalize_root_token(tag.split("::", 1)[0])
+
+
+def filter_cards_by_page_root(cards: list[dict], page_root: Optional[str]) -> list[dict]:
+    """Post-retrieval root filter (B8): keep WHO/journals; narrow textbooks/pathout/videos."""
+    if not page_root:
+        return cards
+    target = normalize_root_token(page_root)
+    if not target:
+        return cards
+
+    kept: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        src = str(card.get("source") or "")
+        if src not in _ROOT_FILTERABLE_SOURCES:
+            kept.append(card)
+            continue
+        card_root = card_root_token(card)
+        if card_root is None:
+            if src == "videos":
+                continue
+            kept.append(card)
+            continue
+        if card_root == target:
+            kept.append(card)
+    return kept
+
+
+def filter_figures_by_page_root(figures: list[dict], page_root: Optional[str]) -> list[dict]:
+    if not page_root:
+        return figures
+    target = normalize_root_token(page_root)
+    if not target:
+        return figures
+    kept: list[dict] = []
+    for fig in figures:
+        if not isinstance(fig, dict):
+            continue
+        sid = fig.get("source_id")
+        if isinstance(sid, str) and "_" in sid:
+            if normalize_root_token(sid.split("_", 1)[0]) == target:
+                kept.append(fig)
+            continue
+        kept.append(fig)
+    return kept
