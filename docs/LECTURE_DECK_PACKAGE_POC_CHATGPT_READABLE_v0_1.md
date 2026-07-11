@@ -53,6 +53,21 @@ GCS:
 
 Every segment/frame row has non-null `video_url` + `video_time_url` in this sidecar.
 
+## Tagging (heuristic v0_1)
+
+Script: `scripts/tag_lecture_deck_package_heme_aggressive_b_v0_1.py`
+
+| Policy | Behavior |
+|--------|----------|
+| Indexable | Meaningful entity contribution → `segments_indexable.jsonl` only |
+| Do not index | Speaker intro, TOC/agenda (&lt;150s), thanks, closing multi-entity recap, too-short filler, no entity |
+| Tags | Burkitt, 11q, DLBCL NOS, HGBL MYC/BCL2 rearr., HGBL NOS, PMBL, ALK+ LBCL |
+| Video URI | Canonical `gs://pathology-hub-0/source_videos/Heme_SH_Aggressive_B_Cell.mp4` (`canonical_name_pending_upload`); legacy Other_Heme_* kept as fallback pointer |
+
+**Approx counts (see audit):** ~784 indexable / 877 total; ~93 excluded.
+
+Not human-reviewed. Not vectorized / not API-exposed.
+
 ## Explicitly NOT done
 
 - No FAISS / STRICT_CYTO docstore rebuild

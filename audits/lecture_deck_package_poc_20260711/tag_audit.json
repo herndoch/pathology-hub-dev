@@ -1,0 +1,58 @@
+{
+  "schema_version": "lecture_deck_package_tag_audit.v0_1",
+  "created_at_utc": "2026-07-11T23:54:07Z",
+  "package_id": "heme_sh_aggressive_b_cell_v0_1",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/frames.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/manifest.json"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1_tagged/manifest.json",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1_tagged/segments.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1_tagged/segments_indexable.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1_tagged/frames.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1_tagged/audit.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/audit.json"
+  ],
+  "counts": {
+    "segments_total": 877,
+    "segments_indexable": 784,
+    "segments_do_not_index": 93,
+    "frames_total": 66,
+    "frames_indexable": 61,
+    "by_tag": {
+      "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma": 233,
+      "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS": 331,
+      "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_With_11q_Aberration": 4,
+      "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 118,
+      "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS": 8,
+      "Heme::Mature_B_Cell::Large_B_Cell::ALK_Positive_Large_B_Cell_Lymphoma": 2,
+      "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma": 88
+    },
+    "do_not_index_reasons": {
+      "agenda_or_overview": 14,
+      "agenda_multi_entity": 3,
+      "too_short_no_entity": 13,
+      "no_meaningful_entity_tag": 59,
+      "closing_summary": 4
+    },
+    "segments_with_video_time_url": 877
+  },
+  "canonical_video": {
+    "raw_source_gcs_uri": "gs://pathology-hub-0/source_videos/Heme_SH_Aggressive_B_Cell.mp4",
+    "join_basis": "canonical_name_pending_upload",
+    "legacy_fallback": "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4"
+  },
+  "known_limitations": [
+    "Canonical MP4 path set to Heme_SH_Aggressive_B_Cell.mp4 \u2014 pending user upload (legacy Other_Heme_* kept as fallback pointer).",
+    "Tags are heuristic keyword + sticky-section; not human-reviewed.",
+    "do_not_index segments excluded from segments_indexable.jsonl \u2014 do not vectorize them.",
+    "Not written into live lecture FAISS/docstore; not API-exposed yet."
+  ],
+  "index_policy": "Only segments_indexable.jsonl rows should enter vector index."
+}
