@@ -268,7 +268,7 @@ function countLeaves(category) {
   return category.subcategories.reduce((sum, sub) => sum + sub.entities.length, 0);
 }
 
-/** Topic-page prepop pilot (v0_1): generated combined ABPath+PathOut Browse
+/** Topic-page prepop pilot (v0_1): generated WHO + ABPath Browse
  * tag index, fetched once at startup from the static build artifact. See
  * docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md. Null until loaded (or if the
  * fetch fails), in which case Browse falls back to the curated-only
@@ -1488,7 +1488,7 @@ function renderBrowseHome() {
     : roots.reduce((sum, r) => sum + r.leaf_count, 0);
 
   let html = usingIndex
-    ? `<p class="hint">Combined, deduped ABPath + PathOut topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; pilot prebuild covers a small sample, everything else falls back to a live query). Not a claim about API exposure or vector coverage.</p>`
+    ? `<p class="hint">WHO + ABPath topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; pilot prebuild covers a small sample, everything else falls back to a live query). Not a claim about API exposure or vector coverage.</p>`
     : '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
 
   html += '<div class="browse-tile-grid">';
@@ -1519,7 +1519,7 @@ function renderBrowseCategory(categoryId) {
   }
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
   html += browseIndex
-    ? '<p class="hint">Combined ABPath + PathOut topic tags for this root. Pick a subcategory, then a topic.</p>'
+    ? '<p class="hint">WHO + ABPath topic tags for this root. Pick a subcategory, then a topic.</p>'
     : '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   html += '<div class="chevron-list">';
   for (const sub of cat.subcategories) {
