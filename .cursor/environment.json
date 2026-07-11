@@ -1,4 +1,4 @@
 {
-  "install": "cd frontend/pathology_hub_chat_mvp && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
+  "install": "mkdir -p \"$HOME/.config/gcp\" && if [ -n \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" ]; then printf '%s' \"$GOOGLE_APPLICATION_CREDENTIALS_JSON\" > \"$HOME/.config/gcp/cursor-sa.json\" && chmod 600 \"$HOME/.config/gcp/cursor-sa.json\"; fi && cd frontend/pathology_hub_chat_mvp && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
   "start": "cd frontend/pathology_hub_chat_mvp && .venv/bin/uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --reload"
 }
