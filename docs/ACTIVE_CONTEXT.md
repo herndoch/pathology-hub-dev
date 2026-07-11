@@ -11,7 +11,22 @@ Browse IA plan: `docs/PLAN_CHAT_MVP_BROWSE_EXPERTPATH_INSPIRED_v0_1.md`.
 Prepop pilot plan: `docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md` +  
 `docs/HANDOFF_TOPIC_PAGE_PREPOP_PILOT_NEXT_AGENT.md` — **pilot complete, see below**.
 
-## Current task (pilot complete — awaiting following agent)
+## Current task (cloud / online agent)
+
+**Cloud environment ready — next agent guides user through online steps.** Environment
+`herndoch/pathology-hub-dev` is Active with snapshot; secrets verified working on a fresh
+agent (`secrets.present: true`, Chat MVP `/api/health` 200 on port 8000). User wants to
+run agents from phone/browser ([cursor.com/agents](https://cursor.com/agents)).
+
+- **Handoff (read first):** `docs/HANDOFF_CLOUD_AGENT_ONLINE_NEXT_STEPS.md`
+- **Branch:** `cursor/pathology-hub-chat-mvp`
+- **Cloud hooks:** `.cursor/environment.json` (commits `3eb4aa8`, `5f69ee2`, `be7b1f8`)
+- **Critical:** "Start Fresh" wipes secrets — re-add all 4 env vars, then **Save** (see handoff)
+- **Default next work:** topic-page prebuild batch N=25–50, seed `20260711` (pilot passed 6/6)
+- **Alternative:** backend local dev on `cursor/setup-dev-environment-0d85` (PR #12) if user chooses
+- **Do NOT commit secrets**
+
+## Prior task (completed — topic-page prepop pilot)
 
 **Topic-page prepop pilot: PASS.** Built the combined deduped ABPath+PathOut Browse tag
 index (8,054 leaves, 17 roots incl. a `Cytopathology` aggregate of all `Cyto_*` roots),
@@ -41,9 +56,6 @@ re-verified for a non-prebuilt leaf.
   this pass verified the JS logic structurally (parse check + a Python-side replay of the
   exact lookup chain against the real generated index) and every backend endpoint via
   curl, but no actual DOM render was observed. Recommend that first before the next batch.
-- **Next agent:** read the handoff doc's "Recommended next batch" section before starting
-  a batch scale-up (suggested N 25–50, next seed `20260711`). Do not mutate quality-flags
-  sidecar or curriculum SQLite; still no GCS upload of prebuilt pages unless reopened.
 
 ## Prior task (completed this session)
 
