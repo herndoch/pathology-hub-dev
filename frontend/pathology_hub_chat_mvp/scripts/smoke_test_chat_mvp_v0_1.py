@@ -75,6 +75,8 @@ def smoke_offline() -> None:
         "renderTopicVideos",
         "compare-gallery-grid",
         "normalizeInlineLinkLabel",
+        "scoreLeafForPageContext",
+        "pickBestLeaf",
     ):
         if needle not in js:
             _fail("app.js feature", f"missing {needle!r}")

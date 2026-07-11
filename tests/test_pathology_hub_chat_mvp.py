@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -742,6 +743,106 @@ class TestVideoDedupe(unittest.TestCase):
         self.assertEqual(collapsed[0]["source"], "videos")
         self.assertEqual(collapsed[1]["source"], "textbooks")
 
+    def test_path_blob_video_id_dedupes_by_title(self):
+        cards = [
+            {
+                "source": "videos",
+                "video_id": "gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks",
+                "title": "Benign Cystic Neck Mass (Case 01)",
+                "chunk_id": "c1",
+            },
+            {
+                "source": "videos",
+                "video_id": "gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks",
+                "title": "Benign Cystic Neck Mass (Case 01)",
+                "chunk_id": "c2",
+            },
+            {
+                "source": "videos",
+                "video_id": "gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks",
+                "title": "Other Lecture Title",
+                "chunk_id": "c3",
+            },
+        ]
+        deduped = dedupe_video_cards(cards)
+        self.assertEqual(len(deduped), 2)
+        self.assertEqual({c["title"] for c in deduped}, {
+            "Benign Cystic Neck Mass (Case 01)",
+            "Other Lecture Title",
+        })
+
+
+class TestDdxRootPreference(unittest.TestCase):
+    """DDx nav must prefer same organ root over first index hit (cyto-first)."""
+
+    @classmethod
+    def setUpClass(cls):
+        idx_path = MVP_DIR / "static" / "browse_tag_index_v0_1.json"
+        cls.index = json.loads(idx_path.read_text(encoding="utf-8"))
+        cls.leaves = []
+        for root in cls.index["roots"]:
+            for sub in root["subcategories"]:
+                for leaf in sub["leaves"]:
+                    label = str(leaf.get("label") or "").replace("_", " ")
+                    cls.leaves.append(
+                        {
+                            "categoryId": root["id"],
+                            "subcategoryId": sub["id"],
+                            "tag": leaf.get("tag"),
+                            "label": leaf.get("label"),
+                            "normalized": label.lower(),
+                        }
+                    )
+
+    def _exact(self, name: str):
+        norm = name.lower().replace("_", " ")
+        return [leaf for leaf in self.leaves if leaf["normalized"] == norm]
+
+    def _score(self, leaf, page_cat, page_sub, page_tag):
+        score = 0
+        page_root = (page_tag or "").split("::", 1)[0].lower() if page_tag else (page_cat or "")
+        leaf_root = (leaf["tag"] or "").split("::", 1)[0].lower() if leaf.get("tag") else leaf["categoryId"]
+        if page_cat and leaf["categoryId"] == page_cat:
+            score += 100
+        if page_root and leaf_root == page_root:
+            score += 80
+        if page_sub and leaf["subcategoryId"]:
+            a = leaf["subcategoryId"].lower().replace("_", "")
+            b = page_sub.lower().replace("_", "")
+            if a == b:
+                score += 75
+            elif a in b or b in a:
+                score += 50
+            elif "salivary" in a and "salivary" in b:
+                score += 25
+        if page_cat and page_cat != "cyto" and leaf["categoryId"] == "cyto":
+            score -= 40
+        return score
+
+    def _pick(self, candidates, page_cat, page_sub, page_tag):
+        return max(candidates, key=lambda leaf: self._score(leaf, page_cat, page_sub, page_tag))
+
+    def test_adenoid_cystic_from_hn_salivary_prefers_hn_not_cyto_breast(self):
+        candidates = self._exact("Adenoid Cystic Carcinoma")
+        self.assertGreaterEqual(len(candidates), 3)
+        # First-in-index without preference is cyto (historical bug).
+        self.assertEqual(candidates[0]["categoryId"], "cyto")
+        best = self._pick(
+            candidates,
+            page_cat="hn",
+            page_sub="Salivary_Gland",
+            page_tag="HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma",
+        )
+        self.assertEqual(best["categoryId"], "hn")
+        self.assertIn("Salivary", best["tag"] or "")
+
+    def test_app_js_has_page_context_ddx_helpers(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function scoreLeafForPageContext", js)
+        self.assertIn("function pickBestLeaf", js)
+        self.assertIn("pageContextFromBrowseState", js)
+        self.assertIn("findTaxonomyMatch(entityName, ctx)", js)
+
 
 class TestMarkdownFenceHelpers(unittest.TestCase):
     def test_app_js_has_fence_unwrapper_and_link_normalizer(self):
@@ -751,6 +852,7 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("function normalizeInlineLinkLabel", js)
         self.assertIn("function renderTopicVideos", js)
         self.assertIn("compare-gallery-grid", js)
+        self.assertIn("function findTaxonomyMatch", js)
 
     def test_fenced_markdown_table_unwraps_for_parsing(self):
         fenced = """```markdown

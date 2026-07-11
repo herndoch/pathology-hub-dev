@@ -397,7 +397,20 @@ def _is_video_card(card: dict) -> bool:
 
 
 def video_card_key(card: dict) -> Optional[str]:
-    for field in ("video_id", "title", "chunk_id"):
+    video_id = card.get("video_id")
+    if isinstance(video_id, str) and video_id.strip():
+        vid = video_id.strip()
+        looks_like_path_blob = (
+            vid.lower().startswith("gcs_gs_")
+            or vid.lower().endswith("lecture_chunks")
+            or "/" in vid
+        )
+        if not looks_like_path_blob:
+            return vid
+    title = card.get("title")
+    if isinstance(title, str) and title.strip():
+        return f"title:{title.strip()}"
+    for field in ("chunk_id", "video_id"):
         value = card.get(field)
         if isinstance(value, str) and value.strip():
             return value.strip()

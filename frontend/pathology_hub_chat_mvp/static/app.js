@@ -461,43 +461,149 @@ function leafRefFrom(leaf) {
   return { categoryId: leaf.categoryId, subcategoryId: leaf.subcategoryId, tag: leaf.tag, label: leaf.label, query: leaf.query };
 }
 
+/** Page-context for DDx / cross-mention nav: prefer same organ root over the
+ * first alphabetical index hit (e.g. HN Salivary ACC, not Cyto Breast ACC). */
+function pageContextFromBrowseState() {
+  if (!browseState || browseState.level !== "leaf") return null;
+  return {
+    categoryId: browseState.categoryId || null,
+    subcategoryId: browseState.subcategoryId || null,
+    tag: browseState.tag || null,
+  };
+}
+
+function pageContextFromEntryMeta(entryMeta) {
+  if (!entryMeta) return pageContextFromBrowseState();
+  return {
+    categoryId: entryMeta.categoryId || browseState?.categoryId || null,
+    subcategoryId: entryMeta.subcategoryId || browseState?.subcategoryId || null,
+    tag: entryMeta.tag || browseState?.tag || null,
+  };
+}
+
+function leafTagRoot(leaf) {
+  const tag = leaf?.tag;
+  if (typeof tag === "string" && tag.includes("::")) {
+    return tag.split("::", 1)[0].toLowerCase();
+  }
+  return String(leaf?.categoryId || "").toLowerCase();
+}
+
+function pageTagRoot(pageContext) {
+  const tag = pageContext?.tag;
+  if (typeof tag === "string" && tag.includes("::")) {
+    return tag.split("::", 1)[0].toLowerCase();
+  }
+  return String(pageContext?.categoryId || "").toLowerCase();
+}
+
+function subcategoryAffinity(leafSubId, pageSubId) {
+  if (!leafSubId || !pageSubId) return 0;
+  const a = String(leafSubId).toLowerCase().replace(/_/g, "");
+  const b = String(pageSubId).toLowerCase().replace(/_/g, "");
+  if (a === b) return 3;
+  if (a.includes(b) || b.includes(a)) return 2;
+  // Salivary ↔ Salivary_Gland / Cyto_Salivary family tokens
+  const tokens = (s) => new Set(s.split(/(?=[A-Z])|_| /).join(" ").toLowerCase().split(/\s+/).filter((t) => t.length > 3));
+  const ta = tokens(String(leafSubId));
+  const tb = tokens(String(pageSubId));
+  let overlap = 0;
+  for (const t of ta) if (tb.has(t)) overlap += 1;
+  return overlap > 0 ? 1 : 0;
+}
+
+/** Rank candidate leaves for navigation. Higher is better. */
+function scoreLeafForPageContext(leaf, pageContext) {
+  if (!pageContext) {
+    // No page context: prefer surgical roots over cyto modality overlays.
+    return leaf.categoryId === "cyto" ? 0 : 10;
+  }
+  let score = 0;
+  const pageCat = pageContext.categoryId;
+  const pageRoot = pageTagRoot(pageContext);
+  const leafRoot = leafTagRoot(leaf);
+
+  if (pageCat && leaf.categoryId === pageCat) score += 100;
+  if (pageRoot && leafRoot && pageRoot === leafRoot) score += 80;
+
+  // Prefer related cyto family when page is surgical (HN → Cyto_Salivary)
+  // over unrelated cyto (Cyto_Breast).
+  score += subcategoryAffinity(leaf.subcategoryId, pageContext.subcategoryId) * 25;
+
+  if (pageCat && pageCat !== "cyto" && leaf.categoryId === "cyto") {
+    score -= 40;
+  }
+  if (pageCat === "cyto" && leaf.categoryId !== "cyto") {
+    // On a cyto page, still allow surgical siblings, but prefer cyto.
+    score -= 10;
+  }
+  return score;
+}
+
+function pickBestLeaf(candidates, pageContext) {
+  if (!candidates?.length) return null;
+  let best = candidates[0];
+  let bestScore = scoreLeafForPageContext(best, pageContext);
+  for (let i = 1; i < candidates.length; i += 1) {
+    const leaf = candidates[i];
+    const score = scoreLeafForPageContext(leaf, pageContext);
+    if (score > bestScore) {
+      best = leaf;
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
 /** Fuzzy-match a Differential Diagnosis bullet's entity name against the
  * taxonomy leaves (curated or generated index, whichever is active), so we
  * only cross-link when reasonably confident — false negatives (no link) are
  * far safer here than false positives (a wrong link), so the overlap
- * threshold below is deliberately conservative. */
-function findTaxonomyMatch(rawName) {
+ * threshold below is deliberately conservative.
+ *
+ * When multiple leaves share the same display name (Adenoid Cystic Carcinoma
+ * in Breast, HN Salivary, Cyto Breast, etc.), prefer the leaf in the same
+ * organ/root as the current topic page. */
+function findTaxonomyMatch(rawName, pageContext = null) {
   const norm = normalizeEntityName(rawName);
   if (!norm) return null;
+  const ctx = pageContext || pageContextFromBrowseState();
   const normTokens = new Set(norm.split(" ").filter((t) => t.length > 2));
-  let best = null;
-  let bestScore = 0;
+
+  const exactMatches = [];
+  const fuzzyByScore = new Map(); // score -> leaves[]
+
   for (const leaf of TAXONOMY_LEAF_INDEX) {
     if (leaf.normalized === norm) {
-      return leafRefFrom(leaf);
-    }
-    if (norm.includes(leaf.normalized) || leaf.normalized.includes(norm)) {
-      const score = Math.min(leaf.normalized.length, norm.length) / Math.max(leaf.normalized.length, norm.length);
-      if (score > bestScore) {
-        bestScore = score;
-        best = leaf;
-      }
+      exactMatches.push(leaf);
       continue;
     }
-    const leafTokens = new Set(leaf.normalized.split(" ").filter((t) => t.length > 2));
-    if (!leafTokens.size) continue;
-    let overlap = 0;
-    for (const t of normTokens) {
-      if (leafTokens.has(t)) overlap += 1;
+    let score = 0;
+    if (norm.includes(leaf.normalized) || leaf.normalized.includes(norm)) {
+      score = Math.min(leaf.normalized.length, norm.length) / Math.max(leaf.normalized.length, norm.length);
+    } else {
+      const leafTokens = new Set(leaf.normalized.split(" ").filter((t) => t.length > 2));
+      if (!leafTokens.size) continue;
+      let overlap = 0;
+      for (const t of normTokens) {
+        if (leafTokens.has(t)) overlap += 1;
+      }
+      score = overlap / Math.max(leafTokens.size, normTokens.size, 1);
     }
-    const ratio = overlap / Math.max(leafTokens.size, normTokens.size, 1);
-    if (ratio > bestScore) {
-      bestScore = ratio;
-      best = leaf;
-    }
+    if (score < 0.5) continue;
+    if (!fuzzyByScore.has(score)) fuzzyByScore.set(score, []);
+    fuzzyByScore.get(score).push(leaf);
   }
-  if (best && bestScore >= 0.5) {
-    return leafRefFrom(best);
+
+  if (exactMatches.length) {
+    return leafRefFrom(pickBestLeaf(exactMatches, ctx));
+  }
+
+  if (fuzzyByScore.size) {
+    const topScore = Math.max(...fuzzyByScore.keys());
+    if (topScore >= 0.5) {
+      return leafRefFrom(pickBestLeaf(fuzzyByScore.get(topScore), ctx));
+    }
   }
   return null;
 }
@@ -1987,9 +2093,10 @@ function renderTopicGallery(figures, options = {}) {
  * When the leading bold entity fuzzy-matches a taxonomy leaf, render it as a
  * clickable internal nav button that loads that entity's own fresh topic
  * page; otherwise leave it as plain text (never fabricate a link). */
-function renderDifferentialSection(content, previewIndex) {
+function renderDifferentialSection(content, previewIndex, pageContext = null) {
   const text = String(content || "").trim();
   if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+  const ctx = pageContext || pageContextFromBrowseState();
 
   const items = [];
   for (const rawLine of text.split("\n")) {
@@ -2007,7 +2114,7 @@ function renderDifferentialSection(content, previewIndex) {
     }
     const entityName = match[1].trim();
     const rest = match[2].trim();
-    const navTarget = findTaxonomyMatch(entityName);
+    const navTarget = findTaxonomyMatch(entityName, ctx);
     if (navTarget) {
       const payload = escapeAttr(JSON.stringify(navTarget));
       const compareEnt = comparePayloadFromNav(navTarget);
@@ -2026,13 +2133,14 @@ function renderDifferentialSection(content, previewIndex) {
   return `<ul class="answer-list ddx-list">${items.join("")}</ul>`;
 }
 
-function renderWhoCrossMentions(mentions) {
+function renderWhoCrossMentions(mentions, pageContext = null) {
   if (!mentions?.length) return "";
+  const ctx = pageContext || pageContextFromBrowseState();
   const items = [];
   for (const mention of mentions) {
     const leaf = mention.matched_leaf;
     if (!leaf) continue;
-    const navTarget = findTaxonomyMatch(leaf);
+    const navTarget = findTaxonomyMatch(leaf, ctx);
     const sourceEntity = mention.source_entity || "WHO";
     const sourceSection = mention.source_section || "";
     const meta = sourceSection
@@ -2058,7 +2166,20 @@ function isVideoCard(card) {
 }
 
 function videoCardKey(card) {
-  return String(card?.video_id || card?.title || card?.chunk_id || "").trim();
+  const videoId = String(card?.video_id || "").trim();
+  // Live STRICT_CYTO_v9 docstore collapsed many lectures into one fake path-derived
+  // video_id (`gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks`). Prefer
+  // title for dedupe when the id looks like that blob, so distinct lectures don't
+  // all collapse incorrectly if titles differ.
+  const looksLikePathBlob =
+    !videoId ||
+    /^gcs_gs_/i.test(videoId) ||
+    /lecture_chunks$/i.test(videoId) ||
+    videoId.includes("/");
+  if (!looksLikePathBlob) return videoId;
+  const title = String(card?.title || "").trim();
+  if (title) return `title:${title}`;
+  return String(card?.chunk_id || videoId || "").trim();
 }
 
 function dedupeVideoCards(cards) {
@@ -2123,11 +2244,12 @@ function renderTopicVideos(cards) {
   return html;
 }
 
-function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards) {
+function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards, pageContext = null) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const keyFactsHtml = keyFacts.trim()
     ? renderMarkdown(keyFacts, previewIndex)
     : '<p class="hint">Not covered in retrieved evidence.</p>';
+  const ctx = pageContext || pageContextFromBrowseState();
 
   let html = '<div class="topic-page">';
   html += '<div class="topic-page-top">';
@@ -2137,7 +2259,7 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
 
   html += renderTopicVideos(videoCards);
 
-  html += renderWhoCrossMentions(whoCrossMentions);
+  html += renderWhoCrossMentions(whoCrossMentions, ctx);
 
   html += '<div class="topic-sections">';
   for (const name of TOPIC_PAGE_SECTION_ORDER) {
@@ -2147,7 +2269,7 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
     html += `<div class="topic-section-header">${escapeHtml(name.toUpperCase())}</div>`;
     html += '<div class="topic-section-body">';
     if (name === "Differential Diagnosis") {
-      html += renderDifferentialSection(content, previewIndex);
+      html += renderDifferentialSection(content, previewIndex, ctx);
     } else {
       html += content.trim()
         ? renderMarkdown(content, previewIndex)
@@ -2202,9 +2324,17 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
   const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
   const sections = parseTopicPageSections(data.answer || "");
+  const pageContext = pageContextFromEntryMeta(entryMeta);
 
   let html = topicPageFanoutHint(data);
-  html += renderTopicPage(sections, previewIndex, shownFigures, data.who_cross_mentions || [], sortedCards);
+  html += renderTopicPage(
+    sections,
+    previewIndex,
+    shownFigures,
+    data.who_cross_mentions || [],
+    sortedCards,
+    pageContext,
+  );
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
@@ -2319,6 +2449,8 @@ async function loadLeafTopicPage(leafRef) {
     html += renderTopicPageResult(data, query, {
       tag: leafRef.tag,
       provenance: leafRef.provenance || null,
+      categoryId: leafRef.categoryId || browseState.categoryId || null,
+      subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
     });
     browseContentEl.innerHTML = html;
     browseContentEl.querySelector(".flag-page-btn")?.addEventListener("click", () => {
