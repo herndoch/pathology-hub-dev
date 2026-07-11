@@ -28,6 +28,15 @@ const TEXTBOOK_ALIASES = {
   faq: "FAQ",
 };
 
+/** Normalize inline markdown link labels baked into prebuild/synthesis text. */
+const INLINE_LINK_LABEL_ALIASES = {
+  pathout: "Pathoutlines",
+  "path out": "Pathoutlines",
+  "hn atlas": "Atlas",
+  "hn_gnepp": "Gnepp",
+  "hn gnepp": "Gnepp",
+};
+
 const MODE_HINTS = {
   gpt_like: "Bullet summary with inline source links. Figures auto-included when you ask to show something.",
   search_only: "Raw evidence cards only — no OpenAI synthesis.",
@@ -812,6 +821,37 @@ function stripFigureReferences(text) {
 /** Best-effort strip of a trailing "Sources:"/"References:" link-dump block.
  * Inline citations already carry every URL; a closing roundup is redundant
  * and the prompt forbids it, but models occasionally slip and add one anyway. */
+/** Unwrap ```markdown / ```md fences so pipe tables inside fences render as HTML. */
+function unwrapFencedMarkdownBlocks(text) {
+  return String(text || "").replace(/```([a-zA-Z0-9_-]*)\s*\n([\s\S]*?)```/g, (_match, lang, inner) => {
+    const body = inner.trim();
+    if (!body) return "";
+    if (isMarkdownTable(body)) return body;
+    if (!lang || /^(markdown|md|text)$/i.test(lang)) return body;
+    return `\n\`\`\`${lang}\n${body}\n\`\`\`\n`;
+  });
+}
+
+function normalizeInlineLinkLabel(label) {
+  const raw = String(label || "").trim();
+  if (!raw) return raw;
+  const lower = raw.toLowerCase();
+  if (INLINE_LINK_LABEL_ALIASES[lower]) return INLINE_LINK_LABEL_ALIASES[lower];
+  if (/^path\s*out$/i.test(raw)) return "Pathoutlines";
+  if (/^hn[_\s]+atlas$/i.test(raw)) return "Atlas";
+  if (/^hn[_\s]+gnepp$/i.test(raw)) return "Gnepp";
+  const stripped = raw.replace(
+    /^(HN|Cyto|GU|Gyn|Breast|Soft|Bone|Pulm|Cardio|Hemat|Hemat_Lymph|Derm|Endo|GI|Neuro|Pediatric|Transplant|Forensic|Molecular)_/i,
+    "",
+  );
+  if (stripped !== raw) {
+    const alias = TEXTBOOK_ALIASES[stripped.toLowerCase().replace(/_/g, "")];
+    if (alias) return alias;
+    return formatDisplayLabel(stripped);
+  }
+  return raw;
+}
+
 function stripTrailingLinkDump(text) {
   const blocks = text.split(/\n{2,}/);
   while (blocks.length > 1) {
@@ -836,7 +876,7 @@ function stripTrailingLinkDump(text) {
 }
 
 function renderMarkdown(text, previewIndex) {
-  const normalized = stripTrailingLinkDump(normalizeAnswerText(text));
+  const normalized = stripTrailingLinkDump(normalizeAnswerText(unwrapFencedMarkdownBlocks(text)));
   if (!normalized.trim()) return "";
 
   const blocks = normalized.split(/\n{2,}/);
@@ -977,7 +1017,7 @@ function inlineMarkdown(text, previewIndex) {
   // Plain links: [label](url) -> preview-aware link when we recognize the URL,
   // otherwise a normal external link.
   scratch = scratch.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
-    return stash(renderInlineLink(label, url, previewIndex));
+    return stash(renderInlineLink(normalizeInlineLinkLabel(label), url, previewIndex));
   });
 
   let html = escapeHtml(scratch);
@@ -1074,8 +1114,10 @@ function renderCitations(cards) {
     return '<p class="hint">No citation cards returned for this query.</p>';
   }
 
+  const displayCards = collapseVideoCardsForCitations(cards);
+
   let html = '<details class="citations"><summary>Sources &amp; citations</summary><ul class="citation-list">';
-  for (const card of cards) {
+  for (const card of displayCards) {
     const source = card.source || card._result_key || "unknown";
     const excerpt = (card.text_excerpt || card.excerpt || "").slice(0, 220);
     const presentation = cardPresentation(card);
@@ -1363,7 +1405,10 @@ function bindPreviewHandlers(root) {
       try {
         if (el.tagName === "A") event.preventDefault();
         const payload = JSON.parse(el.dataset.preview);
-        const gallery = el.closest(".topic-gallery-grid, .figures-grid, .figures-grid-prominent");
+        const compareCol = el.closest(".compare-column");
+        const gallery = compareCol
+          ? compareCol.querySelector(".compare-gallery-grid, .topic-gallery-grid")
+          : el.closest(".topic-gallery-grid, .figures-grid, .figures-grid-prominent");
         let items = [payload];
         let index = 0;
         if (gallery) {
@@ -1648,6 +1693,9 @@ async function submitFlag() {
 }
 
 function renderCompareColumn(column, colIndex) {
+  const query = column.query || column.label || "";
+  const figFilter = filterByQueryRelevance(query, column.figures || [], { maxShown: 10 });
+  const shownFigures = figFilter.shown.length ? figFilter.shown : column.figures || [];
   const tabId = `compare-col-${colIndex}`;
   let html = `<div class="compare-column" data-col="${colIndex}">`;
   html += `<div class="compare-column-title">${escapeHtml(formatDisplayLabel(column.label))}</div>`;
@@ -1656,7 +1704,8 @@ function renderCompareColumn(column, colIndex) {
   html += `<button type="button" class="compare-tab-btn" data-col-tab="text" data-col="${colIndex}">Text</button>`;
   html += "</div>";
   html += `<div class="compare-col-panel" id="${tabId}-images">`;
-  html += `<div class="topic-panel-title">Selected Images</div>${renderTopicGallery(column.figures || [])}`;
+  html += `<div class="topic-panel-title">Selected Images</div>${renderTopicGallery(shownFigures, { compareCol: colIndex })}`;
+  if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   html += "</div>";
   html += `<div class="compare-col-panel hidden" id="${tabId}-text">`;
   html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", new Map())}</div>`;
@@ -1899,11 +1948,19 @@ function findSectionContent(sections, wantedName) {
   return "";
 }
 
-function renderTopicGallery(figures) {
+function renderTopicGallery(figures, options = {}) {
   if (!figures || !figures.length) {
     return '<p class="hint">No figures returned for this query.</p>';
   }
-  let html = '<div class="topic-gallery-grid">';
+  const gridClass =
+    options.compareCol != null
+      ? "topic-gallery-grid compare-gallery-grid"
+      : "topic-gallery-grid";
+  const gridAttrs =
+    options.compareCol != null
+      ? ` class="${gridClass}" data-compare-col="${options.compareCol}"`
+      : ` class="${gridClass}"`;
+  let html = `<div${gridAttrs}>`;
   for (const fig of figures.slice(0, 10)) {
     const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
     if (!url) continue;
@@ -1995,7 +2052,78 @@ function renderWhoCrossMentions(mentions) {
   return `<div class="topic-who-mentions"><div class="topic-panel-title">Cross-referenced Entities</div><ul class="answer-list ddx-list">${items.join("")}</ul></div>`;
 }
 
-function renderTopicPage(sections, previewIndex, figures, whoCrossMentions) {
+function isVideoCard(card) {
+  const source = card?.source || card?._result_key || "";
+  return source === "videos" || source === "lectures" || Boolean(card?.video_id);
+}
+
+function videoCardKey(card) {
+  return String(card?.video_id || card?.title || card?.chunk_id || "").trim();
+}
+
+function dedupeVideoCards(cards) {
+  const seen = new Set();
+  const result = [];
+  for (const card of cards || []) {
+    if (!isVideoCard(card)) continue;
+    const key = videoCardKey(card);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    result.push(card);
+  }
+  return result;
+}
+
+function collapseVideoCardsForCitations(cards) {
+  const videoSeen = new Set();
+  return (cards || []).filter((card) => {
+    if (!isVideoCard(card)) return true;
+    const key = videoCardKey(card);
+    if (!key || videoSeen.has(key)) return false;
+    videoSeen.add(key);
+    return true;
+  });
+}
+
+function formatVideoTimestamp(card) {
+  const start = card.start_sec ?? card.start_time_sec;
+  const end = card.end_sec ?? card.end_time_sec;
+  if (typeof start === "number" && typeof end === "number") {
+    return `${formatVideoSec(start)}–${formatVideoSec(end)}`;
+  }
+  if (typeof start === "number") return `at ${formatVideoSec(start)}`;
+  return "";
+}
+
+function formatVideoSec(seconds) {
+  const m = Math.floor(seconds / 60);
+  const sec = Math.floor(seconds % 60);
+  return `${m}:${String(sec).padStart(2, "0")}`;
+}
+
+function renderTopicVideos(cards) {
+  const videos = dedupeVideoCards(cards);
+  if (!videos.length) return "";
+  let html = '<div class="topic-videos"><div class="topic-panel-title">Videos</div><ul class="topic-video-list">';
+  for (const card of videos) {
+    const title = cardTitle(card);
+    const url = pickHttp(card.video_time_url) || pickHttp(card.video_url);
+    const ts = formatVideoTimestamp(card);
+    html += '<li class="topic-video-item">';
+    if (url) {
+      html += `<a class="topic-video-link" href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`;
+    } else {
+      html += `<span class="topic-video-title">${escapeHtml(title)}</span>`;
+      html += '<span class="topic-video-unavailable"> — timestamp link not available</span>';
+    }
+    if (ts) html += `<span class="topic-video-ts">${escapeHtml(ts)}</span>`;
+    html += "</li>";
+  }
+  html += "</ul></div>";
+  return html;
+}
+
+function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const keyFactsHtml = keyFacts.trim()
     ? renderMarkdown(keyFacts, previewIndex)
@@ -2006,6 +2134,8 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions) {
   html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${keyFactsHtml}</div>`;
   html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
   html += "</div>";
+
+  html += renderTopicVideos(videoCards);
 
   html += renderWhoCrossMentions(whoCrossMentions);
 
@@ -2074,7 +2204,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   const sections = parseTopicPageSections(data.answer || "");
 
   let html = topicPageFanoutHint(data);
-  html += renderTopicPage(sections, previewIndex, shownFigures, data.who_cross_mentions || []);
+  html += renderTopicPage(sections, previewIndex, shownFigures, data.who_cross_mentions || [], sortedCards);
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);

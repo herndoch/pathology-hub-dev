@@ -71,13 +71,17 @@ def smoke_offline() -> None:
         "ACCEPTED_NAV_PROVENANCES",
         'both: "ABPath + WHO"',
         "formatNavProvenanceLabel",
+        "unwrapFencedMarkdownBlocks",
+        "renderTopicVideos",
+        "compare-gallery-grid",
+        "normalizeInlineLinkLabel",
     ):
         if needle not in js:
             _fail("app.js feature", f"missing {needle!r}")
     _ok("app.js UX features")
 
     css = client.get("/static/style.css").text
-    for needle in (".compare-tray", ".compare-column", ".vs-btn"):
+    for needle in (".compare-tray", ".compare-column", ".vs-btn", ".topic-videos"):
         if needle not in css:
             _fail("style.css", f"missing {needle!r}")
     _ok("style.css compare/VS styles")

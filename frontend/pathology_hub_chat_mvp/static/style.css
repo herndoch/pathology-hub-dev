@@ -306,6 +306,48 @@ code {
   display: block;
 }
 
+.topic-videos {
+  background: #f8f9fa;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 0.85rem;
+}
+
+.topic-video-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.topic-video-item {
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.topic-video-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.topic-video-link:hover {
+  text-decoration: underline;
+}
+
+.topic-video-unavailable {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.topic-video-ts {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-left: 0.35rem;
+}
+
 .topic-sections {
   display: flex;
   flex-direction: column;

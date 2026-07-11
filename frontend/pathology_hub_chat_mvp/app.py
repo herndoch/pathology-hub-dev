@@ -673,8 +673,8 @@ def api_compare(req: CompareRequest):
                 max_figures=8,
             )
             _apply_figure_defaults(sub_req, "topic_page")
-            _outcomes, merged, cards, _meta, _mentions = _run_topic_page_retrieval(sub_req)
-            figures = extract_figures(merged)
+            _outcomes, slim_merged, cards, _meta, _mentions = _run_topic_page_retrieval(sub_req)
+            figures = extract_figures(slim_merged)
             prebuilt = _load_prebuilt_page(entity.tag)
             text_summary = _column_text_summary(cards, prebuilt)
             column = {

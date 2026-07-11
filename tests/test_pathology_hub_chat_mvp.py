@@ -17,7 +17,9 @@ from pathology_backend import (  # noqa: E402
     cap_cards_diverse,
     card_identity_key,
     card_root_token,
+    collapse_video_cards_for_citations,
     dedupe_cards,
+    dedupe_video_cards,
     diversify_by_source_id,
     extract_evidence_cards,
     extract_figures,
@@ -715,6 +717,71 @@ class TestRootNarrowFilter(unittest.TestCase):
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "cyto_milan"]), 0)
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "hn_lecture"]), 1)
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "breast_lecture"]), 0)
+
+
+class TestVideoDedupe(unittest.TestCase):
+    def test_dedupe_video_cards_by_video_id(self):
+        cards = [
+            {"source": "videos", "video_id": "vid-a", "title": "Case 01", "chunk_id": "c1"},
+            {"source": "videos", "video_id": "vid-a", "title": "Case 01", "chunk_id": "c2"},
+            {"source": "videos", "video_id": "vid-b", "title": "Case 02", "chunk_id": "c3"},
+            {"source": "who", "title": "WHO entity"},
+        ]
+        deduped = dedupe_video_cards(cards)
+        self.assertEqual(len(deduped), 2)
+        self.assertEqual({c["video_id"] for c in deduped}, {"vid-a", "vid-b"})
+
+    def test_collapse_video_cards_for_citations_keeps_non_video(self):
+        cards = [
+            {"source": "videos", "video_id": "vid-a", "title": "Lecture", "chunk_id": "c1"},
+            {"source": "videos", "video_id": "vid-a", "title": "Lecture", "chunk_id": "c2"},
+            {"source": "textbooks", "title": "Textbook hit"},
+        ]
+        collapsed = collapse_video_cards_for_citations(cards)
+        self.assertEqual(len(collapsed), 2)
+        self.assertEqual(collapsed[0]["source"], "videos")
+        self.assertEqual(collapsed[1]["source"], "textbooks")
+
+
+class TestMarkdownFenceHelpers(unittest.TestCase):
+    def test_app_js_has_fence_unwrapper_and_link_normalizer(self):
+        js_path = MVP_DIR / "static" / "app.js"
+        js = js_path.read_text(encoding="utf-8")
+        self.assertIn("function unwrapFencedMarkdownBlocks", js)
+        self.assertIn("function normalizeInlineLinkLabel", js)
+        self.assertIn("function renderTopicVideos", js)
+        self.assertIn("compare-gallery-grid", js)
+
+    def test_fenced_markdown_table_unwraps_for_parsing(self):
+        fenced = """```markdown
+| Feature | A | B |
+|---|---|---|
+| Row | 1 | 2 |
+```"""
+        # Parity with unwrapFencedMarkdownBlocks in app.js
+        import re
+
+        def is_table(block: str) -> bool:
+            lines = [ln for ln in block.split("\n") if ln.strip()]
+            return len(lines) >= 2 and all("|" in ln for ln in lines)
+
+        def unwrap(text: str) -> str:
+            def repl(match: re.Match) -> str:
+                lang = match.group(1) or ""
+                body = match.group(2).strip()
+                if not body:
+                    return ""
+                if is_table(body):
+                    return body
+                if not lang or lang.lower() in ("markdown", "md", "text"):
+                    return body
+                return match.group(0)
+
+            return re.sub(r"```([a-zA-Z0-9_-]*)\s*\n([\s\S]*?)```", repl, text)
+
+        unwrapped = unwrap(fenced)
+        self.assertTrue(unwrapped.startswith("| Feature"))
+        self.assertNotIn("```", unwrapped)
 
 
 if __name__ == "__main__":

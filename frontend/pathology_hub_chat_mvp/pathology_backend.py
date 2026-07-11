@@ -391,6 +391,56 @@ def dedupe_cards(cards: list[dict]) -> list[dict]:
     return result
 
 
+def _is_video_card(card: dict) -> bool:
+    source = str(card.get("source") or card.get("_result_key") or "")
+    return source in ("videos", "lectures") or bool(card.get("video_id"))
+
+
+def video_card_key(card: dict) -> Optional[str]:
+    for field in ("video_id", "title", "chunk_id"):
+        value = card.get(field)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
+
+
+def dedupe_video_cards(cards: list[dict]) -> list[dict]:
+    """Collapse lecture/video chunks that share the same parent video_id."""
+    if not cards:
+        return cards
+    seen: set[str] = set()
+    result: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict) or not _is_video_card(card):
+            continue
+        key = video_card_key(card)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        result.append(card)
+    return result
+
+
+def collapse_video_cards_for_citations(cards: list[dict]) -> list[dict]:
+    """Keep first video chunk per video_id; pass through all non-video cards."""
+    if not cards:
+        return cards
+    seen: set[str] = set()
+    result: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        if not _is_video_card(card):
+            result.append(card)
+            continue
+        key = video_card_key(card)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        result.append(card)
+    return result
+
+
 def cap_cards_diverse(
     cards: list[dict],
     max_cards: int,
