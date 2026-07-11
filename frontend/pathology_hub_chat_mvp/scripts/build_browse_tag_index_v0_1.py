@@ -41,6 +41,8 @@ AUDIT_PATH = OUTPUT_DIR / "browse_tag_index_v0_1.audit.json"
 STATIC_COPY_PATH = STATIC_DIR / "browse_tag_index_v0_1.json"
 
 SCHEMA_VERSION = "browse_tag_index_v0_2"
+ACCEPTED_NAV_PROVENANCES = ("abpath", "who", "both")
+NAV_SOURCES = ("abpath", "who")
 
 
 def _slug(text: str) -> str:
@@ -353,8 +355,8 @@ def build_index() -> tuple[dict, dict]:
         "dedupe_rules": {
             "key": "casefold(full_tag_path)",
             "canonical_preference": "abpath_spelling_with_who_overlay",
-            "provenance_values": ["abpath", "who", "both"],
-            "nav_sources": ["abpath", "who"],
+            "provenance_values": list(ACCEPTED_NAV_PROVENANCES),
+            "nav_sources": list(NAV_SOURCES),
             "pathout_nav": False,
         },
         "roots": final_roots,

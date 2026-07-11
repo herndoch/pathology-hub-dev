@@ -21,8 +21,8 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
-- `OPENAI_MODEL` — default `gpt-4.1-mini` (see **Synthesis model A/B** below)
-- `TOPIC_PAGE_ROOT_NARROW` — set to `1`/`true`/`yes`/`on` to narrow textbooks/pathout/videos to the topic page root (WHO + journals always kept)
+- `OPENAI_MODEL` — default **`gpt-4o`** (see **Synthesis model A/B** below); override e.g. `OPENAI_MODEL=gpt-4.1-mini`
+- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO + journals always kept)
 - `PORT` — local server port (default `8000`)
 
 ## Run locally
@@ -146,26 +146,26 @@ with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
 
 | `OPENAI_MODEL` | Avg total `/api/chat` time | All required sections present | Notes |
 |---|---|---|---|
-| `gpt-4.1-mini` (default) | ~35s | yes | Longest answers (~5–6k chars); baseline quality |
+| `gpt-4.1-mini` | ~35s | yes | Longest answers (~5–6k chars); prior default |
 | `gpt-4o-mini` | ~30s | yes | Shorter answers (~2.1–2.4k chars); not faster than mini here |
-| **`gpt-4o`** | **~18s** | yes | **Fastest** in this run; shorter but structurally complete |
+| **`gpt-4o`** | **~18s** | yes | **Default (2026-07-11)** — fastest in A/B; shorter but structurally complete |
 
-**Recommendation:** For faster live pages and prebuild throughput, set
-`OPENAI_MODEL=gpt-4o` when starting the app (`OPENAI_MODEL=gpt-4o ./scripts/run_local.sh`).
-Keep `gpt-4.1-mini` as the conservative default until reviewers confirm `gpt-4o` pages are
-adequately detailed for dense entities. Re-run the A/B script after prompt changes.
+**Default:** `gpt-4o` (`openai_synthesizer.DEFAULT_MODEL`). Override with
+`OPENAI_MODEL=gpt-4.1-mini ./scripts/run_local.sh` if you need longer answers on dense entities.
+Re-run `scripts/model_ab_topic_synthesis_v0_1.py` after prompt changes.
 
 ### Root-narrowed retrieval (B8)
 
-`TOPIC_PAGE_ROOT_NARROW=1` drops off-root textbooks/pathout/videos after retrieval while
-keeping WHO + journals. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
+**Default: on.** `TOPIC_PAGE_ROOT_NARROW` drops off-root textbooks/pathout/videos after retrieval while
+keeping WHO + journals. Disable with `TOPIC_PAGE_ROOT_NARROW=0` if breadth matters or a thin root
+starves results. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
 
 - **HN Pleomorphic Adenoma:** 67 → 52 cards (off-root HN noise trimmed; not starved)
 - **Eye choroidal melanoma:** 53 → 24 cards (still usable; watch thin roots)
 - **Middle Ear SCC:** 59 → 42 cards
 
-Use root narrow when off-root textbook/video noise dominates; leave off for thin roots or
-when breadth matters. Default remains **off** until broader review.
+Use root narrow when off-root textbook/video noise dominates; disable (`TOPIC_PAGE_ROOT_NARROW=0`)
+for thin roots (e.g. some Eye pages dropped 53→24 cards) or when breadth matters.
 
 **Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
 says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe

@@ -8,8 +8,8 @@ docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md section 5.
 
 Stratification (seeded `random.Random`, deterministic draw order):
     1. One leaf from the Cytopathology aggregate root (`root_id == "cyto"`).
-    2. One PathOut-only leaf (`provenance == "pathout"`) outside the cyto
-       root, if any exist.
+    2. One WHO-only leaf (`provenance == "who"`) outside the cyto root, if any
+       exist.
     3. Remaining leaves drawn uniformly from everything else (abpath-only or
        "both" provenance, outside cyto), excluding leaves already chosen.
 
@@ -31,6 +31,7 @@ INDEX_PATH = OUTPUT_DIR / "browse_tag_index_v0_1.json"
 SAMPLE_PATH = OUTPUT_DIR / "pilot_sample_v0_1.json"
 
 SCHEMA_VERSION = "topic_prepop_pilot_sample_v0_1"
+ACCEPTED_NAV_PROVENANCES = frozenset({"abpath", "who", "both"})
 
 
 def _flatten_leaves(index: dict) -> list[dict]:
@@ -58,23 +59,25 @@ def draw_sample(index: dict, n: int, seed: int) -> dict:
 
     cyto_pool = [leaf for leaf in leaves if leaf["root_id"] == "cyto"]
     non_cyto = [leaf for leaf in leaves if leaf["root_id"] != "cyto"]
-    pathout_only_pool = [leaf for leaf in non_cyto if leaf["provenance"] == "pathout"]
-    other_pool = [leaf for leaf in non_cyto if leaf["provenance"] != "pathout"]
+    who_only_pool = [leaf for leaf in non_cyto if leaf["provenance"] == "who"]
+    other_pool = [
+        leaf for leaf in non_cyto if leaf["provenance"] in ("abpath", "both")
+    ]
 
     rng = random.Random(seed)
     chosen: list[dict] = []
     chosen_tags: set[str] = set()
 
-    require_pathout_only_available = bool(pathout_only_pool)
+    require_who_only_available = bool(who_only_pool)
 
     if cyto_pool:
         pick = rng.choice(cyto_pool)
         chosen.append(pick)
         chosen_tags.add(pick["tag"])
 
-    if pathout_only_pool:
-        remaining_pathout_pool = [leaf for leaf in pathout_only_pool if leaf["tag"] not in chosen_tags]
-        pick = rng.choice(remaining_pathout_pool)
+    if who_only_pool:
+        remaining_who_pool = [leaf for leaf in who_only_pool if leaf["tag"] not in chosen_tags]
+        pick = rng.choice(remaining_who_pool)
         chosen.append(pick)
         chosen_tags.add(pick["tag"])
 
@@ -90,11 +93,12 @@ def draw_sample(index: dict, n: int, seed: int) -> dict:
         "n_requested": n,
         "n_drawn": len(chosen),
         "seed": seed,
+        "accepted_nav_provenances": sorted(ACCEPTED_NAV_PROVENANCES),
         "stratification": {
             "require_cyto": True,
-            "require_pathout_only": True,
-            "pathout_only_pool_available": require_pathout_only_available,
-            "pathout_only_pool_size": len(pathout_only_pool),
+            "require_who_only": True,
+            "who_only_pool_available": require_who_only_available,
+            "who_only_pool_size": len(who_only_pool),
             "cyto_pool_size": len(cyto_pool),
             "other_pool_size": len(other_pool),
         },

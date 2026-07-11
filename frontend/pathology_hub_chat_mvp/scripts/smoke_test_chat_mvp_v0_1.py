@@ -52,6 +52,11 @@ def smoke_offline() -> None:
     counts = data.get("counts") or {}
     if counts.get("roots_total", 0) < 10:
         _fail("browse roots", str(counts))
+    rules = data.get("dedupe_rules") or {}
+    if rules.get("nav_sources") != ["abpath", "who"] or rules.get("pathout_nav") is not False:
+        _fail("browse nav sources", rules.get("nav_sources"))
+    if rules.get("provenance_values") != ["abpath", "who", "both"]:
+        _fail("browse provenance values", rules.get("provenance_values"))
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text
@@ -63,6 +68,9 @@ def smoke_offline() -> None:
         "media-modal-prev",
         "/api/flag",
         "/api/compare",
+        "ACCEPTED_NAV_PROVENANCES",
+        'both: "ABPath + WHO"',
+        "formatNavProvenanceLabel",
     ):
         if needle not in js:
             _fail("app.js feature", f"missing {needle!r}")

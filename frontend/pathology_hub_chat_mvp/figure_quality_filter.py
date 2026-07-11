@@ -11,6 +11,11 @@ Live-verified join keys (2026-07-10):
   Live cards carry empty `record_id`, so join on `chunk_id` only.
 - Standalone `figures[]` entries: no `chunk_id`; match via `(source_id, fig_slot)`
   parsed from `image_path` / `original_image_path` (e.g. `..._p0473_fig01_...`).
+
+Also exports tiny-dimension / near-black classifiers used by the Chat MVP
+client (canvas / naturalWidth sampling) for HTTP 200 extraction stubs that
+never entered the sidecar audit population (e.g. cyto_thyroid_bethesda
+90x90 unidentified JPEGs).
 """
 
 from __future__ import annotations
@@ -28,6 +33,17 @@ DEFAULT_FLAGS_PATH = (
 
 _FIG_SLOT_RE = re.compile(r"_fig(\d+)(?:_|\.|$)", re.IGNORECASE)
 _FIGURE_URL_FIELDS = ("figure_url", "image_url")
+
+# Match scripts/audit_textbook_figure_image_dimensions_v0_1.py TINY_DIM.
+# Live cyto_thyroid_bethesda extraction stubs are 90x90 near-black JPEGs
+# (1150 bytes) that never entered the curriculum SQLite audit population, so
+# they are absent from the quality-flags sidecar — Chat MVP hides them via
+# decoded dimensions / pixel sampling instead of mutating that sidecar.
+TINY_DIM = 120
+NEAR_BLACK_CHANNEL_MAX = 16
+NEAR_BLACK_FRACTION_STRICT = 0.85
+NEAR_BLACK_MEAN_LUMINANCE_MAX = 35.0
+NEAR_BLACK_FRACTION_LOOSE = 0.30
 
 
 @lru_cache(maxsize=4)
@@ -142,3 +158,38 @@ def filter_suppress_render_figures(
         for figure in figures
         if isinstance(figure, dict) and not is_suppress_render(figure, flags_path=flags_path)
     ]
+
+
+def is_tiny_decoded_image(width: int, height: int, tiny_dim: int = TINY_DIM) -> bool:
+    """True when either decoded edge is below the dimension-audit tiny threshold."""
+    try:
+        w = int(width)
+        h = int(height)
+    except (TypeError, ValueError):
+        return False
+    return w > 0 and h > 0 and (w < tiny_dim or h < tiny_dim)
+
+
+def is_near_black_sample(
+    mean_luminance: float,
+    near_black_fraction: float,
+    *,
+    channel_max: int = NEAR_BLACK_CHANNEL_MAX,
+    fraction_strict: float = NEAR_BLACK_FRACTION_STRICT,
+    mean_max: float = NEAR_BLACK_MEAN_LUMINANCE_MAX,
+    fraction_loose: float = NEAR_BLACK_FRACTION_LOOSE,
+) -> bool:
+    """Classify a downsampled RGB sample as a near-black / empty extraction stub.
+
+    ``channel_max`` is documented for callers that compute ``near_black_fraction``
+    (pixels with R,G,B all < channel_max); it is not used in the comparison itself.
+    """
+    _ = channel_max  # documented contract for sample producers (client + tests)
+    try:
+        mean_l = float(mean_luminance)
+        frac = float(near_black_fraction)
+    except (TypeError, ValueError):
+        return False
+    if frac < 0 or frac > 1:
+        return False
+    return frac >= fraction_strict or (mean_l < mean_max and frac >= fraction_loose)

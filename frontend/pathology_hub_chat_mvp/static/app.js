@@ -275,6 +275,21 @@ function countLeaves(category) {
  * BROWSE_TAXONOMY above so the tree is never blank. */
 let browseIndex = null;
 
+/** Locked browse-nav policy: accepted topic tags come from ABPath and/or WHO
+ * only (PathOut is a citation source, not a nav tag source). Mirrors
+ * `dedupe_rules` in browse_tag_index_v0_2. */
+const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both"]);
+const NAV_PROVENANCE_LABELS = {
+  abpath: "ABPath",
+  who: "WHO",
+  both: "ABPath + WHO",
+};
+
+function formatNavProvenanceLabel(provenance) {
+  const key = String(provenance || "").toLowerCase();
+  return NAV_PROVENANCE_LABELS[key] || null;
+}
+
 /** Known-root glyph/gradient styling, keyed by the generated index's root
  * `id`s (see build_browse_tag_index_v0_1.py). Any root not listed here
  * (e.g. small PathOut-only residual roots) gets a neutral default look —
@@ -352,6 +367,15 @@ async function loadBrowseIndex() {
     const data = await resp.json();
     if (!data || !Array.isArray(data.roots) || !data.roots.length) {
       throw new Error("Empty or malformed browse_tag_index_v0_1.json");
+    }
+    const rules = data.dedupe_rules || {};
+    const navSources = Array.isArray(rules.nav_sources) ? rules.nav_sources : [];
+    if (
+      !navSources.includes("abpath")
+      || !navSources.includes("who")
+      || rules.pathout_nav !== false
+    ) {
+      throw new Error("Browse index nav_sources are not WHO + ABPath only");
     }
     browseIndex = data;
   } catch (err) {
@@ -2033,8 +2057,9 @@ function renderEntryTagsFooter(tag, provenance) {
   let html = '<div class="topic-tags-footer">';
   html += '<span class="topic-tags-label">Tags:</span>';
   html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">${escapeHtml(formatDisplayLabel(tag))}</span>`;
-  if (provenance && provenance !== "curated") {
-    html += `<span class="source-badge provenance-badge">${escapeHtml(provenance)}</span>`;
+  const provenanceLabel = formatNavProvenanceLabel(provenance);
+  if (provenanceLabel) {
+    html += `<span class="source-badge provenance-badge">${escapeHtml(provenanceLabel)}</span>`;
   }
   html += "</div>";
   return html;

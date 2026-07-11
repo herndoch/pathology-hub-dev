@@ -48,7 +48,7 @@ from pydantic import BaseModel, Field
 
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, ping as openai_ping, synthesize
+from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -106,12 +106,16 @@ PAGE_FLAGS_DIR = os.path.normpath(
 )
 PAGE_FLAGS_PATH = os.path.join(PAGE_FLAGS_DIR, "page_flags_v0_1.jsonl")
 
-TOPIC_PAGE_ROOT_NARROW = os.environ.get("TOPIC_PAGE_ROOT_NARROW", "").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
+def _env_bool(name: str, *, default: bool) -> bool:
+    raw = os.environ.get(name, "").strip().lower()
+    if raw in {"1", "true", "yes", "on"}:
+        return True
+    if raw in {"0", "false", "no", "off"}:
+        return False
+    return default
+
+
+TOPIC_PAGE_ROOT_NARROW = _env_bool("TOPIC_PAGE_ROOT_NARROW", default=True)
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -435,7 +439,7 @@ def api_health():
         "app_title": APP_TITLE,
         "backend": backend_health,
         "secrets": secret_status,
-        "openai_model": os.environ.get("OPENAI_MODEL", "gpt-4.1-mini (default, override with OPENAI_MODEL)"),
+        "openai_model": get_model(),
         "supported_sources": SUPPORTED_SOURCES,
         "supported_modes": sorted(VALID_MODES),
         "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
