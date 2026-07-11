@@ -32,7 +32,7 @@ _VISUAL_QUERY = re.compile(
 _SOURCE_LABELS = {
     "who": "WHO",
     "textbooks": "Textbooks",
-    "pathout": "PathOut",
+    "pathout": "Pathoutlines",
     "journals": "Journals",
     "lectures": "Lectures",
     "videos": "Videos",

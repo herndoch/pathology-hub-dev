@@ -565,6 +565,33 @@ code {
   white-space: nowrap;
 }
 
+.topic-tags-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--panel-border);
+}
+
+.topic-tags-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.topic-entry-tag {
+  max-width: none;
+  white-space: normal;
+}
+
+.provenance-badge {
+  text-transform: capitalize;
+}
+
 .citation-excerpt {
   margin-bottom: 0.35rem;
 }
@@ -610,6 +637,12 @@ code {
   object-fit: contain !important;
   border: 1px dashed var(--panel-border) !important;
   background: #f1f3f4;
+}
+
+/* Gallery/figure chrome hidden after client-side tiny/near-black detection
+   (HTTP 200 extraction stubs that never fire img error). */
+.img-defect-hidden {
+  display: none !important;
 }
 
 .figure-preview-btn {
@@ -697,6 +730,41 @@ code {
   line-height: 1;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
+}
+
+.media-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-modal-nav:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.media-modal-nav[hidden] {
+  display: none;
+}
+
+.media-modal-prev {
+  left: 0.5rem;
+}
+
+.media-modal-next {
+  right: 0.5rem;
 }
 
 .media-modal-img {

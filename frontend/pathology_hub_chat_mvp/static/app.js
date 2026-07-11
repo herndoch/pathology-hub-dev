@@ -12,11 +12,20 @@ const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 const SOURCE_LABELS = {
   who: "WHO Classification",
   textbooks: "Textbooks",
-  pathout: "Pathology Outlines",
+  pathout: "Pathoutlines",
   journals: "Journals",
   lectures: "Lectures",
   videos: "Videos",
   curriculum: "Curriculum map",
+};
+
+/** Pretty names for textbook source_id tails (after root prefix is stripped). */
+const TEXTBOOK_ALIASES = {
+  gnepp: "Gnepp",
+  atlas: "Atlas",
+  cardesa: "Cardesa",
+  vasef: "Vasef",
+  faq: "FAQ",
 };
 
 const MODE_HINTS = {
@@ -397,7 +406,7 @@ function buildLeafIndex() {
   for (const root of getBrowseRoots()) {
     for (const sub of root.subcategories) {
       for (const leaf of sub.leaves) {
-        const displayName = String(leaf.label || "").replace(/_/g, " ");
+        const displayName = formatDisplayLabel(leaf.label);
         list.push({
           categoryId: root.id,
           subcategoryId: sub.id,
@@ -481,6 +490,11 @@ const mediaModalFigure = document.getElementById("media-modal-figure");
 const mediaModalPage = document.getElementById("media-modal-page");
 const mediaModalSource = document.getElementById("media-modal-source");
 const mediaModalReference = document.getElementById("media-modal-reference");
+const mediaModalPrev = document.getElementById("media-modal-prev");
+const mediaModalNext = document.getElementById("media-modal-next");
+
+/** Active lightbox gallery — ordered preview payloads + current index (C10). */
+let currentGallery = { items: [], index: 0 };
 const viewTabs = document.querySelectorAll(".view-tab");
 const browseViewEl = document.getElementById("browse-view");
 const askViewEl = document.getElementById("ask-view");
@@ -494,6 +508,30 @@ let browseRequestSeq = 0;
 
 function sourceLabel(source) {
   return SOURCE_LABELS[source] || source;
+}
+
+/** Strip the organ-root prefix from textbook source_id (e.g. hn_gnepp → Gnepp). */
+function textbookLabel(sourceId) {
+  if (!sourceId) return "Textbook";
+  const parts = String(sourceId).split("_");
+  if (parts.length < 2) return formatDisplayLabel(sourceId);
+  parts.shift();
+  const bookKey = parts.join("_");
+  const alias = TEXTBOOK_ALIASES[bookKey.toLowerCase()];
+  if (alias) return alias;
+  return formatDisplayLabel(bookKey);
+}
+
+/** Per-card citation badge / "Open …" label — source-aware (B9). */
+function citationSourceLabel(card) {
+  const source = card.source || card._result_key || "";
+  if (source === "journals") {
+    return card.journal || card.source_name || "Journal";
+  }
+  if (source === "textbooks") {
+    return textbookLabel(card.source_id);
+  }
+  return sourceLabel(source);
 }
 
 function cardTitle(card) {
@@ -673,7 +711,7 @@ function cardPresentation(card) {
   const reference = pickHttp(card.source_page_url);
   const video = pickHttp(card.video_time_url);
   const previewUrl = figure || pageImage;
-  const srcLabel = sourceLabel(card.source || "");
+  const srcLabel = citationSourceLabel(card);
 
   const displayLinks = [];
   const seen = new Set();
@@ -703,6 +741,36 @@ function normalizeAnswerText(text) {
   return String(text || "")
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/\r\n/g, "\n");
+}
+
+/** Human-readable label for Browse nav and breadcrumbs. Underlying tag/id keys
+ * used for API calls stay unchanged — only user-visible strings are formatted. */
+function formatDisplayLabel(text) {
+  return String(text || "").replace(/_/g, " ").trim();
+}
+
+/** Subcategory display normalization (A6): plain Genetics → Molecular Genetics. */
+function formatSubcategoryLabel(text) {
+  const normalized = formatDisplayLabel(text);
+  if (/^genetics$/i.test(normalized)) return "Molecular Genetics";
+  return normalized;
+}
+
+/** Strip textbook-style figure number callouts from rendered prose, e.g.
+ * "(Fig. 2.29)", "(Figs. 7.17, 7.18, 7.19)", or standalone "Fig. 2.29". */
+function stripFigureReferences(text) {
+  let s = String(text || "");
+  s = s.replace(/\(\s*Figs?\.\s*[\d][\d.,\s]*\s*\)/gi, "");
+  s = s.replace(/\(\s*Figs?\s+[\d][\d.,\s]*\s*\)/gi, "");
+  s = s.replace(/\bFigs?\.\s*[\d][\d.,\s]*/gi, "");
+  s = s.replace(/\bFigs?\s+[\d][\d.,\s]*/gi, "");
+  s = s.replace(/\(\s*\)/g, "");
+  s = s.replace(/\b(?:see|refer to)\s+(?=[,.;]|$)/gi, "");
+  s = s.replace(/\bto\s+for\b/gi, "for");
+  s = s.replace(/\s+([,.;:])/g, "$1");
+  s = s.replace(/([,.;])\s*([,.;])/g, "$1");
+  s = s.replace(/\s{2,}/g, " ");
+  return s.trim();
 }
 
 /** Best-effort strip of a trailing "Sources:"/"References:" link-dump block.
@@ -857,6 +925,7 @@ function renderMarkdownTable(block) {
 }
 
 function inlineMarkdown(text, previewIndex) {
+  text = stripFigureReferences(text);
   const tokens = [];
   const stash = (html) => {
     const token = `__MDTOK${tokens.length}__`;
@@ -988,7 +1057,7 @@ function renderCitations(cards) {
 
     html += '<li class="citation-item">';
     html += `<div class="citation-head"><strong>${escapeHtml(presentation.caption)}</strong>`;
-    html += `<span class="source-badge">${escapeHtml(sourceLabel(source))}</span>`;
+    html += `<span class="source-badge">${escapeHtml(citationSourceLabel(card))}</span>`;
     if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(tag)}</span>`;
     html += "</div>";
     if (excerpt) html += `<div class="citation-excerpt">${escapeHtml(excerpt)}</div>`;
@@ -1051,9 +1120,8 @@ function setModalAction(el, url, label) {
   }
 }
 
-function openMediaPreview(payload) {
+function renderMediaModalPayload(payload) {
   if (!payload?.previewUrl) return;
-
   mediaModalImg.src = payload.previewUrl;
   mediaModalImg.alt = payload.caption || "Preview";
   mediaModalCaption.textContent = payload.caption || "";
@@ -1067,7 +1135,38 @@ function openMediaPreview(payload) {
     links.video && !links.source ? "Open video" : "Open source",
   );
   setModalAction(mediaModalReference, links.reference, "Open reference page");
+}
 
+function updateMediaModalNav() {
+  const showNav = currentGallery.items.length > 1;
+  if (mediaModalPrev) mediaModalPrev.hidden = !showNav;
+  if (mediaModalNext) mediaModalNext.hidden = !showNav;
+}
+
+function showGalleryAt(index) {
+  const n = currentGallery.items.length;
+  if (!n) return;
+  currentGallery.index = ((index % n) + n) % n;
+  renderMediaModalPayload(currentGallery.items[currentGallery.index]);
+  updateMediaModalNav();
+}
+
+function showPrevGallery() {
+  showGalleryAt(currentGallery.index - 1);
+}
+
+function showNextGallery() {
+  showGalleryAt(currentGallery.index + 1);
+}
+
+function openMediaPreview(itemsOrPayload, startIndex = 0) {
+  const items = Array.isArray(itemsOrPayload) ? itemsOrPayload : [itemsOrPayload];
+  currentGallery = {
+    items: items.filter((item) => item?.previewUrl),
+    index: startIndex,
+  };
+  if (!currentGallery.items.length) return;
+  showGalleryAt(startIndex);
   mediaModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
@@ -1075,6 +1174,8 @@ function openMediaPreview(payload) {
 function closeMediaPreview() {
   mediaModal.classList.add("hidden");
   mediaModalImg.src = "";
+  currentGallery = { items: [], index: 0 };
+  updateMediaModalNav();
   document.body.classList.remove("modal-open");
 }
 
@@ -1097,6 +1198,73 @@ const BROKEN_IMAGE_PLACEHOLDER =
       "</svg>",
   );
 
+// Mirrors figure_quality_filter.TINY_DIM / near-black thresholds (Python unit-tested).
+const TINY_IMAGE_DIM = 120;
+const NEAR_BLACK_CHANNEL_MAX = 16;
+const NEAR_BLACK_FRACTION_STRICT = 0.85;
+const NEAR_BLACK_MEAN_LUMINANCE_MAX = 35;
+const NEAR_BLACK_FRACTION_LOOSE = 0.3;
+
+function markDefectiveImage(img, reason) {
+  if (!img || img.dataset.brokenHandled) return;
+  img.dataset.brokenHandled = "true";
+  if (reason) img.dataset.defectReason = reason;
+  img.src = BROKEN_IMAGE_PLACEHOLDER;
+  img.classList.add("img-broken");
+  // Hide gallery / figure chrome so solid-black stubs do not occupy a slot or
+  // open a black modal. Prefer outer <figure> so figcaptions disappear too.
+  // Modal <img> has none of these ancestors, so the placeholder stays visible.
+  const chrome =
+    img.closest("figure") ||
+    img.closest(".topic-gallery-thumb, .figure-preview-btn, .citation-thumb-btn");
+  if (chrome) {
+    chrome.hidden = true;
+    chrome.classList.add("img-defect-hidden");
+  }
+}
+
+function sampleLooksNearBlack(img) {
+  // naturalWidth/Height need no CORS. Canvas sampling does, and may fail for
+  // cross-origin proxy URLs — tiny-dim check still catches the 90x90 stubs.
+  const w = img.naturalWidth || 0;
+  const h = img.naturalHeight || 0;
+  if (w > 0 && h > 0 && (w < TINY_IMAGE_DIM || h < TINY_IMAGE_DIM)) {
+    return "tiny_image";
+  }
+  try {
+    const sw = Math.min(w, 64);
+    const sh = Math.min(h, 64);
+    if (sw < 1 || sh < 1) return null;
+    const canvas = document.createElement("canvas");
+    canvas.width = sw;
+    canvas.height = sh;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0, sw, sh);
+    const data = ctx.getImageData(0, 0, sw, sh).data;
+    const n = sw * sh;
+    let nearBlack = 0;
+    let sumL = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      sumL += 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      if (r < NEAR_BLACK_CHANNEL_MAX && g < NEAR_BLACK_CHANNEL_MAX && b < NEAR_BLACK_CHANNEL_MAX) {
+        nearBlack += 1;
+      }
+    }
+    const meanL = sumL / n;
+    const frac = nearBlack / n;
+    if (frac >= NEAR_BLACK_FRACTION_STRICT || (meanL < NEAR_BLACK_MEAN_LUMINANCE_MAX && frac >= NEAR_BLACK_FRACTION_LOOSE)) {
+      return "near_black";
+    }
+  } catch (err) {
+    /* tainted canvas / CORS — dimension check above still applies */
+  }
+  return null;
+}
+
 /** Delegated, capture-phase `error` listener (image `error` events don't
  * bubble, but a capturing ancestor listener still sees them) — catches every
  * broken figure/page/citation-thumbnail/modal image anywhere in the app in
@@ -1110,14 +1278,40 @@ document.addEventListener(
   (event) => {
     const img = event.target;
     if (!img || img.tagName !== "IMG" || img.dataset.brokenHandled) return;
-    img.dataset.brokenHandled = "true";
-    img.src = BROKEN_IMAGE_PLACEHOLDER;
-    img.classList.add("img-broken");
+    markDefectiveImage(img, "load_error");
   },
   true,
 );
 
+/** HTTP 200 near-black / tiny extraction stubs never fire `error` — sample
+ * after decode and hide them the same way as broken links. */
+document.addEventListener(
+  "load",
+  (event) => {
+    const img = event.target;
+    if (!img || img.tagName !== "IMG" || img.dataset.brokenHandled) return;
+    if ((img.getAttribute("src") || "").startsWith("data:")) return;
+    const reason = sampleLooksNearBlack(img);
+    if (reason) markDefectiveImage(img, reason);
+  },
+  true,
+);
+
+function scrubDefectiveImages(root) {
+  if (!root) return;
+  root.querySelectorAll("img").forEach((img) => {
+    if (img.dataset.brokenHandled) return;
+    if ((img.getAttribute("src") || "").startsWith("data:")) return;
+    // Cached images may have already fired `load` before this HTML was bound.
+    if (img.complete && img.naturalWidth > 0) {
+      const reason = sampleLooksNearBlack(img);
+      if (reason) markDefectiveImage(img, reason);
+    }
+  });
+}
+
 function bindPreviewHandlers(root) {
+  scrubDefectiveImages(root);
   root.querySelectorAll("[data-preview]").forEach((el) => {
     el.addEventListener("click", (event) => {
       // Preview-aware <a> tags keep their href so ctrl/cmd/middle-click still
@@ -1125,9 +1319,31 @@ function bindPreviewHandlers(root) {
       const isModifiedClick =
         el.tagName === "A" && (event.ctrlKey || event.metaKey || event.shiftKey || event.button === 1);
       if (isModifiedClick) return;
+      // Skip thumbs already hidden as defective extraction stubs.
+      if (el.hidden || el.classList.contains("img-defect-hidden")) return;
       try {
         if (el.tagName === "A") event.preventDefault();
-        openMediaPreview(JSON.parse(el.dataset.preview));
+        const payload = JSON.parse(el.dataset.preview);
+        const gallery = el.closest(".topic-gallery-grid, .figures-grid, .figures-grid-prominent");
+        let items = [payload];
+        let index = 0;
+        if (gallery) {
+          const siblings = [];
+          gallery.querySelectorAll("[data-preview]").forEach((sib) => {
+            if (sib.hidden || sib.classList.contains("img-defect-hidden")) return;
+            try {
+              siblings.push(JSON.parse(sib.dataset.preview));
+            } catch (err) {
+              /* skip malformed sibling */
+            }
+          });
+          if (siblings.length) {
+            items = siblings;
+            const matchIdx = siblings.findIndex((item) => item.previewUrl === payload.previewUrl);
+            index = matchIdx >= 0 ? matchIdx : 0;
+          }
+        }
+        openMediaPreview(items, index);
       } catch (err) {
         /* ignore malformed preview payload */
       }
@@ -1208,7 +1424,7 @@ function renderBrowseBreadcrumbs() {
   const category = browseState.categoryId ? findCategory(browseState.categoryId) : null;
   if (category && browseState.level !== "home") {
     parts.push({
-      label: category.label,
+      label: formatDisplayLabel(category.label),
       onClick: () => {
         browseState = { level: "category", categoryId: category.id };
         renderBrowseView();
@@ -1220,7 +1436,7 @@ function renderBrowseBreadcrumbs() {
     category && browseState.subcategoryId ? findSubcategory(category, browseState.subcategoryId) : null;
   if (subcategory && (browseState.level === "subcategory" || browseState.level === "leaf")) {
     parts.push({
-      label: subcategory.label,
+      label: formatSubcategoryLabel(subcategory.label),
       onClick: () => {
         browseState = { level: "subcategory", categoryId: category.id, subcategoryId: subcategory.id };
         renderBrowseView();
@@ -1229,7 +1445,7 @@ function renderBrowseBreadcrumbs() {
   }
 
   if (browseState.level === "leaf" && browseState.label) {
-    parts.push({ label: String(browseState.label).replace(/_/g, " "), onClick: null });
+    parts.push({ label: formatDisplayLabel(browseState.label), onClick: null });
   }
 
   browseBreadcrumbsEl.innerHTML = "";
@@ -1281,7 +1497,7 @@ function renderBrowseHome() {
     const countLabel = usingIndex ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`;
     html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
     html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
-    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(root.label)}</span><span class="browse-tile-count">${countLabel}</span></span>`;
+    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
     html += "</button>";
   }
   html += "</div>";
@@ -1301,13 +1517,13 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
-  let html = `<h2 class="browse-heading">${escapeHtml(cat.label)}</h2>`;
+  let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
   html += browseIndex
     ? '<p class="hint">Combined ABPath + PathOut topic tags for this root. Pick a subcategory, then a topic.</p>'
     : '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   html += '<div class="chevron-list">';
   for (const sub of cat.subcategories) {
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(sub.label)}${browseIndex ? ` <span class="chevron-count">(${sub.leaf_count})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${browseIndex ? ` <span class="chevron-count">(${sub.leaf_count})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
@@ -1327,14 +1543,14 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
-  let html = `<h2 class="browse-heading">${escapeHtml(cat.label)} — ${escapeHtml(sub.label)}</h2>`;
+  let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))} — ${escapeHtml(formatSubcategoryLabel(sub.label))}</h2>`;
   html += browseIndex
     ? '<p class="hint">Pick a topic to load a grounded topic page — prebuilt (pilot) pages load instantly, others run a live query.</p>'
     : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
   html += '<div class="chevron-list">';
   for (const leaf of sub.leaves) {
-    const displayLabel = String(leaf.label || "").replace(/_/g, " ");
-    const payload = escapeAttr(JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query }));
+    const displayLabel = formatDisplayLabel(leaf.label);
+    const payload = escapeAttr(JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, provenance: leaf.provenance || null }));
     html += `<button type="button" class="chevron-item" data-leaf="${payload}"><span>${escapeHtml(displayLabel)}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
@@ -1349,6 +1565,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
         tag: leaf.tag,
         label: leaf.label,
         query: leaf.query,
+        provenance: leaf.provenance || null,
       };
       renderBrowseView();
     });
@@ -1460,13 +1677,13 @@ function renderDifferentialSection(content, previewIndex) {
     if (navTarget) {
       const payload = escapeAttr(JSON.stringify(navTarget));
       items.push(
-        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(entityName)}</button>` +
+        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(entityName))}</button>` +
           (rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : "") +
           "</li>",
       );
     } else {
       items.push(
-        `<li><strong>${escapeHtml(entityName)}</strong>${rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : ""}</li>`,
+        `<li><strong>${escapeHtml(formatDisplayLabel(entityName))}</strong>${rest ? ` \u2014 ${inlineMarkdown(rest, previewIndex)}` : ""}</li>`,
       );
     }
   }
@@ -1488,10 +1705,10 @@ function renderWhoCrossMentions(mentions) {
     if (navTarget) {
       const payload = escapeAttr(JSON.stringify(navTarget));
       items.push(
-        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(leaf)}</button>${meta}</li>`,
+        `<li><button type="button" class="ddx-link-btn" data-ddx-nav="${payload}">${escapeHtml(formatDisplayLabel(leaf))}</button>${meta}</li>`,
       );
     } else {
-      items.push(`<li><strong>${escapeHtml(leaf)}</strong>${meta}</li>`);
+      items.push(`<li><strong>${escapeHtml(formatDisplayLabel(leaf))}</strong>${meta}</li>`);
     }
   }
   if (!items.length) return "";
@@ -1555,7 +1772,19 @@ function topicPageFanoutHint(data) {
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
 
-function renderTopicPageResult(data, query) {
+function renderEntryTagsFooter(tag, provenance) {
+  if (!tag) return "";
+  let html = '<div class="topic-tags-footer">';
+  html += '<span class="topic-tags-label">Tags:</span>';
+  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">${escapeHtml(formatDisplayLabel(tag))}</span>`;
+  if (provenance && provenance !== "curated") {
+    html += `<span class="source-badge provenance-badge">${escapeHtml(provenance)}</span>`;
+  }
+  html += "</div>";
+  return html;
+}
+
+function renderTopicPageResult(data, query, entryMeta = null) {
   const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
   const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 10 });
@@ -1568,6 +1797,9 @@ function renderTopicPageResult(data, query) {
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
+  const tag = entryMeta?.tag || null;
+  const provenance = entryMeta?.provenance || null;
+  html += renderEntryTagsFooter(tag, provenance);
   html += renderDebugBlock(data);
   return html;
 }
@@ -1622,7 +1854,7 @@ async function fetchPrebuiltTopicPage(tag) {
  * navigation. */
 async function loadLeafTopicPage(leafRef) {
   const seq = ++browseRequestSeq;
-  const displayLabel = String(leafRef.label || leafRef.query || "").replace(/_/g, " ");
+  const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
 
   const category = findCategory(leafRef.categoryId);
@@ -1664,7 +1896,10 @@ async function loadLeafTopicPage(leafRef) {
     let html = prebuilt
       ? '<p class="hint topic-prebuilt-hint">Prebuilt (pilot) — cached topic page from a prior run, not a fresh live query. See docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md.</p>'
       : "";
-    html += renderTopicPageResult(data, query);
+    html += renderTopicPageResult(data, query, {
+      tag: leafRef.tag,
+      provenance: leafRef.provenance || null,
+    });
     browseContentEl.innerHTML = html;
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
@@ -1807,10 +2042,19 @@ function appendMessage(role, html) {
 mediaModal.querySelectorAll("[data-modal-close]").forEach((el) => {
   el.addEventListener("click", closeMediaPreview);
 });
+if (mediaModalPrev) mediaModalPrev.addEventListener("click", showPrevGallery);
+if (mediaModalNext) mediaModalNext.addEventListener("click", showNextGallery);
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !mediaModal.classList.contains("hidden")) {
+  if (mediaModal.classList.contains("hidden")) return;
+  if (event.key === "Escape") {
     closeMediaPreview();
+  } else if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    showPrevGallery();
+  } else if (event.key === "ArrowRight") {
+    event.preventDefault();
+    showNextGallery();
   }
 });
 

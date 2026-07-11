@@ -25,7 +25,7 @@ FORMAT (strict — ExpertPath-style scannable answers):
   lead with ONE compact markdown table — rows = distinguishing features/markers, columns = each
   entity — instead of bullets. Follow the table with at most 2 short bullets for caveats. Do not
   restate the table content as bullets afterward.
-- Inline citations MUST be markdown links when a URL exists, e.g. [WHO](https://exact-url-from-evidence) or [PathOut](url). If no URL exists, use plain (WHO) with no link.
+- Inline citations MUST be markdown links when a URL exists, e.g. [WHO](https://exact-url-from-evidence) or [Pathoutlines](url). If no URL exists, use plain (WHO) with no link.
 - When a `_citation_link_index` entry has field `figure_url` or `page_image_url` and it clearly
   illustrates the point of a bullet, you may embed it inline as an image once with
   `![short caption](that-exact-url)` — do this at most once or twice per answer, never for every
