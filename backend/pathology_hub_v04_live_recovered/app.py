@@ -1756,8 +1756,13 @@ LECTURE_VECTOR_POOL = int(os.environ.get("LECTURE_VECTOR_POOL", "25"))
 _LECTURE_INDEX = None
 _LECTURE_DOCSTORE = None
 
-def _download_if_needed_v048(uri: str, dest: Path, min_size: int = 100):
-    if uri and (not dest.exists() or dest.stat().st_size < min_size):
+def _download_if_needed_v048(uri: str, dest: Path, min_size: int = 100, force: bool = False):
+    if uri and (force or not dest.exists() or dest.stat().st_size < min_size):
+        if force and dest.exists():
+            try:
+                dest.unlink()
+            except OSError:
+                pass
         _download_gcs(uri, dest)
     return dest
 
@@ -1982,9 +1987,27 @@ def local_pathout_ap_search_v048(query: str, max_results: int, excerpt_char_limi
     return results, warnings
 
 def ensure_lecture_vector_artifacts():
-    _download_if_needed_v048(LECTURE_FAISS_GCS, LECTURE_FAISS_PATH, min_size=1000)
-    _download_if_needed_v048(LECTURE_DOCSTORE_GCS, LECTURE_DOCSTORE_PATH, min_size=1000)
-    _download_if_needed_v048(LECTURE_VECTOR_MANIFEST_GCS, LECTURE_VECTOR_MANIFEST_PATH, min_size=100)
+    """Download lecture FAISS/docstore/manifest. Honor LECTURE_MANIFEST_REFRESH_TS.
+
+    Cloud Run images may ship stale lecture artifacts under /tmp. Bumping
+    LECTURE_MANIFEST_REFRESH_TS forces a wipe + re-download from GCS.
+    """
+    refresh_ts = (os.environ.get("LECTURE_MANIFEST_REFRESH_TS") or "").strip()
+    stamp_path = LECTURE_DATA_DIR / ".lecture_manifest_refresh_ts"
+    force = False
+    if refresh_ts:
+        prev = stamp_path.read_text().strip() if stamp_path.exists() else ""
+        if prev != refresh_ts:
+            force = True
+    _download_if_needed_v048(LECTURE_FAISS_GCS, LECTURE_FAISS_PATH, min_size=1000, force=force)
+    _download_if_needed_v048(LECTURE_DOCSTORE_GCS, LECTURE_DOCSTORE_PATH, min_size=1000, force=force)
+    _download_if_needed_v048(LECTURE_VECTOR_MANIFEST_GCS, LECTURE_VECTOR_MANIFEST_PATH, min_size=100, force=force)
+    if force and refresh_ts:
+        stamp_path.write_text(refresh_ts + "\n")
+    if force:
+        global _LECTURE_INDEX, _LECTURE_DOCSTORE
+        _LECTURE_INDEX = None
+        _LECTURE_DOCSTORE = None
 
 def load_lecture_vector_assets():
     global _LECTURE_INDEX, _LECTURE_DOCSTORE

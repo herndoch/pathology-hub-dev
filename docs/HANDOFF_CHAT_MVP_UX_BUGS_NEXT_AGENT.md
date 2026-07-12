@@ -158,6 +158,30 @@ User attached `WSI_Links_Project-20260711T140732Z-2-001.zip` (Rosai/Leeds/DPA/MG
 
 ---
 
+## 8. DDx nav jumps to wrong organ (user-reported 2026-07-11)
+
+**Example:** Pleomorphic Adenoma (HN Salivary) DDx linked **Adenoid Cystic** → opened **Cyto Breast Adenoid Cystic**.
+
+**Root cause:** `findTaxonomyMatch()` returned the **first exact label match** in browse-index order. Cyto roots sort before HN, so `Adenoid_Cystic_Carcinoma` hit `Cyto_Breast::...` before `HN::Salivary_Gland::...`.
+
+**Fix (this session):** Page-context scoring — prefer same `categoryId` / tag root / subcategory family; demote unrelated cyto overlays when the current page is surgical.
+
+---
+
+## 9. Lecture `video_url` join — probe results (2026-07-11)
+
+See `audits/lecture_video_join_probe_20260711/audit.json`.
+
+**Live API + GCS probe:** STRICT_CYTO_v9 lecture vector docstore has corpus-wide:
+- `raw_source_join_basis: no_match`
+- `video_url` / `video_time_url` / `start_sec` all null
+- single fake `video_id`: `gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks`
+- identical title/text overlay ("Benign Cystic Neck Mass (Case 01)") with varying `primary_tag`
+
+**Not an MVP frontend bug.** Requires lecture vector rebuild + raw MP4 join (`gs://pathology-hub-0/source_videos/`) + Cloud Run redeploy. Chat MVP correctly shows Videos strip with honest “timestamp link not available”.
+
+---
+
 ## Suggested fix order (next agent)
 
 | Priority | Item | Effort |

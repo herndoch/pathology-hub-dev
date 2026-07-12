@@ -1,0 +1,350 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T14:13:06Z",
+  "family_prefix": "GU_Lecture",
+  "root": "GU",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/GU_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_10_prostate1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_11_prostate2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_12_prostate3_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_13_prostate4_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_1_kidney1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_2_kidney2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_3_kidney3_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_4_kidney4_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_5_testis_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_6_bladder1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_7_bladder2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_8_bladder3_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gu_lecture_9_bladder4_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 13,
+    "ok": 13,
+    "failed": 0,
+    "segments_total": 972,
+    "frames_total": 972,
+    "mp4_joined": 13
+  },
+  "results": [
+    {
+      "stem": "GU_Lecture_10_Prostate1",
+      "package_id": "gu_lecture_10_prostate1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 43,
+        "frames": 43,
+        "segments_with_video_time_url": 43,
+        "frames_with_video_time_url": 43,
+        "frames_asset_objects_present": 42,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_10_Prostate1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_11_Prostate2",
+      "package_id": "gu_lecture_11_prostate2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 86,
+        "frames": 86,
+        "segments_with_video_time_url": 86,
+        "frames_with_video_time_url": 86,
+        "frames_asset_objects_present": 85,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_11_Prostate2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_12_Prostate3",
+      "package_id": "gu_lecture_12_prostate3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 129,
+        "frames": 129,
+        "segments_with_video_time_url": 129,
+        "frames_with_video_time_url": 129,
+        "frames_asset_objects_present": 128,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_12_Prostate3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_13_Prostate4",
+      "package_id": "gu_lecture_13_prostate4_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 119,
+        "frames": 119,
+        "segments_with_video_time_url": 119,
+        "frames_with_video_time_url": 119,
+        "frames_asset_objects_present": 118,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_13_Prostate4.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_1_Kidney1",
+      "package_id": "gu_lecture_1_kidney1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 19,
+        "frames": 19,
+        "segments_with_video_time_url": 19,
+        "frames_with_video_time_url": 19,
+        "frames_asset_objects_present": 18,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_1_Kidney1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_2_Kidney2",
+      "package_id": "gu_lecture_2_kidney2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 97,
+        "frames": 97,
+        "segments_with_video_time_url": 97,
+        "frames_with_video_time_url": 97,
+        "frames_asset_objects_present": 96,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_2_Kidney2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_3_Kidney3",
+      "package_id": "gu_lecture_3_kidney3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 62,
+        "frames": 62,
+        "segments_with_video_time_url": 62,
+        "frames_with_video_time_url": 62,
+        "frames_asset_objects_present": 61,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_3_Kidney3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_4_Kidney4",
+      "package_id": "gu_lecture_4_kidney4_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 78,
+        "frames": 78,
+        "segments_with_video_time_url": 78,
+        "frames_with_video_time_url": 78,
+        "frames_asset_objects_present": 77,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_4_Kidney4.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_5_Testis",
+      "package_id": "gu_lecture_5_testis_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 36,
+        "frames": 36,
+        "segments_with_video_time_url": 36,
+        "frames_with_video_time_url": 36,
+        "frames_asset_objects_present": 35,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_5_Testis.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_6_Bladder1",
+      "package_id": "gu_lecture_6_bladder1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 49,
+        "frames": 49,
+        "segments_with_video_time_url": 49,
+        "frames_with_video_time_url": 49,
+        "frames_asset_objects_present": 48,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_6_Bladder1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_7_Bladder2",
+      "package_id": "gu_lecture_7_bladder2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 100,
+        "frames": 100,
+        "segments_with_video_time_url": 100,
+        "frames_with_video_time_url": 100,
+        "frames_asset_objects_present": 99,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_7_Bladder2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_8_Bladder3",
+      "package_id": "gu_lecture_8_bladder3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 77,
+        "frames": 77,
+        "segments_with_video_time_url": 77,
+        "frames_with_video_time_url": 77,
+        "frames_asset_objects_present": 76,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_8_Bladder3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GU_Lecture_9_Bladder4",
+      "package_id": "gu_lecture_9_bladder4_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 77,
+        "frames": 77,
+        "segments_with_video_time_url": 77,
+        "frames_with_video_time_url": 77,
+        "frames_asset_objects_present": 76,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GU_Lecture_9_Bladder4.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

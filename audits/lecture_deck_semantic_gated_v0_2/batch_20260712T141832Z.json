@@ -1,0 +1,78 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T14:18:32Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/thorax_mediastinum_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "thoracic_lecture_",
+    "root": "Thorax_Mediastinum"
+  },
+  "counts": {
+    "packages": 1,
+    "packages_with_chunks": 1,
+    "total_chunks": 14
+  },
+  "packages": [
+    {
+      "package_id": "thoracic_lecture_1_lung_non_neoplastic1_v0_1",
+      "chunks_indexable": 14,
+      "sim_median": 0.6308,
+      "margin_median": 0.0828,
+      "rejects": {
+        "reject_ambiguous_margin": 10,
+        "reject_low_similarity": 5,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Airspace::Diffuse_Alveolar_Damage",
+          6
+        ],
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Airways::Bronchiolitis_Obliterans_Organizing_Pneumonia_BOOP",
+          3
+        ],
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Granulomatous::Sarcoidosis",
+          2
+        ],
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Eosinophilic::Eosinophilic_Pneumonia",
+          1
+        ],
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Immune::Hypersensitivity_Pneumonitis",
+          1
+        ],
+        [
+          "Thorax_Mediastinum::Lung::Inflammatory::Vasculitis::Granulomatosis_with_Polyangiitis_GPA",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Thorax_Mediastinum_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T141832Z/audit.json"
+}

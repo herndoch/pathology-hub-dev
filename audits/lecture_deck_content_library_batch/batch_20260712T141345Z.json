@@ -1,0 +1,50 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T14:13:45Z",
+  "family_prefix": "Thoracic_Lecture",
+  "root": "Thorax_Mediastinum",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/Thoracic_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/thoracic_lecture_1_lung_non_neoplastic1_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 1,
+    "ok": 1,
+    "failed": 0,
+    "segments_total": 87,
+    "frames_total": 87,
+    "mp4_joined": 1
+  },
+  "results": [
+    {
+      "stem": "Thoracic_Lecture_1_Lung_Non_Neoplastic1",
+      "package_id": "thoracic_lecture_1_lung_non_neoplastic1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 87,
+        "frames": 87,
+        "segments_with_video_time_url": 87,
+        "frames_with_video_time_url": 87,
+        "frames_asset_objects_present": 86,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Thoracic_Lecture_1_Lung_Non_Neoplastic1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/thoracic_lecture_1_lung_non_neoplastic1_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

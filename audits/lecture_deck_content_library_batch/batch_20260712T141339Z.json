@@ -1,0 +1,225 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T14:13:39Z",
+  "family_prefix": "HN_Lecture",
+  "root": "HN",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/HN_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_0_grossing1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_0_grossing2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_1_salivary1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_2_salivary2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_3_thyroid1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_5_odontogenic_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_6_oral_v0_1",
+    "outputs/lecture_deck_packages_v0_1/hn_lecture_7_hpv_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 8,
+    "ok": 8,
+    "failed": 0,
+    "segments_total": 532,
+    "frames_total": 532,
+    "mp4_joined": 8
+  },
+  "results": [
+    {
+      "stem": "HN_Lecture_0_Grossing1",
+      "package_id": "hn_lecture_0_grossing1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 60,
+        "frames": 60,
+        "segments_with_video_time_url": 60,
+        "frames_with_video_time_url": 60,
+        "frames_asset_objects_present": 59,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_0_Grossing1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_0_Grossing2",
+      "package_id": "hn_lecture_0_grossing2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 67,
+        "frames": 67,
+        "segments_with_video_time_url": 67,
+        "frames_with_video_time_url": 67,
+        "frames_asset_objects_present": 66,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_0_Grossing2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_1_Salivary1",
+      "package_id": "hn_lecture_1_salivary1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 50,
+        "frames": 50,
+        "segments_with_video_time_url": 50,
+        "frames_with_video_time_url": 50,
+        "frames_asset_objects_present": 49,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_1_Salivary1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_2_Salivary2",
+      "package_id": "hn_lecture_2_salivary2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 78,
+        "frames": 78,
+        "segments_with_video_time_url": 78,
+        "frames_with_video_time_url": 78,
+        "frames_asset_objects_present": 77,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_2_Salivary2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_3_Thyroid1",
+      "package_id": "hn_lecture_3_thyroid1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 83,
+        "frames": 83,
+        "segments_with_video_time_url": 83,
+        "frames_with_video_time_url": 83,
+        "frames_asset_objects_present": 82,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_3_Thyroid1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_5_Odontogenic",
+      "package_id": "hn_lecture_5_odontogenic_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 75,
+        "frames": 75,
+        "segments_with_video_time_url": 75,
+        "frames_with_video_time_url": 75,
+        "frames_asset_objects_present": 74,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_5_Odontogenic.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_6_Oral",
+      "package_id": "hn_lecture_6_oral_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 63,
+        "frames": 63,
+        "segments_with_video_time_url": 63,
+        "frames_with_video_time_url": 63,
+        "frames_asset_objects_present": 62,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_6_Oral.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "HN_Lecture_7_HPV",
+      "package_id": "hn_lecture_7_hpv_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 56,
+        "frames": 56,
+        "segments_with_video_time_url": 56,
+        "frames_with_video_time_url": 56,
+        "frames_asset_objects_present": 55,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "HN_Lecture_7_HPV.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

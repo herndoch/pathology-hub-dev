@@ -1,0 +1,333 @@
+{
+  "schema_version": "lecture_vector_deck_packages_build_audit.v0_1",
+  "created_at_utc": "2026-07-12T17:22:42Z",
+  "input_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/manifest.json",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/chunks_indexable.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/manifest.json"
+  ],
+  "input_path_count": 282,
+  "output_paths": [
+    "outputs/lecture_vector_deck_packages_v0_1/lecture_deck_packages_vector_docstore_v0_1.jsonl",
+    "outputs/lecture_vector_deck_packages_v0_1/lecture_deck_packages_embeddings_v0_1.npy",
+    "outputs/lecture_vector_deck_packages_v0_1/lecture_deck_packages_faiss_v0_1.index",
+    "outputs/lecture_vector_deck_packages_v0_1/lecture_deck_packages_vector_manifest_v0_1.json",
+    "gs://pathology_hub/06_audits/lectures/vector_deck_packages_v0_1/20260712T172242Z/audit.json"
+  ],
+  "counts": {
+    "packages_scanned": 141,
+    "packages_used": 135,
+    "rows_indexed": 897,
+    "skipped": {
+      "empty_chunks_file": 6
+    },
+    "distinct_video_ids": 135,
+    "rows_with_video_time_url": 897
+  },
+  "gcs_outputs": {
+    "docstore": "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_vector_docstore_v0_1.jsonl",
+    "embeddings": "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_embeddings_v0_1.npy",
+    "faiss_index": "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_faiss_v0_1.index",
+    "manifest": "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_vector_manifest_v0_1.json"
+  },
+  "promote_live": true,
+  "local_smoke": {
+    "ok": true,
+    "queries": [
+      {
+        "query": "peripheral T-cell lymphoma angioimmunoblastic",
+        "hits": [
+          {
+            "score": 0.5995,
+            "title": "Heme SH Hodgkin T NK Cell 1",
+            "primary_tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_1.mp4#t=838.06,973.37",
+            "start_sec": 838.06
+          },
+          {
+            "score": 0.5823,
+            "title": "Heme SH Hodgkin T NK Cell 1",
+            "primary_tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_1.mp4#t=1382.12,1516.15",
+            "start_sec": 1382.12
+          },
+          {
+            "score": 0.5747,
+            "title": "Heme SH Hodgkin T NK Cell 1",
+            "primary_tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_1.mp4#t=1246.62,1382.12",
+            "start_sec": 1246.62
+          },
+          {
+            "score": 0.5557,
+            "title": "Heme SH Hodgkin T NK Cell 1",
+            "primary_tag": "Heme::Mature_T_NK_Cell::Other::Peripheral_T_Cell_Lymphoma_NOS",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_1.mp4#t=291.92,424.43",
+            "start_sec": 291.92
+          },
+          {
+            "score": 0.523,
+            "title": "Heme SH Hodgkin T NK Cell 1",
+            "primary_tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_1.mp4#t=2467.72,2603.78",
+            "start_sec": 2467.72
+          }
+        ]
+      },
+      {
+        "query": "breast implant associated anaplastic large cell lymphoma",
+        "hits": [
+          {
+            "score": 0.6644,
+            "title": "Heme SH Hodgkin T NK Cell 2",
+            "primary_tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_2",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_2.mp4#t=433.18,569.21",
+            "start_sec": 433.18
+          },
+          {
+            "score": 0.6563,
+            "title": "Heme SH Hodgkin T NK Cell 2",
+            "primary_tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_2",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_2.mp4#t=569.21,702.94",
+            "start_sec": 569.21
+          },
+          {
+            "score": 0.6458,
+            "title": "Heme SH Hodgkin T NK Cell 2",
+            "primary_tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+            "video_id": "Heme_SH_Hodgkin_T_NK_Cell_2",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Heme_SH_Hodgkin_T_NK_Cell_2.mp4#t=290.53,429.26",
+            "start_sec": 290.53
+          },
+          {
+            "score": 0.5305,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=1300.4,1406.48",
+            "start_sec": 1300.4
+          },
+          {
+            "score": 0.5299,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=417.28,587.44",
+            "start_sec": 417.28
+          }
+        ]
+      },
+      {
+        "query": "invasive lobular carcinoma LCIS",
+        "hits": [
+          {
+            "score": 0.7911,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=2885.8,3089.2",
+            "start_sec": 2885.8
+          },
+          {
+            "score": 0.7817,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=884.64,991.44",
+            "start_sec": 884.64
+          },
+          {
+            "score": 0.7752,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=3427.88,3533.84",
+            "start_sec": 3427.88
+          },
+          {
+            "score": 0.7752,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=417.28,587.44",
+            "start_sec": 417.28
+          },
+          {
+            "score": 0.7672,
+            "title": "Breast Lecture Lobular",
+            "primary_tag": "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+            "video_id": "Breast_Lecture_Lobular",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/Breast_Lecture_Lobular.mp4#t=321.44,415.28",
+            "start_sec": 321.44
+          }
+        ]
+      },
+      {
+        "query": "Barrett esophagus dysplasia",
+        "hits": [
+          {
+            "score": 0.5248,
+            "title": "GI Lecture 11 Esophagus",
+            "primary_tag": "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Eosinophilic_Esophagitis",
+            "video_id": "GI_Lecture_11_Esophagus",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/GI_Lecture_11_Esophagus.mp4#t=1017.04,1122.04",
+            "start_sec": 1017.04
+          },
+          {
+            "score": 0.4956,
+            "title": "GI Lecture 11 Esophagus",
+            "primary_tag": "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Eosinophilic_Esophagitis",
+            "video_id": "GI_Lecture_11_Esophagus",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/GI_Lecture_11_Esophagus.mp4#t=818.96,893.04",
+            "start_sec": 818.96
+          },
+          {
+            "score": 0.4804,
+            "title": "GI Lecture 11 Esophagus",
+            "primary_tag": "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Eosinophilic_Esophagitis",
+            "video_id": "GI_Lecture_11_Esophagus",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/GI_Lecture_11_Esophagus.mp4#t=2619.04,2763.04",
+            "start_sec": 2619.04
+          },
+          {
+            "score": 0.4774,
+            "title": "GI Lecture 9 Stomach1",
+            "primary_tag": "GI::Stomach::Polyp::Adenoma::Gastric_Adenoma_With_Dysplasia_NOS",
+            "video_id": "GI_Lecture_9_Stomach1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/GI_Lecture_9_Stomach1.mp4#t=1132.56,1258.64",
+            "start_sec": 1132.5600000000002
+          },
+          {
+            "score": 0.4563,
+            "title": "GI Lecture 11 Esophagus",
+            "primary_tag": "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Eosinophilic_Esophagitis",
+            "video_id": "GI_Lecture_11_Esophagus",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/GI_Lecture_11_Esophagus.mp4#t=893.04,1017.04",
+            "start_sec": 893.04
+          }
+        ]
+      },
+      {
+        "query": "nodular fasciitis soft tissue",
+        "hits": [
+          {
+            "score": 0.5752,
+            "title": "BST Lecture 2 SoftTissue1",
+            "primary_tag": "BST::Soft_Tissue::Fibroblastic::Proliferative_Fasciitis_and_Proliferative_Myositis",
+            "video_id": "BST_Lecture_2_SoftTissue1",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/BST_Lecture_2_SoftTissue1.mp4#t=2741.2,2828.08",
+            "start_sec": 2741.2
+          },
+          {
+            "score": 0.5074,
+            "title": "YT Skin Soft Tissue Fung",
+            "primary_tag": "Skin::Neoplastic::Soft_Tissue::Neural::Neurofibroma_Plexiform",
+            "video_id": "YT_Skin_Soft_Tissue_Fung",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/YT_Skin_Soft_Tissue_Fung.mp4#t=506,638",
+            "start_sec": 506.0
+          },
+          {
+            "score": 0.5011,
+            "title": "BST Lecture 4 SoftTissue3",
+            "primary_tag": "BST::Soft_Tissue::Fibroblastic::Malignant::Dermatofibrosarcoma_Protuberans_Fibrosarcomatous",
+            "video_id": "BST_Lecture_4_SoftTissue3",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/BST_Lecture_4_SoftTissue3.mp4#t=209,335",
+            "start_sec": 209.0
+          },
+          {
+            "score": 0.4893,
+            "title": "BST Lecture 4 SoftTissue3",
+            "primary_tag": "BST::Soft_Tissue::Fibroblastic::Malignant::Dermatofibrosarcoma_Protuberans_Fibrosarcomatous",
+            "video_id": "BST_Lecture_4_SoftTissue3",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/BST_Lecture_4_SoftTissue3.mp4#t=448,585",
+            "start_sec": 448.0
+          },
+          {
+            "score": 0.4839,
+            "title": "BST Lecture 4 SoftTissue3",
+            "primary_tag": "BST::Soft_Tissue::Fibroblastic::Intermediate::Desmoid_Type_Fibromatosis",
+            "video_id": "BST_Lecture_4_SoftTissue3",
+            "video_time_url": "https://storage.googleapis.com/pathology-hub-0/source_videos/BST_Lecture_4_SoftTissue3.mp4#t=933,1014",
+            "start_sec": 933.0
+          }
+        ]
+      }
+    ]
+  },
+  "known_limitations": [
+    "Deck-package gated chunks only \u2014 legacy STRICT_CYTO 42k corpus not merged in this build.",
+    "Packages with zero gated chunks or missing video_time_url are omitted.",
+    "Cloud Run must cold-start / new revision to download replaced artifacts (local pod cache).",
+    "Semantic tags are gated embeddings, not human gold."
+  ],
+  "uploaded": [
+    "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_vector_docstore_v0_1.jsonl",
+    "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_embeddings_v0_1.npy",
+    "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_faiss_v0_1.index",
+    "gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_vector_manifest_v0_1.json",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_embeddings_STRICT_CYTO_v9.npy",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_faiss_STRICT_CYTO_v9.index",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_manifest_STRICT_CYTO_v9.json"
+  ],
+  "backups": [
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9_backup_before_deck_v0_1_20260712T172242Z/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9_backup_before_deck_v0_1_20260712T172242Z/lecture_timecoded_embeddings_STRICT_CYTO_v9.npy",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9_backup_before_deck_v0_1_20260712T172242Z/lecture_timecoded_faiss_STRICT_CYTO_v9.index",
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9_backup_before_deck_v0_1_20260712T172242Z/lecture_timecoded_vector_manifest_STRICT_CYTO_v9.json"
+  ]
+}

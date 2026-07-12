@@ -1,0 +1,126 @@
+{
+  "schema_version": "lecture_deck_yt_skin_remaster_audit.v0_1",
+  "created_at_utc": "2026-07-12T17:21:52Z",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/YT_Skin_*",
+    "gs://pathology-hub-0/source_videos/YT_Skin_*.mp4"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_b_cell_lymphoma_cassarino_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_blistering_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_common_disorders_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_granulomatous_dermatitis_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_ihc_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_interface_dermatitis_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_intro_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_melanocytic_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_melanoma_leboit_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_metabolic_and_connective_tissue_junkins_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_papulosquamous_and_spongiotic_dermatitis_ko_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_perforating_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_perivascular_dermatitis_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_psoriasiform_dermatitis_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_soft_tissue_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_spongiotic_dermatitis_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_t_cell_lymphoma_cassarino_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_vacuolar_and_lichenoid_interface_dermatitis_junkins_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_vascular_fung_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_vasculitis_johnson_v0_1/",
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_skin_who_classification_scoyler_v0_1/"
+  ],
+  "counts": {
+    "packages": 21,
+    "chunks_indexable_total": 179
+  },
+  "packages": [
+    {
+      "package_id": "yt_skin_b_cell_lymphoma_cassarino_v0_1",
+      "chunks": 14
+    },
+    {
+      "package_id": "yt_skin_blistering_fung_v0_1",
+      "chunks": 16
+    },
+    {
+      "package_id": "yt_skin_common_disorders_fung_v0_1",
+      "chunks": 5
+    },
+    {
+      "package_id": "yt_skin_granulomatous_dermatitis_fung_v0_1",
+      "chunks": 17
+    },
+    {
+      "package_id": "yt_skin_ihc_fung_v0_1",
+      "chunks": 1
+    },
+    {
+      "package_id": "yt_skin_interface_dermatitis_fung_v0_1",
+      "chunks": 15
+    },
+    {
+      "package_id": "yt_skin_intro_fung_v0_1",
+      "chunks": 1
+    },
+    {
+      "package_id": "yt_skin_melanocytic_fung_v0_1",
+      "chunks": 12
+    },
+    {
+      "package_id": "yt_skin_melanoma_leboit_v0_1",
+      "chunks": 2
+    },
+    {
+      "package_id": "yt_skin_metabolic_and_connective_tissue_junkins_v0_1",
+      "chunks": 10
+    },
+    {
+      "package_id": "yt_skin_papulosquamous_and_spongiotic_dermatitis_ko_v0_1",
+      "chunks": 5
+    },
+    {
+      "package_id": "yt_skin_perforating_fung_v0_1",
+      "chunks": 6
+    },
+    {
+      "package_id": "yt_skin_perivascular_dermatitis_fung_v0_1",
+      "chunks": 6
+    },
+    {
+      "package_id": "yt_skin_psoriasiform_dermatitis_fung_v0_1",
+      "chunks": 8
+    },
+    {
+      "package_id": "yt_skin_soft_tissue_fung_v0_1",
+      "chunks": 7
+    },
+    {
+      "package_id": "yt_skin_spongiotic_dermatitis_fung_v0_1",
+      "chunks": 13
+    },
+    {
+      "package_id": "yt_skin_t_cell_lymphoma_cassarino_v0_1",
+      "chunks": 12
+    },
+    {
+      "package_id": "yt_skin_vacuolar_and_lichenoid_interface_dermatitis_junkins_v0_1",
+      "chunks": 7
+    },
+    {
+      "package_id": "yt_skin_vascular_fung_v0_1",
+      "chunks": 20
+    },
+    {
+      "package_id": "yt_skin_vasculitis_johnson_v0_1",
+      "chunks": 1
+    },
+    {
+      "package_id": "yt_skin_who_classification_scoyler_v0_1",
+      "chunks": 1
+    }
+  ],
+  "known_limitations": [
+    "Playback is GCS MP4 #t= (existing source_videos), not YouTube watch URLs.",
+    "YT_Derm MASTER/RAW family not included \u2014 different schema / mostly no MP4.",
+    "Not in lecture FAISS until vector rebuild + Cloud Run refresh."
+  ]
+}

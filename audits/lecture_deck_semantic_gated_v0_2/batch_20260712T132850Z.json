@@ -1,0 +1,402 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T13:28:50Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/gyn_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "gyn_lecture_",
+    "root": "GYN"
+  },
+  "counts": {
+    "packages": 12,
+    "packages_with_chunks": 11,
+    "total_chunks": 50
+  },
+  "packages": [
+    {
+      "package_id": "gyn_lecture_10_ovary4_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.6624,
+      "margin_median": 0.0383,
+      "rejects": {
+        "reject_ambiguous_margin": 20,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Ovary::Neoplastic::Germ_Cell::Malignant::Carcinoid_Tumor",
+          3
+        ],
+        [
+          "GYN::Ovary::Neoplastic::Germ_Cell::Malignant::Immature_Teratoma",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_12_uterine_mesenchymal1_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.6126,
+      "margin_median": 0.0492,
+      "rejects": {
+        "reject_ambiguous_margin": 23,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Uterus::Neoplastic::Mesenchymal::Intermediate::Smooth_Muscle_Tumor_Uncertain_Potential",
+          2
+        ],
+        [
+          "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_13_uterine_mesenchymal2_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.7221,
+      "margin_median": 0.0556,
+      "rejects": {
+        "reject_ambiguous_margin": 15,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Uterine_Corpus::Mesenchymal::Miscellaneous_Mesenchymal::Perivascular_Epithelioid_Cell_Tumor_PEComa_",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_1_grossing1_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_ambiguous_margin": 12,
+        "reject_low_similarity": 18
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_2_grossing2_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.5577,
+      "margin_median": 0.0615,
+      "rejects": {
+        "reject_ambiguous_margin": 12,
+        "reject_low_similarity": 4
+      },
+      "top_tags": [
+        [
+          "GYN::Fallopian_Tube::Neoplastic::Epithelial::Malignant::Serous_Carcinoma_And_STIC",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_3_cervix_glandular_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6801,
+      "margin_median": 0.0403,
+      "rejects": {
+        "reject_ambiguous_margin": 24,
+        "reject_agenda_dump": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Benign::Endocervical_Glandular_Hyperplasia",
+          2
+        ],
+        [
+          "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+          2
+        ],
+        [
+          "GYN::Cervix::Congenital_Structural::Remnant::Mesonephric_Remnants",
+          1
+        ],
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Malignant::Endometrioid_Adenocarcinoma_HPV_Independent",
+          1
+        ],
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Malignant::HPV_Associated_Adenocarcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_4_cervix_squamous_v0_1",
+      "chunks_indexable": 6,
+      "sim_median": 0.6359,
+      "margin_median": 0.0487,
+      "rejects": {
+        "reject_ambiguous_margin": 18,
+        "reject_low_similarity": 4,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Vulva::Squamous_Tumors::Squamous_Intraepithelial_Lesions_HPV_associated_of_the_Vulva",
+          2
+        ],
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Precursor::Squamous_Intraepithelial_Lesion",
+          2
+        ],
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Benign::Endocervical_Glandular_Hyperplasia",
+          1
+        ],
+        [
+          "GYN::Cervix::Normal_Histology::Metaplasia::Immature_Squamous_Metaplasia",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_5_endometrium1_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6393,
+      "margin_median": 0.0355,
+      "rejects": {
+        "reject_ambiguous_margin": 27
+      },
+      "top_tags": [
+        [
+          "GYN::Cervix::Neoplastic::Epithelial::Benign::Endocervical_Glandular_Hyperplasia",
+          4
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_6_gestational_v0_1",
+      "chunks_indexable": 6,
+      "sim_median": 0.6568,
+      "margin_median": 0.0411,
+      "rejects": {
+        "reject_ambiguous_margin": 17,
+        "reject_low_similarity": 4
+      },
+      "top_tags": [
+        [
+          "GYN::GTD::Tumor_Like::Molar::Complete_Hydatidiform_Mole",
+          3
+        ],
+        [
+          "GYN::GTD::Tumor_Like::Molar::Partial_Hydatidiform_Mole",
+          1
+        ],
+        [
+          "GYN::GTD::GTN::Placental_Site_Trophoblastic_Tumor",
+          1
+        ],
+        [
+          "GYN::GTD::Tumor_Like::Non_Neoplastic::Placental_Site_Nodule_and_Plaque",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_7_ovary1_v0_1",
+      "chunks_indexable": 9,
+      "sim_median": 0.6203,
+      "margin_median": 0.0521,
+      "rejects": {
+        "reject_ambiguous_margin": 11,
+        "reject_low_similarity": 10
+      },
+      "top_tags": [
+        [
+          "GYN::Fallopian_Tube::Neoplastic::Epithelial::Malignant::Serous_Carcinoma_And_STIC",
+          6
+        ],
+        [
+          "GYN::Ovary::Serous::Malignant::Low_grade_Serous_Carcinoma_of_the_Ovary",
+          2
+        ],
+        [
+          "GYN::Ovary::Mesenchymal::Endometrioid_Stromal_Sarcoma_of_the_Ovary",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_8_ovary2_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.6313,
+      "margin_median": 0.0629,
+      "rejects": {
+        "reject_ambiguous_margin": 25,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Ovary::Mesenchymal::Endometrioid_Stromal_Sarcoma_of_the_Ovary",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gyn_lecture_9_ovary3_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.6584,
+      "margin_median": 0.0399,
+      "rejects": {
+        "reject_ambiguous_margin": 16,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GYN::Ovary::Neoplastic::Mixed::Malignant::Mucinous_Cystic_Tumor_With_Mural_Nodules",
+          3
+        ],
+        [
+          "GYN::Ovary::Neoplastic::Epithelial::Borderline::Mucinous_Borderline_Tumor_Intestinal_Type",
+          1
+        ],
+        [
+          "GYN::Ovary::Mucinous::Malignant::Mucinous_Carcinoma_of_the_Ovary",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GYN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T132850Z/audit.json"
+}

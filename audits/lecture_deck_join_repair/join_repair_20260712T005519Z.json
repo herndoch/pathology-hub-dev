@@ -1,0 +1,342 @@
+{
+  "schema_version": "lecture_deck_join_repair_audit.v0_1",
+  "created_at_utc": "2026-07-12T00:55:19Z",
+  "input_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/",
+    "gs://pathology-hub-0/source_videos/Heme_SH_*.mp4"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/manifest.json"
+  ],
+  "counts": {
+    "packages": 21,
+    "video_present": 21,
+    "join_filename_match": 21,
+    "all_assets_ok": 20,
+    "packages_with_missing_assets": 1
+  },
+  "packages": [
+    {
+      "package_id": "heme_sh_aggressive_b_cell_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Aggressive_B_Cell.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 66,
+      "asset_ok": 66,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_aml_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_AML.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 65,
+      "asset_ok": 65,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_failure_syndromes_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_BM_Failure_Syndromes.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 22,
+      "asset_ok": 22,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_intro_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_BM_Intro.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 47,
+      "asset_ok": 47,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_systemic_manifestations_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_BM_Systemic_Manifestations.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 92,
+      "asset_ok": 92,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_histiocytic_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Histiocytic.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 38,
+      "asset_ok": 38,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_nlp_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Hodgkin_NLP.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 66,
+      "asset_ok": 66,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_overview_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Hodgkin_Overview.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 74,
+      "asset_ok": 74,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_1_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Hodgkin_T_NK_Cell_1.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 95,
+      "asset_ok": 95,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_2_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Hodgkin_T_NK_Cell_2.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 91,
+      "asset_ok": 91,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ia_lpd_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_IA_LPD.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 39,
+      "asset_ok": 39,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ihc_for_lpd_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_IHC_for_LPD.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 80,
+      "asset_ok": 80,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_1_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_MDS_MPN_1.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 56,
+      "asset_ok": 56,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_2_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_MDS_MPN_2.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 46,
+      "asset_ok": 46,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_3_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_MDS_MPN_3.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 67,
+      "asset_ok": 67,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_plasma_cell_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Plasma_Cell.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 34,
+      "asset_ok": 34,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_pt_lpd_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_PT_LPD.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 27,
+      "asset_ok": 27,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_reactive_lymphoid_hyperplasia_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Reactive_Lymphoid_Hyperplasia.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 72,
+      "asset_ok": 71,
+      "asset_missing": 1,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_1_of_2_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Small_B_Cell_1_of_2.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 113,
+      "asset_ok": 113,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_2_of_2_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Small_B_Cell_2_of_2.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 125,
+      "asset_ok": 125,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_spleen_v0_1",
+      "status": "repaired",
+      "canonical_mp4": "Heme_SH_Spleen.mp4",
+      "video_exists": true,
+      "join_basis": "filename_match_source_videos",
+      "frames": 105,
+      "asset_ok": 105,
+      "asset_missing": 0,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/frames.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Does not rebuild FAISS/docstore or claim API/Videos exposure.",
+    "Tagging/consolidation still pending for packages other than Aggressive B-Cell."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/join_repair_20260712T005519Z/audit.json"
+}

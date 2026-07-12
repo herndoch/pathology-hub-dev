@@ -1,0 +1,524 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T13:28:13Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/gi_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "gi_lecture_",
+    "root": "GI"
+  },
+  "counts": {
+    "packages": 13,
+    "packages_with_chunks": 13,
+    "total_chunks": 78
+  },
+  "packages": [
+    {
+      "package_id": "gi_lecture_0_gross_liver_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.5237,
+      "margin_median": 0.0562,
+      "rejects": {
+        "reject_low_similarity": 21,
+        "reject_ambiguous_margin": 3
+      },
+      "top_tags": [
+        [
+          "GI::Liver::Inflammatory::Viral::Hepatic_EBV_CMV_HSV_Hepatitis",
+          3
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_10_colon_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6957,
+      "margin_median": 0.0558,
+      "rejects": {
+        "reject_agenda_dump": 1,
+        "reject_ambiguous_margin": 21
+      },
+      "top_tags": [
+        [
+          "GI::Colon::Polyp::Serrated::Colorectal_Hyperplastic_Polyp_Overview",
+          2
+        ],
+        [
+          "GI::Colon::Polyp::Hamartoma::Juvenile_Polyp",
+          2
+        ],
+        [
+          "GI::Syndrome::Polyposis::Hamartomatous::Juvenile_Polyposis_Syndrome",
+          1
+        ],
+        [
+          "GI::Small_Intestine::Polyp::Hamartoma::Small_Intestinal_Peutz_Jeghers_Type_Polyp",
+          1
+        ],
+        [
+          "GI::Colon::Congenital_Structural::Structural::Colonic_Solitary_Rectal_Ulcer_SyndROME_Prolapse",
+          1
+        ],
+        [
+          "GI::Syndrome::Polyposis::Adenomatous::Familial_Adenomatous_Polyposis_APC",
+          1
+        ],
+        [
+          "GI::Appendix::Neoplastic::Mucinous::Appendiceal_Mucinous_Adenocarcinoma_Invasive",
+          1
+        ],
+        [
+          "GI::Colon::Neoplastic::Adenocarcinoma::Colonic_Adenocarcinoma_Arising_In_Adenoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_11_esophagus_v0_1",
+      "chunks_indexable": 6,
+      "sim_median": 0.6389,
+      "margin_median": 0.0866,
+      "rejects": {
+        "reject_ambiguous_margin": 21
+      },
+      "top_tags": [
+        [
+          "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Eosinophilic_Esophagitis",
+          4
+        ],
+        [
+          "GI::Esophagus::Inflammatory::Esophagitis::Esophageal_Reflux_Esophagitis_GERD",
+          1
+        ],
+        [
+          "GI::Esophagus::Inflammatory::Infectious::Esophageal_Herpes_Simplex_Virus_Esophagitis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_12_smallintestine_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6229,
+      "margin_median": 0.0469,
+      "rejects": {
+        "reject_ambiguous_margin": 16,
+        "reject_low_similarity": 3,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "GI::Small_Intestine::Inflammatory::Malabsorption::Small_Intestinal_Celiac_Disease",
+          2
+        ],
+        [
+          "GI::Small_Intestine::Infectious::Bacterial::Small_Intestinal_Whipple_Disease",
+          2
+        ],
+        [
+          "GI::Small_Intestine::Polyp::Hamartoma::Small_Intestinal_Brunner_Gland_Hamartoma",
+          1
+        ],
+        [
+          "GI::Small_Intestine::Inflammatory::Injury::Small_Intestinal_Peptic_Duodenitis",
+          1
+        ],
+        [
+          "GI::Small_Intestine::Polyp::Hamartoma::Small_Intestinal_Peutz_Jeghers_Type_Polyp",
+          1
+        ],
+        [
+          "GI::GENETICS::Syndromes::Peutz_Jeghers_Syndrome",
+          1
+        ],
+        [
+          "GI::Small_Intestine::Neoplastic::Adenocarcinoma::Ampullary_Adenocarcinoma_Pancreatobiliary_Type",
+          1
+        ],
+        [
+          "GI::Small_Intestine::Neoplastic::Neuroendocrine::Small_Intestinal_Neuroendocrine_Tumor_Well_Differentiated",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_13_stomach2_v0_1",
+      "chunks_indexable": 13,
+      "sim_median": 0.6381,
+      "margin_median": 0.0735,
+      "rejects": {
+        "reject_ambiguous_margin": 11,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Granulomatous_Gastritis",
+          3
+        ],
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Chronic_Helicobacter_Pylori_Gastritis",
+          3
+        ],
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Collagenous_Gastritis",
+          2
+        ],
+        [
+          "GI::Stomach::Neoplastic::Neuroendocrine::Gastric_Neuroendocrine_Tumor_Type_1_Autoimmune",
+          1
+        ],
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Lymphocytic_Gastritis_Celiac_Associated",
+          1
+        ],
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Eosinophilic_Gastritis",
+          1
+        ],
+        [
+          "GI::Stomach::Depositional_Metabolic::Gastric_Iron_Pill_Induced_Gastropathy",
+          1
+        ],
+        [
+          "GI::Stomach::Depositional_Metabolic::Gastric_Mucosal_Calcinosis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_1_liver1_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.5244,
+      "margin_median": 0.0387,
+      "rejects": {
+        "reject_ambiguous_margin": 15,
+        "reject_low_similarity": 10,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Granulomatous_Gastritis",
+          1
+        ],
+        [
+          "GI::Liver::Inflammatory::Viral::Hepatic_EBV_CMV_HSV_Hepatitis",
+          1
+        ],
+        [
+          "GI::Liver::Inflammatory::Autoimmune::Hepatic_Autoimmune_Hepatitis_Overlap_Syndromes",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_2_liver2_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.5055,
+      "margin_median": 0.0504,
+      "rejects": {
+        "reject_low_similarity": 21,
+        "reject_no_entity_signal": 1,
+        "reject_ambiguous_margin": 5
+      },
+      "top_tags": [
+        [
+          "GI::Biliary::Inflammatory::Cholecystitis::Gallbladder_Cholelithiasis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_3_liver3_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.5272,
+      "margin_median": 0.0362,
+      "rejects": {
+        "reject_ambiguous_margin": 4,
+        "reject_low_similarity": 17
+      },
+      "top_tags": [
+        [
+          "GI::Hepatobiliary::Benign_Hepatocellular::Focal_Nodular_Hyperplasia_of_the_Liver",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_4_peds1_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6242,
+      "margin_median": 0.134,
+      "rejects": {
+        "reject_low_similarity": 10,
+        "reject_ambiguous_margin": 5,
+        "reject_no_entity_signal": 5
+      },
+      "top_tags": [
+        [
+          "GI::Colon::Congenital_Structural::Aganglionosis::Colonic_Hirschsprung_Disease",
+          5
+        ],
+        [
+          "GI::Small_Intestine::Congenital_Structural::Mechanical::Microvillus_Inclusion_Disease",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_5_peds2_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.5663,
+      "margin_median": 0.0467,
+      "rejects": {
+        "reject_low_similarity": 8,
+        "reject_ambiguous_margin": 19,
+        "reject_agenda_dump": 1
+      },
+      "top_tags": [
+        [
+          "GI::Mesenchymal::Vascular_Perivascular::Epithelioid_Hemangioendothelioma_prev_Vascular_Tumors_in_Liver",
+          2
+        ],
+        [
+          "GI::Mesenchymal::Uncertain_Diff::Embryonal_Sarcoma_of_the_Liver",
+          1
+        ],
+        [
+          "GI::General::Neoplastic::Metastatic::Carcinoma_Of_Unknown_Primary_CUP",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_7_ibd_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.55,
+      "margin_median": 0.0387,
+      "rejects": {
+        "reject_ambiguous_margin": 8
+      },
+      "top_tags": [
+        [
+          "GI::Stomach::Inflammatory::Gastritis::Gastric_Collagenous_Gastritis",
+          3
+        ],
+        [
+          "GI::Colon::Neoplastic::IBD_Associated::Colonic_Dysplasia_And_IBD_Related_Adenocarcinoma",
+          1
+        ],
+        [
+          "GI::Colon::Inflammatory::Injury::Colonic_Medication_Induced_Enterocolitis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_8_pancreas_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6452,
+      "margin_median": 0.0435,
+      "rejects": {
+        "reject_ambiguous_margin": 13,
+        "reject_low_similarity": 2
+      },
+      "top_tags": [
+        [
+          "GI::Pancreas::Neoplastic::Cystic::Pancreatic_Mucinous_Cystic_Neoplasm",
+          5
+        ],
+        [
+          "GI::Pancreas::Neoplastic::Precursor::PanIN_Pancreatic_Intraepithelial_Neoplasia",
+          2
+        ],
+        [
+          "GI::Pancreas::Neoplastic::Cystic::Pancreatic_Intraductal_Tubulopapillary_Neoplasm_ITPN",
+          1
+        ],
+        [
+          "GI::Pancreas::Neoplastic::Cystic::Pancreatic_Intraductal_Oncocytic_Papillary_Neoplasm_IOPN",
+          1
+        ],
+        [
+          "GI::Pancreas::Neoplastic::Cystic::Pancreatic_Simple_Mucinous_Cyst",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gi_lecture_9_stomach1_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.7055,
+      "margin_median": 0.0384,
+      "rejects": {
+        "reject_ambiguous_margin": 19,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GI::Stomach::Polyp::Hamartoma::Gastric_Peutz_Jeghers_Type_Polyp",
+          1
+        ],
+        [
+          "GI::Stomach::Benign_Precursors::Fundic_Gland_Polyps",
+          1
+        ],
+        [
+          "GI::Stomach::Polyp::Adenoma::Gastric_Adenoma_With_Dysplasia_NOS",
+          1
+        ],
+        [
+          "GI::Stomach::Benign_Precursors::Oxyntic_Gland_Adenoma",
+          1
+        ],
+        [
+          "GI::Stomach::Polyp::Epithelial::Gastric_Fundic_Gland_Polyp",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GI_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T132813Z/audit.json"
+}

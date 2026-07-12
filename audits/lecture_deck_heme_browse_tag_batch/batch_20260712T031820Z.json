@@ -1,0 +1,1591 @@
+{
+  "schema_version": "lecture_deck_heme_browse_tag_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T03:18:20Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "counts": {
+    "packages": 21,
+    "packages_with_chunks": 21,
+    "total_chunks": 791
+  },
+  "packages": [
+    {
+      "package_id": "heme_sh_aggressive_b_cell_v0_1",
+      "segments_indexable": 797,
+      "chunks_indexable": 62,
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type",
+          195
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_With_11q_Aberration",
+          102
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+          94
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          77
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+          73
+        ],
+        [
+          "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma",
+          69
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+          37
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+          28
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma",
+          21
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+          20
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 9,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites": 2,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 8,
+        "Heme::Mature_T_NK_Cell::Leukemia::Adult_T_Cell_Leukemia_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_With_11q_Aberration": 8,
+        "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement": 9,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type": 13,
+        "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma": 4,
+        "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma": 1,
+        "Heme::Mature_T_NK_Cell::Intestinal::Indolent_NK_Cell_LPD_Of_GI_Tract": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma": 1,
+        "Heme::B_Cell_Lymphomas::Plasma_Cell::Heavy_Chain::Mu_Heavy_Chain_Disease": 1
+      },
+      "chunk_duration_sec_median": 89.9,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_aml_v0_1",
+      "segments_indexable": 383,
+      "chunks_indexable": 27,
+      "top_tags": [
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          134
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::Acute_Promyelocytic_Leukemia_PML_RARA",
+          70
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations",
+          36
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Minimal_Differentiation",
+          28
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Monoblastic_Monocytic_Leukemia",
+          17
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+          15
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_B_myeloid",
+          15
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CEBPA_Mutation",
+          11
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CEBPA_Mutation",
+          8
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Minimal_Differentiation",
+          7
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Minimal_Differentiation": 2,
+        "Heme::Histiocytic_Dendritic::Plasmacytoid_Dendritic::Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm": 1,
+        "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::Acute_Promyelocytic_Leukemia_PML_RARA": 4,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 8,
+        "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Monoblastic_Monocytic_Leukemia": 2,
+        "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Like_Features": 1,
+        "Heme::Precursor_B_Cell::B_ALL_With_Other_Defined_Genetic_Alterations": 1,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CEBPA_Mutation": 1,
+        "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CEBPA_Mutation": 1,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations": 3,
+        "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Neoplasm_Post_Cytotoxic_Therapy": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_B_myeloid": 1
+      },
+      "chunk_duration_sec_median": 89.98,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_failure_syndromes_v0_1",
+      "segments_indexable": 418,
+      "chunks_indexable": 29,
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia",
+          153
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+          49
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Inherited",
+          46
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Acquired",
+          30
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          30
+        ],
+        [
+          "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Inhibitor",
+          16
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+          15
+        ],
+        [
+          "Heme::Genetics::Fanconi_Anemia",
+          11
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+          10
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Congenital_Dyserythropoietic_Anemia",
+          10
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia": 9,
+        "Heme::Genetics::Fanconi_Anemia": 1,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 3,
+        "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts": 4,
+        "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_C_Disease": 1,
+        "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Inhibitor": 2,
+        "Heme::Non_Neoplastic::Platelet_Coagulation::Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome": 1,
+        "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion": 1,
+        "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Acquired": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Inherited": 3,
+        "Heme::Non_Neoplastic::Erythrocyte::Congenital_Dyserythropoietic_Anemia": 1
+      },
+      "chunk_duration_sec_median": 93.36,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_intro_v0_1",
+      "segments_indexable": 599,
+      "chunks_indexable": 26,
+      "top_tags": [
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+          168
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+          133
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation",
+          132
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+          57
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+          23
+        ],
+        [
+          "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract",
+          17
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia",
+          15
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia",
+          14
+        ],
+        [
+          "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+          10
+        ],
+        [
+          "Heme::Non_Neoplastic::Platelet_Coagulation::Antiphospholipid_Antibody_Syndrome",
+          9
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial": 7,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract": 1,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 1,
+        "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions": 2,
+        "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion": 6,
+        "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation": 5,
+        "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts": 1,
+        "Heme::Non_Neoplastic::Platelet_Coagulation::Antiphospholipid_Antibody_Syndrome": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia": 1
+      },
+      "chunk_duration_sec_median": 141.1,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_systemic_manifestations_v0_1",
+      "segments_indexable": 523,
+      "chunks_indexable": 36,
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+          51
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+          49
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma",
+          48
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia",
+          48
+        ],
+        [
+          "Heme::Stroma_Derived::Mesenchymal_Dendritic::Follicular_Dendritic::Fibroblastic_Reticular_Cell_Tumor",
+          36
+        ],
+        [
+          "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia",
+          30
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+          28
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Leukemia::NK_Large_Granular_Lymphocytic_Leukemia",
+          27
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::Mature_B_Cell::Splenic_B_Cell::Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma",
+          24
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          22
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 2,
+        "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_C_Disease": 1,
+        "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features": 2,
+        "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia": 3,
+        "Heme::Precursor_B_Cell::B_ALL_With_High_Hyperdiploidy": 1,
+        "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial": 3,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia": 1,
+        "Heme::B_Cell_Lymphomas::Mature_B_Cell::Splenic_B_Cell::Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement": 1,
+        "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia": 2,
+        "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts": 2,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 2,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_NUP98_Rearrangement": 1,
+        "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Like_Features": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::Mature_T_NK_Cell::Leukemia::NK_Large_Granular_Lymphocytic_Leukemia": 2,
+        "Heme::Non_Neoplastic::Erythrocyte::Thalassemia": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia": 2,
+        "Heme::Stroma_Derived::Mesenchymal_Dendritic::Follicular_Dendritic::Fibroblastic_Reticular_Cell_Tumor": 2,
+        "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen": 1,
+        "Heme::Non_Neoplastic::Platelet_Coagulation::Disseminated_Intravascular_Coagulation": 1,
+        "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma": 2
+      },
+      "chunk_duration_sec_median": 99.5,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_histiocytic_v0_1",
+      "segments_indexable": 383,
+      "chunks_indexable": 26,
+      "top_tags": [
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Mature_Plasmacytoid_Dendritic_Cell_Proliferation",
+          128
+        ],
+        [
+          "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+          61
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma",
+          28
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Juvenile_Xanthogranuloma",
+          27
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Histiocytosis",
+          26
+        ],
+        [
+          "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+          25
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation",
+          19
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Erdheim_Chester_Disease",
+          16
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Sarcoma",
+          15
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          10
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Histiocytosis": 3,
+        "Heme::Histiocytic_Dendritic::Plasmacytoid_Dendritic::Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm": 1,
+        "Heme::Histiocytic_Dendritic_Cell::Macrophage::Juvenile_Xanthogranuloma": 3,
+        "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Mature_Plasmacytoid_Dendritic_Cell_Proliferation": 6,
+        "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 1,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 3,
+        "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Sarcoma": 1,
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 1,
+        "Heme::Histiocytic_Dendritic_Cell::Macrophage::Erdheim_Chester_Disease": 2,
+        "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma": 2,
+        "Heme::Stroma_Derived::Follicular_Dendritic_Cell_Sarcoma": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 118.94,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_nlp_v0_1",
+      "segments_indexable": 325,
+      "chunks_indexable": 29,
+      "top_tags": [
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          141
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma",
+          47
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          32
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          21
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+          21
+        ],
+        [
+          "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+          19
+        ],
+        [
+          "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma",
+          17
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          9
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+          6
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+          5
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 3,
+        "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma": 10,
+        "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma": 4,
+        "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma": 3,
+        "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma": 4,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 2,
+        "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 78.16,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_overview_v0_1",
+      "segments_indexable": 373,
+      "chunks_indexable": 29,
+      "top_tags": [
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          106
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          83
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma",
+          39
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          18
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+          16
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+          14
+        ],
+        [
+          "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+          13
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          11
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+          11
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          9
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma": 6,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 8,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma": 3,
+        "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement": 2,
+        "Heme::Immune_Deficiency_Associated::Iatrogenic_Lymphoproliferative_Disorder": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 1,
+        "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma": 1,
+        "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::TFH_Nodal::Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 103.18,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_1_v0_1",
+      "segments_indexable": 428,
+      "chunks_indexable": 36,
+      "top_tags": [
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+          93
+        ],
+        [
+          "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+          86
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          50
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          22
+        ],
+        [
+          "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis",
+          21
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+          16
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          16
+        ],
+        [
+          "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+          14
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          11
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+          10
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 5,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 2,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS": 9,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Thermal_Injury_Hemolytic_Anemia": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis": 2,
+        "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma": 1,
+        "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia": 1,
+        "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Follicular_Type": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Mycosis_Fungoides": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 5,
+        "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 84.18,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_2_v0_1",
+      "segments_indexable": 376,
+      "chunks_indexable": 37,
+      "top_tags": [
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma",
+          46
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+          44
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+          40
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease",
+          37
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+          36
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma",
+          33
+        ],
+        [
+          "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+          25
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Hepatosplenic::Hepatosplenic_T_Cell_Lymphoma",
+          14
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+          13
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+          11
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_T_NK_Cell::Leukemia::Adult_T_Cell_Leukemia_Lymphoma": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement": 5,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma": 3,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma": 3,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma": 2,
+        "Heme::Mature_T_NK_Cell::Hepatosplenic::Hepatosplenic_T_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type": 2,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma": 4,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma": 4,
+        "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease": 4,
+        "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma": 3,
+        "Heme::Mature_T_NK_Cell::Intestinal::Indolent_NK_Cell_LPD_Of_GI_Tract": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 1
+      },
+      "chunk_duration_sec_median": 73.69,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ia_lpd_v0_1",
+      "segments_indexable": 262,
+      "chunks_indexable": 23,
+      "top_tags": [
+        [
+          "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+          38
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+          33
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          32
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency",
+          28
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency",
+          23
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+          14
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease",
+          12
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+          8
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::Primary_Effusion_Lymphoma",
+          7
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::Large_B_Cell::Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation",
+          6
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency": 3,
+        "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder": 3,
+        "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD": 3,
+        "Heme::Infection::Infectious_Mononucleosis": 1,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 3,
+        "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency": 3,
+        "Heme::B_Cell_Lymphomas::Large_B_Cell::Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation": 1,
+        "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::KSHV_HHV8_Associated::Primary_Effusion_Lymphoma": 1,
+        "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation": 1,
+        "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease": 1
+      },
+      "chunk_duration_sec_median": 84.16,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ihc_for_lpd_v0_1",
+      "segments_indexable": 381,
+      "chunks_indexable": 31,
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          33
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          32
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          31
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma",
+          29
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
+          28
+        ],
+        [
+          "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma",
+          27
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          25
+        ],
+        [
+          "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis",
+          24
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+          24
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+          23
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma": 2,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement": 1,
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma": 3,
+        "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia": 1,
+        "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia": 1,
+        "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 2,
+        "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS": 3,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma": 1,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma": 1,
+        "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features": 3,
+        "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm": 1
+      },
+      "chunk_duration_sec_median": 93.23,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_1_v0_1",
+      "segments_indexable": 636,
+      "chunks_indexable": 39,
+      "top_tags": [
+        [
+          "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia",
+          156
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+          98
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation",
+          60
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+          46
+        ],
+        [
+          "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis",
+          39
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+          38
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+          31
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+          28
+        ],
+        [
+          "Heme::Myeloproliferative_Neoplasm::Essential_Thrombocythemia",
+          24
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          14
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable": 2,
+        "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion": 2,
+        "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts": 6,
+        "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation": 6,
+        "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions": 3,
+        "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia": 8,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 1,
+        "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis": 2,
+        "Heme::Myeloproliferative_Neoplasm::Essential_Thrombocythemia": 1,
+        "Heme::Myeloproliferative_Neoplasm::Chronic_Neutrophilic_Leukemia": 1,
+        "Heme::Myeloproliferative_Neoplasm::Chronic_Eosinophilic_Leukemia": 1,
+        "Heme::Mastocytosis::Systemic_Mastocytosis": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement": 1,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Chronic_Myelomonocytic_Leukemia": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion": 2,
+        "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_Hematopoiesis::Clonal_Cytopenia_of_Undetermined_Significance": 1
+      },
+      "chunk_duration_sec_median": 87.21,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_2_v0_1",
+      "segments_indexable": 753,
+      "chunks_indexable": 35,
+      "top_tags": [
+        [
+          "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+          494
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation",
+          102
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_Hematopoiesis::Clonal_Cytopenia_of_Undetermined_Significance",
+          27
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Childhood_MDN::Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts",
+          25
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+          19
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          12
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Basophilic_Leukemia",
+          11
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Thalassemia",
+          7
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia",
+          7
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion",
+          7
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable": 2,
+        "Heme::Myeloproliferative_Neoplasm::Myeloproliferative_Neoplasm_NOS": 1,
+        "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation": 1,
+        "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion": 20,
+        "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_Hematopoiesis::Clonal_Cytopenia_of_Undetermined_Significance": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Thermal_Injury_Hemolytic_Anemia": 1,
+        "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Basophilic_Leukemia": 1,
+        "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia": 1,
+        "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation": 5,
+        "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion": 1,
+        "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Childhood_MDN::Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts": 1
+      },
+      "chunk_duration_sec_median": 110.17,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_3_v0_1",
+      "segments_indexable": 851,
+      "chunks_indexable": 55,
+      "top_tags": [
+        [
+          "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia",
+          117
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+          113
+        ],
+        [
+          "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Chronic_Myelomonocytic_Leukemia",
+          108
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+          72
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+          68
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+          56
+        ],
+        [
+          "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia",
+          51
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement",
+          51
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation",
+          46
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion",
+          25
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable": 4,
+        "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia": 6,
+        "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis": 1,
+        "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion": 4,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_Neutrophilia": 1,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Chronic_Myelomonocytic_Leukemia": 8,
+        "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts": 6,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CEBPA_Mutation": 1,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia": 4,
+        "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation": 3,
+        "Heme::Myeloproliferative_Neoplasm::Juvenile_Myelomonocytic_Leukemia": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia": 1,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 3,
+        "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Fusion": 1,
+        "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features": 1,
+        "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions": 2,
+        "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement": 2,
+        "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement": 3,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma": 1,
+        "Heme::Myeloproliferative_Neoplasm::Myeloproliferative_Neoplasm_NOS": 1
+      },
+      "chunk_duration_sec_median": 83.09,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_plasma_cell_v0_1",
+      "segments_indexable": 403,
+      "chunks_indexable": 29,
+      "top_tags": [
+        [
+          "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Immunoglobulin_Related_Amyloidosis_AL",
+          100
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Monoclonal_Gammopathy_Of_Renal_Significance",
+          93
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma",
+          89
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Alpha_Heavy_Chain_Disease",
+          44
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+          17
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+          17
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Monoclonal_Immunoglobulin_Deposition_Disease",
+          15
+        ],
+        [
+          "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+          15
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+          5
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Leukemia::Aggressive_NK_Cell_Leukemia",
+          3
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Monoclonal_Gammopathy_Of_Renal_Significance": 7,
+        "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Immunoglobulin_Related_Amyloidosis_AL": 8,
+        "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma": 7,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion": 1,
+        "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Alpha_Heavy_Chain_Disease": 3,
+        "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma": 1,
+        "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Monoclonal_Immunoglobulin_Deposition_Disease": 1
+      },
+      "chunk_duration_sec_median": 117.63,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_pt_lpd_v0_1",
+      "segments_indexable": 382,
+      "chunks_indexable": 29,
+      "top_tags": [
+        [
+          "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+          140
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+          57
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          40
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+          28
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency",
+          28
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+          17
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency",
+          14
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          8
+        ],
+        [
+          "Heme::Infection::Infectious_Mononucleosis",
+          7
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          6
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation": 2,
+        "Heme::Immune_Deficiency_Associated::Iatrogenic_Lymphoproliferative_Disorder": 1,
+        "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD": 8,
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 1,
+        "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder": 4,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 3,
+        "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma": 2,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement": 1,
+        "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma": 1,
+        "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency": 2,
+        "Heme::Infection::Infectious_Mononucleosis": 2,
+        "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency": 1,
+        "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 86.24,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_reactive_lymphoid_hyperplasia_v0_1",
+      "segments_indexable": 538,
+      "chunks_indexable": 49,
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+          172
+        ],
+        [
+          "Heme::Infection::Syphilis",
+          59
+        ],
+        [
+          "Heme::Tumor_Like_T_Cell::Kikuchi_Fujimoto_Disease",
+          32
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          30
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+          27
+        ],
+        [
+          "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS",
+          24
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Dermatopathic_Lymphadenopathy",
+          22
+        ],
+        [
+          "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+          21
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Phenytoin_Induced_Lymphadenopathy",
+          20
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+          19
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia": 12,
+        "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma": 3,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 2,
+        "Heme::Tumor_Like_B_Cell::KSHV_HHV8_Associated_Multicentric_Castleman_Disease": 2,
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 1,
+        "Heme::Non_Neoplastic::Platelet_Coagulation::Antiphospholipid_Antibody_Syndrome": 1,
+        "Heme::Infection::Syphilis": 5,
+        "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 1,
+        "Heme::B_Cell_Lymphomas::Large_B_Cell::Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation": 1,
+        "Heme::Non_Neoplastic::Lymph_Node::Dermatopathic_Lymphadenopathy": 1,
+        "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma": 2,
+        "Heme::Infection::Infectious_Mononucleosis": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma": 5,
+        "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS": 3,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement": 1,
+        "Heme::Tumor_Like_T_Cell::Kikuchi_Fujimoto_Disease": 2,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 1,
+        "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations": 1,
+        "Heme::Non_Neoplastic::Lymph_Node::Phenytoin_Induced_Lymphadenopathy": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 73.02,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_1_of_2_v0_1",
+      "segments_indexable": 845,
+      "chunks_indexable": 66,
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma",
+          256
+        ],
+        [
+          "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+          211
+        ],
+        [
+          "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis",
+          42
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          40
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          38
+        ],
+        [
+          "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+          27
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+          24
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma",
+          24
+        ],
+        [
+          "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+          22
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm",
+          21
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 16,
+        "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 4,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 2,
+        "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 14,
+        "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis": 4,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 4,
+        "Heme::Mature_B_Cell::Marginal_Zone::Nodal_Marginal_Zone_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma": 1,
+        "Heme::Precursor_B_Cell::B_ALL_With_High_Hyperdiploidy": 1,
+        "Heme::T_NK_Cell::Mature_T_NK_Cell::TFH_Nodal::Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 3,
+        "Heme::Mature_B_Cell::Follicular::Pediatric_Type_Follicular_Lymphoma": 1,
+        "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement": 1,
+        "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm": 2,
+        "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma": 1
+      },
+      "chunk_duration_sec_median": 90.91,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_2_of_2_v0_1",
+      "segments_indexable": 771,
+      "chunks_indexable": 57,
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          261
+        ],
+        [
+          "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma",
+          85
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          52
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+          50
+        ],
+        [
+          "Heme::Mature_B_Cell::Lymphoplasmacytic::Lymphoplasmacytic_Lymphoma",
+          45
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+          36
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma",
+          30
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Nodal_Marginal_Zone_Lymphoma",
+          30
+        ],
+        [
+          "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma",
+          27
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma",
+          21
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma": 7,
+        "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 2,
+        "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli": 3,
+        "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma": 3,
+        "Heme::Mature_B_Cell::Lymphoplasmacytic::Lymphoplasmacytic_Lymphoma": 4,
+        "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type": 2,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 1,
+        "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance": 1,
+        "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT": 17,
+        "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma": 4,
+        "Heme::Mature_B_Cell::Marginal_Zone::Nodal_Marginal_Zone_Lymphoma": 3,
+        "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma": 2,
+        "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia": 1
+      },
+      "chunk_duration_sec_median": 99.28,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/chunk_audit.json"
+      ]
+    },
+    {
+      "package_id": "heme_sh_spleen_v0_1",
+      "segments_indexable": 607,
+      "chunks_indexable": 41,
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+          268
+        ],
+        [
+          "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+          37
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+          35
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+          27
+        ],
+        [
+          "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen",
+          17
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Immune_Hemolytic_Anemia",
+          15
+        ],
+        [
+          "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+          13
+        ],
+        [
+          "Heme::Stroma_Derived::Splenic_Vascular::Splenic_Hamartoma",
+          13
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          12
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency",
+          12
+        ]
+      ],
+      "chunk_by_tag": {
+        "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease": 1,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma": 13,
+        "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma": 2,
+        "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial": 3,
+        "Heme::Infection::Malaria": 1,
+        "Heme::Non_Neoplastic::Spleen::Splenic_Cyst": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Immune_Hemolytic_Anemia": 1,
+        "Heme::Infection::Infectious_Mononucleosis": 1,
+        "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia": 1,
+        "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia": 1,
+        "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma": 1,
+        "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen": 1,
+        "Heme::Stroma_Derived::Splenic_Vascular::Splenic_Hamartoma": 1,
+        "Heme::Tumor_Like_T_Cell::Autoimmune_Lymphoproliferative_Syndrome": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS": 2,
+        "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma": 1,
+        "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma": 1,
+        "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma": 1,
+        "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia": 1,
+        "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma": 1,
+        "Heme::Mature_T_NK_Cell::Hepatosplenic::Hepatosplenic_T_Cell_Lymphoma": 1,
+        "Heme::Mastocytosis::Systemic_Mastocytosis": 2,
+        "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia": 1
+      },
+      "chunk_duration_sec_median": 90.37,
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/tag_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/chunk_audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Tags restricted to canonical Heme::* browse leaves (best-of heuristic).",
+    "Not a lecture vector rebuild; not API-exposed.",
+    "Aggressive B-Cell previously had a hand-tuned rule pack; this batch uses the shared browse scorer."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/heme_browse_tag_batch_20260712T031820Z/audit.json"
+}

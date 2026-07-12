@@ -1,0 +1,82 @@
+{
+  "schema_version": "lecture_video_join_probe_v0_1",
+  "created_at_utc": "2026-07-11T23:07:21Z",
+  "input_paths": [
+    "gs://pathology_hub/03_indexes/lectures/vector_STRICT_CYTO_v9/lecture_timecoded_vector_docstore_STRICT_CYTO_v9.jsonl",
+    "gs://pathology_hub/02_normalized/lectures/lecture_sources.jsonl",
+    "gs://pathology_hub/03_indexes/lectures/vector/lecture_vector_docstore.jsonl",
+    "gs://pathology-hub-0/source_videos/"
+  ],
+  "output_paths": [
+    "audits/lecture_video_join_probe_20260711/audit.json"
+  ],
+  "counts": {
+    "docstore_sample_rows": 1896,
+    "sample_bytes": 5000000,
+    "sample_has_video_url": 0,
+    "sample_has_start_sec": 0,
+    "sample_has_raw_source_gcs_uri": 0,
+    "sample_unique_video_ids": 1,
+    "sample_unique_titles": 1,
+    "raw_source_join_basis": {
+      "no_match": 1896
+    },
+    "top_video_ids": [
+      [
+        "gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks",
+        1896
+      ]
+    ],
+    "top_titles": [
+      [
+        "Benign Cystic Neck Mass (Case 01)",
+        1896
+      ]
+    ],
+    "full_docstore_bytes": 109448933,
+    "sampled_regions": [
+      "start",
+      "mid",
+      "near_end"
+    ],
+    "observed_unique_titles_across_regions": 1,
+    "observed_unique_video_ids_across_regions": 1,
+    "observed_unique_text_prefix_across_regions": 1,
+    "note": "Entire STRICT_CYTO_v9 docstore appears to carry identical title/text/video_id with varying primary_tag overlays \u2014 vector corpus corruption, not just missing URL join."
+  },
+  "live_api_probe": {
+    "endpoint": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/evidence/search",
+    "query": "pleomorphic adenoma salivary",
+    "sources": [
+      "videos"
+    ],
+    "observed": {
+      "video_url": null,
+      "video_time_url": null,
+      "start_sec": null,
+      "end_sec": null,
+      "video_id": "gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks",
+      "title_example": "Benign Cystic Neck Mass (Case 01)",
+      "api_exposed_source": "local_lecture_vector_STRICT_CYTO_v9_v048"
+    }
+  },
+  "findings": [
+    "STRICT_CYTO_v9 lecture vector docstore: raw_source_join_basis=no_match; video_url/video_time_url/start_sec null on all sampled rows (start/mid/end).",
+    "video_id collapsed to path-derived blob id gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks across the whole sampled corpus.",
+    "Title and embedding text appear identical corpus-wide (\"Benign Cystic Neck Mass (Case 01)\") while primary_tag varies \u2014 retrieval is tag-overlayed near-duplicate text, not distinct lecture content.",
+    "v10_3_REVIEWED_EDITED docstore shows the same collapsed title/video_id and null URLs in a head sample.",
+    "Older lecture_vector_docstore.jsonl retains lecture_source_id/lecture_family_id and sometimes start_time_sec, but often points at content-library JSON, not MP4.",
+    "Real MP4s exist under gs://pathology-hub-0/source_videos/ but are not joined into the live API lecture docstore.",
+    "Chat MVP cannot invent playable URLs; end-to-end video requires lecture vector rebuild + raw source join + Cloud Run redeploy."
+  ],
+  "known_limitations": [
+    "Sampled first 5MB of ~109MB docstore only; full-file join-rate not computed in this probe.",
+    "Does not modify GCS objects or Cloud Run.",
+    "Does not claim videos are API-playable."
+  ],
+  "recommended_fix": [
+    "Rebuild lecture timecoded vector docstore with real video_id + gs://pathology-hub-0/source_videos/*.mp4 join (or HTTPS public/storage URL).",
+    "Preserve start_sec/end_sec from segment-level chunks where available.",
+    "Until then, Chat MVP Videos strip shows title + honest 'timestamp link not available'."
+  ]
+}
