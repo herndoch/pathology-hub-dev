@@ -24,8 +24,7 @@ import tempfile
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
-from urllib.parse import quote
+from typing import Any
 
 from google.cloud import storage
 
@@ -43,12 +42,6 @@ SCHEMA = "lecture_deck_batch_inventory.v0_1"
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def gcs_to_https(gcs_uri: str) -> str:
-    without = gcs_uri[len("gs://") :]
-    bucket, _, key = without.partition("/")
-    return f"https://storage.googleapis.com/{bucket}/{quote(key, safe='/')}"
 
 
 def infer_root(video_file: str) -> str:
