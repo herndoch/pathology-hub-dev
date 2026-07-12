@@ -32,7 +32,20 @@
       "no_meaningful_entity_tag": 59,
       "closing_summary": 4
     },
-    "segments_with_video_time_url": 877
+    "segments_with_video_time_url": 877,
+    "chunks_indexable": 45,
+    "chunks_by_tag": {
+      "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma": 14,
+      "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS": 18,
+      "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 9,
+      "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS": 1,
+      "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma": 3
+    },
+    "chunk_duration_sec_mean": 123.22,
+    "chunk_duration_sec_median": 139.53,
+    "chunk_chars_mean": 1670.1,
+    "chunk_max_duration_sec": 180.0,
+    "chunk_max_chars": 3200
   },
   "input_files": {
     "lecture_index": "lecture_index.json",
@@ -42,11 +55,20 @@
   },
   "created_at_utc": "2026-07-11T23:54:07Z",
   "known_limitations": [
+    "Index grain is chunks_indexable.jsonl (~75s/1.6k char merges), not raw whisper segments.",
     "Canonical MP4 path set to Heme_SH_Aggressive_B_Cell.mp4 \u2014 pending user upload (legacy Other_Heme_* kept as fallback pointer).",
     "Tags are heuristic keyword + sticky-section; not human-reviewed.",
     "do_not_index segments excluded from segments_indexable.jsonl \u2014 do not vectorize them.",
     "Not written into live lecture FAISS/docstore; not API-exposed yet."
   ],
   "tagging_version": "heme_aggressive_b_heuristic_v0_1",
-  "legacy_raw_source_gcs_uri": "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4"
+  "legacy_raw_source_gcs_uri": "gs://pathology-hub-0/source_videos/Other_Heme_Lecture_aggressive b cell lymphomas.mp4",
+  "index_artifact": "chunks_indexable.jsonl",
+  "index_policy": "Vectorize ONLY chunks_indexable.jsonl. segments_indexable.jsonl is an intermediate ASR crumb file \u2014 do not index.",
+  "consolidation": {
+    "max_duration_sec": 180.0,
+    "max_chars": 3200,
+    "min_chars": 250,
+    "created_at_utc": "2026-07-12T00:06:30Z"
+  }
 }

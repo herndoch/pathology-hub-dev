@@ -55,16 +55,17 @@ Every segment/frame row has non-null `video_url` + `video_time_url` in this side
 
 ## Tagging (heuristic v0_1)
 
-Script: `scripts/tag_lecture_deck_package_heme_aggressive_b_v0_1.py`
+Script: `scripts/tag_lecture_deck_package_heme_aggressive_b_v0_1.py`  
+Consolidate: `scripts/consolidate_lecture_deck_chunks_v0_1.py`
 
 | Policy | Behavior |
 |--------|----------|
-| Indexable | Meaningful entity contribution → `segments_indexable.jsonl` only |
-| Do not index | Speaker intro, TOC/agenda (&lt;150s), thanks, closing multi-entity recap, too-short filler, no entity |
-| Tags | Burkitt, 11q, DLBCL NOS, HGBL MYC/BCL2 rearr., HGBL NOS, PMBL, ALK+ LBCL |
-| Video URI | Canonical `gs://pathology-hub-0/source_videos/Heme_SH_Aggressive_B_Cell.mp4` (`canonical_name_pending_upload`); legacy Other_Heme_* kept as fallback pointer |
+| ASR crumbs | Kept in `segments*.jsonl` for audit only — **do not vectorize** |
+| Index grain | `chunks_indexable.jsonl` only (~2 min merges, tag-smoothed) |
+| Do not index | Intro, TOC/agenda, thanks, closing recap, filler |
+| Video URI | Canonical `Heme_SH_Aggressive_B_Cell.mp4` (`canonical_name_pending_upload`) |
 
-**Approx counts (see audit):** ~784 indexable / 877 total; ~93 excluded.
+**PoC counts:** 877 ASR utterances → ~784 tagged crumbs → **~45 indexable chunks**.
 
 Not human-reviewed. Not vectorized / not API-exposed.
 

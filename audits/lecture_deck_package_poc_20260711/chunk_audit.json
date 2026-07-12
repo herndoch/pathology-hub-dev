@@ -1,0 +1,36 @@
+{
+  "schema_version": "lecture_deck_chunk_consolidate_audit.v0_1",
+  "created_at_utc": "2026-07-12T00:06:30Z",
+  "package_id": "heme_sh_aggressive_b_cell_v0_1",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/segments.jsonl"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/chunks_indexable.jsonl",
+    "outputs/lecture_deck_packages_v0_1/heme_sh_aggressive_b_cell_v0_1/manifest.json"
+  ],
+  "counts": {
+    "input_rows": 877,
+    "input_indexable_utterances": 784,
+    "output_chunks": 45,
+    "by_tag": {
+      "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma": 14,
+      "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS": 18,
+      "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements": 9,
+      "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS": 1,
+      "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma": 3
+    },
+    "duration_sec_mean": 123.22,
+    "duration_sec_median": 139.53,
+    "chars_mean": 1670.1
+  },
+  "params": {
+    "max_duration_sec": 180.0,
+    "max_chars": 3200,
+    "min_chars": 250
+  },
+  "known_limitations": [
+    "Consolidation is deterministic merge by tag/time/size \u2014 not discourse parsing.",
+    "Do not vectorize segments_*.jsonl; only chunks_indexable.jsonl."
+  ]
+}
