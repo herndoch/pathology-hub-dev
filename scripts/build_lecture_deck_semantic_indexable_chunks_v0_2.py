@@ -26,7 +26,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
-from urllib.parse import quote
+from urllib.parse import parse_qs, quote, urlencode, urlparse, urlunparse
 
 import numpy as np
 from openai import OpenAI
@@ -176,6 +176,7 @@ def gcs_to_https(gcs_uri: str) -> str:
 
 
 def make_video_time_url(video_url: Optional[str], start: Any, end: Any) -> Optional[str]:
+    """Build a seek URL. YouTube watch/embed uses &t=NNNs; GCS/other uses #t=."""
     if not video_url:
         return None
     try:
@@ -183,6 +184,20 @@ def make_video_time_url(video_url: Optional[str], start: Any, end: Any) -> Optio
         e = float(end) if end is not None else None
     except (TypeError, ValueError):
         return None
+    lower = video_url.lower()
+    if "youtube.com" in lower or "youtu.be" in lower:
+        # YouTube deep links seek to start only; strip any prior fragment/query t=
+        parsed = urlparse(video_url)
+        qs = parse_qs(parsed.query)
+        qs.pop("t", None)
+        qs["t"] = [f"{int(max(0, s))}s"]
+        # Prefer canonical watch URL when we have v=
+        if "youtu.be" in (parsed.netloc or "").lower():
+            vid = parsed.path.strip("/").split("/")[0]
+            return f"https://www.youtube.com/watch?v={vid}&t={int(max(0, s))}s"
+        return urlunparse(
+            (parsed.scheme, parsed.netloc, parsed.path, parsed.params, urlencode(qs, doseq=True), "")
+        )
     if e is not None:
         return f"{video_url}#t={s:g},{e:g}"
     return f"{video_url}#t={s:g}"
@@ -298,6 +313,7 @@ def time_merge(
                 "raw_source_gcs_uri": first.get("raw_source_gcs_uri"),
                 "raw_source_join_basis": first.get("raw_source_join_basis"),
                 "video_id": first.get("video_id"),
+                "youtube_url": first.get("youtube_url"),
                 "package_id": first.get("package_id"),
                 "root": first.get("root") or "Heme",
             }
@@ -508,6 +524,7 @@ def process_package(
                 "video_id": c.get("video_id"),
                 "video_url": video_url,
                 "video_time_url": make_video_time_url(video_url, c["start_sec"], c["end_sec"]),
+                "youtube_url": c.get("youtube_url"),
                 "raw_source_gcs_uri": c.get("raw_source_gcs_uri"),
                 "raw_source_join_basis": c.get("raw_source_join_basis"),
                 "source_segment_ids": c["source_segment_ids"],
