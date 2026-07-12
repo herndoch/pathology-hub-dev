@@ -76,9 +76,28 @@ Not human-reviewed. Not vectorized / not API-exposed.
 - No claim that Chat MVP Videos strip will play this lecture yet
 - `primary_tag` left `null` / `tag_status: untagged_poc` (tagging = next step)
 
-## Next steps (after more packages or tagging)
+## Methods paper lock
 
-1. Tag segments to Heme aggressive B-cell entities (Burkitt, DLBCL, HGBL, PMBL, ALK+ LBCL, …).
-2. Batch other `*_chatgpt_readable_package.zip` through the same converter.
-3. Rebuild lecture vector index **from deck sidecars** (gate: no row without `video_time_url`).
+See `docs/METHODS_LECTURE_DECK_CHUNKING_v0_1.md` for the honest chunking/tagging description (island smoothing + same-tag time/size caps; **not** semantic segmentation).
+
+## Batch inventory (2026-07-12)
+
+Script: `scripts/batch_process_chatgpt_readable_deck_packages_v0_1.py`
+
+At audit time, `gs://pathology_hub/` root still showed **only** the Aggressive B-Cell zip. Same principle when more `*_chatgpt_readable_package.zip` land:
+
+- Canonical MP4 name from package → `gs://pathology-hub-0/source_videos/<Canonical>.mp4`
+- Join basis `canonical_name_pending_upload` until the object exists
+- Do not rewrite to legacy `Other_*` names
+
+## Associated pics / frames
+
+**Operator Colab TODO** — see `docs/COLAB_TODO_LECTURE_DECK_FRAME_UPLOAD.md`.  
+Sidecar `frames.jsonl` is enough for timestamps now; durable JPG upload can follow later.
+
+## Next steps
+
+1. Drop additional `*_chatgpt_readable_package.zip` at bucket root (or re-run batch after upload finishes).
+2. Per-lecture entity rule packs beyond Aggressive B-Cell.
+3. Rebuild lecture vector index **from** `chunks_indexable.jsonl` (gate: non-null `video_time_url`).
 4. API smoke → Chat MVP Videos strip.
