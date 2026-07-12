@@ -8,20 +8,21 @@ YouTube bot / age gates stick to a warm Colab IP. Restarting (disconnect **and d
 
 ## Loop
 
-1. Edit **Cell 1 only** — set `INDEX` and fill `QUEUE`
-2. Runtime → **Run all**
-3. Paste printed `PACKAGE_ID` to the agent
-4. Runtime → **Disconnect and delete runtime**
-5. `INDEX += 1` → reconnect → Run all
+1. Cell **1a** — fill `QUEUE` once (all URLs)
+2. Cell **1b** — set `INDEX` (0, then 1, …)
+3. Runtime → **Run all**
+4. Paste printed `PACKAGE_ID` to the agent
+5. Runtime → **Disconnect and delete runtime**
+6. Reconnect → `INDEX += 1` → Run all
 
-## Cell 1 shape
+## Cell 1a / 1b shape
 
 ```python
-INDEX = 0
 QUEUE = [
-    ("https://www.youtube.com/watch?v=rCdaaTDesPQ", "Breast", None),
-    ("https://www.youtube.com/watch?v=1WuhaGCtj4k", "BST", None),
+    ("https://www.youtube.com/watch?v=rCdaaTDesPQ", "Breast", None),  # Damron
+    ("https://www.youtube.com/watch?v=1WuhaGCtj4k", "BST", None),      # Gardner
 ]
+INDEX = 0  # bump after each deleted runtime
 ```
 
 ## Behavior
