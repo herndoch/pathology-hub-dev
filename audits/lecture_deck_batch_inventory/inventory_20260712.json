@@ -1,20 +1,83 @@
 {
   "schema_version": "lecture_deck_batch_inventory.v0_1",
-  "created_at_utc": "2026-07-12T00:19:06Z",
+  "created_at_utc": "2026-07-12T00:23:57Z",
   "input_paths": [
     "gs://pathology_hub/"
   ],
   "zip_suffix": "_chatgpt_readable_package.zip",
   "counts": {
-    "zips_found": 1
+    "zips_found": 10
   },
   "zips": [
     {
-      "name": "Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip",
-      "gcs_uri": "gs://pathology_hub/Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip",
-      "size": 13570302,
-      "updated": "2026-07-11T23:44:16.174000+00:00",
+      "name": "Heme_SH_Aggressive_B_Cell_chatgpt_readable_package (7).zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Aggressive_B_Cell_chatgpt_readable_package (7).zip",
+      "size": 18713958,
+      "updated": "2026-07-12T00:22:21.328000+00:00",
       "inferred_canonical_mp4": "Heme_SH_Aggressive_B_Cell.mp4"
+    },
+    {
+      "name": "Heme_SH_BM_Systemic_Manifestations_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_BM_Systemic_Manifestations_package.zip",
+      "size": 16959160,
+      "updated": "2026-07-12T00:22:54.687000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_BM_Systemic_Manifestations.mp4"
+    },
+    {
+      "name": "Heme_SH_Hodgkin_NLP_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Hodgkin_NLP_package.zip",
+      "size": 18061590,
+      "updated": "2026-07-12T00:22:39.577000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Hodgkin_NLP.mp4"
+    },
+    {
+      "name": "Heme_SH_Hodgkin_T_NK_Cell_1_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Hodgkin_T_NK_Cell_1_package.zip",
+      "size": 17607984,
+      "updated": "2026-07-12T00:23:31.709000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Hodgkin_T_NK_Cell_1.mp4"
+    },
+    {
+      "name": "Heme_SH_Hodgkin_T_NK_Cell_2_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Hodgkin_T_NK_Cell_2_package.zip",
+      "size": 17527863,
+      "updated": "2026-07-12T00:23:38.104000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Hodgkin_T_NK_Cell_2.mp4"
+    },
+    {
+      "name": "Heme_SH_MDS_MPN_3_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_MDS_MPN_3_package.zip",
+      "size": 12859059,
+      "updated": "2026-07-12T00:23:37.936000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_MDS_MPN_3.mp4"
+    },
+    {
+      "name": "Heme_SH_Reactive_Lymphoid_Hyperplasia_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Reactive_Lymphoid_Hyperplasia_package.zip",
+      "size": 18699325,
+      "updated": "2026-07-12T00:22:43.512000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Reactive_Lymphoid_Hyperplasia.mp4"
+    },
+    {
+      "name": "Heme_SH_Small_B_Cell_1_of_2_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Small_B_Cell_1_of_2_package.zip",
+      "size": 28945709,
+      "updated": "2026-07-12T00:21:49.453000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Small_B_Cell_1_of_2.mp4"
+    },
+    {
+      "name": "Heme_SH_Small_B_Cell_2_of_2_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Small_B_Cell_2_of_2_package.zip",
+      "size": 27637181,
+      "updated": "2026-07-12T00:21:45.353000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Small_B_Cell_2_of_2.mp4"
+    },
+    {
+      "name": "Heme_SH_Spleen_package.zip",
+      "gcs_uri": "gs://pathology_hub/Heme_SH_Spleen_package.zip",
+      "size": 22718199,
+      "updated": "2026-07-12T00:21:28.086000+00:00",
+      "inferred_canonical_mp4": "Heme_SH_Spleen.mp4"
     }
   ],
   "policy": {
@@ -30,6 +93,5 @@
     "Entity tagging remains lecture-specific; only Aggressive B-Cell has a committed rule pack.",
     "Frame/picture durable upload is intentionally deferred to Colab/operator."
   ],
-  "processed": [],
-  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/batch_20260712/inventory.json"
+  "processed": []
 }

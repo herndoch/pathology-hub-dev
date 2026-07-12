@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -37,6 +38,11 @@ BUCKET = "pathology_hub"
 VIDEO_BUCKET = "pathology-hub-0"
 VIDEO_PREFIX = "source_videos/"
 ZIP_SUFFIX = "_chatgpt_readable_package.zip"
+# Also accept console re-uploads like "...package (7).zip" and shorter "..._package.zip"
+ZIP_NAME_RE = re.compile(
+    r"^(?P<stem>.+?)(?:_chatgpt_readable)?_package(?:\s*\(\d+\))?\.zip$",
+    re.IGNORECASE,
+)
 SCHEMA = "lecture_deck_batch_inventory.v0_1"
 
 
@@ -69,6 +75,9 @@ def infer_root(video_file: str) -> str:
 
 def canonical_from_zip_name(name: str) -> str:
     base = Path(name).name
+    m = ZIP_NAME_RE.match(base)
+    if m:
+        return m.group("stem") + ".mp4"
     if base.endswith(ZIP_SUFFIX):
         return base[: -len(ZIP_SUFFIX)] + ".mp4"
     return Path(base).stem + ".mp4"
@@ -81,11 +90,31 @@ def list_chatgpt_zips(client: storage.Client, prefix: str = "") -> list[storage.
         if "/" in name.rstrip("/") and prefix == "":
             # Default: bucket-root zips only (matches how the pilot was dropped).
             continue
-        if name.endswith(ZIP_SUFFIX) or (
+        base = Path(name).name
+        if ZIP_NAME_RE.match(base) or (
             name.endswith(".zip") and "chatgpt_readable" in name.lower()
         ):
             blobs.append(blob)
-    return sorted(blobs, key=lambda b: b.name)
+    # Prefer non-duplicate stems: keep largest / newest per canonical stem
+    best: dict[str, storage.Blob] = {}
+    for blob in blobs:
+        stem = Path(canonical_from_zip_name(blob.name)).stem.lower()
+        prev = best.get(stem)
+        if prev is None:
+            best[stem] = blob
+            continue
+        # Prefer chatgpt_readable named zips, then larger size, then newer
+        def score(b: storage.Blob) -> tuple:
+            n = Path(b.name).name.lower()
+            return (
+                1 if "chatgpt_readable" in n else 0,
+                b.size or 0,
+                b.updated.timestamp() if b.updated else 0,
+            )
+
+        if score(blob) > score(prev):
+            best[stem] = blob
+    return sorted(best.values(), key=lambda b: b.name)
 
 
 def video_exists(client: storage.Client, canonical_mp4: str) -> bool:
