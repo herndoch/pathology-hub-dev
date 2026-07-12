@@ -109,11 +109,12 @@ def normalize_image_rel(image_path: Optional[str], stem: str) -> Optional[str]:
 
 
 def load_records(client: Client, stem: str) -> tuple[list[dict[str, Any]], str, list[str]]:
-    """Prefer ENHANCED when present; fall back to top-level list JSON."""
+    """Prefer ENHANCED when present; fall back to top-level or nested stem JSON."""
     hub0 = client.bucket("pathology-hub-0")
     inputs: list[str] = []
     enhanced_uri = f"{CONTENT_PREFIX}{stem}/final_ENHANCED_data.json"
     top_uri = f"{CONTENT_PREFIX}{stem}.json"
+    nested_uri = f"{CONTENT_PREFIX}{stem}/{stem}.json"
     records: Optional[list] = None
     source = ""
 
@@ -133,6 +134,15 @@ def load_records(client: Client, stem: str) -> tuple[list[dict[str, Any]], str, 
             if isinstance(data, list) and data:
                 records = data
                 source = f"{stem}.json"
+
+    nested = hub0.blob(nested_uri)
+    if nested.exists():
+        inputs.append(f"gs://pathology-hub-0/{nested_uri}")
+        if records is None:
+            data = json.loads(nested.download_as_text())
+            if isinstance(data, list) and data:
+                records = data
+                source = f"{stem}/{stem}.json"
 
     if not records:
         raise FileNotFoundError(f"No content_library records for stem={stem}")
