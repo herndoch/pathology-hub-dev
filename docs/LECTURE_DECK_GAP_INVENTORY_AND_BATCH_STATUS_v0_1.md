@@ -45,8 +45,9 @@ Missing content (MP4+assets exist): Cardiac_Gross, Lung_Gross, Non_Neoplastic2, 
 | Other_Heme | 18 | 1 | almost no content JSON |
 | Other_Skin | 20 | 1 | almost no content JSON |
 | ASC_Global | 5 | 0 | no content |
-| YT_BST / YT_HN / YT_Derm / YT_Micro | varies | 0 | no content |
-| YT_Skin | 21 | 14 | skipped with Derm |
+| YT_BST / YT_HN / YT_Micro | varies | 0 | no content |
+| YT_Derm | — | — | **ignored** (do not process) |
+| YT_Skin | 21 | 21 | **remastered** 2026-07-12 → 179 gated Skin chunks |
 
 ### Already known asset gap
 BST SoftTissue/Bone: asset dirs lack JPGs (ENHANCED JSON only).

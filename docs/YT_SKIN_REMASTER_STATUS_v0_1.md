@@ -16,12 +16,10 @@ No original YouTube links needed. Playback stays **GCS MP4 `#t=`** from existing
 
 Leaf embeddings: `outputs/skin_browse_leaf_embeddings_v0_1/` (1057 `Skin::*` leaves).
 
-## YT_Derm (not in this remaster)
+## YT_Derm — **ignored / out of scope**
 
-- Mostly `*_MASTER.json` / `*_RAW.json` only (different schema: `timestamp_start` / `slide_title`)
-- **0** top-level converter-compatible content JSON stems
-- Only 2 MP4s (`YT_Derm_Adnexal_Skupsk*`) and those lack matching content
-- Would need a RAW→deck adapter and/or Colab YouTube re-ingest + original links
+Do **not** convert, gate, or index `YT_Derm_*`. No deck packages; not in FAISS.
+Leave legacy `*_MASTER`/`*_RAW` content_library objects untouched (no GCS delete).
 
 ## Derm_Lecture / Other_Skin
 
