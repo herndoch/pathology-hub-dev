@@ -1,0 +1,325 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T13:27:00Z",
+  "family_prefix": "Gyn_Lecture",
+  "root": "GYN",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/Gyn_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_10_ovary4_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_12_uterine_mesenchymal1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_13_uterine_mesenchymal2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_1_grossing1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_2_grossing2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_3_cervix_glandular_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_4_cervix_squamous_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_5_endometrium1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_6_gestational_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_7_ovary1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_8_ovary2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gyn_lecture_9_ovary3_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 12,
+    "ok": 12,
+    "failed": 0,
+    "segments_total": 1042,
+    "frames_total": 1042,
+    "mp4_joined": 12
+  },
+  "results": [
+    {
+      "stem": "Gyn_Lecture_10_Ovary4",
+      "package_id": "gyn_lecture_10_ovary4_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 66,
+        "frames": 66,
+        "segments_with_video_time_url": 66,
+        "frames_with_video_time_url": 66,
+        "frames_asset_objects_present": 65,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_10_Ovary4.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_10_ovary4_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_12_Uterine_Mesenchymal1",
+      "package_id": "gyn_lecture_12_uterine_mesenchymal1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 113,
+        "frames": 113,
+        "segments_with_video_time_url": 113,
+        "frames_with_video_time_url": 113,
+        "frames_asset_objects_present": 112,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_12_Uterine_Mesenchymal1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_12_uterine_mesenchymal1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_13_Uterine_Mesenchymal2",
+      "package_id": "gyn_lecture_13_uterine_mesenchymal2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 42,
+        "frames": 42,
+        "segments_with_video_time_url": 42,
+        "frames_with_video_time_url": 42,
+        "frames_asset_objects_present": 41,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_13_Uterine_Mesenchymal2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_13_uterine_mesenchymal2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_1_Grossing1",
+      "package_id": "gyn_lecture_1_grossing1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 70,
+        "frames": 70,
+        "segments_with_video_time_url": 70,
+        "frames_with_video_time_url": 70,
+        "frames_asset_objects_present": 69,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_1_Grossing1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_1_grossing1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_2_Grossing2",
+      "package_id": "gyn_lecture_2_grossing2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 44,
+        "frames": 44,
+        "segments_with_video_time_url": 44,
+        "frames_with_video_time_url": 44,
+        "frames_asset_objects_present": 43,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_2_Grossing2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_2_grossing2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_3_Cervix_Glandular",
+      "package_id": "gyn_lecture_3_cervix_glandular_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 71,
+        "frames": 71,
+        "segments_with_video_time_url": 71,
+        "frames_with_video_time_url": 71,
+        "frames_asset_objects_present": 70,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_3_Cervix_Glandular.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_3_cervix_glandular_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_4_Cervix_Squamous",
+      "package_id": "gyn_lecture_4_cervix_squamous_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 102,
+        "frames": 102,
+        "segments_with_video_time_url": 102,
+        "frames_with_video_time_url": 102,
+        "frames_asset_objects_present": 101,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_4_Cervix_Squamous.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_4_cervix_squamous_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_5_Endometrium1",
+      "package_id": "gyn_lecture_5_endometrium1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 97,
+        "frames": 97,
+        "segments_with_video_time_url": 97,
+        "frames_with_video_time_url": 97,
+        "frames_asset_objects_present": 96,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_5_Endometrium1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_5_endometrium1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_6_Gestational",
+      "package_id": "gyn_lecture_6_gestational_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 110,
+        "frames": 110,
+        "segments_with_video_time_url": 110,
+        "frames_with_video_time_url": 110,
+        "frames_asset_objects_present": 109,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_6_Gestational.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_6_gestational_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_7_Ovary1",
+      "package_id": "gyn_lecture_7_ovary1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 105,
+        "frames": 105,
+        "segments_with_video_time_url": 105,
+        "frames_with_video_time_url": 105,
+        "frames_asset_objects_present": 104,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_7_Ovary1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_7_ovary1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_8_Ovary2",
+      "package_id": "gyn_lecture_8_ovary2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 140,
+        "frames": 140,
+        "segments_with_video_time_url": 140,
+        "frames_with_video_time_url": 140,
+        "frames_asset_objects_present": 139,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_8_Ovary2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_8_ovary2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Gyn_Lecture_9_Ovary3",
+      "package_id": "gyn_lecture_9_ovary3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 82,
+        "frames": 82,
+        "segments_with_video_time_url": 82,
+        "frames_with_video_time_url": 82,
+        "frames_asset_objects_present": 81,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Gyn_Lecture_9_Ovary3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gyn_lecture_9_ovary3_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

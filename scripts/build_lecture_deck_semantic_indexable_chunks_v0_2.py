@@ -82,6 +82,29 @@ LECTURE_PRIORS: list[tuple[re.Pattern[str], list[str]]] = [
     (re.compile(r"breast_lecture_treated", re.I), ["Breast::Neoplastic::Epithelial", "Breast::Inflammatory"]),
     (re.compile(r"breast_lecture_grossing|breast_lecture_rad", re.I), ["Breast::Normal_Histology", "Breast::Congenital_Structural", "Breast::Neoplastic"]),
     (re.compile(r"^breast_lecture", re.I), ["Breast::"]),
+    # GI lecture family
+    (re.compile(r"gi_lecture_.*liver|gi_lecture_0_gross_liver", re.I), ["GI::Liver", "GI::Hepatobiliary"]),
+    (re.compile(r"gi_lecture_.*pancreas", re.I), ["GI::Pancreas", "GI::Ampulla"]),
+    (re.compile(r"gi_lecture_.*colon|gi_lecture_.*ibd", re.I), ["GI::Colon", "GI::Large_Intestine", "GI::Intestine"]),
+    (re.compile(r"gi_lecture_.*esophagus", re.I), ["GI::Esophagus"]),
+    (re.compile(r"gi_lecture_.*stomach", re.I), ["GI::Stomach"]),
+    (re.compile(r"gi_lecture_.*smallintestine|gi_lecture_.*small_intestine", re.I), ["GI::Small_Intestine", "GI::Intestine"]),
+    (re.compile(r"gi_lecture_.*peds", re.I), ["GI::", "Peds::"]),
+    (re.compile(r"^gi_lecture", re.I), ["GI::"]),
+    # GYN lecture family
+    (re.compile(r"gyn_lecture_.*cervix_glandular", re.I), ["GYN::Cervix", "GYN::Cervix_Uteri"]),
+    (re.compile(r"gyn_lecture_.*cervix_squamous", re.I), ["GYN::Cervix", "GYN::Cervix_Uteri"]),
+    (re.compile(r"gyn_lecture_.*endometrium", re.I), ["GYN::Uterus", "GYN::Endometrium", "GYN::Corpus"]),
+    (re.compile(r"gyn_lecture_.*gestational", re.I), ["GYN::Gestational", "GYN::Placenta", "GYN::Trophoblast"]),
+    (re.compile(r"gyn_lecture_.*ovary", re.I), ["GYN::Ovary"]),
+    (re.compile(r"gyn_lecture_.*uterine_mesenchymal", re.I), ["GYN::Uterus", "GYN::Myometrium", "GYN::Soft_Tissue"]),
+    (re.compile(r"gyn_lecture_.*grossing", re.I), ["GYN::"]),
+    (re.compile(r"^gyn_lecture", re.I), ["GYN::"]),
+    # BST lecture family
+    (re.compile(r"bst_lecture_.*softtissue|bst_lecture_.*soft_tissue|bst_lecture_.*softissue", re.I), ["BST::Soft_Tissue", "BST::"]),
+    (re.compile(r"bst_lecture_.*bone", re.I), ["BST::Bone", "BST::"]),
+    (re.compile(r"bst_lecture_.*grossing", re.I), ["BST::"]),
+    (re.compile(r"^bst_lecture", re.I), ["BST::"]),
 ]
 
 ENTITYISH = re.compile(
@@ -91,7 +114,19 @@ ENTITYISH = re.compile(
     r"carcinoma|dcis|lcis|lobular|ductal|fibroadenoma|phyllodes|papillary|"
     r"mucinous|tubular|metaplastic|her2|ki-?67|er\b|pr\b|triple.?negative|"
     r"radial scar|adenosis|paget|nipple|spindle|myofibroblastoma|angiosarcoma|"
-    r"invasive|in situ|breast)\b",
+    r"invasive|in situ|breast|"
+    # GI
+    r"hepatocellular|hcc|cholangiocarcinoma|cirrhosis|steatohepatitis|nash|nafld|"
+    r"barrett|esophagitis|gastritis|helicobacter|crohn|ulcerative colitis|ibd|"
+    r"adenoma|adenocarcinoma|gist|carcinoid|neuroendocrine|pancreat|ampulla|"
+    r"celiac|colitis|polyp|dysplasia|liver|colon|stomach|esophagus|"
+    # GYN
+    r"endometri|cervix|cervical|hsil|lsil|cin\b|ais\b|serous|mucinous|endometrioid|"
+    r"clear cell|germ cell|sex cord|brenner|leiomyoma|leiomyosarcoma|adenomyosis|"
+    r"molar|hydatidiform|choriocarcinoma|gestational|ovary|ovarian|fallopian|"
+    # BST
+    r"sarcoma|liposarcoma|synovial|ewing|osteosarcoma|chondrosarcoma|giant cell|"
+    r"fibromatosis|desmoid|schwannoma|mpnst|dfsp|undifferentiated|soft tissue|bone)\b",
     re.I,
 )
 

@@ -1,0 +1,255 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T13:29:08Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/bst_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "bst_lecture_",
+    "root": "BST"
+  },
+  "counts": {
+    "packages": 6,
+    "packages_with_chunks": 6,
+    "total_chunks": 37
+  },
+  "packages": [
+    {
+      "package_id": "bst_lecture_1_grossing_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.5866,
+      "margin_median": 0.0563,
+      "rejects": {
+        "reject_low_similarity": 18,
+        "reject_ambiguous_margin": 9
+      },
+      "top_tags": [
+        [
+          "BST::Bone::Normal_Histology::Radiologic_Approach_To_Bone_Tumors",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "bst_lecture_2_softtissue1_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.6615,
+      "margin_median": 0.0415,
+      "rejects": {
+        "reject_ambiguous_margin": 18
+      },
+      "top_tags": [
+        [
+          "BST::Soft_Tissue::Fibroblastic::Proliferative_Fasciitis_and_Proliferative_Myositis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "bst_lecture_3_softissue2_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.7055,
+      "margin_median": 0.0602,
+      "rejects": {
+        "reject_ambiguous_margin": 25,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "BST::Soft_Tissue::Vascular::Benign::Lobular_Capillary_Hemangioma",
+          3
+        ],
+        [
+          "BST::Soft_Tissue::Vascular::Benign::Hemangioma_Epithelioid",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Vascular::Malignant::Epithelioid_Hemangioendothelioma",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Vascular::Malignant::Angiosarcoma",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Adipocytic::Intermediate::Atypical_Lipomatous_Tumor_Well_Differentiated_Liposarcoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "bst_lecture_4_softtissue3_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6437,
+      "margin_median": 0.0316,
+      "rejects": {
+        "reject_ambiguous_margin": 24,
+        "reject_low_similarity": 3
+      },
+      "top_tags": [
+        [
+          "BST::Soft_Tissue::Fibroblastic::Malignant::Dermatofibrosarcoma_Protuberans_Fibrosarcomatous",
+          3
+        ],
+        [
+          "BST::Soft_Tissue::Fibroblastic::Malignant::Myxofibrosarcoma",
+          2
+        ],
+        [
+          "BST::Soft_Tissue::Smooth_Muscle::Benign::Cutaneous_Leiomyoma",
+          2
+        ],
+        [
+          "BST::Soft_Tissue::Fibroblastic::Intermediate::Desmoid_Type_Fibromatosis",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Skeletal_Muscle::Malignant::Alveolar_Rhabdomyosarcoma",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Uncertain_Diff::Malignant::Extraskeletal_Myxoid_Chondrosarcoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "bst_lecture_5_bone1_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.5747,
+      "margin_median": 0.0561,
+      "rejects": {
+        "reject_low_similarity": 11,
+        "reject_ambiguous_margin": 8,
+        "reject_agenda_dump": 1
+      },
+      "top_tags": [
+        [
+          "BST::Bone::Normal_Histology::Radiologic_Approach_To_Bone_Tumors",
+          2
+        ],
+        [
+          "BST::Bone::Reactive::Infectious::Osteomyelitis_Chronic",
+          2
+        ],
+        [
+          "BST::Bone::Reactive::Metabolic::Paget_Disease",
+          2
+        ],
+        [
+          "BST::Bone::Osteogenic::Malignant::Osteosarcoma_Periosteal",
+          1
+        ],
+        [
+          "BST::Bone::Reactive::Infectious::Osteomyelitis_Acute",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "bst_lecture_6_bone2_v0_1",
+      "chunks_indexable": 9,
+      "sim_median": 0.6265,
+      "margin_median": 0.0575,
+      "rejects": {
+        "reject_low_similarity": 2,
+        "reject_ambiguous_margin": 19
+      },
+      "top_tags": [
+        [
+          "BST::Bone::Chondrogenic::Secondary_Peripheral_Atypical_Cartilaginous_Tumor_Chondrosarcoma_Grade_1",
+          3
+        ],
+        [
+          "BST::Bone::Reactive::Structural::Fracture_Callus",
+          2
+        ],
+        [
+          "BST::Bone::Chondrogenic::Benign::Enchondroma",
+          2
+        ],
+        [
+          "BST::Syndromes::Predisposition::Skeletal::Enchondromatosis_Ollier_Maffucci",
+          1
+        ],
+        [
+          "BST::Soft_Tissue::Uncertain_Diff::Malignant::Undifferentiated_Round_Cell_Sarcoma_Ewing",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_BST_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T132908Z/audit.json"
+}

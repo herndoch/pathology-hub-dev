@@ -1,0 +1,350 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T13:26:04Z",
+  "family_prefix": "GI_Lecture",
+  "root": "GI",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/GI_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_0_gross_liver_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_10_colon_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_11_esophagus_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_12_smallintestine_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_13_stomach2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_1_liver1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_2_liver2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_3_liver3_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_4_peds1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_5_peds2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_7_ibd_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_8_pancreas_v0_1",
+    "outputs/lecture_deck_packages_v0_1/gi_lecture_9_stomach1_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 13,
+    "ok": 13,
+    "failed": 0,
+    "segments_total": 883,
+    "frames_total": 883,
+    "mp4_joined": 13
+  },
+  "results": [
+    {
+      "stem": "GI_Lecture_0_Gross_Liver",
+      "package_id": "gi_lecture_0_gross_liver_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 86,
+        "frames": 86,
+        "segments_with_video_time_url": 86,
+        "frames_with_video_time_url": 86,
+        "frames_asset_objects_present": 85,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_0_Gross_Liver.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_0_gross_liver_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_10_Colon",
+      "package_id": "gi_lecture_10_colon_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 79,
+        "frames": 79,
+        "segments_with_video_time_url": 79,
+        "frames_with_video_time_url": 79,
+        "frames_asset_objects_present": 78,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_10_Colon.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_10_colon_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_11_Esophagus",
+      "package_id": "gi_lecture_11_esophagus_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 51,
+        "frames": 51,
+        "segments_with_video_time_url": 51,
+        "frames_with_video_time_url": 51,
+        "frames_asset_objects_present": 50,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_11_Esophagus.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_11_esophagus_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_12_SmallIntestine",
+      "package_id": "gi_lecture_12_smallintestine_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 87,
+        "frames": 87,
+        "segments_with_video_time_url": 87,
+        "frames_with_video_time_url": 87,
+        "frames_asset_objects_present": 86,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_12_SmallIntestine.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_12_smallintestine_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_13_Stomach2",
+      "package_id": "gi_lecture_13_stomach2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 49,
+        "frames": 49,
+        "segments_with_video_time_url": 49,
+        "frames_with_video_time_url": 49,
+        "frames_asset_objects_present": 48,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_13_Stomach2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_13_stomach2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_1_Liver1",
+      "package_id": "gi_lecture_1_liver1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 76,
+        "frames": 76,
+        "segments_with_video_time_url": 76,
+        "frames_with_video_time_url": 76,
+        "frames_asset_objects_present": 75,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_1_Liver1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_1_liver1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_2_Liver2",
+      "package_id": "gi_lecture_2_liver2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 93,
+        "frames": 93,
+        "segments_with_video_time_url": 93,
+        "frames_with_video_time_url": 93,
+        "frames_asset_objects_present": 92,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_2_Liver2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_2_liver2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_3_Liver3",
+      "package_id": "gi_lecture_3_liver3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 72,
+        "frames": 72,
+        "segments_with_video_time_url": 72,
+        "frames_with_video_time_url": 72,
+        "frames_asset_objects_present": 71,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_3_Liver3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_3_liver3_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_4_Peds1",
+      "package_id": "gi_lecture_4_peds1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 46,
+        "frames": 46,
+        "segments_with_video_time_url": 46,
+        "frames_with_video_time_url": 46,
+        "frames_asset_objects_present": 45,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_4_Peds1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_4_peds1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_5_Peds2",
+      "package_id": "gi_lecture_5_peds2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 77,
+        "frames": 77,
+        "segments_with_video_time_url": 77,
+        "frames_with_video_time_url": 77,
+        "frames_asset_objects_present": 76,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_5_Peds2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_5_peds2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_7_IBD",
+      "package_id": "gi_lecture_7_ibd_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 27,
+        "frames": 27,
+        "segments_with_video_time_url": 27,
+        "frames_with_video_time_url": 27,
+        "frames_asset_objects_present": 26,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_7_IBD.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_7_ibd_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_8_Pancreas",
+      "package_id": "gi_lecture_8_pancreas_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 92,
+        "frames": 92,
+        "segments_with_video_time_url": 92,
+        "frames_with_video_time_url": 92,
+        "frames_asset_objects_present": 91,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_8_Pancreas.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_8_pancreas_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "GI_Lecture_9_Stomach1",
+      "package_id": "gi_lecture_9_stomach1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 48,
+        "frames": 48,
+        "segments_with_video_time_url": 48,
+        "frames_with_video_time_url": 48,
+        "frames_asset_objects_present": 47,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "GI_Lecture_9_Stomach1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gi_lecture_9_stomach1_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T13:27:26Z",
+  "family_prefix": "BST_Lecture",
+  "root": "BST",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/BST_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_1_grossing_v0_1",
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_2_softtissue1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_3_softissue2_v0_1",
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_4_softtissue3_v0_1",
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_5_bone1_v0_1",
+    "outputs/lecture_deck_packages_v0_1/bst_lecture_6_bone2_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 6,
+    "ok": 6,
+    "failed": 0,
+    "segments_total": 399,
+    "frames_total": 399,
+    "mp4_joined": 6
+  },
+  "results": [
+    {
+      "stem": "BST_Lecture_1_Grossing",
+      "package_id": "bst_lecture_1_grossing_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 65,
+        "frames": 65,
+        "segments_with_video_time_url": 65,
+        "frames_with_video_time_url": 65,
+        "frames_asset_objects_present": 64,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_1_Grossing.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_1_grossing_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "BST_Lecture_2_SoftTissue1",
+      "package_id": "bst_lecture_2_softtissue1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 54,
+        "frames": 54,
+        "segments_with_video_time_url": 54,
+        "frames_with_video_time_url": 54,
+        "frames_asset_objects_present": 0,
+        "frames_asset_objects_missing": 54,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_2_SoftTissue1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_2_softtissue1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "BST_Lecture_3_SofTissue2",
+      "package_id": "bst_lecture_3_softissue2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 68,
+        "frames": 68,
+        "segments_with_video_time_url": 68,
+        "frames_with_video_time_url": 68,
+        "frames_asset_objects_present": 0,
+        "frames_asset_objects_missing": 68,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_3_SofTissue2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_3_softissue2_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "BST_Lecture_4_SoftTissue3",
+      "package_id": "bst_lecture_4_softtissue3_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 79,
+        "frames": 79,
+        "segments_with_video_time_url": 79,
+        "frames_with_video_time_url": 79,
+        "frames_asset_objects_present": 0,
+        "frames_asset_objects_missing": 79,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_4_SoftTissue3.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_4_softtissue3_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "BST_Lecture_5_Bone1",
+      "package_id": "bst_lecture_5_bone1_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 58,
+        "frames": 58,
+        "segments_with_video_time_url": 58,
+        "frames_with_video_time_url": 58,
+        "frames_asset_objects_present": 0,
+        "frames_asset_objects_missing": 58,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_5_Bone1.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_5_bone1_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "BST_Lecture_6_Bone2",
+      "package_id": "bst_lecture_6_bone2_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 75,
+        "frames": 75,
+        "segments_with_video_time_url": 75,
+        "frames_with_video_time_url": 75,
+        "frames_asset_objects_present": 0,
+        "frames_asset_objects_missing": 75,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "BST_Lecture_6_Bone2.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/bst_lecture_6_bone2_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}
