@@ -1,0 +1,644 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T14:20:13Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/cytopathology_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "yt_cyto_",
+    "root": "Cytopathology"
+  },
+  "counts": {
+    "packages": 17,
+    "packages_with_chunks": 16,
+    "total_chunks": 85
+  },
+  "packages": [
+    {
+      "package_id": "yt_cyto_cervical_goulart_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.6484,
+      "margin_median": 0.0402,
+      "rejects": {
+        "reject_low_similarity": 1,
+        "reject_ambiguous_margin": 21
+      },
+      "top_tags": [
+        [
+          "Cyto_GYN::Glandular::Atypical_Endocervical_Cells_Favor_Neoplastic",
+          2
+        ],
+        [
+          "Cyto_GYN::Glandular::Carcinoma::Adenocarcinoma_Endocervical_Mesonephric",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_cervix_giovanni_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.655,
+      "margin_median": 0.0817,
+      "rejects": {
+        "reject_low_similarity": 1,
+        "reject_ambiguous_margin": 19,
+        "reject_agenda_dump": 1
+      },
+      "top_tags": [
+        [
+          "Cyto_GYN::Squamous::Atypical_Squamous_Cells_Undetermined_Significance_ASCUS",
+          1
+        ],
+        [
+          "Cyto_Management::Ancillary_Testing::HPV_Testing",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_csf_sobek_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_low_similarity": 2,
+        "reject_ambiguous_margin": 15
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_lung_lozano_v0_1",
+      "chunks_indexable": 9,
+      "sim_median": 0.5898,
+      "margin_median": 0.0822,
+      "rejects": {
+        "reject_low_similarity": 10,
+        "reject_ambiguous_margin": 16,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Technique::Endoscopic_Ultrasound_Guided_Fine_Needle_Aspiration_EUS_FNA",
+          3
+        ],
+        [
+          "Cyto_Management::Ancillary_Testing::Immunocytochemistry_IHC",
+          3
+        ],
+        [
+          "Cyto_Management::Technique::Rapid_On_Site_Evaluation_ROSE",
+          2
+        ],
+        [
+          "Cyto_Management::Ancillary_Testing::Fluorescence_In_Situ_Hybridization_FISH",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_lung_schmitt_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6343,
+      "margin_median": 0.0735,
+      "rejects": {
+        "reject_ambiguous_margin": 23,
+        "reject_low_similarity": 5
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Technique::Endoscopic_Ultrasound_Guided_Fine_Needle_Aspiration_EUS_FNA",
+          1
+        ],
+        [
+          "Cyto_Management::Ancillary_Testing::Molecular_Sequencing_BRAF_KRAS_etc",
+          1
+        ],
+        [
+          "Cyto_Management::Technique::Rapid_On_Site_Evaluation_ROSE",
+          1
+        ],
+        [
+          "Cyto_Thoracic::Malignant::Neuroendocrine::Carcinoid_Tumor_Atypical",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_lymph_kloboves_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6346,
+      "margin_median": 0.0529,
+      "rejects": {
+        "reject_low_similarity": 2,
+        "reject_ambiguous_margin": 22
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Ancillary_Testing::Flow_Cytometry",
+          2
+        ],
+        [
+          "Cyto_Salivary::Pattern::Epithelial_Proliferation_With_Lymphoid_Background",
+          1
+        ],
+        [
+          "Cyto_Heme::Benign_Reactive::General::Reactive_Lymphoid_Hyperplasia_Follicular",
+          1
+        ],
+        [
+          "Cyto_Heme::Malignant::B_Cell_Small::Mantle_Cell_Lymphoma_Classic",
+          1
+        ],
+        [
+          "Cyto_Heme::Malignant::B_Cell_Small::Follicular_Lymphoma_Low_Grade",
+          1
+        ],
+        [
+          "Cyto_Heme::Malignant::B_Cell_Large::Plasmablastic_Lymphoma",
+          1
+        ],
+        [
+          "Cyto_Heme::Malignant::Hodgkin::Nodular_Lymphocyte_Predominant_HL",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_lymph_who_field_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.5798,
+      "margin_median": 0.0593,
+      "rejects": {
+        "reject_low_similarity": 5,
+        "reject_ambiguous_margin": 22
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Technique::Cell_Block_Preparation",
+          2
+        ],
+        [
+          "Cyto_Management::Technique::Rapid_On_Site_Evaluation_ROSE",
+          1
+        ],
+        [
+          "Cyto_Thyroid::Pattern::Dispersed_Hypercellular_Lymph_Node_Like",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_pancreas_cyst_pitman_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.6537,
+      "margin_median": 0.0194,
+      "rejects": {
+        "reject_ambiguous_margin": 28,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Cyto_Pancreatobiliary::Malignant::Neuroendocrine::Neuroendocrine_Tumor_Lipid_Rich",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_pancreas_reid_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6521,
+      "margin_median": 0.052,
+      "rejects": {
+        "reject_ambiguous_margin": 18,
+        "reject_agenda_dump": 1,
+        "reject_low_similarity": 4
+      },
+      "top_tags": [
+        [
+          "Cyto_Pancreatobiliary::Malignant::Ductal::Pancreatic_Ductal_Adenocarcinoma_Undifferentiated_Anaplastic",
+          2
+        ],
+        [
+          "Cyto_Pancreatobiliary::Malignant::Ductal::Pancreatic_Ductal_Adenocarcinoma_Foamy_Gland",
+          2
+        ],
+        [
+          "Cyto_Pancreatobiliary::Malignant::Ductal::Pancreatic_Ductal_Adenocarcinoma_Osteoclast_Giant_Cells",
+          2
+        ],
+        [
+          "Cyto_Pancreatobiliary::Benign_Reactive::Normal::Normal_Ductal_Cells",
+          1
+        ],
+        [
+          "Cyto_Pancreatobiliary::Malignant::Neuroendocrine::Neuroendocrine_Tumor_Lipid_Rich",
+          1
+        ],
+        [
+          "Cyto_Pancreatobiliary::Malignant::Solid_Pseudopapillary::Solid_Pseudopapillary_Neoplasm_SPN",
+          1
+        ],
+        [
+          "Cyto_Pancreatobiliary::Malignant::Solid_Pseudopapillary_Neoplasm",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_paris_bubendorf_v0_1",
+      "chunks_indexable": 11,
+      "sim_median": 0.7081,
+      "margin_median": 0.0778,
+      "rejects": {
+        "reject_low_similarity": 2,
+        "reject_ambiguous_margin": 17
+      },
+      "top_tags": [
+        [
+          "Cyto_Urinary::Category::Suspicious_For_High_Grade_Urothelial_Carcinoma_SHGUC",
+          2
+        ],
+        [
+          "Cyto_Urinary::Category::Atypical_Urothelial_Cells_AUC",
+          2
+        ],
+        [
+          "Cyto_Management::Ancillary_Testing::Fluorescence_In_Situ_Hybridization_FISH",
+          2
+        ],
+        [
+          "Cyto_Urinary::Specimen_Type::Catheterized_Urine",
+          1
+        ],
+        [
+          "Cyto_Urinary::Category::High_Grade_Urothelial_Carcinoma_HGUC",
+          1
+        ],
+        [
+          "Cyto_Urinary::Pattern::Degenerated_Atypical_Cells",
+          1
+        ],
+        [
+          "Cyto_Urinary::Infectious::Viral::Polyomavirus_Decoy_Cells",
+          1
+        ],
+        [
+          "Cyto_Urinary::Category::Low_Grade_Urothelial_Neoplasm_LGUN",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_peds_barroca_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.6811,
+      "margin_median": 0.0508,
+      "rejects": {
+        "reject_ambiguous_margin": 23,
+        "reject_low_similarity": 1,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Cyto_Kidney::Malignant::Pediatric::Wilms_Tumor_Nephroblastoma",
+          2
+        ],
+        [
+          "Cyto_Heme::Malignant::Metastatic::Small_Round_Blue_Cell_Tumor_Neuroblastoma",
+          1
+        ],
+        [
+          "Cyto_Soft_Tissue::Malignant::Round_Cell::Ewing_Sarcoma",
+          1
+        ],
+        [
+          "Cyto_Thoracic::Malignant::Other::Primary_Germ_Cell_Tumours_Mediastinum",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_salivary_chen_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.687,
+      "margin_median": 0.1133,
+      "rejects": {
+        "reject_low_similarity": 1,
+        "reject_ambiguous_margin": 26
+      },
+      "top_tags": [
+        [
+          "Cyto_Salivary::NonNeoplastic::Reactive::Intraparotid_Lymph_Node",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_salivary_faquin_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.604,
+      "margin_median": 0.0399,
+      "rejects": {
+        "reject_low_similarity": 8,
+        "reject_ambiguous_margin": 18
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Technique::Endoscopic_Ultrasound_Guided_Fine_Needle_Aspiration_EUS_FNA",
+          1
+        ],
+        [
+          "Cyto_Salivary::Category::Salivary_Gland_Neoplasm_Uncertain_Malignant_Potential_SUMP",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_serous_chandra_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.5794,
+      "margin_median": 0.0527,
+      "rejects": {
+        "reject_low_similarity": 4,
+        "reject_ambiguous_margin": 16
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Ancillary_Testing::Immunocytochemistry_IHC",
+          1
+        ],
+        [
+          "Cyto_Fluids::Benign_Reactive::Mesothelial::Reactive_Mesothelial_Proliferation",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_thyroid_bongiovanni_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.5986,
+      "margin_median": 0.047,
+      "rejects": {
+        "reject_low_similarity": 7,
+        "reject_ambiguous_margin": 8,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Ancillary_Testing::Molecular_Sequencing_BRAF_KRAS_etc",
+          6
+        ],
+        [
+          "Cyto_Thyroid::Intermediate::Noninvasive_Follicular_Thyroid_Neoplasm_NIFTP",
+          2
+        ],
+        [
+          "Cyto_Thyroid::Category::Benign_Follicular_Nodule",
+          1
+        ],
+        [
+          "Cyto_Thyroid::Category::Follicular_Neoplasm_Suspicious_FN_SFN",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_thyroid_nishino_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.5838,
+      "margin_median": 0.0508,
+      "rejects": {
+        "reject_ambiguous_margin": 13
+      },
+      "top_tags": [
+        [
+          "Cyto_Management::Ancillary_Testing::Molecular_Sequencing_BRAF_KRAS_etc",
+          4
+        ],
+        [
+          "Cyto_Thyroid::Category::Follicular_Neoplasm_Suspicious_FN_SFN",
+          2
+        ],
+        [
+          "Cyto_Thyroid::Category::Atypia_Undetermined_Significance_AUS_FLUS",
+          1
+        ],
+        [
+          "Cyto_Thyroid::Malignant::Papillary::Papillary_Thyroid_Carcinoma_Follicular_Variant",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "yt_cyto_thyroid_rossi_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.679,
+      "margin_median": 0.048,
+      "rejects": {
+        "reject_low_similarity": 1,
+        "reject_ambiguous_margin": 18
+      },
+      "top_tags": [
+        [
+          "Cyto_Thyroid::Intermediate::Noninvasive_Follicular_Thyroid_Neoplasm_NIFTP",
+          2
+        ],
+        [
+          "Cyto_Thyroid::Other::Langerhans_Cell_Histiocytosis_Thyroid",
+          1
+        ],
+        [
+          "Cyto_Thyroid::Malignant::Other::Mucoepidermoid_Carcinoma_Sclerosing",
+          1
+        ],
+        [
+          "Cyto_Thyroid::Malignant::Other::Carcinoma_Showing_Thymus_Like_Differentiation_CASTLE",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Cytopathology_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T142013Z/audit.json"
+}

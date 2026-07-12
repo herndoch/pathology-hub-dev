@@ -1,0 +1,532 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T14:18:02Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/gu_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "gu_lecture_",
+    "root": "GU"
+  },
+  "counts": {
+    "packages": 13,
+    "packages_with_chunks": 13,
+    "total_chunks": 96
+  },
+  "packages": [
+    {
+      "package_id": "gu_lecture_10_prostate1_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6606,
+      "margin_median": 0.0692,
+      "rejects": {
+        "reject_low_similarity": 5,
+        "reject_ambiguous_margin": 7
+      },
+      "top_tags": [
+        [
+          "GU::Prostate::Additional_Topics::Gleason_Grading",
+          3
+        ],
+        [
+          "GU::Prostate::Squamous_Neoplasms::Prostatic_Stromal_Tumor_of_Uncertain_Malignant_Potential",
+          1
+        ],
+        [
+          "GU::Prostate::Glandular_neoplasms::Prostatic_Acinar_Adenocarcinoma",
+          1
+        ],
+        [
+          "GU::Prostate::Inflammatory::Post_Biopsy_Changes",
+          1
+        ],
+        [
+          "GU::Prostate::Additional_Topics::Margins",
+          1
+        ],
+        [
+          "GU::Prostate::Therapy_Effects::Radiation",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_10_prostate1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_11_prostate2_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.6505,
+      "margin_median": 0.0526,
+      "rejects": {
+        "reject_ambiguous_margin": 22,
+        "reject_low_similarity": 2
+      },
+      "top_tags": [
+        [
+          "GU::Prostate::Histology_&_Anatomy::Histology_&_Anatomy_of_Prostate_Gland",
+          2
+        ],
+        [
+          "GU::Prostate::Benign::Basal_Cell_Hyperplasia",
+          2
+        ],
+        [
+          "GU::Prostate::Glandular_neoplasms::High_Grade_Prostatic_Intraepithelial_Neoplasia",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_11_prostate2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_12_prostate3_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6239,
+      "margin_median": 0.0491,
+      "rejects": {
+        "reject_ambiguous_margin": 22,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Prostate::Benign::Atrophy",
+          2
+        ],
+        [
+          "GU::Prostate::Benign::Basal_Cell_Hyperplasia",
+          1
+        ],
+        [
+          "GU::Prostate::Benign::Clear_Cell_Cribriform_Hyperplasia",
+          1
+        ],
+        [
+          "GU::Prostate::Glandular_neoplasms::Pseudohyperplastic_Prostatic_Adenocarcinoma",
+          1
+        ],
+        [
+          "GU::Prostate::Benign::Sclerosing_Adenosis",
+          1
+        ],
+        [
+          "GU::Prostate::Glandular_neoplasms::Treatment_Related_Neuroendocrine_Prostate_Cancer",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_12_prostate3_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_13_prostate4_v0_1",
+      "chunks_indexable": 21,
+      "sim_median": 0.622,
+      "margin_median": 0.1081,
+      "rejects": {
+        "reject_ambiguous_margin": 14,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Prostate::Additional_Topics::Gleason_Grading",
+          13
+        ],
+        [
+          "GU::Prostate::Benign::Nonglandular_Patterns",
+          5
+        ],
+        [
+          "GU::Prostate::Benign::Large_&_Cribriform_Gland_Patterns",
+          3
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_13_prostate4_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_1_kidney1_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.5754,
+      "margin_median": 0.0347,
+      "rejects": {
+        "reject_ambiguous_margin": 4,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Kidney::RCC_Other::Chromophobe_Renal_Cell_Carcinoma",
+          1
+        ],
+        [
+          "GU::Prostate::Additional_Topics::Gleason_Grading",
+          1
+        ],
+        [
+          "GU::Kidney::Renal_cell::Multilocular_Cystic_Renal_Neoplasm_of_Low_Malignant_Potential",
+          1
+        ],
+        [
+          "GU::Kidney::RCC_Other::Clear_Cell_Papillary_Renal_Cell_Tumor",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_1_kidney1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_2_kidney2_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.647,
+      "margin_median": 0.0457,
+      "rejects": {
+        "reject_ambiguous_margin": 27
+      },
+      "top_tags": [
+        [
+          "GU::Kidney::Non_Neoplastic::Xanthogranulomatous_Pyelonephritis",
+          2
+        ],
+        [
+          "GU::Kidney::Medical_Kidney_Disease::Glomerular::Acellular_Closure::Thrombotic_Microangiopathy",
+          1
+        ],
+        [
+          "GU::Kidney::Non_Neoplastic::Renal_Malakoplakia",
+          1
+        ],
+        [
+          "GU::Kidney::Renal_cell::Clear_Cell_RCC",
+          1
+        ],
+        [
+          "GU::Kidney::RCC_Molecular::TFE3_rearranged_RCC",
+          1
+        ],
+        [
+          "GU::Kidney::RCC_Molecular::Fumarate_Hydratase_Deficient_RCC",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_2_kidney2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_3_kidney3_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6391,
+      "margin_median": 0.0534,
+      "rejects": {
+        "reject_ambiguous_margin": 21,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Syndromes::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma_Syndrome",
+          1
+        ],
+        [
+          "GU::Kidney::Nephroblastic_Nephrogenic::Nephroblastoma_Wilms_Tumor",
+          1
+        ],
+        [
+          "GU::Kidney::RCC_Other::Mucinous_Tubular_and_Spindle_Cell_Carcinoma",
+          1
+        ],
+        [
+          "GU::Kidney::Renal_cell::SDH_Deficient_Renal_Cell_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_3_kidney3_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_4_kidney4_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6833,
+      "margin_median": 0.1288,
+      "rejects": {
+        "reject_ambiguous_margin": 24,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Kidney::Mesenchymal_Stromal::Epithelioid_Angiomyolipoma_PEComa",
+          3
+        ],
+        [
+          "GU::Syndromes::Tuberous_Sclerosis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_4_kidney4_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_5_testis_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6192,
+      "margin_median": 0.0425,
+      "rejects": {
+        "reject_ambiguous_margin": 14
+      },
+      "top_tags": [
+        [
+          "GU::Testis::Paratesticular::Adenocarcinoma_of_Rete_Testis",
+          1
+        ],
+        [
+          "GU::Testis::Sex_Cord_Stromal_Tumors::Intratubular_Large_Cell_Hyalinizing_Sertoli_Cell_Neoplasia",
+          1
+        ],
+        [
+          "GU::Testis::Germ_Cell_Tumors::Seminoma",
+          1
+        ],
+        [
+          "GU::Testis::Paratesticular::Well_Differentiated_Papillary_Mesothelial_Tumor",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_5_testis_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_6_bladder1_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.6196,
+      "margin_median": 0.0439,
+      "rejects": {
+        "reject_ambiguous_margin": 9,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Bladder::Urothelial::Urothelial_Proliferation_of_Uncertain_Malignant_Potential",
+          6
+        ],
+        [
+          "GU::Bladder::Histology_&_Anatomy::Histology_&_Anatomy_of_Urinary_Bladder",
+          1
+        ],
+        [
+          "GU::Bladder::Histology_&_Anatomy::Von_Brunn_Nests",
+          1
+        ],
+        [
+          "GU::Bladder::Non_Neoplastic::Cystitis_Glandularis",
+          1
+        ],
+        [
+          "GU::Bladder::Urothelial::Urothelial_Carcinoma_In_Situ",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_6_bladder1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_7_bladder2_v0_1",
+      "chunks_indexable": 9,
+      "sim_median": 0.6324,
+      "margin_median": 0.04,
+      "rejects": {
+        "reject_ambiguous_margin": 20,
+        "reject_no_entity_signal": 1,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "GU::Bladder::Urothelial::Urothelial_Carcinoma_In_Situ",
+          4
+        ],
+        [
+          "GU::Bladder::Urothelial::Urothelial_Proliferation_of_Uncertain_Malignant_Potential",
+          3
+        ],
+        [
+          "GU::Bladder::Urothelial::Flat_Urothelial_Lesions",
+          1
+        ],
+        [
+          "GU::Bladder::Urothelial::Papillary_Urothelial_Hyperplasia",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_7_bladder2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_8_bladder3_v0_1",
+      "chunks_indexable": 12,
+      "sim_median": 0.66,
+      "margin_median": 0.0345,
+      "rejects": {
+        "reject_ambiguous_margin": 15,
+        "reject_low_similarity": 4
+      },
+      "top_tags": [
+        [
+          "GU::Bladder::Urothelial::Inverted_Urothelial_Papilloma",
+          4
+        ],
+        [
+          "GU::Bladder::Urothelial::Papillary_Urothelial_Neoplasm_of_Low_Malignant_Potential",
+          3
+        ],
+        [
+          "GU::Bladder::Urothelial::Low_Grade_Papillary_Urothelial_Carcinoma",
+          2
+        ],
+        [
+          "GU::Bladder::Urothelial::High_Grade_Papillary_Urothelial_Carcinoma",
+          1
+        ],
+        [
+          "GU::Bladder::Urothelial::Papillary_Urothelial_Hyperplasia",
+          1
+        ],
+        [
+          "GU::Bladder::Urothelial::Urothelial_Proliferation_of_Uncertain_Malignant_Potential",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_8_bladder3_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "gu_lecture_9_bladder4_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.6472,
+      "margin_median": 0.0481,
+      "rejects": {
+        "reject_ambiguous_margin": 27,
+        "reject_agenda_dump": 1
+      },
+      "top_tags": [
+        [
+          "GU::Bladder::Urothelial::Urothelial_Proliferation_of_Uncertain_Malignant_Potential",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_GU_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/gu_lecture_9_bladder4_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T141802Z/audit.json"
+}

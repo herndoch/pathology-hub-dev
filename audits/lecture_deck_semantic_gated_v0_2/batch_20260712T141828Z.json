@@ -1,0 +1,274 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T14:18:28Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/hn_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "hn_lecture_",
+    "root": "HN"
+  },
+  "counts": {
+    "packages": 8,
+    "packages_with_chunks": 7,
+    "total_chunks": 24
+  },
+  "packages": [
+    {
+      "package_id": "hn_lecture_0_grossing1_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.5212,
+      "margin_median": 0.0643,
+      "rejects": {
+        "reject_low_similarity": 12,
+        "reject_ambiguous_margin": 9
+      },
+      "top_tags": [
+        [
+          "HN::Neck_Lymph_Node::Cyst::Thyroglossal_Duct_Cyst",
+          1
+        ],
+        [
+          "HN::Soft_Tissue::Smooth_Muscle::Smooth_Muscle_Tumor_Of_Uncertain_Malignant_Potential",
+          1
+        ],
+        [
+          "HN::Genetics::Hyperparathyroidism_Jaw_Tumor_Syndrome",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_0_grossing2_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.504,
+      "margin_median": 0.1175,
+      "rejects": {
+        "reject_low_similarity": 17,
+        "reject_ambiguous_margin": 7
+      },
+      "top_tags": [
+        [
+          "HN::Oral::Squamous_Carcinoma::Verrucous_Carcinoma_of_the_Oral::_and_Mobile_Tongue",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_0_grossing2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_1_salivary1_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.6262,
+      "margin_median": 0.0425,
+      "rejects": {
+        "reject_ambiguous_margin": 18,
+        "reject_low_similarity": 3
+      },
+      "top_tags": [
+        [
+          "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
+          1
+        ],
+        [
+          "HN::Salivary::Cystadenoma_of_the_Salivary_Glands",
+          1
+        ],
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Salivary_Duct_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_1_salivary1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_2_salivary2_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.653,
+      "margin_median": 0.0632,
+      "rejects": {
+        "reject_ambiguous_margin": 15,
+        "reject_low_similarity": 3
+      },
+      "top_tags": [
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Adenoid_Cystic_Carcinoma",
+          3
+        ],
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Mucoepidermoid_Carcinoma",
+          2
+        ],
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Acinic_Cell_Carcinoma",
+          1
+        ],
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Polymorphous_Adenocarcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_2_salivary2_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_3_thyroid1_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_low_similarity": 16,
+        "reject_ambiguous_margin": 9
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_3_thyroid1_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_5_odontogenic_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.63,
+      "margin_median": 0.0199,
+      "rejects": {
+        "reject_ambiguous_margin": 18,
+        "reject_low_similarity": 5
+      },
+      "top_tags": [
+        [
+          "HN::Odontogenic_Maxillofacial::Jaw_Cyst::Radicular_Cyst",
+          1
+        ],
+        [
+          "HN::Odontogenic_Maxillofacial::Benign_Mixed::Odontoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_5_odontogenic_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_6_oral_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.562,
+      "margin_median": 0.0677,
+      "rejects": {
+        "reject_low_similarity": 10,
+        "reject_ambiguous_margin": 13
+      },
+      "top_tags": [
+        [
+          "HN::Oral_Cavity::Inflammatory::Lichen_Planus",
+          4
+        ],
+        [
+          "HN::Oral_Cavity::Inflammatory::Pyogenic_Granuloma",
+          2
+        ],
+        [
+          "HN::Salivary_Gland::Malignant_Tumor::Intraductal_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_6_oral_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "hn_lecture_7_hpv_v0_1",
+      "chunks_indexable": 1,
+      "sim_median": 0.5327,
+      "margin_median": 0.0578,
+      "rejects": {
+        "reject_low_similarity": 9,
+        "reject_ambiguous_margin": 10
+      },
+      "top_tags": [
+        [
+          "HN::Neuroendocrine_Paraganglioma::Neuroendocrine_Carcinoma::Merkel_Cell_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_HN_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/hn_lecture_7_hpv_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T141828Z/audit.json"
+}

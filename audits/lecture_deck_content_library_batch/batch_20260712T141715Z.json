@@ -1,0 +1,450 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T14:17:15Z",
+  "family_prefix": "YT_Cyto",
+  "root": "Cytopathology",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/YT_Cyto*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_csf_sobek_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_cervical_goulart_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_cervix_giovanni_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_lung_lozano_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_lung_schmitt_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_lymph_kloboves_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_lymph_who_field_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_pancreas_cyst_pitman_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_pancreas_reid_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_paris_bubendorf_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_peds_barroca_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_salivary_chen_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_salivary_faquin_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_serous_chandra_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_thyroid_bongiovanni_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_thyroid_nishino_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_cyto_thyroid_rossi_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 17,
+    "ok": 17,
+    "failed": 0,
+    "segments_total": 1779,
+    "frames_total": 1779,
+    "mp4_joined": 17
+  },
+  "results": [
+    {
+      "stem": "YT_Cyto_CSF_Sobek",
+      "package_id": "yt_cyto_csf_sobek_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 36,
+        "frames": 36,
+        "segments_with_video_time_url": 36,
+        "frames_with_video_time_url": 36,
+        "frames_asset_objects_present": 36,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_CSF_Sobek.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_csf_sobek_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Cervical_Goulart",
+      "package_id": "yt_cyto_cervical_goulart_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 155,
+        "frames": 155,
+        "segments_with_video_time_url": 155,
+        "frames_with_video_time_url": 155,
+        "frames_asset_objects_present": 155,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Cervical_Goulart.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervical_goulart_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Cervix_Giovanni",
+      "package_id": "yt_cyto_cervix_giovanni_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 55,
+        "frames": 55,
+        "segments_with_video_time_url": 55,
+        "frames_with_video_time_url": 55,
+        "frames_asset_objects_present": 55,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Cervix_Giovanni.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_cervix_giovanni_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Lung_Lozano",
+      "package_id": "yt_cyto_lung_lozano_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 162,
+        "frames": 162,
+        "segments_with_video_time_url": 162,
+        "frames_with_video_time_url": 162,
+        "frames_asset_objects_present": 162,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Lung_Lozano.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_lozano_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Lung_Schmitt",
+      "package_id": "yt_cyto_lung_schmitt_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 194,
+        "frames": 194,
+        "segments_with_video_time_url": 194,
+        "frames_with_video_time_url": 194,
+        "frames_asset_objects_present": 194,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Lung_Schmitt.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lung_schmitt_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Lymph_Kloboves",
+      "package_id": "yt_cyto_lymph_kloboves_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 70,
+        "frames": 70,
+        "segments_with_video_time_url": 70,
+        "frames_with_video_time_url": 70,
+        "frames_asset_objects_present": 70,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Lymph_Kloboves.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_kloboves_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Lymph_WHO_Field",
+      "package_id": "yt_cyto_lymph_who_field_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 118,
+        "frames": 118,
+        "segments_with_video_time_url": 118,
+        "frames_with_video_time_url": 118,
+        "frames_asset_objects_present": 118,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Lymph_WHO_Field.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_lymph_who_field_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Pancreas_Cyst_Pitman",
+      "package_id": "yt_cyto_pancreas_cyst_pitman_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 211,
+        "frames": 211,
+        "segments_with_video_time_url": 211,
+        "frames_with_video_time_url": 211,
+        "frames_asset_objects_present": 211,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Pancreas_Cyst_Pitman.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_cyst_pitman_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Pancreas_Reid",
+      "package_id": "yt_cyto_pancreas_reid_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 97,
+        "frames": 97,
+        "segments_with_video_time_url": 97,
+        "frames_with_video_time_url": 97,
+        "frames_asset_objects_present": 96,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Pancreas_Reid.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_pancreas_reid_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Paris_Bubendorf",
+      "package_id": "yt_cyto_paris_bubendorf_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 59,
+        "frames": 59,
+        "segments_with_video_time_url": 59,
+        "frames_with_video_time_url": 59,
+        "frames_asset_objects_present": 58,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Paris_Bubendorf.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_paris_bubendorf_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Peds_Barroca",
+      "package_id": "yt_cyto_peds_barroca_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 92,
+        "frames": 92,
+        "segments_with_video_time_url": 92,
+        "frames_with_video_time_url": 92,
+        "frames_asset_objects_present": 91,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Peds_Barroca.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_peds_barroca_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Salivary_Chen",
+      "package_id": "yt_cyto_salivary_chen_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 81,
+        "frames": 81,
+        "segments_with_video_time_url": 81,
+        "frames_with_video_time_url": 81,
+        "frames_asset_objects_present": 80,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Salivary_Chen.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_chen_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Salivary_Faquin",
+      "package_id": "yt_cyto_salivary_faquin_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 93,
+        "frames": 93,
+        "segments_with_video_time_url": 93,
+        "frames_with_video_time_url": 93,
+        "frames_asset_objects_present": 92,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Salivary_Faquin.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_salivary_faquin_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Serous_Chandra",
+      "package_id": "yt_cyto_serous_chandra_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 66,
+        "frames": 66,
+        "segments_with_video_time_url": 66,
+        "frames_with_video_time_url": 66,
+        "frames_asset_objects_present": 65,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Serous_Chandra.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_serous_chandra_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Thyroid_Bongiovanni",
+      "package_id": "yt_cyto_thyroid_bongiovanni_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 88,
+        "frames": 88,
+        "segments_with_video_time_url": 88,
+        "frames_with_video_time_url": 88,
+        "frames_asset_objects_present": 87,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Thyroid_Bongiovanni.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_bongiovanni_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Thyroid_Nishino",
+      "package_id": "yt_cyto_thyroid_nishino_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 91,
+        "frames": 91,
+        "segments_with_video_time_url": 91,
+        "frames_with_video_time_url": 91,
+        "frames_asset_objects_present": 90,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Thyroid_Nishino.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_nishino_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_Cyto_Thyroid_Rossi",
+      "package_id": "yt_cyto_thyroid_rossi_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 111,
+        "frames": 111,
+        "segments_with_video_time_url": 111,
+        "frames_with_video_time_url": 111,
+        "frames_asset_objects_present": 110,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_Cyto_Thyroid_Rossi.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_cyto_thyroid_rossi_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

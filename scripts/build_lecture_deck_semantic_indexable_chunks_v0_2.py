@@ -105,6 +105,28 @@ LECTURE_PRIORS: list[tuple[re.Pattern[str], list[str]]] = [
     (re.compile(r"bst_lecture_.*bone", re.I), ["BST::Bone", "BST::"]),
     (re.compile(r"bst_lecture_.*grossing", re.I), ["BST::"]),
     (re.compile(r"^bst_lecture", re.I), ["BST::"]),
+    # GU
+    (re.compile(r"gu_lecture_.*prostate", re.I), ["GU::Prostate"]),
+    (re.compile(r"gu_lecture_.*kidney", re.I), ["GU::Kidney", "GU::Renal"]),
+    (re.compile(r"gu_lecture_.*testis", re.I), ["GU::Testis", "GU::Testicle"]),
+    (re.compile(r"gu_lecture_.*bladder", re.I), ["GU::Bladder", "GU::Urothelial"]),
+    (re.compile(r"^gu_lecture", re.I), ["GU::"]),
+    # HN
+    (re.compile(r"hn_lecture_.*salivary", re.I), ["HN::Salivary", "HN::Salivary_Gland"]),
+    (re.compile(r"hn_lecture_.*thyroid", re.I), ["HN::Thyroid", "Endo::Thyroid"]),
+    (re.compile(r"hn_lecture_.*odontogenic", re.I), ["HN::Odontogenic", "HN::Jaw"]),
+    (re.compile(r"hn_lecture_.*oral", re.I), ["HN::Oral", "HN::Mouth"]),
+    (re.compile(r"hn_lecture_.*hpv", re.I), ["HN::", "HN::Oropharynx", "HN::Tonsil"]),
+    (re.compile(r"hn_lecture_.*grossing", re.I), ["HN::"]),
+    (re.compile(r"^hn_lecture", re.I), ["HN::"]),
+    # Thoracic
+    (re.compile(r"thoracic_lecture_.*non_neoplastic|thoracic_lecture_.*ild|thoracic_lecture_.*ars", re.I), ["Thorax_Mediastinum::"]),
+    (re.compile(r"thoracic_lecture_.*neoplastic|thoracic_lecture_.*molecular", re.I), ["Thorax_Mediastinum::"]),
+    (re.compile(r"thoracic_lecture_.*thymus", re.I), ["Thorax_Mediastinum::Thymus", "Thorax_Mediastinum::"]),
+    (re.compile(r"^thoracic_lecture", re.I), ["Thorax_Mediastinum::"]),
+    # YT GI / Cyto
+    (re.compile(r"^yt_gi", re.I), ["GI::"]),
+    (re.compile(r"^yt_cyto", re.I), ["Cyto_"]),
 ]
 
 ENTITYISH = re.compile(
@@ -126,7 +148,19 @@ ENTITYISH = re.compile(
     r"molar|hydatidiform|choriocarcinoma|gestational|ovary|ovarian|fallopian|"
     # BST
     r"sarcoma|liposarcoma|synovial|ewing|osteosarcoma|chondrosarcoma|giant cell|"
-    r"fibromatosis|desmoid|schwannoma|mpnst|dfsp|undifferentiated|soft tissue|bone)\b",
+    r"fibromatosis|desmoid|schwannoma|mpnst|dfsp|undifferentiated|soft tissue|bone|"
+    # GU
+    r"urothelial|bladder|prostate|gleason|pin\b|kidney|renal|clear cell|papillary renal|"
+    r"oncocytoma|chromophobe|testis|seminoma|teratoma|yolk sac|wilms|"
+    # HN
+    r"salivary|pleomorphic adenoma|warthin|mucoepidermoid|adenoid cystic|thyroid|"
+    r"papillary thyroid|follicular thyroid|medullary thyroid|odontogenic|ameloblastoma|"
+    r"oral|leukoplakia|hpv|p16|oropharynx|squamous|"
+    # Thoracic
+    r"lung|pulmonary|adenocarcinoma|squamous|small cell|mesothelioma|thymoma|thymic|"
+    r"interstitial|ild|sarcoid|nsip|uip|organizing pneumonia|"
+    # Cyto
+    r"cytolog|fna|pap smear|bethesda|ascus|ascus|lisil|tis|effusion)\b",
     re.I,
 )
 

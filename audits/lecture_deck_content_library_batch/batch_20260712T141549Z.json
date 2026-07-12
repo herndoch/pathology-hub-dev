@@ -1,0 +1,425 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T14:15:49Z",
+  "family_prefix": "YT_GI",
+  "root": "GI",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/YT_GI*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/yt_gi_anal_darragh_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_barretts_esophagus_goldblum_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_colon_cancer_dhall_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_colorectal_polyp_pai_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_colorectal_polyps_pai_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_gastric_polyps_montgomery_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_ibd_gonzalez_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_ibd_related_dysplasia_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_iatrogenic_montgomery_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_luminal_biopsy_furth_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_lymphomas_cruise_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_mesenchymal_montgomery_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_non_ibd_colitis_allende_slide_session_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_pancreas_neoplastic_hruben_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_pancreas_solid_basturk_v0_1",
+    "outputs/lecture_deck_packages_v0_1/yt_gi_vascular_allende_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 16,
+    "ok": 16,
+    "failed": 0,
+    "segments_total": 3087,
+    "frames_total": 3087,
+    "mp4_joined": 16
+  },
+  "results": [
+    {
+      "stem": "YT_GI_Anal_Darragh",
+      "package_id": "yt_gi_anal_darragh_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Anal_Darragh.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_anal_darragh_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Barretts_Esophagus_Goldblum",
+      "package_id": "yt_gi_barretts_esophagus_goldblum_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Barretts_Esophagus_Goldblum.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_barretts_esophagus_goldblum_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Colon_Cancer_Dhall",
+      "package_id": "yt_gi_colon_cancer_dhall_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Colon_Cancer_Dhall.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colon_cancer_dhall_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Colorectal_Polyp_Pai",
+      "package_id": "yt_gi_colorectal_polyp_pai_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Colorectal_Polyp_Pai.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyp_pai_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Colorectal_Polyps_Pai",
+      "package_id": "yt_gi_colorectal_polyps_pai_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 115,
+        "frames": 115,
+        "segments_with_video_time_url": 115,
+        "frames_with_video_time_url": 115,
+        "frames_asset_objects_present": 115,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Colorectal_Polyps_Pai.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_colorectal_polyps_pai_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Gastric_Polyps_Montgomery",
+      "package_id": "yt_gi_gastric_polyps_montgomery_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 294,
+        "frames": 294,
+        "segments_with_video_time_url": 294,
+        "frames_with_video_time_url": 294,
+        "frames_asset_objects_present": 294,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Gastric_Polyps_Montgomery.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_gastric_polyps_montgomery_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_IBD_Gonzalez",
+      "package_id": "yt_gi_ibd_gonzalez_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_IBD_Gonzalez.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_gonzalez_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_IBD_Related_Dysplasia",
+      "package_id": "yt_gi_ibd_related_dysplasia_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 86,
+        "frames": 86,
+        "segments_with_video_time_url": 86,
+        "frames_with_video_time_url": 86,
+        "frames_asset_objects_present": 86,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_IBD_Related_Dysplasia.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_ibd_related_dysplasia_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Iatrogenic_Montgomery",
+      "package_id": "yt_gi_iatrogenic_montgomery_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 414,
+        "frames": 414,
+        "segments_with_video_time_url": 414,
+        "frames_with_video_time_url": 414,
+        "frames_asset_objects_present": 414,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Iatrogenic_Montgomery.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_iatrogenic_montgomery_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Luminal_Biopsy_Furth",
+      "package_id": "yt_gi_luminal_biopsy_furth_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Luminal_Biopsy_Furth.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_luminal_biopsy_furth_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Lymphomas_Cruise",
+      "package_id": "yt_gi_lymphomas_cruise_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Lymphomas_Cruise.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_lymphomas_cruise_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Mesenchymal_Montgomery",
+      "package_id": "yt_gi_mesenchymal_montgomery_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Mesenchymal_Montgomery.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_mesenchymal_montgomery_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Non_IBD_Colitis_Allende_SLIDE_SESSION",
+      "package_id": "yt_gi_non_ibd_colitis_allende_slide_session_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Non_IBD_Colitis_Allende_SLIDE_SESSION.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_non_ibd_colitis_allende_slide_session_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Pancreas_Neoplastic_Hruben",
+      "package_id": "yt_gi_pancreas_neoplastic_hruben_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 319,
+        "frames": 319,
+        "segments_with_video_time_url": 319,
+        "frames_with_video_time_url": 319,
+        "frames_asset_objects_present": 319,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Pancreas_Neoplastic_Hruben.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_neoplastic_hruben_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Pancreas_Solid_Basturk",
+      "package_id": "yt_gi_pancreas_solid_basturk_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Pancreas_Solid_Basturk.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_pancreas_solid_basturk_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "YT_GI_Vascular_Allende",
+      "package_id": "yt_gi_vascular_allende_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 169,
+        "frames": 169,
+        "segments_with_video_time_url": 169,
+        "frames_with_video_time_url": 169,
+        "frames_asset_objects_present": 169,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "YT_GI_Vascular_Allende.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/yt_gi_vascular_allende_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}

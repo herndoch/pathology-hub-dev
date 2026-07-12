@@ -70,20 +70,22 @@ def infer_root(stem: str) -> str:
     s = stem.lower()
     if s.startswith("breast"):
         return "Breast"
-    if s.startswith("derm") or s.startswith("skin") or s.startswith("other_skin"):
+    if s.startswith("derm") or s.startswith("yt_skin") or s.startswith("other_skin"):
         return "Skin"
-    if s.startswith("gi_"):
+    if s.startswith("gi_") or s.startswith("yt_gi"):
         return "GI"
     if s.startswith("gu_"):
         return "GU"
     if s.startswith("gyn"):
         return "GYN"
-    if s.startswith("hn_"):
+    if s.startswith("hn_") or s.startswith("yt_hn"):
         return "HN"
-    if s.startswith("bst"):
+    if s.startswith("bst") or s.startswith("yt_bst"):
         return "BST"
-    if s.startswith("thoracic") or s.startswith("lung"):
+    if s.startswith("thoracic") or s.startswith("lung") or s.startswith("yt_lung"):
         return "Thorax_Mediastinum"
+    if s.startswith("yt_cyto") or s.startswith("asc_cyto") or s.startswith("cyto"):
+        return "Cytopathology"
     if s.startswith("heme") or s.startswith("other_heme"):
         return "Heme"
     return "Unknown"

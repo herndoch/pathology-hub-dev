@@ -51,21 +51,33 @@ def load_leaves(browse_index: Path, root_label: str) -> list[dict[str, Any]]:
         (
             r
             for r in idx["roots"]
-            if r.get("label") == root_label or r.get("id") == root_label.lower().replace(" ", "_")
+            if r.get("label") == root_label
+            or r.get("id") == root_label.lower().replace(" ", "_")
+            or r.get("id") == root_label.lower().replace(" & ", "_").replace(" ", "_")
         ),
         None,
     )
     if root is None:
+        # also allow Thorax_Mediastinum / Cytopathology aliases
+        aliases = {
+            "Thorax": "thorax_mediastinum",
+            "Thoracic": "thorax_mediastinum",
+            "Cyto": "cyto",
+            "Cytopathology": "cyto",
+        }
+        aid = aliases.get(root_label)
+        if aid:
+            root = next((r for r in idx["roots"] if r.get("id") == aid), None)
+    if root is None:
         raise SystemExit(f"Root not found in browse index: {root_label}")
-    prefix = f"{root.get('label')}::"
-    # Breast label is Breast; Heme is Heme
-    tag_prefix = f"{root['label']}::" if root.get("label") else prefix
     tags: list[dict[str, Any]] = []
 
     def walk(n: Any) -> None:
         if isinstance(n, dict):
             tag = n.get("tag")
-            if isinstance(tag, str) and tag.startswith(tag_prefix):
+            # Accept any leaf tag under this root subtree (Cyto_* tags do not
+            # start with label "Cytopathology::").
+            if isinstance(tag, str) and "::" in tag:
                 tags.append(
                     {
                         "tag": tag,
