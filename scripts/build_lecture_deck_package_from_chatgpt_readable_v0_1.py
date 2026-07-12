@@ -78,6 +78,24 @@ def slugify(text: str) -> str:
     return s or "lecture"
 
 
+ASSET_LIBRARY_PREFIX = "_asset_library/lectures/"
+
+
+def legacy_slide_asset_paths(lecture_stem: str, frame_index: Any) -> dict[str, str]:
+    """Match pathology-hub-0 lecture slide layout (BST / canonical Heme_SH_* style)."""
+    try:
+        idx = int(frame_index)
+    except (TypeError, ValueError):
+        idx = 0
+    rel = f"{lecture_stem}/{lecture_stem}_slide_{idx:04d}.jpg"
+    gcs = f"gs://pathology-hub-0/{ASSET_LIBRARY_PREFIX}{rel}"
+    return {
+        "image_path": rel,
+        "asset_gcs_uri": gcs,
+        "image_url": gcs_to_https(gcs),
+    }
+
+
 def load_chatgpt_package(src: Path) -> dict[str, Any]:
     index_path = src / "lecture_index.json"
     segs_path = src / "transcript_segments.json"
@@ -118,6 +136,7 @@ def build_package(
 
     video_file = index.get("video_file") or "unknown.mp4"
     stem = Path(str(video_file)).stem
+    lecture_stem = stem
     pkg_id = package_id or f"{slugify(stem)}_v0_1"
     lecture_title = title or stem.replace("_", " ")
 
@@ -167,6 +186,7 @@ def build_package(
                 "change_score": fr.get("change_score"),
                 "file": fr.get("file"),
                 "transcript_context": fr.get("transcript_context"),
+                **legacy_slide_asset_paths(lecture_stem, fr.get("index")),
                 "video_id": pkg_id,
                 "video_url": video_url,
                 "video_time_url": make_video_time_url(video_url, t, None),
@@ -204,7 +224,7 @@ def build_package(
             "PoC: primary_tag left null (untagged_poc) — tagging is a separate step.",
             "Does not rebuild lecture FAISS/docstore or claim API exposure.",
             "ChatGPT-readable package format differs from _content_library slide JSON.",
-            "Frames are change-detected screenshots, not the same set as _asset_library slides.",
+            "Frames are change-detected screenshots; durable bytes target pathology-hub-0 _asset_library/lectures/<canonical_stem>/ (legacy slide layout).",
         ],
     }
 

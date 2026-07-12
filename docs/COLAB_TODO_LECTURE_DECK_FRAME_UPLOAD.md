@@ -1,15 +1,22 @@
-# Colab: Heme SH lecture frames → Pathology Hub GCS
+# Colab: Heme SH lecture frames → pathology-hub-0 slide images
 
 **Drive source:** `3-Resources/Heme/Heme_SH_Lectures`  
-**GCS dest (canonical for chatgpt_readable frames):**
+**GCS dest (legacy-consistent — canonical):**
 
-`gs://pathology_hub/02_normalized/lectures/deck_packages/<package_id>/frames/`
+`gs://pathology-hub-0/_asset_library/lectures/<CanonicalStem>/<CanonicalStem>_slide_NNNN.jpg`
+
+Example:
+
+`gs://pathology-hub-0/_asset_library/lectures/Heme_SH_Aggressive_B_Cell/Heme_SH_Aggressive_B_Cell_slide_0000.jpg`
+
+Same layout as existing lectures (`BST_Lecture_1_Grossing/BST_Lecture_1_Grossing_slide_0000.jpg`).  
+Use **canonical** `Heme_SH_*` stems — not legacy `Other_Heme_*`.
 
 **Also optional:** upload canonical MP4s to
 
 `gs://pathology-hub-0/source_videos/<CanonicalName>.mp4`
 
-Do **not** dump these into legacy `_asset_library/lectures/Other_*` unless you intentionally want that mirror.
+Deck sidecar `frames.jsonl` rows already point at these `_asset_library` paths via `image_path` / `asset_gcs_uri`.
 
 ---
 
@@ -21,15 +28,15 @@ auth.authenticate_user()
 drive.mount("/content/drive")
 
 from google.cloud import storage
-import json, re, hashlib
+import json, re
 from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT = "pathology-annotation-project"
-HUB_BUCKET = "pathology_hub"
-VIDEO_BUCKET = "pathology-hub-0"
+HUB_BUCKET = "pathology_hub"          # audits only
+VIDEO_BUCKET = "pathology-hub-0"      # MP4s + slide images
+ASSET_PREFIX = "_asset_library/lectures/"
 
-# Adjust if your Drive layout differs (Shared drive vs My Drive)
 DRIVE_ROOT_CANDIDATES = [
     Path("/content/drive/MyDrive/3-Resources/Heme/Heme_SH_Lectures"),
     Path("/content/drive/MyDrive/3-Resources/Heme/Heme_SH_Lectures".replace("3-Resources", "3 - Resources")),
@@ -37,7 +44,8 @@ DRIVE_ROOT_CANDIDATES = [
 
 client = storage.Client(project=PROJECT)
 hub = client.bucket(HUB_BUCKET)
-videos = client.bucket(VIDEO_BUCKET)
+assets = client.bucket(VIDEO_BUCKET)
+videos = assets  # same bucket
 
 def utc_now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -45,6 +53,13 @@ def utc_now():
 def slugify(text: str) -> str:
     s = re.sub(r"[^a-zA-Z0-9]+", "_", text.strip()).strip("_").lower()
     return s or "lecture"
+
+def legacy_slide_name(lecture_stem: str, frame_index: int) -> str:
+    return f"{lecture_stem}_slide_{int(frame_index):04d}.jpg"
+
+def legacy_asset_key(lecture_stem: str, frame_index: int) -> str:
+    fname = legacy_slide_name(lecture_stem, frame_index)
+    return f"{ASSET_PREFIX}{lecture_stem}/{fname}"
 
 DRIVE_ROOT = next((p for p in DRIVE_ROOT_CANDIDATES if p.is_dir()), None)
 assert DRIVE_ROOT is not None, f"Drive folder not found. Tried: {DRIVE_ROOT_CANDIDATES}"
@@ -55,8 +70,6 @@ print("DRIVE_ROOT =", DRIVE_ROOT)
 
 ## Cell 2 — discover chatgpt_readable packages on Drive
 
-Looks for any folder that has both `lecture_index.json` and a `frames/` dir (matches your nested `.../chatgpt_readable_package/` layout and `*_extracted` trees).
-
 ```python
 IMG_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 
@@ -66,7 +79,6 @@ def find_packages(root: Path):
         pkg_dir = index_path.parent
         frames_dir = pkg_dir / "frames"
         if not frames_dir.is_dir():
-            # sometimes frames sit beside a nested chatgpt_readable_package
             alt = list(pkg_dir.glob("**/frames"))
             frames_dir = alt[0] if alt else None
         if frames_dir is None or not frames_dir.is_dir():
@@ -74,98 +86,119 @@ def find_packages(root: Path):
         index = json.loads(index_path.read_text(encoding="utf-8"))
         video_file = Path(str(index.get("video_file") or pkg_dir.name)).name
         if not video_file.endswith(".mp4"):
-            # recover from parent names like Heme_SH_PT_LPD_extracted
             stem = re.sub(r"_(extracted|chatgpt_readable_package|package).*$", "", pkg_dir.name, flags=re.I)
             stem = re.sub(r"_(extracted|chatgpt_readable_package|package).*$", "", pkg_dir.parent.name, flags=re.I) or stem
             video_file = f"{stem}.mp4" if stem else video_file
         canonical = video_file if video_file.endswith(".mp4") else f"{video_file}.mp4"
-        package_id = f"{slugify(Path(canonical).stem)}_v0_1"
-        frame_files = sorted(
-            p for p in frames_dir.iterdir()
-            if p.is_file() and p.suffix.lower() in IMG_EXT
-        )
+        lecture_stem = Path(canonical).stem
+        package_id = f"{slugify(lecture_stem)}_v0_1"
+
+        # Map original frame filename -> frame index from lecture_index
+        frame_entries = index.get("frames") or []
+        by_file = {}
+        for fr in frame_entries:
+            rel = str(fr.get("file") or "").replace("\\", "/")
+            if rel.startswith("frames/"):
+                rel = rel.split("frames/", 1)[1]
+            by_file[rel] = int(fr.get("index", 0))
+            by_file[f"frames/{rel}"] = int(fr.get("index", 0))
+
+        uploads = []
+        for fp in sorted(frames_dir.iterdir()):
+            if not fp.is_file() or fp.suffix.lower() not in IMG_EXT:
+                continue
+            idx = by_file.get(fp.name)
+            if idx is None:
+                # fallback: parse frame_NNNN from filename
+                m = re.search(r"frame_(\d+)", fp.name)
+                idx = int(m.group(1)) if m else len(uploads)
+            uploads.append({
+                "local_path": fp,
+                "frame_index": idx,
+                "dest_key": legacy_asset_key(lecture_stem, idx),
+                "dest_name": legacy_slide_name(lecture_stem, idx),
+            })
+
         found.append({
             "pkg_dir": pkg_dir,
-            "index_path": index_path,
-            "frames_dir": frames_dir,
+            "lecture_stem": lecture_stem,
             "canonical_mp4": canonical,
             "package_id": package_id,
-            "duration_seconds": index.get("duration_seconds"),
-            "frame_count_index": len(index.get("frames") or []),
-            "frame_files": frame_files,
+            "frame_count_index": len(frame_entries),
+            "uploads": uploads,
         })
-    # de-dupe by package_id (prefer more frames)
+
     best = {}
     for row in found:
         prev = best.get(row["package_id"])
-        if prev is None or len(row["frame_files"]) > len(prev["frame_files"]):
+        if prev is None or len(row["uploads"]) > len(prev["uploads"]):
             best[row["package_id"]] = row
     return list(best.values())
 
 packages = find_packages(DRIVE_ROOT)
 print(f"found {len(packages)} packages")
 for p in packages:
-    print(f"  {p['package_id']:40s}  frames={len(p['frame_files']):4d}  mp4={p['canonical_mp4']}  src={p['pkg_dir']}")
+    print(f"  {p['lecture_stem']:35s}  slides={len(p['uploads']):4d}  mp4={p['canonical_mp4']}")
 ```
 
 ---
 
-## Cell 3 — upload frames to deck_packages (the right spot)
+## Cell 3 — upload frames to `_asset_library/lectures/` (legacy slide path)
 
 ```python
-DRY_RUN = False  # set True first if you want a rehearsal
+DRY_RUN = False   # True = rehearsal
 SKIP_EXISTING = True
 
 upload_rows = []
 for pkg in packages:
-    package_id = pkg["package_id"]
+    lecture_stem = pkg["lecture_stem"]
     uploaded = 0
     skipped = 0
-    for fp in pkg["frame_files"]:
-        dest_key = f"02_normalized/lectures/deck_packages/{package_id}/frames/{fp.name}"
-        blob = hub.blob(dest_key)
+    for item in pkg["uploads"]:
+        dest_key = item["dest_key"]
+        blob = assets.blob(dest_key)
         if SKIP_EXISTING and blob.exists():
             skipped += 1
             continue
         if DRY_RUN:
             print("DRY", dest_key)
         else:
-            blob.upload_from_filename(str(fp), content_type="image/jpeg" if fp.suffix.lower() in {".jpg", ".jpeg"} else None)
+            blob.upload_from_filename(
+                str(item["local_path"]),
+                content_type="image/jpeg",
+            )
         uploaded += 1
     upload_rows.append({
-        "package_id": package_id,
+        "package_id": pkg["package_id"],
+        "lecture_stem": lecture_stem,
         "canonical_mp4": pkg["canonical_mp4"],
         "drive_pkg_dir": str(pkg["pkg_dir"]),
-        "gcs_frames_prefix": f"gs://{HUB_BUCKET}/02_normalized/lectures/deck_packages/{package_id}/frames/",
-        "frames_on_disk": len(pkg["frame_files"]),
+        "gcs_asset_prefix": f"gs://{VIDEO_BUCKET}/{ASSET_PREFIX}{lecture_stem}/",
+        "frames_on_disk": len(pkg["uploads"]),
         "uploaded": uploaded,
         "skipped_existing": skipped,
     })
-    print(package_id, "uploaded", uploaded, "skipped", skipped)
+    print(lecture_stem, "uploaded", uploaded, "skipped", skipped)
 
 upload_rows
 ```
 
 ---
 
-## Cell 4 — optional: upload canonical MP4s (pending-name policy)
-
-Only uploads if missing. Uses the **canonical** lecture name (e.g. `Heme_SH_Aggressive_B_Cell.mp4`), never `Other_Heme_*`.
+## Cell 4 — optional: upload canonical MP4s
 
 ```python
 UPLOAD_MP4S = True
 DRY_RUN_MP4 = False
 
 mp4_rows = []
-# Prefer top-level MP4s in Heme_SH_Lectures
 mp4s = sorted(DRIVE_ROOT.glob("Heme_SH_*.mp4"))
 print(f"top-level mp4s: {len(mp4s)}")
 
 for mp4 in mp4s:
     dest_key = f"source_videos/{mp4.name}"
     blob = videos.blob(dest_key)
-    exists = blob.exists()
-    if exists:
+    if blob.exists():
         mp4_rows.append({"file": mp4.name, "status": "already_present", "gcs": f"gs://{VIDEO_BUCKET}/{dest_key}"})
         continue
     if not UPLOAD_MP4S:
@@ -185,7 +218,7 @@ mp4_rows
 
 ---
 
-## Cell 5 — write audit JSON to GCS
+## Cell 5 — audit JSON
 
 ```python
 audit = {
@@ -193,30 +226,27 @@ audit = {
     "created_at_utc": utc_now(),
     "input_paths": [str(DRIVE_ROOT)],
     "output_paths": [
-        f"gs://{HUB_BUCKET}/02_normalized/lectures/deck_packages/*/frames/",
+        f"gs://{VIDEO_BUCKET}/{ASSET_PREFIX}<CanonicalStem>/<CanonicalStem>_slide_NNNN.jpg",
         f"gs://{VIDEO_BUCKET}/source_videos/Heme_SH_*.mp4",
     ],
     "counts": {
         "packages": len(upload_rows),
-        "frames_uploaded": sum(r["uploaded"] for r in upload_rows),
-        "frames_skipped_existing": sum(r["skipped_existing"] for r in upload_rows),
+        "slides_uploaded": sum(r["uploaded"] for r in upload_rows),
+        "slides_skipped_existing": sum(r["skipped_existing"] for r in upload_rows),
         "mp4_rows": len(mp4_rows),
     },
     "packages": upload_rows,
     "mp4s": mp4_rows,
     "known_limitations": [
-        "Uploads chatgpt_readable change-detected frames only — not legacy _asset_library slide exports.",
+        "Renames chatgpt_readable frame_NNNN_timestamp.jpg → legacy <stem>_slide_NNNN.jpg by frame index.",
+        "Change-detected frames are not identical to old slide exports, but path layout matches legacy _asset_library.",
         "Does not rebuild FAISS/docstore or claim API exposure.",
-        "package_id uses slug(canonical_stem)_v0_1; keep in sync with deck sidecar converter.",
     ],
 }
 
 stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 audit_key = f"06_audits/lectures/deck_packages/frame_upload_{stamp}/audit.json"
-hub.blob(audit_key).upload_from_string(
-    json.dumps(audit, indent=2) + "\n",
-    content_type="application/json",
-)
+hub.blob(audit_key).upload_from_string(json.dumps(audit, indent=2) + "\n", content_type="application/json")
 print("audit =>", f"gs://{HUB_BUCKET}/{audit_key}")
 ```
 
@@ -224,10 +254,10 @@ print("audit =>", f"gs://{HUB_BUCKET}/{audit_key}")
 
 ## Mapping cheat sheet
 
-| Drive | GCS |
-|-------|-----|
-| `.../chatgpt_readable_package/frames/*.jpg` | `gs://pathology_hub/02_normalized/lectures/deck_packages/<slug>_v0_1/frames/` |
+| Drive | GCS (legacy-consistent) |
+|-------|-------------------------|
+| `.../frames/frame_0003_00-00-38.jpg` | `gs://pathology-hub-0/_asset_library/lectures/Heme_SH_Spleen/Heme_SH_Spleen_slide_0003.jpg` |
 | `Heme_SH_*.mp4` | `gs://pathology-hub-0/source_videos/Heme_SH_*.mp4` |
-| zip already on bucket root | converter/batch script (separate); frames can still come from Drive or zip |
+| deck sidecar `frames.jsonl` | `image_path` = `<stem>/<stem>_slide_NNNN.jpg` |
 
-If a lecture only has an MP4 in Drive and **no** `chatgpt_readable_package/frames` yet, this notebook will not invent frames — run your extraction Colab first (same pattern as `Heme_SH_Aggressive_B_Cell_Extraction_Colab_Drive_Outp...`).
+If a lecture only has an MP4 and no `chatgpt_readable_package/frames`, run extraction first (your Aggressive B-Cell Colab pattern).

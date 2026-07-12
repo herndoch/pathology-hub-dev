@@ -133,7 +133,11 @@ Ultra-short islands after a tag flip can fold into the previous chunk (within du
 
 ## 6. Asset / picture upload (operator TODO)
 
-Deck zips already contain `frames/*.jpg`. Promoting those (and any associated slide pics) into durable GCS asset prefixes — e.g. `_asset_library` or `02_normalized/lectures/deck_packages/<id>/frames/` — is an **operator / Colab upload job**, not part of the convert→tag→consolidate sidecar path.
+Deck zips already contain `frames/*.jpg`. Promoting those into the **legacy slide image path** on pathology-hub-0:
+
+`gs://pathology-hub-0/_asset_library/lectures/<CanonicalStem>/<CanonicalStem>_slide_NNNN.jpg`
+
+is an **operator / Colab upload job** (see `docs/COLAB_TODO_LECTURE_DECK_FRAME_UPLOAD.md`), not part of convert→tag→consolidate.
 
 Sidecar `frames.jsonl` already records timestamps + `video_time_url` pointers so frame bytes can be attached later without re-chunking.
 

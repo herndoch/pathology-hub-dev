@@ -186,7 +186,8 @@ def process_one(
         if pending_note not in limitations:
             limitations.insert(0, pending_note)
         pic_note = (
-            "Frame JPG bytes stay in the source zip for now; durable asset upload is a Colab/operator TODO."
+            "Frame JPG bytes target pathology-hub-0 _asset_library/lectures/<canonical_stem>/ "
+            "(legacy slide layout); Colab upload is operator TODO."
         )
         if pic_note not in limitations:
             limitations.append(pic_note)
@@ -264,7 +265,7 @@ def process_one(
             "uploaded": uploaded,
             "counts": result["manifest"]["counts"],
             "heme_pipeline": heme_extra,
-            "frames_asset_upload": "colab_operator_todo",
+            "frames_asset_upload": "colab_operator_todo → pathology-hub-0 _asset_library/lectures/<stem>/",
         }
 
 
@@ -309,7 +310,7 @@ def main() -> None:
             "canonical_video_uri_template": f"gs://{VIDEO_BUCKET}/{VIDEO_PREFIX}<CanonicalName>.mp4",
             "join_basis_if_missing": "canonical_name_pending_upload",
             "do_not_use_legacy_other_names": True,
-            "frames_asset_upload": "colab_operator_todo",
+            "frames_asset_upload": "colab_operator_todo → pathology-hub-0 _asset_library/lectures/<stem>/",
             "index_artifact_when_tagged": "chunks_indexable.jsonl",
             "not_vectorized_unless_rebuild_audit_proves_it": True,
         },
