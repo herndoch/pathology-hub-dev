@@ -1,7 +1,25 @@
 # Plan — batch Heme SH chatgpt_readable deck packages
 
 Date: 2026-07-12  
-Status: **Phase 1 + Colab join + Heme::* tagging/consolidation done.** Vector rebuild still gated.
+Status: **Phase 1 + assets + semantic gated index chunks done.** Vector rebuild still gated.
+
+### Indexable chunks v0_2 (2026-07-12)
+
+Policy change: **time-merge first → embed window → keep only if useful.**
+
+Gates:
+- cosine ≥ 0.50 to best `Heme::*` leaf
+- top1−top2 margin ≥ 0.035 (strict)
+- off-lecture-prior leaves need even higher bar
+- reject agenda/TOC dumps
+- min duration/chars floors
+- NS vs NLPHL ASR disambiguation
+
+Result: **174** indexable chunks across **20/21** packages (BM Intro intentionally empty — survey talk fails usefulness gates).  
+Audit: `gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T040243Z/audit.json`
+
+`segments_indexable.jsonl` cleared — **only** `chunks_indexable.jsonl` is index grain.
+
 
 ### Tagging (2026-07-12) — semantic redo
 

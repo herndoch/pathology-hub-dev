@@ -1,0 +1,766 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T04:01:21Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035
+  },
+  "counts": {
+    "packages": 21,
+    "packages_with_chunks": 20,
+    "total_chunks": 177
+  },
+  "packages": [
+    {
+      "package_id": "heme_sh_aggressive_b_cell_v0_1",
+      "chunks_indexable": 16,
+      "sim_median": 0.5922,
+      "margin_median": 0.0414,
+      "rejects": {
+        "reject_agenda_dump": 1,
+        "reject_ambiguous_margin": 25,
+        "reject_low_similarity": 3
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+          13
+        ],
+        [
+          "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::ALK_Positive_Large_B_Cell_Lymphoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_aml_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.65,
+      "margin_median": 0.041,
+      "rejects": {
+        "reject_ambiguous_margin": 10,
+        "reject_low_similarity": 1,
+        "reject_agenda_dump": 2,
+        "reject_off_prior_weak": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Minimal_Differentiation",
+          2
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_NPM1_Mutation",
+          2
+        ],
+        [
+          "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_Myelodysplasia_Related",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aml_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_failure_syndromes_v0_1",
+      "chunks_indexable": 10,
+      "sim_median": 0.5793,
+      "margin_median": 0.0655,
+      "rejects": {
+        "reject_low_similarity": 4,
+        "reject_ambiguous_margin": 6,
+        "reject_off_prior_weak": 3,
+        "reject_no_entity_signal": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia",
+          6
+        ],
+        [
+          "Heme::Genetics::Fanconi_Anemia",
+          3
+        ],
+        [
+          "Heme::Non_Neoplastic::Erythrocyte::Paroxysmal_Nocturnal_Hemoglobinuria_PNH",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_failure_syndromes_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_intro_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_off_prior_weak": 4,
+        "reject_low_similarity": 17,
+        "reject_ambiguous_margin": 2
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_intro_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_bm_systemic_manifestations_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.5922,
+      "margin_median": 0.0727,
+      "rejects": {
+        "reject_ambiguous_margin": 17,
+        "reject_off_prior_weak": 4,
+        "reject_no_entity_signal": 1,
+        "reject_low_similarity": 4
+      },
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Bone_Marrow::Renal_Osteodystrophy",
+          1
+        ],
+        [
+          "Heme::Non_Neoplastic::Bone_Marrow::Paget_Disease",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_bm_systemic_manifestations_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_histiocytic_v0_1",
+      "chunks_indexable": 16,
+      "sim_median": 0.652,
+      "margin_median": 0.1246,
+      "rejects": {
+        "reject_ambiguous_margin": 4,
+        "reject_off_prior_weak": 2,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Hemophagocytic_Lymphohistiocytosis_HLH",
+          4
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Rosai_Dorfman_Disease",
+          4
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Histiocytosis",
+          2
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Sarcoma",
+          2
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Erdheim_Chester_Disease",
+          2
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Macrophage::Juvenile_Xanthogranuloma",
+          1
+        ],
+        [
+          "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_histiocytic_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_nlp_v0_1",
+      "chunks_indexable": 11,
+      "sim_median": 0.673,
+      "margin_median": 0.0795,
+      "rejects": {
+        "reject_ambiguous_margin": 4,
+        "reject_off_prior_weak": 2
+      },
+      "top_tags": [
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          11
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_nlp_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_overview_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6429,
+      "margin_median": 0.0786,
+      "rejects": {
+        "reject_low_similarity": 1,
+        "reject_ambiguous_margin": 6,
+        "reject_off_prior_weak": 8
+      },
+      "top_tags": [
+        [
+          "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+          4
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+          3
+        ],
+        [
+          "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_overview_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_1_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6888,
+      "margin_median": 0.0446,
+      "rejects": {
+        "reject_ambiguous_margin": 18
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+          4
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+          3
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Other::Peripheral_T_Cell_Lymphoma_NOS",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_1_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_hodgkin_t_nk_cell_2_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6573,
+      "margin_median": 0.0529,
+      "rejects": {
+        "reject_ambiguous_margin": 12,
+        "reject_agenda_dump": 1,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+          3
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::EBV_Positive::Hydroa_Vacciniforme_Lymphoproliferative_Disorder",
+          2
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood",
+          1
+        ],
+        [
+          "Heme::Mature_T_NK_Cell::EBV_Positive::Extranodal_NK_T_Cell_Lymphoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_hodgkin_t_nk_cell_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ia_lpd_v0_1",
+      "chunks_indexable": 4,
+      "sim_median": 0.6676,
+      "margin_median": 0.0622,
+      "rejects": {
+        "reject_ambiguous_margin": 8,
+        "reject_agenda_dump": 1,
+        "reject_off_prior_weak": 3
+      },
+      "top_tags": [
+        [
+          "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+          2
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::EBV_Positive_Mucocutaneous_Ulcer",
+          1
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::HIV_Associated_Lymphoproliferative_Disorder",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ia_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_ihc_for_lpd_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.6363,
+      "margin_median": 0.0275,
+      "rejects": {
+        "reject_ambiguous_margin": 17,
+        "reject_agenda_dump": 3,
+        "reject_off_prior_weak": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_ihc_for_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_1_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.6233,
+      "margin_median": 0.0928,
+      "rejects": {
+        "reject_ambiguous_margin": 18,
+        "reject_no_entity_signal": 2,
+        "reject_off_prior_weak": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Myeloproliferative_Neoplasm::Chronic_Eosinophilic_Leukemia",
+          3
+        ],
+        [
+          "Heme::Myeloproliferative_Neoplasm::Essential_Thrombocythemia",
+          1
+        ],
+        [
+          "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_2_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.67,
+      "margin_median": 0.0488,
+      "rejects": {
+        "reject_ambiguous_margin": 24
+      },
+      "top_tags": [
+        [
+          "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_Hypoplastic",
+          3
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion",
+          1
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_mds_mpn_3_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6343,
+      "margin_median": 0.087,
+      "rejects": {
+        "reject_ambiguous_margin": 27,
+        "reject_off_prior_weak": 1,
+        "reject_agenda_dump": 2
+      },
+      "top_tags": [
+        [
+          "Heme::Myeloproliferative_Neoplasm::Chronic_Eosinophilic_Leukemia",
+          5
+        ],
+        [
+          "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_With_Increased_Blasts",
+          1
+        ],
+        [
+          "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_plasma_cell_v0_1",
+      "chunks_indexable": 8,
+      "sim_median": 0.6119,
+      "margin_median": 0.0418,
+      "rejects": {
+        "reject_low_similarity": 2,
+        "reject_ambiguous_margin": 12,
+        "reject_off_prior_weak": 2
+      },
+      "top_tags": [
+        [
+          "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma",
+          3
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Immunoglobulin_Related_Amyloidosis_AL",
+          3
+        ],
+        [
+          "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::IgM_MGUS",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_plasma_cell_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_pt_lpd_v0_1",
+      "chunks_indexable": 16,
+      "sim_median": 0.6659,
+      "margin_median": 0.0678,
+      "rejects": {
+        "reject_ambiguous_margin": 5
+      },
+      "top_tags": [
+        [
+          "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+          13
+        ],
+        [
+          "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+          3
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_pt_lpd_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_reactive_lymphoid_hyperplasia_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.5734,
+      "margin_median": 0.061,
+      "rejects": {
+        "reject_ambiguous_margin": 14,
+        "reject_off_prior_weak": 10,
+        "reject_agenda_dump": 1,
+        "reject_no_entity_signal": 1,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+          3
+        ],
+        [
+          "Heme::Tumor_Like_T_Cell::Kikuchi_Fujimoto_Disease",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_reactive_lymphoid_hyperplasia_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_1_of_2_v0_1",
+      "chunks_indexable": 14,
+      "sim_median": 0.6071,
+      "margin_median": 0.0317,
+      "rejects": {
+        "reject_low_similarity": 4,
+        "reject_ambiguous_margin": 26,
+        "reject_off_prior_weak": 1,
+        "reject_agenda_dump": 3
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm",
+          4
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+          3
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+          2
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS",
+          2
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Follicular::Pediatric_Type_Follicular_Lymphoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_1_of_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_small_b_cell_2_of_2_v0_1",
+      "chunks_indexable": 11,
+      "sim_median": 0.6412,
+      "margin_median": 0.0318,
+      "rejects": {
+        "reject_ambiguous_margin": 29,
+        "reject_agenda_dump": 5
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+          4
+        ],
+        [
+          "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma",
+          2
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+          2
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::Plasmablastic_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Large_B_Cell::ALK_Positive_Large_B_Cell_Lymphoma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_small_b_cell_2_of_2_v0_1/frames.jsonl"
+      ]
+    },
+    {
+      "package_id": "heme_sh_spleen_v0_1",
+      "chunks_indexable": 15,
+      "sim_median": 0.6318,
+      "margin_median": 0.054,
+      "rejects": {
+        "reject_ambiguous_margin": 14,
+        "reject_off_prior_weak": 1
+      },
+      "top_tags": [
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+          11
+        ],
+        [
+          "Heme::Non_Neoplastic::Spleen::Splenic_Cyst",
+          2
+        ],
+        [
+          "Heme::Stroma_Derived::Splenic_Vascular::Littoral_Cell_Angioma",
+          1
+        ],
+        [
+          "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_spleen_v0_1/frames.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T040121Z/audit.json"
+}
