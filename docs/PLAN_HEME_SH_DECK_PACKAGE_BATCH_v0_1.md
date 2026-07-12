@@ -1,7 +1,16 @@
 # Plan — batch Heme SH chatgpt_readable deck packages
 
 Date: 2026-07-12  
-Status: **Phase 1 done. Colab assets done. Join repair done.** Tagging still pending except Aggressive B-Cell.
+Status: **Phase 1 + Colab join + Heme::* tagging/consolidation done.** Vector rebuild still gated.
+
+### Tagging (2026-07-12)
+
+- Method: best-of **354 canonical `Heme::*` browse leaves** (`scripts/tag_lecture_deck_package_heme_browse_v0_1.py`)
+- **21/21** packages tagged + consolidated → `chunks_indexable.jsonl`
+- **791** total indexable chunks
+- Audit: `gs://pathology_hub/06_audits/lectures/deck_packages/heme_browse_tag_batch_20260712T031820Z/audit.json`
+- Known limitation: heuristic keyword/sticky scoring — not human gold; some leaf collisions remain (documented in audits)
+
 
 ### Post-Colab (2026-07-12)
 

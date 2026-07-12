@@ -1,0 +1,2130 @@
+{
+  "schema_version": "heme_browse_leaves.v0_1",
+  "count": 354,
+  "leaves": [
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::ALAL_NOS",
+      "label": "ALAL_NOS",
+      "query": "ALAL NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::ALAL_With_Other_Defined_Genetic_Alterations",
+      "label": "ALAL_With_Other_Defined_Genetic_Alterations",
+      "query": "ALAL With Other Defined Genetic Alterations",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::Acute_Undifferentiated_Leukemia",
+      "label": "Acute_Undifferentiated_Leukemia",
+      "query": "Acute Undifferentiated Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_B_Myeloid",
+      "label": "MPAL_B_Myeloid",
+      "query": "MPAL B Myeloid",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_Rare_Types",
+      "label": "MPAL_Rare_Types",
+      "query": "MPAL Rare Types",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_T_Myeloid",
+      "label": "MPAL_T_Myeloid",
+      "query": "MPAL T Myeloid",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_With_BCR_ABL1_Fusion",
+      "label": "MPAL_With_BCR_ABL1_Fusion",
+      "query": "MPAL With BCR ABL1 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_With_KMT2A_Rearrangement",
+      "label": "MPAL_With_KMT2A_Rearrangement",
+      "query": "MPAL With KMT2A Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Maturation",
+      "label": "AML_With_Maturation",
+      "query": "AML With Maturation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Minimal_Differentiation",
+      "label": "AML_With_Minimal_Differentiation",
+      "query": "AML With Minimal Differentiation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_Without_Maturation",
+      "label": "AML_Without_Maturation",
+      "query": "AML Without Maturation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Basophilic_Leukemia",
+      "label": "Acute_Basophilic_Leukemia",
+      "query": "Acute Basophilic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Erythroid_Leukemia",
+      "label": "Acute_Erythroid_Leukemia",
+      "query": "Acute Erythroid Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Megakaryoblastic_Leukemia",
+      "label": "Acute_Megakaryoblastic_Leukemia",
+      "query": "Acute Megakaryoblastic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Monoblastic_Monocytic_Leukemia",
+      "label": "Acute_Monoblastic_Monocytic_Leukemia",
+      "query": "Acute Monoblastic Monocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Myelomonocytic_Leukemia",
+      "label": "Acute_Myelomonocytic_Leukemia",
+      "query": "Acute Myelomonocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_Myelodysplasia_Related",
+      "label": "AML_Myelodysplasia_Related",
+      "query": "AML Myelodysplasia Related",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_BCR_ABL1",
+      "label": "AML_With_BCR_ABL1",
+      "query": "AML With BCR ABL1",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CBFB_MYH11",
+      "label": "AML_With_CBFB_MYH11",
+      "query": "AML With CBFB MYH11",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CEBPA_Mutation",
+      "label": "AML_With_CEBPA_Mutation",
+      "query": "AML With CEBPA Mutation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_DEK_NUP214",
+      "label": "AML_With_DEK_NUP214",
+      "query": "AML With DEK NUP214",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_KMT2A_Rearrangement",
+      "label": "AML_With_KMT2A_Rearrangement",
+      "query": "AML With KMT2A Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_MECOM_Rearrangement",
+      "label": "AML_With_MECOM_Rearrangement",
+      "query": "AML With MECOM Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_NPM1_Mutation",
+      "label": "AML_With_NPM1_Mutation",
+      "query": "AML With NPM1 Mutation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_NUP98_Rearrangement",
+      "label": "AML_With_NUP98_Rearrangement",
+      "query": "AML With NUP98 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_Other_Defined_Genetic_Alterations",
+      "label": "AML_With_Other_Defined_Genetic_Alterations",
+      "query": "AML With Other Defined Genetic Alterations",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_RBM15_MRTFA",
+      "label": "AML_With_RBM15_MRTFA",
+      "query": "AML With RBM15 MRTFA",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_RUNX1_RUNX1T1",
+      "label": "AML_With_RUNX1_RUNX1T1",
+      "query": "AML With RUNX1 RUNX1T1",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::Acute_Promyelocytic_Leukemia_PML_RARA",
+      "label": "Acute_Promyelocytic_Leukemia_PML_RARA",
+      "query": "Acute Promyelocytic Leukemia PML RARA",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+      "label": "KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+      "query": "KSHV HHV8 positive Diffuse Large B cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Large_B_Cell::Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation",
+      "label": "Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation",
+      "query": "Diffuse Large B cell Lymphoma Associated with Chronic Inflammation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Large_B_Cell::Fibrin_associated_Large_B_cell_Lymphoma",
+      "label": "Fibrin_associated_Large_B_cell_Lymphoma",
+      "query": "Fibrin associated Large B cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Mantle_Cell::In_Situ_Mantle_Cell_Neoplasm",
+      "label": "In_Situ_Mantle_Cell_Neoplasm",
+      "query": "In Situ Mantle Cell Neoplasm",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Mantle_Cell::Leukemic_Non_nodal_Mantle_Cell_Lymphoma",
+      "label": "Leukemic_Non_nodal_Mantle_Cell_Lymphoma",
+      "query": "Leukemic Non nodal Mantle Cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Splenic_B_Cell::Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma",
+      "label": "Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma",
+      "query": "Splenic Diffuse Red Pulp Small B cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Heavy_Chain::Mu_Heavy_Chain_Disease",
+      "label": "Mu_Heavy_Chain_Disease",
+      "query": "Mu Heavy Chain Disease",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "label": "IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "query": "IgM Monoclonal Gammopathy of Undetermined Significance",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "label": "Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "query": "Non IgM Monoclonal Gammopathy of Undetermined Significance",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_NOS",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_NOS",
+      "query": "B lymphoblastic Leukemia lymphoma NOS",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
+      "query": "B lymphoblastic Leukemia lymphoma with BCR ABL1 like Features",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features",
+      "query": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 like Features",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy",
+      "query": "B lymphoblastic Leukemia lymphoma with High Hyperdiploidy",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy",
+      "query": "B lymphoblastic Leukemia lymphoma with Hypodiploidy",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with IGH IL3 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement",
+      "query": "B lymphoblastic Leukemia lymphoma with KMT2A Rearrangement",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with TCF3 HLF Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with TCF3 PBX1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_iAMP21",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_iAMP21",
+      "query": "B lymphoblastic Leukemia lymphoma with iAMP21",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Clonal_Hematopoiesis::Clonal_Cytopenia_Of_Undetermined_Significance",
+      "label": "Clonal_Cytopenia_Of_Undetermined_Significance",
+      "query": "Clonal Cytopenia Of Undetermined Significance",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::GENETICS::RASopathies",
+      "label": "RASopathies",
+      "query": "RASopathies",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Genetics::Ataxia_Telangiectasia",
+      "label": "Ataxia_Telangiectasia",
+      "query": "Ataxia Telangiectasia",
+      "provenance": "both"
+    },
+    {
+      "tag": "Heme::Genetics::Bloom_Syndrome",
+      "label": "Bloom_Syndrome",
+      "query": "Bloom Syndrome",
+      "provenance": "both"
+    },
+    {
+      "tag": "Heme::Genetics::Fanconi_Anemia",
+      "label": "Fanconi_Anemia",
+      "query": "Fanconi Anemia",
+      "provenance": "both"
+    },
+    {
+      "tag": "Heme::Genetics::RASopathy",
+      "label": "RASopathy",
+      "query": "RASopathy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic::Histiocyte_Macrophage::Histiocytic_Neoplasms::Histiocytic_Sarcoma",
+      "label": "Histiocytic_Sarcoma",
+      "query": "Histiocytic Sarcoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic::Plasmacytoid_Dendritic::Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm",
+      "label": "Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm",
+      "query": "Mature Plasmacytoid Dendritic Cell Proliferation Associated with Myeloid Neoplasm",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Histiocytosis",
+      "label": "Langerhans_Cell_Histiocytosis",
+      "query": "Langerhans Cell Histiocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Sarcoma",
+      "label": "Langerhans_Cell_Sarcoma",
+      "query": "Langerhans Cell Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::ALK_Positive_Histiocytosis",
+      "label": "ALK_Positive_Histiocytosis",
+      "query": "ALK Positive Histiocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Erdheim_Chester_Disease",
+      "label": "Erdheim_Chester_Disease",
+      "query": "Erdheim Chester Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Hemophagocytic_Lymphohistiocytosis_HLH",
+      "label": "Hemophagocytic_Lymphohistiocytosis_HLH",
+      "query": "Hemophagocytic Lymphohistiocytosis HLH",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Histiocytic_Sarcoma",
+      "label": "Histiocytic_Sarcoma",
+      "query": "Histiocytic Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Juvenile_Xanthogranuloma",
+      "label": "Juvenile_Xanthogranuloma",
+      "query": "Juvenile Xanthogranuloma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Prosthetic_Associated_Histiocyte_Proliferation",
+      "label": "Prosthetic_Associated_Histiocyte_Proliferation",
+      "query": "Prosthetic Associated Histiocyte Proliferation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Rosai_Dorfman_Disease",
+      "label": "Rosai_Dorfman_Disease",
+      "query": "Rosai Dorfman Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Storage_Disease",
+      "label": "Storage_Disease",
+      "query": "Storage Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Indeterminate_Dendritic_Cell_Tumor",
+      "label": "Indeterminate_Dendritic_Cell_Tumor",
+      "query": "Indeterminate Dendritic Cell Tumor",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma",
+      "label": "Interdigitating_Dendritic_Cell_Sarcoma",
+      "query": "Interdigitating Dendritic Cell Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm",
+      "label": "Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm",
+      "query": "Blastic Plasmacytoid Dendritic Cell Neoplasm",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Mature_Plasmacytoid_Dendritic_Cell_Proliferation",
+      "label": "Mature_Plasmacytoid_Dendritic_Cell_Proliferation",
+      "query": "Mature Plasmacytoid Dendritic Cell Proliferation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+      "label": "Classic_Hodgkin_Lymphoma",
+      "query": "Classic Hodgkin Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+      "label": "Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+      "query": "Nodular Lymphocyte Predominant Hodgkin Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::EBV_Positive_Mucocutaneous_Ulcer",
+      "label": "EBV_Positive_Mucocutaneous_Ulcer",
+      "query": "EBV Positive Mucocutaneous Ulcer",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::HIV_Associated_Lymphoproliferative_Disorder",
+      "label": "HIV_Associated_Lymphoproliferative_Disorder",
+      "query": "HIV Associated Lymphoproliferative Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency",
+      "label": "Hyperplasia_Arising_In_Immune_Deficiency",
+      "query": "Hyperplasia Arising In Immune Deficiency",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Iatrogenic_Lymphoproliferative_Disorder",
+      "label": "Iatrogenic_Lymphoproliferative_Disorder",
+      "query": "Iatrogenic Lymphoproliferative Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+      "label": "Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+      "query": "Inborn Error Of Immunity Associated Lymphoid Proliferation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency",
+      "label": "Lymphoma_Arising_In_Immune_Deficiency",
+      "query": "Lymphoma Arising In Immune Deficiency",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+      "label": "Polymorphic_Lymphoproliferative_Disorder",
+      "query": "Polymorphic Lymphoproliferative Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+      "label": "Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+      "query": "Post Transplant Lymphoproliferative Disorder PTLD",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Anaplasma",
+      "label": "Anaplasma",
+      "query": "Anaplasma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Babesia",
+      "label": "Babesia",
+      "query": "Babesia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Cat_Scratch_Disease",
+      "label": "Cat_Scratch_Disease",
+      "query": "Cat Scratch Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Ehrlichia",
+      "label": "Ehrlichia",
+      "query": "Ehrlichia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Histoplasma",
+      "label": "Histoplasma",
+      "query": "Histoplasma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Infectious_Mononucleosis",
+      "label": "Infectious_Mononucleosis",
+      "query": "Infectious Mononucleosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Malaria",
+      "label": "Malaria",
+      "query": "Malaria",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Parvovirus",
+      "label": "Parvovirus",
+      "query": "Parvovirus",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Pertussis",
+      "label": "Pertussis",
+      "query": "Pertussis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Syphilis",
+      "label": "Syphilis",
+      "query": "Syphilis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Infection::Toxoplasmosis",
+      "label": "Toxoplasmosis",
+      "query": "Toxoplasmosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mastocytosis::Cutaneous_Mastocytosis",
+      "label": "Cutaneous_Mastocytosis",
+      "query": "Cutaneous Mastocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mastocytosis::Mast_Cell_Sarcoma",
+      "label": "Mast_Cell_Sarcoma",
+      "query": "Mast Cell Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mastocytosis::Systemic_Mastocytosis",
+      "label": "Systemic_Mastocytosis",
+      "query": "Systemic Mastocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma",
+      "label": "Burkitt_Lymphoma",
+      "query": "Burkitt Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+      "label": "Duodenal_Type_Follicular_Lymphoma",
+      "query": "Duodenal Type Follicular Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma",
+      "label": "Follicular_Lymphoma",
+      "query": "Follicular Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm",
+      "label": "In_Situ_Follicular_B_Cell_Neoplasm",
+      "query": "In Situ Follicular B Cell Neoplasm",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Pediatric_Type_Follicular_Lymphoma",
+      "label": "Pediatric_Type_Follicular_Lymphoma",
+      "query": "Pediatric Type Follicular Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+      "label": "Primary_Cutaneous_Follicle_Center_Lymphoma",
+      "query": "Primary Cutaneous Follicle Center Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "label": "KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "query": "KSHV HHV8 Positive Diffuse Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder",
+      "label": "KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder",
+      "query": "KSHV HHV8 Positive Germinotropic Lymphoproliferative Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::Primary_Effusion_Lymphoma",
+      "label": "Primary_Effusion_Lymphoma",
+      "query": "Primary Effusion Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::ALK_Positive_Large_B_Cell_Lymphoma",
+      "label": "ALK_Positive_Large_B_Cell_Lymphoma",
+      "query": "ALK Positive Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_Associated_With_Chronic_Inflammation",
+      "label": "DLBCL_Associated_With_Chronic_Inflammation",
+      "query": "DLBCL Associated With Chronic Inflammation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+      "label": "DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+      "query": "DLBCL High Grade With MYC And BCL2 Rearrangements",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "label": "Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "query": "Diffuse Large B Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "label": "EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "query": "EBV Positive Diffuse Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Fibrin_Associated_Large_B_Cell_Lymphoma",
+      "label": "Fibrin_Associated_Large_B_Cell_Lymphoma",
+      "query": "Fibrin Associated Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Fluid_Overload_Associated_Large_B_Cell_Lymphoma",
+      "label": "Fluid_Overload_Associated_Large_B_Cell_Lymphoma",
+      "query": "Fluid Overload Associated Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS",
+      "label": "High_Grade_B_Cell_Lymphoma_NOS",
+      "query": "High Grade B Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_With_11q_Aberration",
+      "label": "High_Grade_B_Cell_Lymphoma_With_11q_Aberration",
+      "query": "High Grade B Cell Lymphoma With 11q Aberration",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Intravascular_Large_B_Cell_Lymphoma",
+      "label": "Intravascular_Large_B_Cell_Lymphoma",
+      "query": "Intravascular Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+      "label": "Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+      "query": "Large B Cell Lymphoma With IRF4 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Lymphomatoid_Granulomatosis",
+      "label": "Lymphomatoid_Granulomatosis",
+      "query": "Lymphomatoid Granulomatosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+      "label": "Mediastinal_Grey_Zone_Lymphoma",
+      "query": "Mediastinal Grey Zone Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Plasmablastic_Lymphoma",
+      "label": "Plasmablastic_Lymphoma",
+      "query": "Plasmablastic Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type",
+      "label": "Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type",
+      "query": "Primary Cutaneous Diffuse Large B Cell Lymphoma Leg Type",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+      "label": "Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+      "query": "Primary Large B Cell Lymphoma Of Immune Privileged Sites",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma",
+      "label": "Primary_Mediastinal_Large_B_Cell_Lymphoma",
+      "query": "Primary Mediastinal Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma",
+      "label": "T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma",
+      "query": "T Cell Histiocyte Rich Large B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Lymphoplasmacytic::Lymphoplasmacytic_Lymphoma",
+      "label": "Lymphoplasmacytic_Lymphoma",
+      "query": "Lymphoplasmacytic Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::In_Situ_Mantle_Cell_Neoplasm",
+      "label": "In_Situ_Mantle_Cell_Neoplasm",
+      "query": "In Situ Mantle Cell Neoplasm",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::Leukemic_Non_Nodal_Mantle_Cell_Lymphoma",
+      "label": "Leukemic_Non_Nodal_Mantle_Cell_Lymphoma",
+      "query": "Leukemic Non Nodal Mantle Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma",
+      "label": "Mantle_Cell_Lymphoma",
+      "query": "Mantle Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+      "label": "Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+      "query": "Extranodal Marginal Zone Lymphoma Of MALT",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Nodal_Marginal_Zone_Lymphoma",
+      "label": "Nodal_Marginal_Zone_Lymphoma",
+      "query": "Nodal Marginal Zone Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma",
+      "label": "Pediatric_Nodal_Marginal_Zone_Lymphoma",
+      "query": "Pediatric Nodal Marginal Zone Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Primary_Cutaneous_Marginal_Zone_Lymphoma",
+      "label": "Primary_Cutaneous_Marginal_Zone_Lymphoma",
+      "query": "Primary Cutaneous Marginal Zone Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+      "label": "Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+      "query": "Chronic Lymphocytic Leukemia Small Lymphocytic Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis",
+      "label": "Monoclonal_B_Cell_Lymphocytosis",
+      "query": "Monoclonal B Cell Lymphocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia",
+      "label": "Hairy_Cell_Leukemia",
+      "query": "Hairy Cell Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+      "label": "Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+      "query": "Splenic B Cell Lymphoma Leukemia With Prominent Nucleoli",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+      "label": "Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+      "query": "Splenic Diffuse Red Pulp Small B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+      "label": "Splenic_Marginal_Zone_Lymphoma",
+      "query": "Splenic Marginal Zone Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma",
+      "label": "Transformation_Of_Indolent_B_Cell_Lymphoma",
+      "query": "Transformation Of Indolent B Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Negative_Anaplastic_Large_Cell_Lymphoma",
+      "label": "ALK_Negative_Anaplastic_Large_Cell_Lymphoma",
+      "query": "ALK Negative Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+      "label": "ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+      "query": "ALK Positive Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Breast Implant Associated Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Lymphomatoid_Papulosis",
+      "label": "Lymphomatoid_Papulosis",
+      "query": "Lymphomatoid Papulosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Mycosis_Fungoides",
+      "label": "Mycosis_Fungoides",
+      "query": "Mycosis Fungoides",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD",
+      "label": "Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD",
+      "query": "Primary Cutaneous Acral CD8 Positive T Cell LPD",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Primary Cutaneous Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD",
+      "label": "Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD",
+      "query": "Primary Cutaneous CD4 Positive Small Medium T Cell LPD",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+      "query": "Primary Cutaneous CD8 Positive Aggressive Epidermotropic Cytotoxic T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma",
+      "query": "Primary Cutaneous Gamma Delta T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+      "label": "Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+      "query": "Primary Cutaneous Peripheral T Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma",
+      "label": "Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma",
+      "query": "Subcutaneous Panniculitis Like T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::EBV_Positive_Nodal_T_NK_Cell_Lymphoma",
+      "label": "EBV_Positive_Nodal_T_NK_Cell_Lymphoma",
+      "query": "EBV Positive Nodal T NK Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Extranodal_NK_T_Cell_Lymphoma",
+      "label": "Extranodal_NK_T_Cell_Lymphoma",
+      "query": "Extranodal NK T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Hydroa_Vacciniforme_Lymphoproliferative_Disorder",
+      "label": "Hydroa_Vacciniforme_Lymphoproliferative_Disorder",
+      "query": "Hydroa Vacciniforme Lymphoproliferative Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Severe_Mosquito_Bite_Allergy",
+      "label": "Severe_Mosquito_Bite_Allergy",
+      "query": "Severe Mosquito Bite Allergy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease",
+      "label": "Systemic_Chronic_Active_EBV_Disease",
+      "query": "Systemic Chronic Active EBV Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood",
+      "label": "Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood",
+      "query": "Systemic EBV Positive T Cell Lymphoma Of Childhood",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Hepatosplenic::Hepatosplenic_T_Cell_Lymphoma",
+      "label": "Hepatosplenic_T_Cell_Lymphoma",
+      "query": "Hepatosplenic T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Enteropathy_Associated_T_Cell_Lymphoma",
+      "label": "Enteropathy_Associated_T_Cell_Lymphoma",
+      "query": "Enteropathy Associated T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Indolent_NK_Cell_LPD_Of_GI_Tract",
+      "label": "Indolent_NK_Cell_LPD_Of_GI_Tract",
+      "query": "Indolent NK Cell LPD Of GI Tract",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Indolent_T_Cell_Lymphoma_Of_GI_Tract",
+      "label": "Indolent_T_Cell_Lymphoma_Of_GI_Tract",
+      "query": "Indolent T Cell Lymphoma Of GI Tract",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Intestinal_T_Cell_Lymphoma_NOS",
+      "label": "Intestinal_T_Cell_Lymphoma_NOS",
+      "query": "Intestinal T Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+      "label": "Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+      "query": "Monomorphic Epitheliotropic Intestinal T Cell Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Adult_T_Cell_Leukemia_Lymphoma",
+      "label": "Adult_T_Cell_Leukemia_Lymphoma",
+      "query": "Adult T Cell Leukemia Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Aggressive_NK_Cell_Leukemia",
+      "label": "Aggressive_NK_Cell_Leukemia",
+      "query": "Aggressive NK Cell Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::NK_Large_Granular_Lymphocytic_Leukemia",
+      "label": "NK_Large_Granular_Lymphocytic_Leukemia",
+      "query": "NK Large Granular Lymphocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Sezary_Syndrome",
+      "label": "Sezary_Syndrome",
+      "query": "Sezary Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::T_Large_Granular_Lymphocytic_Leukemia",
+      "label": "T_Large_Granular_Lymphocytic_Leukemia",
+      "query": "T Large Granular Lymphocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::T_Prolymphocytic_Leukemia",
+      "label": "T_Prolymphocytic_Leukemia",
+      "query": "T Prolymphocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Other::Peripheral_T_Cell_Lymphoma_NOS",
+      "label": "Peripheral_T_Cell_Lymphoma_NOS",
+      "query": "Peripheral T Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+      "label": "Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+      "query": "Nodal TFH Cell Lymphoma Angioimmunoblastic Type",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Follicular_Type",
+      "label": "Nodal_TFH_Cell_Lymphoma_Follicular_Type",
+      "query": "Nodal TFH Cell Lymphoma Follicular Type",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_NOS",
+      "label": "Nodal_TFH_Cell_Lymphoma_NOS",
+      "query": "Nodal TFH Cell Lymphoma NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Bone_Marrow",
+      "label": "Metastatic_Tumor_To_Bone_Marrow",
+      "query": "Metastatic Tumor To Bone Marrow",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Lymph_Node",
+      "label": "Metastatic_Tumor_To_Lymph_Node",
+      "query": "Metastatic Tumor To Lymph Node",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Spleen",
+      "label": "Metastatic_Tumor_To_Spleen",
+      "query": "Metastatic Tumor To Spleen",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia",
+      "label": "Atypical_Chronic_Myeloid_Leukemia",
+      "query": "Atypical Chronic Myeloid Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Chronic_Myelomonocytic_Leukemia",
+      "label": "Chronic_Myelomonocytic_Leukemia",
+      "query": "Chronic Myelomonocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_NOS",
+      "label": "MDS_MPN_NOS",
+      "query": "MDS MPN NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_Neutrophilia",
+      "label": "MDS_MPN_With_Neutrophilia",
+      "query": "MDS MPN With Neutrophilia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis",
+      "label": "MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis",
+      "query": "MDS MPN With SF3B1 Mutation And Thrombocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+      "label": "Childhood_MDS_With_Increased_Blasts",
+      "query": "Childhood MDS With Increased Blasts",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Low_Blasts",
+      "label": "Childhood_MDS_With_Low_Blasts",
+      "query": "Childhood MDS With Low Blasts",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Biallelic_TP53_Inactivation",
+      "label": "MDS_With_Biallelic_TP53_Inactivation",
+      "query": "MDS With Biallelic TP53 Inactivation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion",
+      "label": "MDS_With_Low_Blasts_And_5q_Deletion",
+      "query": "MDS With Low Blasts And 5q Deletion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation",
+      "label": "MDS_With_Low_Blasts_And_SF3B1_Mutation",
+      "query": "MDS With Low Blasts And SF3B1 Mutation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_Hypoplastic",
+      "label": "MDS_Hypoplastic",
+      "query": "MDS Hypoplastic",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_With_Increased_Blasts",
+      "label": "MDS_With_Increased_Blasts",
+      "query": "MDS With Increased Blasts",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_With_Low_Blasts",
+      "label": "MDS_With_Low_Blasts",
+      "query": "MDS With Low Blasts",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_ETV6_ABL1_Fusion",
+      "label": "MLN_With_ETV6_ABL1_Fusion",
+      "query": "MLN With ETV6 ABL1 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_FGFR1_Rearrangement",
+      "label": "MLN_With_FGFR1_Rearrangement",
+      "query": "MLN With FGFR1 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_FLT3_Rearrangement",
+      "label": "MLN_With_FLT3_Rearrangement",
+      "query": "MLN With FLT3 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_JAK2_Rearrangement",
+      "label": "MLN_With_JAK2_Rearrangement",
+      "query": "MLN With JAK2 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_Other_Tyrosine_Kinase_Gene_Fusions",
+      "label": "MLN_With_Other_Tyrosine_Kinase_Gene_Fusions",
+      "query": "MLN With Other Tyrosine Kinase Gene Fusions",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PCM1_JAK2_Rearrangement",
+      "label": "MLN_With_PCM1_JAK2_Rearrangement",
+      "query": "MLN With PCM1 JAK2 Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PDGFRA_Rearrangement",
+      "label": "MLN_With_PDGFRA_Rearrangement",
+      "query": "MLN With PDGFRA Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PDGFRB_Rearrangement",
+      "label": "MLN_With_PDGFRB_Rearrangement",
+      "query": "MLN With PDGFRB Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Basophilic_Leukemia",
+      "label": "Acute_Basophilic_Leukemia",
+      "query": "Acute Basophilic Leukemia",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation",
+      "label": "Acute_Myeloid_Leukemia_Without_Maturation",
+      "query": "Acute Myeloid Leukemia Without Maturation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Maturation",
+      "label": "Acute_Myeloid_Leukemia_with_Maturation",
+      "query": "Acute Myeloid Leukemia with Maturation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Minimal_Differentiation",
+      "label": "Acute_Myeloid_Leukemia_with_Minimal_Differentiation",
+      "query": "Acute Myeloid Leukemia with Minimal Differentiation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myelomonocytic_Leukemia",
+      "label": "Acute_Myelomonocytic_Leukemia",
+      "query": "Acute Myelomonocytic Leukemia",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+      "query": "Acute Myeloid Leukemia with BCR ABL1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion",
+      "query": "Acute Myeloid Leukemia with CBFB MYH11 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CEBPA_Mutation",
+      "label": "Acute_Myeloid_Leukemia_with_CEBPA_Mutation",
+      "query": "Acute Myeloid Leukemia with CEBPA Mutation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion",
+      "query": "Acute Myeloid Leukemia with DEK NUP214 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_NUP98_Rearrangement",
+      "label": "Acute_Myeloid_Leukemia_with_NUP98_Rearrangement",
+      "query": "Acute Myeloid Leukemia with NUP98 Rearrangement",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations",
+      "label": "Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations",
+      "query": "Acute Myeloid Leukemia with Other Defined Genetic Alterations",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion",
+      "query": "Acute Myeloid Leukemia with RBM15 MRTFA Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion",
+      "query": "Acute Myeloid Leukemia with RUNX1 RUNX1T1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations",
+      "label": "Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations",
+      "query": "Acute Leukemia of Ambiguous Lineage with Other Defined Genetic Alterations",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+      "label": "Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+      "query": "Mixed phenotype Acute Leukemia with BCR ABL1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement",
+      "label": "Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement",
+      "query": "Mixed phenotype Acute Leukemia with KMT2A Rearrangement",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Acute_Leukemia_of_Ambiguous_Lineage_NOS",
+      "label": "Acute_Leukemia_of_Ambiguous_Lineage_NOS",
+      "query": "Acute Leukemia of Ambiguous Lineage NOS",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Acute_Undifferentiated_Leukemia",
+      "label": "Acute_Undifferentiated_Leukemia",
+      "query": "Acute Undifferentiated Leukemia",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_B_myeloid",
+      "label": "Mixed_phenotype_Acute_Leukemia_B_myeloid",
+      "query": "Mixed phenotype Acute Leukemia B myeloid",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_Rare_Types",
+      "label": "Mixed_phenotype_Acute_Leukemia_Rare_Types",
+      "query": "Mixed phenotype Acute Leukemia Rare Types",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_T_myeloid",
+      "label": "Mixed_phenotype_Acute_Leukemia_T_myeloid",
+      "query": "Mixed phenotype Acute Leukemia T myeloid",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+      "label": "Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+      "query": "Myelodysplastic myeloproliferative Neoplasm NOS Unclassifiable",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia",
+      "label": "Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia",
+      "query": "Myelodysplastic myeloproliferative Neoplasm with Neutrophilia",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Childhood_MDN::Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts",
+      "label": "Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts",
+      "query": "Childhood Myelodysplastic Neoplasm with Increased Blasts",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation",
+      "label": "Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation",
+      "query": "Myelodysplastic Neoplasm with Biallelic TP53 Inactivation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+      "query": "Myelodysplastic Neoplasm with Low Blasts and 5q Deletion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation",
+      "query": "Myelodysplastic Neoplasm with Low Blasts and SF3B1 Mutation",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Morphologic::Myelodysplastic_Neoplasm_Hypoplastic",
+      "label": "Myelodysplastic_Neoplasm_Hypoplastic",
+      "query": "Myelodysplastic Neoplasm Hypoplastic",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Morphologic::Myelodysplastic_Neoplasm_with_Low_Blasts",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts",
+      "query": "Myelodysplastic Neoplasm with Low Blasts",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion",
+      "label": "Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion",
+      "query": "Myeloid lymphoid Neoplasm with ETV6 ABL1 Fusion",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement",
+      "label": "Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement",
+      "query": "Myeloid lymphoid Neoplasm with FLT3 Rearrangement",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+      "label": "Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+      "query": "Myeloid lymphoid Neoplasms with Other Tyrosine Kinase Gene Fusions",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloproliferative_Neoplasms::Chronic_Neutrophilic_Leukemia",
+      "label": "Chronic_Neutrophilic_Leukemia",
+      "query": "Chronic Neutrophilic Leukemia",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloproliferative_Neoplasms::Mastocytosis::Mast_Cell_Sarcoma",
+      "label": "Mast_Cell_Sarcoma",
+      "query": "Mast Cell Sarcoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_HematopoieAdjustments::Clonal_Hematopoiesis",
+      "label": "Clonal_Hematopoiesis",
+      "query": "Clonal Hematopoiesis",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_Hematopoiesis::Clonal_Cytopenia_of_Undetermined_Significance",
+      "label": "Clonal_Cytopenia_of_Undetermined_Significance",
+      "query": "Clonal Cytopenia of Undetermined Significance",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "label": "Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "query": "Myeloid Neoplasm Post Cytotoxic Therapy",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Proliferations_Associated_with_Down_Syndrome",
+      "label": "Myeloid_Proliferations_Associated_with_Down_Syndrome",
+      "query": "Myeloid Proliferations Associated with Down Syndrome",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Myeloid_Sarcoma",
+      "label": "Myeloid_Sarcoma",
+      "query": "Myeloid Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Eosinophilic_Leukemia",
+      "label": "Chronic_Eosinophilic_Leukemia",
+      "query": "Chronic Eosinophilic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia",
+      "label": "Chronic_Myeloid_Leukemia",
+      "query": "Chronic Myeloid Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Neutrophilic_Leukemia",
+      "label": "Chronic_Neutrophilic_Leukemia",
+      "query": "Chronic Neutrophilic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Essential_Thrombocythemia",
+      "label": "Essential_Thrombocythemia",
+      "query": "Essential Thrombocythemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Juvenile_Myelomonocytic_Leukemia",
+      "label": "Juvenile_Myelomonocytic_Leukemia",
+      "query": "Juvenile Myelomonocytic Leukemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Myeloproliferative_Neoplasm_NOS",
+      "label": "Myeloproliferative_Neoplasm_NOS",
+      "query": "Myeloproliferative Neoplasm NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Polycythemia_Vera",
+      "label": "Polycythemia_Vera",
+      "query": "Polycythemia Vera",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis",
+      "label": "Primary_Myelofibrosis",
+      "query": "Primary Myelofibrosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Paget_Disease",
+      "label": "Paget_Disease",
+      "query": "Paget Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Renal_Osteodystrophy",
+      "label": "Renal_Osteodystrophy",
+      "query": "Renal Osteodystrophy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Therapy_Related_Changes",
+      "label": "Therapy_Related_Changes",
+      "query": "Therapy Related Changes",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Anemia_Of_Chronic_Disease",
+      "label": "Anemia_Of_Chronic_Disease",
+      "query": "Anemia Of Chronic Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia",
+      "label": "Aplastic_Anemia",
+      "query": "Aplastic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Congenital_Dyserythropoietic_Anemia",
+      "label": "Congenital_Dyserythropoietic_Anemia",
+      "query": "Congenital Dyserythropoietic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Diamond_Blackfan_Anemia",
+      "label": "Diamond_Blackfan_Anemia",
+      "query": "Diamond Blackfan Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Erythrocytosis",
+      "label": "Erythrocytosis",
+      "query": "Erythrocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::G6PD_Deficiency",
+      "label": "G6PD_Deficiency",
+      "query": "G6PD Deficiency",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_C_Disease",
+      "label": "Hemoglobin_C_Disease",
+      "query": "Hemoglobin C Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_E_Disease",
+      "label": "Hemoglobin_E_Disease",
+      "query": "Hemoglobin E Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_S_Disease",
+      "label": "Hemoglobin_S_Disease",
+      "query": "Hemoglobin S Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hereditary_Elliptocytosis",
+      "label": "Hereditary_Elliptocytosis",
+      "query": "Hereditary Elliptocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hereditary_Spherocytosis",
+      "label": "Hereditary_Spherocytosis",
+      "query": "Hereditary Spherocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Immune_Hemolytic_Anemia",
+      "label": "Immune_Hemolytic_Anemia",
+      "query": "Immune Hemolytic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia",
+      "label": "Iron_Deficiency_Anemia",
+      "query": "Iron Deficiency Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Lead_Poisoning",
+      "label": "Lead_Poisoning",
+      "query": "Lead Poisoning",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Megaloblastic_Anemia",
+      "label": "Megaloblastic_Anemia",
+      "query": "Megaloblastic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Microangiopathic_Hemolytic_Anemia",
+      "label": "Microangiopathic_Hemolytic_Anemia",
+      "query": "Microangiopathic Hemolytic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Paroxysmal_Nocturnal_Hemoglobinuria_PNH",
+      "label": "Paroxysmal_Nocturnal_Hemoglobinuria_PNH",
+      "query": "Paroxysmal Nocturnal Hemoglobinuria PNH",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Porphyria",
+      "label": "Porphyria",
+      "query": "Porphyria",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Pyruvate_Kinase_Deficiency",
+      "label": "Pyruvate_Kinase_Deficiency",
+      "query": "Pyruvate Kinase Deficiency",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Acquired",
+      "label": "Sideroblastic_Anemia_Acquired",
+      "query": "Sideroblastic Anemia Acquired",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Inherited",
+      "label": "Sideroblastic_Anemia_Inherited",
+      "query": "Sideroblastic Anemia Inherited",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Spur_Cell_Anemia",
+      "label": "Spur_Cell_Anemia",
+      "query": "Spur Cell Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Thalassemia",
+      "label": "Thalassemia",
+      "query": "Thalassemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Thermal_Injury_Hemolytic_Anemia",
+      "label": "Thermal_Injury_Hemolytic_Anemia",
+      "query": "Thermal Injury Hemolytic Anemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Alder_Reilly_Anomaly",
+      "label": "Alder_Reilly_Anomaly",
+      "query": "Alder Reilly Anomaly",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Chediak_Higashi_Syndrome",
+      "label": "Chediak_Higashi_Syndrome",
+      "query": "Chediak Higashi Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::May_Hegglin_Anomaly",
+      "label": "May_Hegglin_Anomaly",
+      "query": "May Hegglin Anomaly",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Pelger_Huet_Anomaly",
+      "label": "Pelger_Huet_Anomaly",
+      "query": "Pelger Huet Anomaly",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Dermatopathic_Lymphadenopathy",
+      "label": "Dermatopathic_Lymphadenopathy",
+      "query": "Dermatopathic Lymphadenopathy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+      "label": "Non_Lymphoid_Inclusions_Mesothelial",
+      "query": "Non Lymphoid Inclusions Mesothelial",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Phenytoin_Induced_Lymphadenopathy",
+      "label": "Phenytoin_Induced_Lymphadenopathy",
+      "query": "Phenytoin Induced Lymphadenopathy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Antiphospholipid_Antibody_Syndrome",
+      "label": "Antiphospholipid_Antibody_Syndrome",
+      "query": "Antiphospholipid Antibody Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Disseminated_Intravascular_Coagulation",
+      "label": "Disseminated_Intravascular_Coagulation",
+      "query": "Disseminated Intravascular Coagulation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Deficiency",
+      "label": "Factor_Deficiency",
+      "query": "Factor Deficiency",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Inhibitor",
+      "label": "Factor_Inhibitor",
+      "query": "Factor Inhibitor",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Fibrinolysis",
+      "label": "Fibrinolysis",
+      "query": "Fibrinolysis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Fibrinolytic_Thrombotic_Disorder",
+      "label": "Fibrinolytic_Thrombotic_Disorder",
+      "query": "Fibrinolytic Thrombotic Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Heparin_Induced_Thrombocytopenia",
+      "label": "Heparin_Induced_Thrombocytopenia",
+      "query": "Heparin Induced Thrombocytopenia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Immune_Thrombocytopenia",
+      "label": "Immune_Thrombocytopenia",
+      "query": "Immune Thrombocytopenia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Inherited_Thrombocytopenia",
+      "label": "Inherited_Thrombocytopenia",
+      "query": "Inherited Thrombocytopenia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Qualitative_Platelet_Disorder",
+      "label": "Qualitative_Platelet_Disorder",
+      "query": "Qualitative Platelet Disorder",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Thrombocytosis",
+      "label": "Thrombocytosis",
+      "query": "Thrombocytosis",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome",
+      "label": "Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome",
+      "query": "Thrombotic Thrombocytopenic Purpura Hemolytic Uremic Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Von_Willebrand_Disease",
+      "label": "Von_Willebrand_Disease",
+      "query": "Von Willebrand Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+      "label": "Lymphoid_Hyperplasia",
+      "query": "Lymphoid Hyperplasia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Spleen::Splenic_Cyst",
+      "label": "Splenic_Cyst",
+      "query": "Splenic Cyst",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Thymus::Thymic_Hyperplasia",
+      "label": "Thymic_Hyperplasia",
+      "query": "Thymic Hyperplasia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Thymus::Thymoma",
+      "label": "Thymoma",
+      "query": "Thymoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Cryoglobulinemia",
+      "label": "Cryoglobulinemia",
+      "query": "Cryoglobulinemia",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Immunoglobulin_Related_Amyloidosis_AL",
+      "label": "Immunoglobulin_Related_Amyloidosis_AL",
+      "query": "Immunoglobulin Related Amyloidosis AL",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Monoclonal_Immunoglobulin_Deposition_Disease",
+      "label": "Monoclonal_Immunoglobulin_Deposition_Disease",
+      "query": "Monoclonal Immunoglobulin Deposition Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Alpha_Heavy_Chain_Disease",
+      "label": "Alpha_Heavy_Chain_Disease",
+      "query": "Alpha Heavy Chain Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Gamma_Heavy_Chain_Disease",
+      "label": "Gamma_Heavy_Chain_Disease",
+      "query": "Gamma Heavy Chain Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Mu_Heavy_Chain_Disease",
+      "label": "Mu_Heavy_Chain_Disease",
+      "query": "Mu Heavy Chain Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Cold_Agglutinin_Disease",
+      "label": "Cold_Agglutinin_Disease",
+      "query": "Cold Agglutinin Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::IgM_MGUS",
+      "label": "IgM_MGUS",
+      "query": "IgM MGUS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Monoclonal_Gammopathy_Of_Renal_Significance",
+      "label": "Monoclonal_Gammopathy_Of_Renal_Significance",
+      "query": "Monoclonal Gammopathy Of Renal Significance",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Non_IgM_MGUS",
+      "label": "Non_IgM_MGUS",
+      "query": "Non IgM MGUS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::POEMS_Syndrome",
+      "label": "POEMS_Syndrome",
+      "query": "POEMS Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma",
+      "label": "Plasma_Cell_Myeloma",
+      "query": "Plasma Cell Myeloma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome",
+      "label": "Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome",
+      "query": "Plasma Cell Neoplasm With Paraneoplastic Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasmacytoma",
+      "label": "Plasmacytoma",
+      "query": "Plasmacytoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_NOS",
+      "label": "B_ALL_NOS",
+      "query": "B ALL NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Fusion",
+      "label": "B_ALL_With_BCR_ABL1_Fusion",
+      "query": "B ALL With BCR ABL1 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Like_Features",
+      "label": "B_ALL_With_BCR_ABL1_Like_Features",
+      "query": "B ALL With BCR ABL1 Like Features",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_ETV6_RUNX1_Fusion",
+      "label": "B_ALL_With_ETV6_RUNX1_Fusion",
+      "query": "B ALL With ETV6 RUNX1 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_ETV6_RUNX1_Like_Features",
+      "label": "B_ALL_With_ETV6_RUNX1_Like_Features",
+      "query": "B ALL With ETV6 RUNX1 Like Features",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_High_Hyperdiploidy",
+      "label": "B_ALL_With_High_Hyperdiploidy",
+      "query": "B ALL With High Hyperdiploidy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_Hypodiploidy",
+      "label": "B_ALL_With_Hypodiploidy",
+      "query": "B ALL With Hypodiploidy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_IGH_IL3_Fusion",
+      "label": "B_ALL_With_IGH_IL3_Fusion",
+      "query": "B ALL With IGH IL3 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_KMT2A_Rearrangement",
+      "label": "B_ALL_With_KMT2A_Rearrangement",
+      "query": "B ALL With KMT2A Rearrangement",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_Other_Defined_Genetic_Alterations",
+      "label": "B_ALL_With_Other_Defined_Genetic_Alterations",
+      "query": "B ALL With Other Defined Genetic Alterations",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_TCF3_HLF_Fusion",
+      "label": "B_ALL_With_TCF3_HLF_Fusion",
+      "query": "B ALL With TCF3 HLF Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_TCF3_PBX1_Fusion",
+      "label": "B_ALL_With_TCF3_PBX1_Fusion",
+      "query": "B ALL With TCF3 PBX1 Fusion",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_iAMP21",
+      "label": "B_ALL_With_iAMP21",
+      "query": "B ALL With iAMP21",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_T_Cell::Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma",
+      "label": "Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma",
+      "query": "Early T Precursor Lymphoblastic Leukemia Lymphoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Precursor_T_Cell::T_ALL_NOS",
+      "label": "T_ALL_NOS",
+      "query": "T ALL NOS",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Neoplasm_Associated_With_Germline_Predisposition",
+      "label": "Myeloid_Neoplasm_Associated_With_Germline_Predisposition",
+      "query": "Myeloid Neoplasm Associated With Germline Predisposition",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "label": "Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "query": "Myeloid Neoplasm Post Cytotoxic Therapy",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Proliferation_Associated_With_Down_Syndrome",
+      "label": "Myeloid_Proliferation_Associated_With_Down_Syndrome",
+      "query": "Myeloid Proliferation Associated With Down Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+      "label": "EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+      "query": "EBV Positive Inflammatory Follicular Dendritic Cell Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Fibroblastic_Reticular_Cell_Tumor",
+      "label": "Fibroblastic_Reticular_Cell_Tumor",
+      "query": "Fibroblastic Reticular Cell Tumor",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Follicular_Dendritic_Cell_Sarcoma",
+      "label": "Follicular_Dendritic_Cell_Sarcoma",
+      "query": "Follicular Dendritic Cell Sarcoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Intranodal_Palisaded_Myofibroblastoma",
+      "label": "Intranodal_Palisaded_Myofibroblastoma",
+      "query": "Intranodal Palisaded Myofibroblastoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Littoral_Cell_Angioma",
+      "label": "Littoral_Cell_Angioma",
+      "query": "Littoral Cell Angioma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Mesenchymal_Dendritic::Follicular_Dendritic::Fibroblastic_Reticular_Cell_Tumor",
+      "label": "Fibroblastic_Reticular_Cell_Tumor",
+      "query": "Fibroblastic Reticular Cell Tumor",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Myofibroblastic_Tumors::Intranodal_Palisaded_Myofibroblastoma",
+      "label": "Intranodal_Palisaded_Myofibroblastoma",
+      "query": "Intranodal Palisaded Myofibroblastoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen",
+      "label": "Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen",
+      "query": "Sclerosing Angiomatoid Nodular Transformation Of Spleen",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Hamartoma",
+      "label": "Splenic_Hamartoma",
+      "query": "Splenic Hamartoma",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Littoral_Cell_Angioma",
+      "label": "Littoral_Cell_Angioma",
+      "query": "Littoral Cell Angioma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen",
+      "label": "Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen",
+      "query": "Sclerosing Angiomatoid Nodular Transformation of Spleen",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Splenic_Hamartoma",
+      "label": "Splenic_Hamartoma",
+      "query": "Splenic Hamartoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::EBV_Childhood::Severe_Mosquito_Bite_Allergy",
+      "label": "Severe_Mosquito_Bite_Allergy",
+      "query": "Severe Mosquito Bite Allergy",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder",
+      "label": "Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder",
+      "query": "Primary Cutaneous Acral CD8 positive T cell Lymphoproliferative Disorder",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Primary Cutaneous CD30 positive T cell Lymphoproliferative Disorder Primary Cutaneous Anaplastic Large Cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma",
+      "query": "Primary Cutaneous CD8 positive Aggressive Epidermotropic Cytotoxic T cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma",
+      "label": "Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma",
+      "query": "Primary Cutaneous Gamma delta T cell Lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS",
+      "label": "Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS",
+      "query": "Primary Cutaneous Peripheral T cell Lymphoma NOS",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract",
+      "label": "Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract",
+      "query": "Indolent NK cell Lymphoproliferative Disorder of the Gastrointestinal Tract",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Intestinal_T_cell_Lymphoma_NOS",
+      "label": "Intestinal_T_cell_Lymphoma_NOS",
+      "query": "Intestinal T cell Lymphoma NOS",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::TFH_Nodal::Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS",
+      "label": "Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS",
+      "query": "Nodal T Follicular Helper Cell Lymphoma NOS",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Precursor_T_Cell::T_ALL::Early_T_precursor_Lymphoblastic_Leukemia_lymphoma",
+      "label": "Early_T_precursor_Lymphoblastic_Leukemia_lymphoma",
+      "query": "Early T precursor Lymphoblastic Leukemia lymphoma",
+      "provenance": "who"
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::Idiopathic_Multicentric_Castleman_Disease",
+      "label": "Idiopathic_Multicentric_Castleman_Disease",
+      "query": "Idiopathic Multicentric Castleman Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::IgG4_Related_Disease",
+      "label": "IgG4_Related_Disease",
+      "query": "IgG4 Related Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::KSHV_HHV8_Associated_Multicentric_Castleman_Disease",
+      "label": "KSHV_HHV8_Associated_Multicentric_Castleman_Disease",
+      "query": "KSHV HHV8 Associated Multicentric Castleman Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::Unicentric_Castleman_Disease",
+      "label": "Unicentric_Castleman_Disease",
+      "query": "Unicentric Castleman Disease",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Autoimmune_Lymphoproliferative_Syndrome",
+      "label": "Autoimmune_Lymphoproliferative_Syndrome",
+      "query": "Autoimmune Lymphoproliferative Syndrome",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Indolent_T_Lymphoblastic_Proliferation",
+      "label": "Indolent_T_Lymphoblastic_Proliferation",
+      "query": "Indolent T Lymphoblastic Proliferation",
+      "provenance": "abpath"
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Kikuchi_Fujimoto_Disease",
+      "label": "Kikuchi_Fujimoto_Disease",
+      "query": "Kikuchi Fujimoto Disease",
+      "provenance": "abpath"
+    }
+  ]
+}
