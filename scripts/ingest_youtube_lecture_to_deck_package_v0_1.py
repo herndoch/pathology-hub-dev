@@ -174,15 +174,7 @@ def download_video_lowres(url: str, out_dir: Path, cookies: Optional[Path]) -> O
     return None
 
 
-def whisper_transcribe(client: OpenAI, audio_path: Path) -> list[dict[str, Any]]:
-    """Return list of {id,start,end,text} using OpenAI whisper-1 verbose_json."""
-    size_mb = audio_path.stat().st_size / 1e6
-    print(f"Whisper transcribe {audio_path.name} ({size_mb:.1f} MB)", flush=True)
-    if size_mb > 24.5:
-        raise RuntimeError(
-            f"Audio {audio_path} is {size_mb:.1f} MB; Whisper API limit is ~25 MB. "
-            "Re-encode smaller (e.g. ffmpeg -i in.mp3 -b:a 64k out.mp3) and pass --audio."
-        )
+def whisper_transcribe_one(client: OpenAI, audio_path: Path) -> list[dict[str, Any]]:
     with audio_path.open("rb") as f:
         resp = client.audio.transcriptions.create(
             model="whisper-1",
@@ -206,6 +198,79 @@ def whisper_transcribe(client: OpenAI, audio_path: Path) -> list[dict[str, Any]]
             }
         )
     return out
+
+
+def prepare_audio_under_limit(audio_path: Path, work: Path, max_mb: float = 24.0) -> Path:
+    size_mb = audio_path.stat().st_size / 1e6
+    if size_mb <= max_mb:
+        return audio_path
+    print(f"audio {size_mb:.1f} MB > {max_mb} MB — recompressing", flush=True)
+    out = audio_path
+    for br in ("64k", "48k", "32k", "24k"):
+        out = work / f"audio_{br}.mp3"
+        run(["ffmpeg", "-y", "-i", str(audio_path), "-ac", "1", "-ar", "16000", "-b:a", br, str(out)])
+        sm = out.stat().st_size / 1e6
+        print(f"  {br} -> {sm:.1f} MB", flush=True)
+        if sm <= max_mb:
+            return out
+    return out
+
+
+def whisper_transcribe(
+    client: OpenAI,
+    audio_path: Path,
+    *,
+    work: Optional[Path] = None,
+    max_mb: float = 24.0,
+    chunk_sec: int = 600,
+) -> list[dict[str, Any]]:
+    """Whisper with recompress + time-chunking for files over ~25MB API limit."""
+    work = work or audio_path.parent
+    audio = prepare_audio_under_limit(audio_path, work, max_mb=max_mb)
+    size_mb = audio.stat().st_size / 1e6
+    print(f"Whisper transcribe {audio.name} ({size_mb:.1f} MB)", flush=True)
+    if size_mb <= max_mb:
+        return whisper_transcribe_one(client, audio)
+
+    chunk_dir = work / "whisper_chunks"
+    if chunk_dir.exists():
+        shutil.rmtree(chunk_dir)
+    chunk_dir.mkdir(parents=True)
+    pattern = str(chunk_dir / "chunk_%03d.mp3")
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(audio),
+            "-f",
+            "segment",
+            "-segment_time",
+            str(int(chunk_sec)),
+            "-reset_timestamps",
+            "1",
+            "-ac",
+            "1",
+            "-ar",
+            "16000",
+            "-b:a",
+            "32k",
+            pattern,
+        ]
+    )
+    parts = sorted(chunk_dir.glob("chunk_*.mp3"))
+    print(f"whisper chunks: {len(parts)} x ~{chunk_sec}s", flush=True)
+    all_segs: list[dict[str, Any]] = []
+    for i, part in enumerate(parts):
+        print(f"  whisper chunk {i}: {part.name} ({part.stat().st_size/1e6:.1f} MB)", flush=True)
+        segs = whisper_transcribe_one(client, part)
+        offset = i * float(chunk_sec)
+        for s in segs:
+            s["start"] += offset
+            s["end"] += offset
+            s["id"] = len(all_segs)
+            all_segs.append(s)
+    return all_segs
 
 
 def extract_frames(video_path: Path, frames_dir: Path, *, every_sec: float = 12.0) -> list[dict[str, Any]]:
@@ -491,7 +556,7 @@ def main() -> None:
         duration = probe_duration_sec(audio)
 
     client = OpenAI()
-    segments = whisper_transcribe(client, audio)
+    segments = whisper_transcribe(client, audio, work=work)
     print(f"segments={len(segments)}", flush=True)
 
     frames: list[dict[str, Any]] = []
