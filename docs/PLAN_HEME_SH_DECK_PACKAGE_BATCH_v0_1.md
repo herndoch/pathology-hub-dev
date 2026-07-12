@@ -1,7 +1,17 @@
 # Plan — batch Heme SH chatgpt_readable deck packages
 
 Date: 2026-07-12  
-Status: **Phase 1 done** (convert+upload). Tagging still pending except Aggressive B-Cell. Colab frames/MP4s in progress in parallel.
+Status: **Phase 1 done. Colab assets done. Join repair done.** Tagging still pending except Aggressive B-Cell.
+
+### Post-Colab (2026-07-12)
+
+- **21/21** canonical MP4s present under `gs://pathology-hub-0/source_videos/Heme_SH_*.mp4`
+- **21/21** slide folders under `gs://pathology-hub-0/_asset_library/lectures/Heme_SH_*/`
+- Join basis flipped to `filename_match_source_videos` on all deck sidecars
+- Asset check: **20/21** packages have all frame objects; Reactive Lymphoid Hyperplasia missing 1/72 slide object (71 on disk)
+
+Audit: `gs://pathology_hub/06_audits/lectures/deck_packages/join_repair_20260712T005519Z/audit.json`
+
 
 ## Inventory (Phase 1 complete)
 
