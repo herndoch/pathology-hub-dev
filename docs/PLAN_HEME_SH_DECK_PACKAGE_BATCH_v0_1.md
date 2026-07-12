@@ -1,35 +1,40 @@
 # Plan — batch Heme SH chatgpt_readable deck packages
 
 Date: 2026-07-12  
-Status: **proposed** — execute after you say go.
+Status: **Phase 1 done** (convert+upload). Tagging still pending except Aggressive B-Cell. Colab frames/MP4s in progress in parallel.
 
-## Inventory (now)
+## Inventory (Phase 1 complete)
 
-**21 unique packages** on `gs://pathology_hub/` root (Aggressive B-Cell has duplicate `(6)`/`(7)`/original zips; batch keeps the best stem).
+**21 unique packages** converted to `gs://pathology_hub/02_normalized/lectures/deck_packages/<slug>_v0_1/`.
 
-| Package stem | Zip present | Deck sidecar | Tagged + chunks | Canonical MP4 in `source_videos` |
-|--------------|-------------|--------------|-----------------|----------------------------------|
-| Aggressive_B_Cell | ✅ | ✅ v0_1 | ✅ | ❌ pending |
-| AML | ✅ | ❌ | ❌ | ❌ |
-| BM_Failure_Syndromes | ✅ | ❌ | ❌ | ❌ |
-| BM_Intro | ✅ | ❌ | ❌ | ❌ |
-| BM_Systemic_Manifestations | ✅ | ❌ | ❌ | ❌ |
-| Histiocytic | ✅ | ❌ | ❌ | ❌ |
-| Hodgkin_NLP | ✅ | ❌ | ❌ | ❌ |
-| Hodgkin_Overview | ✅ | ❌ | ❌ | ❌ |
-| Hodgkin_T_NK_Cell_1 | ✅ | ❌ | ❌ | ❌ |
-| Hodgkin_T_NK_Cell_2 | ✅ | ❌ | ❌ | ❌ |
-| IA_LPD | ✅ | ❌ | ❌ | ❌ |
-| IHC_for_LPD | ✅ | ❌ | ❌ | ❌ |
-| MDS_MPN_1 / 2 / 3 | ✅ | ❌ | ❌ | ❌ |
-| PT_LPD | ✅ | ❌ | ❌ | ❌ |
-| Plasma_Cell | ✅ | ❌ | ❌ | ❌ |
-| Reactive_Lymphoid_Hyperplasia | ✅ | ❌ | ❌ | ❌ |
-| Small_B_Cell_1_of_2 / 2_of_2 | ✅ | ❌ | ❌ | ❌ |
-| Spleen | ✅ | ❌ | ❌ | ❌ |
+| Package | Segs | Frames | Sidecar | Tagged+chunks | Notes |
+|---------|------|--------|---------|---------------|-------|
+| Aggressive_B_Cell | 877 | 66 | ✅ | ✅ ~49 chunks | Prefer original zip; `(7)` was mislabeled Reactive |
+| AML | 443 | 65 | ✅ | ❌ | |
+| BM_Failure_Syndromes | 476 | 22 | ✅ | ❌ | |
+| BM_Intro | 700 | 47 | ✅ | ❌ | |
+| BM_Systemic_Manifestations | 595 | 92 | ✅ | ❌ | |
+| Histiocytic | 464 | 38 | ✅ | ❌ | |
+| Hodgkin_NLP | 360 | 66 | ✅ | ❌ | |
+| Hodgkin_Overview | 410 | 74 | ✅ | ❌ | |
+| Hodgkin_T_NK_Cell_1 | 482 | 95 | ✅ | ❌ | |
+| Hodgkin_T_NK_Cell_2 | 409 | 91 | ✅ | ❌ | |
+| IA_LPD | 308 | 39 | ✅ | ❌ | |
+| IHC_for_LPD | 434 | 80 | ✅ | ❌ | |
+| MDS_MPN_1 | 703 | 56 | ✅ | ❌ | |
+| MDS_MPN_2 | 817 | 46 | ✅ | ❌ | |
+| MDS_MPN_3 | 917 | 67 | ✅ | ❌ | |
+| PT_LPD | 446 | 27 | ✅ | ❌ | |
+| Plasma_Cell | 447 | 34 | ✅ | ❌ | |
+| Reactive_Lymphoid_Hyperplasia | 622 | 72 | ✅ | ❌ | |
+| Small_B_Cell_1_of_2 | 939 | 113 | ✅ | ❌ | |
+| Small_B_Cell_2_of_2 | 865 | 125 | ✅ | ❌ | |
+| Spleen | 650 | 105 | ✅ | ❌ | |
 
-Frames Colab (your side): `notebooks/Heme_SH_Lecture_Frame_Upload_to_Asset_Library_v0_1.ipynb` → `_asset_library/lectures/<stem>/`.
+All join basis: `canonical_name_pending_upload` until Colab finishes MP4s.  
+`frames.jsonl` already points at `_asset_library/lectures/<stem>/<stem>_slide_NNNN.jpg`.
 
+**Data-quality fix:** batch now prefers non-`(N)` zip names and skips zip-name vs `video_file` mismatches.
 ---
 
 ## Principles (unchanged)

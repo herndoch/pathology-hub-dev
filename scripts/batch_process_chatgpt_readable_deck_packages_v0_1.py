@@ -95,7 +95,9 @@ def list_chatgpt_zips(client: storage.Client, prefix: str = "") -> list[storage.
             name.endswith(".zip") and "chatgpt_readable" in name.lower()
         ):
             blobs.append(blob)
-    # Prefer non-duplicate stems: keep largest / newest per canonical stem
+    # Prefer non-duplicate stems: keep best candidate per zip-name stem.
+    # Note: console "(N)" re-uploads can be mislabeled (wrong lecture inside) —
+    # prefer names without "(N)", then chatgpt_readable, then larger/newer.
     best: dict[str, storage.Blob] = {}
     for blob in blobs:
         stem = Path(canonical_from_zip_name(blob.name)).stem.lower()
@@ -103,11 +105,13 @@ def list_chatgpt_zips(client: storage.Client, prefix: str = "") -> list[storage.
         if prev is None:
             best[stem] = blob
             continue
-        # Prefer chatgpt_readable named zips, then larger size, then newer
+
         def score(b: storage.Blob) -> tuple:
-            n = Path(b.name).name.lower()
+            n = Path(b.name).name
+            has_paren_rev = 1 if re.search(r"\s*\(\d+\)\.zip$", n, re.I) else 0
             return (
-                1 if "chatgpt_readable" in n else 0,
+                0 if has_paren_rev else 1,  # prefer non-(N) uploads
+                1 if "chatgpt_readable" in n.lower() else 0,
                 b.size or 0,
                 b.updated.timestamp() if b.updated else 0,
             )
@@ -154,6 +158,19 @@ def process_one(
         canonical_mp4 = Path(str(declared)).name
         if not canonical_mp4.endswith(".mp4"):
             canonical_mp4 = canonical_from_zip_name(zip_name)
+
+        zip_stem = Path(canonical_from_zip_name(zip_name)).stem.lower()
+        declared_stem = Path(canonical_mp4).stem.lower()
+        if zip_stem != declared_stem:
+            return {
+                "zip": f"gs://{BUCKET}/{blob.name}",
+                "zip_size": blob.size,
+                "zip_updated": blob.updated.isoformat() if blob.updated else None,
+                "status": "skipped_zip_name_vs_video_file_mismatch",
+                "zip_inferred_stem": zip_stem,
+                "declared_video_file": canonical_mp4,
+                "frames_asset_upload": "colab_operator_todo → pathology-hub-0 _asset_library/lectures/<stem>/",
+            }
 
         exists = video_exists(client, canonical_mp4)
         gcs_uri = f"gs://{VIDEO_BUCKET}/{VIDEO_PREFIX}{canonical_mp4}"
