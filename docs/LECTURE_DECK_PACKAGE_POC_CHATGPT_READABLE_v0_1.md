@@ -92,7 +92,7 @@ At audit time, `gs://pathology_hub/` root still showed **only** the Aggressive B
 
 ## Associated pics / frames
 
-**Operator Colab TODO** — see `docs/COLAB_TODO_LECTURE_DECK_FRAME_UPLOAD.md`.  
+**Operator Colab TODO** — upload notebook `notebooks/Heme_SH_Lecture_Frame_Upload_to_Asset_Library_v0_1.ipynb` (see `docs/COLAB_TODO_LECTURE_DECK_FRAME_UPLOAD.md`).  
 Upload to legacy-consistent slide path on pathology-hub-0:
 
 `gs://pathology-hub-0/_asset_library/lectures/<CanonicalStem>/<CanonicalStem>_slide_NNNN.jpg`
