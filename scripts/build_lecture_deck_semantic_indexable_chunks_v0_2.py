@@ -5,7 +5,8 @@ v0_2 policy (replaces tag-crumbs-then-merge for indexing):
   1. Drop housekeeping ASR crumbs
   2. Time-merge remaining crumbs into provisional teaching windows
   3. Embed each window (text-embedding-3-small)
-  4. Cosine against 354 canonical Heme::* leaf embeddings
+  4. Cosine against canonical browse leaves for the package root
+     (Heme::* or Breast::* etc. via --leaf-dir / --root)
   5. KEEP only if quality gates pass:
        - similarity >= min_sim
        - (best - second) >= min_margin   # unambiguous
@@ -57,7 +58,7 @@ LECTURE_PRIORS: list[tuple[re.Pattern[str], list[str]]] = [
     (re.compile(r"plasma_cell", re.I), ["Heme::Plasma_Cell_Neoplasm"]),
     (re.compile(r"histiocytic", re.I), ["Heme::Histiocytic_Dendritic_Cell", "Heme::Histiocytic_Dendritic"]),
     (re.compile(r"spleen", re.I), ["Heme::Mature_B_Cell::Splenic", "Heme::Non_Neoplastic::Spleen", "Heme::Stroma_Derived"]),
-    (re.compile(r"reactive", re.I), ["Heme::Non_Neoplastic", "Heme::Tumor_Like", "Heme::Infection"]),
+    (re.compile(r"reactive_lymphoid|heme_sh_reactive", re.I), ["Heme::Non_Neoplastic", "Heme::Tumor_Like", "Heme::Infection"]),
     (re.compile(r"bm_failure|bm_intro|bm_systemic", re.I), [
         "Heme::Non_Neoplastic",
         "Heme::Myelodysplastic",
@@ -68,13 +69,29 @@ LECTURE_PRIORS: list[tuple[re.Pattern[str], list[str]]] = [
     ]),
     (re.compile(r"ia_lpd|immune", re.I), ["Heme::Immune_Deficiency_Associated"]),
     (re.compile(r"pt_lpd", re.I), ["Heme::Immune_Deficiency_Associated"]),
-    (re.compile(r"ihc", re.I), ["Heme::Mature_B_Cell", "Heme::Mature_T_NK_Cell", "Heme::Hodgkin_Lymphoma"]),
+    (re.compile(r"heme_sh_ihc|ihc_for_lpd", re.I), ["Heme::Mature_B_Cell", "Heme::Mature_T_NK_Cell", "Heme::Hodgkin_Lymphoma"]),
+    # Breast lecture family
+    (re.compile(r"breast_lecture_invasive", re.I), ["Breast::Neoplastic::Epithelial::Malignant", "Breast::Epithelial::Ductal_Carcinoma"]),
+    (re.compile(r"breast_lecture_lobular", re.I), ["Breast::Neoplastic::Epithelial"]),
+    (re.compile(r"breast_lecture_epithelial", re.I), ["Breast::Epithelial", "Breast::Neoplastic::Epithelial"]),
+    (re.compile(r"breast_lecture_papillary", re.I), ["Breast::Epithelial::Papillary_Neoplasms", "Breast::Neoplastic::Epithelial"]),
+    (re.compile(r"breast_lecture_fibroepithelial", re.I), ["Breast::Neoplastic::Fibroepithelial", "Breast::FibroEpithelial"]),
+    (re.compile(r"breast_lecture_spindle", re.I), ["Breast::Mesenchymal", "Breast::Neoplastic", "Breast::Inflammatory::Reactive"]),
+    (re.compile(r"breast_lecture_normal", re.I), ["Breast::Normal_Histology", "Breast::Congenital_Structural"]),
+    (re.compile(r"breast_lecture_ihc|breast_lecture_prognostic", re.I), ["Breast::Neoplastic::Epithelial", "Breast::Genetics"]),
+    (re.compile(r"breast_lecture_treated", re.I), ["Breast::Neoplastic::Epithelial", "Breast::Inflammatory"]),
+    (re.compile(r"breast_lecture_grossing|breast_lecture_rad", re.I), ["Breast::Normal_Histology", "Breast::Congenital_Structural", "Breast::Neoplastic"]),
+    (re.compile(r"^breast_lecture", re.I), ["Breast::"]),
 ]
 
 ENTITYISH = re.compile(
     r"\b(lymphoma|leukemia|myeloma|mds|mpn|hodgkin|burkitt|follicular|mantle|"
     r"marginal|cll|aml|apl|ptld|amyloid|histiocyt|reed.?sternberg|myelofibrosis|"
-    r"polycythemia|thrombocythemia|mastocyt|castleman|rosai|langerhans)\b",
+    r"polycythemia|thrombocythemia|mastocyt|castleman|rosai|langerhans|"
+    r"carcinoma|dcis|lcis|lobular|ductal|fibroadenoma|phyllodes|papillary|"
+    r"mucinous|tubular|metaplastic|her2|ki-?67|er\b|pr\b|triple.?negative|"
+    r"radial scar|adenosis|paget|nipple|spindle|myofibroblastoma|angiosarcoma|"
+    r"invasive|in situ|breast)\b",
     re.I,
 )
 
@@ -133,15 +150,33 @@ def is_housekeeping(text: str, start_sec: float, duration: Optional[float]) -> b
 
 
 def is_agenda_dump(text: str) -> bool:
-    """TOC-style windows that name many entities but teach none."""
+    """TOC-style windows that name many entities but teach none.
+
+    Teaching DDx windows often mention several entities (esp. Breast invasive
+    subtypes). Require TOC/list cues — do not reject solely on entity count.
+    """
     t = text.lower()
-    if re.search(r"listed on this slide|provisional entit|in italicized text|established categories", t):
+    if re.search(
+        r"listed on this slide|provisional entit|in italicized text|established categories|"
+        r"learning objectives|today'?s (agenda|outline)|outline of (today|this)|"
+        r"we will cover the following|topics (we|i) will (cover|discuss)",
+        t,
+    ):
         return True
     hits = ENTITYISH.findall(t)
-    # many distinct entity mentions in a shortish window = agenda
-    if len(set(h.lower() for h in hits)) >= 5 and len(t) < 1800:
+    distinct = len(set(h.lower() for h in hits))
+    # Pure laundry-list cue + many entities
+    listish = bool(
+        re.search(
+            r"we'll of course talk about|we will of course talk about|starting off with|"
+            r"first[,.].{0,40}second[,.].{0,40}third|including:\s|as follows:",
+            t,
+        )
+    )
+    if listish and distinct >= 3:
         return True
-    if re.search(r"we'll of course talk about|we will of course talk about|starting off with", t) and len(set(h.lower() for h in hits)) >= 3:
+    # Extremely entity-dense short window still looks like a TOC dump
+    if distinct >= 8 and len(t) < 1200:
         return True
     return False
 
@@ -308,7 +343,8 @@ def gate_tag(
     if not ENTITYISH.search(text) and raw1 < min_sim + 0.06:
         return None, "reject_no_entity_signal", meta
 
-    return tag1, "semantic_gated_best_of_heme", meta
+    leaf_root = tag1.split("::", 1)[0].lower() if tag1 else "taxonomy"
+    return tag1, f"semantic_gated_best_of_{leaf_root}", meta
 
 
 def process_package(
@@ -324,9 +360,11 @@ def process_package(
     min_chars: int,
     min_duration_sec: float,
     gap_flush_sec: float,
+    root: Optional[str] = None,
 ) -> dict[str, Any]:
     manifest = json.loads((package_dir / "manifest.json").read_text(encoding="utf-8"))
     package_id = manifest.get("package_id") or package_dir.name
+    root = root or manifest.get("root") or leaf_meta.get("root") or "Heme"
     priors = lecture_priors(package_id)
     duration = manifest.get("duration_seconds")
     try:
@@ -336,6 +374,9 @@ def process_package(
 
     tags = [leaf["tag"] for leaf in leaf_meta["leaves"]]
     rows = [json.loads(ln) for ln in (package_dir / "segments.jsonl").read_text(encoding="utf-8").splitlines() if ln.strip()]
+    # Ensure segment root reflects package root for merged windows
+    for row in rows:
+        row.setdefault("root", root)
 
     kept_segs: list[dict[str, Any]] = []
     reject_hk = 0
@@ -394,7 +435,7 @@ def process_package(
                 "tag_margin": meta.get("margin"),
                 "tag_runner_up": meta.get("top2_tag"),
                 "indexable": True,
-                "root": c.get("root") or "Heme",
+                "root": c.get("root") or root,
                 "video_id": c.get("video_id"),
                 "video_url": video_url,
                 "video_time_url": make_video_time_url(video_url, c["start_sec"], c["end_sec"]),
@@ -465,9 +506,10 @@ def process_package(
         "segments_*.jsonl are audit/support only — do not vectorize."
     )
     manifest["tagging"] = {
-        "method": "time_merge_then_semantic_gated_best_of_Heme_v0_2",
+        "method": f"time_merge_then_semantic_gated_best_of_{root}_v0_2",
         "embedding_model": EMBEDDING_MODEL,
-        "heme_leaf_count": len(tags),
+        "root": root,
+        "leaf_count": len(tags),
         "lecture_priors": priors,
         "min_similarity": min_sim,
         "min_margin": min_margin,
@@ -476,11 +518,14 @@ def process_package(
     limitations = [
         x
         for x in (manifest.get("known_limitations") or [])
-        if "primary_tag" not in x.lower() and "heuristic" not in x.lower() and "cosine best" not in x.lower()
+        if "primary_tag" not in x.lower()
+        and "heuristic" not in x.lower()
+        and "cosine best" not in x.lower()
+        and "Indexable chunks only" not in x
     ]
     limitations.insert(
         0,
-        "Indexable chunks only: time-merged windows with gated embedding match to canonical Heme::* leaves "
+        f"Indexable chunks only: time-merged windows with gated embedding match to canonical {root}::* leaves "
         f"(min_sim={min_sim}, min_margin={min_margin}). Ambiguous/low-sim/agenda windows excluded.",
     )
     manifest["known_limitations"] = limitations
@@ -523,10 +568,38 @@ def process_package(
     return audit
 
 
+def resolve_leaf_artifacts(leaf_dir: Path, root: Optional[str]) -> tuple[dict[str, Any], np.ndarray]:
+    """Accept heme_* filenames or {root_slug}_* filenames."""
+    candidates_meta = [
+        leaf_dir / "heme_leaf_embeddings_meta.json",
+        leaf_dir / "breast_leaf_embeddings_meta.json",
+    ]
+    candidates_npy = [
+        leaf_dir / "heme_leaf_embeddings.npy",
+        leaf_dir / "breast_leaf_embeddings.npy",
+    ]
+    if root:
+        slug = re.sub(r"[^a-zA-Z0-9]+", "_", root.strip()).strip("_").lower()
+        candidates_meta.insert(0, leaf_dir / f"{slug}_leaf_embeddings_meta.json")
+        candidates_npy.insert(0, leaf_dir / f"{slug}_leaf_embeddings.npy")
+    # also accept any *_leaf_embeddings_meta.json
+    candidates_meta.extend(sorted(leaf_dir.glob("*_leaf_embeddings_meta.json")))
+    candidates_npy.extend(sorted(leaf_dir.glob("*_leaf_embeddings.npy")))
+
+    meta_path = next((p for p in candidates_meta if p.is_file()), None)
+    npy_path = next((p for p in candidates_npy if p.is_file()), None)
+    if not meta_path or not npy_path:
+        raise FileNotFoundError(f"Leaf embeddings not found under {leaf_dir}")
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    matrix = np.load(npy_path)
+    return meta, matrix
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--package-dir", type=Path, required=True)
     p.add_argument("--leaf-dir", type=Path, default=Path("outputs/heme_browse_leaf_embeddings_v0_1"))
+    p.add_argument("--root", default=None, help="Browse root label (Breast, Heme, …)")
     p.add_argument("--min-sim", type=float, default=0.50)
     p.add_argument("--min-margin", type=float, default=0.035)
     p.add_argument("--max-duration-sec", type=float, default=140.0)
@@ -536,8 +609,7 @@ def main() -> None:
     p.add_argument("--gap-flush-sec", type=float, default=20.0)
     args = p.parse_args()
 
-    meta = json.loads((args.leaf_dir / "heme_leaf_embeddings_meta.json").read_text(encoding="utf-8"))
-    matrix = np.load(args.leaf_dir / "heme_leaf_embeddings.npy")
+    meta, matrix = resolve_leaf_artifacts(args.leaf_dir, args.root)
     client = OpenAI()
     audit = process_package(
         args.package_dir,
@@ -551,6 +623,7 @@ def main() -> None:
         min_chars=args.min_chars,
         min_duration_sec=args.min_duration_sec,
         gap_flush_sec=args.gap_flush_sec,
+        root=args.root or meta.get("root"),
     )
     print(
         json.dumps(

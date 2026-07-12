@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Batch-build gated semantic indexable chunks for all Heme deck packages."""
+"""Batch-build gated semantic indexable chunks for deck packages."""
 
 from __future__ import annotations
 
@@ -23,6 +23,9 @@ def utc_now() -> str:
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--local-root", type=Path, default=Path("outputs/lecture_deck_packages_v0_1"))
+    p.add_argument("--prefix", default="heme_sh_", help="Package dir name prefix to include")
+    p.add_argument("--leaf-dir", type=Path, default=Path("outputs/heme_browse_leaf_embeddings_v0_1"))
+    p.add_argument("--root", default=None, help="Browse root label passed to gate script")
     p.add_argument("--upload", action="store_true")
     p.add_argument("--project", default="pathology-annotation-project")
     p.add_argument("--audit-dir", type=Path, default=Path("audits/lecture_deck_semantic_gated_v0_2"))
@@ -35,7 +38,10 @@ def main() -> None:
     pkgs = sorted(
         d
         for d in args.local_root.iterdir()
-        if d.is_dir() and d.name.startswith("heme_sh_") and not d.name.endswith("_tagged") and (d / "segments.jsonl").is_file()
+        if d.is_dir()
+        and d.name.startswith(args.prefix)
+        and not d.name.endswith("_tagged")
+        and (d / "segments.jsonl").is_file()
     )
 
     client = storage.Client(project=args.project) if args.upload else None
@@ -44,18 +50,21 @@ def main() -> None:
 
     for pkg in pkgs:
         print("GATE", pkg.name, flush=True)
-        subprocess.check_call(
-            [
-                sys.executable,
-                str(builder),
-                "--package-dir",
-                str(pkg),
-                "--min-sim",
-                str(args.min_sim),
-                "--min-margin",
-                str(args.min_margin),
-            ]
-        )
+        cmd = [
+            sys.executable,
+            str(builder),
+            "--package-dir",
+            str(pkg),
+            "--leaf-dir",
+            str(args.leaf_dir),
+            "--min-sim",
+            str(args.min_sim),
+            "--min-margin",
+            str(args.min_margin),
+        ]
+        if args.root:
+            cmd.extend(["--root", args.root])
+        subprocess.check_call(cmd)
         man = json.loads((pkg / "manifest.json").read_text(encoding="utf-8"))
         counts = man.get("counts") or {}
         row = {
@@ -76,6 +85,7 @@ def main() -> None:
                 "chunks_indexable.jsonl",
                 "chunk_audit.json",
                 "frames.jsonl",
+                "audit.json",
             ):
                 path = pkg / name
                 if path.is_file():
@@ -84,14 +94,24 @@ def main() -> None:
                     uploaded.append(f"gs://{HUB}/{dest}")
         row["uploaded"] = uploaded
         results.append(row)
-        print(json.dumps({"package_id": pkg.name, "chunks": row["chunks_indexable"], "sim_med": row["sim_median"]}), flush=True)
+        print(
+            json.dumps(
+                {"package_id": pkg.name, "chunks": row["chunks_indexable"], "sim_med": row["sim_median"]}
+            ),
+            flush=True,
+        )
 
     audit = {
         "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
         "created_at_utc": utc_now(),
-        "input_paths": [str(args.local_root)],
+        "input_paths": [str(args.local_root), str(args.leaf_dir)],
         "output_paths": [f"gs://{HUB}/{DECK_PREFIX}*/chunks_indexable.jsonl"],
-        "params": {"min_sim": args.min_sim, "min_margin": args.min_margin},
+        "params": {
+            "min_sim": args.min_sim,
+            "min_margin": args.min_margin,
+            "prefix": args.prefix,
+            "root": args.root,
+        },
         "counts": {
             "packages": len(results),
             "packages_with_chunks": sum(1 for r in results if (r.get("chunks_indexable") or 0) > 0),

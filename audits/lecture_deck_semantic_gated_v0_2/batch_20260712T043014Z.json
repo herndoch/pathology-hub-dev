@@ -1,0 +1,458 @@
+{
+  "schema_version": "lecture_deck_semantic_gated_batch_audit.v0_2",
+  "created_at_utc": "2026-07-12T04:30:14Z",
+  "input_paths": [
+    "outputs/lecture_deck_packages_v0_1",
+    "outputs/breast_browse_leaf_embeddings_v0_1"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/02_normalized/lectures/deck_packages/*/chunks_indexable.jsonl"
+  ],
+  "params": {
+    "min_sim": 0.5,
+    "min_margin": 0.035,
+    "prefix": "breast_lecture_",
+    "root": "Breast"
+  },
+  "counts": {
+    "packages": 12,
+    "packages_with_chunks": 10,
+    "total_chunks": 73
+  },
+  "packages": [
+    {
+      "package_id": "breast_lecture_epithelial_v0_1",
+      "chunks_indexable": 17,
+      "sim_median": 0.6043,
+      "margin_median": 0.0493,
+      "rejects": {
+        "reject_agenda_dump": 20,
+        "reject_ambiguous_margin": 8,
+        "reject_no_entity_signal": 1,
+        "reject_low_similarity": 7
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+          8
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Precursor::Atypical_Ductal_Hyperplasia_ADH",
+          4
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Benign::Usual_Ductal_Hyperplasia_UDH",
+          2
+        ],
+        [
+          "Breast::Congenital_Structural::Cyst::Fibrocystic_Changes",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Precursor::Flat_Epithelial_Atypia",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_fibroepithelial_v0_1",
+      "chunks_indexable": 17,
+      "sim_median": 0.6367,
+      "margin_median": 0.0841,
+      "rejects": {
+        "reject_ambiguous_margin": 10,
+        "reject_agenda_dump": 3,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Fibroepithelial::Variable_Behavior::Phyllodes_Tumor",
+          10
+        ],
+        [
+          "Breast::Neoplastic::Fibroepithelial::Benign::Cellular_Fibroadenoma",
+          2
+        ],
+        [
+          "Breast::Neoplastic::Mesenchymal::Low_Grade::Angiomyxoma",
+          2
+        ],
+        [
+          "Breast::Neoplastic::Mesenchymal::Malignant::Liposarcoma",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Metastatic::Malignant::Metastasis_To_Breast",
+          1
+        ],
+        [
+          "Breast::Congenital_Structural::Hamartoma::Mammary_Hamartoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_grossing_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.6391,
+      "margin_median": 0.0698,
+      "rejects": {
+        "reject_low_similarity": 16,
+        "reject_agenda_dump": 4,
+        "reject_ambiguous_margin": 7
+      },
+      "top_tags": [
+        [
+          "Breast::Congenital_Structural::Cyst::Fibrocystic_Changes",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Fibroepithelial::Variable_Behavior::Phyllodes_Tumor",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_ihc_v0_1",
+      "chunks_indexable": 5,
+      "sim_median": 0.58,
+      "margin_median": 0.0291,
+      "rejects": {
+        "reject_agenda_dump": 4,
+        "reject_ambiguous_margin": 9,
+        "reject_low_similarity": 8
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Myoepithelial_Carcinoma",
+          2
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Micropapillary_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_invasive_v0_1",
+      "chunks_indexable": 2,
+      "sim_median": 0.6677,
+      "margin_median": 0.0393,
+      "rejects": {
+        "reject_ambiguous_margin": 10,
+        "reject_agenda_dump": 11,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Invasive_Lobular_Carcinoma",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Mucinous_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_lobular_v0_1",
+      "chunks_indexable": 6,
+      "sim_median": 0.6362,
+      "margin_median": 0.0392,
+      "rejects": {
+        "reject_agenda_dump": 17,
+        "reject_ambiguous_margin": 7,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+          5
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Florid_Lobular_Carcinoma_In_Situ",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_normal_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_agenda_dump": 8,
+        "reject_low_similarity": 4,
+        "reject_ambiguous_margin": 7
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_papillary_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6415,
+      "margin_median": 0.0629,
+      "rejects": {
+        "reject_agenda_dump": 13,
+        "reject_ambiguous_margin": 8,
+        "reject_low_similarity": 1
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Encapsulated_Papillary_Carcinoma",
+          2
+        ],
+        [
+          "Breast::Epithelial::Papillary_Neoplasms::Invasive_Papillary_Carcinoma",
+          2
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Micropapillary_Carcinoma",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Solid_Papillary_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_prognostics_v0_1",
+      "chunks_indexable": 3,
+      "sim_median": 0.5395,
+      "margin_median": 0.0501,
+      "rejects": {
+        "reject_low_similarity": 20,
+        "reject_agenda_dump": 3,
+        "reject_ambiguous_margin": 4
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Microinvasive_Carcinoma",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Mucinous_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_rad_path_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6281,
+      "margin_median": 0.0622,
+      "rejects": {
+        "reject_low_similarity": 10,
+        "reject_ambiguous_margin": 6,
+        "reject_agenda_dump": 9
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Lobular_Carcinoma_In_Situ_LCIS",
+          2
+        ],
+        [
+          "Breast::Congenital_Structural::Mechanical::Epithelial_Displacement_Biopsy_Site",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Precursor::Atypical_Ductal_Hyperplasia_ADH",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Micropapillary_Carcinoma",
+          1
+        ],
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Mucinous_Carcinoma",
+          1
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_spindlecell_v0_1",
+      "chunks_indexable": 7,
+      "sim_median": 0.6027,
+      "margin_median": 0.0538,
+      "rejects": {
+        "reject_ambiguous_margin": 11,
+        "reject_agenda_dump": 14,
+        "reject_low_similarity": 2
+      },
+      "top_tags": [
+        [
+          "Breast::Neoplastic::Epithelial::Malignant::Metaplastic_Carcinoma",
+          5
+        ],
+        [
+          "Breast::Neoplastic::Fibroepithelial::Variable_Behavior::Phyllodes_Tumor",
+          2
+        ]
+      ],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/audit.json"
+      ]
+    },
+    {
+      "package_id": "breast_lecture_treated_v0_1",
+      "chunks_indexable": 0,
+      "sim_median": null,
+      "margin_median": null,
+      "rejects": {
+        "reject_low_similarity": 9,
+        "reject_agenda_dump": 9,
+        "reject_ambiguous_margin": 4
+      },
+      "top_tags": [],
+      "method": "time_merge_then_semantic_gated_best_of_Breast_v0_2",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/chunks_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/chunk_audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/audit.json"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Every retained chunk passed usefulness gates (sim, margin, size, not agenda).",
+    "Rejected windows are omitted from the index on purpose.",
+    "Still not human gold labels.",
+    "Not FAISS/API exposed until a separate rebuild."
+  ],
+  "audit_gcs": "gs://pathology_hub/06_audits/lectures/deck_packages/semantic_gated_v0_2_20260712T043014Z/audit.json"
+}

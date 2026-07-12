@@ -1,0 +1,325 @@
+{
+  "schema_version": "lecture_deck_content_library_batch_audit.v0_1",
+  "created_at_utc": "2026-07-12T04:29:31Z",
+  "family_prefix": "Breast_Lecture",
+  "root": "Breast",
+  "input_paths": [
+    "gs://pathology-hub-0/_content_library/lectures/Breast_Lecture*"
+  ],
+  "output_paths": [
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_epithelial_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_fibroepithelial_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_grossing_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_ihc_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_invasive_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_lobular_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_normal_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_papillary_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_prognostics_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_rad_path_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_spindlecell_v0_1",
+    "outputs/lecture_deck_packages_v0_1/breast_lecture_treated_v0_1"
+  ],
+  "counts": {
+    "stems_attempted": 12,
+    "ok": 12,
+    "failed": 0,
+    "segments_total": 1208,
+    "frames_total": 1208,
+    "mp4_joined": 12
+  },
+  "results": [
+    {
+      "stem": "Breast_Lecture_Epithelial",
+      "package_id": "breast_lecture_epithelial_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 174,
+        "frames": 174,
+        "segments_with_video_time_url": 174,
+        "frames_with_video_time_url": 174,
+        "frames_asset_objects_present": 173,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Epithelial Part 1_Chen.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_epithelial_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Fibroepithelial",
+      "package_id": "breast_lecture_fibroepithelial_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 85,
+        "frames": 85,
+        "segments_with_video_time_url": 85,
+        "frames_with_video_time_url": 85,
+        "frames_asset_objects_present": 85,
+        "frames_asset_objects_missing": 0,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Fibroepithelial.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_fibroepithelial_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Grossing",
+      "package_id": "breast_lecture_grossing_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 85,
+        "frames": 85,
+        "segments_with_video_time_url": 85,
+        "frames_with_video_time_url": 85,
+        "frames_asset_objects_present": 84,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Grossing.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_grossing_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_IHC",
+      "package_id": "breast_lecture_ihc_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 131,
+        "frames": 131,
+        "segments_with_video_time_url": 131,
+        "frames_with_video_time_url": 131,
+        "frames_asset_objects_present": 130,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_IHC.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_ihc_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Invasive",
+      "package_id": "breast_lecture_invasive_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 107,
+        "frames": 107,
+        "segments_with_video_time_url": 107,
+        "frames_with_video_time_url": 107,
+        "frames_asset_objects_present": 106,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Invasive.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_invasive_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Lobular",
+      "package_id": "breast_lecture_lobular_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 67,
+        "frames": 67,
+        "segments_with_video_time_url": 67,
+        "frames_with_video_time_url": 67,
+        "frames_asset_objects_present": 66,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Lobular.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_lobular_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Normal",
+      "package_id": "breast_lecture_normal_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 74,
+        "frames": 74,
+        "segments_with_video_time_url": 74,
+        "frames_with_video_time_url": 74,
+        "frames_asset_objects_present": 73,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Normal.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_normal_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Papillary",
+      "package_id": "breast_lecture_papillary_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 119,
+        "frames": 119,
+        "segments_with_video_time_url": 119,
+        "frames_with_video_time_url": 119,
+        "frames_asset_objects_present": 118,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Papillary.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_papillary_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Prognostics",
+      "package_id": "breast_lecture_prognostics_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 62,
+        "frames": 62,
+        "segments_with_video_time_url": 62,
+        "frames_with_video_time_url": 62,
+        "frames_asset_objects_present": 61,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Prognostics.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_prognostics_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Rad-Path",
+      "package_id": "breast_lecture_rad_path_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 95,
+        "frames": 95,
+        "segments_with_video_time_url": 95,
+        "frames_with_video_time_url": 95,
+        "frames_asset_objects_present": 94,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Rad-Path.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_rad_path_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_SpindleCell",
+      "package_id": "breast_lecture_spindlecell_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 117,
+        "frames": 117,
+        "segments_with_video_time_url": 117,
+        "frames_with_video_time_url": 117,
+        "frames_asset_objects_present": 116,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_SpindleCell.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_spindlecell_v0_1/chunks_indexable.jsonl"
+      ]
+    },
+    {
+      "stem": "Breast_Lecture_Treated",
+      "package_id": "breast_lecture_treated_v0_1",
+      "ok": true,
+      "counts": {
+        "segments": 92,
+        "frames": 92,
+        "segments_with_video_time_url": 92,
+        "frames_with_video_time_url": 92,
+        "frames_asset_objects_present": 91,
+        "frames_asset_objects_missing": 1,
+        "canonical_mp4_present": true
+      },
+      "join_basis": "filename_match_source_videos",
+      "video_file": "Breast_Lecture_Treated.mp4",
+      "uploaded": [
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/manifest.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/segments.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/frames.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/audit.json",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/segments_indexable.jsonl",
+        "gs://pathology_hub/02_normalized/lectures/deck_packages/breast_lecture_treated_v0_1/chunks_indexable.jsonl"
+      ]
+    }
+  ],
+  "known_limitations": [
+    "Legacy slide-aligned transcripts \u2014 coarser than chatgpt_readable Whisper crumbs.",
+    "Sidecars only; semantic gating / vector rebuild are separate steps."
+  ]
+}
