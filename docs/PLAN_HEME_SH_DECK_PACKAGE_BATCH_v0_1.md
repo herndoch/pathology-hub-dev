@@ -3,13 +3,16 @@
 Date: 2026-07-12  
 Status: **Phase 1 + Colab join + Heme::* tagging/consolidation done.** Vector rebuild still gated.
 
-### Tagging (2026-07-12)
+### Tagging (2026-07-12) — semantic redo
 
-- Method: best-of **354 canonical `Heme::*` browse leaves** (`scripts/tag_lecture_deck_package_heme_browse_v0_1.py`)
-- **21/21** packages tagged + consolidated → `chunks_indexable.jsonl`
-- **791** total indexable chunks
-- Audit: `gs://pathology_hub/06_audits/lectures/deck_packages/heme_browse_tag_batch_20260712T031820Z/audit.json`
-- Known limitation: heuristic keyword/sticky scoring — not human gold; some leaf collisions remain (documented in audits)
+- Method: **embedding cosine best-of 354 canonical `Heme::*` leaves** (`text-embedding-3-small`)
+- Scripts: `build_heme_browse_leaf_embeddings_v0_1.py`, `tag_lecture_deck_package_heme_browse_semantic_v0_1.py`
+- Soft lecture-prior bonus + sticky hold only (not keyword rules as primary)
+- **21/21** packages re-tagged + consolidated → `chunks_indexable.jsonl` (**841** chunks)
+- Leaf embeddings: `gs://pathology_hub/06_audits/lectures/deck_packages/heme_browse_leaf_embeddings_v0_1/`
+- Batch audit: `gs://pathology_hub/06_audits/lectures/deck_packages/heme_browse_tag_batch_20260712T033504Z/audit.json`
+- Replaces earlier keyword-heuristic pass (acknowledged inadequate)
+- Known limitation: still not human gold; ASR crumbs use neighbor context for embedding
 
 
 ### Post-Colab (2026-07-12)

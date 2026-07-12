@@ -1,0 +1,2845 @@
+{
+  "schema_version": "heme_browse_leaf_embeddings.v0_1",
+  "created_at_utc": "2026-07-12T03:31:19Z",
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dim": 1536,
+  "leaf_count": 354,
+  "leaves": [
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::ALAL_NOS",
+      "label": "ALAL_NOS",
+      "query": "ALAL NOS",
+      "provenance": "abpath",
+      "embed_text": "ALAL NOS. Pathology taxonomy leaf: ALAL_NOS. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > ALAL_NOS.",
+      "row_index": 0
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::ALAL_With_Other_Defined_Genetic_Alterations",
+      "label": "ALAL_With_Other_Defined_Genetic_Alterations",
+      "query": "ALAL With Other Defined Genetic Alterations",
+      "provenance": "abpath",
+      "embed_text": "ALAL With Other Defined Genetic Alterations. Pathology taxonomy leaf: ALAL_With_Other_Defined_Genetic_Alterations. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > ALAL_With_Other_Defined_Genetic_Alterations.",
+      "row_index": 1
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::Acute_Undifferentiated_Leukemia",
+      "label": "Acute_Undifferentiated_Leukemia",
+      "query": "Acute Undifferentiated Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Undifferentiated Leukemia. Pathology taxonomy leaf: Acute_Undifferentiated_Leukemia. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > Acute_Undifferentiated_Leukemia.",
+      "row_index": 2
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_B_Myeloid",
+      "label": "MPAL_B_Myeloid",
+      "query": "MPAL B Myeloid",
+      "provenance": "abpath",
+      "embed_text": "MPAL B Myeloid. Pathology taxonomy leaf: MPAL_B_Myeloid. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > MPAL_B_Myeloid.",
+      "row_index": 3
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_Rare_Types",
+      "label": "MPAL_Rare_Types",
+      "query": "MPAL Rare Types",
+      "provenance": "abpath",
+      "embed_text": "MPAL Rare Types. Pathology taxonomy leaf: MPAL_Rare_Types. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > MPAL_Rare_Types.",
+      "row_index": 4
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_T_Myeloid",
+      "label": "MPAL_T_Myeloid",
+      "query": "MPAL T Myeloid",
+      "provenance": "abpath",
+      "embed_text": "MPAL T Myeloid. Pathology taxonomy leaf: MPAL_T_Myeloid. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > MPAL_T_Myeloid.",
+      "row_index": 5
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_With_BCR_ABL1_Fusion",
+      "label": "MPAL_With_BCR_ABL1_Fusion",
+      "query": "MPAL With BCR ABL1 Fusion",
+      "provenance": "abpath",
+      "embed_text": "MPAL With BCR ABL1 Fusion. Pathology taxonomy leaf: MPAL_With_BCR_ABL1_Fusion. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > MPAL_With_BCR_ABL1_Fusion.",
+      "row_index": 6
+    },
+    {
+      "tag": "Heme::Acute_Leukemia_Of_Ambiguous_Lineage::MPAL_With_KMT2A_Rearrangement",
+      "label": "MPAL_With_KMT2A_Rearrangement",
+      "query": "MPAL With KMT2A Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MPAL With KMT2A Rearrangement. Pathology taxonomy leaf: MPAL_With_KMT2A_Rearrangement. Full path: Heme > Acute_Leukemia_Of_Ambiguous_Lineage > MPAL_With_KMT2A_Rearrangement.",
+      "row_index": 7
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Maturation",
+      "label": "AML_With_Maturation",
+      "query": "AML With Maturation",
+      "provenance": "abpath",
+      "embed_text": "AML With Maturation. Pathology taxonomy leaf: AML_With_Maturation. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > AML_With_Maturation.",
+      "row_index": 8
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_With_Minimal_Differentiation",
+      "label": "AML_With_Minimal_Differentiation",
+      "query": "AML With Minimal Differentiation",
+      "provenance": "abpath",
+      "embed_text": "AML With Minimal Differentiation. Pathology taxonomy leaf: AML_With_Minimal_Differentiation. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > AML_With_Minimal_Differentiation.",
+      "row_index": 9
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::AML_Without_Maturation",
+      "label": "AML_Without_Maturation",
+      "query": "AML Without Maturation",
+      "provenance": "abpath",
+      "embed_text": "AML Without Maturation. Pathology taxonomy leaf: AML_Without_Maturation. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > AML_Without_Maturation.",
+      "row_index": 10
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Basophilic_Leukemia",
+      "label": "Acute_Basophilic_Leukemia",
+      "query": "Acute Basophilic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Basophilic Leukemia. Pathology taxonomy leaf: Acute_Basophilic_Leukemia. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > Acute_Basophilic_Leukemia.",
+      "row_index": 11
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Erythroid_Leukemia",
+      "label": "Acute_Erythroid_Leukemia",
+      "query": "Acute Erythroid Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Erythroid Leukemia. Pathology taxonomy leaf: Acute_Erythroid_Leukemia. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > Acute_Erythroid_Leukemia.",
+      "row_index": 12
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Megakaryoblastic_Leukemia",
+      "label": "Acute_Megakaryoblastic_Leukemia",
+      "query": "Acute Megakaryoblastic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Megakaryoblastic Leukemia. Pathology taxonomy leaf: Acute_Megakaryoblastic_Leukemia. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > Acute_Megakaryoblastic_Leukemia.",
+      "row_index": 13
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Monoblastic_Monocytic_Leukemia",
+      "label": "Acute_Monoblastic_Monocytic_Leukemia",
+      "query": "Acute Monoblastic Monocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Monoblastic Monocytic Leukemia. Pathology taxonomy leaf: Acute_Monoblastic_Monocytic_Leukemia. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > Acute_Monoblastic_Monocytic_Leukemia.",
+      "row_index": 14
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Differentiation_Defined::Acute_Myelomonocytic_Leukemia",
+      "label": "Acute_Myelomonocytic_Leukemia",
+      "query": "Acute Myelomonocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Acute Myelomonocytic Leukemia. Pathology taxonomy leaf: Acute_Myelomonocytic_Leukemia. Full path: Heme > Acute_Myeloid_Leukemia > Differentiation_Defined > Acute_Myelomonocytic_Leukemia.",
+      "row_index": 15
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_Myelodysplasia_Related",
+      "label": "AML_Myelodysplasia_Related",
+      "query": "AML Myelodysplasia Related",
+      "provenance": "abpath",
+      "embed_text": "AML Myelodysplasia Related. Pathology taxonomy leaf: AML_Myelodysplasia_Related. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_Myelodysplasia_Related.",
+      "row_index": 16
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_BCR_ABL1",
+      "label": "AML_With_BCR_ABL1",
+      "query": "AML With BCR ABL1",
+      "provenance": "abpath",
+      "embed_text": "AML With BCR ABL1. Pathology taxonomy leaf: AML_With_BCR_ABL1. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_BCR_ABL1.",
+      "row_index": 17
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CBFB_MYH11",
+      "label": "AML_With_CBFB_MYH11",
+      "query": "AML With CBFB MYH11",
+      "provenance": "abpath",
+      "embed_text": "AML With CBFB MYH11. Pathology taxonomy leaf: AML_With_CBFB_MYH11. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_CBFB_MYH11.",
+      "row_index": 18
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_CEBPA_Mutation",
+      "label": "AML_With_CEBPA_Mutation",
+      "query": "AML With CEBPA Mutation",
+      "provenance": "abpath",
+      "embed_text": "AML With CEBPA Mutation. Pathology taxonomy leaf: AML_With_CEBPA_Mutation. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_CEBPA_Mutation.",
+      "row_index": 19
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_DEK_NUP214",
+      "label": "AML_With_DEK_NUP214",
+      "query": "AML With DEK NUP214",
+      "provenance": "abpath",
+      "embed_text": "AML With DEK NUP214. Pathology taxonomy leaf: AML_With_DEK_NUP214. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_DEK_NUP214.",
+      "row_index": 20
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_KMT2A_Rearrangement",
+      "label": "AML_With_KMT2A_Rearrangement",
+      "query": "AML With KMT2A Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "AML With KMT2A Rearrangement. Pathology taxonomy leaf: AML_With_KMT2A_Rearrangement. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_KMT2A_Rearrangement.",
+      "row_index": 21
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_MECOM_Rearrangement",
+      "label": "AML_With_MECOM_Rearrangement",
+      "query": "AML With MECOM Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "AML With MECOM Rearrangement. Pathology taxonomy leaf: AML_With_MECOM_Rearrangement. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_MECOM_Rearrangement.",
+      "row_index": 22
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_NPM1_Mutation",
+      "label": "AML_With_NPM1_Mutation",
+      "query": "AML With NPM1 Mutation",
+      "provenance": "abpath",
+      "embed_text": "AML With NPM1 Mutation. Pathology taxonomy leaf: AML_With_NPM1_Mutation. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_NPM1_Mutation.",
+      "row_index": 23
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_NUP98_Rearrangement",
+      "label": "AML_With_NUP98_Rearrangement",
+      "query": "AML With NUP98 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "AML With NUP98 Rearrangement. Pathology taxonomy leaf: AML_With_NUP98_Rearrangement. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_NUP98_Rearrangement.",
+      "row_index": 24
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_Other_Defined_Genetic_Alterations",
+      "label": "AML_With_Other_Defined_Genetic_Alterations",
+      "query": "AML With Other Defined Genetic Alterations",
+      "provenance": "abpath",
+      "embed_text": "AML With Other Defined Genetic Alterations. Pathology taxonomy leaf: AML_With_Other_Defined_Genetic_Alterations. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_Other_Defined_Genetic_Alterations.",
+      "row_index": 25
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_RBM15_MRTFA",
+      "label": "AML_With_RBM15_MRTFA",
+      "query": "AML With RBM15 MRTFA",
+      "provenance": "abpath",
+      "embed_text": "AML With RBM15 MRTFA. Pathology taxonomy leaf: AML_With_RBM15_MRTFA. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_RBM15_MRTFA.",
+      "row_index": 26
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::AML_With_RUNX1_RUNX1T1",
+      "label": "AML_With_RUNX1_RUNX1T1",
+      "query": "AML With RUNX1 RUNX1T1",
+      "provenance": "abpath",
+      "embed_text": "AML With RUNX1 RUNX1T1. Pathology taxonomy leaf: AML_With_RUNX1_RUNX1T1. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > AML_With_RUNX1_RUNX1T1.",
+      "row_index": 27
+    },
+    {
+      "tag": "Heme::Acute_Myeloid_Leukemia::Genetic_Defined::Acute_Promyelocytic_Leukemia_PML_RARA",
+      "label": "Acute_Promyelocytic_Leukemia_PML_RARA",
+      "query": "Acute Promyelocytic Leukemia PML RARA",
+      "provenance": "abpath",
+      "embed_text": "Acute Promyelocytic Leukemia PML RARA. Pathology taxonomy leaf: Acute_Promyelocytic_Leukemia_PML_RARA. Full path: Heme > Acute_Myeloid_Leukemia > Genetic_Defined > Acute_Promyelocytic_Leukemia_PML_RARA.",
+      "row_index": 28
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::KSHV_Associated::KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+      "label": "KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma",
+      "query": "KSHV HHV8 positive Diffuse Large B cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "KSHV HHV8 positive Diffuse Large B cell Lymphoma. Pathology taxonomy leaf: KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma. Full path: Heme > B_Cell_Lymphomas > KSHV_Associated > KSHV_HHV8_positive_Diffuse_Large_B_cell_Lymphoma.",
+      "row_index": 29
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Large_B_Cell::Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation",
+      "label": "Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation",
+      "query": "Diffuse Large B cell Lymphoma Associated with Chronic Inflammation",
+      "provenance": "who",
+      "embed_text": "Diffuse Large B cell Lymphoma Associated with Chronic Inflammation. Pathology taxonomy leaf: Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation. Full path: Heme > B_Cell_Lymphomas > Large_B_Cell > Diffuse_Large_B_cell_Lymphoma_Associated_with_Chronic_Inflammation.",
+      "row_index": 30
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Large_B_Cell::Fibrin_associated_Large_B_cell_Lymphoma",
+      "label": "Fibrin_associated_Large_B_cell_Lymphoma",
+      "query": "Fibrin associated Large B cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Fibrin associated Large B cell Lymphoma. Pathology taxonomy leaf: Fibrin_associated_Large_B_cell_Lymphoma. Full path: Heme > B_Cell_Lymphomas > Large_B_Cell > Fibrin_associated_Large_B_cell_Lymphoma.",
+      "row_index": 31
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Mantle_Cell::In_Situ_Mantle_Cell_Neoplasm",
+      "label": "In_Situ_Mantle_Cell_Neoplasm",
+      "query": "In Situ Mantle Cell Neoplasm",
+      "provenance": "who",
+      "embed_text": "In Situ Mantle Cell Neoplasm. Pathology taxonomy leaf: In_Situ_Mantle_Cell_Neoplasm. Full path: Heme > B_Cell_Lymphomas > Mature_B_Cell > Mantle_Cell > In_Situ_Mantle_Cell_Neoplasm.",
+      "row_index": 32
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Mantle_Cell::Leukemic_Non_nodal_Mantle_Cell_Lymphoma",
+      "label": "Leukemic_Non_nodal_Mantle_Cell_Lymphoma",
+      "query": "Leukemic Non nodal Mantle Cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Leukemic Non nodal Mantle Cell Lymphoma. Pathology taxonomy leaf: Leukemic_Non_nodal_Mantle_Cell_Lymphoma. Full path: Heme > B_Cell_Lymphomas > Mature_B_Cell > Mantle_Cell > Leukemic_Non_nodal_Mantle_Cell_Lymphoma.",
+      "row_index": 33
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Mature_B_Cell::Splenic_B_Cell::Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma",
+      "label": "Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma",
+      "query": "Splenic Diffuse Red Pulp Small B cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Splenic Diffuse Red Pulp Small B cell Lymphoma. Pathology taxonomy leaf: Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma. Full path: Heme > B_Cell_Lymphomas > Mature_B_Cell > Splenic_B_Cell > Splenic_Diffuse_Red_Pulp_Small_B_cell_Lymphoma.",
+      "row_index": 34
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Heavy_Chain::Mu_Heavy_Chain_Disease",
+      "label": "Mu_Heavy_Chain_Disease",
+      "query": "Mu Heavy Chain Disease",
+      "provenance": "who",
+      "embed_text": "Mu Heavy Chain Disease. Pathology taxonomy leaf: Mu_Heavy_Chain_Disease. Full path: Heme > B_Cell_Lymphomas > Plasma_Cell > Heavy_Chain > Mu_Heavy_Chain_Disease.",
+      "row_index": 35
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "label": "IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "query": "IgM Monoclonal Gammopathy of Undetermined Significance",
+      "provenance": "who",
+      "embed_text": "IgM Monoclonal Gammopathy of Undetermined Significance. Pathology taxonomy leaf: IgM_Monoclonal_Gammopathy_of_Undetermined_Significance. Full path: Heme > B_Cell_Lymphomas > Plasma_Cell > Monoclonal_Gammopathies > IgM_Monoclonal_Gammopathy_of_Undetermined_Significance.",
+      "row_index": 36
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Plasma_Cell::Monoclonal_Gammopathies::Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "label": "Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance",
+      "query": "Non IgM Monoclonal Gammopathy of Undetermined Significance",
+      "provenance": "who",
+      "embed_text": "Non IgM Monoclonal Gammopathy of Undetermined Significance. Pathology taxonomy leaf: Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance. Full path: Heme > B_Cell_Lymphomas > Plasma_Cell > Monoclonal_Gammopathies > Non_IgM_Monoclonal_Gammopathy_of_Undetermined_Significance.",
+      "row_index": 37
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_NOS",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_NOS",
+      "query": "B lymphoblastic Leukemia lymphoma NOS",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma NOS. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_NOS. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_NOS.",
+      "row_index": 38
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
+      "query": "B lymphoblastic Leukemia lymphoma with BCR ABL1 like Features",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with BCR ABL1 like Features. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features.",
+      "row_index": 39
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 Fusion",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 Fusion. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_Fusion.",
+      "row_index": 40
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features",
+      "query": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 like Features",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with ETV6 RUNX1 like Features. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_ETV6_RUNX1_like_Features.",
+      "row_index": 41
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy",
+      "query": "B lymphoblastic Leukemia lymphoma with High Hyperdiploidy",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with High Hyperdiploidy. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_High_Hyperdiploidy.",
+      "row_index": 42
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy",
+      "query": "B lymphoblastic Leukemia lymphoma with Hypodiploidy",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with Hypodiploidy. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_Hypodiploidy.",
+      "row_index": 43
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with IGH IL3 Fusion",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with IGH IL3 Fusion. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_IGH_IL3_Fusion.",
+      "row_index": 44
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement",
+      "query": "B lymphoblastic Leukemia lymphoma with KMT2A Rearrangement",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with KMT2A Rearrangement. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_KMT2A_Rearrangement.",
+      "row_index": 45
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with TCF3 HLF Fusion",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with TCF3 HLF Fusion. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_TCF3_HLF_Fusion.",
+      "row_index": 46
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion",
+      "query": "B lymphoblastic Leukemia lymphoma with TCF3 PBX1 Fusion",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with TCF3 PBX1 Fusion. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_TCF3_PBX1_Fusion.",
+      "row_index": 47
+    },
+    {
+      "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_iAMP21",
+      "label": "B_lymphoblastic_Leukemia_lymphoma_with_iAMP21",
+      "query": "B lymphoblastic Leukemia lymphoma with iAMP21",
+      "provenance": "who",
+      "embed_text": "B lymphoblastic Leukemia lymphoma with iAMP21. Pathology taxonomy leaf: B_lymphoblastic_Leukemia_lymphoma_with_iAMP21. Full path: Heme > B_Cell_Lymphomas > Precursor_B_Cell > B_ALL > B_lymphoblastic_Leukemia_lymphoma_with_iAMP21.",
+      "row_index": 48
+    },
+    {
+      "tag": "Heme::Clonal_Hematopoiesis::Clonal_Cytopenia_Of_Undetermined_Significance",
+      "label": "Clonal_Cytopenia_Of_Undetermined_Significance",
+      "query": "Clonal Cytopenia Of Undetermined Significance",
+      "provenance": "abpath",
+      "embed_text": "Clonal Cytopenia Of Undetermined Significance. Pathology taxonomy leaf: Clonal_Cytopenia_Of_Undetermined_Significance. Full path: Heme > Clonal_Hematopoiesis > Clonal_Cytopenia_Of_Undetermined_Significance.",
+      "row_index": 49
+    },
+    {
+      "tag": "Heme::GENETICS::RASopathies",
+      "label": "RASopathies",
+      "query": "RASopathies",
+      "provenance": "who",
+      "embed_text": "RASopathies. Pathology taxonomy leaf: RASopathies. Full path: Heme > GENETICS > RASopathies.",
+      "row_index": 50
+    },
+    {
+      "tag": "Heme::Genetics::Ataxia_Telangiectasia",
+      "label": "Ataxia_Telangiectasia",
+      "query": "Ataxia Telangiectasia",
+      "provenance": "both",
+      "embed_text": "Ataxia Telangiectasia. Pathology taxonomy leaf: Ataxia_Telangiectasia. Full path: Heme > Genetics > Ataxia_Telangiectasia.",
+      "row_index": 51
+    },
+    {
+      "tag": "Heme::Genetics::Bloom_Syndrome",
+      "label": "Bloom_Syndrome",
+      "query": "Bloom Syndrome",
+      "provenance": "both",
+      "embed_text": "Bloom Syndrome. Pathology taxonomy leaf: Bloom_Syndrome. Full path: Heme > Genetics > Bloom_Syndrome.",
+      "row_index": 52
+    },
+    {
+      "tag": "Heme::Genetics::Fanconi_Anemia",
+      "label": "Fanconi_Anemia",
+      "query": "Fanconi Anemia",
+      "provenance": "both",
+      "embed_text": "Fanconi Anemia. Pathology taxonomy leaf: Fanconi_Anemia. Full path: Heme > Genetics > Fanconi_Anemia.",
+      "row_index": 53
+    },
+    {
+      "tag": "Heme::Genetics::RASopathy",
+      "label": "RASopathy",
+      "query": "RASopathy",
+      "provenance": "abpath",
+      "embed_text": "RASopathy. Pathology taxonomy leaf: RASopathy. Full path: Heme > Genetics > RASopathy.",
+      "row_index": 54
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic::Histiocyte_Macrophage::Histiocytic_Neoplasms::Histiocytic_Sarcoma",
+      "label": "Histiocytic_Sarcoma",
+      "query": "Histiocytic Sarcoma",
+      "provenance": "who",
+      "embed_text": "Histiocytic Sarcoma. Pathology taxonomy leaf: Histiocytic_Sarcoma. Full path: Heme > Histiocytic_Dendritic > Histiocyte_Macrophage > Histiocytic_Neoplasms > Histiocytic_Sarcoma.",
+      "row_index": 55
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic::Plasmacytoid_Dendritic::Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm",
+      "label": "Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm",
+      "query": "Mature Plasmacytoid Dendritic Cell Proliferation Associated with Myeloid Neoplasm",
+      "provenance": "who",
+      "embed_text": "Mature Plasmacytoid Dendritic Cell Proliferation Associated with Myeloid Neoplasm. Pathology taxonomy leaf: Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm. Full path: Heme > Histiocytic_Dendritic > Plasmacytoid_Dendritic > Mature_Plasmacytoid_Dendritic_Cell_Proliferation_Associated_with_Myeloid_Neoplasm.",
+      "row_index": 56
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Histiocytosis",
+      "label": "Langerhans_Cell_Histiocytosis",
+      "query": "Langerhans Cell Histiocytosis",
+      "provenance": "abpath",
+      "embed_text": "Langerhans Cell Histiocytosis. Pathology taxonomy leaf: Langerhans_Cell_Histiocytosis. Full path: Heme > Histiocytic_Dendritic_Cell > Langerhans > Langerhans_Cell_Histiocytosis.",
+      "row_index": 57
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Langerhans::Langerhans_Cell_Sarcoma",
+      "label": "Langerhans_Cell_Sarcoma",
+      "query": "Langerhans Cell Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Langerhans Cell Sarcoma. Pathology taxonomy leaf: Langerhans_Cell_Sarcoma. Full path: Heme > Histiocytic_Dendritic_Cell > Langerhans > Langerhans_Cell_Sarcoma.",
+      "row_index": 58
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::ALK_Positive_Histiocytosis",
+      "label": "ALK_Positive_Histiocytosis",
+      "query": "ALK Positive Histiocytosis",
+      "provenance": "abpath",
+      "embed_text": "ALK Positive Histiocytosis. Pathology taxonomy leaf: ALK_Positive_Histiocytosis. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > ALK_Positive_Histiocytosis.",
+      "row_index": 59
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Erdheim_Chester_Disease",
+      "label": "Erdheim_Chester_Disease",
+      "query": "Erdheim Chester Disease",
+      "provenance": "abpath",
+      "embed_text": "Erdheim Chester Disease. Pathology taxonomy leaf: Erdheim_Chester_Disease. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Erdheim_Chester_Disease.",
+      "row_index": 60
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Hemophagocytic_Lymphohistiocytosis_HLH",
+      "label": "Hemophagocytic_Lymphohistiocytosis_HLH",
+      "query": "Hemophagocytic Lymphohistiocytosis HLH",
+      "provenance": "abpath",
+      "embed_text": "Hemophagocytic Lymphohistiocytosis HLH. Pathology taxonomy leaf: Hemophagocytic_Lymphohistiocytosis_HLH. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Hemophagocytic_Lymphohistiocytosis_HLH.",
+      "row_index": 61
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Histiocytic_Sarcoma",
+      "label": "Histiocytic_Sarcoma",
+      "query": "Histiocytic Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Histiocytic Sarcoma. Pathology taxonomy leaf: Histiocytic_Sarcoma. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Histiocytic_Sarcoma.",
+      "row_index": 62
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Juvenile_Xanthogranuloma",
+      "label": "Juvenile_Xanthogranuloma",
+      "query": "Juvenile Xanthogranuloma",
+      "provenance": "abpath",
+      "embed_text": "Juvenile Xanthogranuloma. Pathology taxonomy leaf: Juvenile_Xanthogranuloma. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Juvenile_Xanthogranuloma.",
+      "row_index": 63
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Prosthetic_Associated_Histiocyte_Proliferation",
+      "label": "Prosthetic_Associated_Histiocyte_Proliferation",
+      "query": "Prosthetic Associated Histiocyte Proliferation",
+      "provenance": "abpath",
+      "embed_text": "Prosthetic Associated Histiocyte Proliferation. Pathology taxonomy leaf: Prosthetic_Associated_Histiocyte_Proliferation. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Prosthetic_Associated_Histiocyte_Proliferation.",
+      "row_index": 64
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Rosai_Dorfman_Disease",
+      "label": "Rosai_Dorfman_Disease",
+      "query": "Rosai Dorfman Disease",
+      "provenance": "abpath",
+      "embed_text": "Rosai Dorfman Disease. Pathology taxonomy leaf: Rosai_Dorfman_Disease. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Rosai_Dorfman_Disease.",
+      "row_index": 65
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Macrophage::Storage_Disease",
+      "label": "Storage_Disease",
+      "query": "Storage Disease",
+      "provenance": "abpath",
+      "embed_text": "Storage Disease. Pathology taxonomy leaf: Storage_Disease. Full path: Heme > Histiocytic_Dendritic_Cell > Macrophage > Storage_Disease.",
+      "row_index": 66
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Indeterminate_Dendritic_Cell_Tumor",
+      "label": "Indeterminate_Dendritic_Cell_Tumor",
+      "query": "Indeterminate Dendritic Cell Tumor",
+      "provenance": "abpath",
+      "embed_text": "Indeterminate Dendritic Cell Tumor. Pathology taxonomy leaf: Indeterminate_Dendritic_Cell_Tumor. Full path: Heme > Histiocytic_Dendritic_Cell > Other_Dendritic > Indeterminate_Dendritic_Cell_Tumor.",
+      "row_index": 67
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Other_Dendritic::Interdigitating_Dendritic_Cell_Sarcoma",
+      "label": "Interdigitating_Dendritic_Cell_Sarcoma",
+      "query": "Interdigitating Dendritic Cell Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Interdigitating Dendritic Cell Sarcoma. Pathology taxonomy leaf: Interdigitating_Dendritic_Cell_Sarcoma. Full path: Heme > Histiocytic_Dendritic_Cell > Other_Dendritic > Interdigitating_Dendritic_Cell_Sarcoma.",
+      "row_index": 68
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm",
+      "label": "Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm",
+      "query": "Blastic Plasmacytoid Dendritic Cell Neoplasm",
+      "provenance": "abpath",
+      "embed_text": "Blastic Plasmacytoid Dendritic Cell Neoplasm. Pathology taxonomy leaf: Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm. Full path: Heme > Histiocytic_Dendritic_Cell > Plasmacytoid > Blastic_Plasmacytoid_Dendritic_Cell_Neoplasm.",
+      "row_index": 69
+    },
+    {
+      "tag": "Heme::Histiocytic_Dendritic_Cell::Plasmacytoid::Mature_Plasmacytoid_Dendritic_Cell_Proliferation",
+      "label": "Mature_Plasmacytoid_Dendritic_Cell_Proliferation",
+      "query": "Mature Plasmacytoid Dendritic Cell Proliferation",
+      "provenance": "abpath",
+      "embed_text": "Mature Plasmacytoid Dendritic Cell Proliferation. Pathology taxonomy leaf: Mature_Plasmacytoid_Dendritic_Cell_Proliferation. Full path: Heme > Histiocytic_Dendritic_Cell > Plasmacytoid > Mature_Plasmacytoid_Dendritic_Cell_Proliferation.",
+      "row_index": 70
+    },
+    {
+      "tag": "Heme::Hodgkin_Lymphoma::Classic_Hodgkin_Lymphoma",
+      "label": "Classic_Hodgkin_Lymphoma",
+      "query": "Classic Hodgkin Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Classic Hodgkin Lymphoma. Pathology taxonomy leaf: Classic_Hodgkin_Lymphoma. Full path: Heme > Hodgkin_Lymphoma > Classic_Hodgkin_Lymphoma.",
+      "row_index": 71
+    },
+    {
+      "tag": "Heme::Hodgkin_Lymphoma::Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+      "label": "Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma",
+      "query": "Nodular Lymphocyte Predominant Hodgkin Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Nodular Lymphocyte Predominant Hodgkin Lymphoma. Pathology taxonomy leaf: Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma. Full path: Heme > Hodgkin_Lymphoma > Nodular_Lymphocyte_Predominant_Hodgkin_Lymphoma.",
+      "row_index": 72
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::EBV_Positive_Mucocutaneous_Ulcer",
+      "label": "EBV_Positive_Mucocutaneous_Ulcer",
+      "query": "EBV Positive Mucocutaneous Ulcer",
+      "provenance": "abpath",
+      "embed_text": "EBV Positive Mucocutaneous Ulcer. Pathology taxonomy leaf: EBV_Positive_Mucocutaneous_Ulcer. Full path: Heme > Immune_Deficiency_Associated > EBV_Positive_Mucocutaneous_Ulcer.",
+      "row_index": 73
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::HIV_Associated_Lymphoproliferative_Disorder",
+      "label": "HIV_Associated_Lymphoproliferative_Disorder",
+      "query": "HIV Associated Lymphoproliferative Disorder",
+      "provenance": "abpath",
+      "embed_text": "HIV Associated Lymphoproliferative Disorder. Pathology taxonomy leaf: HIV_Associated_Lymphoproliferative_Disorder. Full path: Heme > Immune_Deficiency_Associated > HIV_Associated_Lymphoproliferative_Disorder.",
+      "row_index": 74
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Hyperplasia_Arising_In_Immune_Deficiency",
+      "label": "Hyperplasia_Arising_In_Immune_Deficiency",
+      "query": "Hyperplasia Arising In Immune Deficiency",
+      "provenance": "abpath",
+      "embed_text": "Hyperplasia Arising In Immune Deficiency. Pathology taxonomy leaf: Hyperplasia_Arising_In_Immune_Deficiency. Full path: Heme > Immune_Deficiency_Associated > Hyperplasia_Arising_In_Immune_Deficiency.",
+      "row_index": 75
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Iatrogenic_Lymphoproliferative_Disorder",
+      "label": "Iatrogenic_Lymphoproliferative_Disorder",
+      "query": "Iatrogenic Lymphoproliferative Disorder",
+      "provenance": "abpath",
+      "embed_text": "Iatrogenic Lymphoproliferative Disorder. Pathology taxonomy leaf: Iatrogenic_Lymphoproliferative_Disorder. Full path: Heme > Immune_Deficiency_Associated > Iatrogenic_Lymphoproliferative_Disorder.",
+      "row_index": 76
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+      "label": "Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation",
+      "query": "Inborn Error Of Immunity Associated Lymphoid Proliferation",
+      "provenance": "abpath",
+      "embed_text": "Inborn Error Of Immunity Associated Lymphoid Proliferation. Pathology taxonomy leaf: Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation. Full path: Heme > Immune_Deficiency_Associated > Inborn_Error_Of_Immunity_Associated_Lymphoid_Proliferation.",
+      "row_index": 77
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Lymphoma_Arising_In_Immune_Deficiency",
+      "label": "Lymphoma_Arising_In_Immune_Deficiency",
+      "query": "Lymphoma Arising In Immune Deficiency",
+      "provenance": "abpath",
+      "embed_text": "Lymphoma Arising In Immune Deficiency. Pathology taxonomy leaf: Lymphoma_Arising_In_Immune_Deficiency. Full path: Heme > Immune_Deficiency_Associated > Lymphoma_Arising_In_Immune_Deficiency.",
+      "row_index": 78
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Polymorphic_Lymphoproliferative_Disorder",
+      "label": "Polymorphic_Lymphoproliferative_Disorder",
+      "query": "Polymorphic Lymphoproliferative Disorder",
+      "provenance": "abpath",
+      "embed_text": "Polymorphic Lymphoproliferative Disorder. Pathology taxonomy leaf: Polymorphic_Lymphoproliferative_Disorder. Full path: Heme > Immune_Deficiency_Associated > Polymorphic_Lymphoproliferative_Disorder.",
+      "row_index": 79
+    },
+    {
+      "tag": "Heme::Immune_Deficiency_Associated::Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+      "label": "Post_Transplant_Lymphoproliferative_Disorder_PTLD",
+      "query": "Post Transplant Lymphoproliferative Disorder PTLD",
+      "provenance": "abpath",
+      "embed_text": "Post Transplant Lymphoproliferative Disorder PTLD. Pathology taxonomy leaf: Post_Transplant_Lymphoproliferative_Disorder_PTLD. Full path: Heme > Immune_Deficiency_Associated > Post_Transplant_Lymphoproliferative_Disorder_PTLD.",
+      "row_index": 80
+    },
+    {
+      "tag": "Heme::Infection::Anaplasma",
+      "label": "Anaplasma",
+      "query": "Anaplasma",
+      "provenance": "abpath",
+      "embed_text": "Anaplasma. Pathology taxonomy leaf: Anaplasma. Full path: Heme > Infection > Anaplasma.",
+      "row_index": 81
+    },
+    {
+      "tag": "Heme::Infection::Babesia",
+      "label": "Babesia",
+      "query": "Babesia",
+      "provenance": "abpath",
+      "embed_text": "Babesia. Pathology taxonomy leaf: Babesia. Full path: Heme > Infection > Babesia.",
+      "row_index": 82
+    },
+    {
+      "tag": "Heme::Infection::Cat_Scratch_Disease",
+      "label": "Cat_Scratch_Disease",
+      "query": "Cat Scratch Disease",
+      "provenance": "abpath",
+      "embed_text": "Cat Scratch Disease. Pathology taxonomy leaf: Cat_Scratch_Disease. Full path: Heme > Infection > Cat_Scratch_Disease.",
+      "row_index": 83
+    },
+    {
+      "tag": "Heme::Infection::Ehrlichia",
+      "label": "Ehrlichia",
+      "query": "Ehrlichia",
+      "provenance": "abpath",
+      "embed_text": "Ehrlichia. Pathology taxonomy leaf: Ehrlichia. Full path: Heme > Infection > Ehrlichia.",
+      "row_index": 84
+    },
+    {
+      "tag": "Heme::Infection::Histoplasma",
+      "label": "Histoplasma",
+      "query": "Histoplasma",
+      "provenance": "abpath",
+      "embed_text": "Histoplasma. Pathology taxonomy leaf: Histoplasma. Full path: Heme > Infection > Histoplasma.",
+      "row_index": 85
+    },
+    {
+      "tag": "Heme::Infection::Infectious_Mononucleosis",
+      "label": "Infectious_Mononucleosis",
+      "query": "Infectious Mononucleosis",
+      "provenance": "abpath",
+      "embed_text": "Infectious Mononucleosis. Pathology taxonomy leaf: Infectious_Mononucleosis. Full path: Heme > Infection > Infectious_Mononucleosis.",
+      "row_index": 86
+    },
+    {
+      "tag": "Heme::Infection::Malaria",
+      "label": "Malaria",
+      "query": "Malaria",
+      "provenance": "abpath",
+      "embed_text": "Malaria. Pathology taxonomy leaf: Malaria. Full path: Heme > Infection > Malaria.",
+      "row_index": 87
+    },
+    {
+      "tag": "Heme::Infection::Parvovirus",
+      "label": "Parvovirus",
+      "query": "Parvovirus",
+      "provenance": "abpath",
+      "embed_text": "Parvovirus. Pathology taxonomy leaf: Parvovirus. Full path: Heme > Infection > Parvovirus.",
+      "row_index": 88
+    },
+    {
+      "tag": "Heme::Infection::Pertussis",
+      "label": "Pertussis",
+      "query": "Pertussis",
+      "provenance": "abpath",
+      "embed_text": "Pertussis. Pathology taxonomy leaf: Pertussis. Full path: Heme > Infection > Pertussis.",
+      "row_index": 89
+    },
+    {
+      "tag": "Heme::Infection::Syphilis",
+      "label": "Syphilis",
+      "query": "Syphilis",
+      "provenance": "abpath",
+      "embed_text": "Syphilis. Pathology taxonomy leaf: Syphilis. Full path: Heme > Infection > Syphilis.",
+      "row_index": 90
+    },
+    {
+      "tag": "Heme::Infection::Toxoplasmosis",
+      "label": "Toxoplasmosis",
+      "query": "Toxoplasmosis",
+      "provenance": "abpath",
+      "embed_text": "Toxoplasmosis. Pathology taxonomy leaf: Toxoplasmosis. Full path: Heme > Infection > Toxoplasmosis.",
+      "row_index": 91
+    },
+    {
+      "tag": "Heme::Mastocytosis::Cutaneous_Mastocytosis",
+      "label": "Cutaneous_Mastocytosis",
+      "query": "Cutaneous Mastocytosis",
+      "provenance": "abpath",
+      "embed_text": "Cutaneous Mastocytosis. Pathology taxonomy leaf: Cutaneous_Mastocytosis. Full path: Heme > Mastocytosis > Cutaneous_Mastocytosis.",
+      "row_index": 92
+    },
+    {
+      "tag": "Heme::Mastocytosis::Mast_Cell_Sarcoma",
+      "label": "Mast_Cell_Sarcoma",
+      "query": "Mast Cell Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Mast Cell Sarcoma. Pathology taxonomy leaf: Mast_Cell_Sarcoma. Full path: Heme > Mastocytosis > Mast_Cell_Sarcoma.",
+      "row_index": 93
+    },
+    {
+      "tag": "Heme::Mastocytosis::Systemic_Mastocytosis",
+      "label": "Systemic_Mastocytosis",
+      "query": "Systemic Mastocytosis",
+      "provenance": "abpath",
+      "embed_text": "Systemic Mastocytosis. Pathology taxonomy leaf: Systemic_Mastocytosis. Full path: Heme > Mastocytosis > Systemic_Mastocytosis.",
+      "row_index": 94
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Burkitt::Burkitt_Lymphoma",
+      "label": "Burkitt_Lymphoma",
+      "query": "Burkitt Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Burkitt Lymphoma. Pathology taxonomy leaf: Burkitt_Lymphoma. Full path: Heme > Mature_B_Cell > Burkitt > Burkitt_Lymphoma.",
+      "row_index": 95
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Duodenal_Type_Follicular_Lymphoma",
+      "label": "Duodenal_Type_Follicular_Lymphoma",
+      "query": "Duodenal Type Follicular Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Duodenal Type Follicular Lymphoma. Pathology taxonomy leaf: Duodenal_Type_Follicular_Lymphoma. Full path: Heme > Mature_B_Cell > Follicular > Duodenal_Type_Follicular_Lymphoma.",
+      "row_index": 96
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Follicular_Lymphoma",
+      "label": "Follicular_Lymphoma",
+      "query": "Follicular Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Follicular Lymphoma. Pathology taxonomy leaf: Follicular_Lymphoma. Full path: Heme > Mature_B_Cell > Follicular > Follicular_Lymphoma.",
+      "row_index": 97
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::In_Situ_Follicular_B_Cell_Neoplasm",
+      "label": "In_Situ_Follicular_B_Cell_Neoplasm",
+      "query": "In Situ Follicular B Cell Neoplasm",
+      "provenance": "abpath",
+      "embed_text": "In Situ Follicular B Cell Neoplasm. Pathology taxonomy leaf: In_Situ_Follicular_B_Cell_Neoplasm. Full path: Heme > Mature_B_Cell > Follicular > In_Situ_Follicular_B_Cell_Neoplasm.",
+      "row_index": 98
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Pediatric_Type_Follicular_Lymphoma",
+      "label": "Pediatric_Type_Follicular_Lymphoma",
+      "query": "Pediatric Type Follicular Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Pediatric Type Follicular Lymphoma. Pathology taxonomy leaf: Pediatric_Type_Follicular_Lymphoma. Full path: Heme > Mature_B_Cell > Follicular > Pediatric_Type_Follicular_Lymphoma.",
+      "row_index": 99
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Follicular::Primary_Cutaneous_Follicle_Center_Lymphoma",
+      "label": "Primary_Cutaneous_Follicle_Center_Lymphoma",
+      "query": "Primary Cutaneous Follicle Center Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Follicle Center Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_Follicle_Center_Lymphoma. Full path: Heme > Mature_B_Cell > Follicular > Primary_Cutaneous_Follicle_Center_Lymphoma.",
+      "row_index": 100
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "label": "KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "query": "KSHV HHV8 Positive Diffuse Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "KSHV HHV8 Positive Diffuse Large B Cell Lymphoma. Pathology taxonomy leaf: KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > KSHV_HHV8_Associated > KSHV_HHV8_Positive_Diffuse_Large_B_Cell_Lymphoma.",
+      "row_index": 101
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder",
+      "label": "KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder",
+      "query": "KSHV HHV8 Positive Germinotropic Lymphoproliferative Disorder",
+      "provenance": "abpath",
+      "embed_text": "KSHV HHV8 Positive Germinotropic Lymphoproliferative Disorder. Pathology taxonomy leaf: KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder. Full path: Heme > Mature_B_Cell > KSHV_HHV8_Associated > KSHV_HHV8_Positive_Germinotropic_Lymphoproliferative_Disorder.",
+      "row_index": 102
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::KSHV_HHV8_Associated::Primary_Effusion_Lymphoma",
+      "label": "Primary_Effusion_Lymphoma",
+      "query": "Primary Effusion Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Effusion Lymphoma. Pathology taxonomy leaf: Primary_Effusion_Lymphoma. Full path: Heme > Mature_B_Cell > KSHV_HHV8_Associated > Primary_Effusion_Lymphoma.",
+      "row_index": 103
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::ALK_Positive_Large_B_Cell_Lymphoma",
+      "label": "ALK_Positive_Large_B_Cell_Lymphoma",
+      "query": "ALK Positive Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "ALK Positive Large B Cell Lymphoma. Pathology taxonomy leaf: ALK_Positive_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > ALK_Positive_Large_B_Cell_Lymphoma.",
+      "row_index": 104
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_Associated_With_Chronic_Inflammation",
+      "label": "DLBCL_Associated_With_Chronic_Inflammation",
+      "query": "DLBCL Associated With Chronic Inflammation",
+      "provenance": "abpath",
+      "embed_text": "DLBCL Associated With Chronic Inflammation. Pathology taxonomy leaf: DLBCL_Associated_With_Chronic_Inflammation. Full path: Heme > Mature_B_Cell > Large_B_Cell > DLBCL_Associated_With_Chronic_Inflammation.",
+      "row_index": 105
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+      "label": "DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements",
+      "query": "DLBCL High Grade With MYC And BCL2 Rearrangements",
+      "provenance": "abpath",
+      "embed_text": "DLBCL High Grade With MYC And BCL2 Rearrangements. Pathology taxonomy leaf: DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements. Full path: Heme > Mature_B_Cell > Large_B_Cell > DLBCL_High_Grade_With_MYC_And_BCL2_Rearrangements.",
+      "row_index": 106
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "label": "Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "query": "Diffuse Large B Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "Diffuse Large B Cell Lymphoma NOS. Pathology taxonomy leaf: Diffuse_Large_B_Cell_Lymphoma_NOS. Full path: Heme > Mature_B_Cell > Large_B_Cell > Diffuse_Large_B_Cell_Lymphoma_NOS.",
+      "row_index": 107
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "label": "EBV_Positive_Diffuse_Large_B_Cell_Lymphoma",
+      "query": "EBV Positive Diffuse Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "EBV Positive Diffuse Large B Cell Lymphoma. Pathology taxonomy leaf: EBV_Positive_Diffuse_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > EBV_Positive_Diffuse_Large_B_Cell_Lymphoma.",
+      "row_index": 108
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Fibrin_Associated_Large_B_Cell_Lymphoma",
+      "label": "Fibrin_Associated_Large_B_Cell_Lymphoma",
+      "query": "Fibrin Associated Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Fibrin Associated Large B Cell Lymphoma. Pathology taxonomy leaf: Fibrin_Associated_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Fibrin_Associated_Large_B_Cell_Lymphoma.",
+      "row_index": 109
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Fluid_Overload_Associated_Large_B_Cell_Lymphoma",
+      "label": "Fluid_Overload_Associated_Large_B_Cell_Lymphoma",
+      "query": "Fluid Overload Associated Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Fluid Overload Associated Large B Cell Lymphoma. Pathology taxonomy leaf: Fluid_Overload_Associated_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Fluid_Overload_Associated_Large_B_Cell_Lymphoma.",
+      "row_index": 110
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_NOS",
+      "label": "High_Grade_B_Cell_Lymphoma_NOS",
+      "query": "High Grade B Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "High Grade B Cell Lymphoma NOS. Pathology taxonomy leaf: High_Grade_B_Cell_Lymphoma_NOS. Full path: Heme > Mature_B_Cell > Large_B_Cell > High_Grade_B_Cell_Lymphoma_NOS.",
+      "row_index": 111
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::High_Grade_B_Cell_Lymphoma_With_11q_Aberration",
+      "label": "High_Grade_B_Cell_Lymphoma_With_11q_Aberration",
+      "query": "High Grade B Cell Lymphoma With 11q Aberration",
+      "provenance": "abpath",
+      "embed_text": "High Grade B Cell Lymphoma With 11q Aberration. Pathology taxonomy leaf: High_Grade_B_Cell_Lymphoma_With_11q_Aberration. Full path: Heme > Mature_B_Cell > Large_B_Cell > High_Grade_B_Cell_Lymphoma_With_11q_Aberration.",
+      "row_index": 112
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Intravascular_Large_B_Cell_Lymphoma",
+      "label": "Intravascular_Large_B_Cell_Lymphoma",
+      "query": "Intravascular Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Intravascular Large B Cell Lymphoma. Pathology taxonomy leaf: Intravascular_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Intravascular_Large_B_Cell_Lymphoma.",
+      "row_index": 113
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+      "label": "Large_B_Cell_Lymphoma_With_IRF4_Rearrangement",
+      "query": "Large B Cell Lymphoma With IRF4 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "Large B Cell Lymphoma With IRF4 Rearrangement. Pathology taxonomy leaf: Large_B_Cell_Lymphoma_With_IRF4_Rearrangement. Full path: Heme > Mature_B_Cell > Large_B_Cell > Large_B_Cell_Lymphoma_With_IRF4_Rearrangement.",
+      "row_index": 114
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Lymphomatoid_Granulomatosis",
+      "label": "Lymphomatoid_Granulomatosis",
+      "query": "Lymphomatoid Granulomatosis",
+      "provenance": "abpath",
+      "embed_text": "Lymphomatoid Granulomatosis. Pathology taxonomy leaf: Lymphomatoid_Granulomatosis. Full path: Heme > Mature_B_Cell > Large_B_Cell > Lymphomatoid_Granulomatosis.",
+      "row_index": 115
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Mediastinal_Grey_Zone_Lymphoma",
+      "label": "Mediastinal_Grey_Zone_Lymphoma",
+      "query": "Mediastinal Grey Zone Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Mediastinal Grey Zone Lymphoma. Pathology taxonomy leaf: Mediastinal_Grey_Zone_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Mediastinal_Grey_Zone_Lymphoma.",
+      "row_index": 116
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Plasmablastic_Lymphoma",
+      "label": "Plasmablastic_Lymphoma",
+      "query": "Plasmablastic Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Plasmablastic Lymphoma. Pathology taxonomy leaf: Plasmablastic_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Plasmablastic_Lymphoma.",
+      "row_index": 117
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type",
+      "label": "Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type",
+      "query": "Primary Cutaneous Diffuse Large B Cell Lymphoma Leg Type",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Diffuse Large B Cell Lymphoma Leg Type. Pathology taxonomy leaf: Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type. Full path: Heme > Mature_B_Cell > Large_B_Cell > Primary_Cutaneous_Diffuse_Large_B_Cell_Lymphoma_Leg_Type.",
+      "row_index": 118
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+      "label": "Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites",
+      "query": "Primary Large B Cell Lymphoma Of Immune Privileged Sites",
+      "provenance": "abpath",
+      "embed_text": "Primary Large B Cell Lymphoma Of Immune Privileged Sites. Pathology taxonomy leaf: Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites. Full path: Heme > Mature_B_Cell > Large_B_Cell > Primary_Large_B_Cell_Lymphoma_Of_Immune_Privileged_Sites.",
+      "row_index": 119
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Primary_Mediastinal_Large_B_Cell_Lymphoma",
+      "label": "Primary_Mediastinal_Large_B_Cell_Lymphoma",
+      "query": "Primary Mediastinal Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Mediastinal Large B Cell Lymphoma. Pathology taxonomy leaf: Primary_Mediastinal_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > Primary_Mediastinal_Large_B_Cell_Lymphoma.",
+      "row_index": 120
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma",
+      "label": "T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma",
+      "query": "T Cell Histiocyte Rich Large B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "T Cell Histiocyte Rich Large B Cell Lymphoma. Pathology taxonomy leaf: T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Large_B_Cell > T_Cell_Histiocyte_Rich_Large_B_Cell_Lymphoma.",
+      "row_index": 121
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Lymphoplasmacytic::Lymphoplasmacytic_Lymphoma",
+      "label": "Lymphoplasmacytic_Lymphoma",
+      "query": "Lymphoplasmacytic Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Lymphoplasmacytic Lymphoma. Pathology taxonomy leaf: Lymphoplasmacytic_Lymphoma. Full path: Heme > Mature_B_Cell > Lymphoplasmacytic > Lymphoplasmacytic_Lymphoma.",
+      "row_index": 122
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::In_Situ_Mantle_Cell_Neoplasm",
+      "label": "In_Situ_Mantle_Cell_Neoplasm",
+      "query": "In Situ Mantle Cell Neoplasm",
+      "provenance": "abpath",
+      "embed_text": "In Situ Mantle Cell Neoplasm. Pathology taxonomy leaf: In_Situ_Mantle_Cell_Neoplasm. Full path: Heme > Mature_B_Cell > Mantle_Cell > In_Situ_Mantle_Cell_Neoplasm.",
+      "row_index": 123
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::Leukemic_Non_Nodal_Mantle_Cell_Lymphoma",
+      "label": "Leukemic_Non_Nodal_Mantle_Cell_Lymphoma",
+      "query": "Leukemic Non Nodal Mantle Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Leukemic Non Nodal Mantle Cell Lymphoma. Pathology taxonomy leaf: Leukemic_Non_Nodal_Mantle_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Mantle_Cell > Leukemic_Non_Nodal_Mantle_Cell_Lymphoma.",
+      "row_index": 124
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Mantle_Cell::Mantle_Cell_Lymphoma",
+      "label": "Mantle_Cell_Lymphoma",
+      "query": "Mantle Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Mantle Cell Lymphoma. Pathology taxonomy leaf: Mantle_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Mantle_Cell > Mantle_Cell_Lymphoma.",
+      "row_index": 125
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+      "label": "Extranodal_Marginal_Zone_Lymphoma_Of_MALT",
+      "query": "Extranodal Marginal Zone Lymphoma Of MALT",
+      "provenance": "abpath",
+      "embed_text": "Extranodal Marginal Zone Lymphoma Of MALT. Pathology taxonomy leaf: Extranodal_Marginal_Zone_Lymphoma_Of_MALT. Full path: Heme > Mature_B_Cell > Marginal_Zone > Extranodal_Marginal_Zone_Lymphoma_Of_MALT.",
+      "row_index": 126
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Nodal_Marginal_Zone_Lymphoma",
+      "label": "Nodal_Marginal_Zone_Lymphoma",
+      "query": "Nodal Marginal Zone Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Nodal Marginal Zone Lymphoma. Pathology taxonomy leaf: Nodal_Marginal_Zone_Lymphoma. Full path: Heme > Mature_B_Cell > Marginal_Zone > Nodal_Marginal_Zone_Lymphoma.",
+      "row_index": 127
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Pediatric_Nodal_Marginal_Zone_Lymphoma",
+      "label": "Pediatric_Nodal_Marginal_Zone_Lymphoma",
+      "query": "Pediatric Nodal Marginal Zone Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Pediatric Nodal Marginal Zone Lymphoma. Pathology taxonomy leaf: Pediatric_Nodal_Marginal_Zone_Lymphoma. Full path: Heme > Mature_B_Cell > Marginal_Zone > Pediatric_Nodal_Marginal_Zone_Lymphoma.",
+      "row_index": 128
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Marginal_Zone::Primary_Cutaneous_Marginal_Zone_Lymphoma",
+      "label": "Primary_Cutaneous_Marginal_Zone_Lymphoma",
+      "query": "Primary Cutaneous Marginal Zone Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Marginal Zone Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_Marginal_Zone_Lymphoma. Full path: Heme > Mature_B_Cell > Marginal_Zone > Primary_Cutaneous_Marginal_Zone_Lymphoma.",
+      "row_index": 129
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Small_Lymphocytic::Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+      "label": "Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma",
+      "query": "Chronic Lymphocytic Leukemia Small Lymphocytic Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Chronic Lymphocytic Leukemia Small Lymphocytic Lymphoma. Pathology taxonomy leaf: Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma. Full path: Heme > Mature_B_Cell > Small_Lymphocytic > Chronic_Lymphocytic_Leukemia_Small_Lymphocytic_Lymphoma.",
+      "row_index": 130
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Small_Lymphocytic::Monoclonal_B_Cell_Lymphocytosis",
+      "label": "Monoclonal_B_Cell_Lymphocytosis",
+      "query": "Monoclonal B Cell Lymphocytosis",
+      "provenance": "abpath",
+      "embed_text": "Monoclonal B Cell Lymphocytosis. Pathology taxonomy leaf: Monoclonal_B_Cell_Lymphocytosis. Full path: Heme > Mature_B_Cell > Small_Lymphocytic > Monoclonal_B_Cell_Lymphocytosis.",
+      "row_index": 131
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Hairy_Cell_Leukemia",
+      "label": "Hairy_Cell_Leukemia",
+      "query": "Hairy Cell Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Hairy Cell Leukemia. Pathology taxonomy leaf: Hairy_Cell_Leukemia. Full path: Heme > Mature_B_Cell > Splenic > Hairy_Cell_Leukemia.",
+      "row_index": 132
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+      "label": "Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli",
+      "query": "Splenic B Cell Lymphoma Leukemia With Prominent Nucleoli",
+      "provenance": "abpath",
+      "embed_text": "Splenic B Cell Lymphoma Leukemia With Prominent Nucleoli. Pathology taxonomy leaf: Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli. Full path: Heme > Mature_B_Cell > Splenic > Splenic_B_Cell_Lymphoma_Leukemia_With_Prominent_Nucleoli.",
+      "row_index": 133
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+      "label": "Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma",
+      "query": "Splenic Diffuse Red Pulp Small B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Splenic Diffuse Red Pulp Small B Cell Lymphoma. Pathology taxonomy leaf: Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Splenic > Splenic_Diffuse_Red_Pulp_Small_B_Cell_Lymphoma.",
+      "row_index": 134
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Splenic::Splenic_Marginal_Zone_Lymphoma",
+      "label": "Splenic_Marginal_Zone_Lymphoma",
+      "query": "Splenic Marginal Zone Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Splenic Marginal Zone Lymphoma. Pathology taxonomy leaf: Splenic_Marginal_Zone_Lymphoma. Full path: Heme > Mature_B_Cell > Splenic > Splenic_Marginal_Zone_Lymphoma.",
+      "row_index": 135
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Transformation::Transformation_Of_Indolent_B_Cell_Lymphoma",
+      "label": "Transformation_Of_Indolent_B_Cell_Lymphoma",
+      "query": "Transformation Of Indolent B Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Transformation Of Indolent B Cell Lymphoma. Pathology taxonomy leaf: Transformation_Of_Indolent_B_Cell_Lymphoma. Full path: Heme > Mature_B_Cell > Transformation > Transformation_Of_Indolent_B_Cell_Lymphoma.",
+      "row_index": 136
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Negative_Anaplastic_Large_Cell_Lymphoma",
+      "label": "ALK_Negative_Anaplastic_Large_Cell_Lymphoma",
+      "query": "ALK Negative Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "ALK Negative Anaplastic Large Cell Lymphoma. Pathology taxonomy leaf: ALK_Negative_Anaplastic_Large_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Anaplastic_Large_Cell > ALK_Negative_Anaplastic_Large_Cell_Lymphoma.",
+      "row_index": 137
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+      "label": "ALK_Positive_Anaplastic_Large_Cell_Lymphoma",
+      "query": "ALK Positive Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "ALK Positive Anaplastic Large Cell Lymphoma. Pathology taxonomy leaf: ALK_Positive_Anaplastic_Large_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Anaplastic_Large_Cell > ALK_Positive_Anaplastic_Large_Cell_Lymphoma.",
+      "row_index": 138
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Breast Implant Associated Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Breast Implant Associated Anaplastic Large Cell Lymphoma. Pathology taxonomy leaf: Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Anaplastic_Large_Cell > Breast_Implant_Associated_Anaplastic_Large_Cell_Lymphoma.",
+      "row_index": 139
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Lymphomatoid_Papulosis",
+      "label": "Lymphomatoid_Papulosis",
+      "query": "Lymphomatoid Papulosis",
+      "provenance": "abpath",
+      "embed_text": "Lymphomatoid Papulosis. Pathology taxonomy leaf: Lymphomatoid_Papulosis. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Lymphomatoid_Papulosis.",
+      "row_index": 140
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Mycosis_Fungoides",
+      "label": "Mycosis_Fungoides",
+      "query": "Mycosis Fungoides",
+      "provenance": "abpath",
+      "embed_text": "Mycosis Fungoides. Pathology taxonomy leaf: Mycosis_Fungoides. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Mycosis_Fungoides.",
+      "row_index": 141
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD",
+      "label": "Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD",
+      "query": "Primary Cutaneous Acral CD8 Positive T Cell LPD",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Acral CD8 Positive T Cell LPD. Pathology taxonomy leaf: Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_Acral_CD8_Positive_T_Cell_LPD.",
+      "row_index": 142
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Primary Cutaneous Anaplastic Large Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Anaplastic Large Cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma.",
+      "row_index": 143
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD",
+      "label": "Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD",
+      "query": "Primary Cutaneous CD4 Positive Small Medium T Cell LPD",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous CD4 Positive Small Medium T Cell LPD. Pathology taxonomy leaf: Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_CD4_Positive_Small_Medium_T_Cell_LPD.",
+      "row_index": 144
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma",
+      "query": "Primary Cutaneous CD8 Positive Aggressive Epidermotropic Cytotoxic T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous CD8 Positive Aggressive Epidermotropic Cytotoxic T Cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_CD8_Positive_Aggressive_Epidermotropic_Cytotoxic_T_Cell_Lymphoma.",
+      "row_index": 145
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma",
+      "query": "Primary Cutaneous Gamma Delta T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Gamma Delta T Cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_Gamma_Delta_T_Cell_Lymphoma.",
+      "row_index": 146
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+      "label": "Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS",
+      "query": "Primary Cutaneous Peripheral T Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "Primary Cutaneous Peripheral T Cell Lymphoma NOS. Pathology taxonomy leaf: Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Primary_Cutaneous_Peripheral_T_Cell_Lymphoma_NOS.",
+      "row_index": 147
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Cutaneous::Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma",
+      "label": "Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma",
+      "query": "Subcutaneous Panniculitis Like T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Subcutaneous Panniculitis Like T Cell Lymphoma. Pathology taxonomy leaf: Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Cutaneous > Subcutaneous_Panniculitis_Like_T_Cell_Lymphoma.",
+      "row_index": 148
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::EBV_Positive_Nodal_T_NK_Cell_Lymphoma",
+      "label": "EBV_Positive_Nodal_T_NK_Cell_Lymphoma",
+      "query": "EBV Positive Nodal T NK Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "EBV Positive Nodal T NK Cell Lymphoma. Pathology taxonomy leaf: EBV_Positive_Nodal_T_NK_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > EBV_Positive_Nodal_T_NK_Cell_Lymphoma.",
+      "row_index": 149
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Extranodal_NK_T_Cell_Lymphoma",
+      "label": "Extranodal_NK_T_Cell_Lymphoma",
+      "query": "Extranodal NK T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Extranodal NK T Cell Lymphoma. Pathology taxonomy leaf: Extranodal_NK_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > Extranodal_NK_T_Cell_Lymphoma.",
+      "row_index": 150
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Hydroa_Vacciniforme_Lymphoproliferative_Disorder",
+      "label": "Hydroa_Vacciniforme_Lymphoproliferative_Disorder",
+      "query": "Hydroa Vacciniforme Lymphoproliferative Disorder",
+      "provenance": "abpath",
+      "embed_text": "Hydroa Vacciniforme Lymphoproliferative Disorder. Pathology taxonomy leaf: Hydroa_Vacciniforme_Lymphoproliferative_Disorder. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > Hydroa_Vacciniforme_Lymphoproliferative_Disorder.",
+      "row_index": 151
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Severe_Mosquito_Bite_Allergy",
+      "label": "Severe_Mosquito_Bite_Allergy",
+      "query": "Severe Mosquito Bite Allergy",
+      "provenance": "abpath",
+      "embed_text": "Severe Mosquito Bite Allergy. Pathology taxonomy leaf: Severe_Mosquito_Bite_Allergy. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > Severe_Mosquito_Bite_Allergy.",
+      "row_index": 152
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_Chronic_Active_EBV_Disease",
+      "label": "Systemic_Chronic_Active_EBV_Disease",
+      "query": "Systemic Chronic Active EBV Disease",
+      "provenance": "abpath",
+      "embed_text": "Systemic Chronic Active EBV Disease. Pathology taxonomy leaf: Systemic_Chronic_Active_EBV_Disease. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > Systemic_Chronic_Active_EBV_Disease.",
+      "row_index": 153
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::EBV_Positive::Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood",
+      "label": "Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood",
+      "query": "Systemic EBV Positive T Cell Lymphoma Of Childhood",
+      "provenance": "abpath",
+      "embed_text": "Systemic EBV Positive T Cell Lymphoma Of Childhood. Pathology taxonomy leaf: Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood. Full path: Heme > Mature_T_NK_Cell > EBV_Positive > Systemic_EBV_Positive_T_Cell_Lymphoma_Of_Childhood.",
+      "row_index": 154
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Hepatosplenic::Hepatosplenic_T_Cell_Lymphoma",
+      "label": "Hepatosplenic_T_Cell_Lymphoma",
+      "query": "Hepatosplenic T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Hepatosplenic T Cell Lymphoma. Pathology taxonomy leaf: Hepatosplenic_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Hepatosplenic > Hepatosplenic_T_Cell_Lymphoma.",
+      "row_index": 155
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Enteropathy_Associated_T_Cell_Lymphoma",
+      "label": "Enteropathy_Associated_T_Cell_Lymphoma",
+      "query": "Enteropathy Associated T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Enteropathy Associated T Cell Lymphoma. Pathology taxonomy leaf: Enteropathy_Associated_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Intestinal > Enteropathy_Associated_T_Cell_Lymphoma.",
+      "row_index": 156
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Indolent_NK_Cell_LPD_Of_GI_Tract",
+      "label": "Indolent_NK_Cell_LPD_Of_GI_Tract",
+      "query": "Indolent NK Cell LPD Of GI Tract",
+      "provenance": "abpath",
+      "embed_text": "Indolent NK Cell LPD Of GI Tract. Pathology taxonomy leaf: Indolent_NK_Cell_LPD_Of_GI_Tract. Full path: Heme > Mature_T_NK_Cell > Intestinal > Indolent_NK_Cell_LPD_Of_GI_Tract.",
+      "row_index": 157
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Indolent_T_Cell_Lymphoma_Of_GI_Tract",
+      "label": "Indolent_T_Cell_Lymphoma_Of_GI_Tract",
+      "query": "Indolent T Cell Lymphoma Of GI Tract",
+      "provenance": "abpath",
+      "embed_text": "Indolent T Cell Lymphoma Of GI Tract. Pathology taxonomy leaf: Indolent_T_Cell_Lymphoma_Of_GI_Tract. Full path: Heme > Mature_T_NK_Cell > Intestinal > Indolent_T_Cell_Lymphoma_Of_GI_Tract.",
+      "row_index": 158
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Intestinal_T_Cell_Lymphoma_NOS",
+      "label": "Intestinal_T_Cell_Lymphoma_NOS",
+      "query": "Intestinal T Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "Intestinal T Cell Lymphoma NOS. Pathology taxonomy leaf: Intestinal_T_Cell_Lymphoma_NOS. Full path: Heme > Mature_T_NK_Cell > Intestinal > Intestinal_T_Cell_Lymphoma_NOS.",
+      "row_index": 159
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Intestinal::Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+      "label": "Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma",
+      "query": "Monomorphic Epitheliotropic Intestinal T Cell Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Monomorphic Epitheliotropic Intestinal T Cell Lymphoma. Pathology taxonomy leaf: Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Intestinal > Monomorphic_Epitheliotropic_Intestinal_T_Cell_Lymphoma.",
+      "row_index": 160
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Adult_T_Cell_Leukemia_Lymphoma",
+      "label": "Adult_T_Cell_Leukemia_Lymphoma",
+      "query": "Adult T Cell Leukemia Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Adult T Cell Leukemia Lymphoma. Pathology taxonomy leaf: Adult_T_Cell_Leukemia_Lymphoma. Full path: Heme > Mature_T_NK_Cell > Leukemia > Adult_T_Cell_Leukemia_Lymphoma.",
+      "row_index": 161
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Aggressive_NK_Cell_Leukemia",
+      "label": "Aggressive_NK_Cell_Leukemia",
+      "query": "Aggressive NK Cell Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Aggressive NK Cell Leukemia. Pathology taxonomy leaf: Aggressive_NK_Cell_Leukemia. Full path: Heme > Mature_T_NK_Cell > Leukemia > Aggressive_NK_Cell_Leukemia.",
+      "row_index": 162
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::NK_Large_Granular_Lymphocytic_Leukemia",
+      "label": "NK_Large_Granular_Lymphocytic_Leukemia",
+      "query": "NK Large Granular Lymphocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "NK Large Granular Lymphocytic Leukemia. Pathology taxonomy leaf: NK_Large_Granular_Lymphocytic_Leukemia. Full path: Heme > Mature_T_NK_Cell > Leukemia > NK_Large_Granular_Lymphocytic_Leukemia.",
+      "row_index": 163
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::Sezary_Syndrome",
+      "label": "Sezary_Syndrome",
+      "query": "Sezary Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Sezary Syndrome. Pathology taxonomy leaf: Sezary_Syndrome. Full path: Heme > Mature_T_NK_Cell > Leukemia > Sezary_Syndrome.",
+      "row_index": 164
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::T_Large_Granular_Lymphocytic_Leukemia",
+      "label": "T_Large_Granular_Lymphocytic_Leukemia",
+      "query": "T Large Granular Lymphocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "T Large Granular Lymphocytic Leukemia. Pathology taxonomy leaf: T_Large_Granular_Lymphocytic_Leukemia. Full path: Heme > Mature_T_NK_Cell > Leukemia > T_Large_Granular_Lymphocytic_Leukemia.",
+      "row_index": 165
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Leukemia::T_Prolymphocytic_Leukemia",
+      "label": "T_Prolymphocytic_Leukemia",
+      "query": "T Prolymphocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "T Prolymphocytic Leukemia. Pathology taxonomy leaf: T_Prolymphocytic_Leukemia. Full path: Heme > Mature_T_NK_Cell > Leukemia > T_Prolymphocytic_Leukemia.",
+      "row_index": 166
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::Other::Peripheral_T_Cell_Lymphoma_NOS",
+      "label": "Peripheral_T_Cell_Lymphoma_NOS",
+      "query": "Peripheral T Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "Peripheral T Cell Lymphoma NOS. Pathology taxonomy leaf: Peripheral_T_Cell_Lymphoma_NOS. Full path: Heme > Mature_T_NK_Cell > Other > Peripheral_T_Cell_Lymphoma_NOS.",
+      "row_index": 167
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+      "label": "Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type",
+      "query": "Nodal TFH Cell Lymphoma Angioimmunoblastic Type",
+      "provenance": "abpath",
+      "embed_text": "Nodal TFH Cell Lymphoma Angioimmunoblastic Type. Pathology taxonomy leaf: Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type. Full path: Heme > Mature_T_NK_Cell > TFH > Nodal_TFH_Cell_Lymphoma_Angioimmunoblastic_Type.",
+      "row_index": 168
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_Follicular_Type",
+      "label": "Nodal_TFH_Cell_Lymphoma_Follicular_Type",
+      "query": "Nodal TFH Cell Lymphoma Follicular Type",
+      "provenance": "abpath",
+      "embed_text": "Nodal TFH Cell Lymphoma Follicular Type. Pathology taxonomy leaf: Nodal_TFH_Cell_Lymphoma_Follicular_Type. Full path: Heme > Mature_T_NK_Cell > TFH > Nodal_TFH_Cell_Lymphoma_Follicular_Type.",
+      "row_index": 169
+    },
+    {
+      "tag": "Heme::Mature_T_NK_Cell::TFH::Nodal_TFH_Cell_Lymphoma_NOS",
+      "label": "Nodal_TFH_Cell_Lymphoma_NOS",
+      "query": "Nodal TFH Cell Lymphoma NOS",
+      "provenance": "abpath",
+      "embed_text": "Nodal TFH Cell Lymphoma NOS. Pathology taxonomy leaf: Nodal_TFH_Cell_Lymphoma_NOS. Full path: Heme > Mature_T_NK_Cell > TFH > Nodal_TFH_Cell_Lymphoma_NOS.",
+      "row_index": 170
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Bone_Marrow",
+      "label": "Metastatic_Tumor_To_Bone_Marrow",
+      "query": "Metastatic Tumor To Bone Marrow",
+      "provenance": "abpath",
+      "embed_text": "Metastatic Tumor To Bone Marrow. Pathology taxonomy leaf: Metastatic_Tumor_To_Bone_Marrow. Full path: Heme > Metastasis > Metastatic_Tumor_To_Bone_Marrow.",
+      "row_index": 171
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Lymph_Node",
+      "label": "Metastatic_Tumor_To_Lymph_Node",
+      "query": "Metastatic Tumor To Lymph Node",
+      "provenance": "abpath",
+      "embed_text": "Metastatic Tumor To Lymph Node. Pathology taxonomy leaf: Metastatic_Tumor_To_Lymph_Node. Full path: Heme > Metastasis > Metastatic_Tumor_To_Lymph_Node.",
+      "row_index": 172
+    },
+    {
+      "tag": "Heme::Metastasis::Metastatic_Tumor_To_Spleen",
+      "label": "Metastatic_Tumor_To_Spleen",
+      "query": "Metastatic Tumor To Spleen",
+      "provenance": "abpath",
+      "embed_text": "Metastatic Tumor To Spleen. Pathology taxonomy leaf: Metastatic_Tumor_To_Spleen. Full path: Heme > Metastasis > Metastatic_Tumor_To_Spleen.",
+      "row_index": 173
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Atypical_Chronic_Myeloid_Leukemia",
+      "label": "Atypical_Chronic_Myeloid_Leukemia",
+      "query": "Atypical Chronic Myeloid Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Atypical Chronic Myeloid Leukemia. Pathology taxonomy leaf: Atypical_Chronic_Myeloid_Leukemia. Full path: Heme > Myelodysplastic_Myeloproliferative_Neoplasm > Atypical_Chronic_Myeloid_Leukemia.",
+      "row_index": 174
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::Chronic_Myelomonocytic_Leukemia",
+      "label": "Chronic_Myelomonocytic_Leukemia",
+      "query": "Chronic Myelomonocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Chronic Myelomonocytic Leukemia. Pathology taxonomy leaf: Chronic_Myelomonocytic_Leukemia. Full path: Heme > Myelodysplastic_Myeloproliferative_Neoplasm > Chronic_Myelomonocytic_Leukemia.",
+      "row_index": 175
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_NOS",
+      "label": "MDS_MPN_NOS",
+      "query": "MDS MPN NOS",
+      "provenance": "abpath",
+      "embed_text": "MDS MPN NOS. Pathology taxonomy leaf: MDS_MPN_NOS. Full path: Heme > Myelodysplastic_Myeloproliferative_Neoplasm > MDS_MPN_NOS.",
+      "row_index": 176
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_Neutrophilia",
+      "label": "MDS_MPN_With_Neutrophilia",
+      "query": "MDS MPN With Neutrophilia",
+      "provenance": "abpath",
+      "embed_text": "MDS MPN With Neutrophilia. Pathology taxonomy leaf: MDS_MPN_With_Neutrophilia. Full path: Heme > Myelodysplastic_Myeloproliferative_Neoplasm > MDS_MPN_With_Neutrophilia.",
+      "row_index": 177
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Myeloproliferative_Neoplasm::MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis",
+      "label": "MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis",
+      "query": "MDS MPN With SF3B1 Mutation And Thrombocytosis",
+      "provenance": "abpath",
+      "embed_text": "MDS MPN With SF3B1 Mutation And Thrombocytosis. Pathology taxonomy leaf: MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis. Full path: Heme > Myelodysplastic_Myeloproliferative_Neoplasm > MDS_MPN_With_SF3B1_Mutation_And_Thrombocytosis.",
+      "row_index": 178
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Increased_Blasts",
+      "label": "Childhood_MDS_With_Increased_Blasts",
+      "query": "Childhood MDS With Increased Blasts",
+      "provenance": "abpath",
+      "embed_text": "Childhood MDS With Increased Blasts. Pathology taxonomy leaf: Childhood_MDS_With_Increased_Blasts. Full path: Heme > Myelodysplastic_Neoplasm > Childhood > Childhood_MDS_With_Increased_Blasts.",
+      "row_index": 179
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Childhood::Childhood_MDS_With_Low_Blasts",
+      "label": "Childhood_MDS_With_Low_Blasts",
+      "query": "Childhood MDS With Low Blasts",
+      "provenance": "abpath",
+      "embed_text": "Childhood MDS With Low Blasts. Pathology taxonomy leaf: Childhood_MDS_With_Low_Blasts. Full path: Heme > Myelodysplastic_Neoplasm > Childhood > Childhood_MDS_With_Low_Blasts.",
+      "row_index": 180
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Biallelic_TP53_Inactivation",
+      "label": "MDS_With_Biallelic_TP53_Inactivation",
+      "query": "MDS With Biallelic TP53 Inactivation",
+      "provenance": "abpath",
+      "embed_text": "MDS With Biallelic TP53 Inactivation. Pathology taxonomy leaf: MDS_With_Biallelic_TP53_Inactivation. Full path: Heme > Myelodysplastic_Neoplasm > Genetic_Defined > MDS_With_Biallelic_TP53_Inactivation.",
+      "row_index": 181
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_5q_Deletion",
+      "label": "MDS_With_Low_Blasts_And_5q_Deletion",
+      "query": "MDS With Low Blasts And 5q Deletion",
+      "provenance": "abpath",
+      "embed_text": "MDS With Low Blasts And 5q Deletion. Pathology taxonomy leaf: MDS_With_Low_Blasts_And_5q_Deletion. Full path: Heme > Myelodysplastic_Neoplasm > Genetic_Defined > MDS_With_Low_Blasts_And_5q_Deletion.",
+      "row_index": 182
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Genetic_Defined::MDS_With_Low_Blasts_And_SF3B1_Mutation",
+      "label": "MDS_With_Low_Blasts_And_SF3B1_Mutation",
+      "query": "MDS With Low Blasts And SF3B1 Mutation",
+      "provenance": "abpath",
+      "embed_text": "MDS With Low Blasts And SF3B1 Mutation. Pathology taxonomy leaf: MDS_With_Low_Blasts_And_SF3B1_Mutation. Full path: Heme > Myelodysplastic_Neoplasm > Genetic_Defined > MDS_With_Low_Blasts_And_SF3B1_Mutation.",
+      "row_index": 183
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_Hypoplastic",
+      "label": "MDS_Hypoplastic",
+      "query": "MDS Hypoplastic",
+      "provenance": "abpath",
+      "embed_text": "MDS Hypoplastic. Pathology taxonomy leaf: MDS_Hypoplastic. Full path: Heme > Myelodysplastic_Neoplasm > Morphologic_Defined > MDS_Hypoplastic.",
+      "row_index": 184
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_With_Increased_Blasts",
+      "label": "MDS_With_Increased_Blasts",
+      "query": "MDS With Increased Blasts",
+      "provenance": "abpath",
+      "embed_text": "MDS With Increased Blasts. Pathology taxonomy leaf: MDS_With_Increased_Blasts. Full path: Heme > Myelodysplastic_Neoplasm > Morphologic_Defined > MDS_With_Increased_Blasts.",
+      "row_index": 185
+    },
+    {
+      "tag": "Heme::Myelodysplastic_Neoplasm::Morphologic_Defined::MDS_With_Low_Blasts",
+      "label": "MDS_With_Low_Blasts",
+      "query": "MDS With Low Blasts",
+      "provenance": "abpath",
+      "embed_text": "MDS With Low Blasts. Pathology taxonomy leaf: MDS_With_Low_Blasts. Full path: Heme > Myelodysplastic_Neoplasm > Morphologic_Defined > MDS_With_Low_Blasts.",
+      "row_index": 186
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_ETV6_ABL1_Fusion",
+      "label": "MLN_With_ETV6_ABL1_Fusion",
+      "query": "MLN With ETV6 ABL1 Fusion",
+      "provenance": "abpath",
+      "embed_text": "MLN With ETV6 ABL1 Fusion. Pathology taxonomy leaf: MLN_With_ETV6_ABL1_Fusion. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_ETV6_ABL1_Fusion.",
+      "row_index": 187
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_FGFR1_Rearrangement",
+      "label": "MLN_With_FGFR1_Rearrangement",
+      "query": "MLN With FGFR1 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With FGFR1 Rearrangement. Pathology taxonomy leaf: MLN_With_FGFR1_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_FGFR1_Rearrangement.",
+      "row_index": 188
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_FLT3_Rearrangement",
+      "label": "MLN_With_FLT3_Rearrangement",
+      "query": "MLN With FLT3 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With FLT3 Rearrangement. Pathology taxonomy leaf: MLN_With_FLT3_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_FLT3_Rearrangement.",
+      "row_index": 189
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_JAK2_Rearrangement",
+      "label": "MLN_With_JAK2_Rearrangement",
+      "query": "MLN With JAK2 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With JAK2 Rearrangement. Pathology taxonomy leaf: MLN_With_JAK2_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_JAK2_Rearrangement.",
+      "row_index": 190
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_Other_Tyrosine_Kinase_Gene_Fusions",
+      "label": "MLN_With_Other_Tyrosine_Kinase_Gene_Fusions",
+      "query": "MLN With Other Tyrosine Kinase Gene Fusions",
+      "provenance": "abpath",
+      "embed_text": "MLN With Other Tyrosine Kinase Gene Fusions. Pathology taxonomy leaf: MLN_With_Other_Tyrosine_Kinase_Gene_Fusions. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_Other_Tyrosine_Kinase_Gene_Fusions.",
+      "row_index": 191
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PCM1_JAK2_Rearrangement",
+      "label": "MLN_With_PCM1_JAK2_Rearrangement",
+      "query": "MLN With PCM1 JAK2 Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With PCM1 JAK2 Rearrangement. Pathology taxonomy leaf: MLN_With_PCM1_JAK2_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_PCM1_JAK2_Rearrangement.",
+      "row_index": 192
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PDGFRA_Rearrangement",
+      "label": "MLN_With_PDGFRA_Rearrangement",
+      "query": "MLN With PDGFRA Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With PDGFRA Rearrangement. Pathology taxonomy leaf: MLN_With_PDGFRA_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_PDGFRA_Rearrangement.",
+      "row_index": 193
+    },
+    {
+      "tag": "Heme::Myeloid_Lymphoid_Neoplasm_With_Eosinophilia::MLN_With_PDGFRB_Rearrangement",
+      "label": "MLN_With_PDGFRB_Rearrangement",
+      "query": "MLN With PDGFRB Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "MLN With PDGFRB Rearrangement. Pathology taxonomy leaf: MLN_With_PDGFRB_Rearrangement. Full path: Heme > Myeloid_Lymphoid_Neoplasm_With_Eosinophilia > MLN_With_PDGFRB_Rearrangement.",
+      "row_index": 194
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Basophilic_Leukemia",
+      "label": "Acute_Basophilic_Leukemia",
+      "query": "Acute Basophilic Leukemia",
+      "provenance": "who",
+      "embed_text": "Acute Basophilic Leukemia. Pathology taxonomy leaf: Acute_Basophilic_Leukemia. Full path: Heme > Myeloid_Neoplasms > AML > Differentiation > Acute_Basophilic_Leukemia.",
+      "row_index": 195
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_Without_Maturation",
+      "label": "Acute_Myeloid_Leukemia_Without_Maturation",
+      "query": "Acute Myeloid Leukemia Without Maturation",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia Without Maturation. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_Without_Maturation. Full path: Heme > Myeloid_Neoplasms > AML > Differentiation > Acute_Myeloid_Leukemia_Without_Maturation.",
+      "row_index": 196
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Maturation",
+      "label": "Acute_Myeloid_Leukemia_with_Maturation",
+      "query": "Acute Myeloid Leukemia with Maturation",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with Maturation. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_Maturation. Full path: Heme > Myeloid_Neoplasms > AML > Differentiation > Acute_Myeloid_Leukemia_with_Maturation.",
+      "row_index": 197
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myeloid_Leukemia_with_Minimal_Differentiation",
+      "label": "Acute_Myeloid_Leukemia_with_Minimal_Differentiation",
+      "query": "Acute Myeloid Leukemia with Minimal Differentiation",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with Minimal Differentiation. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_Minimal_Differentiation. Full path: Heme > Myeloid_Neoplasms > AML > Differentiation > Acute_Myeloid_Leukemia_with_Minimal_Differentiation.",
+      "row_index": 198
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Differentiation::Acute_Myelomonocytic_Leukemia",
+      "label": "Acute_Myelomonocytic_Leukemia",
+      "query": "Acute Myelomonocytic Leukemia",
+      "provenance": "who",
+      "embed_text": "Acute Myelomonocytic Leukemia. Pathology taxonomy leaf: Acute_Myelomonocytic_Leukemia. Full path: Heme > Myeloid_Neoplasms > AML > Differentiation > Acute_Myelomonocytic_Leukemia.",
+      "row_index": 199
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion",
+      "query": "Acute Myeloid Leukemia with BCR ABL1 Fusion",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with BCR ABL1 Fusion. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_BCR_ABL1_Fusion.",
+      "row_index": 200
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion",
+      "query": "Acute Myeloid Leukemia with CBFB MYH11 Fusion",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with CBFB MYH11 Fusion. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_CBFB_MYH11_Fusion.",
+      "row_index": 201
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_CEBPA_Mutation",
+      "label": "Acute_Myeloid_Leukemia_with_CEBPA_Mutation",
+      "query": "Acute Myeloid Leukemia with CEBPA Mutation",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with CEBPA Mutation. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_CEBPA_Mutation. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_CEBPA_Mutation.",
+      "row_index": 202
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion",
+      "query": "Acute Myeloid Leukemia with DEK NUP214 Fusion",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with DEK NUP214 Fusion. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_DEK_NUP214_Fusion.",
+      "row_index": 203
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_NUP98_Rearrangement",
+      "label": "Acute_Myeloid_Leukemia_with_NUP98_Rearrangement",
+      "query": "Acute Myeloid Leukemia with NUP98 Rearrangement",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with NUP98 Rearrangement. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_NUP98_Rearrangement. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_NUP98_Rearrangement.",
+      "row_index": 204
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations",
+      "label": "Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations",
+      "query": "Acute Myeloid Leukemia with Other Defined Genetic Alterations",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with Other Defined Genetic Alterations. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_Other_Defined_Genetic_Alterations.",
+      "row_index": 205
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion",
+      "query": "Acute Myeloid Leukemia with RBM15 MRTFA Fusion",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with RBM15 MRTFA Fusion. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_RBM15_MRTFA_Fusion.",
+      "row_index": 206
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::AML::Genetic_Abnormalities::Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion",
+      "label": "Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion",
+      "query": "Acute Myeloid Leukemia with RUNX1 RUNX1T1 Fusion",
+      "provenance": "who",
+      "embed_text": "Acute Myeloid Leukemia with RUNX1 RUNX1T1 Fusion. Pathology taxonomy leaf: Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion. Full path: Heme > Myeloid_Neoplasms > AML > Genetic_Abnormalities > Acute_Myeloid_Leukemia_with_RUNX1_RUNX1T1_Fusion.",
+      "row_index": 207
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations",
+      "label": "Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations",
+      "query": "Acute Leukemia of Ambiguous Lineage with Other Defined Genetic Alterations",
+      "provenance": "who",
+      "embed_text": "Acute Leukemia of Ambiguous Lineage with Other Defined Genetic Alterations. Pathology taxonomy leaf: Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Genetic_Abnormalities > Acute_Leukemia_of_Ambiguous_Lineage_with_Other_Defined_Genetic_Alterations.",
+      "row_index": 208
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+      "label": "Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion",
+      "query": "Mixed phenotype Acute Leukemia with BCR ABL1 Fusion",
+      "provenance": "who",
+      "embed_text": "Mixed phenotype Acute Leukemia with BCR ABL1 Fusion. Pathology taxonomy leaf: Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Genetic_Abnormalities > Mixed_phenotype_Acute_Leukemia_with_BCR_ABL1_Fusion.",
+      "row_index": 209
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Genetic_Abnormalities::Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement",
+      "label": "Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement",
+      "query": "Mixed phenotype Acute Leukemia with KMT2A Rearrangement",
+      "provenance": "who",
+      "embed_text": "Mixed phenotype Acute Leukemia with KMT2A Rearrangement. Pathology taxonomy leaf: Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Genetic_Abnormalities > Mixed_phenotype_Acute_Leukemia_with_KMT2A_Rearrangement.",
+      "row_index": 210
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Acute_Leukemia_of_Ambiguous_Lineage_NOS",
+      "label": "Acute_Leukemia_of_Ambiguous_Lineage_NOS",
+      "query": "Acute Leukemia of Ambiguous Lineage NOS",
+      "provenance": "who",
+      "embed_text": "Acute Leukemia of Ambiguous Lineage NOS. Pathology taxonomy leaf: Acute_Leukemia_of_Ambiguous_Lineage_NOS. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Immunophenotype > Acute_Leukemia_of_Ambiguous_Lineage_NOS.",
+      "row_index": 211
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Acute_Undifferentiated_Leukemia",
+      "label": "Acute_Undifferentiated_Leukemia",
+      "query": "Acute Undifferentiated Leukemia",
+      "provenance": "who",
+      "embed_text": "Acute Undifferentiated Leukemia. Pathology taxonomy leaf: Acute_Undifferentiated_Leukemia. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Immunophenotype > Acute_Undifferentiated_Leukemia.",
+      "row_index": 212
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_B_myeloid",
+      "label": "Mixed_phenotype_Acute_Leukemia_B_myeloid",
+      "query": "Mixed phenotype Acute Leukemia B myeloid",
+      "provenance": "who",
+      "embed_text": "Mixed phenotype Acute Leukemia B myeloid. Pathology taxonomy leaf: Mixed_phenotype_Acute_Leukemia_B_myeloid. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Immunophenotype > Mixed_phenotype_Acute_Leukemia_B_myeloid.",
+      "row_index": 213
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_Rare_Types",
+      "label": "Mixed_phenotype_Acute_Leukemia_Rare_Types",
+      "query": "Mixed phenotype Acute Leukemia Rare Types",
+      "provenance": "who",
+      "embed_text": "Mixed phenotype Acute Leukemia Rare Types. Pathology taxonomy leaf: Mixed_phenotype_Acute_Leukemia_Rare_Types. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Immunophenotype > Mixed_phenotype_Acute_Leukemia_Rare_Types.",
+      "row_index": 214
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Ambiguous_Lineage::Immunophenotype::Mixed_phenotype_Acute_Leukemia_T_myeloid",
+      "label": "Mixed_phenotype_Acute_Leukemia_T_myeloid",
+      "query": "Mixed phenotype Acute Leukemia T myeloid",
+      "provenance": "who",
+      "embed_text": "Mixed phenotype Acute Leukemia T myeloid. Pathology taxonomy leaf: Mixed_phenotype_Acute_Leukemia_T_myeloid. Full path: Heme > Myeloid_Neoplasms > Ambiguous_Lineage > Immunophenotype > Mixed_phenotype_Acute_Leukemia_T_myeloid.",
+      "row_index": 215
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+      "label": "Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable",
+      "query": "Myelodysplastic myeloproliferative Neoplasm NOS Unclassifiable",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic myeloproliferative Neoplasm NOS Unclassifiable. Pathology taxonomy leaf: Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable. Full path: Heme > Myeloid_Neoplasms > MDS_MPN > Myelodysplastic_myeloproliferative_Neoplasm_NOS_Unclassifiable.",
+      "row_index": 216
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::MDS_MPN::Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia",
+      "label": "Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia",
+      "query": "Myelodysplastic myeloproliferative Neoplasm with Neutrophilia",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic myeloproliferative Neoplasm with Neutrophilia. Pathology taxonomy leaf: Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia. Full path: Heme > Myeloid_Neoplasms > MDS_MPN > Myelodysplastic_myeloproliferative_Neoplasm_with_Neutrophilia.",
+      "row_index": 217
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Childhood_MDN::Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts",
+      "label": "Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts",
+      "query": "Childhood Myelodysplastic Neoplasm with Increased Blasts",
+      "provenance": "who",
+      "embed_text": "Childhood Myelodysplastic Neoplasm with Increased Blasts. Pathology taxonomy leaf: Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Childhood_MDN > Childhood_Myelodysplastic_Neoplasm_with_Increased_Blasts.",
+      "row_index": 218
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation",
+      "label": "Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation",
+      "query": "Myelodysplastic Neoplasm with Biallelic TP53 Inactivation",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic Neoplasm with Biallelic TP53 Inactivation. Pathology taxonomy leaf: Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Genetic_Abnormalities > Myelodysplastic_Neoplasm_with_Biallelic_TP53_Inactivation.",
+      "row_index": 219
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion",
+      "query": "Myelodysplastic Neoplasm with Low Blasts and 5q Deletion",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic Neoplasm with Low Blasts and 5q Deletion. Pathology taxonomy leaf: Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Genetic_Abnormalities > Myelodysplastic_Neoplasm_with_Low_Blasts_and_5q_Deletion.",
+      "row_index": 220
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Genetic_Abnormalities::Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation",
+      "query": "Myelodysplastic Neoplasm with Low Blasts and SF3B1 Mutation",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic Neoplasm with Low Blasts and SF3B1 Mutation. Pathology taxonomy leaf: Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Genetic_Abnormalities > Myelodysplastic_Neoplasm_with_Low_Blasts_and_SF3B1_Mutation.",
+      "row_index": 221
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Morphologic::Myelodysplastic_Neoplasm_Hypoplastic",
+      "label": "Myelodysplastic_Neoplasm_Hypoplastic",
+      "query": "Myelodysplastic Neoplasm Hypoplastic",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic Neoplasm Hypoplastic. Pathology taxonomy leaf: Myelodysplastic_Neoplasm_Hypoplastic. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Morphologic > Myelodysplastic_Neoplasm_Hypoplastic.",
+      "row_index": 222
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myelodysplastic_Neoplasms::Morphologic::Myelodysplastic_Neoplasm_with_Low_Blasts",
+      "label": "Myelodysplastic_Neoplasm_with_Low_Blasts",
+      "query": "Myelodysplastic Neoplasm with Low Blasts",
+      "provenance": "who",
+      "embed_text": "Myelodysplastic Neoplasm with Low Blasts. Pathology taxonomy leaf: Myelodysplastic_Neoplasm_with_Low_Blasts. Full path: Heme > Myeloid_Neoplasms > Myelodysplastic_Neoplasms > Morphologic > Myelodysplastic_Neoplasm_with_Low_Blasts.",
+      "row_index": 223
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion",
+      "label": "Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion",
+      "query": "Myeloid lymphoid Neoplasm with ETV6 ABL1 Fusion",
+      "provenance": "who",
+      "embed_text": "Myeloid lymphoid Neoplasm with ETV6 ABL1 Fusion. Pathology taxonomy leaf: Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion. Full path: Heme > Myeloid_Neoplasms > Myeloid_Lymphoid > Eosinophilia_TK > Myeloid_lymphoid_Neoplasm_with_ETV6_ABL1_Fusion.",
+      "row_index": 224
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement",
+      "label": "Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement",
+      "query": "Myeloid lymphoid Neoplasm with FLT3 Rearrangement",
+      "provenance": "who",
+      "embed_text": "Myeloid lymphoid Neoplasm with FLT3 Rearrangement. Pathology taxonomy leaf: Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement. Full path: Heme > Myeloid_Neoplasms > Myeloid_Lymphoid > Eosinophilia_TK > Myeloid_lymphoid_Neoplasm_with_FLT3_Rearrangement.",
+      "row_index": 225
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloid_Lymphoid::Eosinophilia_TK::Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+      "label": "Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions",
+      "query": "Myeloid lymphoid Neoplasms with Other Tyrosine Kinase Gene Fusions",
+      "provenance": "who",
+      "embed_text": "Myeloid lymphoid Neoplasms with Other Tyrosine Kinase Gene Fusions. Pathology taxonomy leaf: Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions. Full path: Heme > Myeloid_Neoplasms > Myeloid_Lymphoid > Eosinophilia_TK > Myeloid_lymphoid_Neoplasms_with_Other_Tyrosine_Kinase_Gene_Fusions.",
+      "row_index": 226
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloproliferative_Neoplasms::Chronic_Neutrophilic_Leukemia",
+      "label": "Chronic_Neutrophilic_Leukemia",
+      "query": "Chronic Neutrophilic Leukemia",
+      "provenance": "who",
+      "embed_text": "Chronic Neutrophilic Leukemia. Pathology taxonomy leaf: Chronic_Neutrophilic_Leukemia. Full path: Heme > Myeloid_Neoplasms > Myeloproliferative_Neoplasms > Chronic_Neutrophilic_Leukemia.",
+      "row_index": 227
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Myeloproliferative_Neoplasms::Mastocytosis::Mast_Cell_Sarcoma",
+      "label": "Mast_Cell_Sarcoma",
+      "query": "Mast Cell Sarcoma",
+      "provenance": "who",
+      "embed_text": "Mast Cell Sarcoma. Pathology taxonomy leaf: Mast_Cell_Sarcoma. Full path: Heme > Myeloid_Neoplasms > Myeloproliferative_Neoplasms > Mastocytosis > Mast_Cell_Sarcoma.",
+      "row_index": 228
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_HematopoieAdjustments::Clonal_Hematopoiesis",
+      "label": "Clonal_Hematopoiesis",
+      "query": "Clonal Hematopoiesis",
+      "provenance": "who",
+      "embed_text": "Clonal Hematopoiesis. Pathology taxonomy leaf: Clonal_Hematopoiesis. Full path: Heme > Myeloid_Neoplasms > Precursor_Lesions > Clonal_HematopoieAdjustments > Clonal_Hematopoiesis.",
+      "row_index": 229
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Precursor_Lesions::Clonal_Hematopoiesis::Clonal_Cytopenia_of_Undetermined_Significance",
+      "label": "Clonal_Cytopenia_of_Undetermined_Significance",
+      "query": "Clonal Cytopenia of Undetermined Significance",
+      "provenance": "who",
+      "embed_text": "Clonal Cytopenia of Undetermined Significance. Pathology taxonomy leaf: Clonal_Cytopenia_of_Undetermined_Significance. Full path: Heme > Myeloid_Neoplasms > Precursor_Lesions > Clonal_Hematopoiesis > Clonal_Cytopenia_of_Undetermined_Significance.",
+      "row_index": 230
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "label": "Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "query": "Myeloid Neoplasm Post Cytotoxic Therapy",
+      "provenance": "who",
+      "embed_text": "Myeloid Neoplasm Post Cytotoxic Therapy. Pathology taxonomy leaf: Myeloid_Neoplasm_Post_Cytotoxic_Therapy. Full path: Heme > Myeloid_Neoplasms > Secondary_Neoplasms > Antecedent_Conditions > Myeloid_Neoplasm_Post_Cytotoxic_Therapy.",
+      "row_index": 231
+    },
+    {
+      "tag": "Heme::Myeloid_Neoplasms::Secondary_Neoplasms::Antecedent_Conditions::Myeloid_Proliferations_Associated_with_Down_Syndrome",
+      "label": "Myeloid_Proliferations_Associated_with_Down_Syndrome",
+      "query": "Myeloid Proliferations Associated with Down Syndrome",
+      "provenance": "who",
+      "embed_text": "Myeloid Proliferations Associated with Down Syndrome. Pathology taxonomy leaf: Myeloid_Proliferations_Associated_with_Down_Syndrome. Full path: Heme > Myeloid_Neoplasms > Secondary_Neoplasms > Antecedent_Conditions > Myeloid_Proliferations_Associated_with_Down_Syndrome.",
+      "row_index": 232
+    },
+    {
+      "tag": "Heme::Myeloid_Sarcoma",
+      "label": "Myeloid_Sarcoma",
+      "query": "Myeloid Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Myeloid Sarcoma. Pathology taxonomy leaf: Myeloid_Sarcoma. Full path: Heme > Myeloid_Sarcoma.",
+      "row_index": 233
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Eosinophilic_Leukemia",
+      "label": "Chronic_Eosinophilic_Leukemia",
+      "query": "Chronic Eosinophilic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Chronic Eosinophilic Leukemia. Pathology taxonomy leaf: Chronic_Eosinophilic_Leukemia. Full path: Heme > Myeloproliferative_Neoplasm > Chronic_Eosinophilic_Leukemia.",
+      "row_index": 234
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Myeloid_Leukemia",
+      "label": "Chronic_Myeloid_Leukemia",
+      "query": "Chronic Myeloid Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Chronic Myeloid Leukemia. Pathology taxonomy leaf: Chronic_Myeloid_Leukemia. Full path: Heme > Myeloproliferative_Neoplasm > Chronic_Myeloid_Leukemia.",
+      "row_index": 235
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Chronic_Neutrophilic_Leukemia",
+      "label": "Chronic_Neutrophilic_Leukemia",
+      "query": "Chronic Neutrophilic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Chronic Neutrophilic Leukemia. Pathology taxonomy leaf: Chronic_Neutrophilic_Leukemia. Full path: Heme > Myeloproliferative_Neoplasm > Chronic_Neutrophilic_Leukemia.",
+      "row_index": 236
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Essential_Thrombocythemia",
+      "label": "Essential_Thrombocythemia",
+      "query": "Essential Thrombocythemia",
+      "provenance": "abpath",
+      "embed_text": "Essential Thrombocythemia. Pathology taxonomy leaf: Essential_Thrombocythemia. Full path: Heme > Myeloproliferative_Neoplasm > Essential_Thrombocythemia.",
+      "row_index": 237
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Juvenile_Myelomonocytic_Leukemia",
+      "label": "Juvenile_Myelomonocytic_Leukemia",
+      "query": "Juvenile Myelomonocytic Leukemia",
+      "provenance": "abpath",
+      "embed_text": "Juvenile Myelomonocytic Leukemia. Pathology taxonomy leaf: Juvenile_Myelomonocytic_Leukemia. Full path: Heme > Myeloproliferative_Neoplasm > Juvenile_Myelomonocytic_Leukemia.",
+      "row_index": 238
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Myeloproliferative_Neoplasm_NOS",
+      "label": "Myeloproliferative_Neoplasm_NOS",
+      "query": "Myeloproliferative Neoplasm NOS",
+      "provenance": "abpath",
+      "embed_text": "Myeloproliferative Neoplasm NOS. Pathology taxonomy leaf: Myeloproliferative_Neoplasm_NOS. Full path: Heme > Myeloproliferative_Neoplasm > Myeloproliferative_Neoplasm_NOS.",
+      "row_index": 239
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Polycythemia_Vera",
+      "label": "Polycythemia_Vera",
+      "query": "Polycythemia Vera",
+      "provenance": "abpath",
+      "embed_text": "Polycythemia Vera. Pathology taxonomy leaf: Polycythemia_Vera. Full path: Heme > Myeloproliferative_Neoplasm > Polycythemia_Vera.",
+      "row_index": 240
+    },
+    {
+      "tag": "Heme::Myeloproliferative_Neoplasm::Primary_Myelofibrosis",
+      "label": "Primary_Myelofibrosis",
+      "query": "Primary Myelofibrosis",
+      "provenance": "abpath",
+      "embed_text": "Primary Myelofibrosis. Pathology taxonomy leaf: Primary_Myelofibrosis. Full path: Heme > Myeloproliferative_Neoplasm > Primary_Myelofibrosis.",
+      "row_index": 241
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Paget_Disease",
+      "label": "Paget_Disease",
+      "query": "Paget Disease",
+      "provenance": "abpath",
+      "embed_text": "Paget Disease. Pathology taxonomy leaf: Paget_Disease. Full path: Heme > Non_Neoplastic > Bone_Marrow > Paget_Disease.",
+      "row_index": 242
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Renal_Osteodystrophy",
+      "label": "Renal_Osteodystrophy",
+      "query": "Renal Osteodystrophy",
+      "provenance": "abpath",
+      "embed_text": "Renal Osteodystrophy. Pathology taxonomy leaf: Renal_Osteodystrophy. Full path: Heme > Non_Neoplastic > Bone_Marrow > Renal_Osteodystrophy.",
+      "row_index": 243
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Bone_Marrow::Therapy_Related_Changes",
+      "label": "Therapy_Related_Changes",
+      "query": "Therapy Related Changes",
+      "provenance": "abpath",
+      "embed_text": "Therapy Related Changes. Pathology taxonomy leaf: Therapy_Related_Changes. Full path: Heme > Non_Neoplastic > Bone_Marrow > Therapy_Related_Changes.",
+      "row_index": 244
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Anemia_Of_Chronic_Disease",
+      "label": "Anemia_Of_Chronic_Disease",
+      "query": "Anemia Of Chronic Disease",
+      "provenance": "abpath",
+      "embed_text": "Anemia Of Chronic Disease. Pathology taxonomy leaf: Anemia_Of_Chronic_Disease. Full path: Heme > Non_Neoplastic > Erythrocyte > Anemia_Of_Chronic_Disease.",
+      "row_index": 245
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Aplastic_Anemia",
+      "label": "Aplastic_Anemia",
+      "query": "Aplastic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Aplastic Anemia. Pathology taxonomy leaf: Aplastic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Aplastic_Anemia.",
+      "row_index": 246
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Congenital_Dyserythropoietic_Anemia",
+      "label": "Congenital_Dyserythropoietic_Anemia",
+      "query": "Congenital Dyserythropoietic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Congenital Dyserythropoietic Anemia. Pathology taxonomy leaf: Congenital_Dyserythropoietic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Congenital_Dyserythropoietic_Anemia.",
+      "row_index": 247
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Diamond_Blackfan_Anemia",
+      "label": "Diamond_Blackfan_Anemia",
+      "query": "Diamond Blackfan Anemia",
+      "provenance": "abpath",
+      "embed_text": "Diamond Blackfan Anemia. Pathology taxonomy leaf: Diamond_Blackfan_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Diamond_Blackfan_Anemia.",
+      "row_index": 248
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Erythrocytosis",
+      "label": "Erythrocytosis",
+      "query": "Erythrocytosis",
+      "provenance": "abpath",
+      "embed_text": "Erythrocytosis. Pathology taxonomy leaf: Erythrocytosis. Full path: Heme > Non_Neoplastic > Erythrocyte > Erythrocytosis.",
+      "row_index": 249
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::G6PD_Deficiency",
+      "label": "G6PD_Deficiency",
+      "query": "G6PD Deficiency",
+      "provenance": "abpath",
+      "embed_text": "G6PD Deficiency. Pathology taxonomy leaf: G6PD_Deficiency. Full path: Heme > Non_Neoplastic > Erythrocyte > G6PD_Deficiency.",
+      "row_index": 250
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_C_Disease",
+      "label": "Hemoglobin_C_Disease",
+      "query": "Hemoglobin C Disease",
+      "provenance": "abpath",
+      "embed_text": "Hemoglobin C Disease. Pathology taxonomy leaf: Hemoglobin_C_Disease. Full path: Heme > Non_Neoplastic > Erythrocyte > Hemoglobin_C_Disease.",
+      "row_index": 251
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_E_Disease",
+      "label": "Hemoglobin_E_Disease",
+      "query": "Hemoglobin E Disease",
+      "provenance": "abpath",
+      "embed_text": "Hemoglobin E Disease. Pathology taxonomy leaf: Hemoglobin_E_Disease. Full path: Heme > Non_Neoplastic > Erythrocyte > Hemoglobin_E_Disease.",
+      "row_index": 252
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hemoglobin_S_Disease",
+      "label": "Hemoglobin_S_Disease",
+      "query": "Hemoglobin S Disease",
+      "provenance": "abpath",
+      "embed_text": "Hemoglobin S Disease. Pathology taxonomy leaf: Hemoglobin_S_Disease. Full path: Heme > Non_Neoplastic > Erythrocyte > Hemoglobin_S_Disease.",
+      "row_index": 253
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hereditary_Elliptocytosis",
+      "label": "Hereditary_Elliptocytosis",
+      "query": "Hereditary Elliptocytosis",
+      "provenance": "abpath",
+      "embed_text": "Hereditary Elliptocytosis. Pathology taxonomy leaf: Hereditary_Elliptocytosis. Full path: Heme > Non_Neoplastic > Erythrocyte > Hereditary_Elliptocytosis.",
+      "row_index": 254
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Hereditary_Spherocytosis",
+      "label": "Hereditary_Spherocytosis",
+      "query": "Hereditary Spherocytosis",
+      "provenance": "abpath",
+      "embed_text": "Hereditary Spherocytosis. Pathology taxonomy leaf: Hereditary_Spherocytosis. Full path: Heme > Non_Neoplastic > Erythrocyte > Hereditary_Spherocytosis.",
+      "row_index": 255
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Immune_Hemolytic_Anemia",
+      "label": "Immune_Hemolytic_Anemia",
+      "query": "Immune Hemolytic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Immune Hemolytic Anemia. Pathology taxonomy leaf: Immune_Hemolytic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Immune_Hemolytic_Anemia.",
+      "row_index": 256
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Iron_Deficiency_Anemia",
+      "label": "Iron_Deficiency_Anemia",
+      "query": "Iron Deficiency Anemia",
+      "provenance": "abpath",
+      "embed_text": "Iron Deficiency Anemia. Pathology taxonomy leaf: Iron_Deficiency_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Iron_Deficiency_Anemia.",
+      "row_index": 257
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Lead_Poisoning",
+      "label": "Lead_Poisoning",
+      "query": "Lead Poisoning",
+      "provenance": "abpath",
+      "embed_text": "Lead Poisoning. Pathology taxonomy leaf: Lead_Poisoning. Full path: Heme > Non_Neoplastic > Erythrocyte > Lead_Poisoning.",
+      "row_index": 258
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Megaloblastic_Anemia",
+      "label": "Megaloblastic_Anemia",
+      "query": "Megaloblastic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Megaloblastic Anemia. Pathology taxonomy leaf: Megaloblastic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Megaloblastic_Anemia.",
+      "row_index": 259
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Microangiopathic_Hemolytic_Anemia",
+      "label": "Microangiopathic_Hemolytic_Anemia",
+      "query": "Microangiopathic Hemolytic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Microangiopathic Hemolytic Anemia. Pathology taxonomy leaf: Microangiopathic_Hemolytic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Microangiopathic_Hemolytic_Anemia.",
+      "row_index": 260
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Paroxysmal_Nocturnal_Hemoglobinuria_PNH",
+      "label": "Paroxysmal_Nocturnal_Hemoglobinuria_PNH",
+      "query": "Paroxysmal Nocturnal Hemoglobinuria PNH",
+      "provenance": "abpath",
+      "embed_text": "Paroxysmal Nocturnal Hemoglobinuria PNH. Pathology taxonomy leaf: Paroxysmal_Nocturnal_Hemoglobinuria_PNH. Full path: Heme > Non_Neoplastic > Erythrocyte > Paroxysmal_Nocturnal_Hemoglobinuria_PNH.",
+      "row_index": 261
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Porphyria",
+      "label": "Porphyria",
+      "query": "Porphyria",
+      "provenance": "abpath",
+      "embed_text": "Porphyria. Pathology taxonomy leaf: Porphyria. Full path: Heme > Non_Neoplastic > Erythrocyte > Porphyria.",
+      "row_index": 262
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Pyruvate_Kinase_Deficiency",
+      "label": "Pyruvate_Kinase_Deficiency",
+      "query": "Pyruvate Kinase Deficiency",
+      "provenance": "abpath",
+      "embed_text": "Pyruvate Kinase Deficiency. Pathology taxonomy leaf: Pyruvate_Kinase_Deficiency. Full path: Heme > Non_Neoplastic > Erythrocyte > Pyruvate_Kinase_Deficiency.",
+      "row_index": 263
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Acquired",
+      "label": "Sideroblastic_Anemia_Acquired",
+      "query": "Sideroblastic Anemia Acquired",
+      "provenance": "abpath",
+      "embed_text": "Sideroblastic Anemia Acquired. Pathology taxonomy leaf: Sideroblastic_Anemia_Acquired. Full path: Heme > Non_Neoplastic > Erythrocyte > Sideroblastic_Anemia_Acquired.",
+      "row_index": 264
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Sideroblastic_Anemia_Inherited",
+      "label": "Sideroblastic_Anemia_Inherited",
+      "query": "Sideroblastic Anemia Inherited",
+      "provenance": "abpath",
+      "embed_text": "Sideroblastic Anemia Inherited. Pathology taxonomy leaf: Sideroblastic_Anemia_Inherited. Full path: Heme > Non_Neoplastic > Erythrocyte > Sideroblastic_Anemia_Inherited.",
+      "row_index": 265
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Spur_Cell_Anemia",
+      "label": "Spur_Cell_Anemia",
+      "query": "Spur Cell Anemia",
+      "provenance": "abpath",
+      "embed_text": "Spur Cell Anemia. Pathology taxonomy leaf: Spur_Cell_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Spur_Cell_Anemia.",
+      "row_index": 266
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Thalassemia",
+      "label": "Thalassemia",
+      "query": "Thalassemia",
+      "provenance": "abpath",
+      "embed_text": "Thalassemia. Pathology taxonomy leaf: Thalassemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Thalassemia.",
+      "row_index": 267
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Erythrocyte::Thermal_Injury_Hemolytic_Anemia",
+      "label": "Thermal_Injury_Hemolytic_Anemia",
+      "query": "Thermal Injury Hemolytic Anemia",
+      "provenance": "abpath",
+      "embed_text": "Thermal Injury Hemolytic Anemia. Pathology taxonomy leaf: Thermal_Injury_Hemolytic_Anemia. Full path: Heme > Non_Neoplastic > Erythrocyte > Thermal_Injury_Hemolytic_Anemia.",
+      "row_index": 268
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Alder_Reilly_Anomaly",
+      "label": "Alder_Reilly_Anomaly",
+      "query": "Alder Reilly Anomaly",
+      "provenance": "abpath",
+      "embed_text": "Alder Reilly Anomaly. Pathology taxonomy leaf: Alder_Reilly_Anomaly. Full path: Heme > Non_Neoplastic > Leukocyte > Alder_Reilly_Anomaly.",
+      "row_index": 269
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Chediak_Higashi_Syndrome",
+      "label": "Chediak_Higashi_Syndrome",
+      "query": "Chediak Higashi Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Chediak Higashi Syndrome. Pathology taxonomy leaf: Chediak_Higashi_Syndrome. Full path: Heme > Non_Neoplastic > Leukocyte > Chediak_Higashi_Syndrome.",
+      "row_index": 270
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::May_Hegglin_Anomaly",
+      "label": "May_Hegglin_Anomaly",
+      "query": "May Hegglin Anomaly",
+      "provenance": "abpath",
+      "embed_text": "May Hegglin Anomaly. Pathology taxonomy leaf: May_Hegglin_Anomaly. Full path: Heme > Non_Neoplastic > Leukocyte > May_Hegglin_Anomaly.",
+      "row_index": 271
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Leukocyte::Pelger_Huet_Anomaly",
+      "label": "Pelger_Huet_Anomaly",
+      "query": "Pelger Huet Anomaly",
+      "provenance": "abpath",
+      "embed_text": "Pelger Huet Anomaly. Pathology taxonomy leaf: Pelger_Huet_Anomaly. Full path: Heme > Non_Neoplastic > Leukocyte > Pelger_Huet_Anomaly.",
+      "row_index": 272
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Dermatopathic_Lymphadenopathy",
+      "label": "Dermatopathic_Lymphadenopathy",
+      "query": "Dermatopathic Lymphadenopathy",
+      "provenance": "abpath",
+      "embed_text": "Dermatopathic Lymphadenopathy. Pathology taxonomy leaf: Dermatopathic_Lymphadenopathy. Full path: Heme > Non_Neoplastic > Lymph_Node > Dermatopathic_Lymphadenopathy.",
+      "row_index": 273
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Non_Lymphoid_Inclusions_Mesothelial",
+      "label": "Non_Lymphoid_Inclusions_Mesothelial",
+      "query": "Non Lymphoid Inclusions Mesothelial",
+      "provenance": "abpath",
+      "embed_text": "Non Lymphoid Inclusions Mesothelial. Pathology taxonomy leaf: Non_Lymphoid_Inclusions_Mesothelial. Full path: Heme > Non_Neoplastic > Lymph_Node > Non_Lymphoid_Inclusions_Mesothelial.",
+      "row_index": 274
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Lymph_Node::Phenytoin_Induced_Lymphadenopathy",
+      "label": "Phenytoin_Induced_Lymphadenopathy",
+      "query": "Phenytoin Induced Lymphadenopathy",
+      "provenance": "abpath",
+      "embed_text": "Phenytoin Induced Lymphadenopathy. Pathology taxonomy leaf: Phenytoin_Induced_Lymphadenopathy. Full path: Heme > Non_Neoplastic > Lymph_Node > Phenytoin_Induced_Lymphadenopathy.",
+      "row_index": 275
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Antiphospholipid_Antibody_Syndrome",
+      "label": "Antiphospholipid_Antibody_Syndrome",
+      "query": "Antiphospholipid Antibody Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Antiphospholipid Antibody Syndrome. Pathology taxonomy leaf: Antiphospholipid_Antibody_Syndrome. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Antiphospholipid_Antibody_Syndrome.",
+      "row_index": 276
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Disseminated_Intravascular_Coagulation",
+      "label": "Disseminated_Intravascular_Coagulation",
+      "query": "Disseminated Intravascular Coagulation",
+      "provenance": "abpath",
+      "embed_text": "Disseminated Intravascular Coagulation. Pathology taxonomy leaf: Disseminated_Intravascular_Coagulation. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Disseminated_Intravascular_Coagulation.",
+      "row_index": 277
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Deficiency",
+      "label": "Factor_Deficiency",
+      "query": "Factor Deficiency",
+      "provenance": "abpath",
+      "embed_text": "Factor Deficiency. Pathology taxonomy leaf: Factor_Deficiency. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Factor_Deficiency.",
+      "row_index": 278
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Factor_Inhibitor",
+      "label": "Factor_Inhibitor",
+      "query": "Factor Inhibitor",
+      "provenance": "abpath",
+      "embed_text": "Factor Inhibitor. Pathology taxonomy leaf: Factor_Inhibitor. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Factor_Inhibitor.",
+      "row_index": 279
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Fibrinolysis",
+      "label": "Fibrinolysis",
+      "query": "Fibrinolysis",
+      "provenance": "abpath",
+      "embed_text": "Fibrinolysis. Pathology taxonomy leaf: Fibrinolysis. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Fibrinolysis.",
+      "row_index": 280
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Fibrinolytic_Thrombotic_Disorder",
+      "label": "Fibrinolytic_Thrombotic_Disorder",
+      "query": "Fibrinolytic Thrombotic Disorder",
+      "provenance": "abpath",
+      "embed_text": "Fibrinolytic Thrombotic Disorder. Pathology taxonomy leaf: Fibrinolytic_Thrombotic_Disorder. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Fibrinolytic_Thrombotic_Disorder.",
+      "row_index": 281
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Heparin_Induced_Thrombocytopenia",
+      "label": "Heparin_Induced_Thrombocytopenia",
+      "query": "Heparin Induced Thrombocytopenia",
+      "provenance": "abpath",
+      "embed_text": "Heparin Induced Thrombocytopenia. Pathology taxonomy leaf: Heparin_Induced_Thrombocytopenia. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Heparin_Induced_Thrombocytopenia.",
+      "row_index": 282
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Immune_Thrombocytopenia",
+      "label": "Immune_Thrombocytopenia",
+      "query": "Immune Thrombocytopenia",
+      "provenance": "abpath",
+      "embed_text": "Immune Thrombocytopenia. Pathology taxonomy leaf: Immune_Thrombocytopenia. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Immune_Thrombocytopenia.",
+      "row_index": 283
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Inherited_Thrombocytopenia",
+      "label": "Inherited_Thrombocytopenia",
+      "query": "Inherited Thrombocytopenia",
+      "provenance": "abpath",
+      "embed_text": "Inherited Thrombocytopenia. Pathology taxonomy leaf: Inherited_Thrombocytopenia. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Inherited_Thrombocytopenia.",
+      "row_index": 284
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Qualitative_Platelet_Disorder",
+      "label": "Qualitative_Platelet_Disorder",
+      "query": "Qualitative Platelet Disorder",
+      "provenance": "abpath",
+      "embed_text": "Qualitative Platelet Disorder. Pathology taxonomy leaf: Qualitative_Platelet_Disorder. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Qualitative_Platelet_Disorder.",
+      "row_index": 285
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Thrombocytosis",
+      "label": "Thrombocytosis",
+      "query": "Thrombocytosis",
+      "provenance": "abpath",
+      "embed_text": "Thrombocytosis. Pathology taxonomy leaf: Thrombocytosis. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Thrombocytosis.",
+      "row_index": 286
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome",
+      "label": "Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome",
+      "query": "Thrombotic Thrombocytopenic Purpura Hemolytic Uremic Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Thrombotic Thrombocytopenic Purpura Hemolytic Uremic Syndrome. Pathology taxonomy leaf: Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Thrombotic_Thrombocytopenic_Purpura_Hemolytic_Uremic_Syndrome.",
+      "row_index": 287
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Platelet_Coagulation::Von_Willebrand_Disease",
+      "label": "Von_Willebrand_Disease",
+      "query": "Von Willebrand Disease",
+      "provenance": "abpath",
+      "embed_text": "Von Willebrand Disease. Pathology taxonomy leaf: Von_Willebrand_Disease. Full path: Heme > Non_Neoplastic > Platelet_Coagulation > Von_Willebrand_Disease.",
+      "row_index": 288
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Spleen::Lymphoid_Hyperplasia",
+      "label": "Lymphoid_Hyperplasia",
+      "query": "Lymphoid Hyperplasia",
+      "provenance": "abpath",
+      "embed_text": "Lymphoid Hyperplasia. Pathology taxonomy leaf: Lymphoid_Hyperplasia. Full path: Heme > Non_Neoplastic > Spleen > Lymphoid_Hyperplasia.",
+      "row_index": 289
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Spleen::Splenic_Cyst",
+      "label": "Splenic_Cyst",
+      "query": "Splenic Cyst",
+      "provenance": "abpath",
+      "embed_text": "Splenic Cyst. Pathology taxonomy leaf: Splenic_Cyst. Full path: Heme > Non_Neoplastic > Spleen > Splenic_Cyst.",
+      "row_index": 290
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Thymus::Thymic_Hyperplasia",
+      "label": "Thymic_Hyperplasia",
+      "query": "Thymic Hyperplasia",
+      "provenance": "abpath",
+      "embed_text": "Thymic Hyperplasia. Pathology taxonomy leaf: Thymic_Hyperplasia. Full path: Heme > Non_Neoplastic > Thymus > Thymic_Hyperplasia.",
+      "row_index": 291
+    },
+    {
+      "tag": "Heme::Non_Neoplastic::Thymus::Thymoma",
+      "label": "Thymoma",
+      "query": "Thymoma",
+      "provenance": "abpath",
+      "embed_text": "Thymoma. Pathology taxonomy leaf: Thymoma. Full path: Heme > Non_Neoplastic > Thymus > Thymoma.",
+      "row_index": 292
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Cryoglobulinemia",
+      "label": "Cryoglobulinemia",
+      "query": "Cryoglobulinemia",
+      "provenance": "abpath",
+      "embed_text": "Cryoglobulinemia. Pathology taxonomy leaf: Cryoglobulinemia. Full path: Heme > Plasma_Cell_Neoplasm > Cryoglobulinemia.",
+      "row_index": 293
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Immunoglobulin_Related_Amyloidosis_AL",
+      "label": "Immunoglobulin_Related_Amyloidosis_AL",
+      "query": "Immunoglobulin Related Amyloidosis AL",
+      "provenance": "abpath",
+      "embed_text": "Immunoglobulin Related Amyloidosis AL. Pathology taxonomy leaf: Immunoglobulin_Related_Amyloidosis_AL. Full path: Heme > Plasma_Cell_Neoplasm > Deposition_Disease > Immunoglobulin_Related_Amyloidosis_AL.",
+      "row_index": 294
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Deposition_Disease::Monoclonal_Immunoglobulin_Deposition_Disease",
+      "label": "Monoclonal_Immunoglobulin_Deposition_Disease",
+      "query": "Monoclonal Immunoglobulin Deposition Disease",
+      "provenance": "abpath",
+      "embed_text": "Monoclonal Immunoglobulin Deposition Disease. Pathology taxonomy leaf: Monoclonal_Immunoglobulin_Deposition_Disease. Full path: Heme > Plasma_Cell_Neoplasm > Deposition_Disease > Monoclonal_Immunoglobulin_Deposition_Disease.",
+      "row_index": 295
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Alpha_Heavy_Chain_Disease",
+      "label": "Alpha_Heavy_Chain_Disease",
+      "query": "Alpha Heavy Chain Disease",
+      "provenance": "abpath",
+      "embed_text": "Alpha Heavy Chain Disease. Pathology taxonomy leaf: Alpha_Heavy_Chain_Disease. Full path: Heme > Plasma_Cell_Neoplasm > Heavy_Chain_Disease > Alpha_Heavy_Chain_Disease.",
+      "row_index": 296
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Gamma_Heavy_Chain_Disease",
+      "label": "Gamma_Heavy_Chain_Disease",
+      "query": "Gamma Heavy Chain Disease",
+      "provenance": "abpath",
+      "embed_text": "Gamma Heavy Chain Disease. Pathology taxonomy leaf: Gamma_Heavy_Chain_Disease. Full path: Heme > Plasma_Cell_Neoplasm > Heavy_Chain_Disease > Gamma_Heavy_Chain_Disease.",
+      "row_index": 297
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Heavy_Chain_Disease::Mu_Heavy_Chain_Disease",
+      "label": "Mu_Heavy_Chain_Disease",
+      "query": "Mu Heavy Chain Disease",
+      "provenance": "abpath",
+      "embed_text": "Mu Heavy Chain Disease. Pathology taxonomy leaf: Mu_Heavy_Chain_Disease. Full path: Heme > Plasma_Cell_Neoplasm > Heavy_Chain_Disease > Mu_Heavy_Chain_Disease.",
+      "row_index": 298
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Cold_Agglutinin_Disease",
+      "label": "Cold_Agglutinin_Disease",
+      "query": "Cold Agglutinin Disease",
+      "provenance": "abpath",
+      "embed_text": "Cold Agglutinin Disease. Pathology taxonomy leaf: Cold_Agglutinin_Disease. Full path: Heme > Plasma_Cell_Neoplasm > Monoclonal_Gammopathy > Cold_Agglutinin_Disease.",
+      "row_index": 299
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::IgM_MGUS",
+      "label": "IgM_MGUS",
+      "query": "IgM MGUS",
+      "provenance": "abpath",
+      "embed_text": "IgM MGUS. Pathology taxonomy leaf: IgM_MGUS. Full path: Heme > Plasma_Cell_Neoplasm > Monoclonal_Gammopathy > IgM_MGUS.",
+      "row_index": 300
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Monoclonal_Gammopathy_Of_Renal_Significance",
+      "label": "Monoclonal_Gammopathy_Of_Renal_Significance",
+      "query": "Monoclonal Gammopathy Of Renal Significance",
+      "provenance": "abpath",
+      "embed_text": "Monoclonal Gammopathy Of Renal Significance. Pathology taxonomy leaf: Monoclonal_Gammopathy_Of_Renal_Significance. Full path: Heme > Plasma_Cell_Neoplasm > Monoclonal_Gammopathy > Monoclonal_Gammopathy_Of_Renal_Significance.",
+      "row_index": 301
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Monoclonal_Gammopathy::Non_IgM_MGUS",
+      "label": "Non_IgM_MGUS",
+      "query": "Non IgM MGUS",
+      "provenance": "abpath",
+      "embed_text": "Non IgM MGUS. Pathology taxonomy leaf: Non_IgM_MGUS. Full path: Heme > Plasma_Cell_Neoplasm > Monoclonal_Gammopathy > Non_IgM_MGUS.",
+      "row_index": 302
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::POEMS_Syndrome",
+      "label": "POEMS_Syndrome",
+      "query": "POEMS Syndrome",
+      "provenance": "abpath",
+      "embed_text": "POEMS Syndrome. Pathology taxonomy leaf: POEMS_Syndrome. Full path: Heme > Plasma_Cell_Neoplasm > POEMS_Syndrome.",
+      "row_index": 303
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Myeloma",
+      "label": "Plasma_Cell_Myeloma",
+      "query": "Plasma Cell Myeloma",
+      "provenance": "abpath",
+      "embed_text": "Plasma Cell Myeloma. Pathology taxonomy leaf: Plasma_Cell_Myeloma. Full path: Heme > Plasma_Cell_Neoplasm > Plasma_Cell_Myeloma.",
+      "row_index": 304
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome",
+      "label": "Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome",
+      "query": "Plasma Cell Neoplasm With Paraneoplastic Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Plasma Cell Neoplasm With Paraneoplastic Syndrome. Pathology taxonomy leaf: Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome. Full path: Heme > Plasma_Cell_Neoplasm > Plasma_Cell_Neoplasm_With_Paraneoplastic_Syndrome.",
+      "row_index": 305
+    },
+    {
+      "tag": "Heme::Plasma_Cell_Neoplasm::Plasmacytoma",
+      "label": "Plasmacytoma",
+      "query": "Plasmacytoma",
+      "provenance": "abpath",
+      "embed_text": "Plasmacytoma. Pathology taxonomy leaf: Plasmacytoma. Full path: Heme > Plasma_Cell_Neoplasm > Plasmacytoma.",
+      "row_index": 306
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_NOS",
+      "label": "B_ALL_NOS",
+      "query": "B ALL NOS",
+      "provenance": "abpath",
+      "embed_text": "B ALL NOS. Pathology taxonomy leaf: B_ALL_NOS. Full path: Heme > Precursor_B_Cell > B_ALL_NOS.",
+      "row_index": 307
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Fusion",
+      "label": "B_ALL_With_BCR_ABL1_Fusion",
+      "query": "B ALL With BCR ABL1 Fusion",
+      "provenance": "abpath",
+      "embed_text": "B ALL With BCR ABL1 Fusion. Pathology taxonomy leaf: B_ALL_With_BCR_ABL1_Fusion. Full path: Heme > Precursor_B_Cell > B_ALL_With_BCR_ABL1_Fusion.",
+      "row_index": 308
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_BCR_ABL1_Like_Features",
+      "label": "B_ALL_With_BCR_ABL1_Like_Features",
+      "query": "B ALL With BCR ABL1 Like Features",
+      "provenance": "abpath",
+      "embed_text": "B ALL With BCR ABL1 Like Features. Pathology taxonomy leaf: B_ALL_With_BCR_ABL1_Like_Features. Full path: Heme > Precursor_B_Cell > B_ALL_With_BCR_ABL1_Like_Features.",
+      "row_index": 309
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_ETV6_RUNX1_Fusion",
+      "label": "B_ALL_With_ETV6_RUNX1_Fusion",
+      "query": "B ALL With ETV6 RUNX1 Fusion",
+      "provenance": "abpath",
+      "embed_text": "B ALL With ETV6 RUNX1 Fusion. Pathology taxonomy leaf: B_ALL_With_ETV6_RUNX1_Fusion. Full path: Heme > Precursor_B_Cell > B_ALL_With_ETV6_RUNX1_Fusion.",
+      "row_index": 310
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_ETV6_RUNX1_Like_Features",
+      "label": "B_ALL_With_ETV6_RUNX1_Like_Features",
+      "query": "B ALL With ETV6 RUNX1 Like Features",
+      "provenance": "abpath",
+      "embed_text": "B ALL With ETV6 RUNX1 Like Features. Pathology taxonomy leaf: B_ALL_With_ETV6_RUNX1_Like_Features. Full path: Heme > Precursor_B_Cell > B_ALL_With_ETV6_RUNX1_Like_Features.",
+      "row_index": 311
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_High_Hyperdiploidy",
+      "label": "B_ALL_With_High_Hyperdiploidy",
+      "query": "B ALL With High Hyperdiploidy",
+      "provenance": "abpath",
+      "embed_text": "B ALL With High Hyperdiploidy. Pathology taxonomy leaf: B_ALL_With_High_Hyperdiploidy. Full path: Heme > Precursor_B_Cell > B_ALL_With_High_Hyperdiploidy.",
+      "row_index": 312
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_Hypodiploidy",
+      "label": "B_ALL_With_Hypodiploidy",
+      "query": "B ALL With Hypodiploidy",
+      "provenance": "abpath",
+      "embed_text": "B ALL With Hypodiploidy. Pathology taxonomy leaf: B_ALL_With_Hypodiploidy. Full path: Heme > Precursor_B_Cell > B_ALL_With_Hypodiploidy.",
+      "row_index": 313
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_IGH_IL3_Fusion",
+      "label": "B_ALL_With_IGH_IL3_Fusion",
+      "query": "B ALL With IGH IL3 Fusion",
+      "provenance": "abpath",
+      "embed_text": "B ALL With IGH IL3 Fusion. Pathology taxonomy leaf: B_ALL_With_IGH_IL3_Fusion. Full path: Heme > Precursor_B_Cell > B_ALL_With_IGH_IL3_Fusion.",
+      "row_index": 314
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_KMT2A_Rearrangement",
+      "label": "B_ALL_With_KMT2A_Rearrangement",
+      "query": "B ALL With KMT2A Rearrangement",
+      "provenance": "abpath",
+      "embed_text": "B ALL With KMT2A Rearrangement. Pathology taxonomy leaf: B_ALL_With_KMT2A_Rearrangement. Full path: Heme > Precursor_B_Cell > B_ALL_With_KMT2A_Rearrangement.",
+      "row_index": 315
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_Other_Defined_Genetic_Alterations",
+      "label": "B_ALL_With_Other_Defined_Genetic_Alterations",
+      "query": "B ALL With Other Defined Genetic Alterations",
+      "provenance": "abpath",
+      "embed_text": "B ALL With Other Defined Genetic Alterations. Pathology taxonomy leaf: B_ALL_With_Other_Defined_Genetic_Alterations. Full path: Heme > Precursor_B_Cell > B_ALL_With_Other_Defined_Genetic_Alterations.",
+      "row_index": 316
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_TCF3_HLF_Fusion",
+      "label": "B_ALL_With_TCF3_HLF_Fusion",
+      "query": "B ALL With TCF3 HLF Fusion",
+      "provenance": "abpath",
+      "embed_text": "B ALL With TCF3 HLF Fusion. Pathology taxonomy leaf: B_ALL_With_TCF3_HLF_Fusion. Full path: Heme > Precursor_B_Cell > B_ALL_With_TCF3_HLF_Fusion.",
+      "row_index": 317
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_TCF3_PBX1_Fusion",
+      "label": "B_ALL_With_TCF3_PBX1_Fusion",
+      "query": "B ALL With TCF3 PBX1 Fusion",
+      "provenance": "abpath",
+      "embed_text": "B ALL With TCF3 PBX1 Fusion. Pathology taxonomy leaf: B_ALL_With_TCF3_PBX1_Fusion. Full path: Heme > Precursor_B_Cell > B_ALL_With_TCF3_PBX1_Fusion.",
+      "row_index": 318
+    },
+    {
+      "tag": "Heme::Precursor_B_Cell::B_ALL_With_iAMP21",
+      "label": "B_ALL_With_iAMP21",
+      "query": "B ALL With iAMP21",
+      "provenance": "abpath",
+      "embed_text": "B ALL With iAMP21. Pathology taxonomy leaf: B_ALL_With_iAMP21. Full path: Heme > Precursor_B_Cell > B_ALL_With_iAMP21.",
+      "row_index": 319
+    },
+    {
+      "tag": "Heme::Precursor_T_Cell::Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma",
+      "label": "Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma",
+      "query": "Early T Precursor Lymphoblastic Leukemia Lymphoma",
+      "provenance": "abpath",
+      "embed_text": "Early T Precursor Lymphoblastic Leukemia Lymphoma. Pathology taxonomy leaf: Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma. Full path: Heme > Precursor_T_Cell > Early_T_Precursor_Lymphoblastic_Leukemia_Lymphoma.",
+      "row_index": 320
+    },
+    {
+      "tag": "Heme::Precursor_T_Cell::T_ALL_NOS",
+      "label": "T_ALL_NOS",
+      "query": "T ALL NOS",
+      "provenance": "abpath",
+      "embed_text": "T ALL NOS. Pathology taxonomy leaf: T_ALL_NOS. Full path: Heme > Precursor_T_Cell > T_ALL_NOS.",
+      "row_index": 321
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Neoplasm_Associated_With_Germline_Predisposition",
+      "label": "Myeloid_Neoplasm_Associated_With_Germline_Predisposition",
+      "query": "Myeloid Neoplasm Associated With Germline Predisposition",
+      "provenance": "abpath",
+      "embed_text": "Myeloid Neoplasm Associated With Germline Predisposition. Pathology taxonomy leaf: Myeloid_Neoplasm_Associated_With_Germline_Predisposition. Full path: Heme > Secondary_Myeloid_Neoplasm > Myeloid_Neoplasm_Associated_With_Germline_Predisposition.",
+      "row_index": 322
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "label": "Myeloid_Neoplasm_Post_Cytotoxic_Therapy",
+      "query": "Myeloid Neoplasm Post Cytotoxic Therapy",
+      "provenance": "abpath",
+      "embed_text": "Myeloid Neoplasm Post Cytotoxic Therapy. Pathology taxonomy leaf: Myeloid_Neoplasm_Post_Cytotoxic_Therapy. Full path: Heme > Secondary_Myeloid_Neoplasm > Myeloid_Neoplasm_Post_Cytotoxic_Therapy.",
+      "row_index": 323
+    },
+    {
+      "tag": "Heme::Secondary_Myeloid_Neoplasm::Myeloid_Proliferation_Associated_With_Down_Syndrome",
+      "label": "Myeloid_Proliferation_Associated_With_Down_Syndrome",
+      "query": "Myeloid Proliferation Associated With Down Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Myeloid Proliferation Associated With Down Syndrome. Pathology taxonomy leaf: Myeloid_Proliferation_Associated_With_Down_Syndrome. Full path: Heme > Secondary_Myeloid_Neoplasm > Myeloid_Proliferation_Associated_With_Down_Syndrome.",
+      "row_index": 324
+    },
+    {
+      "tag": "Heme::Stroma_Derived::EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+      "label": "EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma",
+      "query": "EBV Positive Inflammatory Follicular Dendritic Cell Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "EBV Positive Inflammatory Follicular Dendritic Cell Sarcoma. Pathology taxonomy leaf: EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma. Full path: Heme > Stroma_Derived > EBV_Positive_Inflammatory_Follicular_Dendritic_Cell_Sarcoma.",
+      "row_index": 325
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Fibroblastic_Reticular_Cell_Tumor",
+      "label": "Fibroblastic_Reticular_Cell_Tumor",
+      "query": "Fibroblastic Reticular Cell Tumor",
+      "provenance": "abpath",
+      "embed_text": "Fibroblastic Reticular Cell Tumor. Pathology taxonomy leaf: Fibroblastic_Reticular_Cell_Tumor. Full path: Heme > Stroma_Derived > Fibroblastic_Reticular_Cell_Tumor.",
+      "row_index": 326
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Follicular_Dendritic_Cell_Sarcoma",
+      "label": "Follicular_Dendritic_Cell_Sarcoma",
+      "query": "Follicular Dendritic Cell Sarcoma",
+      "provenance": "abpath",
+      "embed_text": "Follicular Dendritic Cell Sarcoma. Pathology taxonomy leaf: Follicular_Dendritic_Cell_Sarcoma. Full path: Heme > Stroma_Derived > Follicular_Dendritic_Cell_Sarcoma.",
+      "row_index": 327
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Intranodal_Palisaded_Myofibroblastoma",
+      "label": "Intranodal_Palisaded_Myofibroblastoma",
+      "query": "Intranodal Palisaded Myofibroblastoma",
+      "provenance": "abpath",
+      "embed_text": "Intranodal Palisaded Myofibroblastoma. Pathology taxonomy leaf: Intranodal_Palisaded_Myofibroblastoma. Full path: Heme > Stroma_Derived > Intranodal_Palisaded_Myofibroblastoma.",
+      "row_index": 328
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Littoral_Cell_Angioma",
+      "label": "Littoral_Cell_Angioma",
+      "query": "Littoral Cell Angioma",
+      "provenance": "abpath",
+      "embed_text": "Littoral Cell Angioma. Pathology taxonomy leaf: Littoral_Cell_Angioma. Full path: Heme > Stroma_Derived > Littoral_Cell_Angioma.",
+      "row_index": 329
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Mesenchymal_Dendritic::Follicular_Dendritic::Fibroblastic_Reticular_Cell_Tumor",
+      "label": "Fibroblastic_Reticular_Cell_Tumor",
+      "query": "Fibroblastic Reticular Cell Tumor",
+      "provenance": "who",
+      "embed_text": "Fibroblastic Reticular Cell Tumor. Pathology taxonomy leaf: Fibroblastic_Reticular_Cell_Tumor. Full path: Heme > Stroma_Derived > Mesenchymal_Dendritic > Follicular_Dendritic > Fibroblastic_Reticular_Cell_Tumor.",
+      "row_index": 330
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Myofibroblastic_Tumors::Intranodal_Palisaded_Myofibroblastoma",
+      "label": "Intranodal_Palisaded_Myofibroblastoma",
+      "query": "Intranodal Palisaded Myofibroblastoma",
+      "provenance": "who",
+      "embed_text": "Intranodal Palisaded Myofibroblastoma. Pathology taxonomy leaf: Intranodal_Palisaded_Myofibroblastoma. Full path: Heme > Stroma_Derived > Myofibroblastic_Tumors > Intranodal_Palisaded_Myofibroblastoma.",
+      "row_index": 331
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen",
+      "label": "Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen",
+      "query": "Sclerosing Angiomatoid Nodular Transformation Of Spleen",
+      "provenance": "abpath",
+      "embed_text": "Sclerosing Angiomatoid Nodular Transformation Of Spleen. Pathology taxonomy leaf: Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen. Full path: Heme > Stroma_Derived > Sclerosing_Angiomatoid_Nodular_Transformation_Of_Spleen.",
+      "row_index": 332
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Hamartoma",
+      "label": "Splenic_Hamartoma",
+      "query": "Splenic Hamartoma",
+      "provenance": "abpath",
+      "embed_text": "Splenic Hamartoma. Pathology taxonomy leaf: Splenic_Hamartoma. Full path: Heme > Stroma_Derived > Splenic_Hamartoma.",
+      "row_index": 333
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Littoral_Cell_Angioma",
+      "label": "Littoral_Cell_Angioma",
+      "query": "Littoral Cell Angioma",
+      "provenance": "who",
+      "embed_text": "Littoral Cell Angioma. Pathology taxonomy leaf: Littoral_Cell_Angioma. Full path: Heme > Stroma_Derived > Splenic_Vascular > Littoral_Cell_Angioma.",
+      "row_index": 334
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen",
+      "label": "Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen",
+      "query": "Sclerosing Angiomatoid Nodular Transformation of Spleen",
+      "provenance": "who",
+      "embed_text": "Sclerosing Angiomatoid Nodular Transformation of Spleen. Pathology taxonomy leaf: Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen. Full path: Heme > Stroma_Derived > Splenic_Vascular > Sclerosing_Angiomatoid_Nodular_Transformation_of_Spleen.",
+      "row_index": 335
+    },
+    {
+      "tag": "Heme::Stroma_Derived::Splenic_Vascular::Splenic_Hamartoma",
+      "label": "Splenic_Hamartoma",
+      "query": "Splenic Hamartoma",
+      "provenance": "who",
+      "embed_text": "Splenic Hamartoma. Pathology taxonomy leaf: Splenic_Hamartoma. Full path: Heme > Stroma_Derived > Splenic_Vascular > Splenic_Hamartoma.",
+      "row_index": 336
+    },
+    {
+      "tag": "Heme::T_NK_Cell::EBV_Childhood::Severe_Mosquito_Bite_Allergy",
+      "label": "Severe_Mosquito_Bite_Allergy",
+      "query": "Severe Mosquito Bite Allergy",
+      "provenance": "who",
+      "embed_text": "Severe Mosquito Bite Allergy. Pathology taxonomy leaf: Severe_Mosquito_Bite_Allergy. Full path: Heme > T_NK_Cell > EBV_Childhood > Severe_Mosquito_Bite_Allergy.",
+      "row_index": 337
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder",
+      "label": "Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder",
+      "query": "Primary Cutaneous Acral CD8 positive T cell Lymphoproliferative Disorder",
+      "provenance": "who",
+      "embed_text": "Primary Cutaneous Acral CD8 positive T cell Lymphoproliferative Disorder. Pathology taxonomy leaf: Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Cutaneous_T_Cell > Primary_Cutaneous_Acral_CD8_positive_T_cell_Lymphoproliferative_Disorder.",
+      "row_index": 338
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma",
+      "query": "Primary Cutaneous CD30 positive T cell Lymphoproliferative Disorder Primary Cutaneous Anaplastic Large Cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Primary Cutaneous CD30 positive T cell Lymphoproliferative Disorder Primary Cutaneous Anaplastic Large Cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Cutaneous_T_Cell > Primary_Cutaneous_CD30_positive_T_cell_Lymphoproliferative_Disorder_Primary_Cutaneous_Anaplastic_Large_Cell_Lymphoma.",
+      "row_index": 339
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma",
+      "label": "Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma",
+      "query": "Primary Cutaneous CD8 positive Aggressive Epidermotropic Cytotoxic T cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Primary Cutaneous CD8 positive Aggressive Epidermotropic Cytotoxic T cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Cutaneous_T_Cell > Primary_Cutaneous_CD8_positive_Aggressive_Epidermotropic_Cytotoxic_T_cell_Lymphoma.",
+      "row_index": 340
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma",
+      "label": "Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma",
+      "query": "Primary Cutaneous Gamma delta T cell Lymphoma",
+      "provenance": "who",
+      "embed_text": "Primary Cutaneous Gamma delta T cell Lymphoma. Pathology taxonomy leaf: Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Cutaneous_T_Cell > Primary_Cutaneous_Gamma_delta_T_cell_Lymphoma.",
+      "row_index": 341
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Cutaneous_T_Cell::Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS",
+      "label": "Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS",
+      "query": "Primary Cutaneous Peripheral T cell Lymphoma NOS",
+      "provenance": "who",
+      "embed_text": "Primary Cutaneous Peripheral T cell Lymphoma NOS. Pathology taxonomy leaf: Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Cutaneous_T_Cell > Primary_Cutaneous_Peripheral_T_cell_Lymphoma_NOS.",
+      "row_index": 342
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract",
+      "label": "Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract",
+      "query": "Indolent NK cell Lymphoproliferative Disorder of the Gastrointestinal Tract",
+      "provenance": "who",
+      "embed_text": "Indolent NK cell Lymphoproliferative Disorder of the Gastrointestinal Tract. Pathology taxonomy leaf: Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Intestinal_T_NK > Indolent_NK_cell_Lymphoproliferative_Disorder_of_the_Gastrointestinal_Tract.",
+      "row_index": 343
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::Intestinal_T_NK::Intestinal_T_cell_Lymphoma_NOS",
+      "label": "Intestinal_T_cell_Lymphoma_NOS",
+      "query": "Intestinal T cell Lymphoma NOS",
+      "provenance": "who",
+      "embed_text": "Intestinal T cell Lymphoma NOS. Pathology taxonomy leaf: Intestinal_T_cell_Lymphoma_NOS. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > Intestinal_T_NK > Intestinal_T_cell_Lymphoma_NOS.",
+      "row_index": 344
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Mature_T_NK_Cell::TFH_Nodal::Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS",
+      "label": "Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS",
+      "query": "Nodal T Follicular Helper Cell Lymphoma NOS",
+      "provenance": "who",
+      "embed_text": "Nodal T Follicular Helper Cell Lymphoma NOS. Pathology taxonomy leaf: Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS. Full path: Heme > T_NK_Cell > Mature_T_NK_Cell > TFH_Nodal > Nodal_T_Follicular_Helper_Cell_Lymphoma_NOS.",
+      "row_index": 345
+    },
+    {
+      "tag": "Heme::T_NK_Cell::Precursor_T_Cell::T_ALL::Early_T_precursor_Lymphoblastic_Leukemia_lymphoma",
+      "label": "Early_T_precursor_Lymphoblastic_Leukemia_lymphoma",
+      "query": "Early T precursor Lymphoblastic Leukemia lymphoma",
+      "provenance": "who",
+      "embed_text": "Early T precursor Lymphoblastic Leukemia lymphoma. Pathology taxonomy leaf: Early_T_precursor_Lymphoblastic_Leukemia_lymphoma. Full path: Heme > T_NK_Cell > Precursor_T_Cell > T_ALL > Early_T_precursor_Lymphoblastic_Leukemia_lymphoma.",
+      "row_index": 346
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::Idiopathic_Multicentric_Castleman_Disease",
+      "label": "Idiopathic_Multicentric_Castleman_Disease",
+      "query": "Idiopathic Multicentric Castleman Disease",
+      "provenance": "abpath",
+      "embed_text": "Idiopathic Multicentric Castleman Disease. Pathology taxonomy leaf: Idiopathic_Multicentric_Castleman_Disease. Full path: Heme > Tumor_Like_B_Cell > Idiopathic_Multicentric_Castleman_Disease.",
+      "row_index": 347
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::IgG4_Related_Disease",
+      "label": "IgG4_Related_Disease",
+      "query": "IgG4 Related Disease",
+      "provenance": "abpath",
+      "embed_text": "IgG4 Related Disease. Pathology taxonomy leaf: IgG4_Related_Disease. Full path: Heme > Tumor_Like_B_Cell > IgG4_Related_Disease.",
+      "row_index": 348
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::KSHV_HHV8_Associated_Multicentric_Castleman_Disease",
+      "label": "KSHV_HHV8_Associated_Multicentric_Castleman_Disease",
+      "query": "KSHV HHV8 Associated Multicentric Castleman Disease",
+      "provenance": "abpath",
+      "embed_text": "KSHV HHV8 Associated Multicentric Castleman Disease. Pathology taxonomy leaf: KSHV_HHV8_Associated_Multicentric_Castleman_Disease. Full path: Heme > Tumor_Like_B_Cell > KSHV_HHV8_Associated_Multicentric_Castleman_Disease.",
+      "row_index": 349
+    },
+    {
+      "tag": "Heme::Tumor_Like_B_Cell::Unicentric_Castleman_Disease",
+      "label": "Unicentric_Castleman_Disease",
+      "query": "Unicentric Castleman Disease",
+      "provenance": "abpath",
+      "embed_text": "Unicentric Castleman Disease. Pathology taxonomy leaf: Unicentric_Castleman_Disease. Full path: Heme > Tumor_Like_B_Cell > Unicentric_Castleman_Disease.",
+      "row_index": 350
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Autoimmune_Lymphoproliferative_Syndrome",
+      "label": "Autoimmune_Lymphoproliferative_Syndrome",
+      "query": "Autoimmune Lymphoproliferative Syndrome",
+      "provenance": "abpath",
+      "embed_text": "Autoimmune Lymphoproliferative Syndrome. Pathology taxonomy leaf: Autoimmune_Lymphoproliferative_Syndrome. Full path: Heme > Tumor_Like_T_Cell > Autoimmune_Lymphoproliferative_Syndrome.",
+      "row_index": 351
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Indolent_T_Lymphoblastic_Proliferation",
+      "label": "Indolent_T_Lymphoblastic_Proliferation",
+      "query": "Indolent T Lymphoblastic Proliferation",
+      "provenance": "abpath",
+      "embed_text": "Indolent T Lymphoblastic Proliferation. Pathology taxonomy leaf: Indolent_T_Lymphoblastic_Proliferation. Full path: Heme > Tumor_Like_T_Cell > Indolent_T_Lymphoblastic_Proliferation.",
+      "row_index": 352
+    },
+    {
+      "tag": "Heme::Tumor_Like_T_Cell::Kikuchi_Fujimoto_Disease",
+      "label": "Kikuchi_Fujimoto_Disease",
+      "query": "Kikuchi Fujimoto Disease",
+      "provenance": "abpath",
+      "embed_text": "Kikuchi Fujimoto Disease. Pathology taxonomy leaf: Kikuchi_Fujimoto_Disease. Full path: Heme > Tumor_Like_T_Cell > Kikuchi_Fujimoto_Disease.",
+      "row_index": 353
+    }
+  ],
+  "known_limitations": [
+    "Leaf embeddings only \u2014 segment embeddings computed at tag time.",
+    "Cosine similarity is not human curation."
+  ]
+}

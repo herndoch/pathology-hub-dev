@@ -30,8 +30,12 @@ def main() -> None:
     args = p.parse_args()
 
     scripts = Path(__file__).resolve().parent
-    tagger = scripts / "tag_lecture_deck_package_heme_browse_v0_1.py"
+    tagger = scripts / "tag_lecture_deck_package_heme_browse_semantic_v0_1.py"
     consolidator = scripts / "consolidate_lecture_deck_chunks_v0_1.py"
+    leaf_dir = Path("outputs/heme_browse_leaf_embeddings_v0_1")
+    if not (leaf_dir / "heme_leaf_embeddings.npy").is_file():
+        build = scripts / "build_heme_browse_leaf_embeddings_v0_1.py"
+        subprocess.check_call([sys.executable, str(build), "--out-dir", str(leaf_dir)])
 
     pkgs = sorted(
         d for d in args.local_root.iterdir()
@@ -48,7 +52,16 @@ def main() -> None:
 
     for pkg in pkgs:
         print("TAG", pkg.name, flush=True)
-        subprocess.check_call([sys.executable, str(tagger), "--package-dir", str(pkg)])
+        subprocess.check_call(
+            [
+                sys.executable,
+                str(tagger),
+                "--package-dir",
+                str(pkg),
+                "--leaf-dir",
+                str(leaf_dir),
+            ]
+        )
         print("CHUNK", pkg.name, flush=True)
         subprocess.check_call([sys.executable, str(consolidator), "--package-dir", str(pkg)])
         man = json.loads((pkg / "manifest.json").read_text(encoding="utf-8"))
@@ -103,9 +116,9 @@ def main() -> None:
         },
         "packages": results,
         "known_limitations": [
-            "Tags restricted to canonical Heme::* browse leaves (best-of heuristic).",
+            "Tags restricted to canonical Heme::* browse leaves via embedding cosine (text-embedding-3-small).",
             "Not a lecture vector rebuild; not API-exposed.",
-            "Aggressive B-Cell previously had a hand-tuned rule pack; this batch uses the shared browse scorer.",
+            "Replaces prior keyword-heuristic Heme browse tag pass.",
         ],
     }
     args.audit_dir.mkdir(parents=True, exist_ok=True)
