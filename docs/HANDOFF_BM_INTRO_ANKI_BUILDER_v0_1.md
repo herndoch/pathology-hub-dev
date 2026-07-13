@@ -13,9 +13,19 @@ Build an image-grounded, source-aligned contextual cloze Anki deck for **Heme SH
 
 This series handoff supplies **paths, counts, layout, download commands, and a paste-ready brief**. Shared authoring/QA rules live in the COMMON doc.
 
-### Series-specific note
+### Series-specific note — HIGH YIELD despite 0 gated chunks
 
-Gated chunks_indexable is intentionally empty (survey talk fails usefulness gates). Scope from transcript + lecture index only.
+`chunks_indexable.jsonl` is **intentionally empty** because semantic gates treat this as a survey/methods talk (low match to disease-entity leaves). That is a **chat/retrieval filter**, not a teaching judgment.
+
+This lecture is **high yield**. Scale (from manifest): ~52 min, **700** transcript segments, **47** frames, all frames present in the asset library. Content emphasis includes bone marrow interpretation approach, aspirate vs biopsy roles, adequacy/useless samples, cellularity, lineage topography, low-power screening, and pitfalls.
+
+**Builder rules for this series:**
+
+1. Scope **only** from `lecture_index.json` + `transcript.txt` + `frames.jsonl` (+ `segments.jsonl` for timestamps).
+2. Treat approach / methods / pitfall pearls as first-class cards — do not require a neat WHO neoplasm entity for every note.
+3. When no disease entity applies, use a **lecture-aligned shared back** (SOP §6) and only an *exact* accepted tag if one exists; **ask before inventing tags**.
+4. Prefer fewer high-yield pearls over a slide-by-slide dump; still do not abandon the lecture because chunks are empty.
+5. ChatGPT paste template: `docs/HANDOFF_CHATGPT_HEME_ANKI_PROMPTS_v0_1.md` (BM Intro section).
 
 ---
 
@@ -31,7 +41,7 @@ Attach everything in COMMON (TNK exemplar + SOP PDF + WHO heme JSON), plus:
 
 For each lecture folder: `manifest.json`, `frames.jsonl`, `segments.jsonl`, and optionally `chunks_indexable.jsonl`.
 
-**Gated chunk warning:** **0** gated chunks. Use as an index only — **not** syllabus/card-scope authority. Always read full transcript, lecture index, and frames.
+**Gated chunk warning:** **0** gated chunks. That means “do not use chunks for scope,” **not** “thin lecture.” Always read full transcript, lecture index, and frames.
 
 ### Do not attach
 
@@ -106,50 +116,49 @@ gsutil -m cp \
 ## Paste-ready builder brief
 
 ```text
-Build a contextual-cloze Anki deck for Heme SH BM Intro.
+Build a contextual-cloze Anki deck for Heme SH BM Intro
+(Introduction to Bone Marrow Interpretation — HIGH YIELD survey/methods talk).
 
 STYLE AUTHORITY
 - Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip
 - Pathology_Anki_Contextual_Cloze_SOP.pdf (v1.1)
 Follow the SOP and exemplar. Accepted-tag JSON inside the TNK package is the ONLY tag authority.
 
-ENTITY AUTHORITY
-- WHO_WHO_JSON_PROCESSED_HEME.json
+ENTITY / OUTLINE AUTHORITY
+- WHO_WHO_JSON_PROCESSED_HEME.json when a disease entity is truly taught
+- Otherwise lecture-aligned shared backs for approach/methods topics (SOP §6)
 
-LECTURE CONTENT (scope authority)
+LECTURE CONTENT (scope authority — MANDATORY)
 Heme_SH_BM_Intro_package.zip
 Use transcript.txt, lecture_index.json, transcript_segments.json, and frames/
-as the primary teaching source. Lecture defines syllabus; WHO organizes shared backs.
-Do not silently introduce off-syllabus cards.
+as the ONLY syllabus. chunks_indexable.jsonl has 0 rows — IGNORE for scope.
+Do not refuse or shrink the deck because gated chunks are empty.
+Preserve lecturer emphasis: adequacy, aspirate vs biopsy, cellularity, lineage
+topography, low-power screening, pitfalls. Do not expand into an off-syllabus
+WHO disease encyclopedia.
 
-ALIGNMENT AIDS (per lecture)
-- frames.jsonl — front-image selection; image–timestamp–transcript alignment
-- segments.jsonl — exact ASR windows when lecture index is weak
+ALIGNMENT AIDS
+- frames.jsonl (47) — front-image selection; image–timestamp–transcript alignment
+- segments.jsonl (700) — exact ASR windows
 - manifest.json — identity, counts, video URL, known limitations
 
-OPTIONAL INDEX (not scope)
-- chunks_indexable.jsonl — navigation only (0 gated chunk(s) for this series).
-  Do NOT define card scope from it.
-
 DO NOT USE FOR TAGS OR SCOPE
-- tag_audit.json, chunk_audit.json, audit.json
-- primary_tag on frames.jsonl / chunks_indexable.jsonl
+- tag_audit.json, chunk_audit.json, audit.json, chunks_indexable.jsonl
+- primary_tag on frames.jsonl
 
-CARD RULES — follow docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md
-(diagnosis visible/bold; one-token clozes; Tier-1 image match; byte-identical shared back
-per PrimaryTag; two-column tap-to-expand gallery; exact accepted tags only).
+CARD RULES — docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md
+Never invent tags; ask if no accepted tag fits an approach pearl.
 
 DELIVERABLES
 APKG, QA CSV, card inventory CSV, shared_backs.json, builder script,
 accepted-tag authority, templates/CSS, package ZIP.
-Prefer a smaller coherent deck over a large mechanical deck.
+Prefer a smaller coherent HIGH-YIELD deck over a mechanical slide dump.
 
 WORKFLOW
 1) Validate sources + load accepted tags
-2) Source spine from lecture index + transcript (+ frames.jsonl / segments.jsonl)
-3) Draft fronts → one-token clozes
-4) Shared backs from WHO → front images → entity galleries
-5) Hard-fail QA → repair → rebuild APKG
+2) Source spine from lecture index + transcript + frames.jsonl
+3) Propose card inventory table for approval (topic | pearl | tag | frame time)
+4) After approval: fronts → one-token clozes → shared backs → images → QA
 ```
 
 ---

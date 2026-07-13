@@ -2,9 +2,12 @@
 
 Date: 2026-07-13
 
-**Shared rules:** [`HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md`](HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md)
+**Shared rules:** [`HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md`](HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md)  
+**ChatGPT paste prompts:** [`HANDOFF_CHATGPT_HEME_ANKI_PROMPTS_v0_1.md`](HANDOFF_CHATGPT_HEME_ANKI_PROMPTS_v0_1.md)
 
 Each series handoff is self-sufficient for attachments/paths and points at COMMON for SOP/QA.
+
+**Survey caveat:** BM Intro has **0** gated chunks but is high-yield — see its handoff + the ChatGPT BM Intro paste block. Gated chunks measure disease-entity retrieval fit, not teaching value.
 
 ## Series
 

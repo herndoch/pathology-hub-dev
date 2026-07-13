@@ -178,8 +178,17 @@ Keep Anki deck building separate from Evidence RAG, report-style RAG, HTML rende
 
 ---
 
+## Survey / methods lectures (e.g. BM Intro)
+
+If `chunks_indexable.jsonl` is empty or tiny, that is a **semantic gate artifact** (weak match to disease leaves), not proof the talk is low-yield. Still build from transcript + lecture index + frames. Prefer approach/pitfall pearls; use lecture-aligned shared backs when no WHO disease entity applies (SOP §6); never invent tags.
+
+ChatGPT paste templates: `docs/HANDOFF_CHATGPT_HEME_ANKI_PROMPTS_v0_1.md`.
+
+---
+
 ## Related
 
 - `docs/HANDOFF_HEME_SH_ANKI_BUILDER_INDEX_v0_1.md`
+- `docs/HANDOFF_CHATGPT_HEME_ANKI_PROMPTS_v0_1.md`
 - `docs/PLAN_HEME_SH_DECK_PACKAGE_BATCH_v0_1.md`
 - `docs/METHODS_LECTURE_DECK_CHUNKING_v0_1.md`
