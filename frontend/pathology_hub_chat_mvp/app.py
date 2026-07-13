@@ -48,7 +48,7 @@ from pydantic import BaseModel, Field
 
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
+from openai_synthesizer import SynthesisResult, get_model, get_topic_page_model, ping as openai_ping, synthesize
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -101,6 +101,14 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 TOPIC_PREBUILD_PAGES_DIR = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_prepop_v0_1", "pages")
 )
+# On-demand topic-page cache: first live open writes here; later opens reuse unless rebuild.
+TOPIC_CACHE_PAGES_DIR = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_cache_v0_1", "pages")
+)
+TOPIC_CACHE_AUDIT_PATH = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_cache_v0_1", "cache_writes_v0_1.jsonl")
+)
+TOPIC_CACHE_SCHEMA_VERSION = "topic_page_cache_v0_1"
 PAGE_FLAGS_DIR = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_page_flags_v0_1")
 )
@@ -149,6 +157,7 @@ class ChatRequest(SearchRequest):
     mode: str = "gpt_like"
     category_context: Optional[str] = None
     page_tag: Optional[str] = None
+    rebuild: bool = False
 
 
 class FlagRequest(BaseModel):
@@ -404,29 +413,118 @@ def _slugify_prebuild_tag(tag: str) -> str:
     return slug
 
 
-@app.get("/api/topic_prebuild")
-def api_topic_prebuild(tag: str):
-    """Read-only lookup of a pilot-prebuilt topic_page sidecar by tag, if one exists.
+def _topic_page_json_path(base_dir: str, tag: str) -> str:
+    return os.path.join(base_dir, f"{_slugify_prebuild_tag(tag.strip())}.json")
 
-    Only ever reads from TOPIC_PREBUILD_PAGES_DIR (local pilot cache written by
-    prebuild_topic_pages_pilot_v0_1.py) — never mutates anything, never touches the
-    figure quality-flags sidecar or curriculum SQLite. Returns
-    {"ok": False, "found": False} (HTTP 200, not an error) when nothing is
-    prebuilt yet for `tag`, so the client falls back to the live
-    POST /api/chat topic_page path unchanged.
-    """
-    if not tag or not tag.strip():
-        return {"ok": False, "found": False, "error": "Missing 'tag' query param."}
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+
+def _read_topic_page_file(json_path: str, tag: str, source: str) -> Optional[dict]:
     if not os.path.isfile(json_path):
-        return {"ok": False, "found": False, "tag": tag}
+        return None
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             page = json.load(f)
-    except (OSError, ValueError) as exc:
-        return {"ok": False, "found": False, "tag": tag, "error": str(exc)}
+    except (OSError, ValueError):
+        return None
+    if not page.get("ok") or not page.get("answer_markdown"):
+        return None
     page["found"] = True
+    page["cache_source"] = source
+    return page
+
+
+def _load_topic_page_cache(tag: str) -> Optional[dict]:
+    """On-demand cache written by prior live opens."""
+    if not tag or not tag.strip():
+        return None
+    return _read_topic_page_file(_topic_page_json_path(TOPIC_CACHE_PAGES_DIR, tag), tag, "ondemand_cache")
+
+
+def _load_topic_page_pilot(tag: str) -> Optional[dict]:
+    """Legacy pilot prebuild sidecars (read-only)."""
+    if not tag or not tag.strip():
+        return None
+    return _read_topic_page_file(_topic_page_json_path(TOPIC_PREBUILD_PAGES_DIR, tag), tag, "pilot_prebuild")
+
+
+def _load_topic_page_any(tag: str) -> Optional[dict]:
+    """Prefer on-demand cache; fall back to legacy pilot prebuild."""
+    return _load_topic_page_cache(tag) or _load_topic_page_pilot(tag)
+
+
+def _save_topic_page_cache(req: ChatRequest, result: SynthesisResult, payload: dict) -> Optional[str]:
+    """Persist a successful live topic_page for the next visitor."""
+    tag = (req.page_tag or "").strip()
+    if not tag or not result.ok or not result.text:
+        return None
+    os.makedirs(TOPIC_CACHE_PAGES_DIR, exist_ok=True)
+    json_path = _topic_page_json_path(TOPIC_CACHE_PAGES_DIR, tag)
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    page = {
+        "schema_version": TOPIC_CACHE_SCHEMA_VERSION,
+        "tag": tag,
+        "label": req.query,
+        "query": req.query,
+        "category_context": req.category_context,
+        "generated_at": now,
+        "ok": True,
+        "model": result.model,
+        "answer_markdown": result.text,
+        "cards": payload.get("cards") or [],
+        "figures": payload.get("figures") or [],
+        "who_cross_mentions": payload.get("who_cross_mentions") or [],
+        "known_limitations": [
+            "Cached snapshot from a prior live topic_page open; use Rebuild for a fresh query.",
+            "Figure list reflects quality filters at cache-write time.",
+        ],
+    }
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(page, f, ensure_ascii=False, indent=2)
+    os.makedirs(os.path.dirname(TOPIC_CACHE_AUDIT_PATH), exist_ok=True)
+    audit = {
+        "schema_version": "topic_page_cache_write_audit_v0_1",
+        "tag": tag,
+        "path": json_path,
+        "model": result.model,
+        "created_at_utc": now,
+        "card_count": len(page["cards"]),
+        "figure_count": len(page["figures"]),
+    }
+    with open(TOPIC_CACHE_AUDIT_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(audit, ensure_ascii=False) + "\n")
+    return json_path
+
+
+def _topic_page_response_from_cache(page: dict) -> dict:
+    return {
+        "ok": True,
+        "mode": "topic_page",
+        "answer": page.get("answer_markdown"),
+        "answer_error": None,
+        "model": page.get("model"),
+        "cards": page.get("cards") or [],
+        "figures": page.get("figures") or [],
+        "who_cross_mentions": page.get("who_cross_mentions") or [],
+        "cache_hit": True,
+        "cache_source": page.get("cache_source"),
+        "cached_at": page.get("generated_at"),
+        "evidence": None,
+        "debug": None,
+    }
+
+
+@app.get("/api/topic_prebuild")
+def api_topic_prebuild(tag: str):
+    """Read-only lookup of a cached or pilot-prebuilt topic_page sidecar by tag.
+
+    Checks on-demand cache first (written by prior live opens), then legacy
+    pilot prebuild pages. Returns {"ok": False, "found": False} when nothing
+    exists yet so the client can run a live topic_page (which will cache).
+    """
+    if not tag or not tag.strip():
+        return {"ok": False, "found": False, "error": "Missing 'tag' query param."}
+    page = _load_topic_page_any(tag.strip())
+    if not page:
+        return {"ok": False, "found": False, "tag": tag}
     return page
 
 
@@ -440,6 +538,7 @@ def api_health():
         "backend": backend_health,
         "secrets": secret_status,
         "openai_model": get_model(),
+        "openai_topic_page_model": get_topic_page_model(),
         "supported_sources": SUPPORTED_SOURCES,
         "supported_modes": sorted(VALID_MODES),
         "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
@@ -499,6 +598,7 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
         prompts.topic_page_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        model=get_topic_page_model(),
     )
 
 
@@ -543,6 +643,12 @@ def api_chat(req: ChatRequest):
         retrieval_meta: Optional[dict] = None
         who_cross_mentions: list[dict] = []
         if mode == "topic_page":
+            # Serve cached page when tagged and not forcing rebuild.
+            if req.page_tag and not req.rebuild:
+                cached = _load_topic_page_any(req.page_tag)
+                if cached:
+                    return _topic_page_response_from_cache(cached)
+
             outcomes, merged, cards, retrieval_meta, who_cross_mentions = _run_topic_page_retrieval(req)
             figures = extract_figures(merged)
         else:
@@ -581,7 +687,7 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
-        return {
+        response = {
             "ok": result.ok,
             "mode": mode,
             "answer": result.text if result.ok else None,
@@ -592,7 +698,16 @@ def api_chat(req: ChatRequest):
             "figures": figures,
             "who_cross_mentions": who_cross_mentions,
             "debug": _debug_payload(outcomes, retrieval_meta),
+            "cache_hit": False,
+            "cache_source": None,
+            "cached_at": None,
         }
+        if mode == "topic_page" and req.page_tag and result.ok:
+            saved = _save_topic_page_cache(req, result, response)
+            if saved:
+                response["cache_saved"] = True
+                response["cache_path"] = saved
+        return response
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
 
@@ -600,18 +715,7 @@ def api_chat(req: ChatRequest):
 def _load_prebuilt_page(tag: Optional[str]) -> Optional[dict]:
     if not tag or not tag.strip():
         return None
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
-    if not os.path.isfile(json_path):
-        return None
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            page = json.load(f)
-        if page.get("ok") and page.get("answer_markdown"):
-            return page
-    except (OSError, ValueError):
-        return None
-    return None
+    return _load_topic_page_any(tag.strip())
 
 
 def _column_text_summary(cards: list[dict], prebuilt: Optional[dict]) -> str:

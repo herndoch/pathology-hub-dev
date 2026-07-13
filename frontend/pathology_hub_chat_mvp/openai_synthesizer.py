@@ -10,10 +10,15 @@ from typing import Optional
 from secrets_helper import get_openai_api_key
 
 DEFAULT_MODEL = "gpt-4o"
+TOPIC_PAGE_DEFAULT_MODEL = "gpt-4.1-mini"
 
 
 def get_model() -> str:
     return os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)
+
+
+def get_topic_page_model() -> str:
+    return os.environ.get("OPENAI_TOPIC_PAGE_MODEL", TOPIC_PAGE_DEFAULT_MODEL)
 
 
 def _get_client():
@@ -49,9 +54,10 @@ def synthesize(
     user_question: str,
     evidence_bundle: dict,
     extra_instructions: Optional[str] = None,
+    model: Optional[str] = None,
 ) -> SynthesisResult:
     """One Responses API call: system prompt + user question + JSON evidence bundle."""
-    model = get_model()
+    model = model or get_model()
     try:
         client = _get_client()
     except RuntimeError as exc:

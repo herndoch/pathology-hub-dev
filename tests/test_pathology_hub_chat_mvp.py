@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -889,6 +890,67 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         unwrapped = unwrap(fenced)
         self.assertTrue(unwrapped.startswith("| Feature"))
         self.assertNotIn("```", unwrapped)
+
+
+class TestTopicPageCache(unittest.TestCase):
+    def test_topic_page_model_defaults_to_faster_mini(self):
+        import openai_synthesizer  # noqa: E402
+
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("OPENAI_TOPIC_PAGE_MODEL", None)
+            self.assertEqual(openai_synthesizer.get_topic_page_model(), "gpt-4.1-mini")
+
+    def test_health_exposes_topic_page_model(self):
+        from fastapi.testclient import TestClient  # noqa: E402
+
+        from app import app  # noqa: E402
+
+        client = TestClient(app)
+        body = client.get("/api/health").json()
+        self.assertIn("openai_topic_page_model", body)
+
+    def test_topic_cache_roundtrip(self):
+        import tempfile
+        from fastapi.testclient import TestClient  # noqa: E402
+
+        from app import TOPIC_CACHE_PAGES_DIR, app  # noqa: E402
+        import app as app_module  # noqa: E402
+
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_dir = os.path.join(tmp, "pages")
+            audit_path = os.path.join(tmp, "audit.jsonl")
+            old_dir = app_module.TOPIC_CACHE_PAGES_DIR
+            old_audit = app_module.TOPIC_CACHE_AUDIT_PATH
+            app_module.TOPIC_CACHE_PAGES_DIR = cache_dir
+            app_module.TOPIC_CACHE_AUDIT_PATH = audit_path
+            try:
+                tag = "HN::Test::Entity::Branchial_Cleft_Cyst"
+                client = TestClient(app)
+                miss = client.get("/api/topic_prebuild", params={"tag": tag}).json()
+                self.assertFalse(miss.get("found"))
+
+                from openai_synthesizer import SynthesisResult  # noqa: E402
+                from app import ChatRequest, _save_topic_page_cache  # noqa: E402
+
+                req = ChatRequest(
+                    query="branchial cleft cyst",
+                    mode="topic_page",
+                    page_tag=tag,
+                    category_context="HN > Test",
+                )
+                result = SynthesisResult(text="## Key Facts\n- cyst\n", model="gpt-4.1-mini", ok=True)
+                payload = {"cards": [{"title": "x"}], "figures": [], "who_cross_mentions": []}
+                saved = app_module._save_topic_page_cache(req, result, payload)
+                self.assertTrue(saved)
+                self.assertTrue(os.path.isfile(saved))
+
+                hit = client.get("/api/topic_prebuild", params={"tag": tag}).json()
+                self.assertTrue(hit.get("found"))
+                self.assertEqual(hit.get("cache_source"), "ondemand_cache")
+                self.assertIn("Key Facts", hit.get("answer_markdown", ""))
+            finally:
+                app_module.TOPIC_CACHE_PAGES_DIR = old_dir
+                app_module.TOPIC_CACHE_AUDIT_PATH = old_audit
 
 
 if __name__ == "__main__":

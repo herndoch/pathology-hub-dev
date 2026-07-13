@@ -1367,6 +1367,9 @@ function buildPayload(query, modeOverride, options = {}) {
   if (mode === "topic_page" && options.pageTag) {
     payload.page_tag = options.pageTag;
   }
+  if (options.rebuild) {
+    payload.rebuild = true;
+  }
   return payload;
 }
 
@@ -1982,7 +1985,7 @@ function renderBrowseHome() {
     : roots.reduce((sum, r) => sum + r.leaf_count, 0);
 
   let html = usingIndex
-    ? `<p class="hint">WHO + ABPath topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; pilot prebuild covers a small sample, everything else falls back to a live query). Not a claim about API exposure or vector coverage.</p>`
+    ? `<p class="hint">WHO + ABPath topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; first open builds live, then caches for the next visitor — use Rebuild to refresh). Not a claim about API exposure or vector coverage.</p>`
     : '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
 
   html += '<div class="browse-tile-grid">';
@@ -2561,12 +2564,8 @@ function bindDdxLinks(root) {
   });
 }
 
-/** Best-effort read-only lookup of a topic-page-prepop-pilot sidecar
- * (outputs/chat_mvp_topic_prepop_v0_1/pages/, served via GET
- * /api/topic_prebuild) for a real taxonomy leaf's `tag`. Returns null on any
- * miss/error so the caller falls back to the live path unchanged — never
- * throws, never fabricates content. */
-async function fetchPrebuiltTopicPage(tag) {
+/** Read-only lookup of a cached topic page (on-demand cache or legacy pilot). */
+async function fetchCachedTopicPage(tag) {
   if (!tag) return null;
   try {
     const resp = await fetch(`/api/topic_prebuild?tag=${encodeURIComponent(tag)}`);
@@ -2579,15 +2578,27 @@ async function fetchPrebuiltTopicPage(tag) {
   }
 }
 
-/** Loads a Browse leaf's topic page. `leafRef` is {categoryId,
- * subcategoryId, tag, label, query} (tag is null for curated-fallback
- * leaves, which always go straight to the live path). Tries the pilot
- * prebuild cache first (instant, no OpenAI call) when `tag` is present; on
- * any miss falls back to the existing live POST /api/chat (mode:
- * "topic_page") path, unchanged. A monotonically increasing request
- * sequence number guards against a stale response overwriting a newer
- * navigation. */
-async function loadLeafTopicPage(leafRef) {
+function topicPageCacheHint(data, cachedMeta) {
+  if (data?.cache_hit || cachedMeta) {
+    const when = data?.cached_at || cachedMeta?.generated_at || "";
+    const src = data?.cache_source || cachedMeta?.cache_source || "cache";
+    const model = data?.model || cachedMeta?.model || "";
+    const parts = ["Cached topic page — instant reuse from a prior open."];
+    if (when) parts.push(`Saved ${when}.`);
+    if (model) parts.push(`Model: ${model}.`);
+    if (src === "pilot_prebuild") parts.push("(legacy pilot prebuild)");
+    parts.push("Use Rebuild for a fresh live query.");
+    return `<p class="hint topic-cache-hint">${escapeHtml(parts.join(" "))}</p>`;
+  }
+  if (data?.cache_saved) {
+    return `<p class="hint topic-cache-hint">Saved this page for the next visitor.</p>`;
+  }
+  return "";
+}
+
+/** Loads a Browse leaf's topic page. Tries read-only cache first; on miss runs
+ * live topic_page (server also caches on success). Rebuild skips cache. */
+async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
@@ -2599,25 +2610,38 @@ async function loadLeafTopicPage(leafRef) {
   const query = leafRef.query || displayLabel;
 
   try {
-    const prebuilt = await fetchPrebuiltTopicPage(leafRef.tag);
+    let cachedMeta = null;
+    if (!rebuild && leafRef.tag) {
+      cachedMeta = await fetchCachedTopicPage(leafRef.tag);
+    }
     if (seq !== browseRequestSeq) return;
 
     let data;
-    if (prebuilt) {
+    if (cachedMeta && !rebuild) {
       data = {
         ok: true,
         mode: "topic_page",
-        answer: prebuilt.answer_markdown,
-        cards: prebuilt.cards || [],
-        figures: prebuilt.figures || [],
-        who_cross_mentions: prebuilt.who_cross_mentions || [],
+        answer: cachedMeta.answer_markdown,
+        cards: cachedMeta.cards || [],
+        figures: cachedMeta.figures || [],
+        who_cross_mentions: cachedMeta.who_cross_mentions || [],
+        cache_hit: true,
+        cache_source: cachedMeta.cache_source,
+        cached_at: cachedMeta.generated_at,
+        model: cachedMeta.model,
         debug: null,
       };
     } else {
       const resp = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildPayload(query, "topic_page", { categoryContext, pageTag: leafRef.tag })),
+        body: JSON.stringify(
+          buildPayload(query, "topic_page", {
+            categoryContext,
+            pageTag: leafRef.tag,
+            rebuild,
+          }),
+        ),
       });
       data = await resp.json();
     }
@@ -2635,11 +2659,12 @@ async function loadLeafTopicPage(leafRef) {
     });
     let html = '<div class="topic-page-actions">';
     html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
+    if (leafRef.tag) {
+      html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+    }
     html += renderVsButton(compareEnt);
     html += "</div>";
-    html += prebuilt
-      ? '<p class="hint topic-prebuilt-hint">Prebuilt (pilot) — cached topic page from a prior run, not a fresh live query. See docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md.</p>'
-      : "";
+    html += topicPageCacheHint(data, cachedMeta);
     html += renderTopicPageResult(data, query, {
       tag: leafRef.tag,
       provenance: leafRef.provenance || null,
@@ -2654,6 +2679,9 @@ async function loadLeafTopicPage(leafRef) {
         query,
         page_kind: "topic_page",
       });
+    });
+    browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
+      loadLeafTopicPage(leafRef, { rebuild: true });
     });
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
