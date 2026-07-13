@@ -10,7 +10,7 @@ from typing import Optional
 from secrets_helper import get_openai_api_key
 
 DEFAULT_MODEL = "gpt-4o"
-TOPIC_PAGE_DEFAULT_MODEL = "gpt-4.1-mini"
+TOPIC_PAGE_DEFAULT_MODEL = "gpt-5.6-luna"
 
 
 def get_model() -> str:

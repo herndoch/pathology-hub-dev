@@ -22,7 +22,7 @@ Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
 - `OPENAI_MODEL` — default **`gpt-4o`** for chat/compare modes
-- `OPENAI_TOPIC_PAGE_MODEL` — default **`gpt-4.1-mini`** (faster) for Browse topic pages; override e.g. `OPENAI_TOPIC_PAGE_MODEL=gpt-4o` for max quality
+- `OPENAI_TOPIC_PAGE_MODEL` — default **`gpt-5.6-luna`** (fast) for Browse topic pages; override e.g. `OPENAI_TOPIC_PAGE_MODEL=gpt-5.6-terra` or `gpt-5.5`
 - `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO + journals always kept)
 - `PORT` — local server port (default `8000`)
 
@@ -66,7 +66,7 @@ cd frontend/pathology_hub_chat_mvp
 
 No batch prebuild required. First visitor on a Browse leaf runs live `topic_page` (multi-query retrieval + synthesis); the result is saved under `outputs/chat_mvp_topic_cache_v0_1/pages/` for the next person. **Rebuild** on the page forces a fresh live query and overwrites the cache.
 
-Topic pages use **`gpt-4.1-mini`** by default (`OPENAI_TOPIC_PAGE_MODEL`); other chat modes use `OPENAI_MODEL` (default `gpt-4o`).
+Topic pages use **`gpt-5.6-luna`** by default (`OPENAI_TOPIC_PAGE_MODEL`); other chat modes use `OPENAI_MODEL` (default `gpt-4o`).
 
 Legacy pilot prebuild sidecars (`outputs/chat_mvp_topic_prepop_v0_1/pages/`) are still read if present.
 

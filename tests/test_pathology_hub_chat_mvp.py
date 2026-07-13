@@ -898,7 +898,7 @@ class TestTopicPageCache(unittest.TestCase):
 
         with patch.dict(os.environ, {}, clear=False):
             os.environ.pop("OPENAI_TOPIC_PAGE_MODEL", None)
-            self.assertEqual(openai_synthesizer.get_topic_page_model(), "gpt-4.1-mini")
+            self.assertEqual(openai_synthesizer.get_topic_page_model(), "gpt-5.6-luna")
 
     def test_health_exposes_topic_page_model(self):
         from fastapi.testclient import TestClient  # noqa: E402
@@ -938,7 +938,7 @@ class TestTopicPageCache(unittest.TestCase):
                     page_tag=tag,
                     category_context="HN > Test",
                 )
-                result = SynthesisResult(text="## Key Facts\n- cyst\n", model="gpt-4.1-mini", ok=True)
+                result = SynthesisResult(text="## Key Facts\n- cyst\n", model="gpt-5.6-luna", ok=True)
                 payload = {"cards": [{"title": "x"}], "figures": [], "who_cross_mentions": []}
                 saved = app_module._save_topic_page_cache(req, result, payload)
                 self.assertTrue(saved)
