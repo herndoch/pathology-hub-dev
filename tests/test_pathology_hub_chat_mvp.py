@@ -461,16 +461,19 @@ class TestAppContract(unittest.TestCase):
 
 
 class TestTopicPagePrompt(unittest.TestCase):
-    def test_topic_page_system_prompt_has_all_fixed_headers_in_order(self):
+    def test_topic_page_system_prompt_lists_allowed_sections(self):
         import prompts  # noqa: E402
 
         text = prompts.topic_page_system_prompt()
-        last_index = -1
         for section in prompts.TOPIC_PAGE_SECTIONS:
-            header = f"## {section}"
-            index = text.find(header)
-            self.assertGreater(index, last_index, f"missing or out-of-order header: {header!r}")
-            last_index = index
+            self.assertIn(section, text, f"missing allowed section name: {section!r}")
+
+    def test_topic_page_system_prompt_omits_empty_sections(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("OMIT any section entirely", text)
+        self.assertNotIn("every single time, even if a", text)
 
     def test_topic_page_system_prompt_inherits_base_grounding_rules(self):
         import prompts  # noqa: E402
@@ -850,7 +853,9 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         js = js_path.read_text(encoding="utf-8")
         self.assertIn("function unwrapFencedMarkdownBlocks", js)
         self.assertIn("function normalizeInlineLinkLabel", js)
-        self.assertIn("function renderTopicVideos", js)
+        self.assertIn("function renderTopicLectureGallery", js)
+        self.assertIn("function filterVideoCardsByRelevance", js)
+        self.assertIn("function sectionHasContent", js)
         self.assertIn("compare-gallery-grid", js)
         self.assertIn("function findTaxonomyMatch", js)
 
