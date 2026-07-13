@@ -21,6 +21,19 @@ gs://pathology_hub/02_normalized/anki/heme_sh_contextual_cloze_builder_v0_1/
 
 Lecture ZIPs / sidecars stay where they already are (not duplicated). `series_index.json` points at them.
 
+## Lazy path (recommended)
+
+Colab notebook (Drive assembler):
+
+`notebooks/Heme_SH_Anki_Builder_Drive_Bundle_Assembler_v0_1.ipynb`
+
+1. Drop TNK zip + WHO JSON somewhere under MyDrive (once).
+2. Set `SERIES_CHOICE` (e.g. `bm_intro` or `ALL`).
+3. Run all → get `series_<slug>_chatGPT_upload.zip` on Drive.
+4. Attach that zip in ChatGPT + paste prompt from the ChatGPT handoff doc.
+
+Optional knob `UPLOAD_SHARED_AUTHORITY_TO_GCS = True` also copies found TNK/WHO into the GCS shared prefix.
+
 ## What you run locally (the only missing pieces)
 
 ```bash

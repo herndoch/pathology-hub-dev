@@ -8,6 +8,19 @@ Use these in **ChatGPT with GitHub connected**. The handoffs tell the model *wha
 
 ---
 
+## Lazy alternative: Colab → Drive zip
+
+If hunting GCS paths feels annoying, run:
+
+`notebooks/Heme_SH_Anki_Builder_Drive_Bundle_Assembler_v0_1.ipynb`
+
+It finds your TNK zip + WHO JSON on Drive, pulls lecture/sidecar files from GCS, and writes
+`series_<slug>_chatGPT_upload.zip`. Attach that one zip in ChatGPT, then paste the prompt below.
+
+**TNK** = T/NK-lymphomas **finished Anki exemplar** (style law), not the lecture you are converting.
+
+---
+
 ## Before you start
 
 1. **Merge PR #18** (or tell ChatGPT to open branch `cursor/mds-mpn-anki-handoff-9231`). GitHub connectors usually see `master` first.
