@@ -1,0 +1,194 @@
+# Handoff — MDS/MPN (parts 1–3) Contextual Cloze Anki Builder (v0_1)
+
+Date: 2026-07-13  
+Audience: another AI (or human) building the Heme SH **MDS/MPN (parts 1–3)** contextual-cloze deck  
+**Read first:** `docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md` (shared SOP rules, exclusions, tag law)  
+Index: `docs/HANDOFF_HEME_SH_ANKI_BUILDER_INDEX_v0_1.md`
+
+---
+
+## Purpose
+
+Build an image-grounded, source-aligned contextual cloze Anki deck for **Heme SH MDS/MPN (parts 1–3)**, following the TNK Lymphomas exemplar and Contextual Cloze SOP v1.1.
+
+This series handoff supplies **paths, counts, layout, download commands, and a paste-ready brief**. Shared authoring/QA rules live in the COMMON doc.
+
+---
+
+## Attachment bundle (this series)
+
+Attach everything in COMMON (TNK exemplar + SOP PDF + WHO heme JSON), plus:
+
+### Lecture ZIPs
+
+- `Heme_SH_MDS_MPN_1_package.zip`
+- `Heme_SH_MDS_MPN_2_package.zip`
+- `Heme_SH_MDS_MPN_3_package.zip`
+
+### Sidecars (per lecture)
+
+For each lecture folder: `manifest.json`, `frames.jsonl`, `segments.jsonl`, and optionally `chunks_indexable.jsonl`.
+
+**Gated chunk warning:** part 1 = **5**, part 2 = **5**, part 3 = **7**; **17 total**. Use as an index only — **not** syllabus/card-scope authority. Always read full transcript, lecture index, and frames.
+
+### Do not attach
+
+`tag_audit.json`, `chunk_audit.json`, `audit.json` (see COMMON).
+
+---
+
+## GCS paths (verified 2026-07-13)
+
+### ZIPs
+
+```text
+gs://pathology_hub/Heme_SH_MDS_MPN_1_package.zip
+gs://pathology_hub/Heme_SH_MDS_MPN_2_package.zip
+gs://pathology_hub/Heme_SH_MDS_MPN_3_package.zip
+```
+
+### Sidecars
+
+```text
+gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/
+gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/
+gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/
+```
+
+### Counts
+
+| Part | Segments | Frames | Gated chunks |
+|------|----------|--------|--------------|
+| Part 1 | 703 | 56 | 5 |
+| Part 2 | 817 | 46 | 5 |
+| Part 3 | 917 | 67 | 7 |
+
+---
+
+## Project layout
+
+```text
+heme_sh_mds_mpn_deck_project/
+├── SOP/
+│   └── Pathology_Anki_Contextual_Cloze_SOP.pdf
+├── style/
+│   └── Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip
+├── who/
+│   └── WHO_WHO_JSON_PROCESSED_HEME.json
+├── accepted_tags.json
+├── lecture_1/
+│   ├── Heme_SH_MDS_MPN_1_package.zip
+│   ├── manifest.json
+│   ├── frames.jsonl
+│   ├── segments.jsonl
+│   └── chunks_indexable.jsonl
+├── lecture_2/
+│   ├── Heme_SH_MDS_MPN_2_package.zip
+│   ├── manifest.json
+│   ├── frames.jsonl
+│   ├── segments.jsonl
+│   └── chunks_indexable.jsonl
+├── lecture_3/
+│   ├── Heme_SH_MDS_MPN_3_package.zip
+│   ├── manifest.json
+│   ├── frames.jsonl
+│   ├── segments.jsonl
+│   └── chunks_indexable.jsonl
+```
+
+---
+
+## Download script
+
+```bash
+BUNDLE=./heme_sh_mds_mpn_deck_project
+mkdir -p "$BUNDLE"/{SOP,style,who,lecture_1,lecture_2,lecture_3}
+
+# Local/Drive: TNK exemplar zip → style/; WHO JSON → who/; SOP PDF → SOP/;
+# Extract accepted_tags.json from TNK zip → $BUNDLE/accepted_tags.json
+
+gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_1_package.zip" "$BUNDLE/lecture_1/"
+gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_2_package.zip" "$BUNDLE/lecture_2/"
+gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_3_package.zip" "$BUNDLE/lecture_3/"
+
+gsutil -m cp \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/manifest.json" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/frames.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunks_indexable.jsonl" \
+  "$BUNDLE/lecture_1/"
+
+gsutil -m cp \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/manifest.json" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/frames.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunks_indexable.jsonl" \
+  "$BUNDLE/lecture_2/"
+
+gsutil -m cp \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/manifest.json" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/frames.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunks_indexable.jsonl" \
+  "$BUNDLE/lecture_3/"
+```
+
+---
+
+## Paste-ready builder brief
+
+```text
+Build a contextual-cloze Anki deck for Heme SH MDS/MPN (parts 1–3).
+
+STYLE AUTHORITY
+- Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip
+- Pathology_Anki_Contextual_Cloze_SOP.pdf (v1.1)
+Follow the SOP and exemplar. Accepted-tag JSON inside the TNK package is the ONLY tag authority.
+
+ENTITY AUTHORITY
+- WHO_WHO_JSON_PROCESSED_HEME.json
+
+LECTURE CONTENT (scope authority)
+Heme_SH_MDS_MPN_1_package.zip, Heme_SH_MDS_MPN_2_package.zip, Heme_SH_MDS_MPN_3_package.zip
+Use transcript.txt, lecture_index.json, transcript_segments.json, and frames/
+as the primary teaching source. Lecture defines syllabus; WHO organizes shared backs.
+Do not silently introduce off-syllabus cards.
+
+ALIGNMENT AIDS (per lecture)
+- frames.jsonl — front-image selection; image–timestamp–transcript alignment
+- segments.jsonl — exact ASR windows when lecture index is weak
+- manifest.json — identity, counts, video URL, known limitations
+
+OPTIONAL INDEX (not scope)
+- chunks_indexable.jsonl — navigation only (17 gated chunk(s) for this series).
+  Do NOT define card scope from it.
+
+DO NOT USE FOR TAGS OR SCOPE
+- tag_audit.json, chunk_audit.json, audit.json
+- primary_tag on frames.jsonl / chunks_indexable.jsonl
+
+CARD RULES — follow docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md
+(diagnosis visible/bold; one-token clozes; Tier-1 image match; byte-identical shared back
+per PrimaryTag; two-column tap-to-expand gallery; exact accepted tags only).
+
+DELIVERABLES
+APKG, QA CSV, card inventory CSV, shared_backs.json, builder script,
+accepted-tag authority, templates/CSS, package ZIP.
+Prefer a smaller coherent deck over a large mechanical deck.
+
+WORKFLOW
+1) Validate sources + load accepted tags
+2) Source spine from lecture index + transcript (+ frames.jsonl / segments.jsonl)
+3) Draft fronts → one-token clozes
+4) Shared backs from WHO → front images → entity galleries
+5) Hard-fail QA → repair → rebuild APKG
+```
+
+---
+
+## Known limitations
+
+1. TNK exemplar + WHO heme JSON must be supplied from local/Drive (not under those names on GCS at audit time).
+2. Gated chunks are sparse by design; not syllabus coverage.
+3. Frame/chunk `primary_tag` values are semantic browse labels, not Anki accepted tags.
+4. This handoff does not claim the deck is built, chat-indexed, vectorized, or API-exposed.
