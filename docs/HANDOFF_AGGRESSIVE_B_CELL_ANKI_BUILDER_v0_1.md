@@ -1,7 +1,7 @@
-# Handoff — MDS/MPN (parts 1–3) Contextual Cloze Anki Builder (v0_1)
+# Handoff — Aggressive B-Cell Contextual Cloze Anki Builder (v0_1)
 
 Date: 2026-07-13  
-Audience: another AI (or human) building the Heme SH **MDS/MPN (parts 1–3)** contextual-cloze deck  
+Audience: another AI (or human) building the Heme SH **Aggressive B-Cell** contextual-cloze deck  
 **Read first:** `docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md` (shared SOP rules, exclusions, tag law)  
 Index: `docs/HANDOFF_HEME_SH_ANKI_BUILDER_INDEX_v0_1.md`
 
@@ -9,9 +9,13 @@ Index: `docs/HANDOFF_HEME_SH_ANKI_BUILDER_INDEX_v0_1.md`
 
 ## Purpose
 
-Build an image-grounded, source-aligned contextual cloze Anki deck for **Heme SH MDS/MPN (parts 1–3)**, following the TNK Lymphomas exemplar and Contextual Cloze SOP v1.1.
+Build an image-grounded, source-aligned contextual cloze Anki deck for **Heme SH Aggressive B-Cell**, following the TNK Lymphomas exemplar and Contextual Cloze SOP v1.1.
 
 This series handoff supplies **paths, counts, layout, download commands, and a paste-ready brief**. Shared authoring/QA rules live in the COMMON doc.
+
+### Series-specific note
+
+Prefer the original `*_chatgpt_readable_package.zip` (not parenthetical duplicates).
 
 ---
 
@@ -21,15 +25,13 @@ Attach everything in COMMON (TNK exemplar + SOP PDF + WHO heme JSON), plus:
 
 ### Lecture ZIPs
 
-- `Heme_SH_MDS_MPN_1_package.zip`
-- `Heme_SH_MDS_MPN_2_package.zip`
-- `Heme_SH_MDS_MPN_3_package.zip`
+- `Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip`
 
 ### Sidecars (per lecture)
 
 For each lecture folder: `manifest.json`, `frames.jsonl`, `segments.jsonl`, and optionally `chunks_indexable.jsonl`.
 
-**Gated chunk warning:** part 1 = **5**, part 2 = **5**, part 3 = **7**; **17 total**. Use as an index only — **not** syllabus/card-scope authority. Always read full transcript, lecture index, and frames.
+**Gated chunk warning:** **16** gated chunks. Use as an index only — **not** syllabus/card-scope authority. Always read full transcript, lecture index, and frames.
 
 ### Do not attach
 
@@ -42,33 +44,27 @@ For each lecture folder: `manifest.json`, `frames.jsonl`, `segments.jsonl`, and 
 ### ZIPs
 
 ```text
-gs://pathology_hub/Heme_SH_MDS_MPN_1_package.zip
-gs://pathology_hub/Heme_SH_MDS_MPN_2_package.zip
-gs://pathology_hub/Heme_SH_MDS_MPN_3_package.zip
+gs://pathology_hub/Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip
 ```
 
 ### Sidecars
 
 ```text
-gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/
-gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/
-gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/
+gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/
 ```
 
 ### Counts
 
 | Part | Segments | Frames | Gated chunks |
 |------|----------|--------|--------------|
-| Part 1 | 703 | 56 | 5 |
-| Part 2 | 817 | 46 | 5 |
-| Part 3 | 917 | 67 | 7 |
+| Lecture | 877 | 66 | 16 |
 
 ---
 
 ## Project layout
 
 ```text
-heme_sh_mds_mpn_deck_project/
+heme_sh_aggressive_b_cell_deck_project/
 ├── SOP/
 │   └── Pathology_Anki_Contextual_Cloze_SOP.pdf
 ├── style/
@@ -77,19 +73,7 @@ heme_sh_mds_mpn_deck_project/
 │   └── WHO_WHO_JSON_PROCESSED_HEME.json
 ├── accepted_tags.json
 ├── lecture_1/
-│   ├── Heme_SH_MDS_MPN_1_package.zip
-│   ├── manifest.json
-│   ├── frames.jsonl
-│   ├── segments.jsonl
-│   └── chunks_indexable.jsonl
-├── lecture_2/
-│   ├── Heme_SH_MDS_MPN_2_package.zip
-│   ├── manifest.json
-│   ├── frames.jsonl
-│   ├── segments.jsonl
-│   └── chunks_indexable.jsonl
-├── lecture_3/
-│   ├── Heme_SH_MDS_MPN_3_package.zip
+│   ├── Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip
 │   ├── manifest.json
 │   ├── frames.jsonl
 │   ├── segments.jsonl
@@ -101,36 +85,20 @@ heme_sh_mds_mpn_deck_project/
 ## Download script
 
 ```bash
-BUNDLE=./heme_sh_mds_mpn_deck_project
-mkdir -p "$BUNDLE"/{SOP,style,who,lecture_1,lecture_2,lecture_3}
+BUNDLE=./heme_sh_aggressive_b_cell_deck_project
+mkdir -p "$BUNDLE"/{SOP,style,who,lecture_1}
 
 # Local/Drive: TNK exemplar zip → style/; WHO JSON → who/; SOP PDF → SOP/;
 # Extract accepted_tags.json from TNK zip → $BUNDLE/accepted_tags.json
 
-gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_1_package.zip" "$BUNDLE/lecture_1/"
-gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_2_package.zip" "$BUNDLE/lecture_2/"
-gsutil cp "gs://pathology_hub/Heme_SH_MDS_MPN_3_package.zip" "$BUNDLE/lecture_3/"
+gsutil cp "gs://pathology_hub/Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip" "$BUNDLE/lecture_1/"
 
 gsutil -m cp \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/manifest.json" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/frames.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/segments.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_1_v0_1/chunks_indexable.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/manifest.json" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/frames.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/segments.jsonl" \
+  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_aggressive_b_cell_v0_1/chunks_indexable.jsonl" \
   "$BUNDLE/lecture_1/"
-
-gsutil -m cp \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/manifest.json" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/frames.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/segments.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_2_v0_1/chunks_indexable.jsonl" \
-  "$BUNDLE/lecture_2/"
-
-gsutil -m cp \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/manifest.json" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/frames.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/segments.jsonl" \
-  "gs://pathology_hub/02_normalized/lectures/deck_packages/heme_sh_mds_mpn_3_v0_1/chunks_indexable.jsonl" \
-  "$BUNDLE/lecture_3/"
 ```
 
 ---
@@ -138,7 +106,7 @@ gsutil -m cp \
 ## Paste-ready builder brief
 
 ```text
-Build a contextual-cloze Anki deck for Heme SH MDS/MPN (parts 1–3).
+Build a contextual-cloze Anki deck for Heme SH Aggressive B-Cell.
 
 STYLE AUTHORITY
 - Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip
@@ -149,7 +117,7 @@ ENTITY AUTHORITY
 - WHO_WHO_JSON_PROCESSED_HEME.json
 
 LECTURE CONTENT (scope authority)
-Heme_SH_MDS_MPN_1_package.zip, Heme_SH_MDS_MPN_2_package.zip, Heme_SH_MDS_MPN_3_package.zip
+Heme_SH_Aggressive_B_Cell_chatgpt_readable_package.zip
 Use transcript.txt, lecture_index.json, transcript_segments.json, and frames/
 as the primary teaching source. Lecture defines syllabus; WHO organizes shared backs.
 Do not silently introduce off-syllabus cards.
@@ -160,7 +128,7 @@ ALIGNMENT AIDS (per lecture)
 - manifest.json — identity, counts, video URL, known limitations
 
 OPTIONAL INDEX (not scope)
-- chunks_indexable.jsonl — navigation only (17 gated chunk(s) for this series).
+- chunks_indexable.jsonl — navigation only (16 gated chunk(s) for this series).
   Do NOT define card scope from it.
 
 DO NOT USE FOR TAGS OR SCOPE
