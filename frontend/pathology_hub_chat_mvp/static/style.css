@@ -1163,6 +1163,14 @@ button:disabled {
   margin-bottom: 0.75rem;
 }
 
+.topic-source-summary {
+  margin-bottom: 0.35rem;
+}
+
+.topic-source-summary .hint {
+  margin: 0.15rem 0;
+}
+
 .compare-tray {
   display: flex;
   align-items: center;

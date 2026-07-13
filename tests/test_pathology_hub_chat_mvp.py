@@ -860,7 +860,7 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("BROWSE_NAV_MODE_KEY", js)
         self.assertIn("browseNavMode", js)
         self.assertIn("BROWSE_LEAF_PREVIEW_CAP", js)
-        self.assertIn("function leafMatchesBrowseFilter", js)
+        self.assertIn("function renderTopicSourceSummary", js)
         self.assertIn("compare-gallery-grid", js)
         self.assertIn("function findTaxonomyMatch", js)
 

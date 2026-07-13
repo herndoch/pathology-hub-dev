@@ -2860,6 +2860,83 @@ function renderDebugBlock(data) {
   return html;
 }
 
+function countItemsBySource(items) {
+  const counts = {};
+  for (const item of items || []) {
+    const src = String(item?.source || "unknown").toLowerCase();
+    counts[src] = (counts[src] || 0) + 1;
+  }
+  return counts;
+}
+
+function formatSourceCountLabel(sourceKey, count) {
+  const label = SOURCE_LABELS[sourceKey] || sourceKey;
+  return `${label} ${count}`;
+}
+
+/** Always-visible retrieval breakdown for topic pages (works on cache hits too). */
+function renderTopicSourceSummary(data, entryMeta = null) {
+  const cardCounts = countItemsBySource(data.cards || []);
+  const figureCounts = countItemsBySource(data.figures || []);
+  const parts = Object.entries(cardCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([src, n]) => formatSourceCountLabel(src, n));
+  if (!parts.length) {
+    return '<p class="hint topic-source-summary">No evidence cards on this page — try Rebuild.</p>';
+  }
+
+  const debug = data?.debug;
+  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? entryMeta.tag.split("::", 1)[0] : null);
+  let html = '<div class="topic-source-summary">';
+  html += `<p class="hint"><strong>Evidence used:</strong> ${escapeHtml(parts.join(" · "))}`;
+  const figTotal = (data.figures || []).length;
+  if (figTotal) {
+    html += ` · ${figTotal} figure${figTotal === 1 ? "" : "s"}`;
+  }
+  html += ".</p>";
+
+  if (pageRoot) {
+    const narrow = debug?.root_narrow_enabled;
+    const before = debug?.cards_before_root_filter;
+    const after = debug?.cards_after_root_filter;
+    if (narrow === true && typeof before === "number" && typeof after === "number" && before !== after) {
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO + journals kept).</p>`;
+    } else if (narrow === true) {
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong> active for textbooks, Pathoutlines, and lecture segments.</p>`;
+    }
+  }
+
+  if (debug?.cards_by_source_before_cap && debug?.cards_by_source_after_cap) {
+    const before = Object.entries(debug.cards_by_source_before_cap)
+      .map(([src, n]) => `${SOURCE_LABELS[src] || src} ${n}`)
+      .join(", ");
+    const after = Object.entries(debug.cards_by_source_after_cap)
+      .map(([src, n]) => `${SOURCE_LABELS[src] || src} ${n}`)
+      .join(", ");
+    if (before !== after) {
+      html += `<p class="hint">Retrieved ${escapeHtml(before)} → capped to ${escapeHtml(after)} for synthesis.</p>`;
+    }
+  }
+
+  const status = data.evidence?.source_status;
+  if (status && typeof status === "object") {
+    const bad = Object.entries(status).filter(([, v]) => v && v !== "ok" && v !== "not_requested");
+    if (bad.length) {
+      html += `<p class="hint">Source status: ${escapeHtml(bad.map(([k, v]) => `${SOURCE_LABELS[k] || k}: ${v}`).join("; "))}</p>`;
+    }
+  }
+
+  const lectureCards = (data.cards || []).filter(isVideoCard);
+  const withFrames = lectureCards.filter((c) => pickHttp(c.figure_url) || pickHttp(c.image_url)).length;
+  if (lectureCards.length && !withFrames) {
+    html += '<p class="hint">Lecture hits have timestamps but the API is not returning slide frame URLs yet — thumbnails show placeholders until backend maps <code>image_path</code> from the lecture index.</p>';
+  }
+
+  html += '<p class="hint">Topic pages always query all sources (sidebar checkboxes do not apply). Per-source minimum is automatic; user-controlled source weighting is not built yet — use Ask/search for a single-source deep dive.</p>';
+  html += "</div>";
+  return html;
+}
+
 function topicPageFanoutHint(data) {
   const debug = data?.debug;
   if (!debug?.multi_query) return "";
@@ -2906,7 +2983,8 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   }
   const pageContext = pageContextFromEntryMeta(entryMeta);
 
-  let html = topicPageFanoutHint(data);
+  let html = renderTopicSourceSummary(data, entryMeta);
+  html += topicPageFanoutHint(data);
   html += renderTopicPage(
     sections,
     previewIndex,
