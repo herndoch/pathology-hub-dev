@@ -180,6 +180,106 @@ class MapContext:
         )
 
 
+def _provenance_rank(provenance: str) -> int:
+    return {"abpath": 0, "both": 1, "who": 2}.get(provenance, 9)
+
+
+def _compact_root_subcategories(subs: list[dict], root_id: str) -> tuple[list[dict], dict[str, int]]:
+    """One nav leaf per root + display label; prefer ABPath over WHO duplicates."""
+    winners: dict[str, dict] = {}
+    skipped: dict[str, int] = {"who_only": 0, "cyto_pattern": 0}
+    for sub in subs:
+        for leaf in sub.get("leaves") or []:
+            provenance = str(leaf.get("provenance") or "").casefold()
+            if provenance == "who":
+                skipped["who_only"] += 1
+                continue
+            tag = str(leaf.get("tag") or "")
+            if root_id == "cyto" and "::Pattern::" in tag:
+                skipped["cyto_pattern"] += 1
+                continue
+            label_key = str(leaf.get("label") or "").strip().casefold()
+            if not label_key:
+                continue
+            dedupe_key = f"{root_id}::{label_key}"
+            rank = _provenance_rank(provenance)
+            depth = len(tag.split("::"))
+            candidate = {
+                "leaf": leaf,
+                "rank": rank,
+                "depth": depth,
+                "sub_id": sub["id"],
+                "sub_label": sub["label"],
+            }
+            prev = winners.get(dedupe_key)
+            if not prev:
+                winners[dedupe_key] = candidate
+                continue
+            better = (
+                rank < prev["rank"]
+                or (rank == prev["rank"] and depth > prev["depth"])
+                or (
+                    rank == prev["rank"]
+                    and depth == prev["depth"]
+                    and tag < str(prev["leaf"].get("tag") or "")
+                )
+            )
+            if better:
+                winners[dedupe_key] = candidate
+
+    buckets: dict[str, dict] = {}
+    for item in winners.values():
+        sub_id = item["sub_id"]
+        buckets.setdefault(
+            sub_id,
+            {"id": sub_id, "label": item["sub_label"], "leaves": [], "leaf_count": 0},
+        )
+        buckets[sub_id]["leaves"].append(item["leaf"])
+
+    compact_subs = []
+    for sub in sorted(buckets.values(), key=lambda s: s["label"]):
+        sub["leaves"] = sorted(sub["leaves"], key=lambda leaf: leaf["label"])
+        sub["leaf_count"] = len(sub["leaves"])
+        if sub["leaf_count"]:
+            compact_subs.append(sub)
+    return compact_subs, skipped
+
+
+def _hide_cyto_surgical_alias_roots(roots: list[dict]) -> tuple[list[dict], int]:
+    non_cyto_labels: set[str] = set()
+    for root in roots:
+        if root.get("id") == "cyto":
+            continue
+        for sub in root.get("subcategories") or []:
+            for leaf in sub.get("leaves") or []:
+                label_key = str(leaf.get("label") or "").strip().casefold()
+                if label_key:
+                    non_cyto_labels.add(label_key)
+
+    removed = 0
+    thinned: list[dict] = []
+    for root in roots:
+        if root.get("id") != "cyto":
+            thinned.append(root)
+            continue
+        subcategories = []
+        for sub in root.get("subcategories") or []:
+            leaves = []
+            for leaf in sub.get("leaves") or []:
+                label_key = str(leaf.get("label") or "").strip().casefold()
+                if label_key and label_key in non_cyto_labels:
+                    removed += 1
+                    continue
+                leaves.append(leaf)
+            if not leaves:
+                continue
+            subcategories.append({**sub, "leaves": leaves, "leaf_count": len(leaves)})
+        leaf_count = sum(sub["leaf_count"] for sub in subcategories)
+        if leaf_count:
+            thinned.append({**root, "subcategories": subcategories, "leaf_count": leaf_count})
+    return thinned, removed
+
+
 def build_index() -> tuple[dict, dict]:
     cyto_map = _load_json(CYTO_MAP_PATH)
     who_map = _load_json(WHO_MAP_PATH)
@@ -305,12 +405,18 @@ def build_index() -> tuple[dict, dict]:
             root_entry["leaf_count"] += 1
             per_root_before[root_id] = per_root_before.get(root_id, 0) + 1
 
+    thinning_stats = {"who_only": 0, "cyto_pattern": 0, "cyto_surgical_alias": 0}
+
     def finalize_root(root_entry: dict) -> dict:
         finalized = dict(root_entry)
         subs = sorted(root_entry["subcategories"].values(), key=lambda s: s["label"])
         for sub in subs:
             sub["leaves"] = sorted(sub["leaves"], key=lambda leaf: leaf["label"])
-        finalized["subcategories"] = subs
+        compact_subs, skipped = _compact_root_subcategories(subs, root_entry.get("id", ""))
+        thinning_stats["who_only"] += skipped["who_only"]
+        thinning_stats["cyto_pattern"] += skipped["cyto_pattern"]
+        finalized["subcategories"] = compact_subs
+        finalized["leaf_count"] = sum(sub["leaf_count"] for sub in finalized["subcategories"])
         return finalized
 
     final_roots = []
@@ -319,12 +425,22 @@ def build_index() -> tuple[dict, dict]:
     for root_entry in sorted(roots.values(), key=lambda r: r["label"]):
         final_roots.append(finalize_root(root_entry))
 
+    final_roots, cyto_alias_removed = _hide_cyto_surgical_alias_roots(final_roots)
+    thinning_stats["cyto_surgical_alias"] = cyto_alias_removed
+
+    leaves_total_raw = sum(r["leaf_count"] for r in final_roots)
+    # Re-count after per-root label compaction (finalize_root already compacted).
     generated_at = datetime.now(timezone.utc).isoformat()
     counts: dict[str, Any] = {
         "abpath_tags": len(abpath_rows),
         "who_files_read": who_files_read,
         "who_entities_seen": who_entities_seen,
-        "leaves_total": len(leaves),
+        "leaves_total_raw": len(leaves),
+        "leaves_total": leaves_total_raw,
+        "leaves_removed_label_dedupe": max(0, len(leaves) - leaves_total_raw),
+        "leaves_removed_who_only_nav": thinning_stats["who_only"],
+        "leaves_removed_cyto_pattern_nav": thinning_stats["cyto_pattern"],
+        "leaves_removed_cyto_surgical_alias": thinning_stats["cyto_surgical_alias"],
         "leaves_abpath_only": provenance_counts.get("abpath", 0),
         "leaves_who_only": provenance_counts.get("who", 0),
         "leaves_both": provenance_counts.get("both", 0),
@@ -338,6 +454,9 @@ def build_index() -> tuple[dict, dict]:
         "Index is a local v0_2 snapshot; not proof of API exposure or vector coverage.",
         "Browse nav = WHO + ABPath only; PathOut remains a retrieval/citation source only.",
         "UI collapses deep paths to 3 levels; full tag remains the leaf identity.",
+        "One nav leaf per root+display_label (ABPath preferred over WHO duplicate labels).",
+        "Browse nav thinning: ABPath-primary (no WHO-only), hide cyto twins of surgical labels, drop cyto Pattern leaves.",
+        "UI defaults to starter browse (~150 topics); full thinned index is opt-in with search on long lists.",
         "Cyto lumping applied per approved cyto_lumping_map_v0_1.json (breast families in v0.1).",
         "WHO CYTO category-definition entities may still appear until a secondary drop pass.",
     ]
@@ -355,6 +474,13 @@ def build_index() -> tuple[dict, dict]:
         "dedupe_rules": {
             "key": "casefold(full_tag_path)",
             "canonical_preference": "abpath_spelling_with_who_overlay",
+            "label_dedupe_within_root": "one leaf per root+display_label; prefer abpath > both > who",
+            "nav_thinning": {
+                "abpath_primary": True,
+                "hide_cyto_surgical_dupes": True,
+                "drop_cyto_pattern": True,
+                "default_nav_mode": "starter",
+            },
             "provenance_values": list(ACCEPTED_NAV_PROVENANCES),
             "nav_sources": list(NAV_SOURCES),
             "pathout_nav": False,

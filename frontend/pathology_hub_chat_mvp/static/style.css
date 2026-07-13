@@ -155,6 +155,52 @@ code {
   font-size: 1.1rem;
 }
 
+.browse-nav-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+}
+
+.browse-nav-mode-btn {
+  border: 1px solid var(--panel-border);
+  background: #f8f9fa;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.browse-nav-mode-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.browse-search-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.55rem 0 0.35rem;
+}
+
+.browse-search-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.browse-search-clear {
+  flex-shrink: 0;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+}
+
 .browse-tile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

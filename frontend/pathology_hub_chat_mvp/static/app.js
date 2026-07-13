@@ -357,11 +357,243 @@ function curatedFallbackRoots() {
   }));
 }
 
+const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
+const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_1";
+const BROWSE_LEAF_PREVIEW_CAP = 48;
+const BROWSE_NAV_THINNING = {
+  abpath_primary: true,
+  hide_cyto_surgical_dupes: true,
+  drop_cyto_pattern: true,
+};
+
+let browseNavMode = "starter";
+let browseFilterQuery = "";
+
+function readBrowseNavMode() {
+  try {
+    const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
+    return stored === "full" ? "full" : "starter";
+  } catch (_err) {
+    return "starter";
+  }
+}
+
+function writeBrowseNavMode(mode) {
+  browseNavMode = mode === "full" ? "full" : "starter";
+  try {
+    localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
+  } catch (_err) {
+    // ignore quota / private-mode failures
+  }
+}
+
+browseNavMode = readBrowseNavMode();
+
+function getBrowseNavRootsFull() {
+  if (browseIndex && Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
+    return browseIndex.nav_roots_full;
+  }
+  return null;
+}
+
+/** Collapse redundant nav leaves: one clickable topic per root + display label.
+ * Prefers ABPath over WHO-only when the same entity name appears under multiple
+ * subcategories (common with WHO overlay). */
+function compactBrowseRoots(roots, options = {}) {
+  const thinning = { ...BROWSE_NAV_THINNING, ...options };
+  let before = 0;
+  let after = 0;
+  let skippedWhoOnly = 0;
+  let skippedCytoPattern = 0;
+  const compactedRoots = [];
+  for (const root of roots || []) {
+    const winners = new Map();
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        before += 1;
+        const provenance = String(leaf.provenance || "").toLowerCase();
+        if (thinning.abpath_primary && provenance === "who") {
+          skippedWhoOnly += 1;
+          continue;
+        }
+        if (thinning.drop_cyto_pattern && root.id === "cyto" && String(leaf.tag || "").includes("::Pattern::")) {
+          skippedCytoPattern += 1;
+          continue;
+        }
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (!labelKey) continue;
+        const dedupeKey = `${root.id}::${labelKey}`;
+        const rank = BROWSE_PROVENANCE_RANK[provenance] ?? 9;
+        const depth = String(leaf.tag || "").split("::").length;
+        const prev = winners.get(dedupeKey);
+        if (!prev) {
+          winners.set(dedupeKey, { leaf, rank, depth, subId: sub.id, subLabel: sub.label });
+          continue;
+        }
+        const better =
+          rank < prev.rank
+          || (rank === prev.rank && depth > prev.depth)
+          || (rank === prev.rank && depth === prev.depth && String(leaf.tag || "") < String(prev.leaf.tag || ""));
+        if (better) {
+          winners.set(dedupeKey, { leaf, rank, depth, subId: sub.id, subLabel: sub.label });
+        }
+      }
+    }
+    const subBuckets = new Map();
+    for (const { leaf, subId, subLabel } of winners.values()) {
+      after += 1;
+      if (!subBuckets.has(subId)) {
+        subBuckets.set(subId, { id: subId, label: subLabel, leaves: [] });
+      }
+      subBuckets.get(subId).leaves.push(leaf);
+    }
+    const subcategories = [...subBuckets.values()]
+      .map((sub) => {
+        sub.leaves = sub.leaves.sort((a, b) => String(a.label).localeCompare(String(b.label)));
+        sub.leaf_count = sub.leaves.length;
+        return sub;
+      })
+      .filter((sub) => sub.leaf_count > 0)
+      .sort((a, b) => String(a.label).localeCompare(String(b.label)));
+    const leafCount = subcategories.reduce((sum, sub) => sum + sub.leaf_count, 0);
+    if (!leafCount) continue;
+    compactedRoots.push({
+      ...root,
+      leaf_count: leafCount,
+      subcategories,
+    });
+  }
+
+  let cytoAliasRemoved = 0;
+  if (!thinning.hide_cyto_surgical_dupes) {
+    return {
+      roots: compactedRoots,
+      before,
+      after,
+      removed: Math.max(0, before - after),
+      skippedWhoOnly,
+      skippedCytoPattern,
+      cytoAliasRemoved,
+    };
+  }
+
+  const nonCytoLabels = new Set();
+  for (const root of compactedRoots) {
+    if (root.id === "cyto") continue;
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (labelKey) nonCytoLabels.add(labelKey);
+      }
+    }
+  }
+
+  const thinnedRoots = [];
+  for (const root of compactedRoots) {
+    if (root.id !== "cyto") {
+      thinnedRoots.push(root);
+      continue;
+    }
+    const subcategories = [];
+    for (const sub of root.subcategories || []) {
+      const leaves = (sub.leaves || []).filter((leaf) => {
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (!labelKey || !nonCytoLabels.has(labelKey)) return true;
+        cytoAliasRemoved += 1;
+        return false;
+      });
+      if (!leaves.length) continue;
+      subcategories.push({
+        ...sub,
+        leaves,
+        leaf_count: leaves.length,
+      });
+    }
+    const leafCount = subcategories.reduce((sum, sub) => sum + sub.leaf_count, 0);
+    if (!leafCount) continue;
+    thinnedRoots.push({
+      ...root,
+      leaf_count: leafCount,
+      subcategories,
+    });
+  }
+
+  const finalAfter = thinnedRoots.reduce((sum, root) => sum + root.leaf_count, 0);
+  return {
+    roots: thinnedRoots,
+    before,
+    after: finalAfter,
+    removed: Math.max(0, before - finalAfter),
+    skippedWhoOnly,
+    skippedCytoPattern,
+    cytoAliasRemoved,
+  };
+}
+
 function getBrowseRoots() {
-  if (browseIndex && Array.isArray(browseIndex.roots) && browseIndex.roots.length) {
-    return browseIndex.roots;
+  if (browseNavMode === "full") {
+    const full = getBrowseNavRootsFull();
+    if (full) return full;
+  }
+  if (browseIndex) {
+    return curatedFallbackRoots();
   }
   return curatedFallbackRoots();
+}
+
+function normalizeBrowseFilterText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function leafMatchesBrowseFilter(leaf, filterText) {
+  const q = normalizeBrowseFilterText(filterText);
+  if (!q) return true;
+  const hay = normalizeBrowseFilterText(
+    `${formatDisplayLabel(leaf.label)} ${leaf.query || ""} ${leaf.tag || ""}`,
+  );
+  return q.split(/\s+/).every((token) => hay.includes(token));
+}
+
+function collectLeavesFromRoots(roots) {
+  const rows = [];
+  for (const root of roots || []) {
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        rows.push({
+          root,
+          sub,
+          leaf,
+          displayLabel: formatDisplayLabel(leaf.label),
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+function browseSearchBarHtml(placeholder, value = "") {
+  return `<div class="browse-search-row">
+    <input type="search" class="browse-search-input" id="browse-filter-input" placeholder="${escapeAttr(placeholder)}" value="${escapeAttr(value)}" autocomplete="off" />
+    ${value ? '<button type="button" class="btn-secondary browse-search-clear" id="browse-filter-clear">Clear</button>' : ""}
+  </div>`;
+}
+
+function bindBrowseSearchHandlers(onChange) {
+  const input = document.getElementById("browse-filter-input");
+  const clearBtn = document.getElementById("browse-filter-clear");
+  if (!input) return;
+  input.addEventListener("input", () => {
+    browseFilterQuery = input.value;
+    onChange();
+  });
+  clearBtn?.addEventListener("click", () => {
+    browseFilterQuery = "";
+    onChange();
+  });
+  input.focus();
 }
 
 /** Fetches the generated combined-tag Browse index once at startup. Never
@@ -387,6 +619,27 @@ async function loadBrowseIndex() {
       throw new Error("Browse index nav_sources are not WHO + ABPath only");
     }
     browseIndex = data;
+    const compact = compactBrowseRoots(browseIndex.roots);
+    browseIndex.nav_roots_full = compact.roots;
+    browseIndex.counts = {
+      ...(browseIndex.counts || {}),
+      leaves_total_raw: browseIndex.counts?.leaves_total ?? compact.before,
+      leaves_total: compact.after,
+      leaves_removed_label_dedupe: compact.removed,
+      leaves_removed_who_only_nav: compact.skippedWhoOnly,
+      leaves_removed_cyto_pattern_nav: compact.skippedCytoPattern,
+      leaves_removed_cyto_surgical_alias: compact.cytoAliasRemoved,
+    };
+    browseIndex.dedupe_rules = {
+      ...(browseIndex.dedupe_rules || {}),
+      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who",
+      nav_thinning: {
+        abpath_primary: BROWSE_NAV_THINNING.abpath_primary,
+        hide_cyto_surgical_dupes: BROWSE_NAV_THINNING.hide_cyto_surgical_dupes,
+        drop_cyto_pattern: BROWSE_NAV_THINNING.drop_cyto_pattern,
+        default_nav_mode: "starter",
+      },
+    };
   } catch (err) {
     browseIndex = null;
     // eslint-disable-next-line no-console
@@ -430,13 +683,14 @@ function normalizeEntityName(name) {
     .join(" ");
 }
 
-/** Built from getBrowseRoots() (curated fallback until loadBrowseIndex()
- * resolves, then rebuilt from the real combined index). Mutable (`let`), not
- * a one-time IIFE const, because the underlying roots can change once at
- * startup when the generated index finishes loading. */
+/** Built from the thinned full index when available (curated fallback until
+ * loadBrowseIndex() resolves). Mutable (`let`), not a one-time IIFE const,
+ * because the underlying roots can change once at startup when the generated
+ * index finishes loading. */
 function buildLeafIndex() {
   const list = [];
-  for (const root of getBrowseRoots()) {
+  const roots = getBrowseNavRootsFull() || getBrowseRoots();
+  for (const root of roots) {
     for (const sub of root.subcategories) {
       for (const leaf of sub.leaves) {
         const displayName = formatDisplayLabel(leaf.label);
@@ -1678,6 +1932,7 @@ function renderBrowseBreadcrumbs() {
     {
       label: "Home",
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "home" };
         renderBrowseView();
       },
@@ -1689,6 +1944,7 @@ function renderBrowseBreadcrumbs() {
     parts.push({
       label: formatDisplayLabel(category.label),
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "category", categoryId: category.id };
         renderBrowseView();
       },
@@ -1701,6 +1957,7 @@ function renderBrowseBreadcrumbs() {
     parts.push({
       label: formatSubcategoryLabel(subcategory.label),
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "subcategory", categoryId: category.id, subcategoryId: subcategory.id };
         renderBrowseView();
       },
@@ -1978,20 +2235,93 @@ function renderBrowseView() {
 }
 
 function renderBrowseHome() {
-  const roots = getBrowseRoots();
   const usingIndex = Boolean(browseIndex);
-  const leavesTotal = usingIndex
-    ? browseIndex.counts?.leaves_total ?? roots.reduce((sum, r) => sum + r.leaf_count, 0)
-    : roots.reduce((sum, r) => sum + r.leaf_count, 0);
+  const starterRoots = curatedFallbackRoots();
+  const fullRoots = getBrowseNavRootsFull();
+  const showingFull = usingIndex && browseNavMode === "full" && fullRoots;
+  const roots = showingFull ? fullRoots : starterRoots;
+  const starterTotal = starterRoots.reduce((sum, r) => sum + r.leaf_count, 0);
+  const fullTotal = fullRoots
+    ? fullRoots.reduce((sum, r) => sum + r.leaf_count, 0)
+    : browseIndex?.counts?.leaves_total ?? 0;
+  const leavesRaw = usingIndex ? browseIndex.counts?.leaves_total_raw : null;
+  const leavesRemoved = usingIndex ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
 
-  let html = usingIndex
-    ? `<p class="hint">WHO + ABPath topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; first open builds live, then caches for the next visitor — use Rebuild to refresh). Not a claim about API exposure or vector coverage.</p>`
-    : '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+  let html = "";
+  if (usingIndex) {
+    html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter topics (${starterTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full index (${fullTotal})</button>`;
+    html += "</div>";
+  }
+
+  if (showingFull) {
+    const dedupeNote =
+      leavesRemoved > 0 ? ` (${leavesRaw} raw tags; ${leavesRemoved} duplicate labels collapsed per organ)` : "";
+    html += `<p class="hint">ABPath-primary full index — ${fullTotal} topics across ${roots.length} roots${dedupeNote}. Cyto-only and WHO supplement tags are omitted when a surgical-pathology twin exists. Use search below on long lists. First open builds live, then caches.</p>`;
+    html += browseSearchBarHtml("Search all topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
+  } else if (usingIndex) {
+    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics for quick navigation. Switch to <strong>Full index</strong> for the complete ABPath+WHO tag tree (${fullTotal} thinned topics). First open builds live, then caches.</p>`;
+  } else {
+    html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+  }
+
+  if (showingFull && browseFilterQuery.trim()) {
+    const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
+    html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
+    html += '<div class="chevron-list">';
+    for (const row of matches.slice(0, 120)) {
+      const leafPayload = escapeAttr(
+        JSON.stringify({
+          tag: row.leaf.tag,
+          label: row.leaf.label,
+          query: row.leaf.query,
+          provenance: row.leaf.provenance || null,
+          categoryId: row.root.id,
+          subcategoryId: row.sub.id,
+        }),
+      );
+      html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
+    }
+    html += "</div>";
+    if (matches.length > 120) {
+      html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
+    }
+    browseContentEl.innerHTML = html;
+    browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
+      el.addEventListener("click", () => {
+        writeBrowseNavMode(el.dataset.browseMode);
+        browseFilterQuery = "";
+        browseState = { level: "home" };
+        renderBrowseView();
+      });
+    });
+    bindBrowseSearchHandlers(() => renderBrowseHome());
+    browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
+      el.addEventListener("click", () => {
+        const leaf = JSON.parse(el.dataset.leaf);
+        browseFilterQuery = "";
+        browseState = {
+          level: "leaf",
+          categoryId: leaf.categoryId,
+          subcategoryId: leaf.subcategoryId,
+          tag: leaf.tag,
+          label: leaf.label,
+          query: leaf.query,
+          provenance: leaf.provenance || null,
+        };
+        renderBrowseView();
+      });
+    });
+    return;
+  }
 
   html += '<div class="browse-tile-grid">';
   for (const root of roots) {
     const style = rootTileStyle(root.id, root.label);
-    const countLabel = usingIndex ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`;
+    const countLabel = usingIndex
+      ? (showingFull ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
+      : `${root.leaf_count} starter topics`;
     html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
     html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
     html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
@@ -1999,8 +2329,20 @@ function renderBrowseHome() {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
+    el.addEventListener("click", () => {
+      writeBrowseNavMode(el.dataset.browseMode);
+      browseFilterQuery = "";
+      browseState = { level: "home" };
+      renderBrowseView();
+    });
+  });
+  if (showingFull) {
+    bindBrowseSearchHandlers(() => renderBrowseHome());
+  }
   browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
     el.addEventListener("click", () => {
+      browseFilterQuery = "";
       browseState = { level: "category", categoryId: el.dataset.categoryId };
       renderBrowseView();
     });
@@ -2014,16 +2356,33 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
+  const showingFull = Boolean(browseIndex && browseNavMode === "full");
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
-  html += browseIndex
-    ? '<p class="hint">WHO + ABPath topic tags for this root. Pick a subcategory, then a topic.</p>'
-    : '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  html += showingFull
+    ? '<p class="hint">ABPath-primary topic tags for this root. Pick a subcategory, then a topic — or search on the next screen when lists are long.</p>'
+    : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  if (showingFull) {
+    html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
+  }
+  const subs = (cat.subcategories || []).filter((sub) => {
+    if (!browseFilterQuery.trim()) return true;
+    return (sub.leaves || []).some((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
+  });
+  if (showingFull && browseFilterQuery.trim()) {
+    html += `<p class="hint">${subs.length} subcategor${subs.length === 1 ? "y" : "ies"} with matches.</p>`;
+  }
   html += '<div class="chevron-list">';
-  for (const sub of cat.subcategories) {
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${browseIndex ? ` <span class="chevron-count">(${sub.leaf_count})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
+  for (const sub of subs) {
+    const matchCount = browseFilterQuery.trim()
+      ? (sub.leaves || []).filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery)).length
+      : sub.leaf_count;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingFull ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  if (showingFull) {
+    bindBrowseSearchHandlers(() => renderBrowseCategory(categoryId));
+  }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
     el.addEventListener("click", () => {
       browseState = { level: "subcategory", categoryId, subcategoryId: el.dataset.subId };
@@ -2040,12 +2399,27 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
+  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const allLeaves = sub.leaves || [];
+  const filteredLeaves = allLeaves.filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
+  const hasFilter = Boolean(browseFilterQuery.trim());
+  const visibleLeaves = hasFilter ? filteredLeaves : filteredLeaves.slice(0, BROWSE_LEAF_PREVIEW_CAP);
+  const hiddenCount = hasFilter ? 0 : Math.max(0, filteredLeaves.length - visibleLeaves.length);
+
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))} — ${escapeHtml(formatSubcategoryLabel(sub.label))}</h2>`;
-  html += browseIndex
-    ? '<p class="hint">Pick a topic to load a grounded topic page — prebuilt (pilot) pages load instantly, others run a live query.</p>'
+  html += showingFull
+    ? '<p class="hint">Pick a topic to load a grounded topic page. Long lists are capped until you search.</p>'
     : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
+  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+    html += browseSearchBarHtml("Filter topics in this list…", browseFilterQuery);
+  }
+  if (hiddenCount > 0) {
+    html += `<p class="hint">Showing ${visibleLeaves.length} of ${filteredLeaves.length} topics — type to search the full list.</p>`;
+  } else if (hasFilter) {
+    html += `<p class="hint">${visibleLeaves.length} match${visibleLeaves.length === 1 ? "" : "es"}.</p>`;
+  }
   html += '<div class="chevron-list">';
-  for (const leaf of sub.leaves) {
+  for (const leaf of visibleLeaves) {
     const displayLabel = formatDisplayLabel(leaf.label);
     const leafPayload = escapeAttr(
       JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, provenance: leaf.provenance || null }),
@@ -2059,6 +2433,9 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+    bindBrowseSearchHandlers(() => renderBrowseSubcategory(categoryId, subcategoryId));
+  }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
     el.addEventListener("click", () => {
       const leaf = JSON.parse(el.dataset.leaf);
