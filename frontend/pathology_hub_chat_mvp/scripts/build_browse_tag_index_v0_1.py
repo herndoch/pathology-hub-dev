@@ -187,13 +187,10 @@ def _provenance_rank(provenance: str) -> int:
 def _compact_root_subcategories(subs: list[dict], root_id: str) -> tuple[list[dict], dict[str, int]]:
     """One nav leaf per root + display label; prefer ABPath over WHO duplicates."""
     winners: dict[str, dict] = {}
-    skipped: dict[str, int] = {"who_only": 0, "cyto_pattern": 0}
+    skipped: dict[str, int] = {"cyto_pattern": 0}
     for sub in subs:
         for leaf in sub.get("leaves") or []:
             provenance = str(leaf.get("provenance") or "").casefold()
-            if provenance == "who":
-                skipped["who_only"] += 1
-                continue
             tag = str(leaf.get("tag") or "")
             if root_id == "cyto" and "::Pattern::" in tag:
                 skipped["cyto_pattern"] += 1
@@ -405,7 +402,7 @@ def build_index() -> tuple[dict, dict]:
             root_entry["leaf_count"] += 1
             per_root_before[root_id] = per_root_before.get(root_id, 0) + 1
 
-    thinning_stats = {"who_only": 0, "cyto_pattern": 0, "cyto_surgical_alias": 0}
+    thinning_stats = {"cyto_pattern": 0, "cyto_surgical_alias": 0}
 
     def finalize_root(root_entry: dict) -> dict:
         finalized = dict(root_entry)
@@ -413,7 +410,6 @@ def build_index() -> tuple[dict, dict]:
         for sub in subs:
             sub["leaves"] = sorted(sub["leaves"], key=lambda leaf: leaf["label"])
         compact_subs, skipped = _compact_root_subcategories(subs, root_entry.get("id", ""))
-        thinning_stats["who_only"] += skipped["who_only"]
         thinning_stats["cyto_pattern"] += skipped["cyto_pattern"]
         finalized["subcategories"] = compact_subs
         finalized["leaf_count"] = sum(sub["leaf_count"] for sub in finalized["subcategories"])
@@ -438,7 +434,7 @@ def build_index() -> tuple[dict, dict]:
         "leaves_total_raw": len(leaves),
         "leaves_total": leaves_total_raw,
         "leaves_removed_label_dedupe": max(0, len(leaves) - leaves_total_raw),
-        "leaves_removed_who_only_nav": thinning_stats["who_only"],
+        "leaves_removed_who_only_nav": 0,
         "leaves_removed_cyto_pattern_nav": thinning_stats["cyto_pattern"],
         "leaves_removed_cyto_surgical_alias": thinning_stats["cyto_surgical_alias"],
         "leaves_abpath_only": provenance_counts.get("abpath", 0),
@@ -455,8 +451,9 @@ def build_index() -> tuple[dict, dict]:
         "Browse nav = WHO + ABPath only; PathOut remains a retrieval/citation source only.",
         "UI collapses deep paths to 3 levels; full tag remains the leaf identity.",
         "One nav leaf per root+display_label (ABPath preferred over WHO duplicate labels).",
-        "Browse nav thinning: ABPath-primary (no WHO-only), hide cyto twins of surgical labels, drop cyto Pattern leaves.",
-        "UI defaults to starter browse (~150 topics); full thinned index is opt-in with search on long lists.",
+        "Browse nav thinning: label dedupe per organ (ABPath wins on overlap), hide cyto twins of surgical labels, drop cyto Pattern leaves.",
+        "WHO-only tags are kept when they do not share a display label with ABPath in the same root.",
+        "UI defaults to full WHO + ABPath index; starter browse is optional. Long lists use in-page filter.",
         "Cyto lumping applied per approved cyto_lumping_map_v0_1.json (breast families in v0.1).",
         "WHO CYTO category-definition entities may still appear until a secondary drop pass.",
     ]
@@ -476,10 +473,10 @@ def build_index() -> tuple[dict, dict]:
             "canonical_preference": "abpath_spelling_with_who_overlay",
             "label_dedupe_within_root": "one leaf per root+display_label; prefer abpath > both > who",
             "nav_thinning": {
-                "abpath_primary": True,
+                "abpath_primary": False,
                 "hide_cyto_surgical_dupes": True,
                 "drop_cyto_pattern": True,
-                "default_nav_mode": "starter",
+                "default_nav_mode": "full",
             },
             "provenance_values": list(ACCEPTED_NAV_PROVENANCES),
             "nav_sources": list(NAV_SOURCES),

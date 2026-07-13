@@ -358,15 +358,15 @@ function curatedFallbackRoots() {
 }
 
 const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
-const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_1";
+const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_2";
 const BROWSE_LEAF_PREVIEW_CAP = 48;
 const BROWSE_NAV_THINNING = {
-  abpath_primary: true,
+  abpath_primary: false,
   hide_cyto_surgical_dupes: true,
   drop_cyto_pattern: true,
 };
 
-let browseNavMode = "starter";
+let browseNavMode = "full";
 let browseFilterQuery = "";
 
 function readBrowseNavMode() {
@@ -637,7 +637,7 @@ async function loadBrowseIndex() {
         abpath_primary: BROWSE_NAV_THINNING.abpath_primary,
         hide_cyto_surgical_dupes: BROWSE_NAV_THINNING.hide_cyto_surgical_dupes,
         drop_cyto_pattern: BROWSE_NAV_THINNING.drop_cyto_pattern,
-        default_nav_mode: "starter",
+        default_nav_mode: "full",
       },
     };
   } catch (err) {
@@ -2256,12 +2256,19 @@ function renderBrowseHome() {
   }
 
   if (showingFull) {
+    const abpathCount = browseIndex.counts?.leaves_abpath_only;
+    const whoOnlyCount = browseIndex.counts?.leaves_who_only;
+    const bothCount = browseIndex.counts?.leaves_both;
+    const provenanceNote =
+      abpathCount != null && whoOnlyCount != null
+        ? ` Built from ABPath curriculum tags (${abpathCount} ABPath, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only additions).`
+        : "";
     const dedupeNote =
-      leavesRemoved > 0 ? ` (${leavesRaw} raw tags; ${leavesRemoved} duplicate labels collapsed per organ)` : "";
-    html += `<p class="hint">ABPath-primary full index — ${fullTotal} topics across ${roots.length} roots${dedupeNote}. Cyto-only and WHO supplement tags are omitted when a surgical-pathology twin exists. Use search below on long lists. First open builds live, then caches.</p>`;
-    html += browseSearchBarHtml("Search all topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
+      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; ABPath spelling wins on overlap).` : "";
+    html += `<p class="hint">WHO + ABPath browse index only — no PathOut nav tags.${provenanceNote}${dedupeNote} Cyto cytology-only entries stay when no surgical twin exists. Use search on long lists; first topic open builds live, then caches.</p>`;
+    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
   } else if (usingIndex) {
-    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics for quick navigation. Switch to <strong>Full index</strong> for the complete ABPath+WHO tag tree (${fullTotal} thinned topics). First open builds live, then caches.</p>`;
+    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics. Switch to <strong>Full index</strong> for the complete WHO + ABPath tree (${fullTotal} topics).</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
@@ -2359,7 +2366,7 @@ function renderBrowseCategory(categoryId) {
   const showingFull = Boolean(browseIndex && browseNavMode === "full");
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
   html += showingFull
-    ? '<p class="hint">ABPath-primary topic tags for this root. Pick a subcategory, then a topic — or search on the next screen when lists are long.</p>'
+    ? '<p class="hint">WHO + ABPath tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
     : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   if (showingFull) {
     html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
@@ -3074,6 +3081,7 @@ form.addEventListener("submit", async (event) => {
   const query = queryInput.value.trim();
   if (!query) return;
 
+  setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
   sendBtn.disabled = true;
