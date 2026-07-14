@@ -8,14 +8,19 @@ Use these in **ChatGPT with GitHub connected**. The handoffs tell the model *wha
 
 ---
 
-## Lazy alternative: Colab → Drive zip
+## Lazy alternative: Colab → a bunch of ChatGPT zips
 
-If hunting GCS paths feels annoying, run:
+Run this Colab (preferred):
 
-`notebooks/Heme_SH_Anki_Builder_Drive_Bundle_Assembler_v0_1.ipynb`
+`notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb`
 
-It finds your TNK zip + WHO JSON on Drive, pulls lecture/sidecar files from GCS, and writes
-`series_<slug>_chatGPT_upload.zip`. Attach that one zip in ChatGPT, then paste the prompt below.
+1. Put TNK zip + WHO JSON somewhere under MyDrive once.
+2. Leave `SERIES_CHOICE = "ALL"` and `MODE = "light"`.
+3. Runtime → Run all.
+4. Open Drive → `MyDrive/Heme_Anki_ChatGPT_Zips/`.
+5. Attach one `series_*_chatGPT_upload.zip` per ChatGPT chat; paste that zip’s `CHATGPT_PROMPT.txt`.
+
+(Older assembler: `notebooks/Heme_SH_Anki_Builder_Drive_Bundle_Assembler_v0_1.ipynb`.)
 
 **TNK** = T/NK-lymphomas **finished Anki exemplar** (style law), not the lecture you are converting.
 
