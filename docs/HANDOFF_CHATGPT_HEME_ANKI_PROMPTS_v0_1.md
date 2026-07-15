@@ -8,17 +8,37 @@ Use these in **ChatGPT with GitHub connected**. The handoffs tell the model *wha
 
 ---
 
+## Lazy alternative: Colab → a bunch of ChatGPT zips
+
+**Open in Colab (after merge to master):**  
+https://colab.research.google.com/github/herndoch/pathology-hub-dev/blob/master/notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb
+
+**Open in Colab (PR branch, works now):**  
+https://colab.research.google.com/github/herndoch/pathology-hub-dev/blob/cursor/anki-builder-gcs-bundle-9231/notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb
+
+Repo path: `notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb` ([PR #19](https://github.com/herndoch/pathology-hub-dev/pull/19))
+
+1. Put TNK zip + WHO JSON somewhere under MyDrive once.
+2. Leave `SERIES_CHOICE = "ALL"` and `MODE = "light"`.
+3. Runtime → Run all.
+4. Open Drive → `MyDrive/Heme_Anki_ChatGPT_Zips/`.
+5. Attach one `series_*_chatGPT_upload.zip` per ChatGPT chat; paste that zip’s `CHATGPT_PROMPT.txt`.
+
+(Older assembler: `notebooks/Heme_SH_Anki_Builder_Drive_Bundle_Assembler_v0_1.ipynb`.)
+
+**TNK** = T/NK-lymphomas **finished Anki exemplar** (style law), not the lecture you are converting.
+
+---
+
 ## Before you start
 
 1. **Merge PR #18** (or tell ChatGPT to open branch `cursor/mds-mpn-anki-handoff-9231`). GitHub connectors usually see `master` first.
-2. Keep nearby (Drive / local / ChatGPT uploads):
-   - `Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip`
-   - `Pathology_Anki_Contextual_Cloze_SOP.pdf` (v1.1)
-   - `WHO_WHO_JSON_PROCESSED_HEME.json`
-   - The lecture ZIP(s) for that series (paths in each series handoff)
-   - Optional but recommended: that lecture’s `manifest.json`, `frames.jsonl`, `segments.jsonl`
-3. **Do not upload** `tag_audit.json`, `chunk_audit.json`, `audit.json`.
-4. One deck series per ChatGPT conversation when possible (cleaner than stacking all 21).
+2. **Prefer GCS shared prefix** (after you land TNK + WHO):
+   `gs://pathology_hub/02_normalized/anki/heme_sh_contextual_cloze_builder_v0_1/shared/`
+   Until those two files are uploaded from your laptop, keep them on Drive and attach manually.
+3. Lecture ZIP + sidecars: listed in `series_index.json` under that same builder prefix (pointers; not re-copied).
+4. **Do not upload** `tag_audit.json`, `chunk_audit.json`, `audit.json`.
+5. One deck series per ChatGPT conversation when possible.
 
 ---
 

@@ -31,11 +31,22 @@ Use this document for **shared rules**. Each lecture series has a sibling handof
 
 **Tag authority is singular:** accepted-tag JSON inside the TNK exemplar only. Ignore `primary_tag` on `frames.jsonl` / `chunks_indexable.jsonl` for permitted tags (semantic retrieval labels, not deck law).
 
-### Local-only (not on GCS under these names as of 2026-07-13)
+### GCS builder prefix (2026-07-13)
 
-- `Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip`
-- `WHO_WHO_JSON_PROCESSED_HEME.json`
-- Contextual Cloze SOP PDF (if not already inside the TNK package)
+```text
+gs://pathology_hub/02_normalized/anki/heme_sh_contextual_cloze_builder_v0_1/
+```
+
+| Object | Status |
+|--------|--------|
+| `shared/Pathology_Anki_Contextual_Cloze_SOP_v1_1.pdf` | on GCS |
+| `shared/Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip` | **pending laptop upload** |
+| `shared/WHO_WHO_JSON_PROCESSED_HEME.json` | **pending laptop upload** |
+| `shared/accepted_tags.json` | **pending** (extract from TNK zip) |
+| `docs/` + `series_index.json` | on GCS (handoffs + pointers to lecture ZIPs/sidecars) |
+
+Publish / drop instructions: `docs/PLAN_HEME_ANKI_BUILDER_GCS_BUNDLE_v0_1.md`  
+Also: `gs://pathology_hub/02_normalized/anki/heme_sh_contextual_cloze_builder_v0_1/DROPBOX_FOR_LOCAL_UPLOADS.md`
 
 ### Optional histology download
 
