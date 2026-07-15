@@ -10,9 +10,13 @@ Use these in **ChatGPT with GitHub connected**. The handoffs tell the model *wha
 
 ## Lazy alternative: Colab → a bunch of ChatGPT zips
 
-Run this Colab (preferred):
+**Open in Colab (after merge to master):**  
+https://colab.research.google.com/github/herndoch/pathology-hub-dev/blob/master/notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb
 
-`notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb`
+**Open in Colab (PR branch, works now):**  
+https://colab.research.google.com/github/herndoch/pathology-hub-dev/blob/cursor/anki-builder-gcs-bundle-9231/notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb
+
+Repo path: `notebooks/Heme_SH_Anki_ChatGPT_Upload_Zips_v0_1.ipynb` ([PR #19](https://github.com/herndoch/pathology-hub-dev/pull/19))
 
 1. Put TNK zip + WHO JSON somewhere under MyDrive once.
 2. Leave `SERIES_CHOICE = "ALL"` and `MODE = "light"`.
