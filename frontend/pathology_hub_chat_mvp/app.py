@@ -729,9 +729,13 @@ def api_openai_ping():
 if __name__ == "__main__":
     import uvicorn
 
+    # Cloud Run sets PORT and expects 0.0.0.0; local default stays loopback.
+    _host = os.environ.get("HOST", "127.0.0.1")
+    if os.environ.get("K_SERVICE"):
+        _host = "0.0.0.0"
     uvicorn.run(
         "app:app",
-        host="127.0.0.1",
+        host=_host,
         port=int(os.environ.get("PORT", "8000")),
         reload=False,
     )
