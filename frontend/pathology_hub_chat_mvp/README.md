@@ -35,6 +35,26 @@ chmod +x scripts/run_local.sh
 
 Open http://127.0.0.1:8000/
 
+## Deploy HTTPS (Cloud Run)
+
+Google-managed TLS on `https://*.run.app` — no custom cert required.
+
+```bash
+cd frontend/pathology_hub_chat_mvp
+chmod +x scripts/deploy_cloud_run_https_v0_1.sh
+./scripts/deploy_cloud_run_https_v0_1.sh
+```
+
+Defaults:
+
+- Service: `pathology-hub-chat-mvp`
+- Region: `us-central1`
+- Project: `pathology-annotation-project`
+- Secrets: `OPENAI` → `OPENAI_API_KEY`, `PATHOLOGY_HUB_API_KEY` → `PATHOLOGY_HUB_API_KEY`
+- Public: `--allow-unauthenticated` (set `ALLOW_UNAUTHENTICATED=0` for private)
+
+See `docs/DEPLOY_CHAT_MVP_HTTPS_CLOUD_RUN_v0_1.md`.
+
 ## API endpoints (local)
 
 | Route | Purpose |

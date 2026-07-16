@@ -1,0 +1,14 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+outputs
+*.md
+scripts
+tests
+.env
+.env.*
+.DS_Store
+*.audit.json
