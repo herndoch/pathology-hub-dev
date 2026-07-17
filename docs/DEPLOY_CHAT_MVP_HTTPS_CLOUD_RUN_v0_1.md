@@ -5,6 +5,12 @@ Service: `pathology-hub-chat-mvp`
 Project: `pathology-annotation-project`  
 Region: `us-central1`
 
+## Live URL (2026-07-17)
+
+https://pathology-hub-chat-mvp-vorn5q2kga-uc.a.run.app
+
+Health: `/api/health`
+
 ## Why Cloud Run
 
 The Chat MVP is a FastAPI app (not a static site). Cloud Run gives:
