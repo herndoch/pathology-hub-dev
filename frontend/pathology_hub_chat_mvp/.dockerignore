@@ -11,4 +11,3 @@ tests
 .env
 .env.*
 .DS_Store
-*.audit.json

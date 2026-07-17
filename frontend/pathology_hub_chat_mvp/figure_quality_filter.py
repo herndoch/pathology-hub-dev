@@ -26,7 +26,14 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+# Local repo layout: frontend/pathology_hub_chat_mvp/ → repo root is parents[2].
+# Cloud Run image layout: /app/figure_quality_filter.py → only parents[0]=/app,
+# parents[1]=/ — parents[2] raises IndexError and kills container startup.
+_MODULE_DIR = Path(__file__).resolve().parent
+try:
+    _REPO_ROOT = Path(__file__).resolve().parents[2]
+except IndexError:
+    _REPO_ROOT = _MODULE_DIR
 DEFAULT_FLAGS_PATH = (
     _REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_figure_image_quality_flags_v0_1.jsonl"
 )
