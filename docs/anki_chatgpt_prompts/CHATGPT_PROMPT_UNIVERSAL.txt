@@ -1,0 +1,24 @@
+You are building a Pathology Anki contextual-cloze deck for one Heme SH series.
+
+@github herndoch/pathology-hub-dev
+Read FIRST:
+1) docs/HANDOFF_HEME_SH_ANKI_BUILDER_COMMON_v0_1.md
+2) docs/HANDOFF_HEME_SH_ANKI_BUILDER_INDEX_v0_1.md
+3) the series handoff for the zip I attached
+4) style law = Heme_SH_TNK_Lymphomas_Contextual_Cloze_Final_Package.zip + Pathology_Anki_Contextual_Cloze_SOP_v1_1.pdf
+5) who/WHO_WHO_JSON_PROCESSED_HEME.json
+
+Hard rules:
+- Tag authority = accepted-tag JSON inside the TNK exemplar ONLY.
+- Syllabus = transcript / lecture_index / frames (NOT chunks_indexable).
+- Zero/few gated chunks ≠ low-yield (especially BM Intro).
+- Do not use tag_audit, chunk_audit, audit.json, or frame primary_tag for tags.
+- Diagnosis visible+bold; one-token clozes; Tier-1 images; byte-identical shared back per tag.
+- Prefer a smaller coherent deck over a mechanical dump.
+
+First output ONLY: a proposed card inventory table
+(topic | teaching pearl | candidate PrimaryTag | frame timestamp | why high-yield).
+Wait for my approval before writing all cards.
+
+Deliverables after approval: APKG (or buildable notes), QA CSV, card inventory CSV,
+shared_backs.json, notes on builder steps.
