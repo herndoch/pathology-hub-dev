@@ -851,6 +851,9 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("function unwrapFencedMarkdownBlocks", js)
         self.assertIn("function normalizeInlineLinkLabel", js)
         self.assertIn("function renderTopicVideos", js)
+        self.assertIn("function renderTopicLectureGallery", js)
+        self.assertIn("function sectionHasContent", js)
+        self.assertIn("function compactBrowseRoots", js)
         self.assertIn("compare-gallery-grid", js)
         self.assertIn("function findTaxonomyMatch", js)
 

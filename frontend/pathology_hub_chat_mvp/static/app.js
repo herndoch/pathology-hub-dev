@@ -357,11 +357,243 @@ function curatedFallbackRoots() {
   }));
 }
 
+const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
+const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_2";
+const BROWSE_LEAF_PREVIEW_CAP = 48;
+const BROWSE_NAV_THINNING = {
+  abpath_primary: false,
+  hide_cyto_surgical_dupes: true,
+  drop_cyto_pattern: true,
+};
+
+let browseNavMode = "full";
+let browseFilterQuery = "";
+
+function readBrowseNavMode() {
+  try {
+    const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
+    return stored === "full" ? "full" : "starter";
+  } catch (_err) {
+    return "starter";
+  }
+}
+
+function writeBrowseNavMode(mode) {
+  browseNavMode = mode === "full" ? "full" : "starter";
+  try {
+    localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
+  } catch (_err) {
+    // ignore quota / private-mode failures
+  }
+}
+
+browseNavMode = readBrowseNavMode();
+
+function getBrowseNavRootsFull() {
+  if (browseIndex && Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
+    return browseIndex.nav_roots_full;
+  }
+  return null;
+}
+
+/** Collapse redundant nav leaves: one clickable topic per root + display label.
+ * Prefers ABPath over WHO-only when the same entity name appears under multiple
+ * subcategories (common with WHO overlay). */
+function compactBrowseRoots(roots, options = {}) {
+  const thinning = { ...BROWSE_NAV_THINNING, ...options };
+  let before = 0;
+  let after = 0;
+  let skippedWhoOnly = 0;
+  let skippedCytoPattern = 0;
+  const compactedRoots = [];
+  for (const root of roots || []) {
+    const winners = new Map();
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        before += 1;
+        const provenance = String(leaf.provenance || "").toLowerCase();
+        if (thinning.abpath_primary && provenance === "who") {
+          skippedWhoOnly += 1;
+          continue;
+        }
+        if (thinning.drop_cyto_pattern && root.id === "cyto" && String(leaf.tag || "").includes("::Pattern::")) {
+          skippedCytoPattern += 1;
+          continue;
+        }
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (!labelKey) continue;
+        const dedupeKey = `${root.id}::${labelKey}`;
+        const rank = BROWSE_PROVENANCE_RANK[provenance] ?? 9;
+        const depth = String(leaf.tag || "").split("::").length;
+        const prev = winners.get(dedupeKey);
+        if (!prev) {
+          winners.set(dedupeKey, { leaf, rank, depth, subId: sub.id, subLabel: sub.label });
+          continue;
+        }
+        const better =
+          rank < prev.rank
+          || (rank === prev.rank && depth > prev.depth)
+          || (rank === prev.rank && depth === prev.depth && String(leaf.tag || "") < String(prev.leaf.tag || ""));
+        if (better) {
+          winners.set(dedupeKey, { leaf, rank, depth, subId: sub.id, subLabel: sub.label });
+        }
+      }
+    }
+    const subBuckets = new Map();
+    for (const { leaf, subId, subLabel } of winners.values()) {
+      after += 1;
+      if (!subBuckets.has(subId)) {
+        subBuckets.set(subId, { id: subId, label: subLabel, leaves: [] });
+      }
+      subBuckets.get(subId).leaves.push(leaf);
+    }
+    const subcategories = [...subBuckets.values()]
+      .map((sub) => {
+        sub.leaves = sub.leaves.sort((a, b) => String(a.label).localeCompare(String(b.label)));
+        sub.leaf_count = sub.leaves.length;
+        return sub;
+      })
+      .filter((sub) => sub.leaf_count > 0)
+      .sort((a, b) => String(a.label).localeCompare(String(b.label)));
+    const leafCount = subcategories.reduce((sum, sub) => sum + sub.leaf_count, 0);
+    if (!leafCount) continue;
+    compactedRoots.push({
+      ...root,
+      leaf_count: leafCount,
+      subcategories,
+    });
+  }
+
+  let cytoAliasRemoved = 0;
+  if (!thinning.hide_cyto_surgical_dupes) {
+    return {
+      roots: compactedRoots,
+      before,
+      after,
+      removed: Math.max(0, before - after),
+      skippedWhoOnly,
+      skippedCytoPattern,
+      cytoAliasRemoved,
+    };
+  }
+
+  const nonCytoLabels = new Set();
+  for (const root of compactedRoots) {
+    if (root.id === "cyto") continue;
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (labelKey) nonCytoLabels.add(labelKey);
+      }
+    }
+  }
+
+  const thinnedRoots = [];
+  for (const root of compactedRoots) {
+    if (root.id !== "cyto") {
+      thinnedRoots.push(root);
+      continue;
+    }
+    const subcategories = [];
+    for (const sub of root.subcategories || []) {
+      const leaves = (sub.leaves || []).filter((leaf) => {
+        const labelKey = String(leaf.label || "").trim().toLowerCase();
+        if (!labelKey || !nonCytoLabels.has(labelKey)) return true;
+        cytoAliasRemoved += 1;
+        return false;
+      });
+      if (!leaves.length) continue;
+      subcategories.push({
+        ...sub,
+        leaves,
+        leaf_count: leaves.length,
+      });
+    }
+    const leafCount = subcategories.reduce((sum, sub) => sum + sub.leaf_count, 0);
+    if (!leafCount) continue;
+    thinnedRoots.push({
+      ...root,
+      leaf_count: leafCount,
+      subcategories,
+    });
+  }
+
+  const finalAfter = thinnedRoots.reduce((sum, root) => sum + root.leaf_count, 0);
+  return {
+    roots: thinnedRoots,
+    before,
+    after: finalAfter,
+    removed: Math.max(0, before - finalAfter),
+    skippedWhoOnly,
+    skippedCytoPattern,
+    cytoAliasRemoved,
+  };
+}
+
 function getBrowseRoots() {
-  if (browseIndex && Array.isArray(browseIndex.roots) && browseIndex.roots.length) {
-    return browseIndex.roots;
+  if (browseNavMode === "full") {
+    const full = getBrowseNavRootsFull();
+    if (full) return full;
+  }
+  if (browseIndex) {
+    return curatedFallbackRoots();
   }
   return curatedFallbackRoots();
+}
+
+function normalizeBrowseFilterText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function leafMatchesBrowseFilter(leaf, filterText) {
+  const q = normalizeBrowseFilterText(filterText);
+  if (!q) return true;
+  const hay = normalizeBrowseFilterText(
+    `${formatDisplayLabel(leaf.label)} ${leaf.query || ""} ${leaf.tag || ""}`,
+  );
+  return q.split(/\s+/).every((token) => hay.includes(token));
+}
+
+function collectLeavesFromRoots(roots) {
+  const rows = [];
+  for (const root of roots || []) {
+    for (const sub of root.subcategories || []) {
+      for (const leaf of sub.leaves || []) {
+        rows.push({
+          root,
+          sub,
+          leaf,
+          displayLabel: formatDisplayLabel(leaf.label),
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+function browseSearchBarHtml(placeholder, value = "") {
+  return `<div class="browse-search-row">
+    <input type="search" class="browse-search-input" id="browse-filter-input" placeholder="${escapeAttr(placeholder)}" value="${escapeAttr(value)}" autocomplete="off" />
+    ${value ? '<button type="button" class="btn-secondary browse-search-clear" id="browse-filter-clear">Clear</button>' : ""}
+  </div>`;
+}
+
+function bindBrowseSearchHandlers(onChange) {
+  const input = document.getElementById("browse-filter-input");
+  const clearBtn = document.getElementById("browse-filter-clear");
+  if (!input) return;
+  input.addEventListener("input", () => {
+    browseFilterQuery = input.value;
+    onChange();
+  });
+  clearBtn?.addEventListener("click", () => {
+    browseFilterQuery = "";
+    onChange();
+  });
+  input.focus();
 }
 
 /** Fetches the generated combined-tag Browse index once at startup. Never
@@ -387,6 +619,27 @@ async function loadBrowseIndex() {
       throw new Error("Browse index nav_sources are not WHO + ABPath only");
     }
     browseIndex = data;
+    const compact = compactBrowseRoots(browseIndex.roots);
+    browseIndex.nav_roots_full = compact.roots;
+    browseIndex.counts = {
+      ...(browseIndex.counts || {}),
+      leaves_total_raw: browseIndex.counts?.leaves_total ?? compact.before,
+      leaves_total: compact.after,
+      leaves_removed_label_dedupe: compact.removed,
+      leaves_removed_who_only_nav: compact.skippedWhoOnly,
+      leaves_removed_cyto_pattern_nav: compact.skippedCytoPattern,
+      leaves_removed_cyto_surgical_alias: compact.cytoAliasRemoved,
+    };
+    browseIndex.dedupe_rules = {
+      ...(browseIndex.dedupe_rules || {}),
+      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who",
+      nav_thinning: {
+        abpath_primary: BROWSE_NAV_THINNING.abpath_primary,
+        hide_cyto_surgical_dupes: BROWSE_NAV_THINNING.hide_cyto_surgical_dupes,
+        drop_cyto_pattern: BROWSE_NAV_THINNING.drop_cyto_pattern,
+        default_nav_mode: "full",
+      },
+    };
   } catch (err) {
     browseIndex = null;
     // eslint-disable-next-line no-console
@@ -430,13 +683,14 @@ function normalizeEntityName(name) {
     .join(" ");
 }
 
-/** Built from getBrowseRoots() (curated fallback until loadBrowseIndex()
- * resolves, then rebuilt from the real combined index). Mutable (`let`), not
- * a one-time IIFE const, because the underlying roots can change once at
- * startup when the generated index finishes loading. */
+/** Built from the thinned full index when available (curated fallback until
+ * loadBrowseIndex() resolves). Mutable (`let`), not a one-time IIFE const,
+ * because the underlying roots can change once at startup when the generated
+ * index finishes loading. */
 function buildLeafIndex() {
   const list = [];
-  for (const root of getBrowseRoots()) {
+  const roots = getBrowseNavRootsFull() || getBrowseRoots();
+  for (const root of roots) {
     for (const sub of root.subcategories) {
       for (const leaf of sub.leaves) {
         const displayName = formatDisplayLabel(leaf.label);
@@ -628,6 +882,7 @@ const mediaModalCaption = document.getElementById("media-modal-caption");
 const mediaModalFigure = document.getElementById("media-modal-figure");
 const mediaModalPage = document.getElementById("media-modal-page");
 const mediaModalSource = document.getElementById("media-modal-source");
+const mediaModalTimestamp = document.getElementById("media-modal-timestamp");
 const mediaModalReference = document.getElementById("media-modal-reference");
 const mediaModalPrev = document.getElementById("media-modal-prev");
 const mediaModalNext = document.getElementById("media-modal-next");
@@ -733,14 +988,39 @@ function itemHaystack(item) {
     item.name,
     item.heading,
     item.primary_tag,
+    item.entity_name,
     item.text_excerpt,
     item.excerpt,
+    item.text,
+    item.snippet,
     item.header,
     item.source_id,
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
+}
+
+const WEAK_SINGLE_TERMS = new Set([
+  "cyst",
+  "cysts",
+  "tumor",
+  "tumour",
+  "mass",
+  "lesion",
+  "nodule",
+  "benign",
+  "malignant",
+  "neoplasm",
+]);
+
+function termMatchesHaystack(term, haystack) {
+  if (!term || !haystack) return false;
+  if (term.length <= 5) {
+    const re = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+    return re.test(haystack);
+  }
+  return haystack.includes(term);
 }
 
 function hasTopicConflict(queryTerms, haystack) {
@@ -759,9 +1039,56 @@ function relevanceScore(query, item) {
   if (!terms.length) return 1;
   const hay = itemHaystack(item);
   if (hasTopicConflict(terms, hay)) return -1;
-  const hits = terms.filter((term) => hay.includes(term));
+  const hits = terms.filter((term) => termMatchesHaystack(term, hay));
   if (!hits.length) return 0;
   return hits.length / terms.length;
+}
+
+function videoRelevanceScore(query, item) {
+  const terms = queryMatchTerms(query);
+  if (!terms.length) return 1;
+  const hay = itemHaystack(item);
+  if (hasTopicConflict(terms, hay)) return -1;
+  const hits = terms.filter((term) => termMatchesHaystack(term, hay));
+  if (!hits.length) return 0;
+  const strongHits = hits.filter((term) => !WEAK_SINGLE_TERMS.has(term));
+  if (terms.length >= 2) {
+    const rareHit = hits.some((term) => term.length >= 6);
+    const ratio = hits.length / terms.length;
+    if (!rareHit && ratio < 0.5) return 0;
+    if (!rareHit && strongHits.length === 0) return 0;
+  } else if (terms.length === 1 && WEAK_SINGLE_TERMS.has(terms[0]) && strongHits.length === 0) {
+    return 0;
+  }
+  return hits.length / terms.length;
+}
+
+function filterVideoCardsByRelevance(query, cards, { maxShown = 6 } = {}) {
+  const videos = (cards || []).filter(isVideoCard);
+  if (!videos.length) {
+    return { shown: [], hidden: [], note: "" };
+  }
+  const scored = videos.map((item) => ({ item, score: videoRelevanceScore(query, item) }));
+  const relevant = scored.filter((row) => row.score > 0).sort((a, b) => b.score - a.score);
+  const conflicts = scored.filter((row) => row.score < 0);
+  const irrelevant = scored.filter((row) => row.score === 0);
+  if (relevant.length) {
+    const shown = dedupeVideoCards(relevant.slice(0, maxShown).map((row) => row.item));
+    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
+    const note =
+      hiddenCount > 0
+        ? `${hiddenCount} off-topic lecture segment${hiddenCount === 1 ? "" : "s"} hidden for this query.`
+        : "";
+    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
+  }
+  if (conflicts.length) {
+    return {
+      shown: [],
+      hidden: videos,
+      note: `${conflicts.length} lecture segment${conflicts.length === 1 ? "" : "s"} matched the wrong topic.`,
+    };
+  }
+  return { shown: [], hidden: videos, note: "No lecture segments matched this topic closely." };
 }
 
 function filterByQueryRelevance(query, items, { maxShown = 8 } = {}) {
@@ -1294,6 +1621,9 @@ function buildPayload(query, modeOverride, options = {}) {
   if (mode === "topic_page" && options.pageTag) {
     payload.page_tag = options.pageTag;
   }
+  if (options.rebuild) {
+    payload.rebuild = true;
+  }
   return payload;
 }
 
@@ -1316,11 +1646,8 @@ function renderMediaModalPayload(payload) {
   const links = payload.modalLinks || {};
   setModalAction(mediaModalFigure, links.figure, "Open figure");
   setModalAction(mediaModalPage, links.pageImage, "Open page image");
-  setModalAction(
-    mediaModalSource,
-    links.source || links.video,
-    links.video && !links.source ? "Open video" : "Open source",
-  );
+  setModalAction(mediaModalSource, links.source, "Open source");
+  setModalAction(mediaModalTimestamp, links.video, "Open timestamp");
   setModalAction(mediaModalReference, links.reference, "Open reference page");
 }
 
@@ -1605,6 +1932,7 @@ function renderBrowseBreadcrumbs() {
     {
       label: "Home",
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "home" };
         renderBrowseView();
       },
@@ -1616,6 +1944,7 @@ function renderBrowseBreadcrumbs() {
     parts.push({
       label: formatDisplayLabel(category.label),
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "category", categoryId: category.id };
         renderBrowseView();
       },
@@ -1628,6 +1957,7 @@ function renderBrowseBreadcrumbs() {
     parts.push({
       label: formatSubcategoryLabel(subcategory.label),
       onClick: () => {
+        browseFilterQuery = "";
         browseState = { level: "subcategory", categoryId: category.id, subcategoryId: subcategory.id };
         renderBrowseView();
       },
@@ -1905,20 +2235,100 @@ function renderBrowseView() {
 }
 
 function renderBrowseHome() {
-  const roots = getBrowseRoots();
   const usingIndex = Boolean(browseIndex);
-  const leavesTotal = usingIndex
-    ? browseIndex.counts?.leaves_total ?? roots.reduce((sum, r) => sum + r.leaf_count, 0)
-    : roots.reduce((sum, r) => sum + r.leaf_count, 0);
+  const starterRoots = curatedFallbackRoots();
+  const fullRoots = getBrowseNavRootsFull();
+  const showingFull = usingIndex && browseNavMode === "full" && fullRoots;
+  const roots = showingFull ? fullRoots : starterRoots;
+  const starterTotal = starterRoots.reduce((sum, r) => sum + r.leaf_count, 0);
+  const fullTotal = fullRoots
+    ? fullRoots.reduce((sum, r) => sum + r.leaf_count, 0)
+    : browseIndex?.counts?.leaves_total ?? 0;
+  const leavesRaw = usingIndex ? browseIndex.counts?.leaves_total_raw : null;
+  const leavesRemoved = usingIndex ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
 
-  let html = usingIndex
-    ? `<p class="hint">WHO + ABPath topic index — ${leavesTotal} topic tags across ${roots.length} roots (local v0_2 snapshot; pilot prebuild covers a small sample, everything else falls back to a live query). Not a claim about API exposure or vector coverage.</p>`
-    : '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+  let html = "";
+  if (usingIndex) {
+    html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter topics (${starterTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full index (${fullTotal})</button>`;
+    html += "</div>";
+  }
+
+  if (showingFull) {
+    const abpathCount = browseIndex.counts?.leaves_abpath_only;
+    const whoOnlyCount = browseIndex.counts?.leaves_who_only;
+    const bothCount = browseIndex.counts?.leaves_both;
+    const provenanceNote =
+      abpathCount != null && whoOnlyCount != null
+        ? ` Built from ABPath curriculum tags (${abpathCount} ABPath, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only additions).`
+        : "";
+    const dedupeNote =
+      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; ABPath spelling wins on overlap).` : "";
+    html += `<p class="hint">WHO + ABPath browse index only — no PathOut nav tags.${provenanceNote}${dedupeNote} Cyto cytology-only entries stay when no surgical twin exists. Use search on long lists; first topic open builds live, then caches.</p>`;
+    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
+  } else if (usingIndex) {
+    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics. Switch to <strong>Full index</strong> for the complete WHO + ABPath tree (${fullTotal} topics).</p>`;
+  } else {
+    html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+  }
+
+  if (showingFull && browseFilterQuery.trim()) {
+    const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
+    html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
+    html += '<div class="chevron-list">';
+    for (const row of matches.slice(0, 120)) {
+      const leafPayload = escapeAttr(
+        JSON.stringify({
+          tag: row.leaf.tag,
+          label: row.leaf.label,
+          query: row.leaf.query,
+          provenance: row.leaf.provenance || null,
+          categoryId: row.root.id,
+          subcategoryId: row.sub.id,
+        }),
+      );
+      html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
+    }
+    html += "</div>";
+    if (matches.length > 120) {
+      html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
+    }
+    browseContentEl.innerHTML = html;
+    browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
+      el.addEventListener("click", () => {
+        writeBrowseNavMode(el.dataset.browseMode);
+        browseFilterQuery = "";
+        browseState = { level: "home" };
+        renderBrowseView();
+      });
+    });
+    bindBrowseSearchHandlers(() => renderBrowseHome());
+    browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
+      el.addEventListener("click", () => {
+        const leaf = JSON.parse(el.dataset.leaf);
+        browseFilterQuery = "";
+        browseState = {
+          level: "leaf",
+          categoryId: leaf.categoryId,
+          subcategoryId: leaf.subcategoryId,
+          tag: leaf.tag,
+          label: leaf.label,
+          query: leaf.query,
+          provenance: leaf.provenance || null,
+        };
+        renderBrowseView();
+      });
+    });
+    return;
+  }
 
   html += '<div class="browse-tile-grid">';
   for (const root of roots) {
     const style = rootTileStyle(root.id, root.label);
-    const countLabel = usingIndex ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`;
+    const countLabel = usingIndex
+      ? (showingFull ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
+      : `${root.leaf_count} starter topics`;
     html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
     html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
     html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
@@ -1926,8 +2336,20 @@ function renderBrowseHome() {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
+    el.addEventListener("click", () => {
+      writeBrowseNavMode(el.dataset.browseMode);
+      browseFilterQuery = "";
+      browseState = { level: "home" };
+      renderBrowseView();
+    });
+  });
+  if (showingFull) {
+    bindBrowseSearchHandlers(() => renderBrowseHome());
+  }
   browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
     el.addEventListener("click", () => {
+      browseFilterQuery = "";
       browseState = { level: "category", categoryId: el.dataset.categoryId };
       renderBrowseView();
     });
@@ -1941,16 +2363,33 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
+  const showingFull = Boolean(browseIndex && browseNavMode === "full");
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
-  html += browseIndex
-    ? '<p class="hint">WHO + ABPath topic tags for this root. Pick a subcategory, then a topic.</p>'
-    : '<p class="hint">Curated starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  html += showingFull
+    ? '<p class="hint">WHO + ABPath tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
+    : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
+  if (showingFull) {
+    html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
+  }
+  const subs = (cat.subcategories || []).filter((sub) => {
+    if (!browseFilterQuery.trim()) return true;
+    return (sub.leaves || []).some((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
+  });
+  if (showingFull && browseFilterQuery.trim()) {
+    html += `<p class="hint">${subs.length} subcategor${subs.length === 1 ? "y" : "ies"} with matches.</p>`;
+  }
   html += '<div class="chevron-list">';
-  for (const sub of cat.subcategories) {
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${browseIndex ? ` <span class="chevron-count">(${sub.leaf_count})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
+  for (const sub of subs) {
+    const matchCount = browseFilterQuery.trim()
+      ? (sub.leaves || []).filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery)).length
+      : sub.leaf_count;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingFull ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  if (showingFull) {
+    bindBrowseSearchHandlers(() => renderBrowseCategory(categoryId));
+  }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
     el.addEventListener("click", () => {
       browseState = { level: "subcategory", categoryId, subcategoryId: el.dataset.subId };
@@ -1967,12 +2406,27 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
+  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const allLeaves = sub.leaves || [];
+  const filteredLeaves = allLeaves.filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
+  const hasFilter = Boolean(browseFilterQuery.trim());
+  const visibleLeaves = hasFilter ? filteredLeaves : filteredLeaves.slice(0, BROWSE_LEAF_PREVIEW_CAP);
+  const hiddenCount = hasFilter ? 0 : Math.max(0, filteredLeaves.length - visibleLeaves.length);
+
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))} — ${escapeHtml(formatSubcategoryLabel(sub.label))}</h2>`;
-  html += browseIndex
-    ? '<p class="hint">Pick a topic to load a grounded topic page — prebuilt (pilot) pages load instantly, others run a live query.</p>'
+  html += showingFull
+    ? '<p class="hint">Pick a topic to load a grounded topic page. Long lists are capped until you search.</p>'
     : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
+  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+    html += browseSearchBarHtml("Filter topics in this list…", browseFilterQuery);
+  }
+  if (hiddenCount > 0) {
+    html += `<p class="hint">Showing ${visibleLeaves.length} of ${filteredLeaves.length} topics — type to search the full list.</p>`;
+  } else if (hasFilter) {
+    html += `<p class="hint">${visibleLeaves.length} match${visibleLeaves.length === 1 ? "" : "es"}.</p>`;
+  }
   html += '<div class="chevron-list">';
-  for (const leaf of sub.leaves) {
+  for (const leaf of visibleLeaves) {
     const displayLabel = formatDisplayLabel(leaf.label);
     const leafPayload = escapeAttr(
       JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, provenance: leaf.provenance || null }),
@@ -1986,6 +2440,9 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
+  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+    bindBrowseSearchHandlers(() => renderBrowseSubcategory(categoryId, subcategoryId));
+  }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
     el.addEventListener("click", () => {
       const leaf = JSON.parse(el.dataset.leaf);
@@ -2054,6 +2511,115 @@ function findSectionContent(sections, wantedName) {
   return "";
 }
 
+const NOT_COVERED_RE =
+  /^(?:[-*]\s*)?not covered in retrieved evidence\.?$/i;
+
+function sectionHasContent(content) {
+  const text = String(content || "").trim();
+  if (!text) return false;
+  const lines = text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (!lines.length) return false;
+  return !lines.every((line) => NOT_COVERED_RE.test(line));
+}
+
+function extractInlineFiguresFromMarkdown(text) {
+  const figs = [];
+  const re = /!\[([^\]]*)\]\((https?:[^)\s]+)\)/g;
+  let match;
+  while ((match = re.exec(String(text || ""))) !== null) {
+    figs.push({
+      caption: match[1] || "Figure",
+      figure_url: match[2],
+      url: match[2],
+      source_kind: "inline_markdown",
+    });
+  }
+  return figs;
+}
+
+function collectInlineFiguresFromSections(sections) {
+  const out = [];
+  for (const name of TOPIC_PAGE_SECTION_ORDER) {
+    if (name === "Key Facts") continue;
+    out.push(...extractInlineFiguresFromMarkdown(findSectionContent(sections, name)));
+  }
+  return out;
+}
+
+function figureGalleryUrl(fig) {
+  return pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
+}
+
+function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems, { maxShown = 16 } = {}) {
+  const merged = [];
+  const seen = new Set();
+  const add = (fig) => {
+    const url = figureGalleryUrl(fig);
+    if (!url || seen.has(url)) return;
+    seen.add(url);
+    merged.push(fig);
+  };
+  for (const fig of retrievedFigures || []) add(fig);
+  for (const fig of inlineFigures || []) add(fig);
+  for (const item of lectureItems || []) {
+    if (!item?.previewUrl) continue;
+    add({
+      caption: item.caption,
+      figure_url: item.previewUrl,
+      url: item.previewUrl,
+      source_kind: "lecture_frame",
+    });
+  }
+  return merged.slice(0, maxShown);
+}
+
+function lectureFramePlaceholderDataUrl(card) {
+  const title = cardTitle(card).slice(0, 48);
+  const ts = formatVideoTimestamp(card) || "Lecture segment";
+  const tag = cardTagLabel(card);
+  const tagLine = tag ? formatDisplayLabel(tag).slice(0, 56) : "";
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360">' +
+    '<rect width="100%" height="100%" fill="#1a1a1d"/>' +
+    '<rect x="24" y="24" width="592" height="312" rx="8" fill="#2b2b30" stroke="#5f6368" stroke-width="2"/>' +
+    '<text x="50%" y="42%" dominant-baseline="middle" text-anchor="middle" fill="#e8eaed" font-family="sans-serif" font-size="22" font-weight="700">' +
+    escapeHtml(title) +
+    "</text>" +
+    '<text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#9aa0a6" font-family="sans-serif" font-size="16">' +
+    escapeHtml(ts) +
+    "</text>" +
+    (tagLine
+      ? '<text x="50%" y="66%" dominant-baseline="middle" text-anchor="middle" fill="#8ab4f8" font-family="sans-serif" font-size="14">' +
+        escapeHtml(tagLine) +
+        "</text>"
+      : "") +
+    '<text x="50%" y="82%" dominant-baseline="middle" text-anchor="middle" fill="#80868b" font-family="sans-serif" font-size="12">Click for description · Open timestamp from modal</text>' +
+    "</svg>";
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function lectureCardPresentation(card) {
+  const figure = pickHttp(card.figure_url) || pickHttp(card.image_url) || pickHttp(card.page_image_url);
+  const video = pickHttp(card.video_time_url) || pickHttp(card.video_url);
+  const previewUrl = figure || lectureFramePlaceholderDataUrl(card);
+  const excerpt = String(card.excerpt || card.text || "").trim();
+  const ts = formatVideoTimestamp(card);
+  const caption = [cardTitle(card), ts, excerpt ? excerpt.slice(0, 280) : ""].filter(Boolean).join(" — ");
+  return {
+    previewUrl,
+    caption,
+    modalLinks: {
+      figure: figure || undefined,
+      video,
+      source: pickHttp(card.source_url),
+    },
+    kind: "lecture",
+  };
+}
+
 function renderTopicGallery(figures, options = {}) {
   if (!figures || !figures.length) {
     return '<p class="hint">No figures returned for this query.</p>';
@@ -2067,7 +2633,8 @@ function renderTopicGallery(figures, options = {}) {
       ? ` class="${gridClass}" data-compare-col="${options.compareCol}"`
       : ` class="${gridClass}"`;
   let html = `<div${gridAttrs}>`;
-  for (const fig of figures.slice(0, 10)) {
+  const maxItems = options.maxItems ?? 16;
+  for (const fig of figures.slice(0, maxItems)) {
     const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
     if (!url) continue;
     const caption = fig.caption || fig.title || "Figure";
@@ -2166,7 +2733,11 @@ function isVideoCard(card) {
 }
 
 function videoCardKey(card) {
+  const chunk = String(card?.chunk_id || "").trim();
+  if (chunk) return chunk;
   const videoId = String(card?.video_id || "").trim();
+  const start = card?.start_sec ?? card?.start_time_sec;
+  if (videoId && start != null) return `${videoId}::${start}`;
   // Live STRICT_CYTO_v9 docstore collapsed many lectures into one fake path-derived
   // video_id (`gcs_gs_pathology_hub_02_normalized_lectures_lecture_chunks`). Prefer
   // title for dedupe when the id looks like that blob, so distinct lectures don't
@@ -2222,6 +2793,30 @@ function formatVideoSec(seconds) {
   return `${m}:${String(sec).padStart(2, "0")}`;
 }
 
+function renderTopicLectureGallery(cards) {
+  const videos = dedupeVideoCards(cards);
+  if (!videos.length) return "";
+  let html =
+    '<div class="topic-videos"><div class="topic-panel-title">Lecture segments</div><div class="topic-lecture-gallery">';
+  for (const card of videos) {
+    const presentation = lectureCardPresentation(card);
+    if (!presentation.previewUrl) continue;
+    const payload = escapeAttr(JSON.stringify(presentation));
+    const label = cardTitle(card);
+    html +=
+      `<button type="button" class="topic-lecture-thumb" data-preview="${payload}">` +
+      `<img src="${escapeAttr(presentation.previewUrl)}" alt="${escapeAttr(label)}" loading="lazy" />` +
+      `<span class="topic-lecture-thumb-caption">${escapeHtml(label)}</span>` +
+      (formatVideoTimestamp(card)
+        ? `<span class="topic-lecture-thumb-ts">${escapeHtml(formatVideoTimestamp(card))}</span>`
+        : "") +
+      "</button>";
+  }
+  html += "</div></div>";
+  return html;
+}
+
+/** Text/link strip for lecture cards (honest when video_url is null). */
 function renderTopicVideos(cards) {
   const videos = dedupeVideoCards(cards);
   if (!videos.length) return "";
@@ -2246,17 +2841,18 @@ function renderTopicVideos(cards) {
 
 function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards, pageContext = null) {
   const keyFacts = findSectionContent(sections, "Key Facts");
-  const keyFactsHtml = keyFacts.trim()
-    ? renderMarkdown(keyFacts, previewIndex)
-    : '<p class="hint">Not covered in retrieved evidence.</p>';
   const ctx = pageContext || pageContextFromBrowseState();
 
   let html = '<div class="topic-page">';
   html += '<div class="topic-page-top">';
-  html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${keyFactsHtml}</div>`;
+  if (sectionHasContent(keyFacts)) {
+    html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+  }
   html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
   html += "</div>";
 
+  // Frame thumbs when available; always keep the honest link/unavailable list.
+  html += renderTopicLectureGallery(videoCards);
   html += renderTopicVideos(videoCards);
 
   html += renderWhoCrossMentions(whoCrossMentions, ctx);
@@ -2265,15 +2861,14 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
   for (const name of TOPIC_PAGE_SECTION_ORDER) {
     if (name === "Key Facts") continue;
     const content = findSectionContent(sections, name);
+    if (!sectionHasContent(content)) continue;
     html += '<div class="topic-section">';
     html += `<div class="topic-section-header">${escapeHtml(name.toUpperCase())}</div>`;
     html += '<div class="topic-section-body">';
     if (name === "Differential Diagnosis") {
       html += renderDifferentialSection(content, previewIndex, ctx);
     } else {
-      html += content.trim()
-        ? renderMarkdown(content, previewIndex)
-        : '<p class="hint">Not covered in retrieved evidence.</p>';
+      html += renderMarkdown(content, previewIndex);
     }
     html += "</div></div>";
   }
@@ -2287,6 +2882,83 @@ function renderDebugBlock(data) {
   if (data.evidence?.source_status) {
     html += `<details class="debug-block"><summary>source_status</summary><pre>${escapeHtml(JSON.stringify(data.evidence.source_status, null, 2))}</pre></details>`;
   }
+  return html;
+}
+
+function countItemsBySource(items) {
+  const counts = {};
+  for (const item of items || []) {
+    const src = String(item?.source || "unknown").toLowerCase();
+    counts[src] = (counts[src] || 0) + 1;
+  }
+  return counts;
+}
+
+function formatSourceCountLabel(sourceKey, count) {
+  const label = SOURCE_LABELS[sourceKey] || sourceKey;
+  return `${label} ${count}`;
+}
+
+/** Always-visible retrieval breakdown for topic pages (works on cache hits too). */
+function renderTopicSourceSummary(data, entryMeta = null) {
+  const cardCounts = countItemsBySource(data.cards || []);
+  const figureCounts = countItemsBySource(data.figures || []);
+  const parts = Object.entries(cardCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([src, n]) => formatSourceCountLabel(src, n));
+  if (!parts.length) {
+    return '<p class="hint topic-source-summary">No evidence cards on this page — try Rebuild.</p>';
+  }
+
+  const debug = data?.debug;
+  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? entryMeta.tag.split("::", 1)[0] : null);
+  let html = '<div class="topic-source-summary">';
+  html += `<p class="hint"><strong>Evidence used:</strong> ${escapeHtml(parts.join(" · "))}`;
+  const figTotal = (data.figures || []).length;
+  if (figTotal) {
+    html += ` · ${figTotal} figure${figTotal === 1 ? "" : "s"}`;
+  }
+  html += ".</p>";
+
+  if (pageRoot) {
+    const narrow = debug?.root_narrow_enabled;
+    const before = debug?.cards_before_root_filter;
+    const after = debug?.cards_after_root_filter;
+    if (narrow === true && typeof before === "number" && typeof after === "number" && before !== after) {
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO + journals kept).</p>`;
+    } else if (narrow === true) {
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong> active for textbooks, Pathoutlines, and lecture segments.</p>`;
+    }
+  }
+
+  if (debug?.cards_by_source_before_cap && debug?.cards_by_source_after_cap) {
+    const before = Object.entries(debug.cards_by_source_before_cap)
+      .map(([src, n]) => `${SOURCE_LABELS[src] || src} ${n}`)
+      .join(", ");
+    const after = Object.entries(debug.cards_by_source_after_cap)
+      .map(([src, n]) => `${SOURCE_LABELS[src] || src} ${n}`)
+      .join(", ");
+    if (before !== after) {
+      html += `<p class="hint">Retrieved ${escapeHtml(before)} → capped to ${escapeHtml(after)} for synthesis.</p>`;
+    }
+  }
+
+  const status = data.evidence?.source_status;
+  if (status && typeof status === "object") {
+    const bad = Object.entries(status).filter(([, v]) => v && v !== "ok" && v !== "not_requested");
+    if (bad.length) {
+      html += `<p class="hint">Source status: ${escapeHtml(bad.map(([k, v]) => `${SOURCE_LABELS[k] || k}: ${v}`).join("; "))}</p>`;
+    }
+  }
+
+  const lectureCards = (data.cards || []).filter(isVideoCard);
+  const withFrames = lectureCards.filter((c) => pickHttp(c.figure_url) || pickHttp(c.image_url)).length;
+  if (lectureCards.length && !withFrames) {
+    html += '<p class="hint">Lecture hits have timestamps but the API is not returning slide frame URLs yet — thumbnails show placeholders until backend maps <code>image_path</code> from the lecture index.</p>';
+  }
+
+  html += '<p class="hint">Topic pages always query all sources (sidebar checkboxes do not apply). Per-source minimum is automatic; user-controlled source weighting is not built yet — use Ask/search for a single-source deep dive.</p>';
+  html += "</div>";
   return html;
 }
 
@@ -2320,22 +2992,34 @@ function renderEntryTagsFooter(tag, provenance) {
 function renderTopicPageResult(data, query, entryMeta = null) {
   const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
-  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 10 });
+  const videoFilter = filterVideoCardsByRelevance(query, sortedCards, { maxShown: 6 });
+  const lectureCards = videoFilter.shown;
+  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 16 });
   const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
-  const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
   const sections = parseTopicPageSections(data.answer || "");
+  const inlineFigures = collectInlineFiguresFromSections(sections);
+  const galleryFigures = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 16 });
+  const previewIndex = buildUrlPreviewIndex(data.cards || [], [...shownFigures, ...inlineFigures]);
+  for (const card of lectureCards) {
+    const presentation = lectureCardPresentation(card);
+    if (presentation.previewUrl && !previewIndex.has(presentation.previewUrl)) {
+      previewIndex.set(presentation.previewUrl, presentation);
+    }
+  }
   const pageContext = pageContextFromEntryMeta(entryMeta);
 
-  let html = topicPageFanoutHint(data);
+  let html = renderTopicSourceSummary(data, entryMeta);
+  html += topicPageFanoutHint(data);
   html += renderTopicPage(
     sections,
     previewIndex,
-    shownFigures,
+    galleryFigures,
     data.who_cross_mentions || [],
-    sortedCards,
+    lectureCards,
     pageContext,
   );
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
+  if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
   const tag = entryMeta?.tag || null;
@@ -2367,12 +3051,8 @@ function bindDdxLinks(root) {
   });
 }
 
-/** Best-effort read-only lookup of a topic-page-prepop-pilot sidecar
- * (outputs/chat_mvp_topic_prepop_v0_1/pages/, served via GET
- * /api/topic_prebuild) for a real taxonomy leaf's `tag`. Returns null on any
- * miss/error so the caller falls back to the live path unchanged — never
- * throws, never fabricates content. */
-async function fetchPrebuiltTopicPage(tag) {
+/** Read-only lookup of a cached topic page (on-demand cache or legacy pilot). */
+async function fetchCachedTopicPage(tag) {
   if (!tag) return null;
   try {
     const resp = await fetch(`/api/topic_prebuild?tag=${encodeURIComponent(tag)}`);
@@ -2385,15 +3065,27 @@ async function fetchPrebuiltTopicPage(tag) {
   }
 }
 
-/** Loads a Browse leaf's topic page. `leafRef` is {categoryId,
- * subcategoryId, tag, label, query} (tag is null for curated-fallback
- * leaves, which always go straight to the live path). Tries the pilot
- * prebuild cache first (instant, no OpenAI call) when `tag` is present; on
- * any miss falls back to the existing live POST /api/chat (mode:
- * "topic_page") path, unchanged. A monotonically increasing request
- * sequence number guards against a stale response overwriting a newer
- * navigation. */
-async function loadLeafTopicPage(leafRef) {
+function topicPageCacheHint(data, cachedMeta) {
+  if (data?.cache_hit || cachedMeta) {
+    const when = data?.cached_at || cachedMeta?.generated_at || "";
+    const src = data?.cache_source || cachedMeta?.cache_source || "cache";
+    const model = data?.model || cachedMeta?.model || "";
+    const parts = ["Cached topic page — instant reuse from a prior open."];
+    if (when) parts.push(`Saved ${when}.`);
+    if (model) parts.push(`Model: ${model}.`);
+    if (src === "pilot_prebuild") parts.push("(legacy pilot prebuild)");
+    parts.push("Use Rebuild for a fresh live query.");
+    return `<p class="hint topic-cache-hint">${escapeHtml(parts.join(" "))}</p>`;
+  }
+  if (data?.cache_saved) {
+    return `<p class="hint topic-cache-hint">Saved this page for the next visitor.</p>`;
+  }
+  return "";
+}
+
+/** Loads a Browse leaf's topic page. Tries read-only cache first; on miss runs
+ * live topic_page (server also caches on success). Rebuild skips cache. */
+async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
@@ -2405,25 +3097,38 @@ async function loadLeafTopicPage(leafRef) {
   const query = leafRef.query || displayLabel;
 
   try {
-    const prebuilt = await fetchPrebuiltTopicPage(leafRef.tag);
+    let cachedMeta = null;
+    if (!rebuild && leafRef.tag) {
+      cachedMeta = await fetchCachedTopicPage(leafRef.tag);
+    }
     if (seq !== browseRequestSeq) return;
 
     let data;
-    if (prebuilt) {
+    if (cachedMeta && !rebuild) {
       data = {
         ok: true,
         mode: "topic_page",
-        answer: prebuilt.answer_markdown,
-        cards: prebuilt.cards || [],
-        figures: prebuilt.figures || [],
-        who_cross_mentions: prebuilt.who_cross_mentions || [],
+        answer: cachedMeta.answer_markdown,
+        cards: cachedMeta.cards || [],
+        figures: cachedMeta.figures || [],
+        who_cross_mentions: cachedMeta.who_cross_mentions || [],
+        cache_hit: true,
+        cache_source: cachedMeta.cache_source,
+        cached_at: cachedMeta.generated_at,
+        model: cachedMeta.model,
         debug: null,
       };
     } else {
       const resp = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildPayload(query, "topic_page", { categoryContext, pageTag: leafRef.tag })),
+        body: JSON.stringify(
+          buildPayload(query, "topic_page", {
+            categoryContext,
+            pageTag: leafRef.tag,
+            rebuild,
+          }),
+        ),
       });
       data = await resp.json();
     }
@@ -2441,11 +3146,12 @@ async function loadLeafTopicPage(leafRef) {
     });
     let html = '<div class="topic-page-actions">';
     html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
+    if (leafRef.tag) {
+      html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+    }
     html += renderVsButton(compareEnt);
     html += "</div>";
-    html += prebuilt
-      ? '<p class="hint topic-prebuilt-hint">Prebuilt (pilot) — cached topic page from a prior run, not a fresh live query. See docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md.</p>'
-      : "";
+    html += topicPageCacheHint(data, cachedMeta);
     html += renderTopicPageResult(data, query, {
       tag: leafRef.tag,
       provenance: leafRef.provenance || null,
@@ -2461,6 +3167,9 @@ async function loadLeafTopicPage(leafRef) {
         page_kind: "topic_page",
       });
     });
+    browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
+      loadLeafTopicPage(leafRef, { rebuild: true });
+    });
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
     bindVsButtons(browseContentEl);
@@ -2475,6 +3184,7 @@ form.addEventListener("submit", async (event) => {
   const query = queryInput.value.trim();
   if (!query) return;
 
+  setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
   sendBtn.disabled = true;

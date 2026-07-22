@@ -1,8 +1,10 @@
 # Handoff: Chat MVP UX bugs (user-reported 2026-07-11)
 
-Branch: `cursor/pathology-hub-chat-mvp`  
+Branch: `cursor/pathology-hub-chat-mvp` (historical WIP tip — lecture/YT content already on `master` via #13/#14)  
 Last pushed: `02a9fbb`  
 User screenshots saved under Cursor assets (compare modal, compare table, HN browse subcats, pleomorphic citations).
+
+**Status 2026-07-22:** P0/P1 from this handoff (fence unwrap, compare column gallery isolation, Pathoutlines/Atlas/Gnepp inline labels, Videos strip, same-root DDx) are on `master`. Topic-page UX port (hide empty sections, inline figures → gallery, lecture frame modals, browse compact/search) is in PR from `cursor/topic-page-ux-port-9231`. Still open: HN subcategory alias map (user gate), backend `video_url` join, WSI.
 
 ---
 
