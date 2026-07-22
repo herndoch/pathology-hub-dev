@@ -17,6 +17,22 @@
 
   <main class="layout">
     <section class="chat-panel">
+      <form class="composer composer-top" id="chat-form">
+        <textarea
+          id="query-input"
+          rows="2"
+          placeholder="Ask or search pathology (e.g. LCIS breast, tubular adenoma colon)…"
+          required
+        ></textarea>
+        <div class="composer-actions">
+          <button type="submit" id="send-btn">Send</button>
+          <label class="inline-check">
+            <input type="checkbox" id="debug-toggle" />
+            Show debug panel
+          </label>
+        </div>
+      </form>
+
       <div class="view-tabs">
         <button type="button" class="view-tab active" data-view="browse">Browse</button>
         <button type="button" class="view-tab" data-view="ask">Ask</button>
@@ -34,21 +50,6 @@
 
       <div id="ask-view" class="view-panel hidden">
         <div class="messages" id="messages" aria-live="polite"></div>
-        <form class="composer" id="chat-form">
-          <textarea
-            id="query-input"
-            rows="3"
-            placeholder="Ask a pathology question (e.g. LCIS breast, tubular adenoma colon)…"
-            required
-          ></textarea>
-          <div class="composer-actions">
-            <button type="submit" id="send-btn">Send</button>
-            <label class="inline-check">
-              <input type="checkbox" id="debug-toggle" />
-              Show debug panel
-            </label>
-          </div>
-        </form>
       </div>
     </section>
 
@@ -112,6 +113,7 @@
         <a id="media-modal-figure" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Figure</a>
         <a id="media-modal-page" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Page image</a>
         <a id="media-modal-source" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Source</a>
+        <a id="media-modal-timestamp" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Open timestamp</a>
         <a id="media-modal-reference" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Reference page</a>
       </div>
     </div>
