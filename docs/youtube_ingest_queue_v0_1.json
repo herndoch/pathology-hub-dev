@@ -1,44 +1,195 @@
 {
   "schema_version": "youtube_ingest_queue.v0_1",
-  "updated_at_utc": "2026-07-22T22:10:00Z",
+  "updated_at_utc": "2026-07-22T22:20:00Z",
   "notes": [
-    "Operator runs Colab queue notebook one INDEX per deleted runtime.",
-    "Agent gates packages with empty chunks_indexable, then FAISS rebuild + Cloud Run refresh.",
-    "YT_Derm is out of scope. Legacy YT_Skin/YT_GI/YT_Cyto already remastered into FAISS."
+    "Damron skipped (age-restricted).",
+    "Primary Ultra target: pathCast #PATHBOARDS playlist inventory.",
+    "Colab notebook QUEUE loaded with gate-ready subset; see pathcast_pathboards_inventory_v0_1.json for full 29.",
+    "Gardner + Cipriani already live in FAISS."
   ],
+  "pathboards_playlist": "https://www.youtube.com/playlist?list=PL4GDLmrdXtfT-w9Q93NlvptjuZ1QYfzYB",
+  "inventory": "docs/pathcast_pathboards_inventory_v0_1.json",
   "queue": [
-    {
-      "youtube_url": "https://www.youtube.com/watch?v=NOmOHTh-vtY",
-      "root": "BST",
-      "label": "Cipriani BST board review",
-      "status": "live_in_faiss",
-      "package_id": "yt_nicole_cipriani_bone_soft_tissue_board_review_2026_04_23_nomohth-vty_v0_1",
-      "known_limitations": [
-        "Already gated and promoted with PR #14 lecture refresh."
-      ]
-    },
     {
       "youtube_url": "https://www.youtube.com/watch?v=1WuhaGCtj4k",
       "root": "BST",
       "label": "Gardner BST 21 classic cases",
       "status": "live_in_faiss",
-      "package_id": "yt_jerad_gardner_md_bone_soft_tissue_pathology_board_review_21_class_1wuhagctj4k_v0_1",
-      "known_limitations": [
-        "Gated 2026-07-22 \u2192 10 chunks_indexable.",
-        "Promoted into live STRICT_CYTO_v9 (907 rows). pathology-hub-v04 revision 00041 serving."
-      ]
+      "package_id": "yt_jerad_gardner_md_bone_soft_tissue_pathology_board_review_21_class_1wuhagctj4k_v0_1"
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=NOmOHTh-vtY",
+      "root": "BST",
+      "label": "Cipriani BST board review",
+      "status": "live_in_faiss",
+      "package_id": "yt_nicole_cipriani_bone_soft_tissue_board_review_2026_04_23_nomohth-vty_v0_1"
     },
     {
       "youtube_url": "https://www.youtube.com/watch?v=rCdaaTDesPQ",
       "root": "Breast",
       "label": "Damron breast board review",
-      "status": "blocked_age_restricted",
+      "status": "skipped_age_restricted",
+      "package_id": null
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=8VTUbIjAE2I",
+      "root": "Heme",
+      "label": "#PATHBOARDS High-Yield Molecular Pathology for Boards: Part 2 (Hematolymphoid Tumors)",
+      "status": "pending_colab",
       "package_id": null,
-      "known_limitations": [
-        "YouTube age gate blocks media download in Colab without cookies.",
-        "Retry with CAPTIONS_ONLY=True (queue notebook default). If captions also fail, skip or use cookies.",
-        "No package on GCS as of 2026-07-22."
-      ]
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=eubHjS0r8gs",
+      "root": "GU",
+      "label": "#PATHBOARDS HIGH - YIELD GU PATHOLOGY FOR BOARDS",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=AcJzcqc9sws",
+      "root": "Breast",
+      "label": "#PATHBOARDS High Yield Breast Pathology for Boards",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=32hMxPRG34o",
+      "root": "Heme",
+      "label": "#PATHBOARDS High Yield Hematopathology for Boards - Part 2",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=ycn5DJBZDTU",
+      "root": "Cytopathology",
+      "label": "#PATHBOARDS High Yield Cytopathology for Boards",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=a0kEOMG_qdQ",
+      "root": "Thorax_Mediastinum",
+      "label": "# PATHBOARDS High Yield Pulmonary Pathology for Boards",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=VbvUtJ49HXc",
+      "root": "GU",
+      "label": "#PATHBOARDS  Basic Kidney Pathology for Pathology Boards - Part 1",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=EN-3ICsw1CQ",
+      "root": "GU",
+      "label": "#PATHBOARDS  Basic Kidney Pathology for Pathology Boards - Part 2",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=Ki6O1RJwH5c",
+      "root": "Heme",
+      "label": "#PATHBOARDS High Yield Hematopathology for Boards - Part 1",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": true
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=35NLmg0DwDI",
+      "root": "Heme",
+      "label": "#HEMEPATH HIGH - YIELD TOPICS IN HEMATOPATHOLOGY - PART 3",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=ItqobvGhzLo",
+      "root": "BST",
+      "label": "Bone forming tumors - Dr. Garcia (Hospital for Special Surgery) #BSTPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=kGcRfmGcpVY",
+      "root": "GI",
+      "label": "Upper GI pathology for boards - Dr. Pittman (Cornell) #GIPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=9V4YAAW1XRg",
+      "root": "GU",
+      "label": "Benign mimics in the urinary bladder & prostate - Dr. Williamson (Henry Ford) #GUPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=nCoSnLC-8SQ",
+      "root": "Breast",
+      "label": "High yield breast pathology cases for the boards - Dr. Singh (Brown) #BREASTPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=YdJkED_x_RE",
+      "root": "Thorax_Mediastinum",
+      "label": "Pulmonary Pathology: a Board's eye-view",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=aLZCGwZH8TU",
+      "root": "GI",
+      "label": "High Yield GI Pathology for the Boards with Dr. Meredith Pittman",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=8VuLGBvEV8U",
+      "root": "BST",
+      "label": "Cartilage forming tumors - Dr. Garcia (Hospital for Special Surgery) #BSTPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=wKbpac-k7rs",
+      "root": "BST",
+      "label": "Miscellaneous bone tumors - Dr. Garcia #BSTPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=qySmAMgkf5c",
+      "root": "Heme",
+      "label": "Hodgkin Lymphoma - Dr. Ferry (MGH) #HEMEPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=EbZGWXY3m-s",
+      "root": "Heme",
+      "label": "Approach to the lymph node - Dr. Crane (Cleveland Clinic) #HEMEPATH",
+      "status": "pending_colab",
+      "package_id": null,
+      "pathboards_branded": false
     }
   ]
 }

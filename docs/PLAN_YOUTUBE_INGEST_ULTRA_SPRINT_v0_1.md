@@ -57,3 +57,8 @@ python scripts/build_lecture_vector_from_deck_packages_v0_1.py --upload --promot
 - Other-specialty Anki
 - WSI
 - Cookie/CLI ingest on Cursor cloud IPs (bot-blocked)
+
+
+## pathCast #PATHBOARDS (added 2026-07-22)
+
+Damron skipped. Primary Colab queue is now the gate-ready subset of the pathCast `#PATHBOARDS` playlist (20 videos). See `docs/HANDOFF_PATHCAST_PATHBOARDS_YT_INGEST_v0_1.md` and `docs/pathcast_pathboards_inventory_v0_1.json`.
