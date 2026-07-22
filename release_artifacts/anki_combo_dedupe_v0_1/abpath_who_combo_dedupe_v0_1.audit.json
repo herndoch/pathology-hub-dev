@@ -1,0 +1,58 @@
+{
+  "schema_version": "anki_combo_dedupe_v0_1_audit",
+  "created_at_utc": "2026-07-13T13:26:51.375169+00:00",
+  "input_paths": [
+    "frontend/pathology_hub_chat_mvp/static/browse_tag_index_v0_1.json",
+    null
+  ],
+  "output_paths": [
+    "release_artifacts/anki_combo_dedupe_v0_1/abpath_who_combo_dedupe_v0_1.jsonl",
+    "release_artifacts/anki_combo_dedupe_v0_1/abpath_who_combo_dedupe_v0_1.csv"
+  ],
+  "counts": {
+    "input_rows": 7692,
+    "label_collision": 1217,
+    "export_rows": 6475,
+    "removed_by_label_dedupe": 1217,
+    "provenance_export": {
+      "abpath": 5452,
+      "who": 914,
+      "both": 109
+    },
+    "roots_export": 15,
+    "per_root_export_counts": {
+      "breast": 135,
+      "bst": 338,
+      "cyto": 1287,
+      "endo": 165,
+      "eye_orbit": 225,
+      "gi": 324,
+      "gu": 365,
+      "gyn": 423,
+      "heme": 329,
+      "hn": 308,
+      "molecular": 289,
+      "neuro": 613,
+      "peds": 456,
+      "skin": 969,
+      "thorax_mediastinum": 249
+    }
+  },
+  "dedupe_rules": {
+    "priority": "ABPath > both > WHO",
+    "dedupe_key": "root_id + casefold(display_label)",
+    "canonical_tag": "winner full tag path (ABPath spelling when overlapping)"
+  },
+  "known_limitations": [
+    "Export is a local snapshot for Anki deck building; not proof of API exposure or vector coverage.",
+    "Built from browse index fallback when raw ABPath/WHO inputs are absent in this workspace.",
+    "Label-level dedupe per organ root may collapse distinct ABPath paths that share a display label.",
+    "WHO-only rows are kept when no ABPath label collision exists in the same root."
+  ],
+  "input_meta": {
+    "source": "browse_tag_index_v0_1.json",
+    "path": "frontend/pathology_hub_chat_mvp/static/browse_tag_index_v0_1.json",
+    "generated_at": "2026-07-11T14:44:00.820856+00:00",
+    "raw_leaf_count": 7692
+  }
+}
