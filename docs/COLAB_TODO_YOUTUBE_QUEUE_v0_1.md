@@ -44,3 +44,15 @@ Some Damron videos require sign-in for media. Captions may still work. If both f
 ## Secret
 
 `OPEN_AI_KEY_01` — only required when Whisper runs.
+
+## Age-restricted (Damron)
+
+YouTube age gate blocks **media** in Colab without cookies. The queue notebook defaults to `CAPTIONS_ONLY = True`:
+
+1. Fresh runtime (delete previous)
+2. Keep `CAPTIONS_ONLY = True` and `PREFER_CAPTIONS = True`
+3. Run all — if captions work, you still get a deck package (no Whisper)
+4. If captions also fail → **skip Damron** for now; add another non-age-restricted URL to `QUEUE`
+
+Cookie-based yt-dlp is possible later but is a separate path (not the Ultra no-cookies loop).
+
