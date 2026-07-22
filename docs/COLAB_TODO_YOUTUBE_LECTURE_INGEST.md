@@ -2,6 +2,10 @@
 
 **Notebook:** `notebooks/YouTube_Lecture_Ingest_to_Deck_Package_v0_1.ipynb`
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/herndoch/pathology-hub-dev/blob/master/notebooks/YouTube_Lecture_Ingest_to_Deck_Package_v0_1.ipynb)
+
+Prefer the **queue** notebook for multi-video work: `notebooks/YouTube_Lecture_Queue_Colab_v0_1.ipynb`.
+
 ## Current target
 
 https://www.youtube.com/watch?v=rCdaaTDesPQ  

@@ -1,0 +1,43 @@
+{
+  "schema_version": "youtube_ingest_queue.v0_1",
+  "updated_at_utc": "2026-07-22T22:00:00Z",
+  "notes": [
+    "Operator runs Colab queue notebook one INDEX per deleted runtime.",
+    "Agent gates packages with empty chunks_indexable, then FAISS rebuild + Cloud Run refresh.",
+    "YT_Derm is out of scope. Legacy YT_Skin/YT_GI/YT_Cyto already remastered into FAISS."
+  ],
+  "queue": [
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=NOmOHTh-vtY",
+      "root": "BST",
+      "label": "Cipriani BST board review",
+      "status": "live_in_faiss",
+      "package_id": "yt_nicole_cipriani_bone_soft_tissue_board_review_2026_04_23_nomohth-vty_v0_1",
+      "known_limitations": [
+        "Already gated and promoted with PR #14 lecture refresh."
+      ]
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=1WuhaGCtj4k",
+      "root": "BST",
+      "label": "Gardner BST 21 classic cases",
+      "status": "live_in_faiss",
+      "package_id": "yt_jerad_gardner_md_bone_soft_tissue_pathology_board_review_21_class_1wuhagctj4k_v0_1",
+      "known_limitations": [
+        "Gated 2026-07-22 \u2192 10 chunks_indexable.",
+        "Promoted into live STRICT_CYTO_v9 (907 rows). pathology-hub-v04 revision 00041 serving."
+      ]
+    },
+    {
+      "youtube_url": "https://www.youtube.com/watch?v=rCdaaTDesPQ",
+      "root": "Breast",
+      "label": "Damron breast board review",
+      "status": "pending_colab",
+      "package_id": null,
+      "known_limitations": [
+        "May be age-restricted for media; captions-first often still works.",
+        "Needs breast_browse_leaf_embeddings for gate after Colab upload."
+      ]
+    }
+  ]
+}
