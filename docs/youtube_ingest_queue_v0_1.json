@@ -1,6 +1,6 @@
 {
   "schema_version": "youtube_ingest_queue.v0_1",
-  "updated_at_utc": "2026-07-22T22:00:00Z",
+  "updated_at_utc": "2026-07-22T22:10:00Z",
   "notes": [
     "Operator runs Colab queue notebook one INDEX per deleted runtime.",
     "Agent gates packages with empty chunks_indexable, then FAISS rebuild + Cloud Run refresh.",
@@ -32,11 +32,12 @@
       "youtube_url": "https://www.youtube.com/watch?v=rCdaaTDesPQ",
       "root": "Breast",
       "label": "Damron breast board review",
-      "status": "pending_colab",
+      "status": "blocked_age_restricted",
       "package_id": null,
       "known_limitations": [
-        "May be age-restricted for media; captions-first often still works.",
-        "Needs breast_browse_leaf_embeddings for gate after Colab upload."
+        "YouTube age gate blocks media download in Colab without cookies.",
+        "Retry with CAPTIONS_ONLY=True (queue notebook default). If captions also fail, skip or use cookies.",
+        "No package on GCS as of 2026-07-22."
       ]
     }
   ]
