@@ -67,12 +67,16 @@ from pathology_backend import (
     dedupe_cards,
     dedupe_figures,
     diversify_by_source_id,
+    enrich_cards_with_pathout_deep,
     filter_cards_by_page_root,
     filter_cards_by_page_tag,
+    filter_cards_by_who_volume,
     filter_figures_by_entity_match,
     filter_figures_by_page_root,
+    filter_figures_by_who_volume,
     extract_evidence_cards,
     extract_figures,
+    load_pathout_deep_index,
     merge_outcomes,
     page_root_from_tag,
     slim_merged_from_cards,
@@ -95,7 +99,11 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # then has to filter back out; requesting only `videos` gets the identical
 # evidence for half the cost. `lectures` remains a valid standalone choice in
 # `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
-TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures")]
+# v0_2: narrowed to WHO + PathOutlines only. Textbooks/journals/videos/lectures
+# added retrieval noise and latency without adding depth for named-entity topic
+# pages (PathOutlines deep-index enrichment below now supplies far more depth
+# from these two families than textbooks/journals ever did for this mode).
+TOPIC_PAGE_SOURCES = ["who", "pathout"]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -126,6 +134,21 @@ def _env_bool(name: str, *, default: bool) -> bool:
 
 
 TOPIC_PAGE_ROOT_NARROW = _env_bool("TOPIC_PAGE_ROOT_NARROW", default=True)
+
+# Frontend-only read-time enrichment (see scripts/build_pathout_deep_index_v0_1.py):
+# the live backend caps PathOutlines excerpts at ~4000 chars/page from an older,
+# shallower ingestion. This index reads a richer staged-but-never-indexed crawl
+# (chunks + figures) to expand topic_page evidence for the SAME already-vetted
+# URLs the live search returned. Not a claim that anything is live-indexed.
+PATHOUT_DEEP_INDEX_PATH = os.environ.get(
+    "PATHOUT_DEEP_INDEX_PATH",
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_prepop_v0_1", "pathout_deep_index_v0_1.json"
+        )
+    ),
+)
+TOPIC_PAGE_PATHOUT_DEEP_ENRICH = _env_bool("TOPIC_PAGE_PATHOUT_DEEP_ENRICH", default=True)
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -300,17 +323,28 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     page_root = page_root_from_tag(req.page_tag)
     cards_before_root = len(deduped_cards)
     if TOPIC_PAGE_ROOT_NARROW and page_root:
+        deduped_cards = filter_cards_by_who_volume(deduped_cards, page_root)
         deduped_cards = filter_cards_by_page_root(deduped_cards, page_root)
     deduped_cards = filter_cards_by_page_tag(deduped_cards, req.page_tag)
+
+    figures = raw_figures[: TOPIC_PAGE_MAX_FIGURES * 2]
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        figures = filter_figures_by_who_volume(figures, page_root)
+        figures = filter_figures_by_page_root(figures, page_root)
+    figures = filter_figures_by_entity_match(figures, req.page_tag)
+
+    deep_enrich_applied = False
+    if TOPIC_PAGE_PATHOUT_DEEP_ENRICH:
+        deep_index = load_pathout_deep_index(PATHOUT_DEEP_INDEX_PATH)
+        if deep_index:
+            before_n = len(deduped_cards)
+            deduped_cards, figures = enrich_cards_with_pathout_deep(deduped_cards, figures, deep_index)
+            deep_enrich_applied = len(deduped_cards) != before_n
 
     capped_cards = cap_cards_diverse(
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
-
-    figures = raw_figures[: TOPIC_PAGE_MAX_FIGURES * 2]
-    if TOPIC_PAGE_ROOT_NARROW and page_root:
-        figures = filter_figures_by_page_root(figures, page_root)
-    figures = filter_figures_by_entity_match(figures, req.page_tag)[:TOPIC_PAGE_MAX_FIGURES]
+    figures = figures[:TOPIC_PAGE_MAX_FIGURES]
 
     slim_merged = slim_merged_from_cards(merged, capped_cards)
     slim_merged["figures"] = figures
@@ -340,6 +374,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "cards_before_root_filter": cards_before_root,
         "cards_after_root_filter": len(deduped_cards),
         "cards_after_tag_filter": len(deduped_cards),
+        "pathout_deep_enrich_applied": deep_enrich_applied,
         "search_query": search_query,
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions

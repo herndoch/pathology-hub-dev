@@ -19,6 +19,8 @@ Do not add new backend operations here. Do not mutate GCS or Cloud Run.
 from __future__ import annotations
 
 import hashlib
+import json
+import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -765,6 +767,179 @@ def _text_blob(*values: Any) -> str:
     return " ".join(str(v) for v in values if v).casefold()
 
 
+_PATHOUT_DEEP_INDEX_CACHE: dict[str, Any] = {}
+
+
+def load_pathout_deep_index(path: str) -> dict[str, Any]:
+    """Load the compact PathOutlines deep-content index (see
+    scripts/build_pathout_deep_index_v0_1.py). Frontend-only, read-time
+    enrichment over staged/normalized data that is NOT live-indexed,
+    vectorized, or API-exposed in the backend (see that script's docstring
+    for the audit trail). Cached in-process; missing file is a silent no-op
+    so the app runs fine without it (falls back to the capped live API)."""
+    cached = _PATHOUT_DEEP_INDEX_CACHE.get(path)
+    if cached is not None:
+        return cached
+    if not path or not os.path.isfile(path):
+        _PATHOUT_DEEP_INDEX_CACHE[path] = {}
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        data = {}
+    _PATHOUT_DEEP_INDEX_CACHE[path] = data
+    return data
+
+
+def enrich_cards_with_pathout_deep(
+    cards: list[dict],
+    figures: list[dict],
+    deep_index: dict[str, Any],
+    max_chunks_per_url: int = 24,
+    max_figures_per_url: int = 10,
+) -> tuple[list[dict], list[dict]]:
+    """Expand already root/tag-filtered PathOutlines cards using the full
+    staged chunk+figure set for the same page_url, instead of the live
+    backend's ~4000-char single-excerpt cap. Only enriches URLs that
+    survived upstream filtering (never introduces a new, unvetted page)."""
+    if not deep_index:
+        return cards, figures
+
+    seen_urls: set[str] = set()
+    extra_cards: list[dict] = []
+    extra_figures: list[dict] = []
+    kept_cards: list[dict] = []
+
+    for card in cards:
+        if not isinstance(card, dict) or str(card.get("source") or "") != "pathout":
+            kept_cards.append(card)
+            continue
+        url = card.get("source_url") or card.get("url") or ""
+        record = deep_index.get(url)
+        if not record or not record.get("chunks"):
+            kept_cards.append(card)
+            continue
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+
+        entity_name = record.get("entity_name") or card.get("title") or ""
+        base = {k: v for k, v in card.items() if not str(k).startswith("_")}
+        for chunk in record["chunks"][:max_chunks_per_url]:
+            heading = chunk.get("heading") or ""
+            text = chunk.get("text") or ""
+            if not text.strip():
+                continue
+            new_card = dict(base)
+            new_card["title"] = f"{entity_name} — {heading}" if heading else entity_name
+            new_card["heading"] = heading
+            new_card["section"] = chunk.get("section_type")
+            new_card["text_excerpt"] = text
+            new_card["excerpt"] = text
+            new_card["_pathout_deep"] = True
+            extra_cards.append(new_card)
+
+        for fig in record.get("figures", [])[:max_figures_per_url]:
+            extra_figures.append(
+                {
+                    "figure_url": fig.get("image_url"),
+                    "image_url": fig.get("image_url"),
+                    "url": fig.get("image_url"),
+                    "caption": fig.get("caption") or entity_name,
+                    "title": entity_name,
+                    "entity_name": entity_name,
+                    "source": "pathout",
+                    "source_family": "PathOutlines",
+                    "source_url": url,
+                    "_pathout_deep_verified": True,
+                }
+            )
+
+    merged_cards = kept_cards + extra_cards
+    merged_figures = list(figures) + extra_figures
+    return merged_cards, merged_figures
+
+
+_WHO_VOLUME_TO_ROOT = {
+    "hn": "hn",
+    "breast": "breast",
+    "gu": "gu",
+    "gi": "gi",
+    "gyn": "gyn",
+    "skin": "skin",
+    "bst": "bst",
+    "heme": "heme",
+    "thoracic": "thoracic",
+    "eye": "eye_orbit",
+    "cns": "cns",
+    "endocrine": "endocrine",
+}
+
+_WHO_SOURCE_PATH_RE = re.compile(r"/WHO_(?:HTML|PICS)/([A-Za-z_]+)/", re.IGNORECASE)
+_WHO_RECORD_ID_RE = re.compile(r"^who\w*:([a-z_]+):", re.IGNORECASE)
+
+
+def card_who_volume_root(card: dict) -> Optional[str]:
+    """Extract a normalized organ/root token from WHO structural metadata
+    (volume_code, record_id, or WHO_HTML/WHO_PICS GCS path segment) — far
+    more reliable than free-text matching, since a WHO chunk can legitimately
+    mention another organ (e.g. Breast Tumours discussing salivary PA for
+    contrast) while still being filed under the wrong book for this page."""
+    volume_code = card.get("volume_code")
+    if isinstance(volume_code, str) and volume_code.strip():
+        return normalize_root_token(volume_code)
+    for field in ("source_url", "url", "figure_url"):
+        value = card.get(field)
+        if isinstance(value, str):
+            m = _WHO_SOURCE_PATH_RE.search(value)
+            if m:
+                return normalize_root_token(m.group(1))
+    record_id = card.get("record_id")
+    if isinstance(record_id, str):
+        m = _WHO_RECORD_ID_RE.match(record_id)
+        if m:
+            return normalize_root_token(m.group(1))
+    return None
+
+
+def filter_cards_by_who_volume(cards: list[dict], page_root: Optional[str]) -> list[dict]:
+    """Hard structural filter: drop WHO/journal cards whose WHO volume/book
+    token unambiguously names a different organ than the browse page root.
+    Runs before the softer text-blob heuristic in filter_cards_by_page_tag,
+    and — unlike filter_cards_by_page_root — applies to WHO too, since WHO
+    is otherwise exempt from root narrowing."""
+    if not page_root:
+        return cards
+    target = normalize_root_token(page_root)
+    target_mapped = _WHO_VOLUME_TO_ROOT.get(target, target)
+    kept: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        vol_root = card_who_volume_root(card)
+        if vol_root and vol_root in _WHO_VOLUME_TO_ROOT and vol_root != target_mapped:
+            continue
+        kept.append(card)
+    return kept
+
+
+def filter_figures_by_who_volume(figures: list[dict], page_root: Optional[str]) -> list[dict]:
+    if not page_root:
+        return figures
+    target = normalize_root_token(page_root)
+    target_mapped = _WHO_VOLUME_TO_ROOT.get(target, target)
+    kept: list[dict] = []
+    for fig in figures:
+        if not isinstance(fig, dict):
+            continue
+        vol_root = card_who_volume_root(fig)
+        if vol_root and vol_root in _WHO_VOLUME_TO_ROOT and vol_root != target_mapped:
+            continue
+        kept.append(fig)
+    return kept
+
+
 def filter_cards_by_page_tag(cards: list[dict], page_tag: Optional[str]) -> list[dict]:
     """Stricter than root-only filter: drop cross-organ tagged cards and text."""
     seg = page_tag_segments(page_tag)
@@ -819,6 +994,9 @@ def filter_figures_by_entity_match(
     for fig in figures:
         if not isinstance(fig, dict):
             continue
+        if fig.get("_pathout_deep_verified"):
+            kept.append(fig)
+            continue
         blob = _text_blob(fig.get("entity_name"), fig.get("title"), fig.get("caption"))
         if seg.get("is_benign") and any(term in blob for term in _BENIGN_EXCLUDE_TERMS):
             continue
@@ -867,6 +1045,9 @@ def filter_figures_by_page_root(figures: list[dict], page_root: Optional[str]) -
     kept: list[dict] = []
     for fig in figures:
         if not isinstance(fig, dict):
+            continue
+        if fig.get("_pathout_deep_verified"):
+            kept.append(fig)
             continue
         sid = fig.get("source_id")
         if isinstance(sid, str) and "_" in sid:
