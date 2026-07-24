@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import html as html_module
 import time
 import uuid
 from datetime import datetime, timezone
@@ -42,12 +43,14 @@ _SOURCE_LABELS = {
 }
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from urllib.parse import quote
 
 import prompts
 import secrets_helper
+from topic_review_html import render_review_index_html, render_topic_review_html
 from openai_synthesizer import SynthesisResult, get_model, get_topic_page_model, ping as openai_ping, synthesize
 from figure_quality_filter import (
     filter_suppress_render_figures,
@@ -96,6 +99,10 @@ TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "l
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+REVIEW_PAGES_DIR = os.path.join(STATIC_DIR, "review", "pages")
+REVIEW_SAMPLE_PATH = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "docs", "topic_prepop_review10_sample_v0_1.json")
+)
 
 # Topic-page prepop pilot (v0_1, read-only lookup only) — see
 # docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md. This directory is written
@@ -404,6 +411,74 @@ def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
 @app.get("/")
 def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+def _load_review_page(tag: str) -> Optional[dict]:
+    """Load a prebuilt topic sidecar from pilot output dir or bundled review pages."""
+    slug = _slugify_prebuild_tag(tag)
+    for base_dir in (TOPIC_PREBUILD_PAGES_DIR, REVIEW_PAGES_DIR):
+        json_path = os.path.join(base_dir, f"{slug}.json")
+        if os.path.isfile(json_path):
+            try:
+                with open(json_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except (OSError, ValueError):
+                continue
+    return None
+
+
+@app.get("/review", response_class=HTMLResponse)
+def review_index():
+    """Clickable index of topic-page HTML reviews (opens in browser)."""
+    items: list[dict[str, str]] = [
+        {
+            "label": "Pleomorphic Adenoma (v2 rebuild)",
+            "href": "/review/topic?tag="
+            + quote("HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma", safe=""),
+            "meta": "HN salivary · v2 filters",
+        }
+    ]
+    if os.path.isfile(REVIEW_SAMPLE_PATH):
+        try:
+            with open(REVIEW_SAMPLE_PATH, "r", encoding="utf-8") as f:
+                sample = json.load(f)
+            for leaf in sample.get("leaves") or []:
+                tag = leaf.get("tag") or ""
+                if not tag or tag.endswith("Pleomorphic_Adenoma"):
+                    continue
+                if _load_review_page(tag) is None:
+                    continue
+                items.append(
+                    {
+                        "label": str(leaf.get("label") or tag).replace("_", " "),
+                        "href": "/review/topic?tag=" + quote(tag, safe=""),
+                        "meta": str(leaf.get("root_label") or ""),
+                    }
+                )
+        except (OSError, ValueError):
+            pass
+    return render_review_index_html(items)
+
+
+@app.get("/review/topic", response_class=HTMLResponse)
+def review_topic(tag: str):
+    """Open a prebuilt topic page as standalone HTML in the browser."""
+    tag = (tag or "").strip()
+    if not tag:
+        return HTMLResponse("<p>Missing <code>tag</code> query parameter.</p>", status_code=400)
+    page = _load_review_page(tag)
+    if not page:
+        return HTMLResponse(
+            f"<p>No prebuilt review page found for tag <code>{html_module.escape(tag)}</code>.</p>",
+            status_code=404,
+        )
+    note = ""
+    if tag.endswith("Pleomorphic_Adenoma"):
+        note = (
+            "v2 rebuild: salivary-disambiguated retrieval, root/tag filters before cap, "
+            "entity-matched figures (WHO carcinoma-ex images suppressed)."
+        )
+    return HTMLResponse(render_topic_review_html(page, note=note))
 
 
 def _slugify_prebuild_tag(tag: str) -> str:
