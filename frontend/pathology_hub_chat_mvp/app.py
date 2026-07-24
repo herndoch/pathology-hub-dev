@@ -465,23 +465,14 @@ def _load_review_page(tag: str) -> Optional[dict]:
 @app.get("/review", response_class=HTMLResponse)
 def review_index():
     """Clickable index of topic-page HTML reviews (opens in browser)."""
-    items: list[dict[str, str]] = [
-        {
-            "label": "Pleomorphic Adenoma (v2 rebuild)",
-            "href": "/review/topic?tag="
-            + quote("HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma", safe=""),
-            "meta": "HN salivary · v2 filters",
-        }
-    ]
+    items: list[dict[str, str]] = []
     if os.path.isfile(REVIEW_SAMPLE_PATH):
         try:
             with open(REVIEW_SAMPLE_PATH, "r", encoding="utf-8") as f:
                 sample = json.load(f)
             for leaf in sample.get("leaves") or []:
                 tag = leaf.get("tag") or ""
-                if not tag or tag.endswith("Pleomorphic_Adenoma"):
-                    continue
-                if _load_review_page(tag) is None:
+                if not tag or _load_review_page(tag) is None:
                     continue
                 items.append(
                     {
