@@ -5,36 +5,11 @@
   "provenance": "abpath",
   "query": "Melanoma Invasive Overview NOS",
   "category_context": "Skin > Neoplastic",
-  "generated_at": "2026-07-24T15:53:55.291563+00:00",
+  "generated_at": "2026-07-24T21:55:23.235621+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Melanoma is a malignant neoplasm of melanocytes, commonly occurring in the skin.\n- BRAF and NRAS mutations are frequent in melanoma.\n- Prognosis is largely determined by Breslow depth.\n- Sentinel lymph node biopsy is a common prognostic indicator.\n- Common markers include S100, HMB45, and SOX10.\n\n## Terminology\n- **Melanoma**: Invasive malignant neoplasm of melanocytes.\n- **Synonyms**: Malignant melanoma.\n- **Abbreviations**: NOS (Not Otherwise Specified).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Infiltration of atypical melanocytes beyond the dermoepidermal junction.\n  - Architectural and cytological atypia.\n- **Desirable:**\n  - Mitoses and ulceration.\n  - Genetic confirmation of mutations (e.g., BRAF, NRAS).\n\n## Etiology/Pathogenesis\n- Common mutations include BRAF V600E, NRAS, and TERT promoter mutations.\n- Chromosomal instability is frequent.\n\n## Clinical Issues\n- **Epidemiology:**\n  - More common in older individuals and those with fair skin.\n  - Incidence linked to sun exposure.\n- **Prognosis:**\n  - Dependent on tumor thickness and ulceration.\n\n## Microscopic\n- Patterns include spindle and epithelioid cell morphology.\n- Pagetoid spread in the epidermis.\n- Confirmed dermal invasion with nests or sheets of atypical cells.\n\n## Ancillary Tests\n- **Immunohistochemistry:**\n  - S100: Strongly positive in most melanomas.\n  - HMB45 and Melan-A: Confirm melanocytic origin.\n  - SOX10: Positive in melanocytic lesions.\n- **Molecular/genetic studies:** \n  - Identify mutations in BRAF, NRAS, or PTEN.\n\n## Differential Diagnosis\n- **Halo Naevus**:\n  - Lacks severe cytological atypia.\n  - Characterized by lymphocytic infiltration around nevus cells [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Halo_Naevus.html).\n- **Recurrent Naevus**:\n  - Mimics melanoma but features orderly nesting and maturation [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Recurrent_Naevus.html).\n- **Mucosal Melanoma**:\n  - Often shows junctional activity and mucosal site preference [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Mucosal_Melanoma.html).\n- **Nodular Melanoma**:\n  - Characterized by rapid vertical growth and prognosis linked to Breslow depth [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html).\n- **Melanoma Metastatic to the Skin**:\n  - Presence of a malignant intradermal or subcutaneous nodule.\n  - May mimic features of primary melanoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Melanoma_Metastatic_To_The_Skin.html).\n\n![Superficial spreading melanoma](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg)\n\nFor more about the essential features of invasive melanoma, consult [PathOutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanoma.html).",
+  "answer_markdown": "## Key Facts\n- Cutaneous melanoma is most common in older adults, with increased incidence in Caucasians.\n- Breslow thickness is a critical prognostic factor.\n- Common genetic mutations: BRAF, NRAS, less commonly KIT and TERT.\n- Major histologic subtypes: superficial spreading (SSM), nodular, acral, lentiginous, desmoplastic.\n  \n## Terminology\n- **Melanoma:** Malignant neoplasm of melanocytes.\n- **Abbreviations:** CSD (Cumulative Sun Damage), SSM (Superficial Spreading Melanoma).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Asymmetry.\n  - Lack of maturation with depth.\n  - Pagetoid scatter of melanocytes.\n  - Presence of deep/atypical mitoses.\n  - Ulceration.\n  - Breslow thickness.\n  - Mitotic rate.\n- **Desirable:**\n  - Specific genetic mutations (e.g., BRAF, NRAS).\n\n## Etiology/Pathogenesis\n- **Genetic Mutations:**\n  - BRAF V600E most common.\n  - NRAS mutations.\n  - TERT promoter mutations.\n  - PTEN deletions.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Increased risk with sun exposure.\n  - Often arises in middle-aged to older Caucasians.\n- **Sites:**\n  - Commonly on sun-exposed skin.\n- **Prognosis:**\n  - Prognosis is linked to Breslow thickness and ulceration.\n\n## Microscopic\n- Asymmetrical shape.\n- Atypical mitoses.\n- Lack of maturation of melanocytes.\n- Pagetoid spread of melanocytes.\n\n## Ancillary Tests\n- **Immunohistochemistry:**\n  - Positive for S100, HMB45, Melan-A.\n  - Useful for poorly differentiated cases.\n- **Genetic Testing:**\n  - BRAF, NRAS mutations common markers.\n\n![Superficial spreading melanoma](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg)\n![Ugly duckling sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati08.jpg)\n![Hutchinson sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati09.jpg)\n![Blowfly sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati10.jpg)\n![Asymmetry](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati11.jpg)\n\n## Differential Diagnosis\n- **Nevus:** Symmetrical, lack atypical mitoses.\n- **Halo Naevus:** Lichenoid inflammation; lacks atypical features of melanoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Halo_Naevus.html).\n- **Nodular Melanoma:** Rapid growth, possible ulceration [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html).\n- **Desmoplastic Melanoma:** Often amelanotic, spindle cell morphology [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticdesmoplasticmelanoma.html).\n- **Recurrent Naevus:** May resemble melanoma, but usually shows irregular scarring (WHO).\n- **Mucosal Melanoma:** Includes differential diagnosis of special-site naevi [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Mucosal_Melanoma.html).\n- **Melanoma Metastatic to the Skin:** Distinguishable from primary melanoma by cytological features [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Melanoma_Metastatic_To_The_Skin.html).",
   "cards": [
-    {
-      "title": "Conjunctival melanoma",
-      "source_name": "WHO Classification of Tumours",
-      "source": "who",
-      "source_family": "WHO",
-      "volume_code": "SKIN",
-      "entity_name": "Conjunctival melanoma",
-      "section": "core",
-      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-      "excerpt": "Entity: Conjunctival melanoma definition: Conjunctival melanoma is an invasive malignant melanocytic neoplasm arising in the conjunctiva. related_terminology: None essential_and_desirable_diagnostic_criteria: Essential: severe cytological and architectural atypia, exceeding that expected in a naevus. Desirable: mitoses, invasion of the cornea, extension into the skin, ulceration, tumour necrosis, pagetoid growth pattern; molecular features consistent with melanoma (PRAME positivity and loss of p16 on immunohistochemistry; chromosomal instability confirmed by FISH, TERT promoter mutations, etc.).",
-      "score": -11.88618097552106,
-      "record_id": "whochunk:skin:conjunctival_melanoma:core:001",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-          "source_family": "who"
-        }
-      ],
-      "retrieval_mode": "who_upstream_title_boost_v0_2",
-      "rank": 3,
-      "_result_key": "who_results"
-    },
     {
       "title": "Melanoma metastatic to the skin",
       "source_name": "WHO Classification of Tumours",
@@ -58,31 +33,6 @@
       ],
       "retrieval_mode": "who_upstream_title_boost_v0_2",
       "rank": 5,
-      "_result_key": "who_results"
-    },
-    {
-      "title": "Conjunctival melanoma",
-      "source_name": "WHO Classification of Tumours",
-      "source": "who",
-      "source_family": "WHO",
-      "volume_code": "SKIN",
-      "entity_name": "Conjunctival melanoma",
-      "section": "microscopic",
-      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-      "excerpt": "Entity: Conjunctival melanoma Section: microscopic The histological features are similar to those of invasive melanoma in the skin or mucosa. The intraepithelial component can be nested, pagetoid, lentiginous, or (rarely) absent. It can extend well beyond the invasive component and can involve the skin and/or minor lacrimal glands and invade the cornea. The subepithelial component shows stromal invasion by nests or sheets of atypical melanocytes. Melanoma cells can show the entire spectrum of cytomorphology encountered in melanoma elsewhere, ranging from small naevoid cells to highly atypical pleomorphic melanocytes with spindle or epithelioid cytomorphology. Nuclei can be hyperchromatic with inconspicuous nucleoli or vesicular with prominent nucleoli. Ulceration, mitotic activity, angiotropism, satellite metastases, in-transit metastases, and neurotropism may be seen. A residual naevus may be present.",
-      "score": -14.551970941160976,
-      "record_id": "whochunk:skin:conjunctival_melanoma:microscopic:001",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Conjunctival_Melanoma.html",
-          "source_family": "who"
-        }
-      ],
-      "retrieval_mode": "who_upstream_title_boost_v0_2",
-      "rank": 4,
       "_result_key": "who_results"
     },
     {
@@ -1598,82 +1548,6 @@
   ],
   "figures": [
     {
-      "title": "Conjunctival melanoma",
-      "caption": "Early invasive melanoma arising in a naevus. Molecular studies revealed NRAS p.Q61R and TERT c.-146C>T mutation, positive melanoma FISH, and nuclear expression of PRAME.",
-      "figure_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-      "source_name": "WHO Classification of Tumours",
-      "entity_name": "Conjunctival melanoma",
-      "source": "who",
-      "source_family": "WHO",
-      "volume_code": "SKIN",
-      "figure_id": "35102",
-      "figure_record_id": "whofig:skin:35102",
-      "is_wsi": false,
-      "reference_links": [
-        {
-          "kind": "figure_url",
-          "label": "figure_url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-          "source_family": "who",
-          "source_id": null
-        },
-        {
-          "kind": "source_url",
-          "label": "source_url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-          "source_family": "who",
-          "source_id": null
-        },
-        {
-          "kind": "url",
-          "label": "url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35102.jpg",
-          "source_family": "who",
-          "source_id": null
-        }
-      ]
-    },
-    {
-      "title": "Conjunctival melanoma",
-      "caption": "Early invasive melanoma arising in a naevus. Molecular studies revealed NRAS p.Q61R and TERT c.-146C>T mutation, positive melanoma FISH, and nuclear expression of PRAME.",
-      "figure_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-      "source_name": "WHO Classification of Tumours",
-      "entity_name": "Conjunctival melanoma",
-      "source": "who",
-      "source_family": "WHO",
-      "volume_code": "SKIN",
-      "figure_id": "35104",
-      "figure_record_id": "whofig:skin:35104",
-      "is_wsi": false,
-      "reference_links": [
-        {
-          "kind": "figure_url",
-          "label": "figure_url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-          "source_family": "who",
-          "source_id": null
-        },
-        {
-          "kind": "source_url",
-          "label": "source_url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-          "source_family": "who",
-          "source_id": null
-        },
-        {
-          "kind": "url",
-          "label": "url",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/SKIN/35104.jpg",
-          "source_family": "who",
-          "source_id": null
-        }
-      ]
-    },
-    {
       "figure_url": "https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg",
       "image_url": "https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg",
       "url": "https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg",
@@ -1881,30 +1755,31 @@
     "critic_raw": null,
     "critic_json": {
       "verdict": "revise",
-      "missing_essentials": [],
+      "missing_essentials": [
+        "figure with caption 'Ugly duckling sign'",
+        "figure with caption 'Hutchinson sign'",
+        "figure with caption 'Blowfly sign'",
+        "figure with caption 'Asymmetry'"
+      ],
       "redundant": [],
       "confusing": [],
-      "entity_conflation": [
-        "Inclusion of 'Conjunctival melanoma' figures in a draft about skin, which should instead be about conjunctival site-specific melanoma."
-      ],
-      "off_organ_or_offtopic": [
-        "Figures about 'Conjunctival melanoma' are off-topic for 'Melanoma Invasive Overview NOS Skin'."
-      ],
+      "entity_conflation": [],
+      "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
+        "Recurrent naevus",
+        "Mucosal melanoma",
         "Melanoma metastatic to the skin"
       ],
-      "figure_issues": [
-        "Figures titled 'Conjunctival melanoma' should not be included as they are not relevant to skin melanomas."
-      ],
-      "notes_for_revision": "Remove figures related to conjunctival melanoma as they are off-topic and ensure the differential includes all relevant entities such as melanoma metastatic to the skin."
+      "figure_issues": [],
+      "notes_for_revision": "Include missing figures and captions about specific clinical features. Add Recurrent Naevus, Mucosal Melanoma, and Melanoma Metastatic to the Skin to the Differential Diagnosis section."
     },
     "revision_applied": true
   },
   "retrieval_debug_summary": {
-    "cards_capped": 49,
+    "cards_capped": 47,
     "cards_cap_limit": 120,
     "cards_raw": 60,
-    "cards_deduped": 49,
+    "cards_deduped": 47,
     "query_variants": [
       "Melanoma Invasive Overview NOS Skin   Neoplastic",
       "Melanoma Invasive Overview NOS Skin   Neoplastic histology microscopic morphology",
@@ -1921,7 +1796,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "skin",
-    "elapsed_s": 68.0
+    "elapsed_s": 35.4
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

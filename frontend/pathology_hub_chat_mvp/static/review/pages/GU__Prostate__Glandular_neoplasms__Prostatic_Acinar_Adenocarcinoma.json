@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Prostatic Acinar Adenocarcinoma",
   "category_context": "GU > Prostate",
-  "generated_at": "2026-07-24T15:49:16.302409+00:00",
+  "generated_at": "2026-07-24T21:53:35.422675+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Prostatic acinar adenocarcinoma is the most common form of prostate cancer.\n- Typically diagnosed in men over 65.\n- Uses Gleason grading system for diagnosis and prognosis.\n- Loss of basal cell markers (p63, HMWCK) and positive AMACR staining aid diagnosis.\n- Stage and grade influence prognosis and treatment decisions.\n\n## Terminology\n- **Prostatic Acinar Adenocarcinoma:** Common malignant neoplasm of the prostate.\n- **Synonyms:** Adenocarcinoma of the prostate.\n- **Abbreviation:** Not typically abbreviated.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Identification of invasive acinar glandular structures.\n  - Loss of basal cell layer and positive AMACR staining.\n  - Gleason pattern / Grade Group reporting framework.\n- **Desirable:**\n  - Associated high-grade prostatic intraepithelial neoplasia (HGPIN).\n\n## Etiology/Pathogenesis\n- Genetic alterations, including TMPRSS2::ERG fusions.\n- Loss of PTEN gene associated with aggressive features.\n- Environmental and hormonal factors contribute to pathogenesis.\n\n## Clinical Issues\n- **Epidemiology:** Most common in men over 65 years.\n- **Site:** Arises in the peripheral zone of the prostate.\n- **Presentation:** Often asymptomatic, may present with urinary symptoms.\n- **Prognosis:** Influenced by stage and grade; early-stage cancers have better outcomes.\n\n## Macroscopic\n- Variable appearance; often ill-defined mass within the prostate.\n- Firm, yellowish cut surface on gross examination.\n\n## Microscopic\n- Infiltrative small acinar pattern.\n- Clear to amphophilic cytoplasm, prominent nucleoli.\n- Frequent perineural invasion.\n- Variants include atrophic and pseudohyperplastic architecture.\n- High-grade tumors may show cribriform architecture.\n\n![Prostatectomy specimen](https://www.pathologyoutlines.com/imgau/prostateprostaticCAgeneralZynger1.jpg)\n\n## Ancillary Tests\n- **IHC Panel:**\n  - **AMACR:** Positive.\n  - **Basal cell markers (p63, HMWCK):** Negative.\n  - **PSA:** Positive.\n- **Molecular/genetics:**\n  - TMPRSS2::ERG fusion commonly observed.\n  - PTEN loss associated with poor prognosis.\n\n## Differential Diagnosis\n\n### Prostatic Cystadenoma\n- Benign, large multiloculated cystic mass.\n- Cysts lined by bland prostatic secretory and basal cells.\n- No significant cytological atypia. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Prostatic_Cystadenoma.html)\n\n### Prostatic Stromal Sarcoma\n- Malignant mesenchymal tumor of prostatic stroma.\n- Diffuse growth with cytological atypia and necrosis.\n- CD34 and PR positive on IHC. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Prostatic_Stromal_Sarcoma.html)\n\n### Skene Gland Adenocarcinoma of the Urethra\n- Tumor with acinar to cribriform architecture.\n- Morphologically similar to prostatic acinar adenocarcinoma.\n- Positive reaction with prostatic immunohistochemical markers. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Skene_Gland_Adenocarcinoma_Of_The_Urethra.html)\n\n### High-Grade Prostatic Intraepithelial Neoplasia (HGPIN)\n- Retains basal cell layer.\n- Crowded atypical glands rather than invasive growth. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/High_Grade_Prostatic_Intraepithelial_Neoplasia.html)",
+  "answer_markdown": "## Key Facts\n- Most common malignancy of the prostate, typically detected by needle biopsy.\n- Absence of basal cell layer and prominent nucleoli; essential AMACR positivity.\n- Graded using Gleason pattern and Grade Group system.\n- Glomerulations and collagenous micronodules are pathognomonic features.\n- Differential includes ASAP and benign mimics.\n\n## Terminology\n- Prostatic Acinar Adenocarcinoma: Common malignant tumor of the prostate.\n- Synonyms: Prostatic adenocarcinoma, Acinar adenocarcinoma.\n\n## Essential and Desirable Diagnostic Criteria\n  - **Essential:**\n    - Absence of basal cell layer.\n    - Positive AMACR staining.\n    - Gleason pattern and Grade Group assignment.\n    - Glomerulations.\n    - Collagenous micronodules (mucinous fibroplasia).\n  - **Desirable:**\n    - Circumferential perineural invasion.\n    - Intraluminal mucin or crystalloids.\n\n## Clinical Issues\n  - **Epidemiology:**\n    - Most commonly diagnosed malignancy in prostate [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenoNOS.html).\n  - **Natural History:**\n    - Can invade locally and metastasize, often presenting with elevated PSA levels.\n\n## Microscopic\n- Loss of basal cell layer; positive staining for AMACR.\n- Infiltrative growth pattern, prominent nucleoli.\n- Perineural invasion, intraluminal crystalloid and mucin may be present.\n![Infiltrative growth pattern](https://www.pathologyoutlines.com/imgau/prostateadenoNOSshortvarma02.jpg)\n\n## Ancillary Tests\n  - **Immunohistochemistry:**\n    - p63, HMWCK: Negative in carcinoma.\n    - AMACR: Positive in carcinoma.\n  - **Molecular/Genetics:**\n    - Common molecular alterations include TMPRSS2::ERG fusions (WHO).\n\n## Differential Diagnosis\n- **Atypical Small Acinar Proliferation (ASAP):**\n  - Lack of definitive malignant features; requires follow-up biopsy [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatesuspicious.html).\n- **Adenosis:**\n  - Presence of basal cells, smaller/more crowded glands [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenosis.html).\n- **Atrophy:**\n  - Less cellular atypia, sometimes misdiagnosed as adenocarcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateatrophic.html).\n- **Seminal Vesicle:**\n  - Differentiated by location and architecture.\n- **Cowper Gland:**\n  - Distinct histological features and location separate it from prostate adenocarcinoma.\n- **Prostatic Cystadenoma:**\n  - Multiloculated cystic mass with bland epithelial lining (WHO).\n- **Adenoid Cystic (Basal Cell) Carcinoma of the Prostate:**\n  - Basal cell morphology and malignant features (WHO).\n- **High-grade Prostatic Intraepithelial Neoplasia (HGPIN):**\n  - Crowded atypical secretory cells in glands [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateHGPIN.html).\n- **Nephrogenic Adenoma:**\n  - Tubules lined by hobnail cells, mimicking adenocarcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatenephrogenichyper.html).",
   "cards": [
     {
       "title": "Prostatic cystadenoma",
@@ -186,31 +186,6 @@
       "_result_key": "who_results"
     },
     {
-      "title": "Skene gland adenocarcinoma of the urethra",
-      "source_name": "WHO Classification of Tumours",
-      "source": "who",
-      "source_family": "WHO",
-      "volume_code": "GU",
-      "entity_name": "Skene gland adenocarcinoma of the urethra",
-      "section": "core",
-      "source_url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Skene_Gland_Adenocarcinoma_Of_The_Urethra.html",
-      "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Skene_Gland_Adenocarcinoma_Of_The_Urethra.html",
-      "excerpt": "Entity: Skene gland adenocarcinoma of the urethra definition: Skene gland adenocarcinoma is a malignant tumour arising in female urethral accessory glands. related_terminology: Acceptable: urethral accessory gland adenocarcinoma. essential_and_desirable_diagnostic_criteria: Essential: a tumour with acinar to cribriform architecture and usually columnar epithelium; tumour morphology almost identical to that of prostatic acinar adenocarcinoma. Desirable: a positive reaction with prostatic immunohistochemical markers (e.g. PSA, NKX3-1).",
-      "score": -24.894014261988715,
-      "record_id": "whochunk:gu:skene_gland_adenocarcinoma_of_the_urethra:core:001",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Skene_Gland_Adenocarcinoma_Of_The_Urethra.html",
-          "source_family": "who"
-        }
-      ],
-      "retrieval_mode": "who_upstream_title_boost_v0_2",
-      "rank": 5,
-      "_result_key": "who_results"
-    },
-    {
       "title": "Prostatic stromal sarcoma",
       "source_name": "WHO Classification of Tumours",
       "source": "who",
@@ -234,39 +209,6 @@
       "retrieval_mode": "who_upstream_title_boost_v0_2",
       "rank": 3,
       "_result_key": "who_results"
-    },
-    {
-      "rank": 1,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostateprostaticduct",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostateprostaticduct.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostateprostaticduct.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Prostate::Glandular_neoplasms::Prostatic_Ductal_Adenocarcinoma",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Ductal adenocarcinoma Header: Pathology Outlines - Ductal adenocarcinoma URL: https://www.pathologyoutlines.com/topic/prostateprostaticduct.html Primary tag: GU::Prostate::Glandular_neoplasms::Prostatic_Ductal_Adenocarcinoma Top headings: Essential features | Terminology | ICD coding | ICD-10: C61 - malignant neoplasm of prostate | Epidemiology | Sites | Clinical features | Diagnosis | PSA can be highly variable | Radiology description | Radiology imagesImages hosted on other servers | Case reports | Treatment | Gross description | Microscopic (histologic) description | Arises in primary periurethral ducts or in peripheral prostatic ducts | Pseudostratification and papillae | Pseudostratification and fibrovascular core | Prostatic ductal adenocarcinoma | Positive stains ## Essential features Frequently mixed with acinar adenocarcinoma Similar mortality rate to Gleason score 8 - 10 acinar adenocarcinoma for usual ductal adenocarcinoma ## Terminology Prostatic ductal adenocarcinoma, ductal carcinoma ## ICD coding ICD-O: 8500/3 - ductal adenocarcinoma ## ICD-10: C61 - malignant neoplasm of prostate ICD-11: 2...",
-      "text": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Ductal adenocarcinoma Header: Pathology Outlines - Ductal adenocarcinoma URL: https://www.pathologyoutlines.com/topic/prostateprostaticduct.html Primary tag: GU::Prostate::Glandular_neoplasms::Prostatic_Ductal_Adenocarcinoma Top headings: Essential features | Terminology | ICD coding | ICD-10: C61 - malignant neoplasm of prostate | Epidemiology | Sites | Clinical features | Diagnosis | PSA can be highly variable | Radiology description | Radiology imagesImages hosted on other servers | Case reports | Treatment | Gross description | Microscopic (histologic) description | Arises in primary periurethral ducts or in peripheral prostatic ducts | Pseudostratification and papillae | Pseudostratification and fibrovascular core | Prostatic ductal adenocarcinoma | Positive stains ## Essential features Frequently mixed with acinar adenocarcinoma Similar mortality rate to Gleason score 8 - 10 acinar adenocarcinoma for usual ductal adenocarcinoma ## Terminology Prostatic ductal adenocarcinoma, ductal carcinoma ## ICD coding ICD-O: 8500/3 - ductal adenocarcinoma ## ICD-10: C61 - malignant neoplasm of prostate ICD-11: 2...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 1,
-      "vector_score": 0.6983917951583862,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostateprostaticduct.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
     },
     {
       "rank": 2,
@@ -302,72 +244,6 @@
       "_result_key": "pathout_results"
     },
     {
-      "rank": 3,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostatemucinous",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostatemucinous.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostatemucinous.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Prostate::Glandular_neoplasms::Mucinous_Adenocarcinoma",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "... a similar fashion as nonmucinous In one study, mean age was 61.4 years, mean preoperative serum prostate specific antigen (PSA) was 7.8 ng/mL and clinical stage category was cT1 in 81% and cT2 in 19% of cases (Urology 2017;71:641) ## Diagnosis There are no specific clinical or radiologic features in most cases Mucinous adenocarcinoma of the prostate should be used only for radical prostatectomy; prostatic adenocarcinoma with mucinous features should be used for these findings on biopsy or transurethral resection ## Laboratory Serum PSA reportedly ranges from 2.7 to 37.5 ng/dL (Am J Surg Pathol 2001;25:618) ## Radiology description MRI findings of mucinous adenocarcinoma were very different from the appearance of nonmucinous adenocarcinoma, with mucinous tumors being isointense to the normal prostate versus hypointense for nonmucinous and having little or no decrease in the apparent diffusion coefficient (ADC) (Abdom Radiol 2019;44:1261) In one case, 68Ga PSMA positron emission tomography (PET) revealed an intensely avid primary lesion in the right prostate (standardized uptake value [SUV] max 10.9), concordant with biopsy findings and encompassing both the Prostate Imaging Reporti...",
-      "text": "... a similar fashion as nonmucinous In one study, mean age was 61.4 years, mean preoperative serum prostate specific antigen (PSA) was 7.8 ng/mL and clinical stage category was cT1 in 81% and cT2 in 19% of cases (Urology 2017;71:641) ## Diagnosis There are no specific clinical or radiologic features in most cases Mucinous adenocarcinoma of the prostate should be used only for radical prostatectomy; prostatic adenocarcinoma with mucinous features should be used for these findings on biopsy or transurethral resection ## Laboratory Serum PSA reportedly ranges from 2.7 to 37.5 ng/dL (Am J Surg Pathol 2001;25:618) ## Radiology description MRI findings of mucinous adenocarcinoma were very different from the appearance of nonmucinous adenocarcinoma, with mucinous tumors being isointense to the normal prostate versus hypointense for nonmucinous and having little or no decrease in the apparent diffusion coefficient (ADC) (Abdom Radiol 2019;44:1261) In one case, 68Ga PSMA positron emission tomography (PET) revealed an intensely avid primary lesion in the right prostate (standardized uptake value [SUV] max 10.9), concordant with biopsy findings and encompassing both the Prostate Imaging Reporti...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 3,
-      "vector_score": 0.6551743745803833,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostatemucinous.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
-      "rank": 4,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostateadenoidbasal",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostateadenoidbasal.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostateadenoidbasal.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Prostate::Basal_Cell_Neoplasms::Basal_Cell_Carcinoma",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "...ve comedonecrosis | Mitotic activity may be present and can vary | Nests of basaloid cells ## Rare, malignant neoplasm that is thought to be derived from basal cells of the prostate Essential features Tumors present with varying proportions of adenoid cystic / cribriform and basaloid patterns ## Serum prostate specific antigen (PSA) levels are typically within the normal range Perineural and extraprostatic invasions are frequent and metastatic disease can occur ## ICD-O: 8147/3 - adenoid cystic (basal cell) carcinoma ICD-11: 2C82.Y & XH4ZC3 - other specified malignant neoplasms of prostate & basal cell carcinoma of the prostate ## Epidemiology Wide age range (42 - 89 years) (Am J Surg Pathol 2003;27:1523, Am J Surg Pathol 2007;31:697) ## Pathophysiology Considered to arise from basal cells along prostatic ducts and acini Subset of cases is associated with MYB::NFIB fusion (Hum Pathol 2015;46:1204, Mod Pathol 2019;32:1666) ## Clinical features Nonspecific symptoms of urinary tract obstruction, hematuria, nocturia, pollakiuria or pelvic pain (Curr Oncol 2022;29:1866) ## Diagnosis Microscopic evaluation, most commonly of transurethral resection of the prostate ## Laboratory Normal ser...",
-      "text": "...ve comedonecrosis | Mitotic activity may be present and can vary | Nests of basaloid cells ## Rare, malignant neoplasm that is thought to be derived from basal cells of the prostate Essential features Tumors present with varying proportions of adenoid cystic / cribriform and basaloid patterns ## Serum prostate specific antigen (PSA) levels are typically within the normal range Perineural and extraprostatic invasions are frequent and metastatic disease can occur ## ICD-O: 8147/3 - adenoid cystic (basal cell) carcinoma ICD-11: 2C82.Y & XH4ZC3 - other specified malignant neoplasms of prostate & basal cell carcinoma of the prostate ## Epidemiology Wide age range (42 - 89 years) (Am J Surg Pathol 2003;27:1523, Am J Surg Pathol 2007;31:697) ## Pathophysiology Considered to arise from basal cells along prostatic ducts and acini Subset of cases is associated with MYB::NFIB fusion (Hum Pathol 2015;46:1204, Mod Pathol 2019;32:1666) ## Clinical features Nonspecific symptoms of urinary tract obstruction, hematuria, nocturia, pollakiuria or pelvic pain (Curr Oncol 2022;29:1866) ## Diagnosis Microscopic evaluation, most commonly of transurethral resection of the prostate ## Laboratory Normal ser...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 4,
-      "vector_score": 0.6455090641975403,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostateadenoidbasal.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
       "rank": 5,
       "title": "Pathology Outlines",
       "source": "pathout",
@@ -395,39 +271,6 @@
           "kind": "source_url",
           "label": "Source URL",
           "url": "https://www.pathologyoutlines.com/topic/prostatenephrogenichyper.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
-      "rank": 6,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostatepinlikeadeno",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostatepinlikeadeno.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostatepinlikeadeno.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Kidney::Renal_cell::Thyroid_Like_Follicular_Carcinoma_of_the_Kidney",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "...eason pattern 3; in pure form: Gleason score 3+3 = 6/10 (grade group 1) PIN-like adenocarcinoma is a subtype of acinar adenocarcinoma, according to WHO 2022, although there appears be a relationship with ductal adenocarcinomas as well ## ICD coding ICD-O: 8140/3 - acinar adenocarcinoma ICD-11: 2C82.0 & XH4PB1 - adenocarcinoma of prostate & acinar adenocarcinoma of prostate ## Epidemiology 1.2% of prostatic adenocarcinomas in needle biopsy tissue (Mod Pathol 2006;19:899) Mean age: 70 years (range: 45 - 91) (Am J Surg Pathol 2018;42:1693) ## Sites Prostate Rare cases of PIN-like adenocarcinoma involving periprostatic fat, via direct extension, in radical prostatectomy tissues (Am J Surg Pathol 2018;42:1693) ## Unknown Clinical features Abnormal digital rectal examination: nodule palpated in 3 of 8 cases (38%) (Mod Pathol 2006;19:899) ## Diagnosis Needle biopsy: tissue diagnosis established in prostate needle biopsy tissue procured via ultrasound guidance, with or without multiparametric MRI image fusion (targeted biopsies) (Mod Pathol 2006;19:899) Transurethral resection of prostate (TURP): tissue diagnosis can be made as an incidental finding in prostatic chip tissue from TURP, typi...",
-      "text": "...eason pattern 3; in pure form: Gleason score 3+3 = 6/10 (grade group 1) PIN-like adenocarcinoma is a subtype of acinar adenocarcinoma, according to WHO 2022, although there appears be a relationship with ductal adenocarcinomas as well ## ICD coding ICD-O: 8140/3 - acinar adenocarcinoma ICD-11: 2C82.0 & XH4PB1 - adenocarcinoma of prostate & acinar adenocarcinoma of prostate ## Epidemiology 1.2% of prostatic adenocarcinomas in needle biopsy tissue (Mod Pathol 2006;19:899) Mean age: 70 years (range: 45 - 91) (Am J Surg Pathol 2018;42:1693) ## Sites Prostate Rare cases of PIN-like adenocarcinoma involving periprostatic fat, via direct extension, in radical prostatectomy tissues (Am J Surg Pathol 2018;42:1693) ## Unknown Clinical features Abnormal digital rectal examination: nodule palpated in 3 of 8 cases (38%) (Mod Pathol 2006;19:899) ## Diagnosis Needle biopsy: tissue diagnosis established in prostate needle biopsy tissue procured via ultrasound guidance, with or without multiparametric MRI image fusion (targeted biopsies) (Mod Pathol 2006;19:899) Transurethral resection of prostate (TURP): tissue diagnosis can be made as an incidental finding in prostatic chip tissue from TURP, typi...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 6,
-      "vector_score": 0.6425792574882507,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostatepinlikeadeno.html",
           "source_family": "pathout"
         }
       ],
@@ -533,72 +376,6 @@
       "_result_key": "pathout_results"
     },
     {
-      "rank": 10,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::bladderprostatepolyp",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/bladderprostatepolyp.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/bladderprostatepolyp.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Prostate::Benign::Prostatic_Type_Polyp_Ectopic",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Prostatic type polyp Header: Pathology Outlines - Prostatic type polyp URL: https://www.pathologyoutlines.com/topic/bladderprostatepolyp.html Primary tag: GU::Prostate::Benign::Prostatic_Type_Polyp_Ectopic Top headings: Uncommon, nonneoplastic urothelial tract polyp comprised of prostatic glands and stroma | Immunoreactive for prostate specific antigen (PSA) and prostatic acid phosphatase (PAP) | Benign prostatic epithelial polyp | Papillary adenoma with prostatic type epithelium (historically used) | Epidemiology | Most common in prostatic urethra, often in and around verumontanum | Etiology | Clinical features | Radiology description | Homogeneous isoechogenicity, similar to the bladder wall | Prognostic factors | Case reports | Treatment | Clinical imagesImages hosted on other servers | Spherical mass on cystoscopy Gross description | Microscopic (histologic) description | Prostatic acini vary in number and may contain corpora amylacea | Interspersed urothelium may be associated with cystitis cystica and cystitis glandularis | Polypoid | Corpora amylacea ## Uncommon, nonneoplastic urothelial tract poly...",
-      "text": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Prostatic type polyp Header: Pathology Outlines - Prostatic type polyp URL: https://www.pathologyoutlines.com/topic/bladderprostatepolyp.html Primary tag: GU::Prostate::Benign::Prostatic_Type_Polyp_Ectopic Top headings: Uncommon, nonneoplastic urothelial tract polyp comprised of prostatic glands and stroma | Immunoreactive for prostate specific antigen (PSA) and prostatic acid phosphatase (PAP) | Benign prostatic epithelial polyp | Papillary adenoma with prostatic type epithelium (historically used) | Epidemiology | Most common in prostatic urethra, often in and around verumontanum | Etiology | Clinical features | Radiology description | Homogeneous isoechogenicity, similar to the bladder wall | Prognostic factors | Case reports | Treatment | Clinical imagesImages hosted on other servers | Spherical mass on cystoscopy Gross description | Microscopic (histologic) description | Prostatic acini vary in number and may contain corpora amylacea | Interspersed urothelium may be associated with cystitis cystica and cystitis glandularis | Polypoid | Corpora amylacea ## Uncommon, nonneoplastic urothelial tract poly...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 10,
-      "vector_score": 0.6302684545516968,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/bladderprostatepolyp.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
-      "rank": 3,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostatehistology",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostatehistology.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostatehistology.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Bladder::Histology_",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "...pecific antigen is the most useful marker of secretory cells and 34 beta E12 / high molecular weight keratin is the most useful marker of basal cells ## Anatomy Apex contains some skeletal fibers from urogenital diaphragm ## Seminal vesicles extend from posterior prostate to posterior surface of bladder Ampulla of vas (ductus) deferens and terminal seminal vesicle duct form ejaculatory duct, join prostatic utricle to open into prostatic urethra Denonvillier's fascia (also called rectovesical septum or rectoprostatic fascia): thin layer of connective tissue that separates prostate and seminal vesicles from rectum Prostatic urethra begins on superior surface, descends almost vertically, with continuous prostatic utricle extending to posterior prostatic wall, exits anteriorly Divided into halves by sharp 35° angle midway, at site of verumontanum (bulge along posterior proximal urethra, site of emptying of ejaculatory, central and transition zone ducts) ## Peripheral zone ducts empty into distal urethra Prostatic nervous plexus supplies prostate, seminal vesicles, corpus spongiosum, corpora cavernosum and urethra Nerves are distributed evenly in apex, mid gland and base of prostate (Am...",
-      "text": "...pecific antigen is the most useful marker of secretory cells and 34 beta E12 / high molecular weight keratin is the most useful marker of basal cells ## Anatomy Apex contains some skeletal fibers from urogenital diaphragm ## Seminal vesicles extend from posterior prostate to posterior surface of bladder Ampulla of vas (ductus) deferens and terminal seminal vesicle duct form ejaculatory duct, join prostatic utricle to open into prostatic urethra Denonvillier's fascia (also called rectovesical septum or rectoprostatic fascia): thin layer of connective tissue that separates prostate and seminal vesicles from rectum Prostatic urethra begins on superior surface, descends almost vertically, with continuous prostatic utricle extending to posterior prostatic wall, exits anteriorly Divided into halves by sharp 35° angle midway, at site of verumontanum (bulge along posterior proximal urethra, site of emptying of ejaculatory, central and transition zone ducts) ## Peripheral zone ducts empty into distal urethra Prostatic nervous plexus supplies prostate, seminal vesicles, corpus spongiosum, corpora cavernosum and urethra Nerves are distributed evenly in apex, mid gland and base of prostate (Am...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 3,
-      "vector_score": 0.6869710087776184,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostatehistology.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
       "rank": 4,
       "title": "Pathology Outlines",
       "source": "pathout",
@@ -665,39 +442,6 @@
       "_result_key": "pathout_results"
     },
     {
-      "rank": 10,
-      "title": "Pathology Outlines",
-      "source": "pathout",
-      "source_name": "Pathology Outlines",
-      "source_type": "pathout_ap_diagnostic_vector",
-      "source_id": "pathout::genitourinary::prostatesclerosingadenosis",
-      "record_id": null,
-      "document_id": null,
-      "chunk_id": null,
-      "url": "https://www.pathologyoutlines.com/topic/prostatesclerosingadenosis.html",
-      "source_url": "https://www.pathologyoutlines.com/topic/prostatesclerosingadenosis.html",
-      "section": null,
-      "topic": null,
-      "site": null,
-      "primary_tag": "GU::Prostate::Benign::Sclerosing_Adenosis",
-      "tag_status": "chatgpt_assigned",
-      "excerpt": "...ulated proliferation of glandular tissue | Fibroepithelial nodule (not recommended) | Epidemiology | Sites | Pathophysiology | Diagnosis | No known association with prostate malignancy | Microscopic (histologic) description | No nuclear pleomorphism | Basal cells surrounding the acini may be focally prominent and hyperplastic | Smooth muscle actin | S100, p63 in basal cells | Androgen receptor in acinar luminal cells | Electron microscopy description | No double layer of basal cells | Absence of the cellular / myxoid stroma that is characteristic of sclerosing adenosis | Adenosis (atypical adenomatous hyperplasia) | Size of the glandular structures | S100 and calponin ## Essential features Uncommon incidental benign finding in the transition zone of the prostate ## Well demarcated unencapsulated proliferation of glandular tissue Mixture of variably sized glands and hypercellular spindle cellular stroma with myxoid component ## Fibroepithelial nodule (not recommended) ICD coding ICD-10: N40.2 - nodular prostate without lower urinary tract symptoms ## Epidemiology Incidental finding in transurethral resections for urinary outflow obstruction or in (cysto)prostatectomy specimens of pa...",
-      "text": "...ulated proliferation of glandular tissue | Fibroepithelial nodule (not recommended) | Epidemiology | Sites | Pathophysiology | Diagnosis | No known association with prostate malignancy | Microscopic (histologic) description | No nuclear pleomorphism | Basal cells surrounding the acini may be focally prominent and hyperplastic | Smooth muscle actin | S100, p63 in basal cells | Androgen receptor in acinar luminal cells | Electron microscopy description | No double layer of basal cells | Absence of the cellular / myxoid stroma that is characteristic of sclerosing adenosis | Adenosis (atypical adenomatous hyperplasia) | Size of the glandular structures | S100 and calponin ## Essential features Uncommon incidental benign finding in the transition zone of the prostate ## Well demarcated unencapsulated proliferation of glandular tissue Mixture of variably sized glands and hypercellular spindle cellular stroma with myxoid component ## Fibroepithelial nodule (not recommended) ICD coding ICD-10: N40.2 - nodular prostate without lower urinary tract symptoms ## Epidemiology Incidental finding in transurethral resections for urinary outflow obstruction or in (cysto)prostatectomy specimens of pa...",
-      "retrieval_mode": "pathout_ap_diagnostic_vector",
-      "vector_rank": 10,
-      "vector_score": 0.6660888195037842,
-      "api_exposed_source": "local_pathout_ap_vector_v048",
-      "reference_links": [
-        {
-          "kind": "source_url",
-          "label": "Source URL",
-          "url": "https://www.pathologyoutlines.com/topic/prostatesclerosingadenosis.html",
-          "source_family": "pathout"
-        }
-      ],
-      "_result_key": "pathout_results"
-    },
-    {
       "rank": 3,
       "title": "Pathology Outlines",
       "source": "pathout",
@@ -718,7 +462,7 @@
       "text": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - High grade prostatic intraepithelial neoplasia (HGPIN) Header: Pathology Outlines - High grade prostatic intraepithelial neoplasia (HGPIN) URL: https://www.pathologyoutlines.com/topic/prostateHGPIN.html Primary tag: GU::Prostate::Glandular_neoplasms::High_Grade_Prostatic_Intraepithelial_Neoplasia Top headings: Putative precursor of prostatic adenocarcinoma | Formerly known as severe dysplasia, PIN 2 / PIN 3 and carcinoma in situ | ICD coding | Epidemiology | Clinical features | Diagnosis | Prognostic factors | Case reports | Repeat biopsy if PSA remains elevated | Focal (HGPIN in 1 site): follow-up as following benign biopsy | Microscopic (histologic) description | Common architectural patterns | Tufted: stratified epithelium with small luminal protrusions | Cribriform: epithelial proliferation with punched out spaces | CK5/6 | Acinar cells: P504S / AMACR | Negative stains | Molecular / cytogenetics description | Less common in HGPIN not associated with invasive adenocarcinoma | Other genetic features of HGPIN ## Putative precursor of prostatic adenocarcinoma Essential features Nucleoli visible at 200x ma...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 3,
-      "vector_score": 0.637963056564331,
+      "vector_score": 0.6379690766334534,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -751,7 +495,7 @@
       "text": "Source: Pathology Outlines Subject: genitourinary Title: Pathology Outlines - Pseudohyperplastic adenocarcinoma Header: Pathology Outlines - Pseudohyperplastic adenocarcinoma URL: https://www.pathologyoutlines.com/topic/prostatepseudoCA.html Primary tag: GU::Prostate::Glandular_neoplasms::Pseudohyperplastic_Prostatic_Adenocarcinoma Top headings: Essential features | ICD coding | Epidemiology | Sites | Pathophysiology | Etiology | Diagnosis | Prognostic factors | TNM stage | Higher stages indicate more advanced disease and generally a poorer prognosis | PSA is a protein produced by prostate cells | Generally, higher PSA levels suggest a poorer prognosis | Perineural invasion | Extracapsular extension | Seminal vesicle invasion | Case reports | Treatment | Microscopic (histologic) description | P504S expression | Negative stains ## Essential features Characterized by complex, medium to large sized glands with luminal undulations, branching, papillary infoldings and cystic dilatations (Am J Surg Pathol 1998;22:1239, Pathol Oncol Res 2003;9:232) Malignant cells are often columnar with pale to slightly granular cytoplasm, basally located nuclei, with nuclear enlargement and macronucleol...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 8,
-      "vector_score": 0.6149792671203613,
+      "vector_score": 0.6149184107780457,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -784,7 +528,7 @@
       "text": "...ar proliferation is never an indication for definitive therapy | Frequency of ASAP as worst diagnosis | Cancer rate on repeat biopsy | Hum Pathol 2018;79:116 | Urology 2017;110:161 | World J Urol 2017;35:1009 | Prostate 2015;75:673 | Microscopic (histologic) description | Quantitative ASAP | Upper left atypical acini and triple stain | ASAP + HGPIN and triple stain ## Essential features 2 - 5% of prostatic needle biopsy sets in numerous series that have been studied contain a final diagnosis wherein the worst finding in any specimen part is atypical small acinar proliferation suspicious for carcinoma Diagnosis represents pathologists’ inability to reach a definitive benign or cancer diagnosis, usually after performing immunostains; immunostains may be omitted if the grade of the suspicious focus is less than the highest grade of definite cancer (which is at least 3 + 4 =7) in the biopsy set; however, the immunostain is worth performing if one site has any grade of cancer and the stain might confirm the same grade cancer in other sites (Am J Surg Pathol 2014;38:e6) 34 - 60% predictive value for detection of cancer on repeat biopsy When cancer is detected on repeat biopsy, about 80% ...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 9,
-      "vector_score": 0.613914966583252,
+      "vector_score": 0.6139035820960999,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -817,7 +561,7 @@
       "text": "...aboratory | Prognostic factors | Thus, most but not all cases seem to have favorable pathology | Case reports | Microscopic (histologic) description | Distinctive, atrophic-like morphology was noted | Atrophic, mucinous cancer | Positive stains | AMACR (P504S) is the most useful | Negative stains | Molecular / cytogenetics description | Tumors frequently express GSTP1 (14/19; higher than usual) | Prostatic adenocarcinoma, Gleason 3 + 4 (grade group 2) (see comment) | Differential diagnosis | Atypical basal cell proliferations (adenoma, carcinoma) ## Essential features p63 protein is normally present in basal cells of benign acini but is absent in usual type acinar or ductal cancers However, starting in 2008, a rare subset of cancers with diffuse p63 positivity has been described ## Atrophic and basaloid phenotype has been noted on H&E slides Immunostains for cytokeratin 34 beta E12 (negative) and AMACR / P504s (positive) can help resolve problematic foci ## ICD-O: 8140/3 - acinar adenocarcinoma ICD-10: C61 - malignant neoplasm of prostate ICD-11: 2C82.0 & XH4PB1 - adenocarcinoma of prostate & acinar adenocarcinoma of prostate ## Epidemiology Demographically identical to prostatic a...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 10,
-      "vector_score": 0.6134044528007507,
+      "vector_score": 0.6133748292922974,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -1870,30 +1614,30 @@
     "critic_raw": null,
     "critic_json": {
       "verdict": "revise",
-      "missing_essentials": [],
+      "missing_essentials": [
+        "Glomerulations as a pathognomonic feature",
+        "Collagenous micronodules (mucinous fibroplasia)"
+      ],
       "redundant": [],
       "confusing": [],
-      "entity_conflation": [
-        "Adenoid cystic (basal cell) carcinoma wrongly listed as differential for acinar adenocarcinoma.",
-        "Adenosquamous carcinoma wrongly listed as differential for acinar adenocarcinoma.",
-        "Squamous cell carcinoma wrongly listed as differential for acinar adenocarcinoma."
-      ],
+      "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
         "Prostatic cystadenoma",
-        "Prostatic stromal sarcoma",
-        "Skene gland adenocarcinoma of the urethra"
+        "Adenoid cystic (basal cell) carcinoma of the prostate",
+        "High-grade prostatic intraepithelial neoplasia",
+        "Nephrogenic adenoma"
       ],
       "figure_issues": [],
-      "notes_for_revision": "The differential diagnosis section contains entity conflation errors by listing non-acinar adenocarcinomas such as adenoid cystic, adenosquamous, and squamous cell carcinoma as differentials. Prostatic cystadenoma, stromal sarcoma, and Skene gland adenocarcinoma should be added to differential diagnosis."
+      "notes_for_revision": "Include glomerulations and collagenous micronodules as essential diagnostic features. Add 'Prostatic cystadenoma', 'Adenoid cystic (basal cell) carcinoma of the prostate', 'High-grade prostatic intraepithelial neoplasia', and 'Nephrogenic adenoma' to the Differential Diagnosis section."
     },
     "revision_applied": true
   },
   "retrieval_debug_summary": {
-    "cards_capped": 51,
+    "cards_capped": 43,
     "cards_cap_limit": 120,
     "cards_raw": 58,
-    "cards_deduped": 51,
+    "cards_deduped": 43,
     "query_variants": [
       "Prostatic Acinar Adenocarcinoma GU   Prostate",
       "Prostatic Acinar Adenocarcinoma GU   Prostate histology microscopic morphology",
@@ -1910,7 +1654,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "gu",
-    "elapsed_s": 45.2
+    "elapsed_s": 40.1
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",
