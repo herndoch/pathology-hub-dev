@@ -303,9 +303,56 @@ def staged_retrieve(
         return list(executor.map(_search_one, sources))
 
 
+def page_tag_segments(page_tag: Optional[str]) -> dict[str, Any]:
+    """Parse browse leaf tag into root/subcategory/leaf metadata."""
+    if not isinstance(page_tag, str) or not page_tag.strip():
+        return {}
+    parts = [p.strip() for p in page_tag.split("::") if p.strip()]
+    if not parts:
+        return {}
+    return {
+        "root": normalize_root_token(parts[0]),
+        "subcategory": parts[1] if len(parts) > 1 else "",
+        "leaf": parts[-1],
+        "path_lower": page_tag.casefold(),
+        "is_benign": any("benign" in p.casefold() for p in parts),
+    }
+
+
+def topic_page_disambiguated_query(
+    entity_name: str,
+    category_context: Optional[str] = None,
+    page_tag: Optional[str] = None,
+) -> str:
+    """Build a retrieval query anchored to the browse leaf, not the bare label.
+
+    Ambiguous names like 'Pleomorphic Adenoma' exist in breast, salivary, skin,
+    etc. When `page_tag` / `category_context` are present, append organ/site
+    tokens so semantic search prefers the intended entity.
+    """
+    base = (entity_name or "").strip()
+    if not base:
+        return base
+
+    parts: list[str] = [base]
+    context = (category_context or "").strip()
+    if context:
+        parts.append(context.replace(">", " ").replace("_", " "))
+    seg = page_tag_segments(page_tag)
+    if seg.get("subcategory"):
+        sub = seg["subcategory"].replace("_", " ")
+        joined = " ".join(parts).casefold()
+        if sub.casefold() not in joined:
+            parts.append(sub)
+    if seg.get("root") == "hn" and "salivary" not in " ".join(parts).casefold():
+        parts.append("salivary gland parotid")
+    return " ".join(parts)
+
+
 def topic_page_query_variants(
     entity_name: str,
     category_context: Optional[str] = None,
+    page_tag: Optional[str] = None,
 ) -> list[str]:
     """Derive up to 4 parallel query variants from a leaf entity label.
 
@@ -313,16 +360,9 @@ def topic_page_query_variants(
     then aspect-specific suffixes for histology, ancillary/IHC, and DDx.
     Optional browse category context enriches short entity names.
     """
-    base = (entity_name or "").strip()
-    if not base:
-        return [base]
-
-    enriched = base
-    context = (category_context or "").strip()
-    # Only enrich abbreviated/short entity labels — skip when the name is
-    # already descriptive (e.g. "ovarian high-grade serous carcinoma").
-    if context and len(base.split()) <= 3:
-        enriched = f"{base} {context}"
+    enriched = topic_page_disambiguated_query(entity_name, category_context, page_tag)
+    if not enriched:
+        return [enriched]
 
     variants: list[str] = []
     seen: set[str] = set()
@@ -705,6 +745,92 @@ def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
     return normalize_root_token(tag.split("::", 1)[0])
 
 
+_ROOT_CONFLICT_TERMS: dict[str, frozenset[str]] = {
+    "hn": frozenset({"breast", "mammary", "cyto_breast", "lacrimal", "conjunctival"}),
+    "breast": frozenset({"salivary", "parotid", "submandibular", "sublingual"}),
+    "gu": frozenset({"breast", "mammary", "salivary", "parotid"}),
+    "skin": frozenset({"uveal", "conjunctival", "lacrimal"}),
+}
+
+_BENIGN_EXCLUDE_TERMS = (
+    "carcinosarcoma",
+    "carcinoma ex pleomorphic",
+    "carcinoma ex mixed",
+    "adenocarcinoma",
+    "malignant transformation",
+)
+
+
+def _text_blob(*values: Any) -> str:
+    return " ".join(str(v) for v in values if v).casefold()
+
+
+def filter_cards_by_page_tag(cards: list[dict], page_tag: Optional[str]) -> list[dict]:
+    """Stricter than root-only filter: drop cross-organ tagged cards and text."""
+    seg = page_tag_segments(page_tag)
+    if not seg:
+        return cards
+    target_root = seg["root"]
+    conflicts = _ROOT_CONFLICT_TERMS.get(target_root, frozenset())
+    organ_hints = {
+        "hn": ("salivary", "parotid", "submandibular", "sublingual", "minor salivary"),
+        "breast": ("breast", "mammary", "nipple"),
+        "gu": ("prostate", "kidney", "renal", "bladder", "testis"),
+        "skin": ("skin", "cutaneous", "dermal"),
+    }.get(target_root, ())
+
+    kept: list[dict] = []
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        primary_tag = card.get("primary_tag")
+        if isinstance(primary_tag, str) and "::" in primary_tag:
+            pt_root = normalize_root_token(primary_tag.split("::", 1)[0])
+            if pt_root and pt_root != target_root:
+                continue
+
+        blob = _text_blob(
+            card.get("title"),
+            card.get("heading"),
+            card.get("text_excerpt"),
+            card.get("excerpt"),
+            card.get("entity_name"),
+        )
+        if conflicts and any(term in blob for term in conflicts):
+            if not any(hint in blob for hint in organ_hints):
+                continue
+        if seg.get("is_benign") and any(term in blob for term in _BENIGN_EXCLUDE_TERMS):
+            continue
+        kept.append(card)
+    return kept
+
+
+def filter_figures_by_entity_match(
+    figures: list[dict],
+    page_tag: Optional[str],
+) -> list[dict]:
+    """Keep figures whose WHO entity/title matches the browse leaf diagnosis."""
+    seg = page_tag_segments(page_tag)
+    if not seg:
+        return figures
+    leaf = seg["leaf"].replace("_", " ").casefold()
+    leaf_words = [w for w in re.split(r"[_\s]+", leaf) if len(w) > 3]
+    kept: list[dict] = []
+    for fig in figures:
+        if not isinstance(fig, dict):
+            continue
+        blob = _text_blob(fig.get("entity_name"), fig.get("title"), fig.get("caption"))
+        if seg.get("is_benign") and any(term in blob for term in _BENIGN_EXCLUDE_TERMS):
+            continue
+        if leaf in blob:
+            kept.append(fig)
+            continue
+        if leaf_words and all(word in blob for word in leaf_words):
+            kept.append(fig)
+            continue
+    return kept
+
+
 def filter_cards_by_page_root(cards: list[dict], page_root: Optional[str]) -> list[dict]:
     """Post-retrieval root filter (B8): keep WHO/journals; narrow textbooks/pathout/videos."""
     if not page_root:
@@ -747,5 +873,7 @@ def filter_figures_by_page_root(figures: list[dict], page_root: Optional[str]) -
             if normalize_root_token(sid.split("_", 1)[0]) == target:
                 kept.append(fig)
             continue
-        kept.append(fig)
+        # Untagged figures are only kept for WHO (entity match handled separately).
+        if str(fig.get("source") or "") == "who":
+            kept.append(fig)
     return kept

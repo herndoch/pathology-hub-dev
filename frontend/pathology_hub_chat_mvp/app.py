@@ -48,7 +48,7 @@ from pydantic import BaseModel, Field
 
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
+from openai_synthesizer import SynthesisResult, get_model, get_topic_page_model, ping as openai_ping, synthesize
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -65,6 +65,8 @@ from pathology_backend import (
     dedupe_figures,
     diversify_by_source_id,
     filter_cards_by_page_root,
+    filter_cards_by_page_tag,
+    filter_figures_by_entity_match,
     filter_figures_by_page_root,
     extract_evidence_cards,
     extract_figures,
@@ -72,6 +74,7 @@ from pathology_backend import (
     page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
+    topic_page_disambiguated_query,
     topic_page_query_variants,
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
@@ -242,7 +245,9 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
     merged/deduped/diversified, then capped before synthesis."""
     sources = _validate_sources(req.sources)
-    variants = topic_page_query_variants(req.query, req.category_context)
+    variants = topic_page_query_variants(req.query, req.category_context, req.page_tag)
+    search_query = topic_page_disambiguated_query(req.query, req.category_context, req.page_tag)
+    max_results = max(req.max_results, 10)
 
     def _retrieve_variant(query: str) -> dict:
         start = time.monotonic()
@@ -250,11 +255,11 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
             _backend_client,
             query,
             sources,
-            max_results=req.max_results,
+            max_results=max_results,
             include_figures=req.include_figures,
             max_figures=req.max_figures,
             compact=req.compact,
-            excerpt_char_limit=req.excerpt_char_limit,
+            excerpt_char_limit=max(req.excerpt_char_limit, 1200),
             render_html=False,
         )
         elapsed_ms = (time.monotonic() - start) * 1000
@@ -276,7 +281,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         )
 
     merged = merge_outcomes(all_outcomes)
-    merged["query"] = req.query
+    merged["query"] = search_query or req.query
     _diversify_merged_results(merged)
 
     raw_cards = extract_evidence_cards(merged)
@@ -285,18 +290,20 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     deduped_cards, raw_figures = _apply_figure_quality_filters(deduped_cards, raw_figures)
     who_cross_mentions = _extract_who_cross_mentions(deduped_cards)
 
+    page_root = page_root_from_tag(req.page_tag)
+    cards_before_root = len(deduped_cards)
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        deduped_cards = filter_cards_by_page_root(deduped_cards, page_root)
+    deduped_cards = filter_cards_by_page_tag(deduped_cards, req.page_tag)
+
     capped_cards = cap_cards_diverse(
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
 
-    page_root = page_root_from_tag(req.page_tag)
-    cards_before_root = len(capped_cards)
-    if TOPIC_PAGE_ROOT_NARROW and page_root:
-        capped_cards = filter_cards_by_page_root(capped_cards, page_root)
-
-    figures = raw_figures[:TOPIC_PAGE_MAX_FIGURES]
+    figures = raw_figures[: TOPIC_PAGE_MAX_FIGURES * 2]
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         figures = filter_figures_by_page_root(figures, page_root)
+    figures = filter_figures_by_entity_match(figures, req.page_tag)[:TOPIC_PAGE_MAX_FIGURES]
 
     slim_merged = slim_merged_from_cards(merged, capped_cards)
     slim_merged["figures"] = figures
@@ -324,7 +331,9 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "root_narrow_enabled": TOPIC_PAGE_ROOT_NARROW,
         "page_root": page_root,
         "cards_before_root_filter": cards_before_root,
-        "cards_after_root_filter": len(capped_cards),
+        "cards_after_root_filter": len(deduped_cards),
+        "cards_after_tag_filter": len(deduped_cards),
+        "search_query": search_query,
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
@@ -495,10 +504,24 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
 
 
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
+    extra_parts = []
+    if req.category_context:
+        extra_parts.append(
+            f"Anatomical/browse context (authoritative — stay within this site/organ): {req.category_context}."
+        )
+    if req.page_tag:
+        extra_parts.append(f"Browse leaf tag: {req.page_tag}.")
+    extra_parts.append(
+        "Blend evidence across WHO, PathOutlines, textbooks, journals, and videos when present. "
+        "Do not let a single source dominate if others have substantive material. "
+        "Key Facts must be 3–5 board-style pearls only — never repeat bullets from later sections."
+    )
     return synthesize(
         prompts.topic_page_system_prompt(),
-        req.query,
+        topic_page_disambiguated_query(req.query, req.category_context, req.page_tag) or req.query,
         _evidence_for_synthesis(merged, cards),
+        extra_instructions="\n".join(extra_parts),
+        model=get_topic_page_model(),
     )
 
 
