@@ -82,6 +82,7 @@ from pathology_backend import (
     slim_merged_from_cards,
     staged_retrieve,
     topic_page_disambiguated_query,
+    topic_page_essential_hints,
     topic_page_query_variants,
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
@@ -338,8 +339,11 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         deep_index = load_pathout_deep_index(PATHOUT_DEEP_INDEX_PATH)
         if deep_index:
             before_n = len(deduped_cards)
-            deduped_cards, figures = enrich_cards_with_pathout_deep(deduped_cards, figures, deep_index)
+            deduped_cards, figures = enrich_cards_with_pathout_deep(
+                deduped_cards, figures, deep_index, page_tag=req.page_tag
+            )
             deep_enrich_applied = len(deduped_cards) != before_n
+            figures = filter_figures_by_entity_match(figures, req.page_tag)
 
     capped_cards = cap_cards_diverse(
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
@@ -652,6 +656,9 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
         )
     if req.page_tag:
         extra_parts.append(f"Browse leaf tag: {req.page_tag}.")
+    hint = topic_page_essential_hints(req.page_tag)
+    if hint:
+        extra_parts.append(hint)
     extra_parts.append(
         "Blend evidence across WHO and PathOutlines when both have substantive material. "
         "Do not let a single source dominate. "

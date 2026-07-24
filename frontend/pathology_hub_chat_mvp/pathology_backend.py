@@ -321,6 +321,189 @@ def page_tag_segments(page_tag: Optional[str]) -> dict[str, Any]:
     }
 
 
+def page_tag_leaf_phrase(page_tag: Optional[str]) -> str:
+    seg = page_tag_segments(page_tag)
+    return seg.get("leaf", "").replace("_", " ").strip()
+
+
+# Known wrong-entity captions/entity_names that repeatedly pollute review pages.
+_PAGE_TAG_CONFUSABLE_TERMS: dict[str, frozenset[str]] = {
+    "hn::salivary_gland::malignant_tumor::adenoid_cystic_carcinoma": frozenset(
+        {"cystadenoma", "papillary cystadenoma", "oncocytic cystadenoma", "mucocele", "ranula"}
+    ),
+    "hn::salivary_gland::malignant_tumor::secretory_carcinoma": frozenset(
+        {
+            "mucoepidermoid",
+            "acinic cell",
+            "salivary duct carcinoma",
+            "adenoid cystic",
+            "papillary thyroid",
+            "thyroid carcinoma",
+            "thyroid secretory",
+        }
+    ),
+    "gu::kidney::renal_cell::clear_cell_rcc": frozenset(
+        {
+            "clear cell sarcoma",
+            "collecting duct carcinoma",
+            "pecoma",
+            "epithelioid angiomyolipoma",
+            "rhabdoid tumour of the kidney",
+            "rhabdoid tumor of the kidney",
+            "papillary renal cell",
+            "chromophobe renal cell",
+        }
+    ),
+    "gu::prostate::glandular_neoplasms::prostatic_acinar_adenocarcinoma": frozenset(
+        {"skene", "skene gland", "female urethra", "urethral carcinoma"}
+    ),
+    "bst::soft_tissueadipocytic::lipoma": frozenset(
+        {"myolipoma", "liposarcoma", "atypical lipomatous", "spindle cell lipoma"}
+    ),
+    "gi::colon::neoplastic::adenocarcinoma::colonic_adenocarcinoma_arising_in_adenoma": frozenset(
+        {
+            "adenosquamous",
+            "gastroblastoma",
+            "non-ampullary",
+            "ampullary adenoma",
+            "signet ring cell carcinoma",
+        }
+    ),
+}
+
+_SITE_CONTEXT_EXCLUSIONS: dict[str, frozenset[str]] = {
+    "salivary_gland": frozenset({"thyroid", "thyroidal", "parathyroid", "laryngeal"}),
+    "prostate": frozenset({"skene", "female urethra", "urethra"}),
+}
+
+_PAGE_TAG_ENTITY_ALIASES: dict[str, tuple[str, ...]] = {
+    "gu::kidney::renal_cell::clear_cell_rcc": (
+        "clear cell renal cell carcinoma",
+        "ccrcc",
+        "conventional renal cell carcinoma",
+    ),
+    "gi::colon::neoplastic::adenocarcinoma::colonic_adenocarcinoma_arising_in_adenoma": (
+        "adenoma with invasive carcinoma",
+        "malignant polyp",
+        "polyp with invasive carcinoma",
+        "invasive adenocarcinoma arising in adenoma",
+    ),
+    "breast::neoplastic::epithelial::in_situ::ductal_carcinoma_in_situ_dcis": (
+        "ductal carcinoma in situ",
+        "dcis",
+    ),
+    "heme::mature_b_cell::large_b_cell::diffuse_large_b_cell_lymphoma_nos": (
+        "diffuse large b-cell lymphoma",
+        "diffuse large b cell lymphoma",
+        "dlbcl",
+    ),
+    "skin::neoplastic::melanocytic::malignant::melanoma_invasive_overview_nos": (
+        "invasive melanoma",
+        "malignant melanoma",
+        "melanoma nos",
+    ),
+}
+
+
+def topic_page_essential_hints(page_tag: Optional[str]) -> str:
+    """Per-leaf synthesis hints for definitional essentials ExpertPath/WHO expect."""
+    if not page_tag:
+        return ""
+    key = page_tag.casefold()
+    hints = {
+        "hn::salivary_gland::benign_tumor::pleomorphic_adenoma": (
+            "Essential criteria MUST include biphasic ductal+myoepithelial architecture, "
+            "PLAG1/HMGA2 rearrangements when in evidence (~70%), and capsule/site differences "
+            "(parotid vs minor glands)."
+        ),
+        "hn::salivary_gland::malignant_tumor::adenoid_cystic_carcinoma": (
+            "Essential criteria MUST include biphasic ductal+myoepithelial tumor, cribriform/"
+            "tubular/solid patterns, basophilic basement-membrane matrix, and MYB::NFIB / "
+            "MYBL1::NFIB when in evidence."
+        ),
+        "hn::salivary_gland::malignant_tumor::secretory_carcinoma": (
+            "Essential criteria MUST treat ETV6 rearrangement / ETV6::NTRK3 as DEFINITIONAL "
+            "(not merely Desirable). Include negative p63/p40/DOG1 vs acinic cell when in evidence."
+        ),
+        "gu::prostate::glandular_neoplasms::prostatic_acinar_adenocarcinoma": (
+            "Essential criteria MUST include Gleason pattern / Grade Group reporting framework, "
+            "basal-cell marker loss (p63/HMWCK), and AMACR when in evidence — not just 'invasive glands'."
+        ),
+        "gi::colon::neoplastic::adenocarcinoma::colonic_adenocarcinoma_arising_in_adenoma": (
+            "This is malignant polyp / adenoma with invasive carcinoma — NOT generic colorectal "
+            "adenocarcinoma or adenosquamous carcinoma. Essential criteria MUST include invasion "
+            "through muscularis mucosa (pT1), Haggitt levels (pedunculated), Kikuchi/Kudo Sm1–3 "
+            "(sessile), and pseudoinvasion as a key DDx when in evidence."
+        ),
+        "gu::kidney::renal_cell::clear_cell_rcc": (
+            "Essential criteria MUST include delicate chicken-wire vasculature and CA9/CAIX "
+            "box-like membranous staining when in evidence; CK7 typically negative/focal."
+        ),
+        "breast::neoplastic::epithelial::in_situ::ductal_carcinoma_in_situ_dcis": (
+            "Essential criteria MUST emphasize intact myoepithelium / confinement to ductal-lobular "
+            "system — NOT mammographic microcalcifications as a histologic essential."
+        ),
+        "heme::mature_b_cell::large_b_cell::diffuse_large_b_cell_lymphoma_nos": (
+            "Essential criteria MUST include GCB vs ABC / Hans algorithm workup and rule-out of "
+            "high-grade B-cell lymphoma with MYC and BCL2/BCL6 rearrangements when in evidence."
+        ),
+    }
+    return hints.get(key, "")
+
+
+def _item_entity_blob(item: dict) -> str:
+    return _text_blob(
+        item.get("entity_name"),
+        item.get("title"),
+        item.get("heading"),
+        item.get("caption"),
+        item.get("source_url"),
+    )
+
+
+def entity_matches_page_tag(item: dict, page_tag: Optional[str]) -> bool:
+    """True when a card/figure clearly documents the browse-leaf entity."""
+    if not page_tag or not isinstance(item, dict):
+        return True
+    seg = page_tag_segments(page_tag)
+    if not seg:
+        return True
+
+    blob = _item_entity_blob(item)
+    tag_key = page_tag.casefold()
+    leaf = page_tag_leaf_phrase(page_tag).casefold()
+
+    for term in _PAGE_TAG_CONFUSABLE_TERMS.get(tag_key, frozenset()):
+        if term in blob:
+            return False
+
+    sub = seg.get("subcategory", "").casefold()
+    for site_key, terms in _SITE_CONTEXT_EXCLUSIONS.items():
+        if site_key in sub:
+            for term in terms:
+                if term in blob:
+                    return False
+
+    entity = str(item.get("entity_name") or item.get("title") or "").casefold().strip()
+    if leaf and (leaf in entity or entity in leaf):
+        return True
+    if leaf and leaf in blob:
+        return True
+
+    for alias in _PAGE_TAG_ENTITY_ALIASES.get(tag_key, ()):
+        if alias in blob:
+            return True
+
+    leaf_words = [w for w in re.split(r"[_\s]+", leaf) if len(w) > 2]
+    if len(leaf_words) >= 2 and all(w in blob for w in leaf_words):
+        return True
+    if len(leaf_words) == 1:
+        word = leaf_words[0]
+        if re.search(rf"\b{re.escape(word)}\b", blob):
+            return True
+    return False
+
+
 def topic_page_disambiguated_query(
     entity_name: str,
     category_context: Optional[str] = None,
@@ -796,6 +979,7 @@ def enrich_cards_with_pathout_deep(
     cards: list[dict],
     figures: list[dict],
     deep_index: dict[str, Any],
+    page_tag: Optional[str] = None,
     max_chunks_per_url: int = 24,
     max_figures_per_url: int = 16,
 ) -> tuple[list[dict], list[dict]]:
@@ -818,6 +1002,11 @@ def enrich_cards_with_pathout_deep(
         url = card.get("source_url") or card.get("url") or ""
         record = deep_index.get(url)
         if not record or not record.get("chunks"):
+            kept_cards.append(card)
+            continue
+        entity_name = record.get("entity_name") or card.get("title") or ""
+        probe = {"entity_name": entity_name, "title": entity_name, "source_url": url}
+        if page_tag and not entity_matches_page_tag(probe, page_tag):
             kept_cards.append(card)
             continue
         if url in seen_urls:
@@ -994,28 +1183,20 @@ def filter_figures_by_entity_match(
     figures: list[dict],
     page_tag: Optional[str],
 ) -> list[dict]:
-    """Keep figures whose WHO entity/title matches the browse leaf diagnosis."""
+    """Keep figures whose entity/title/caption matches the browse leaf diagnosis."""
+    if not page_tag:
+        return figures
     seg = page_tag_segments(page_tag)
     if not seg:
         return figures
-    leaf = seg["leaf"].replace("_", " ").casefold()
-    leaf_words = [w for w in re.split(r"[_\s]+", leaf) if len(w) > 3]
     kept: list[dict] = []
     for fig in figures:
         if not isinstance(fig, dict):
             continue
-        if fig.get("_pathout_deep_verified"):
+        if seg.get("is_benign") and any(term in _item_entity_blob(fig) for term in _BENIGN_EXCLUDE_TERMS):
+            continue
+        if entity_matches_page_tag(fig, page_tag):
             kept.append(fig)
-            continue
-        blob = _text_blob(fig.get("entity_name"), fig.get("title"), fig.get("caption"))
-        if seg.get("is_benign") and any(term in blob for term in _BENIGN_EXCLUDE_TERMS):
-            continue
-        if leaf in blob:
-            kept.append(fig)
-            continue
-        if leaf_words and all(word in blob for word in leaf_words):
-            kept.append(fig)
-            continue
     return kept
 
 
@@ -1055,9 +1236,6 @@ def filter_figures_by_page_root(figures: list[dict], page_root: Optional[str]) -
     kept: list[dict] = []
     for fig in figures:
         if not isinstance(fig, dict):
-            continue
-        if fig.get("_pathout_deep_verified"):
-            kept.append(fig)
             continue
         sid = fig.get("source_id")
         if isinstance(sid, str) and "_" in sid:
