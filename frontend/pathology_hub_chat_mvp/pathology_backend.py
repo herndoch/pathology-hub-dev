@@ -389,6 +389,26 @@ _SITE_CONTEXT_EXCLUSIONS: dict[str, frozenset[str]] = {
     "prostate": frozenset({"skene", "female urethra", "urethra"}),
 }
 
+# Some PathOutlines figures carry no title/entity_name at all — only a
+# caption ("Clear cell renal tumors") and a source_url page slug
+# ("kidneytumormalignantrcc"). The caption alone can fail strict word-boundary
+# entity matching (no literal "RCC"/leaf token), so fall back to matching the
+# PathOutlines URL slug against a per-tag allowlist — deliberately narrow
+# (exact known-good topic pages only) so it can't reintroduce the substring
+# false-positive bug fixed above.
+_PAGE_TAG_URL_SLUG_ALIASES: dict[str, tuple[str, ...]] = {
+    "gu::kidney::renal_cell::clear_cell_rcc": ("kidneytumormalignantrcc",),
+}
+
+
+def _matches_url_slug_alias(item: dict, tag_key: str) -> bool:
+    slugs = _PAGE_TAG_URL_SLUG_ALIASES.get(tag_key)
+    if not slugs:
+        return False
+    url = str(item.get("source_url") or item.get("url") or item.get("figure_url") or "").casefold()
+    return any(slug in url for slug in slugs)
+
+
 _PAGE_TAG_ENTITY_ALIASES: dict[str, tuple[str, ...]] = {
     "gu::kidney::renal_cell::clear_cell_rcc": (
         "clear cell renal cell carcinoma",
@@ -572,6 +592,9 @@ def entity_matches_page_tag(
     for alias in _PAGE_TAG_ENTITY_ALIASES.get(tag_key, ()):
         if alias in blob:
             return True
+
+    if _matches_url_slug_alias(item, tag_key):
+        return True
 
     leaf_words = [w for w in re.split(r"[_\s]+", leaf) if len(w) > 2]
     if len(leaf_words) >= 2 and all(_word_in_blob(w, blob) for w in leaf_words):
@@ -1053,6 +1076,48 @@ def load_pathout_deep_index(path: str) -> dict[str, Any]:
     return data
 
 
+_DEEP_INDEX_ENTITY_LOOKUP_CACHE: dict[int, dict[str, list[str]]] = {}
+
+
+def _deep_index_entity_lookup(deep_index: dict[str, Any]) -> dict[str, list[str]]:
+    """casefold(entity_name) -> [urls] reverse index, cached per deep_index
+    object identity (the index is loaded once and reused across requests)."""
+    cache_key = id(deep_index)
+    cached = _DEEP_INDEX_ENTITY_LOOKUP_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+    lookup: dict[str, list[str]] = {}
+    for url, record in deep_index.items():
+        name = str((record or {}).get("entity_name") or "").casefold().strip()
+        if name:
+            lookup.setdefault(name, []).append(url)
+    _DEEP_INDEX_ENTITY_LOOKUP_CACHE[cache_key] = lookup
+    return lookup
+
+
+def _find_anchor_pathout_url(
+    deep_index: dict[str, Any], page_tag: Optional[str], already_seen: set[str]
+) -> Optional[str]:
+    """Guaranteed-anchor fallback: the live backend's keyword-only FTS5 search
+    sometimes fails to surface even the exact dedicated PathOutlines page for
+    a leaf (e.g. 'Secretory Carcinoma' ranks other salivary pages above the
+    dedicated 'salivaryglandssecretory' page unless a rare term like 'ETV6' is
+    in the query). When the deep index has an EXACT entity_name match for this
+    leaf and it wasn't already reached via the normal retrieval+enrich path,
+    use it directly rather than silently shipping a page with zero figures."""
+    leaf = page_tag_leaf_phrase(page_tag).casefold()
+    if leaf:
+        for url in _deep_index_entity_lookup(deep_index).get(leaf, []):
+            if url not in already_seen:
+                return url
+    tag_key = (page_tag or "").casefold()
+    for slug in _PAGE_TAG_URL_SLUG_ALIASES.get(tag_key, ()):
+        for url in deep_index:
+            if slug in url.casefold() and url not in already_seen:
+                return url
+    return None
+
+
 def enrich_cards_with_pathout_deep(
     cards: list[dict],
     figures: list[dict],
@@ -1064,7 +1129,10 @@ def enrich_cards_with_pathout_deep(
     """Expand already root/tag-filtered PathOutlines cards using the full
     staged chunk+figure set for the same page_url, instead of the live
     backend's ~4000-char single-excerpt cap. Only enriches URLs that
-    survived upstream filtering (never introduces a new, unvetted page)."""
+    survived upstream filtering (never introduces a new, unvetted page) —
+    except for the exact-entity-name anchor fallback (see
+    `_find_anchor_pathout_url`), which is a known-good deep-index URL for
+    this exact leaf, independent of whether live keyword search surfaced it."""
     if not deep_index:
         return cards, figures
 
@@ -1073,6 +1141,7 @@ def enrich_cards_with_pathout_deep(
     extra_figures: list[dict] = []
     kept_cards: list[dict] = []
 
+    urls_to_enrich: list[tuple[str, dict]] = []
     for card in cards:
         if not isinstance(card, dict) or str(card.get("source") or "") != "pathout":
             kept_cards.append(card)
@@ -1086,6 +1155,16 @@ def enrich_cards_with_pathout_deep(
         probe = {"entity_name": entity_name, "title": entity_name, "source_url": url}
         if page_tag and not entity_matches_page_tag(probe, page_tag):
             kept_cards.append(card)
+            continue
+        urls_to_enrich.append((url, card))
+
+    anchor_url = _find_anchor_pathout_url(deep_index, page_tag, {u for u, _ in urls_to_enrich})
+    if anchor_url:
+        urls_to_enrich.append((anchor_url, {"source": "pathout"}))
+
+    for url, card in urls_to_enrich:
+        record = deep_index.get(url)
+        if not record or not record.get("chunks"):
             continue
         if url in seen_urls:
             continue
