@@ -797,7 +797,7 @@ def enrich_cards_with_pathout_deep(
     figures: list[dict],
     deep_index: dict[str, Any],
     max_chunks_per_url: int = 24,
-    max_figures_per_url: int = 10,
+    max_figures_per_url: int = 16,
 ) -> tuple[list[dict], list[dict]]:
     """Expand already root/tag-filtered PathOutlines cards using the full
     staged chunk+figure set for the same page_url, instead of the live
@@ -840,7 +840,17 @@ def enrich_cards_with_pathout_deep(
             new_card["_pathout_deep"] = True
             extra_cards.append(new_card)
 
-        for fig in record.get("figures", [])[:max_figures_per_url]:
+        # PathOutlines figures come in two tiers: full-resolution gross/micro
+        # images ("pathout_direct_image", from imgau/) vs tiny clinical/
+        # radiology thumbnails ("pathout_thumbnail_or_external", from thumb/).
+        # The direct-image tier is far more useful for essential diagnostic
+        # features (histology, IHC, cytology) — prioritize it over thumbnails
+        # when capping, instead of taking figures in page order.
+        ranked_figures = sorted(
+            record.get("figures", []),
+            key=lambda f: 0 if f.get("image_kind") in ("pathout_direct_image", "other") else 1,
+        )
+        for fig in ranked_figures[:max_figures_per_url]:
             extra_figures.append(
                 {
                     "figure_url": fig.get("image_url"),
