@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Adenoid Cystic Carcinoma",
   "category_context": "HN > Salivary_Gland",
-  "generated_at": "2026-07-24T21:51:13.253007+00:00",
+  "generated_at": "2026-07-24T22:04:39.105100+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Adenoid cystic carcinoma (ACC) most commonly involves minor salivary glands but can occur in major glands.\n- Classically shows cribriform, tubular, and solid growth patterns.\n- Hallmark feature is perineural invasion.\n- Commonly presents as a slow-growing mass, with potential for late recurrence and metastasis.\n\n## Terminology\n- Adenoid cystic carcinoma (ACC).\n- Synonyms: Cylindromatous carcinoma.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Biphasic ductal and myoepithelial tumor composition.\n  - Cribriform, tubular, and solid growth patterns.\n  - Presence of basophilic basement-membrane matrix.\n  - Detection of MYB::NFIB or MYBL1::NFIB gene fusions.\n- **Desirable:**\n  - Perineural invasion.\n  - High-grade transformation features.\n\n## Etiology/Pathogenesis\n- Characterized by MYB::NFIB or MYBL1::NFIB gene fusions.\n\n## Clinical Issues\n- **Epidemiology:** More prevalent in middle-aged adults.\n- **Site:** Often arises in minor salivary glands, particularly the palate.\n- **Presentation:** Frequently presents as a painless, slow-growing mass.\n- **Prognosis:** Generally slow progression but high tendency for perineural invasion and distant metastasis.\n\n## Macroscopic\n- Firm, poorly circumscribed masses.\n- Cut surface may have a whitish-gray appearance.\n\n## Microscopic\n- Cribriform pattern: Nesting of cells around spaces filled with basement membrane material.\n  - ![Cribriform pattern](https://www.pathologyoutlines.com/imgau/salivaryglandsadenoidcysticXu03new.jpg)\n- Tubular pattern: Tubular structures with a dual cell population.\n  - ![Tubular pattern](https://www.pathologyoutlines.com/imgau/salivaryglandsadenoidcysticXu02new.jpg)\n- Solid pattern: Sheets of basaloid cells, often in high-grade tumors.\n  - ![Solid pattern](https://www.pathologyoutlines.com/imgau/salivaryglandsadenoidcysticXu04new.jpg)\n- Frequent perineural invasion.\n  - ![Perineural invasion](https://www.pathologyoutlines.com/imgau/salivaryglandsadenoidcysticXu06new.jpg)\n- Presence of squamous metaplasia or clear myoepithelial cells.\n\n## Ancillary Tests\n- **Immunohistochemistry (IHC):**\n  - MYB positive in majority of cases.\n  - p40, CAM5.2, and SMA can be positive, reflecting myoepithelial component.\n- **Molecular:**\n  - Detection of MYB::NFIB or MYBL1::NFIB fusions.\n  - Genomic assays to confirm gene fusions.\n\n## Differential Diagnosis\n- **Mucoepidermoid carcinoma:**\n  - Mucin production, CK7+/CK20-, MAML2 rearrangement.\n- **Polymorphous adenocarcinoma:**\n  - More uniform cell morphology, lacks MYB::NFIB fusion.\n- **Basal cell adenocarcinoma:**\n  - Lacks the prominent cribriform architecture and MYB rearrangements.\n- **Epithelial-myoepithelial carcinoma:**\n  - Biphasic appearance, with clear cell component, typically lacks MYB fusions.\n- **Sialoblastoma:**\n  - Primitive features, usually occurs in young patients. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Sialoblastoma.html)\n- **Carcinoma ex pleomorphic adenoma:**\n  - May show areas of pleomorphic adenoma and carcinoma, often with necrosis. [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Carcinoma_Ex_Pleomorphic_Adenoma.html)",
+  "answer_markdown": "## Key Facts\n- Adenoid cystic carcinoma (ACC) frequently affects the parotid gland.\n- Classic histologic patterns: cribriform, tubular, and solid.\n- Perineural invasion is a signature feature.\n- Common genetic alteration: MYB::NFIB fusions.\n- Solid pattern correlates with poorer prognosis.\n\n## Terminology\n- Adenoid cystic carcinoma (ACC).\n- Previously known as cylindroma (not recommended).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Biphasic ductal and myoepithelial tumor composition.\n  - Growth patterns: cribriform, tubular, solid.\n  - Basophilic basement-membrane matrix material.\n  - MYB::NFIB or MYBL1::NFIB translocations.\n\n- **Desirable:**\n  - Presence of perineural invasion.\n  - High cellularity and mitotic activity in high-grade variants.\n\n## Etiology/Pathogenesis\n- MYB::NFIB fusion in the majority of cases ([Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsadenoidcystic.html)).\n- Less commonly, MYBL1::NFIB fusion.\n\n## Clinical Issues\n- **Epidemiology:** Affects all age groups, predominantly middle-aged adults.\n- **Site:** Mainly in major salivary glands, notably parotid and submandibular.\n- **Prognosis:** Slow-growing with high local recurrence and metastasis tendency.\n\n## Macroscopic\n- Firm, poorly circumscribed mass.\n- Solid cut surface with white to grey appearance.\n\n## Microscopic\n- **Patterns:**\n  - Cribriform: \"Swiss cheese\" appearance.\n  - Tubular: Duct-like structures with two cell layers.\n  - Solid: Aggressive sheet-like growth.\n- **Features:**\n  - Common perineural invasion.\n  - Basement membrane-like material in pseudocysts.\n\n![Cribriform pattern](https://www.pathologyoutlines.com/imgau/salivaryglandsadenoidcysticXu03new.jpg)\n\n## Ancillary Tests\n- **Immunohistochemistry:**\n  - Positive: p63, SMA, CAM5.2.\n  - MYB expression correlates with MYB::NFIB fusion.\n\n## Differential Diagnosis\n\n| Feature/Marker             | Adenoid Cystic Carcinoma | Basal Cell Adenocarcinoma        | Pleomorphic Adenoma                  |\n|----------------------------|--------------------------|----------------------------------|--------------------------------------|\n| Growth Pattern             | Cribriform, tubular, solid | Lobular with peripheral palisading | Myxoid stroma with epithelial cells  |\n| MYB::NFIB fusion           | Present                  | Absent                           | Absent                               |\n| Perineural invasion        | Common                   | Rare                             | Rare                                 |\n| IHC Profile                | p63+, SMA+               | p63-, SMA-                       | GFAP+, p63+                          |\n\n- **Sialoblastoma**:\n  - Primitive histological features.\n  - Occurs in young patients ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Sialoblastoma.html)).\n\n- **HPV-related Multiphenotypic Sinonasal Carcinoma**:\n  - High-risk HPV related.\n  - Sinonasal location and ductal differentiation ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Hpv_Related_Multiphenotypic_Sinonasal_Carcinoma.html)).\n\n- **Salivary Duct Carcinoma**:\n  - High-grade malignancy.\n  - Comedo necrosis often present ([Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandssalivaryductcarcinoma.html)).\n\n- **Mucoepidermoid Carcinoma**:\n  - Presence of intermediate cells.\n  - Mucin-filled cystic spaces ([Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandssalivaryductcyst.html)).",
   "cards": [
     {
       "title": "HPV-related multiphenotypic sinonasal carcinoma",
@@ -1913,20 +1913,23 @@
     "critic_raw": null,
     "critic_json": {
       "verdict": "revise",
-      "missing_essentials": [],
-      "redundant": [
-        "Characterized by MYB::NFIB or MYBL1::NFIB gene fusions.",
-        "Gene fusions involving MYB::NFIB or MYBL1::NFIB are characteristic and driving molecular events."
+      "missing_essentials": [
+        "Classic cribriform pattern characteristic of adenoid cystic carcinoma mentioned in evidence is not adequately differentiated from the similar sclerosing or cylindromatous patterns."
       ],
+      "redundant": [],
       "confusing": [],
       "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
         "Sialoblastoma",
-        "Carcinoma ex pleomorphic adenoma"
+        "HPV-related multiphenotypic sinonasal carcinoma",
+        "Salivary Duct Carcinoma",
+        "Mucoepidermoid carcinoma"
       ],
-      "figure_issues": [],
-      "notes_for_revision": "Remove duplicate mention of MYB::NFIB gene fusions. Add missing differential diagnosis entities: Sialoblastoma and Carcinoma ex pleomorphic adenoma."
+      "figure_issues": [
+        "MYB Expression figure – the text needs to specify that MYB expression correlates with MYB::NFIB fusion, as this is central to understanding its significance."
+      ],
+      "notes_for_revision": "The draft is missing several differential diagnosis entities listed in the evidence, such as Sialoblastoma and HPV-related multiphenotypic sinonasal carcinoma. Additionally, the MYB expression figure needs contextual clarification about its relevance to adenoid cystic carcinoma."
     },
     "revision_applied": true
   },
@@ -1951,7 +1954,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "hn",
-    "elapsed_s": 54.3
+    "elapsed_s": 38.5
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

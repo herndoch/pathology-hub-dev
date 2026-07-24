@@ -5,10 +5,10 @@
   "provenance": "who",
   "query": "Lipoma",
   "category_context": "BST > Soft_TissueAdipocytic",
-  "generated_at": "2026-07-24T21:54:47.870364+00:00",
+  "generated_at": "2026-07-24T22:08:06.979550+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Lipoma is the most common soft tissue tumor, presenting as a soft, benign, well-circumscribed mass.\n- Commonly occurs in the upper back, proximal extremities, and abdominal region.\n- Histologically composed of mature adipocytes without atypical features or lipoblasts.\n- Exclusion of MDM2 amplification is important for deep-seated or retroperitoneal lipomas >10 cm ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n- Differential diagnosis includes well-differentiated liposarcoma, spindle cell lipoma, myofibroblastoma, and hibernoma.\n\n## Terminology\n- Lipoma: benign tumor of mature adipocytes.\n- No synonyms recommended ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Composed of mature adipocytes without atypia or lipoblasts ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/ENDO/Lipoma.html)).\n- **Desirable:**\n  - Rare cytogenetic findings may include 12q13-15 rearrangements, HMGA2 overexpression absent in synovial lipomatosis ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n\n## Clinical Issues\n- **Epidemiology:**\n  - Common soft tissue tumor, typically in adults.\n  - Can occur superficially or deep-seated ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n- **Site:**\n  - Occurs frequently in upper back, proximal extremities, abdominal region.\n  - Intramuscular lipomas often in the thigh (40–50%) ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n- **Presentation:**\n  - Painless, soft, mobile mass.\n- **Prognosis:**\n  - Excellent, with no risk of malignancy in typical cases.\n- **Synovial Lipomatosis:**\n  - Proliferation of lipomatous tissue in joints, often associated with chronic joint disease, lacking HMGA2 overexpression ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n\n## Macroscopic\n- Typically well-circumscribed, encapsulated yellowish mass.\n- Size varies widely but often small ([Pathoutlines](https://www.pathologyoutlines.com/topic/softtissueadiposelipoma.html)).\n\n## Microscopic\n- Sheet-like proliferation of mature adipocytes.\n- Possibly fibrous septa but devoid of atypical hyperchromatic stromal cells.\n- May include fat necrosis or dystrophic calcification in some cases ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/ENDO/Lipoma.html)).\n\n![Histological sections show a homogeneous population of mature adipocytes.](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/BST/5372.jpg)\n\n## Ancillary Tests\n- **IHC/molecular:**\n  - Molecular testing generally not required.\n  - Exclusion of MDM2 amplification is significant for tumors >10 cm or deep-seated ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html)).\n\n## Differential Diagnosis\n- **Spindle Cell Lipoma:**\n  - Contains spindle cells, myxoid stroma, CD34 positive ([Pathoutlines](https://www.pathologyoutlines.com/topic/softtissueaslt.html)).\n- **Well-differentiated Liposarcoma:**\n  - Features atypical stromal cells, lipoblasts, and MDM2 amplification ([Pathoutlines](https://www.pathologyoutlines.com/topic/softtissuewdliposarcoma.html)).\n- **Hibernoma:**\n  - Comprised of multivacuolated eosinophilic fat cells, distinguishable by its metabolically active fat ([Pathoutlines](https://www.pathologyoutlines.com/topic/softtissueadiposehibernoma.html)).\n- **Chondroid Lipoma:**\n  - Contains chondroid stroma and myxoid matrix ([Pathoutlines](https://www.pathologyoutlines.com/topic/softtissueadiposechondroid.html)).\n- **Myofibroblastoma:**\n  - Spindle cell lesion with overlapping features with other spindle cell entities ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Desmoid-type Fibromatosis:**\n  - Aggressive fibrous tissue proliferation ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Fat-forming or Lipomatous Solitary Fibrous Tumour:**\n  - Fatty tumor with solitary fibrous tumor features ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Silicon Granuloma:**\n  - Reaction to foreign bodies ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Signet-ring Cell Carcinoma:**\n  - Tumor with signet-ring cell morphology ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Balloon Cell Melanoma:**\n  - Melanoma variant with balloon cells ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).\n- **Perivascular Epithelioid Cell Tumour (PEComa):**\n  - Tumor with epithelioid and perivascular features ([WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/CYTO_SOFTTISSUE/Lipoma.html)).",
+  "answer_markdown": "## Key Facts\n- Most common soft tissue tumor.\n- Typically superficial, well-circumscribed, painless masses.\n- Composed of mature adipocytes without atypical lipoblasts.\n- Requires exclusion of MDM2 amplification in specific cases.\n- Subtypes include intramuscular lipoma and chondrolipoma.\n\n## Terminology\n- Synonyms: None recommended.\n- Abbreviation: None applicable.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Composed of mature adipocytes without atypia.\n  - Lacks lipoblasts.\n- **Desirable:**\n  - 12q13-15/HMGA2 rearrangement in select cases.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Predominantly in adults.\n- **Site:**\n  - Common in the upper back, extremities, and abdominal region.\n  - Can present deeply in skeletal muscle, on the bone surface, tendon sheath, or visceral locations like the bronchial tree.\n- **Presentation:**\n  - Soft, mobile, painless mass.\n- **Prognosis:**\n  - Excellent with rare malignant transformation.\n\n## Macroscopic\n- Well-circumscribed, encapsulated yellow mass.\n- Size typically under 5 cm.\n\n## Microscopic\n- Predominantly mature, uniform adipocytes.\n- May include fibrous septa without atypical cells.\n- Fat necrosis and dystrophic calcification may be present.\n![Histological sections show a homogeneous population of mature adipocytes.](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_PICS/BST/5372.jpg)\n\n## Ancillary Tests\n- **Molecular/Genetics:**\n  - Exclude MDM2 amplification in retroperitoneal/deep-seated tumors >10 cm.\n\n## Differential Diagnosis\n- **Spindle Cell Lipoma:**\n  - Spindle cells, common in neck/shoulder, lacks RB1.\n- **Pleomorphic Lipoma:**\n  - Pleomorphic lipoblasts, floret-like cells.\n- **Atypical Lipomatous Tumor/Well-Differentiated Liposarcoma:**\n  - Atypical stromal cells, MDM2 amplification.\n- **Angiolipoma:**\n  - Mature adipocytes, vessel microthrombi.\n- **Myofibroblastoma:**\n  - Overlaps with spindle cell lesions.\n- **Desmoid-type Fibromatosis:**\n  - Overlaps with spindle cell lesions.\n- **Fat-forming Solitary Fibrous Tumour:**\n  - Overlaps with spindle cell lesions.\n- **Silicon Granuloma:**\n  - Non-neoplastic entity.\n- **Signet-Ring Cell Carcinoma, Balloon Cell Melanoma, and PEComa:**\n  - Neoplasms with clear cell features.\n\nFor more information, refer to [WHO Classification of Tumours](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BST/Lipoma.html) and [Pathoutlines](https://www.pathologyoutlines.com/topic/softtissueadiposelipoma.html).",
   "cards": [
     {
       "title": "Lipoma",
@@ -404,7 +404,7 @@
       "text": "...itive for CD34 and lack expression of S100, desmin, pankeratin and STAT6 Recommended treatment is complete surgical excision with negative margins ## Terminology Initially characterized by Smith et al. as pleomorphic hyalinizing angiectatic tumor of soft parts (Am J Surg Pathol 1996;20:21) Controversial terminology: early pleomorphic hyalinizing angiectatic tumor (also known as hemosiderotic fibrolipomatous tumor) is considered in the spectrum of pleomorphic hyalinizing angiectatic tumor (PHAT) by some experts (Am J Surg Pathol 2004;28:1417) ## ICD coding ICD-O: 8802/1 - pleomorphic hyalinizing angiectatic tumor ICD-11: 2F7C & XH2193 - neoplasms of uncertain behavior of connective or other soft tissue and pleomorphic hyalinizing angiectatic tumor ## Epidemiology Exact epidemiology is uncertain due to the controversial diagnostic criteria and the lack of contemporary series Most cases seem to affect adults (median 51 years, range 10 - 79 years), with a slight female predominance (Am J Surg Pathol 2004;28:1417) ## Sites Most arise in the superficial soft tissues of the distal lower extremities, particularly the leg, ankle and foot (Am J Surg Pathol 2004;28:1417) ## Other areas of the...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 3,
-      "vector_score": 0.6512422561645508,
+      "vector_score": 0.6513062715530396,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -437,7 +437,7 @@
       "text": "Source: Pathology Outlines Subject: bone_soft_tissue Title: Pathology Outlines - Pleomorphic liposarcoma Header: Pathology Outlines - Pleomorphic liposarcoma URL: https://www.pathologyoutlines.com/topic/softtissueadiposepleomorphiclipo.html Primary tag: BST::Soft_Tissue::Adipocytic::Malignant::Pleomorphic_Liposarcoma Top headings: Essential features | ICD coding | Epidemiology | Sites | Pathophysiology | No specific laboratory abnormality is known | CT heterogeneously enhanced mass | Case reports | Treatment | Gross description | Tumors are usually well demarcated but not encapsulated | Well circumscribed tumor mass | Microscopic (histologic) description | Well circumscribed but nonencapsulated with infiltrative borders | Tumor necrosis common | Negative MDM2 | PLPS: soft tissue, lower leg, excisionCytology description | Positive stains | Negative stains | Electron microscopy description ## Essential features Pleomorphic spindle / epithelioid cell sarcoma with variable number of pleomorphic lipoblasts ## ICD coding ICD-O: 8854/3 - pleomorphic liposarcoma ICD-11: 2B59.Y & XH25R1 - liposarcoma, other specified primary site & pleomorphic liposarcoma ## Sites 66% of cases occur on the ...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 6,
-      "vector_score": 0.6330586671829224,
+      "vector_score": 0.6331115365028381,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -470,7 +470,7 @@
       "text": "Source: Pathology Outlines Subject: bone_soft_tissue Title: Pathology Outlines - Superficial CD34+ fibroblastic tumor Header: Pathology Outlines - Superficial CD34+ fibroblastic tumor URL: https://www.pathologyoutlines.com/topic/softtissuesuperficialcd34fibro.html Primary tag: BST::Soft_Tissue::Fibroblastic::Intermediate::Superficial_CD34_Positive_Fibroblastic_Tumor Top headings: Essential features | Spindle cells with eosinophilic granular to glassy cytoplasm | ICD-0: 8810/1 - superficial CD34+ fibroblastic tumor | Epidemiology | Sites | Clinical features | Diagnosis | Radiology description | CT scan Prognostic factors | Case reports | Treatment | Clinical imagesImages hosted on other servers | Soft tissue massFrozen section description | Microscopic (histologic) description | Pleomorphic, hyperchromatic nuclei | CD34 | Positive stains | Negative stains | Electron microscopy description | Electron microscopy imagesImages hosted on other servers ## Essential features Superficial location (Mod Pathol 2014;27:294) ## Spindle cells with eosinophilic granular to glassy cytoplasm Nuclear pleomorphism but extremely low mitotic rate (Indian J Pathol Microbiol 2018;61:421) ## ICD-0: 8810/1...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 8,
-      "vector_score": 0.62574303150177,
+      "vector_score": 0.6257914900779724,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -503,7 +503,7 @@
       "text": "...iangle hibernoma (MRI) | Mass within the left external oblique muscle (MRI) | Case reports | Treatment | Hibernoma in proximal thigh | Hibernoma Frozen section description | Microscopic (histologic) description ## Essential features Benign tumor comprising multivacuolated eosinophilic granular fat cells with small, central normochromic nuclei (J Pathol Transl Med 2017;51:499) ## Terminology Pseudolipoma (not recommended) (J Pathol Transl Med 2017;51:499) ## ICD coding ICD-O: 8880/0 - hibernoma ICD-11: 2E80.0Z & XH1054 - lipoma, unspecified and hibernoma ## Epidemiology Comprises < 2% of benign lipomatous tumors (Case Rep Oncol 2017;10:438, Am J Surg Pathol 2018;42:951) Makes up 1% of all adipocytic tumors (Case Rep Oncol 2017;10:438) ## Usually present from 2 - 75 years Mean age: 38 years, 60% presenting in third and fourth decades of life (Case Rep Oncol 2017;10:438, Cureus 2017;9:e1124, J Comput Assist Tomogr 2019;43:793, J Pathol Transl Med 2017;51:499) Slightly more common in men (Cureus 2020;12:e9111, Am J Surg Pathol 2018;42:951) May range from 1 - 24 cm, with an average diameter of 9.3 cm (Iran J Pathol 2017;12:406, Case Rep Oncol 2017;10:438) ## Sites Most common site is th...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 9,
-      "vector_score": 0.623764157295227,
+      "vector_score": 0.6238440871238708,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -3738,28 +3738,29 @@
     "critic_json": {
       "verdict": "revise",
       "missing_essentials": [
-        "Retroperitoneal lipomas with cytogenetic and molecular confirmation.",
-        "Synovial lipomatosis (lipoma arborescens) description."
+        "Subtypes such as intramuscular lipoma, chondrolipoma, parosteal lipoma, synovial lipomatosis.",
+        "Deep-seated presentation in locations such as skeletal muscle, surface of bone, tendon sheath, gastrointestinal tract, oral cavity, bronchial tree.",
+        "Histological features like fat necrosis, dystrophic calcification may be present.",
+        "Exclusion of MDM2 amplification for retroperitoneal and deep-seated fatty tumors >10 cm."
       ],
-      "redundant": [],
+      "redundant": [
+        "Lipomas are benign tumors composed of mature adipocytes.",
+        "Definition: Lipoma is a benign tumor composed of mature adipocytes."
+      ],
       "confusing": [],
-      "entity_conflation": [
-        "Endobronchial lipoma — mistakenly aligned within the clinical issues for lipomas."
-      ],
-      "off_organ_or_offtopic": [
-        "Endobronchial lipoma detail is off-topic for a soft tissue lipoma focus."
-      ],
+      "entity_conflation": [],
+      "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Myofibroblastoma",
-        "Desmoid-type fibromatosis",
-        "Fat-forming or lipomatous solitary fibrous tumour",
-        "Silicon granuloma",
-        "Signet-ring cell carcinoma",
-        "Balloon cell melanoma",
-        "Perivascular epithelioid cell tumour (PEComa)"
+        "myofibroblastoma",
+        "desmoid-type fibromatosis",
+        "fat-forming solitary fibrous tumour",
+        "silicon granuloma",
+        "signet-ring cell carcinoma",
+        "balloon cell melanoma",
+        "perivascular epithelioid cell tumour (PEComa)"
       ],
       "figure_issues": [],
-      "notes_for_revision": "Add details on retroperitoneal lipomas and synovial lipomatosis. Clarify differential diagnosis by including overlooked entities such as myofibroblastoma and others. Remove off-topic content about endobronchial lipomas."
+      "notes_for_revision": "Revise to include missing subtypes and deep-seated presentations of lipomas. Ensure mention of exclusion of MDM2 amplification for certain tumors and consider differentiating overlapping differential diagnoses more explicitly. Consolidate redundant information."
     },
     "revision_applied": true
   },
@@ -3784,7 +3785,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "bst",
-    "elapsed_s": 31.0
+    "elapsed_s": 27.4
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

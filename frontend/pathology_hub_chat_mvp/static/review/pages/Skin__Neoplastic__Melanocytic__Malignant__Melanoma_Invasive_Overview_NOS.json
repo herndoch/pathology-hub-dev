@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Melanoma Invasive Overview NOS",
   "category_context": "Skin > Neoplastic",
-  "generated_at": "2026-07-24T21:55:23.235621+00:00",
+  "generated_at": "2026-07-24T22:08:31.077286+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Cutaneous melanoma is most common in older adults, with increased incidence in Caucasians.\n- Breslow thickness is a critical prognostic factor.\n- Common genetic mutations: BRAF, NRAS, less commonly KIT and TERT.\n- Major histologic subtypes: superficial spreading (SSM), nodular, acral, lentiginous, desmoplastic.\n  \n## Terminology\n- **Melanoma:** Malignant neoplasm of melanocytes.\n- **Abbreviations:** CSD (Cumulative Sun Damage), SSM (Superficial Spreading Melanoma).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Asymmetry.\n  - Lack of maturation with depth.\n  - Pagetoid scatter of melanocytes.\n  - Presence of deep/atypical mitoses.\n  - Ulceration.\n  - Breslow thickness.\n  - Mitotic rate.\n- **Desirable:**\n  - Specific genetic mutations (e.g., BRAF, NRAS).\n\n## Etiology/Pathogenesis\n- **Genetic Mutations:**\n  - BRAF V600E most common.\n  - NRAS mutations.\n  - TERT promoter mutations.\n  - PTEN deletions.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Increased risk with sun exposure.\n  - Often arises in middle-aged to older Caucasians.\n- **Sites:**\n  - Commonly on sun-exposed skin.\n- **Prognosis:**\n  - Prognosis is linked to Breslow thickness and ulceration.\n\n## Microscopic\n- Asymmetrical shape.\n- Atypical mitoses.\n- Lack of maturation of melanocytes.\n- Pagetoid spread of melanocytes.\n\n## Ancillary Tests\n- **Immunohistochemistry:**\n  - Positive for S100, HMB45, Melan-A.\n  - Useful for poorly differentiated cases.\n- **Genetic Testing:**\n  - BRAF, NRAS mutations common markers.\n\n![Superficial spreading melanoma](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg)\n![Ugly duckling sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati08.jpg)\n![Hutchinson sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati09.jpg)\n![Blowfly sign](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati10.jpg)\n![Asymmetry](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati11.jpg)\n\n## Differential Diagnosis\n- **Nevus:** Symmetrical, lack atypical mitoses.\n- **Halo Naevus:** Lichenoid inflammation; lacks atypical features of melanoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Halo_Naevus.html).\n- **Nodular Melanoma:** Rapid growth, possible ulceration [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html).\n- **Desmoplastic Melanoma:** Often amelanotic, spindle cell morphology [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticdesmoplasticmelanoma.html).\n- **Recurrent Naevus:** May resemble melanoma, but usually shows irregular scarring (WHO).\n- **Mucosal Melanoma:** Includes differential diagnosis of special-site naevi [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Mucosal_Melanoma.html).\n- **Melanoma Metastatic to the Skin:** Distinguishable from primary melanoma by cytological features [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Melanoma_Metastatic_To_The_Skin.html).",
+  "answer_markdown": "## Key Facts\n- Invasive melanoma affects deeper skin layers, often presenting as asymmetrical lesions.\n- Key histologic features: asymmetry, pagetoid scatter, and lack of maturation with depth.\n- Essential staging criteria: Breslow thickness, mitotic rate, and presence of ulceration.\n- Common genetic mutations: BRAF and NRAS.\n- Prognosis depends on subtype and staging factors.\n\n## Terminology\n- Invasive melanoma: a malignant tumor derived from melanocytes.\n- Synonyms: Malignant melanoma, Melanocytic neoplasm.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Asymmetry, lack of maturation with depth, pagetoid scatter of melanocytes.\n  - Deep and atypical mitoses, ulceration.\n  - Breslow thickness, mitotic rate, ulceration [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanoma.html).\n- **Desirable:**\n  - Genetic testing may reveal mutations such as BRAF or NRAS.\n\n## Etiology/Pathogenesis\n- Mutations in BRAF and NRAS are common.\n- Associated with UV exposure, except for acral and mucosal types.\n  - Acral melanoma often occurs on palms and soles.\n  - Desmoplastic melanoma is often nonpigmented and may mimic scars [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanoma.html).\n\n## Clinical Issues\n- **Epidemiology:** \n  - More common in fair-skinned individuals.\n  - Occurrence peaks in middle age.\n- **Natural History:** \n  - Potential for metastasis if not caught early.\n- **Prognosis:**\n  - Depends on Breslow thickness, ulceration, and mitotic rate.\n  - Sentinel lymph node involvement is a critical prognostic factor.\n\n## Macroscopic\n- Typically presents as a pigmented lesion.\n- May show ulceration or nodular growths.\n\n## Microscopic\n- Asymmetrical with poorly defined borders.\n- Pagetoid scatter and atypical melanocytes [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Melanoma_Metastatic_To_The_Skin.html).\n- Common features across subtypes: \n  - Superficial spreading, nodular, lentigo maligna, acral lentiginous, desmoplastic [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticmelanoma.html).\n- Presence of mitotic figures and absence of maturation.\n\n![Superficial spreading melanoma](https://www.pathologyoutlines.com/imgau/skintumormelanocyticmelanomadonati01.jpg)\n\n## Ancillary Tests\n- **IHC Panel:**\n  - S100 positive, HMB45, Melan-A.\n  - SOX10 often positive [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Dermal_Melanoma.html).\n- **Molecular/Genetics:**\n  - BRAF mutations common in various subtypes.\n\n## Differential Diagnosis\n- **Halo Nevus:**\n  - Lack of severe atypia and ulceration [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Halo_Naevus.html).\n- **Recurrent Nevus:**\n  - More regular architecture [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Recurrent_Naevus.html).\n- **Nodular Melanoma:**\n  - Homogenous nodular growth compared to varied architectural patterns [Pathoutlines](https://www.pathologyoutlines.com/topic/skintumormelanocyticnodularmelanoma.html).\n- **Melanoma Metastatic to the Skin:**\n  - Difficult to distinguish from primary melanoma; presence of atypical cells and mitoses [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Melanoma_Metastatic_To_The_Skin.html).\n- **Mucosal Melanoma:**\n  - Involves mucous membranes, can be confused with primary cutaneous versions [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/SKIN/Mucosal_Melanoma.html).",
   "cards": [
     {
       "title": "Melanoma metastatic to the skin",
@@ -1756,22 +1756,19 @@
     "critic_json": {
       "verdict": "revise",
       "missing_essentials": [
-        "figure with caption 'Ugly duckling sign'",
-        "figure with caption 'Hutchinson sign'",
-        "figure with caption 'Blowfly sign'",
-        "figure with caption 'Asymmetry'"
+        "Melanoma metastatic to the skin included in differential diagnosis",
+        "Mucosal melanoma included in differential diagnosis"
       ],
       "redundant": [],
       "confusing": [],
       "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Recurrent naevus",
-        "Mucosal melanoma",
-        "Melanoma metastatic to the skin"
+        "Melanoma metastatic to the skin",
+        "Mucosal melanoma"
       ],
       "figure_issues": [],
-      "notes_for_revision": "Include missing figures and captions about specific clinical features. Add Recurrent Naevus, Mucosal Melanoma, and Melanoma Metastatic to the Skin to the Differential Diagnosis section."
+      "notes_for_revision": "Add missing entities 'Melanoma metastatic to the skin' and 'Mucosal melanoma' to the Differential Diagnosis section. Ensure all relevant differential diagnoses from the evidence are included."
     },
     "revision_applied": true
   },
@@ -1796,7 +1793,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "skin",
-    "elapsed_s": 35.4
+    "elapsed_s": 24.1
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Prostatic Acinar Adenocarcinoma",
   "category_context": "GU > Prostate",
-  "generated_at": "2026-07-24T21:53:35.422675+00:00",
+  "generated_at": "2026-07-24T22:06:57.595485+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Most common malignancy of the prostate, typically detected by needle biopsy.\n- Absence of basal cell layer and prominent nucleoli; essential AMACR positivity.\n- Graded using Gleason pattern and Grade Group system.\n- Glomerulations and collagenous micronodules are pathognomonic features.\n- Differential includes ASAP and benign mimics.\n\n## Terminology\n- Prostatic Acinar Adenocarcinoma: Common malignant tumor of the prostate.\n- Synonyms: Prostatic adenocarcinoma, Acinar adenocarcinoma.\n\n## Essential and Desirable Diagnostic Criteria\n  - **Essential:**\n    - Absence of basal cell layer.\n    - Positive AMACR staining.\n    - Gleason pattern and Grade Group assignment.\n    - Glomerulations.\n    - Collagenous micronodules (mucinous fibroplasia).\n  - **Desirable:**\n    - Circumferential perineural invasion.\n    - Intraluminal mucin or crystalloids.\n\n## Clinical Issues\n  - **Epidemiology:**\n    - Most commonly diagnosed malignancy in prostate [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenoNOS.html).\n  - **Natural History:**\n    - Can invade locally and metastasize, often presenting with elevated PSA levels.\n\n## Microscopic\n- Loss of basal cell layer; positive staining for AMACR.\n- Infiltrative growth pattern, prominent nucleoli.\n- Perineural invasion, intraluminal crystalloid and mucin may be present.\n![Infiltrative growth pattern](https://www.pathologyoutlines.com/imgau/prostateadenoNOSshortvarma02.jpg)\n\n## Ancillary Tests\n  - **Immunohistochemistry:**\n    - p63, HMWCK: Negative in carcinoma.\n    - AMACR: Positive in carcinoma.\n  - **Molecular/Genetics:**\n    - Common molecular alterations include TMPRSS2::ERG fusions (WHO).\n\n## Differential Diagnosis\n- **Atypical Small Acinar Proliferation (ASAP):**\n  - Lack of definitive malignant features; requires follow-up biopsy [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatesuspicious.html).\n- **Adenosis:**\n  - Presence of basal cells, smaller/more crowded glands [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenosis.html).\n- **Atrophy:**\n  - Less cellular atypia, sometimes misdiagnosed as adenocarcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateatrophic.html).\n- **Seminal Vesicle:**\n  - Differentiated by location and architecture.\n- **Cowper Gland:**\n  - Distinct histological features and location separate it from prostate adenocarcinoma.\n- **Prostatic Cystadenoma:**\n  - Multiloculated cystic mass with bland epithelial lining (WHO).\n- **Adenoid Cystic (Basal Cell) Carcinoma of the Prostate:**\n  - Basal cell morphology and malignant features (WHO).\n- **High-grade Prostatic Intraepithelial Neoplasia (HGPIN):**\n  - Crowded atypical secretory cells in glands [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateHGPIN.html).\n- **Nephrogenic Adenoma:**\n  - Tubules lined by hobnail cells, mimicking adenocarcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatenephrogenichyper.html).",
+  "answer_markdown": "## Key Facts\n- Most common malignancy of the prostate gland.\n- Gleason scoring is essential for grading.\n- Loss of basal cell markers (p63, HMWCK) is pathognomonic.\n- Commonly presents with raised serum PSA.\n\n## Terminology\n- Definition: A malignant neoplasm originating from prostatic secretory epithelium.\n- Synonyms: Acinar adenocarcinoma, prostate cancer.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Absence of basal cell layer.\n  - Identifiable by Gleason grading system.\n  - Positive for AMACR/P504S.\n  - Circumferential perineural invasion.\n- **Desirable:**\n  - Presence of glomerulations and collagenous micronodules (mucinous fibroplasia) [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenoNOS.html).\n\n## Etiology/Pathogenesis\n- Originates from prostatic secretory epithelium.\n- Molecular alterations include TMPRSS2::ERG fusions, PTEN deletions, and SPOP mutations [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Adenosquamous_Carcinoma_Of_The_Prostate.html).\n\n## Clinical Issues\n- **Epidemiology:**\n  - Most common malignancy in males.\n  - Screening typically involves serum PSA.\n- **Site:**\n  - Prostate, often multifocal.\n- **Presentation:**\n  - Often asymptomatic, discovered on raised PSA.\n- **Prognosis:**\n  - Depends on Gleason score and stage at diagnosis.\n  - Extraprostatic extension and seminal vesicle invasion indicate advanced disease.\n\n## Macroscopic\n- Infiltrative growth pattern.\n- Lesions may not be clearly demarcated.\n\n## Microscopic\n- Infiltrative architecture, loss of basal cells.\n- Prominent nucleoli and amphophilic cytoplasm.\n- Glomerulations and mucinous fibroplasia can be seen.\n- Circumferential perineural invasion.\n- Crystalloids and luminal contents (e.g., blue mucin) may be present.\n  - ![Infiltrative growth pattern](https://www.pathologyoutlines.com/imgau/prostateadenoNOSshortvarma02.jpg)\n  - ![Prominent nucleoli](https://www.pathologyoutlines.com/imgau/prostateadenoNOSshortvarma04.jpg)\n\n## Ancillary Tests\n- **IHC Panel:**\n  - Basal cell markers (p63, HMWCK) negative.\n  - PSA, AMACR (P504S) positive.\n- **Molecular:**\n  - Alterations include TMPRSS2::ERG fusions and PTEN deletions.\n\n## Differential Diagnosis\n- **Atypical Small Acinar Proliferation (ASAP):**\n  - Often requires repeat biopsy for cancer diagnosis confirmation [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatesuspicious.html).\n- **Atrophic Adenocarcinoma:**\n  - Reduced cytoplasm, can mimic atrophy [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateatrophic.html).\n- **Adenosis:**\n  - Positive for AMACR but retains basal cells.\n  - Often has corpora amylacea [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenosis.html).\n- **High-grade Prostatic Intraepithelial Neoplasia (HGPIN):**\n  - Retains basal cells but with atypical secretory cells [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateHGPIN.html).\n- **Pseudohyperplastic Adenocarcinoma:**\n  - Complex glands with papillary infoldings, lacks basal cells [Pathoutlines](https://www.pathologyoutlines.com/topic/prostatepseudoCA.html).\n- **Seminal Vesicle:**\n  - Distinguished by its characteristic epithelial lining.\n- **Cowper Gland Tissue:**\n  - Identified by specific histological patterns unrelated to carcinoma.\n- **Adenosquamous Carcinoma of the Prostate:**\n  - Mixed glandular and squamous features, often post-treatment [Pathoutlines](https://www.pathologyoutlines.com/topic/prostateadenosquamouscarcinoma.html).\n- **Squamous Cell Carcinoma of the Prostate:**\n  - Characterized by keratinization, lacks glandular differentiation [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Squamous_Cell_Carcinoma_Of_The_Prostate.html).\n- **Prostatic Stromal Sarcoma:**\n  - Mesenchymal tumor, excludes sarcomatoid carcinoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/GU/Prostatic_Stromal_Sarcoma.html).",
   "cards": [
     {
       "title": "Prostatic cystadenoma",
@@ -1615,21 +1615,22 @@
     "critic_json": {
       "verdict": "revise",
       "missing_essentials": [
-        "Glomerulations as a pathognomonic feature",
-        "Collagenous micronodules (mucinous fibroplasia)"
+        "PTEN deletions and SPOP mutations related to pathogenesis",
+        "Reference to TMPRSS2::ERG fusions in pathogenesis"
       ],
-      "redundant": [],
+      "redundant": [
+        "Both 'Originates from prostatic secretory epithelium' under Key Facts and Etiology/Pathogenesis"
+      ],
       "confusing": [],
       "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Prostatic cystadenoma",
-        "Adenoid cystic (basal cell) carcinoma of the prostate",
-        "High-grade prostatic intraepithelial neoplasia",
-        "Nephrogenic adenoma"
+        "Adenosquamous carcinoma of the prostate",
+        "Squamous cell carcinoma of the prostate",
+        "Prostatic stromal sarcoma"
       ],
       "figure_issues": [],
-      "notes_for_revision": "Include glomerulations and collagenous micronodules as essential diagnostic features. Add 'Prostatic cystadenoma', 'Adenoid cystic (basal cell) carcinoma of the prostate', 'High-grade prostatic intraepithelial neoplasia', and 'Nephrogenic adenoma' to the Differential Diagnosis section."
+      "notes_for_revision": "Include details on molecular pathogenesis such as PTEN deletions and SPOP mutations. Remove redundant information and add missing differential diagnosis entities like adenosquamous carcinoma, squamous cell carcinoma, and prostatic stromal sarcoma."
     },
     "revision_applied": true
   },
@@ -1654,7 +1655,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "gu",
-    "elapsed_s": 40.1
+    "elapsed_s": 71.0
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

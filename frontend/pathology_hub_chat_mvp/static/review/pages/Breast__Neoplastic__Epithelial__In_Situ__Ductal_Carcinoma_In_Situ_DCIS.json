@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Ductal Carcinoma In Situ DCIS",
   "category_context": "Breast > Neoplastic",
-  "generated_at": "2026-07-24T21:52:08.280180+00:00",
+  "generated_at": "2026-07-24T22:05:28.125131+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Ductal carcinoma in situ (DCIS) is a non-invasive breast cancer confined to the ductal-lobular system.\n- Histologically, preservation of myoepithelial cells around ducts is observed.\n- Frequently presents as microcalcifications on mammograms, requiring microscopic confirmation.\n- Usually estrogen receptor (ER) positive, matching the status of associated invasive carcinoma.\n- Has a generally favorable prognosis but can recur as invasive cancer.\n\n## Terminology\n- **Ductal Carcinoma In Situ (DCIS):** A non-invasive breast neoplasm confined to ducts.\n- Synonyms: Intraductal carcinoma.\n- Abbreviations: DCIS.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Neoplastic proliferation within ductal-lobular system.\n  - Presence of intact myoepithelial cells around ducts.\n  - ER and PR status mirrors that of invasive carcinoma.\n- **Desirable:**\n  - Association with architectural patterns (e.g., cribriform, papillary).\n\n## Etiology/Pathogenesis\n- Similar molecular alterations to invasive carcinoma, e.g., mutations in PIK3CA, TP53, GATA3.\n- X chromosome aneusomy associated with AR copy-number gain in DCIS.\n- Copy-number aberrations of common oncogenes.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Comprises a significant proportion of male and female breast in situ carcinoma.\n  - In males, it can be bilateral and typically affects elderly men.\n- **Site:**\n  - Predominantly affects the ducts within the breast.\n- **Presentation:**\n  - Frequently discovered as calcifications on mammograms.\n- **Prognosis:**\n  - Pure DCIS usually has a good prognosis.\n  - Recurrence risk, primarily as invasive carcinoma.\n\n## Microscopic\n- Low to intermediate nuclear grade is prevalent.\n- Architectures: cribriform, papillary, solid, micropapillary.\n- High-grade DCIS may show comedonecrosis.\n- **Figures:**\n  - ![Low grade, cribriform](https://www.pathologyoutlines.com/imgau/breastmalignantDCISTozbikian03.jpg)\n  - ![Intermediate grade, papillary and cribriform](https://www.pathologyoutlines.com/imgau/breastmalignantDCISTozbikian13.jpg)\n\n## Ancillary Tests\n- **IHC Panel:**\n  - ER, PR frequently positive.\n  - HER2 status correlates with that of the invasive component.\n- **Molecular/genetics:**\n  - Mutations: PIK3CA, TP53, GATA3.\n\n## Differential Diagnosis\n- **Usual Ductal Hyperplasia (UDH):**\n  - Retains myoepithelial layer; lacks atypia.\n- **Atypical Ductal Hyperplasia (ADH):**\n  - Smaller foci of atypical cells, less extensive.\n  - Intermediate between UDH and DCIS.\n- **Collagenous Spherulosis:**\n  - Distinct by spherules of collagen within lobules; lacks cytologic atypia.\n- **Encapsulated Papillary Carcinoma:**\n  - Papillary formations with fibrous capsule; may lack myoepithelial cells [Pathoutlines](https://www.pathologyoutlines.com/topic/breastmalignantencapsulatedpapillary.html).\n- **Florid Lobular Carcinoma In Situ (LCIS):**\n  - High risk precursor lesion; often associated with invasive lobular carcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/breastLCISflorid.html).\n- **Microinvasive Carcinoma:**\n  - Defined by foci of invasive tumor cells ≤ 1 mm, usually adjacent to high-grade DCIS [Pathoutlines](https://www.pathologyoutlines.com/topic/breastmalignantmicroinvasion.html).\n\nFor further exploration, visit [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html) and [PathOutlines](https://www.pathologyoutlines.com/topic/breastmalignantDCIS.html).",
+  "answer_markdown": "## Key Facts\n- DCIS consists of neoplastic epithelial cells confined to the ductal-lobular system.\n- Integrity of the myoepithelial layer is a key diagnostic feature.\n- Molecular changes often include PIK3CA, TP53, and GATA3 mutations.\n- Pure DCIS carries a low recurrence risk and generally good prognosis.\n- Detection often involves mammographic microcalcifications but is not essential histologically.\n\n## Terminology\n- **Ductal Carcinoma In Situ (DCIS):** Neoplastic proliferation of epithelial cells confined to mammary ducts.\n- **Synonyms:** Intraductal carcinoma, Non-invasive ductal carcinoma.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Neoplastic epithelial cells confined to the ductal-lobular system.\n  - Presence of intact myoepithelial layer.\n- **Desirable:**\n  - Classification by nuclear grade and architecture (e.g., cribriform, micropapillary).\n  - Occurrence of microcalcifications.\n\n## Etiology/Pathogenesis\n- Similar etiological factors to invasive carcinoma.\n- Molecular profile includes mutations in PIK3CA, TP53, and GATA3.\n- Common oncogene copy-number aberrations are observed.\n\n## Clinical Issues\n- **Epidemiology:** \n  - Predominantly affects women, but occurs in men too, usually in association with invasive carcinoma.\n  - Mean age for male DCIS is 58–65 years.\n- **Presentation:**\n  - Often detected as mammographic microcalcifications.\n  - In males, may present as a retroareolar mass or with nipple discharge.\n- **Prognosis:**\n  - Pure DCIS generally associated with good prognosis, low recurrence risk.\n  - Presence of DCIS next to invasive carcinoma linked with longer survival in luminal A and luminal B HER2 groups.\n  - Carcinoma in situ associated with invasive carcinoma is treated similarly to invasive disease.\n\n## Microscopic\n- Predominantly low or intermediate nuclear grade.\n- Common patterns: papillary, cribriform.\n- High-grade DCIS often associated with comedonecrosis.\n- ER, PR, and HER2 status often mirrors that of associated invasive carcinoma.\n- Rarely, DCIS may present as encapsulated papillary carcinoma.\n\n  ![DCIS low grade, cribriform](https://www.pathologyoutlines.com/imgau/breastmalignantDCISTozbikian03.jpg)\n\n## Ancillary Tests\n- **IHC:**\n  - ER, PR, and HER2 status assessment is common.\n- **Molecular:**\n  - Molecular alterations similar to invasive carcinoma, such as PIK3CA mutations.\n\n## Differential Diagnosis\n- **Usual Ductal Hyperplasia (UDH):**\n  - Retains normal architecture, lacks focal proliferation.\n- **Atypical Ductal Hyperplasia (ADH):**\n  - Shares morphologic features with low-grade DCIS but is smaller and limited in scope.\n- **Collagenous Spherulosis:**\n  - Characterized by round spherules of collagen surrounded by epithelial/myoepithelial cells, often mistaken for DCIS.\n- **Lobular Carcinoma In Situ:** \n  - Lacks the cohesion seen in DCIS; involves loss of E-cadherin.\n- **Paget Disease of the Nipple:**\n  - Presents as eczematous changes in the nipple-areola complex.\n\nFor further information, refer to [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/BREAST/Carcinoma_In_Situ.html) and [PathOutlines](https://www.pathologyoutlines.com/topic/breastmalignantDCIS.html).",
   "cards": [
     {
       "title": "Mucinous cystadenocarcinoma",
@@ -1886,23 +1886,23 @@
     "critic_json": {
       "verdict": "revise",
       "missing_essentials": [
-        "Carcinoma in situ of the male breast can be bilateral and affect elderly men.",
-        "X chromosome aneusomy associated with AR copy-number gain in DCIS."
+        "Presence of DCIS next to invasive carcinoma is linked with longer survival in luminal A and luminal B HER2 groups.",
+        "Carcinoma in situ associated with invasive carcinoma is treated similarly to invasive disease."
       ],
       "redundant": [],
       "confusing": [],
-      "entity_conflation": [
-        "Mucinous cystadenocarcinoma figure caption refers to DCIS but is not directly related."
+      "entity_conflation": [],
+      "off_organ_or_offtopic": [
+        "Mucinous cystadenocarcinoma is discussed with features like cystic spaces, which is off-topic."
       ],
-      "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Florid LCIS",
-        "Microinvasive carcinoma"
+        "Lobular carcinoma in situ",
+        "Paget disease of the nipple"
       ],
       "figure_issues": [
-        "Figure titled 'Ductal carcinoma in situ near a mucinous cystadenocarcinoma' relates to mucinous cystadenocarcinoma, not DCIS."
+        "Figure titled 'Ductal carcinoma in situ near a mucinous cystadenocarcinoma' is related to 'Mucinous cystadenocarcinoma.'"
       ],
-      "notes_for_revision": "Include details on male breast DCIS, such as bilateral occurrence and associated genetic changes. Correct and align figure usage with DCIS rather than other entities. Add missing differential diagnosis entities, like Florid LCIS and Microinvasive carcinoma."
+      "notes_for_revision": "Include the association of DCIS with longer survival in specific groups and mentioned treatment approaches with invasive carcinoma. Exclude off-topic details about other carcinoma types. Add missing differential diagnoses like Lobular carcinoma in situ and Paget disease."
     },
     "revision_applied": true
   },
@@ -1927,7 +1927,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "breast",
-    "elapsed_s": 25.1
+    "elapsed_s": 23.5
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Colonic Adenocarcinoma Arising In Adenoma",
   "category_context": "GI > Colon",
-  "generated_at": "2026-07-24T21:55:41.827328+00:00",
+  "generated_at": "2026-07-24T22:08:56.306214+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Colonic adenocarcinoma arising in adenoma involves invasive carcinoma within a pre-existing adenoma.\n- Diagnosed at pathologic stages using Haggitt levels for pedunculated polyps or Kikuchi/Kudo for sessile lesions.\n- High-risk features include poor differentiation, lymphovascular invasion, and tumor budding.\n- Treatment often involves surgical resection, with prognosis dependent on stage and histologic features.\n- Mucinous features can often be present in these tumors.\n\n## Terminology\n- Colonic adenocarcinoma arising in adenoma: Invasive carcinoma developing within an adenoma.\n- Synonyms: Adenoma with invasive carcinoma, villous adenocarcinoma (subtype).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Invasion through the muscularis mucosa, categorized by Haggitt or Kikuchi/Kudo levels.\n  - High-risk histology including poor differentiation, lymphovascular invasion, and high-grade tumor budding.\n  - Mucinous features may be often present [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumorvillousadenocarcinoma.html).\n- **Desirable:**\n  - Presence of microsatellite instability (MSI), not universal.\n\n## Etiology/Pathogenesis\n- Typically arises from the adenoma-carcinoma sequence with genetic alterations such as APC, KRAS, and TP53 mutations [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumoradenocarcinoma.html).\n\n## Clinical Issues\n- **Epidemiology:** Common in older adults, particularly in populations with a Western diet [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumoradenoma.html).\n- **Site:** Primarily affects the colon.\n- **Treatment:** Involves polypectomy or surgical resection depending on the invasion depth.\n\n## Macroscopic\n- Often presents as a pedunculated or sessile polypoid lesion.\n- Size and friability can indicate higher grade dysplasia or malignancy [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumortubularadenoma.html).\n\n## Microscopic\n- Well-differentiated glandular structures to cribriform or poorly differentiated patterns.\n- Features such as desmoplasia and lymphovascular invasion are critical for malignancy.\n- Images of adenocarcinoma with low and high power views, dirty necrosis, and desmoplasia can be found [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumoradenocarcinoma.html).\n\n## Ancillary Tests\n- **Immunohistochemistry:** Useful markers include CDX2.\n- **Molecular/Genetics:** MSI testing can be important in some cases.\n\n## Differential Diagnosis\n- **Adenoma with Pseudoinvasion:**\n  - Misplaced epithelium but surrounded by lamina propria, without true invasion [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumortubularadenoma.html).\n- **Localized Colitis Cystica Profunda:**\n  - Benign mimicker with displacement of glands but no true invasion [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumorcolloid.html).\n- **Mucinous Adenocarcinoma:**\n  - Characterized by abundant mucin production, often with microsatellite instability [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumorcolloid.html).",
+  "answer_markdown": "## Key Facts\n- Colonic adenocarcinoma arising in an adenoma involves malignant transformation within a pre-existing adenoma.\n- Key histological feature is invasion through the muscularis mucosa, evaluated using Haggitt levels in pedunculated polyps.\n- Prognostic indicators include poor differentiation, lymphovascular invasion, and high-grade tumor budding.\n- Typically arises through the chromosomal instability pathway.\n- Differentiates from adenomas with pseudoinvasion and localized colitis cystica profunda.\n\n## Terminology\n- **Colonic Adenocarcinoma Arising in Adenoma:** Malignant polyp from an adenomatous structure.\n- Synonyms: \"adenoma-like adenocarcinoma\" and \"villous adenocarcinoma.\"\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Invasion through muscularis mucosa (pT1) with Haggitt or Kikuchi/Kudo classification.\n  - High-risk features: poor differentiation, lymphovascular invasion, and close/positive margins.\n- **Desirable:**\n  - Villous architecture or tubulovillous adenoma features.\n  - Association with chromosomal instability pathway.\n\n## Etiology/Pathogenesis\n- Originates from adenoma-carcinoma sequence with mutations in APC, KRAS, TP53 [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumoradenoma.html).\n- Pathways:\n  - Chromosomal instability: 70–80%.\n  - Microsatellite instability: 10–15%.\n\n## Clinical Issues\n- **Epidemiology:** Common in high-fat, low-fiber diets.\n- **Site:** Usually involves colonic adenomas.\n- **Prognosis:** Poor with high-risk histologic features.\n\n## Macroscopic\n- Presents as pedunculated or sessile polyps.\n- Dark red coloration and friable surface in advanced lesions.\n\n## Microscopic\n- Glandular structures with cribriform patterns and dirty necrosis.\n- Invasion through muscularis mucosa, showing desmoplastic stroma.\n- Villous architecture with high-grade dysplasia.\n  - Poor differentiation.\n  - [Desmoplasia](https://www.pathologyoutlines.com/imgau/colontumoradenocarcinomamicro05.jpg)\n  - [High power view](https://www.pathologyoutlines.com/imgau/colontumoradenocarcinomamicro02.jpg).\n\n## Ancillary Tests\n- **IHC:** Positive for cytokeratin markers.\n- **Molecular:** Common mutations in APC, KRAS, TP53.\n\n## Differential Diagnosis\n- **Adenoma with Pseudoinvasion:**\n  - Misplaced glands without true invasion or desmoplasia.\n- **Localized Colitis Cystica Profunda:**\n  - Misplaced epithelium in submucosa without true neoplasm.\n- **Lymphoglandular Complex-like Colorectal Carcinoma:**\n  - Associated with adenomas or sessile serrated lesions [Pathoutlines](https://www.pathologyoutlines.com/topic/colonlymphoglandularcomplexcolocarc.html).\n\n## Figures\n- ![Pedunculated tubular adenoma](https://www.pathologyoutlines.com/imgau/colontumorcarcinomaarisingJoldoshova01.jpg)\n- ![Tubulovillous adenoma](https://www.pathologyoutlines.com/imgau/colontumorcarcinomaarisingJoldoshova02.jpg)\n\n- Villous adenocarcinoma can have a high rate of lymph node and liver metastasis [Pathoutlines](https://www.pathologyoutlines.com/topic/colontumorvillousadenocarcinoma.html).",
   "cards": [
     {
       "title": "Non-ampullary adenoma",
@@ -362,7 +362,7 @@
       "text": "...ody and fundus) ## Pathophysiology Genetic or epigenetic factors that promote intestinal metaplasia ## Intestinal type adenoma Associated with intestinal metaplasia H. pylori infection ## Autoimmune gastritis Syndromes with APC gene mutations (i.e., familial adenomatous polyposis [FAP]) ## Foveolar type adenoma Commonly associated with polyposis syndromes ## Familial adenomatous polyposis Gastric adenocarcinoma and proximal polyposis of the stomach (GAPPS) ## Predominantly asymptomatic Large adenomas may cause recurrent bleeding and anemia ## Diagnosed by upper endoscopy with biopsy / polypectomy Prognostic factors Intestinal type gastric adenoma is more likely (but still with low probability) to progress to gastric cancer as compared to foveolar type gastric adenoma Foveolar type gastric adenoma with hybrid phenotype (both intestinal and gastric differentiation) carries higher cancer risk than only intestinal type adenoma Adenomas with low grade dysplasia have an annual malignant transformation rate of 0.6% and those with high grade dysplasia have annual malignant transformation rate of 6% (Histopathology 2021;78:106) ## Case reports 62 year old woman with anemia (BMJ Case Rep 202...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 8,
-      "vector_score": 0.6623495221138,
+      "vector_score": 0.6623462438583374,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -395,7 +395,7 @@
       "text": "Source: Pathology Outlines Subject: gastrointestinal Title: Pathology Outlines - Lymphoglandular complex-like colorectal carcinoma Header: Pathology Outlines - Lymphoglandular complex-like colorectal carcinoma URL: https://www.pathologyoutlines.com/topic/colonlymphoglandularcomplexcolocarc.html Primary tag: __UNMAPPED__ Top headings: Essential features | Majority are associated with adenomas or sessile serrated lesions | Gut associated lymphoid tissue (GALT) carcinoma | Epidemiology | Pathophysiology | Remainder are sessile serrated lesions with dysplasia | Etiology | Prognostic factors | No disease specific deaths have been reported | Treatment | Gross description | Microscopic (histologic) description | Glands often show angulation, fusion or nesting | Tumors are typically low grade and goblet cells are infrequent in invasive component | Lymphovascular invasion and perineural invasion rare | Lymph node metastasis in a subset of cases | Molecular / cytogenetics description | Differential diagnosis | Glands regularly distributed with lamina propria | Adenomatous polyp with pseudoinvasion ## Essential features Invasive tumor confined entirely by lymphoid stroma, typically appearing ...",
       "retrieval_mode": "pathout_ap_diagnostic_vector",
       "vector_rank": 10,
-      "vector_score": 0.6560588479042053,
+      "vector_score": 0.6560863256454468,
       "api_exposed_source": "local_pathout_ap_vector_v048",
       "reference_links": [
         {
@@ -4216,19 +4216,22 @@
     "critic_json": {
       "verdict": "revise",
       "missing_essentials": [
-        "Very well differentiated subtype of colorectal carcinoma",
-        "Mucinous features often present",
-        "Microsatellite instability always present"
+        "Figures related to adenoma with invasive carcinoma are not mentioned",
+        "Figure caption 'pedunculated tubular adenoma' is missing",
+        "High rate of lymph node and liver metastasis in villous adenocarcinoma"
       ],
       "redundant": [],
       "confusing": [],
       "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Mucinous adenocarcinoma"
+        "Lymphoglandular complex-like colorectal carcinoma"
       ],
-      "figure_issues": [],
-      "notes_for_revision": "Include the omitted facts about differentiation and mucinous features. In the differential diagnosis section, add 'Mucinous adenocarcinoma' as a missing entity. Address these to ensure completeness and accuracy."
+      "figure_issues": [
+        "Figure with caption 'Pedunculated tubular adenoma' should illustrate adenoma with invasive carcinoma entity",
+        "Figure with caption 'Tubulovillous adenoma' should be included"
+      ],
+      "notes_for_revision": "Include figures relevant to adenoma with invasive carcinoma and missing details on lymph node metastasis in villous adenocarcinoma. Add 'Lymphoglandular complex-like colorectal carcinoma' to the differential diagnosis section."
     },
     "revision_applied": true
   },
@@ -4253,7 +4256,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "gi",
-    "elapsed_s": 18.6
+    "elapsed_s": 25.2
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

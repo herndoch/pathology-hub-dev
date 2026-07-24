@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Pleomorphic Adenoma",
   "category_context": "HN > Salivary_Gland",
-  "generated_at": "2026-07-24T21:50:18.981407+00:00",
+  "generated_at": "2026-07-24T22:04:00.562977+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Most common salivary gland tumor, occurs in both children and adults.\n- Typically arises in the parotid gland but can occur in minor salivary glands.\n- Histologically characterized by biphasic population with ductal and myoepithelial cells.\n- Excellent prognosis with minimal risk of malignant transformation.\n- Frequently shows PLAG1 or HMGA2 gene rearrangements, involving ~70% of cases.\n\n## Terminology\n- Definition: Benign salivary gland neoplasm with mixed epithelial and stromal elements.\n- Synonyms: Mixed tumor.\n- Abbreviations: PA.\n- Not recommended: \"congenital pleomorphic adenoma\" (WHO).\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Biphasic architecture with ductal and myoepithelial cells.\n  - Stromal component can be myxoid, chondroid, or myxochondroid.\n  - PLAG1 or HMGA2 gene rearrangements common in ~70% of cases.\n- **Desirable:**\n  - Well-circumscribed, encapsulated appearance in parotid gland.\n\n## Etiology/Pathogenesis\n- PLAG1 and HMGA2 gene rearrangements are involved in pathogenesis.\n  - PLAG1 rearrangements are a key feature in a significant number of cases.\n- Includes benign metastasizing mixed tumors [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n\n## Clinical Issues\n- **Epidemiology:** Most common salivary gland tumor.\n- **Site:** Predominantly occurs in the parotid gland; also in minor salivary glands [Pathoutlines](https://www.pathologyoutlines.com/topic/oralcavitypleomorphicadenoma.html).\n- **Prognosis:** Generally excellent with low recurrence risk post-surgical resection.\n\n## Macroscopic\n- Well-defined, bosselated, gray-white mass.\n\n## Microscopic\n- Composed of triphasic elements: ductal epithelial cells, myoepithelial cells, and stromal component.\n- Stromal elements may appear myxoid, chondroid, or myxochondroid.\n  - Includes different cell types such as plasmacytoid and spindle myoepithelial cells.\n- Different growth patterns may be observed based on site and encapsulation.\n\n![Primary pleomorphic adenoma](https://www.pathologyoutlines.com/imgau/salivaryglandspleomorphicadenomaxu01new.jpg)\n\n## Ancillary Tests\n- **IHC:**\n  - Myoepithelial markers: positive.\n- **Molecular/Genetics:**\n  - PLAG1 and HMGA2 rearrangements detectable in majority of cases.\n\n## Differential Diagnosis\n- **Myoepithelioma:**\n  - Lacks ductal structures.\n  - No significant myxoid stroma.\n  - [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Salivary_Gland_Myoepithelioma.html)\n- **Basal Cell Adenoma:**\n  - Basaloid morphology with peripheral palisading.\n  - Minimal to absent stromal changes.\n  - [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Basal_Cell_Adenoma.html)\n- **Adenoid Cystic Carcinoma:**\n  - Cribriform pattern and frequent perineural invasion.\n  - Solid component presence can be high-grade feature.\n  - [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsadenoidcystic.html)\n- **Canalicular Adenoma:**\n  - Minor salivary gland location.\n  - Monotonous epithelial cells in anastomosing cords.\n  - [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandscanalicularadenoma.html)",
+  "answer_markdown": "## Key Facts\n- Most common salivary gland tumor in both children and adults.\n- Typically well-demarcated, gray-white myxoid mass.\n- Triphasic histology: ductal, myoepithelial, stromal components.\n- Common genetic alterations involve PLAG1 or HMGA2 rearrangements.\n- Surgical resection with negative margins is the treatment of choice.\n\n## Terminology\n- Pleomorphic adenoma: benign mixed tumor of salivary gland origin.\n- Synonyms: Benign mixed tumor, salivary gland myxochondroepithelioma (not commonly used).\n\n## Essential and Desirable Diagnostic Criteria\n  - **Essential:**\n    - Biphasic architecture with ductal and myoepithelial cells.\n    - Stromal components: myxoid, chondroid, or myxochondroid [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n    - PLAG1 or HMGA2 rearrangements common [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n  - **Desirable:**\n    - Well-demarcated margins with bosselated appearance.\n    - Encapsulation varies: well-encapsulated in parotid, less so in minor glands.\n\n## Etiology/Pathogenesis\n- **Genetic Alterations:**\n  - PLAG1 and HMGA2 rearrangements.\n- **Pathophysiology:**\n  - Tumor is triphasic: ductal, myoepithelial, and stromal components.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Most common in children and adults [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Presentation:**\n  - Painless, slow-growing mass.\n- **Treatment:**\n  - Surgical excision with negative margins.\n- **Prognosis:**\n  - Excellent when adequately resected.\n\n## Macroscopic\n- Well-demarcated, bosselated gray-white myxoid mass.\n- Encapsulated appearance more common in the parotid gland.\n\n## Microscopic\n- **Patterns:**\n  - Triphasic architecture: ductal, myoepithelial, stromal.\n  - Myxoid, chondroid, or myxochondroid stroma.\n- **Morphology:**\n  - Varied cell types: spindle, plasmacytoid, and clear cells.\n\n## Ancillary Tests\n- **Immunohistochemistry:**\n  - PLAG1, HMGA2 often positive in cases with rearrangements.\n- **Molecular/Genetic Testing:**\n  - PLAG1 and HMGA2 gene rearrangements frequently identified [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n\n## Differential Diagnosis\n- **Myoepithelioma:**\n  - Monomorphic histology, rare ductal structures [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Salivary_Gland_Myoepithelioma.html).\n- **Basal Cell Adenoma:**\n  - Basaloid biphasic pattern, peripheral palisading, minimal myxoid stroma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Basal_Cell_Adenoma.html).\n- **Canalicular Adenoma:**\n  - Monotonous, cuboidal to columnar cells in cords and canaliculi; no basal/myoepithelial layer [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandscanalicularadenoma.html).\n- **Adenoid Cystic Carcinoma:**\n  - Cribriform pattern, perineural invasion common [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsadenoidcystic.html).\n- **Adenomatoid Hyperplasia:**\n  - Presents as submucosal nodules, often in the hard palate [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsadenomatoidhyperplasia.html).\n- **Nodular Oncocytic Hyperplasia:**\n  - Clusters of oncocytes, often in parotid [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsoncocytosis.html).\n- **Sclerosing Polycystic Adenoma:**\n  - Features bilayered ducts within sclerotic stroma [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandssclerosingpolycysticadenoma.html).\n- **Cystadenoma:**\n  - Unilocular/multicystic lesion, often oncocytic [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandscystadenoma.html).\n- **Sebaceous Lymphadenoma:**\n  - Has nests of sebaceous and lymphoid stroma [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandssebaceousadenoma.html).\n- **Basal Cell Adenocarcinoma:**\n  - Low-grade malignant tumor; differential includes pleomorphic adenoma and adenoid cystic carcinoma [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsbasalcelladenocarcinoma.html).",
   "cards": [
     {
       "title": "Salivary gland anlage tumour",
@@ -1909,23 +1909,27 @@
     "critic_raw": null,
     "critic_json": {
       "verdict": "revise",
-      "missing_essentials": [
-        "Terminology: Not recommended term 'congenital pleomorphic adenoma'",
-        "Microscopic: Different cell types such as plasmacytoid and spindle myoepithelial cells",
-        "Etiology/Pathogenesis: Mention of benign metastasizing mixed tumors"
+      "missing_essentials": [],
+      "redundant": [
+        "PLAG1 or HMGA2 rearrangements common",
+        "Surgical resection with negative margins is curative; enucleation not advised due to high recurrence risk.",
+        "Enucleation not recommended due to recurrence risk."
       ],
-      "redundant": [],
       "confusing": [],
-      "entity_conflation": [
-        "Etiology/Pathogenesis: Benign metastasizing mixed tumors belong to pleomorphic adenoma but are not fully covered in Clinical Issues",
-        "Clinical Issues: PLAG1 rearrangements are essential but not highlighted as such"
-      ],
+      "entity_conflation": [],
       "off_organ_or_offtopic": [],
       "missing_ddx_entities": [
-        "Canalicular adenoma"
+        "Adenomatoid hyperplasia",
+        "Nodular oncocytic hyperplasia",
+        "Sclerosing polycystic adenoma",
+        "Cystadenoma",
+        "Sebaceous lymphadenoma",
+        "Basal cell adenocarcinoma"
       ],
-      "figure_issues": [],
-      "notes_for_revision": "Include missing essentials regarding terminology and microscopic features. Add Canalicular adenoma to Differential Diagnosis. Ensure clear distinction and coverage for benign metastasizing mixed tumors and genetic rearrangements."
+      "figure_issues": [
+        "Figure does not match the caption 'Primary pleomorphic adenoma'"
+      ],
+      "notes_for_revision": "Remove redundant points about PLAG1/HMGA2 rearrangements and treatment advice. Add missing differential diagnosis entities like adenomatoid hyperplasia. Ensure the figure matches its caption."
     },
     "revision_applied": true
   },
@@ -1950,7 +1954,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "hn",
-    "elapsed_s": 50.4
+    "elapsed_s": 27.6
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

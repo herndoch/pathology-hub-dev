@@ -352,6 +352,21 @@ _PAGE_TAG_CONFUSABLE_TERMS: dict[str, frozenset[str]] = {
             "rhabdoid tumor of the kidney",
             "papillary renal cell",
             "chromophobe renal cell",
+            # This leaf's PathOutlines "anchor" page is a multi-subtype RCC
+            # overview whose figure captions are the ONLY per-image signal
+            # (entity_name is generically "Renal cell carcinoma overview" for
+            # every figure) — explicitly reject other RCC subtypes' captions
+            # so they don't leak onto the clear cell RCC gallery.
+            "papillary rcc",
+            "prcc",
+            "chromophobe",
+            "chrcc",
+            "fh deficient",
+            "fh-deficient",
+            "fh loss",
+            "sdh deficient",
+            "sdh-deficient",
+            "sdhb",
         }
     ),
     "gu::prostate::glandular_neoplasms::prostatic_acinar_adenocarcinoma": frozenset(
@@ -402,11 +417,16 @@ _PAGE_TAG_URL_SLUG_ALIASES: dict[str, tuple[str, ...]] = {
 
 
 def _matches_url_slug_alias(item: dict, tag_key: str) -> bool:
+    """Exact-path match only — PathOutlines slugs share prefixes (e.g. the
+    'kidneytumormalignantrcc' RCC-overview page vs the DIFFERENT, more
+    specific 'kidneytumormalignantrccpap' papillary RCC page), so a bare
+    substring check would treat every subtype's own dedicated page as a
+    match too."""
     slugs = _PAGE_TAG_URL_SLUG_ALIASES.get(tag_key)
     if not slugs:
         return False
     url = str(item.get("source_url") or item.get("url") or item.get("figure_url") or "").casefold()
-    return any(slug in url for slug in slugs)
+    return any(url.endswith(f"/{slug}.html") for slug in slugs)
 
 
 _PAGE_TAG_ENTITY_ALIASES: dict[str, tuple[str, ...]] = {
