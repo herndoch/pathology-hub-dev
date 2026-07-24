@@ -369,6 +369,19 @@ _PAGE_TAG_CONFUSABLE_TERMS: dict[str, frozenset[str]] = {
             "signet ring cell carcinoma",
         }
     ),
+    "skin::neoplastic::melanocytic::malignant::melanoma_invasive_overview_nos": frozenset(
+        {"conjunctival melanoma", "conjunctiva", "uveal melanoma", "uveal", "choroidal melanoma"}
+    ),
+}
+
+# Legitimate same-organ differential-diagnosis entities that must stay available
+# as DDx *text* evidence but must never be selected as index/gallery figures
+# (a figure literally captioned/entitled as the DDx entity, presented without
+# DDx framing, reads as if it documents the page's own entity).
+_FIGURE_ONLY_EXCLUDE_TERMS: dict[str, frozenset[str]] = {
+    "hn::salivary_gland::malignant_tumor::secretory_carcinoma": frozenset(
+        {"microsecretory adenocarcinoma"}
+    ),
 }
 
 _SITE_CONTEXT_EXCLUSIONS: dict[str, frozenset[str]] = {
@@ -427,28 +440,71 @@ def topic_page_essential_hints(page_tag: Optional[str]) -> str:
         ),
         "gu::prostate::glandular_neoplasms::prostatic_acinar_adenocarcinoma": (
             "Essential criteria MUST include Gleason pattern / Grade Group reporting framework, "
-            "basal-cell marker loss (p63/HMWCK), and AMACR when in evidence — not just 'invasive glands'."
+            "basal-cell marker loss (p63/HMWCK), and AMACR when in evidence — not just 'invasive "
+            "glands'. Differential Diagnosis MUST include atypical small acinar proliferation "
+            "(ASAP) as the top entry when in evidence, plus benign mimics (atrophy, adenosis, "
+            "seminal vesicle, Cowper gland) — these are the practical everyday differentials, not "
+            "rare carcinomas. Skene gland adenocarcinoma is a DIFFERENT ORGAN (female urethra), not "
+            "a real prostate differential — do not mention it anywhere on this page even in DDx."
         ),
         "gi::colon::neoplastic::adenocarcinoma::colonic_adenocarcinoma_arising_in_adenoma": (
             "This is malignant polyp / adenoma with invasive carcinoma — NOT generic colorectal "
             "adenocarcinoma or adenosquamous carcinoma. Essential criteria MUST include invasion "
             "through muscularis mucosa (pT1), Haggitt levels (pedunculated), Kikuchi/Kudo Sm1–3 "
-            "(sessile), and pseudoinvasion as a key DDx when in evidence."
+            "(sessile), and high-risk histology (poor differentiation, lymphovascular invasion, "
+            "positive/close margin, high-grade tumor budding) when in evidence. Do NOT state that "
+            "microsatellite instability is universal/defining for villous adenocarcinoma — MSI is a "
+            "molecular subset finding, not an essential histologic criterion. Differential Diagnosis "
+            "MUST include adenoma with pseudoinvasion (misplaced epithelium) and localized colitis "
+            "cystica profunda when in evidence — these are the critical benign mimics, not "
+            "adenosquamous carcinoma or gastroblastoma."
         ),
         "gu::kidney::renal_cell::clear_cell_rcc": (
             "Essential criteria MUST include delicate chicken-wire vasculature and CA9/CAIX "
-            "box-like membranous staining when in evidence; CK7 typically negative/focal."
+            "box-like membranous staining when in evidence; CK7 typically negative/focal. "
+            "Differential Diagnosis and figures must be about ACTUAL clear cell RCC mimics "
+            "(papillary RCC, chromophobe RCC, clear cell papillary renal cell tumor, MiT/TFE "
+            "translocation RCC) — clear cell sarcoma of the kidney, PEComa/epithelioid "
+            "angiomyolipoma, collecting duct carcinoma, and rhabdoid tumour of the kidney are "
+            "pediatric/rare unrelated entities and must not appear as this page's figures or "
+            "differential diagnosis entries."
         ),
         "breast::neoplastic::epithelial::in_situ::ductal_carcinoma_in_situ_dcis": (
             "Essential criteria MUST emphasize intact myoepithelium / confinement to ductal-lobular "
-            "system — NOT mammographic microcalcifications as a histologic essential."
+            "system — NOT mammographic microcalcifications as a histologic essential. Differential "
+            "Diagnosis MUST include usual ductal hyperplasia (UDH), atypical ductal hyperplasia "
+            "(ADH), and collagenous spherulosis when in evidence."
         ),
         "heme::mature_b_cell::large_b_cell::diffuse_large_b_cell_lymphoma_nos": (
             "Essential criteria MUST include GCB vs ABC / Hans algorithm workup and rule-out of "
             "high-grade B-cell lymphoma with MYC and BCL2/BCL6 rearrangements when in evidence."
         ),
+        "bst::soft_tissueadipocytic::lipoma": (
+            "Essential criteria MUST include mature adipocyte morphology without atypia/lipoblasts; "
+            "12q13-15/HMGA2 rearrangement is Desirable (supportive, not required). Figures MUST be "
+            "of ordinary lipoma — myolipoma (smooth-muscle component), liposarcoma, and atypical "
+            "lipomatous tumor are differential entities only, never index figures."
+        ),
+        "skin::neoplastic::melanocytic::malignant::melanoma_invasive_overview_nos": (
+            "This is an OVERVIEW/NOS page — frame Essential criteria as the structured malignancy-"
+            "vs-nevus checklist when in evidence: asymmetry, lack of maturation with depth, pagetoid "
+            "melanocytic scatter, deep/atypical mitoses, and ulceration — plus Breslow thickness, "
+            "mitotic rate, and ulceration as ESSENTIAL staging criteria (not merely Desirable). "
+            "Mention the major pathway-based subtypes (low-CSD/SSM, high-CSD, acral, desmoplastic, "
+            "Spitz-related) briefly if evidence supports it. Conjunctival melanoma and uveal "
+            "melanoma are DIFFERENT ORGANS (ocular, not cutaneous) — do not mention or use figures "
+            "of them anywhere on this page."
+        ),
     }
     return hints.get(key, "")
+
+
+def _excluded_by_site_context(blob: str, subcategory: str) -> bool:
+    sub = (subcategory or "").casefold()
+    for site_key, terms in _SITE_CONTEXT_EXCLUSIONS.items():
+        if site_key in sub and any(term in blob for term in terms):
+            return True
+    return False
 
 
 def _item_entity_blob(item: dict) -> str:
@@ -461,8 +517,22 @@ def _item_entity_blob(item: dict) -> str:
     )
 
 
-def entity_matches_page_tag(item: dict, page_tag: Optional[str]) -> bool:
-    """True when a card/figure clearly documents the browse-leaf entity."""
+def _word_in_blob(word: str, blob: str) -> bool:
+    """Whole-word match — plain `in` lets 'secretory' match inside 'microsecretory'
+    and 'carcinoma' match inside 'adenocarcinoma', silently defeating multi-word
+    entity disambiguation."""
+    return re.search(rf"\b{re.escape(word)}\b", blob) is not None
+
+
+def entity_matches_page_tag(
+    item: dict, page_tag: Optional[str], *, figures_only: bool = False
+) -> bool:
+    """True when a card/figure clearly documents the browse-leaf entity.
+
+    `figures_only=True` additionally excludes legitimate same-organ DDx
+    entities that must remain available as evidence text but should never be
+    selected as an index/gallery figure (see `_FIGURE_ONLY_EXCLUDE_TERMS`).
+    """
     if not page_tag or not isinstance(item, dict):
         return True
     seg = page_tag_segments(page_tag)
@@ -470,6 +540,7 @@ def entity_matches_page_tag(item: dict, page_tag: Optional[str]) -> bool:
         return True
 
     blob = _item_entity_blob(item)
+    entity_title_blob = _text_blob(item.get("entity_name"), item.get("title"), item.get("caption"))
     tag_key = page_tag.casefold()
     leaf = page_tag_leaf_phrase(page_tag).casefold()
 
@@ -477,17 +548,25 @@ def entity_matches_page_tag(item: dict, page_tag: Optional[str]) -> bool:
         if term in blob:
             return False
 
-    sub = seg.get("subcategory", "").casefold()
-    for site_key, terms in _SITE_CONTEXT_EXCLUSIONS.items():
-        if site_key in sub:
-            for term in terms:
-                if term in blob:
-                    return False
+    if figures_only:
+        for term in _FIGURE_ONLY_EXCLUDE_TERMS.get(tag_key, frozenset()):
+            if term in blob:
+                return False
+
+    if _excluded_by_site_context(blob, seg.get("subcategory", "")):
+        return False
+
+    # Hard root-conflict check: the item's OWN title/entity/caption (not just
+    # any incidental mention in a longer excerpt) names a term from a
+    # conflicting organ — e.g. "conjunctival melanoma" figure on a skin page.
+    root_conflicts = _ROOT_CONFLICT_TERMS.get(seg.get("root", ""), frozenset())
+    if root_conflicts and any(term in entity_title_blob for term in root_conflicts):
+        return False
 
     entity = str(item.get("entity_name") or item.get("title") or "").casefold().strip()
-    if leaf and (leaf in entity or entity in leaf):
+    if leaf and (leaf == entity or _word_in_blob(leaf, entity) or _word_in_blob(entity, leaf)):
         return True
-    if leaf and leaf in blob:
+    if leaf and _word_in_blob(leaf, blob):
         return True
 
     for alias in _PAGE_TAG_ENTITY_ALIASES.get(tag_key, ()):
@@ -495,11 +574,10 @@ def entity_matches_page_tag(item: dict, page_tag: Optional[str]) -> bool:
             return True
 
     leaf_words = [w for w in re.split(r"[_\s]+", leaf) if len(w) > 2]
-    if len(leaf_words) >= 2 and all(w in blob for w in leaf_words):
+    if len(leaf_words) >= 2 and all(_word_in_blob(w, blob) for w in leaf_words):
         return True
     if len(leaf_words) == 1:
-        word = leaf_words[0]
-        if re.search(rf"\b{re.escape(word)}\b", blob):
+        if _word_in_blob(leaf_words[0], blob):
             return True
     return False
 
@@ -1163,6 +1241,7 @@ def filter_cards_by_page_tag(cards: list[dict], page_tag: Optional[str]) -> list
             if pt_root and pt_root != target_root:
                 continue
 
+        title_blob = _text_blob(card.get("title"), card.get("entity_name"))
         blob = _text_blob(
             card.get("title"),
             card.get("heading"),
@@ -1170,9 +1249,16 @@ def filter_cards_by_page_tag(cards: list[dict], page_tag: Optional[str]) -> list
             card.get("excerpt"),
             card.get("entity_name"),
         )
+        # Hard exclude: the card's OWN title/entity names a conflicting-organ
+        # term (e.g. title "Conjunctival melanoma" on a skin page) — a whole-
+        # excerpt mention of the target organ elsewhere should not save it.
+        if conflicts and any(term in title_blob for term in conflicts):
+            continue
         if conflicts and any(term in blob for term in conflicts):
             if not any(hint in blob for hint in organ_hints):
                 continue
+        if _excluded_by_site_context(blob, seg.get("subcategory", "")):
+            continue
         if seg.get("is_benign") and any(term in blob for term in _BENIGN_EXCLUDE_TERMS):
             continue
         kept.append(card)
@@ -1195,7 +1281,7 @@ def filter_figures_by_entity_match(
             continue
         if seg.get("is_benign") and any(term in _item_entity_blob(fig) for term in _BENIGN_EXCLUDE_TERMS):
             continue
-        if entity_matches_page_tag(fig, page_tag):
+        if entity_matches_page_tag(fig, page_tag, figures_only=True):
             kept.append(fig)
     return kept
 
