@@ -152,6 +152,7 @@ def _prebuild_one(base_url: str, leaf: dict, category_context: str, timeout_s: i
         "cards": data.get("cards") or [],
         "figures": data.get("figures") or [],
         "who_cross_mentions": data.get("who_cross_mentions") or [],
+        "critic": data.get("critic"),
         "retrieval_debug_summary": retrieval_debug_summary,
         "known_limitations": known_limitations,
     }
@@ -208,6 +209,20 @@ def _process_leaf(
     category_context = f"{root_label} > {sub_label}"
     page = _prebuild_one(base_url, leaf, category_context, timeout_s)
     json_path, md_path = _write_page(page)
+    critic = page.get("critic") or {}
+    critic_json = critic.get("critic_json") or {}
+    n_issues = sum(
+        len(critic_json.get(k) or [])
+        for k in (
+            "missing_essentials",
+            "redundant",
+            "confusing",
+            "entity_conflation",
+            "off_organ_or_offtopic",
+            "missing_ddx_entities",
+            "figure_issues",
+        )
+    )
     return {
         "tag": leaf["tag"],
         "ok": page["ok"],
@@ -217,6 +232,8 @@ def _process_leaf(
         "figures": len(page["figures"]),
         "elapsed_s": page["retrieval_debug_summary"].get("elapsed_s"),
         "model": page.get("model"),
+        "critic_revision_applied": bool(critic.get("revision_applied")),
+        "critic_issues_found": n_issues,
     }
 
 

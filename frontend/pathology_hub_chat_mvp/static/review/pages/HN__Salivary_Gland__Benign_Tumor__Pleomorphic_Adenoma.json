@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Pleomorphic Adenoma",
   "category_context": "HN > Salivary_Gland",
-  "generated_at": "2026-07-24T03:52:29.567360+00:00",
+  "generated_at": "2026-07-24T04:06:58.947495+00:00",
   "ok": true,
   "model": "gpt-4o",
-  "answer_markdown": "## Key Facts\n- Most common salivary gland tumor in both children and adults.\n- Predominantly occurs in the parotid gland.\n- Triphasic composition with ductal, myoepithelial, and stromal components.\n- Slow-growing, painless mass with well-defined borders.\n- Risk factors include prior radiation; minimal risk of malignant transformation.\n\n## Terminology\n- Pleomorphic adenoma: a benign salivary gland tumor with diverse morphological features.\n- Synonyms (not recommended): Benign mixed tumor.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Triphasic tumor with ductal, myoepithelial, and stromal components [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Desirable:**\n  - Well-demarcated, bosselated gray-white myxoid mass.\n\n## Etiology/Pathogenesis\n- Prior radiation exposure increases risk [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n\n## Clinical Issues\n- **Epidemiology:**\n  - Most common salivary gland tumor in adults and children [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Site:**\n  - Predominantly parotid gland (84% of cases).\n  - Can also occur in submandibular, sublingual glands, lacrimal gland, and minor salivary glands [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Presentation:**\n  - Slow-growing, painless, well-circumscribed mass [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Prognosis:**\n  - Enucleation carries a 15-25% recurrence risk [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n  - Risk of malignant transformation approximately 5%.\n\n## Macroscopic\n- Well-defined mass with a gray-white myxoid appearance [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n\n## Microscopic\n- **Growth Patterns:**\n  - Triphasic pattern with ductal, myoepithelial, and stromal components.\n  - Stromal component can be myxoid, chondroid, or myxochondroid.\n![Pleomorphic adenoma](https://www.pathologyoutlines.com/thumb/salivaryglandspleomorphicadenomaejhs01.jpg).\n\n## Ancillary Tests\n- **Diagnosis:**\n  - Possible through cytology or biopsy showing metachromatic stroma or triphasic growth pattern [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n\n## Differential Diagnosis\n### Salivary Gland Myoepithelioma\n  - Monomorphic histology, rare ductal structures [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Salivary_Gland_Myoepithelioma.html).\n### Basal Cell Adenoma\n  - Biphasic basaloid morphology, peripheral palisading [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Basal_Cell_Adenoma.html).\n### Canalicular Adenoma\n  - Monomorphic epithelial cells in cords, minor salivary gland location [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Canalicular_Adenoma.html).",
+  "answer_markdown": "## Key Facts\n- Most common salivary gland tumor.\n- Exhibits a triphasic composition with ductal, myoepithelial cells, and a stromal component.\n- MRI shows a well-defined mass, often hyperintense on T2-weighted images.\n- Associated with a 5% risk of malignant transformation.\n\n## Terminology\n- Pleomorphic adenoma: Also known as benign mixed tumor.\n- ICD-O code: 8940/0 for pleomorphic adenoma.\n\n## Essential and Desirable Diagnostic Criteria\n- **Essential:**\n  - Triphasic growth pattern with ductal epithelial cells, myoepithelial cells, and a stromal component.\n  - Well-circumscribed, with a variably myxoid or chondroid stroma.\n- **Desirable:**\n  - Diagnosis through preoperative cytology showing metachromatic fibrillary stroma.\n\n## Etiology/Pathogenesis\n- Prior radiation exposure increases the risk of development.\n\n## Clinical Issues\n- **Epidemiology:**\n  - Most common tumor in children and adults [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Site:**\n  - Primarily affects the parotid gland (84%) [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandspleomorphicadenoma.html).\n- **Presentation:**\n  - Slow-growing, painless, and well-circumscribed mass.\n- **Prognosis:**\n  - Surgical resection with negative margins is curative.\n  - Risk of malignant transformation is ~5%.\n  - Recurrence associated with incomplete excision or enucleation.\n\n## Macroscopic\n- Well-demarcated, gray-white myxoid mass with a bosselated surface.\n\n## Microscopic\n- Triphasic pattern: ductal, myoepithelial components, and stromal variations.\n- Stroma can be myxoid, chondroid, or myxochondroid.\n- Features plasmoid myoepithelial cells and can show metaplastic changes such as squamous metaplasia.\n\n![Microscopic of pleomorphic adenoma](https://www.pathologyoutlines.com/thumb/salivaryglandspleomorphicadenomaejhs01.jpg)\n\n## Ancillary Tests\n- **IHC:**\n  - CK: Positive in ductal cells.\n  - SMA: Positive in myoepithelial cells.\n- **Molecular/Genetics:**\n  - Not specified in the evidence provided.\n\n## Differential Diagnosis\n- **Myoepithelioma:**\n  - Exhibits monomorphic histology with rare or absent ductal structures.\n  - Lacks triphasic pattern seen in pleomorphic adenoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Salivary_Gland_Myoepithelioma.html).\n- **Basal cell adenoma:**\n  - Contains biphasic basaloid morphology with peripheral palisading.\n  - Minimal myxoid stroma compared to pleomorphic adenoma [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Basal_Cell_Adenoma.html).\n- **Canalicular adenoma:**\n  - Lacks myoepithelial component; minor salivary gland location.\n  - Isomorphic syncytium formation with no basal/myoepithelial layer [WHO](https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/HN/Canalicular_Adenoma.html).\n- **Adenomatoid hyperplasia and sialadenosis:**\n  - Presents as submucosal nodule or mass.\n  - May be hyperplastic or hamartomatous in appearance [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsadenomatoidhyperplasia.html).\n- **Nodular oncocytic hyperplasia:**\n  - Characterized by parotid cysts lined by oncocytes or clusters of oncocytes [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandsoncocytosis.html).\n- **Sclerosing polycystic adenoma:**\n  - Features preservation of lobular architecture and variably sized ducts.\n  - Acini with eosinophilic granules [Pathoutlines](https://www.pathologyoutlines.com/topic/salivaryglandssclerosingpolycysticadenoma.html).",
   "cards": [
     {
       "title": "Salivary gland anlage tumour",
@@ -4665,6 +4665,30 @@
       "source_section": "differential_diagnosis"
     }
   ],
+  "critic": {
+    "critic_ok": true,
+    "critic_raw": null,
+    "critic_json": {
+      "verdict": "revise",
+      "missing_essentials": [],
+      "redundant": [
+        "- Most common salivary gland tumor in both children and adults.",
+        "- Primarily affects the parotid gland (84%).",
+        "- May show areas of chondroid or myxochondroid tissue."
+      ],
+      "confusing": [],
+      "entity_conflation": [],
+      "off_organ_or_offtopic": [],
+      "missing_ddx_entities": [
+        "Adenomatoid hyperplasia and sialadenosis",
+        "Nodular oncocytic hyperplasia",
+        "Sclerosing polycystic adenoma"
+      ],
+      "figure_issues": [],
+      "notes_for_revision": "Remove redundant information repeated in different sections and add missing differential diagnosis entities like adenomatoid hyperplasia, nodular oncocytic hyperplasia, and sclerosing polycystic adenoma."
+    },
+    "revision_applied": true
+  },
   "retrieval_debug_summary": {
     "cards_capped": 120,
     "cards_cap_limit": 120,
@@ -4686,7 +4710,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "hn",
-    "elapsed_s": 9.2
+    "elapsed_s": 28.2
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",

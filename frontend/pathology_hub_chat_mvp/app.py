@@ -613,6 +613,46 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
     )
 
 
+TOPIC_PAGE_CRITIC_ENABLED = _env_bool("TOPIC_PAGE_CRITIC_ENABLED", default=True)
+
+_CRITIC_ISSUE_KEYS = (
+    "missing_essentials",
+    "redundant",
+    "confusing",
+    "entity_conflation",
+    "off_organ_or_offtopic",
+    "missing_ddx_entities",
+    "figure_issues",
+)
+
+
+def _parse_critic_json(text: str) -> Optional[dict]:
+    if not text:
+        return None
+    candidate = text.strip()
+    if candidate.startswith("```"):
+        candidate = re.sub(r"^```(?:json)?\s*|\s*```$", "", candidate.strip())
+    try:
+        parsed = json.loads(candidate)
+    except (ValueError, TypeError):
+        match = re.search(r"\{.*\}", candidate, re.DOTALL)
+        if not match:
+            return None
+        try:
+            parsed = json.loads(match.group(0))
+        except (ValueError, TypeError):
+            return None
+    if not isinstance(parsed, dict):
+        return None
+    return parsed
+
+
+def _critic_has_issues(critic_json: dict) -> bool:
+    if str(critic_json.get("verdict") or "").strip().lower() == "revise":
+        return True
+    return any(isinstance(critic_json.get(k), list) and critic_json.get(k) for k in _CRITIC_ISSUE_KEYS)
+
+
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
     extra_parts = []
     if req.category_context:
@@ -622,17 +662,60 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
     if req.page_tag:
         extra_parts.append(f"Browse leaf tag: {req.page_tag}.")
     extra_parts.append(
-        "Blend evidence across WHO, PathOutlines, textbooks, journals, and videos when present. "
-        "Do not let a single source dominate if others have substantive material. "
-        "Key Facts must be 3–5 board-style pearls only — never repeat bullets from later sections."
+        "Blend evidence across WHO and PathOutlines when both have substantive material. "
+        "Do not let a single source dominate. "
+        "Key Facts must be 4–6 board-style pearls only — never repeat bullets from later sections."
     )
-    return synthesize(
+    query = topic_page_disambiguated_query(req.query, req.category_context, req.page_tag) or req.query
+    evidence = _evidence_for_synthesis(merged, cards)
+    model = get_topic_page_model()
+
+    draft = synthesize(
         prompts.topic_page_system_prompt(),
-        topic_page_disambiguated_query(req.query, req.category_context, req.page_tag) or req.query,
-        _evidence_for_synthesis(merged, cards),
+        query,
+        evidence,
         extra_instructions="\n".join(extra_parts),
-        model=get_topic_page_model(),
+        model=model,
     )
+    if not draft.ok or not draft.text or not TOPIC_PAGE_CRITIC_ENABLED:
+        return draft
+
+    critic_evidence = dict(evidence)
+    critic_evidence["draft_page_markdown"] = draft.text
+    critic_result = synthesize(
+        prompts.topic_page_critic_system_prompt(),
+        query,
+        critic_evidence,
+        model=model,
+    )
+    critic_json = _parse_critic_json(critic_result.text) if critic_result.ok else None
+    critic_debug = {
+        "critic_ok": critic_result.ok,
+        "critic_raw": critic_result.text if not critic_json else None,
+        "critic_json": critic_json,
+        "revision_applied": False,
+    }
+    if not critic_json or not _critic_has_issues(critic_json):
+        draft.raw_debug = {**(draft.raw_debug or {}), "critic": critic_debug}
+        return draft
+
+    revise_evidence = dict(evidence)
+    revise_evidence["draft_page_markdown"] = draft.text
+    revise_evidence["critique_json"] = critic_json
+    revised = synthesize(
+        prompts.topic_page_revise_system_prompt(),
+        query,
+        revise_evidence,
+        extra_instructions="\n".join(extra_parts),
+        model=model,
+    )
+    if not revised.ok or not revised.text:
+        draft.raw_debug = {**(draft.raw_debug or {}), "critic": critic_debug}
+        return draft
+
+    critic_debug["revision_applied"] = True
+    revised.raw_debug = {**(revised.raw_debug or {}), "critic": critic_debug, "pre_revision_draft": draft.text}
+    return revised
 
 
 def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
@@ -714,6 +797,7 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
+        critic_payload = (result.raw_debug or {}).get("critic") if mode == "topic_page" else None
         return {
             "ok": result.ok,
             "mode": mode,
@@ -724,6 +808,7 @@ def api_chat(req: ChatRequest):
             "cards": cards,
             "figures": figures,
             "who_cross_mentions": who_cross_mentions,
+            "critic": critic_payload,
             "debug": _debug_payload(outcomes, retrieval_meta),
         }
     except ValueError as exc:

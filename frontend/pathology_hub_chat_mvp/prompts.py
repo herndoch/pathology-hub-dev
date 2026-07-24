@@ -176,6 +176,79 @@ def topic_page_system_prompt() -> str:
     )
 
 
+def topic_page_critic_system_prompt() -> str:
+    allowed = ", ".join(TOPIC_PAGE_SECTIONS)
+    return (
+        "You are a fellowship-trained pathology attending reviewing a trainee-built reference page "
+        "before it is published for other residents to study from. You will be given the evidence "
+        "bundle (JSON, the ONLY source of truth) and the DRAFT page built from it. Your job is "
+        "quality control, not rewriting.\n\n"
+        "Check the draft against the evidence for ALL of the following, and output ONLY a JSON object "
+        "(no prose outside the JSON) with this exact shape:\n"
+        '{\n'
+        '  "verdict": "pass" | "revise",\n'
+        '  "missing_essentials": ["specific fact/feature present in evidence but omitted from the draft", ...],\n'
+        '  "redundant": ["bullet or phrase that duplicates another section", ...],\n'
+        '  "confusing": ["specific bullet/section that is unclear or oddly ordered", ...],\n'
+        '  "entity_conflation": ["fact attributed to this page entity that actually belongs to a '
+        'different named entity in the evidence (e.g. a DDx candidate)", ...],\n'
+        '  "off_organ_or_offtopic": ["content clearly about a different organ/site/entity than the '
+        'browse context", ...],\n'
+        '  "missing_ddx_entities": ["differential diagnosis entity named in the evidence but absent '
+        'from the Differential Diagnosis section", ...],\n'
+        '  "figure_issues": ["figure whose caption/entity does not match the stated topic, or is '
+        'placed where it does not illustrate the adjacent bullet", ...],\n'
+        '  "notes_for_revision": "1-3 sentence plain-language summary of what to fix, empty string if verdict is pass"\n'
+        '}\n\n'
+        "Rules:\n"
+        f"- Valid section headers are: {allowed}. Do not flag a missing section that has no "
+        "supporting evidence — omission is correct there.\n"
+        "- Every array should be empty ([]) if that check found no issues — do not pad with weak "
+        "findings just to have something to say.\n"
+        "- verdict is 'pass' only if every array above is empty.\n"
+        "- Be specific: quote or closely paraphrase the exact bullet/fact, not a vague category.\n"
+        "- Do not invent issues not actually supported by the evidence or draft text.\n"
+        "- Do not suggest adding anything not present in the evidence bundle."
+    )
+
+
+def topic_page_revise_system_prompt() -> str:
+    allowed = ", ".join(TOPIC_PAGE_SECTIONS)
+    return (
+        BASE_GROUNDING_RULES
+        + "\n\nMODE: Topic page TARGETED CORRECTION (not a rewrite). You will be given the evidence "
+        "bundle, the previous DRAFT, and a reviewing attending's critique (JSON) listing SPECIFIC "
+        "issues. Your job is a minimal, surgical edit of the draft: fix ONLY what the critique flags. "
+        "\n\nCRITICAL — content preservation:\n"
+        "- Every bullet, sub-bullet, statistic, citation, and section in the draft that the critique "
+        "did NOT flag must appear in your output UNCHANGED (same wording, same section, same order). "
+        "Do not shorten, summarize, paraphrase, merge, or drop anything that wasn't flagged.\n"
+        "- Do not regenerate the page from the evidence bundle from scratch — start from the draft "
+        "text and edit it.\n"
+        "- NEVER write a bullet that describes an editorial action instead of performing it (e.g. do "
+        "NOT write 'Correct placement of X' or 'Move Y to the right section' as page content) — "
+        "actually move/fix the content itself and output only the corrected fact/bullet.\n"
+        "- The output must read exactly like a normal, complete topic page with zero meta-commentary "
+        "about the revision process.\n\n"
+        f"Valid section headers: {allowed}. Keep the same order and formatting rules as a normal "
+        "topic page (bullets, nested sub-bullets, at most 1-3 inline figures, no citation roundup at "
+        "the end). Differential Diagnosis DEFAULTS to per-entity bullets with 2-4 distinguishing "
+        "sub-bullets each — do not convert it to a sparse table just to fit a newly added entity; add "
+        "the new entity as its own bullet with the same depth as the existing ones.\n"
+        "Apply ONLY these fixes, using ONLY facts already in the evidence bundle:\n"
+        "- 'missing_essentials': add the fact to the correct section, matching existing bullet depth.\n"
+        "- 'redundant': keep the fact in whichever ONE section it fits best; remove the duplicate(s).\n"
+        "- 'confusing': reword only that bullet for clarity.\n"
+        "- 'entity_conflation': move the fact to where it actually belongs, or remove if it doesn't "
+        "belong on this page at all.\n"
+        "- 'off_organ_or_offtopic': delete it.\n"
+        "- 'missing_ddx_entities': add as a new DDx bullet with distinguishing features from the "
+        "evidence, same format as the other DDx bullets.\n"
+        "- 'figure_issues': fix the caption/placement or drop that figure reference.\n"
+        "Output ONLY the corrected markdown page."
+    )
+
+
 def html_teaching_system_prompt() -> str:
     return (
         BASE_GROUNDING_RULES

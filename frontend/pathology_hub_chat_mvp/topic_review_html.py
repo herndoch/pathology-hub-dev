@@ -84,6 +84,39 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
 
   note_html = f'<div class="note">{html.escape(note)}</div>' if note else ""
 
+  critic_html = ""
+  critic = page.get("critic") or {}
+  critic_json = critic.get("critic_json") or {}
+  issue_labels = {
+      "missing_essentials": "Missing essential facts",
+      "redundant": "Redundant content",
+      "confusing": "Confusing/unclear",
+      "entity_conflation": "Entity conflation",
+      "off_organ_or_offtopic": "Off-organ/off-topic",
+      "missing_ddx_entities": "Missing DDx entities",
+      "figure_issues": "Figure issues",
+  }
+  issue_blocks = []
+  for key, label in issue_labels.items():
+      items = critic_json.get(key) or []
+      if items:
+          li = "".join(f"<li>{html.escape(str(x))}</li>" for x in items)
+          issue_blocks.append(f"<li><strong>{html.escape(label)}:</strong><ul>{li}</ul></li>")
+  if critic_json:
+      verdict = str(critic_json.get("verdict") or "unknown")
+      revision_applied = critic.get("revision_applied")
+      badge_color = "#c0392b" if verdict == "revise" else "#2e7d4f"
+      critic_html = f"""
+      <section class="critic">
+        <h2>Critic pass (pathologist-attending review persona)</h2>
+        <p class="meta">
+          verdict: <strong style="color:{badge_color}">{html.escape(verdict)}</strong>
+          · revision applied: <strong>{html.escape(str(revision_applied))}</strong>
+        </p>
+        {f'<ul>{"".join(issue_blocks)}</ul>' if issue_blocks else '<p class="meta">No issues found.</p>'}
+      </section>
+      """
+
   return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,6 +207,7 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
   {note_html}
   <section class="answer">{_md_to_html(page.get("answer_markdown") or "")}</section>
   {fig_html}
+  {critic_html}
   <section class="evidence">
     <h2>Evidence cards (sample)</h2>
     <ol>{"".join(cards_html) or "<li>No cards in sidecar.</li>"}</ol>
