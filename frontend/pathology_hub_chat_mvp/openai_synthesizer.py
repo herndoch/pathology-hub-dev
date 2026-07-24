@@ -16,8 +16,20 @@ def get_model() -> str:
     return os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)
 
 
+# gpt-4o was measured (2026-07-24) to ignore explicit length/depth
+# instructions for topic_page synthesis — same evidence bundle, same prompt,
+# produced ~370-word pages regardless of a "1200-1800 word minimum"
+# instruction. Swapping only the model to gpt-4.1 (identical evidence,
+# identical prompt) produced ~1000-word pages with real cited statistics,
+# a full IHC panel, embedded figures, and multi-point differential diagnosis
+# entries. gpt-4o clearly under-utilizes the evidence bundle for this
+# long-form structured-extraction task; gpt-4.1 does not. Defaults to
+# gpt-4.1 for topic_page; override with OPENAI_TOPIC_PAGE_MODEL if needed.
+TOPIC_PAGE_DEFAULT_MODEL = "gpt-4.1"
+
+
 def get_topic_page_model() -> str:
-    return os.environ.get("OPENAI_TOPIC_PAGE_MODEL") or get_model()
+    return os.environ.get("OPENAI_TOPIC_PAGE_MODEL") or TOPIC_PAGE_DEFAULT_MODEL
 
 
 def _get_client():

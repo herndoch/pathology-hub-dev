@@ -100,11 +100,22 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # then has to filter back out; requesting only `videos` gets the identical
 # evidence for half the cost. `lectures` remains a valid standalone choice in
 # `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
-# v0_2: narrowed to WHO + PathOutlines only. Textbooks/journals/videos/lectures
-# added retrieval noise and latency without adding depth for named-entity topic
-# pages (PathOutlines deep-index enrichment below now supplies far more depth
-# from these two families than textbooks/journals ever did for this mode).
-TOPIC_PAGE_SOURCES = ["who", "pathout"]
+# v0_2 had narrowed this to WHO + PathOutlines only, on the claim that
+# textbooks/journals added noise without depth. That claim was WRONG for at
+# least some entities — live-probed 2026-07-24: WHO's own HN volume is
+# missing the standalone "Pleomorphic adenoma" entity (only has "Carcinoma
+# ex pleomorphic adenoma"; the benign entity is indexed only under BREAST/
+# THORACIC, different unrelated tumors with the same name), and PathOutlines'
+# own page for this entity is only ~6KB. Textbooks (Gnepp, Thompson, head/neck
+# atlas, Milan cytology) directly probed and confirmed to have real,
+# substantive, non-redundant content (classification tables, gross/histologic
+# descriptions) that WHO+PathOutlines don't have for this entity. Re-added.
+# Journals still excluded: probed and confirmed real facts (e.g. "~70% of all
+# salivary gland neoplasms") but the corpus has a systematic text-corruption
+# bug (nearly every "t" character is dropped — "tested" -> "es ed",
+# "although" -> "al hough") that needs fixing at the source before it's safe
+# to feed into synthesis.
+TOPIC_PAGE_SOURCES = ["who", "pathout", "textbooks"]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")

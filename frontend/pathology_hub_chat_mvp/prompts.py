@@ -175,8 +175,16 @@ def topic_page_system_prompt() -> str:
         "genetic finding that belongs to a different named entity to THIS page's entity in any other "
         "section — check the 'entity_name' / title on each evidence item before using it outside DDx.\n"
         "- Every non-Key-Facts bullet with a factual claim should cite inline when a URL exists. "
-        "Weave WHO + PathOutlines across the page rather than leaning on one source. Never fabricate "
-        "content, statistics, gene names, or URLs not present in the evidence."
+        "Weave WHO + PathOutlines + textbooks across the page rather than leaning on one source. "
+        "Never fabricate content, statistics, gene names, or URLs not present in the evidence.\n"
+        "- Do NOT compress: if the evidence bundle contains 3+ distinct facts/sub-points for a "
+        "section, include each as its own bullet or sub-bullet rather than merging them into one "
+        "vague sentence. Differential Diagnosis entries need 2-4 distinguishing sub-bullets each, "
+        "not a single clause. Embed inline figures from real figure_url/image_url values wherever "
+        "a section has one available and relevant — do not skip images just to keep the page short.\n"
+        "- Output ONLY the page itself. Never add a closing sentence, note, or disclaimer about "
+        "your own process (e.g. 'This page has used all available evidence...') — end with the "
+        "last Differential Diagnosis bullet."
     )
 
 
