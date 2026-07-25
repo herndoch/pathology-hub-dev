@@ -115,7 +115,13 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # bug (nearly every "t" character is dropped — "tested" -> "es ed",
 # "although" -> "al hough") that needs fixing at the source before it's safe
 # to feed into synthesis.
-TOPIC_PAGE_SOURCES = ["who", "pathout", "textbooks"]
+# `videos`: an earlier v0_2 pass had also dropped this family from topic_page
+# (grouped in with the textbooks/journals noise claim above), leaving topic
+# pages with zero lecture-segment links even when relevant lecture coverage
+# exists. Re-added 2026-07-25 per user request — the "half the cost" comment
+# above already assumed `videos` would stay in this list; `lectures` (the
+# duplicate-content alias) remains excluded.
+TOPIC_PAGE_SOURCES = ["who", "pathout", "textbooks", "videos"]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")

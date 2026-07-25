@@ -3098,6 +3098,57 @@ async function fetchCachedTopicPage(tag) {
   }
 }
 
+/** Triggers a browser download of `obj` as a pretty-printed .json file. */
+function downloadJsonFile(filename, obj) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/** Exports the full retrieved evidence + synthesized answer for a topic page
+ * as a JSON file — lets a user keep the markdown, every card's source_url/
+ * excerpt, and every figure's image URL + caption for their own personal
+ * study use, independent of this app staying up. */
+function exportTopicPageJson(data, meta) {
+  const figures = (data.figures || []).map((fig) => ({
+    caption: fig.caption || fig.title || null,
+    figure_url: pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url) || null,
+    page_image_url: pickHttp(fig.page_image_url) || null,
+    source_url: pickHttp(fig.source_url) || null,
+    source_page_url: pickHttp(fig.source_page_url) || null,
+  }));
+  const cards = (data.cards || []).map((card) => ({
+    source: card.source || card._result_key || null,
+    title: card.title || card.heading || card.entity_name || null,
+    source_url: pickHttp(card.source_url) || null,
+    source_page_url: pickHttp(card.source_page_url) || null,
+    video_time_url: pickHttp(card.video_time_url) || pickHttp(card.video_url) || null,
+    excerpt: card.text_excerpt || card.excerpt || null,
+  }));
+  const exportObj = {
+    schema_version: "pathology_hub_topic_page_export.v1",
+    exported_at: new Date().toISOString(),
+    tag: meta.tag || null,
+    label: meta.label || null,
+    query: meta.query || null,
+    category_context: meta.categoryContext || null,
+    model: data.model || null,
+    generated_at: data.cached_at || null,
+    answer_markdown: data.answer || data.answer_markdown || "",
+    figures,
+    cards,
+    who_cross_mentions: data.who_cross_mentions || [],
+  };
+  const slug = String(meta.tag || meta.label || "topic_page").replace(/[^a-zA-Z0-9_-]+/g, "_");
+  downloadJsonFile(`${slug}.json`, exportObj);
+}
+
 function topicPageCacheHint(data, cachedMeta) {
   if (data?.cache_hit || cachedMeta) {
     const when = data?.cached_at || cachedMeta?.generated_at || "";
@@ -3182,6 +3233,7 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
     if (leafRef.tag) {
       html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
     }
+    html += `<button type="button" class="btn-secondary export-page-btn">Export JSON</button>`;
     html += renderVsButton(compareEnt);
     html += "</div>";
     html += topicPageCacheHint(data, cachedMeta);
@@ -3202,6 +3254,9 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
     });
     browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
       loadLeafTopicPage(leafRef, { rebuild: true });
+    });
+    browseContentEl.querySelector(".export-page-btn")?.addEventListener("click", () => {
+      exportTopicPageJson(data, { tag: leafRef.tag, label: displayLabel, query, categoryContext });
     });
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
