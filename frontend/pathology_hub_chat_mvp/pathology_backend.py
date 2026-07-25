@@ -198,40 +198,55 @@ class PathologyHubClient:
 
         url = f"{self.api_url}{SEARCH_PATH}"
         start = time.monotonic()
-        try:
-            resp = requests.post(
-                url,
-                json=payload,
-                headers=headers,
-                timeout=DEFAULT_TIMEOUT_SECONDS,
-            )
-            elapsed_ms = (time.monotonic() - start) * 1000
+        # Live-observed 2026-07-25: the upstream backend occasionally has a
+        # transient slow spell where a single source (e.g. textbooks) times
+        # out at DEFAULT_TIMEOUT_SECONDS across every parallel query variant
+        # for a request, while a retry moments later returns in <1s — a
+        # topic_page request can otherwise land on 0 usable cards purely from
+        # bad luck on backend timing, not a real coverage gap. One quick retry
+        # on a network-level failure (timeout/connection error, never on a
+        # real HTTP error response) catches this without materially slowing
+        # down the common case where the first attempt already succeeds.
+        last_exc: Optional[requests.RequestException] = None
+        for attempt in range(2):
             try:
-                body = resp.json()
-            except ValueError:
-                body = None
-            return SearchOutcome(
-                request_payload=payload,
-                url=url,
-                status_code=resp.status_code,
-                ok=resp.ok,
-                elapsed_ms=elapsed_ms,
-                response_json=body if isinstance(body, dict) else None,
-                error=None if resp.ok else f"HTTP {resp.status_code}: {resp.text[:500]}",
-                api_key_present=bool(api_key),
-            )
-        except requests.RequestException as exc:
-            elapsed_ms = (time.monotonic() - start) * 1000
-            return SearchOutcome(
-                request_payload=payload,
-                url=url,
-                status_code=None,
-                ok=False,
-                elapsed_ms=elapsed_ms,
-                response_json=None,
-                error=f"{type(exc).__name__}: {exc}",
-                api_key_present=bool(api_key),
-            )
+                resp = requests.post(
+                    url,
+                    json=payload,
+                    headers=headers,
+                    timeout=DEFAULT_TIMEOUT_SECONDS,
+                )
+                elapsed_ms = (time.monotonic() - start) * 1000
+                try:
+                    body = resp.json()
+                except ValueError:
+                    body = None
+                return SearchOutcome(
+                    request_payload=payload,
+                    url=url,
+                    status_code=resp.status_code,
+                    ok=resp.ok,
+                    elapsed_ms=elapsed_ms,
+                    response_json=body if isinstance(body, dict) else None,
+                    error=None if resp.ok else f"HTTP {resp.status_code}: {resp.text[:500]}",
+                    api_key_present=bool(api_key),
+                )
+            except requests.RequestException as exc:
+                last_exc = exc
+                if attempt == 0:
+                    time.sleep(1.0)
+                    continue
+        elapsed_ms = (time.monotonic() - start) * 1000
+        return SearchOutcome(
+            request_payload=payload,
+            url=url,
+            status_code=None,
+            ok=False,
+            elapsed_ms=elapsed_ms,
+            response_json=None,
+            error=f"{type(last_exc).__name__}: {last_exc} (after retry)",
+            api_key_present=bool(api_key),
+        )
 
     def health(self) -> dict:
         api_key = self._resolve_api_key()
