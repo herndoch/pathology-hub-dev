@@ -30,6 +30,25 @@ def slugify_tag(tag: str) -> str:
     return re.sub(r"[^a-zA-Z0-9_]+", "_", slug)
 
 
+def _build_citation_image_map(cards: list[Any]) -> dict[str, str]:
+    """source_page_url -> page_image_url, for textbook PDF citations. Lets
+    the click handler show a modal with the actual rendered page image
+    instead of navigating to the raw PDF in a new tab. Deliberately keyed
+    only on source_page_url (which includes a #page=N fragment, unique per
+    page) rather than the bare source_pdf_url — multiple cards from the same
+    book share an identical bare PDF URL but have different page images, so
+    mapping the bare URL would silently point to the wrong page."""
+    mapping: dict[str, str] = {}
+    for card in cards:
+        if not isinstance(card, dict):
+            continue
+        page_image = card.get("page_image_url")
+        url = card.get("source_page_url")
+        if page_image and isinstance(url, str) and url:
+            mapping.setdefault(url, page_image)
+    return mapping
+
+
 def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
   label = (page.get("label") or page.get("tag") or "Topic").replace("_", " ")
   tag = page.get("tag") or ""
@@ -40,6 +59,8 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
   figures = page.get("figures") or []
   srcs = Counter(c.get("source") for c in cards if isinstance(c, dict))
   src_summary = ", ".join(f"{k} {v}" for k, v in sorted(srcs.items()))
+  citation_image_map = _build_citation_image_map(cards)
+  citation_image_map_json = json.dumps(citation_image_map)
 
   cards_html: list[str] = []
   for card in cards[:14]:
@@ -189,6 +210,66 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
     font: 14px system-ui, sans-serif;
     color: #1a5f3a;
   }}
+  /* Inline figures (within .answer text) render as small clickable
+     thumbnails, not full-size images — click opens the same image full
+     size in the modal below. */
+  .answer img {{
+    max-width: 240px;
+    max-height: 180px;
+    object-fit: contain;
+    display: block;
+    margin: 0.5rem 0;
+    border: 1px solid #d0d8d2;
+    border-radius: 6px;
+    background: #eef2ef;
+    cursor: zoom-in;
+  }}
+  .answer a {{ cursor: pointer; }}
+  #pk-modal-overlay {{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 15, 0.82);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }}
+  #pk-modal-overlay.open {{ display: flex; }}
+  #pk-modal-box {{
+    background: #fff;
+    border-radius: 10px;
+    max-width: min(92vw, 1000px);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }}
+  #pk-modal-img {{
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    background: #111;
+  }}
+  #pk-modal-footer {{
+    font: 13px system-ui, sans-serif;
+    padding: 0.7rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid #e2e8e4;
+  }}
+  #pk-modal-footer a {{ color: #1a5f3a; font-weight: 600; }}
+  #pk-modal-close {{
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #666;
+    padding: 0 0.3rem;
+  }}
 </style>
 </head>
 <body>
@@ -212,6 +293,81 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
     <h2>Evidence cards (sample)</h2>
     <ol>{"".join(cards_html) or "<li>No cards in sidecar.</li>"}</ol>
   </section>
+
+  <div id="pk-modal-overlay">
+    <div id="pk-modal-box">
+      <img id="pk-modal-img" src="" alt="" />
+      <div id="pk-modal-footer">
+        <span id="pk-modal-caption"></span>
+        <span>
+          <a id="pk-modal-openlink" href="#" target="_blank" rel="noopener">Open original</a>
+          <button id="pk-modal-close" type="button" aria-label="Close">&times;</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {{
+      var CITATION_IMAGE_MAP = {citation_image_map_json};
+      var overlay = document.getElementById('pk-modal-overlay');
+      var modalImg = document.getElementById('pk-modal-img');
+      var modalCaption = document.getElementById('pk-modal-caption');
+      var modalOpenLink = document.getElementById('pk-modal-openlink');
+
+      function openModal(imgUrl, caption, fallbackHref) {{
+        modalImg.src = imgUrl;
+        modalCaption.textContent = caption || '';
+        modalOpenLink.href = fallbackHref || imgUrl;
+        overlay.classList.add('open');
+      }}
+      function closeModal() {{
+        overlay.classList.remove('open');
+        modalImg.src = '';
+      }}
+      document.getElementById('pk-modal-close').addEventListener('click', closeModal);
+      overlay.addEventListener('click', function (e) {{
+        if (e.target === overlay) closeModal();
+      }});
+      document.addEventListener('keydown', function (e) {{
+        if (e.key === 'Escape') closeModal();
+      }});
+
+      var answerSection = document.querySelector('.answer');
+      if (answerSection) {{
+        answerSection.addEventListener('click', function (e) {{
+          var img = e.target.closest('img');
+          if (img) {{
+            e.preventDefault();
+            openModal(img.src, img.alt, img.src);
+            return;
+          }}
+          var link = e.target.closest('a');
+          if (link) {{
+            var pageImage = CITATION_IMAGE_MAP[link.href];
+            if (pageImage) {{
+              e.preventDefault();
+              openModal(pageImage, link.textContent + ' — page image', link.href);
+              return;
+            }}
+            // WHO/PathOutlines links, or textbook links with no page image
+            // mapped — open normally in a new tab (browser default handles
+            // target="_blank" already set by the markdown renderer, but set
+            // it explicitly here too in case the source markdown omitted it).
+            link.target = '_blank';
+            link.rel = 'noopener';
+          }}
+        }});
+      }}
+
+      var galleryFigures = document.querySelectorAll('.figures .gallery img');
+      galleryFigures.forEach(function (img) {{
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function () {{
+          openModal(img.src, img.alt, img.src);
+        }});
+      }});
+    }})();
+  </script>
 </body>
 </html>"""
 
