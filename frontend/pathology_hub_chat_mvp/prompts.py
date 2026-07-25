@@ -85,10 +85,15 @@ TOPIC_PAGE_SECTIONS = [
     "Essential and Desirable Diagnostic Criteria",
     "Etiology/Pathogenesis",
     "Clinical Issues",
+    "Staging",
     "Macroscopic",
     "Microscopic",
+    "Cytology",
     "Ancillary Tests",
+    "Radiology",
     "Differential Diagnosis",
+    "Prognostic Factors",
+    "Illustrative Cases",
 ]
 
 
@@ -121,14 +126,17 @@ def topic_page_system_prompt() -> str:
         "WHO or PathOutlines separately, so do not compress away specifics: exact percentages, gene "
         "names/fusion partners, age/site distributions, and named differential entities with their "
         "distinguishing features must all survive into the output when the evidence has them.\n"
-        "Use ONLY these section headers when — and only when — the evidence bundle supports that "
-        f"section: {allowed}.\n"
+        "This section list is DELIBERATELY granular — it mirrors how WHO Blue Books and "
+        "PathologyOutlines actually structure a topic (separate Staging, Cytology, Radiology, "
+        "Prognostic Factors, Illustrative Cases sections, not a handful of generic buckets). Use "
+        "the MOST SPECIFIC matching header for each piece of evidence rather than folding "
+        "everything into Clinical Issues or Ancillary Tests by default — that rigidity is exactly "
+        f"what compresses away real content. Section headers, in this order: {allowed}.\n"
         "OMIT any section entirely (no header, no placeholder, no 'not covered' bullet) when the "
-        "retrieved evidence has nothing substantive for it. Never pad empty sections — but never "
-        "under-fill a section that DOES have supporting evidence just to keep bullets short.\n"
-        "Keep this order: Key Facts, Terminology, Essential and Desirable Diagnostic Criteria, "
-        "Etiology/Pathogenesis, Clinical Issues, Macroscopic, Microscopic, Ancillary Tests, "
-        "Differential Diagnosis.\n\n"
+        "retrieved evidence has nothing substantive for it — most pages will use 8-11 of these "
+        "14, not all of them. Never pad empty sections — but never under-fill a section that DOES "
+        "have supporting evidence just to keep bullets short, and never merge two sections' worth "
+        "of distinct evidence into one just to reduce header count.\n\n"
         "Section-by-section rules:\n"
         "- '## Key Facts': 4–6 board-style pearls ONLY (classic site/age, hallmark histologic "
         "feature, key ancillary marker, prognosis, top DDx pitfall). Do NOT restate content that "
@@ -151,22 +159,45 @@ def topic_page_system_prompt() -> str:
         "genes/partners. Do not generalize a specific fact into a vague one.\n"
         "- '## Clinical Issues': nested sub-bullets by theme — Epidemiology (incidence, %, age, sex), "
         "Site (with % distribution when given), Presentation, Natural History, Treatment, "
-        "Complications, Prognosis (recurrence %, malignant transformation %/risk factors). Include "
-        "every distinct numeric/statistic the evidence provides — do not collapse multiple stats into "
-        "one generic bullet.\n"
+        "Complications. Include every distinct numeric/statistic the evidence provides — do not "
+        "collapse multiple stats into one generic bullet. Keep Prognosis here ONLY as a brief "
+        "one-line summary (e.g. 'generally excellent with complete excision') — move any itemized "
+        "list of 3+ specific prognostic factors to the dedicated '## Prognostic Factors' section "
+        "instead of duplicating it here.\n"
+        "- '## Staging': ONLY include when the evidence gives a real staging/grading framework tied "
+        "to reporting (e.g. TNM, Haggitt/Kikuchi-Kudo, Gleason/Grade Groups, Breslow/Clark, FIGO). "
+        "Omit entirely for entities with no staging system (e.g. most benign tumors) — do not force "
+        "a Gleason-style discussion onto an entity that doesn't have one.\n"
         "- '## Macroscopic': gross appearance, size range, cut surface, capsule status — bullets.\n"
         "- '## Microscopic': nested outline (parent pattern → sub-bullets for cellular morphology, "
         "stromal types, metaplasias, growth patterns, and any features that should prompt malignancy "
-        "workup). Embed 1–3 inline figures `![caption](url)` from real figure_url values in the "
-        "evidence when they illustrate a stated feature — never invent or reuse the same URL twice.\n"
+        "workup). Embed inline figures `![caption](url)` from real figure_url values in the evidence "
+        "liberally — this section usually deserves the most images of any section, not a token 1-2 "
+        "— never invent or reuse the same URL twice.\n"
+        "- '## Cytology': FNA/smear description as its own section when the evidence has a "
+        "substantive cytology description (cellularity, background, key cytologic features, Milan "
+        "system risk-of-malignancy category if given) — do not bury this inside Ancillary Tests as a "
+        "throwaway line when the evidence supports a real standalone section.\n"
         "- '## Ancillary Tests': IHC panel as a nested bullet list (marker → pattern), a molecular/"
-        "genetics sub-bullet (specific alterations with prevalence %), and cytology features if "
-        "present. Use one markdown table only if comparing 2+ named entities' marker profiles.\n"
+        "genetics sub-bullet (specific alterations with prevalence %), and electron microscopy "
+        "findings if present. Use one markdown table only if comparing 2+ named entities' marker "
+        "profiles.\n"
+        "- '## Radiology': imaging modality + characteristic findings when the evidence describes "
+        "them (e.g. CT/MRI/US appearance) — omit if the evidence has nothing imaging-specific.\n"
         "- '## Differential Diagnosis': DEFAULT to one bullet per differential entity named in the "
         "evidence, each with 2–4 distinguishing sub-bullets (architecture/IHC/molecular differences) "
         "— not a single clause. List every DDx entity the evidence names, not just 2–3. Do NOT also "
         "add a markdown table for the same entities — pick bullets OR table, never both for the same "
         "section.\n"
+        "- '## Prognostic Factors': ONLY when the evidence gives 3+ distinct itemized factors "
+        "affecting outcome (e.g. tumor size, margin status, grade, specific mutation, recurrence "
+        "rate by subtype) — each as its own bullet with the specific number/finding. If the evidence "
+        "only supports one generic prognosis line, that belongs in Clinical Issues instead — don't "
+        "create an empty-feeling section for it.\n"
+        "- '## Illustrative Cases': 1–3 bullets ONLY when the evidence includes specific case-report-"
+        "level detail (an unusual presentation, a notable variant, a diagnostic pitfall from a real "
+        "case) — this is texture, not padding; omit entirely if the evidence has nothing at this "
+        "level of specificity.\n"
         "- Ignore evidence clearly about a different organ/site than the browse context (e.g. breast "
         "when the page is salivary/HN). Do not mention off-topic organ content.\n"
         "- The evidence bundle may include chunks about OTHER named entities from the same organ "

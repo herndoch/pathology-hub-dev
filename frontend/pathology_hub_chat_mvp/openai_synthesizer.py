@@ -54,8 +54,15 @@ class SynthesisResult:
 
 
 def _compact_evidence_json(evidence_bundle: dict) -> str:
-    """Serialize evidence for synthesis with a source-balanced budget."""
-    max_chars = 80000
+    """Serialize evidence for synthesis with a source-balanced budget.
+
+    Raised 2026-07-25: a 120-card topic_page bundle was measured at
+    ~250,000 JSON chars, meaning the old 80,000-char budget was silently
+    discarding roughly two-thirds of already-retrieved, already-deduped
+    evidence before the model ever saw it — a major contributor to thin
+    pages. gpt-4.1's ~1M-token context window has enormous headroom even
+    at this new size (~350k chars is ~90k tokens, under 10% of budget)."""
+    max_chars = 350000
     bundle = dict(evidence_bundle or {})
     lists: list[tuple[str, list]] = []
     for key in (

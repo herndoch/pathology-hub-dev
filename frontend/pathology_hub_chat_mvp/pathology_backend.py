@@ -90,8 +90,15 @@ TOPIC_PAGE_MAX_QUERY_VARIANTS = 4
 # tokens) but does NOT approach the model's real context ceiling, and stops
 # truncating evidence that was already unique and relevant. Re-probe if a
 # future OPENAI_MODEL choice has a materially smaller context window.
-TOPIC_PAGE_MAX_CARDS = 120
-TOPIC_PAGE_MAX_FIGURES = 40
+# Raised again 2026-07-25 alongside the richer TOPIC_PAGE_SECTIONS taxonomy
+# (Staging/Cytology/Radiology/Prognostic Factors/Illustrative Cases) — those
+# extra sections need extra source material (radiology descriptions, case
+# reports, cytology chunks) that the tighter 120/40 caps were likely
+# crowding out. Same context-window headroom argument as above applies at
+# this new size (well under 20% of gpt-4.1's 1M-token window even at full
+# JSON verbosity).
+TOPIC_PAGE_MAX_CARDS = 180
+TOPIC_PAGE_MAX_FIGURES = 60
 
 # Minimum cards guaranteed per source family (that has >=1 result) before the
 # remaining cap budget is filled by round-robin relevance order in
@@ -580,7 +587,15 @@ def entity_matches_page_tag(
         return True
 
     blob = _item_entity_blob(item)
-    entity_title_blob = _text_blob(item.get("entity_name"), item.get("title"), item.get("caption"))
+    # Include source_url here (unlike the plain entity/title/caption blob
+    # used elsewhere) because some PathOutlines pages have a fully generic
+    # entity_name that collides across organs (e.g. "Pleomorphic adenoma" is
+    # the entity_name for BOTH the salivary gland page AND a distinct breast
+    # page "breastmixedtumor.html" with no organ hint in its own
+    # captions/entity_name) — the URL slug is often the only signal.
+    entity_title_blob = _text_blob(
+        item.get("entity_name"), item.get("title"), item.get("caption"), item.get("source_url")
+    )
     tag_key = page_tag.casefold()
     leaf = page_tag_leaf_phrase(page_tag).casefold()
 
@@ -1128,7 +1143,19 @@ def _find_anchor_pathout_url(
     leaf = page_tag_leaf_phrase(page_tag).casefold()
     if leaf:
         for url in _deep_index_entity_lookup(deep_index).get(leaf, []):
-            if url not in already_seen:
+            if url in already_seen:
+                continue
+            # An exact entity_name match is NOT sufficient on its own —
+            # PathOutlines has multiple, organ-distinct pages that share an
+            # identical generic entity_name (e.g. "Pleomorphic adenoma" is
+            # the entity_name for both the salivary gland page AND an
+            # unrelated breast page "breastmixedtumor.html" with no organ
+            # hint anywhere except the URL) — re-validate with the same
+            # root-conflict/site-context check used everywhere else before
+            # trusting it as an anchor.
+            record = deep_index.get(url) or {}
+            probe = {"entity_name": record.get("entity_name"), "title": record.get("entity_name"), "source_url": url}
+            if entity_matches_page_tag(probe, page_tag):
                 return url
     tag_key = (page_tag or "").casefold()
     for slug in _PAGE_TAG_URL_SLUG_ALIASES.get(tag_key, ()):
@@ -1143,8 +1170,8 @@ def enrich_cards_with_pathout_deep(
     figures: list[dict],
     deep_index: dict[str, Any],
     page_tag: Optional[str] = None,
-    max_chunks_per_url: int = 24,
-    max_figures_per_url: int = 16,
+    max_chunks_per_url: int = 48,
+    max_figures_per_url: int = 24,
 ) -> tuple[list[dict], list[dict]]:
     """Expand already root/tag-filtered PathOutlines cards using the full
     staged chunk+figure set for the same page_url, instead of the live
@@ -1340,7 +1367,14 @@ def filter_cards_by_page_tag(cards: list[dict], page_tag: Optional[str]) -> list
             if pt_root and pt_root != target_root:
                 continue
 
-        title_blob = _text_blob(card.get("title"), card.get("entity_name"))
+        # source_url included here too — see entity_matches_page_tag's
+        # entity_title_blob comment for why (generic PathOutlines
+        # entity_names that collide across organs, e.g. the breast-specific
+        # "breastmixedtumor.html" page also has entity_name "Pleomorphic
+        # adenoma" with no organ hint anywhere except the URL slug).
+        title_blob = _text_blob(
+            card.get("title"), card.get("entity_name"), card.get("source_url") or card.get("url")
+        )
         blob = _text_blob(
             card.get("title"),
             card.get("heading"),

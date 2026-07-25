@@ -5,10 +5,10 @@
   "provenance": "abpath",
   "query": "Clear Cell RCC",
   "category_context": "GU > Kidney",
-  "generated_at": "2026-07-24T23:14:37.263188+00:00",
+  "generated_at": "2026-07-25T04:13:39.811139+00:00",
   "ok": true,
   "model": "gpt-4.1",
-  "answer_markdown": "## Key Facts\n\n- Most common malignant renal tumor in adults.\n- Classic gross tumor: golden-yellow, often with hemorrhage or necrosis.\n- Hallmark microscopic feature: nests and alveoli of clear cells with delicate \"chicken-wire\" vasculature.\n- Nearly always shows strong membranous CAIX (“box-like”) immunoreactivity; CK7 is typically negative or focal.\n- VHL gene alteration (mutation or promoter hypermethylation) is characteristic.\n- Prognosis depends on stage and grade; can metastasize widely, often hematogenously.\n\n## Terminology\n\n- Definition: Malignant epithelial neoplasm of the kidney characterized by clear cytoplasm and a distinctive vascular pattern.\n- Synonyms: Conventional renal cell carcinoma, classic renal cell carcinoma.\n- Abbreviations: Clear cell RCC; ccRCC.\n\n## Essential and Desirable Diagnostic Criteria\n\n- **Essential:**\n  - Malignant renal epithelial tumor composed of clear (glycogen/lipid-rich) cells in solid, alveolar, or acinar/nested arrangement surrounded by a delicate, arborizing (\"chicken-wire\") vascular network [Textbooks](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=926).\n  - Strong membranous (\"box-like\") CA9/CAIX immunostaining pattern (nearly diffuse); CK7 negative or only focally positive [Pathoutlines](https://www.pathologyoutlines.com/topic/stainsrcc.html).\n  - Molecular: VHL gene mutation or promoter hypermethylation (characteristic in sporadic/familial cases; not required to be proven for diagnosis).\n- **Desirable:**\n  - Typical gross findings (yellow cut surface, hemorrhage).\n  - Absence of features suggestive of other RCC subtypes (e.g., true papillary cores, colloidal change, or prominent perinuclear halos).\n  - Evidence of negative staining for markers characteristic of mimics (e.g., CK7 strongly positive argues against clear cell RCC).\n\n## Etiology/Pathogenesis\n\n- Loss of function of the VHL gene via mutation or promoter hypermethylation is characteristic (sporadic and familial forms) [Pathoutlines](https://www.pathologyoutlines.com/topic/stainsrcc.html).\n- Accumulation of glycogen and lipids in cytoplasm results in the clear cell appearance.\n\n## Clinical Issues\n\n- **Epidemiology:**\n  - Most frequent subtype of adult renal cell carcinomas [Pathoutlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html).\n- **Site:**\n  - Originates from proximal tubular epithelium in the kidney.\n- **Presentation:**\n  - May present with classic triad: hematuria, flank pain, and palpable mass (most commonly detected incidentally on imaging).\n  - Paraneoplastic syndromes possible (erythrocytosis, hypercalcemia, etc.).\n- **Natural History, Prognosis:**\n  - Propensity for early venous invasion and hematogenous metastases (lung, bone, liver).\n  - Prognosis depends on tumor stage and grade.\n\n## Macroscopic\n\n- Solid, often partially cystic or necrotic masses; colors range from golden-yellow (due to lipid) to orange-tan, with frequent hemorrhage and necrosis [Pathoutlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html).\n- Tumor may expand, distort or replace renal parenchyma, and invade into renal vein or perinephric fat.\n- Multilocular cystic clear cell variant exists.\n\n![Gross appearance of clear cell RCC](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccAita01.jpg)\n\n## Microscopic\n\n- Lobules, nests, alveolar, acinar, and trabecular patterns of clear cells [Textbooks](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=926).\n  - Cytoplasm is abundant, optically clear or granular, due to dissolved lipid/glycogen.\n  - Nuclei variable in size and grade (graded by nucleolar prominence).\n  - Delicate, arborizing (\"chicken-wire\") vasculature is classic [Textbooks](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=925).\n  - Can show cystic change, necrosis, and hemorrhage.\n  - Sarcomatoid and rhabdoid differentiation may be present (tends to indicate higher grade and worse outcome).\n- Tumor cells may infiltrate into renal vein and perinephric fat.\n\n![Classic microscopic pattern: nests of clear cells with delicate vasculature](https://storage.googleapis.com/pathology-hub-public-figures-830130787988/textbook_figures_web_v1/gu_practical/gu_practical_p0687_fig01_figure_33_24.jpeg)\n\n## Ancillary Tests\n\n- **Immunohistochemistry:**\n  - CAIX/CA9: strong, diffuse membranous (\"box-like\") pattern (essential marker) [Pathoutlines](https://www.pathologyoutlines.com/topic/stainsrcc.html).\n  - PAX8: positive (renal lineage marker).\n  - Vimentin: positive.\n  - RCC marker (RCC Ma/podocalyxin): positive, but less specific than CAIX/PAX8 [Pathoutlines](https://www.pathologyoutlines.com/topic/stainsrcc.html).\n  - CK7: negative or only focally positive (key for distinguishing from mimics).\n  - CD10: positive.\n  - AMACR: generally negative or only focally positive.\n- **Molecular/Genetics:**\n  - VHL gene inactivation (mutation or methylation) is highly characteristic.\n- **Cytology:**\n  - Abundant clear cytoplasm, round nuclei, prominent nucleoli in higher grades.\n\n![IHC highlights for clear cell RCC – strong membranous CAIX, negative/focal CK7](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccShah02.jpg)\n\n## Differential Diagnosis\n\n- **Clear cell papillary renal cell tumor** [Pathoutlines](https://www.pathologyoutlines.com/topic/kidneytumorclearcellpapillary.html):\n  - CK7: diffusely positive (clear cell RCC is negative/focal).\n  - CAIX: shows cup-like (not box-like) staining pattern.\n  - Nuclei: line up apically away from basement membrane (\"palisading\" = characteristic).\n  - Rare to metastasize; very indolent.\n- **Papillary renal cell carcinoma**:\n  - Papillary, not solid/nested, growth pattern predominates.\n  - Often shows foamy macrophages in papillae.\n  - CK7 and AMACR positive; CAIX negative or only focally positive.\n  - Often trisomy of chromosomes 7 and 17.\n- **Chromophobe renal cell carcinoma**:\n  - Plant cell-like, sharply defined cell borders, perinuclear halos.\n  - CK7 strongly and diffusely positive; CAIX negative.\n  - Hale’s colloidal iron positive.\n- **MiT family (TFE3/TFEB) translocation RCC**:\n  - Younger patients.\n  - Clear or eosinophilic cytoplasm; papillary/solid architecture, can mimic clear cell RCC.\n  - TFE3 or TFEB nuclear immunoreactivity.\n  - FISH or molecular testing required for confirmation.\n- **Other mimics to distinguish (less common):**\n  - Metastatic clear cell tumors (e.g., from lung, ovary): PAX8 negative; CAIX negative.\n  - Adrenal-rest or XGPN: Negative for RCC markers; inhibin positive (adrenal rest).\n\n- Careful correlation of histology, immunoprofile, and clinical context is critical in distinguishing clear cell RCC from these mimics.",
+  "answer_markdown": "## Key Facts\n\n- Most common subtype of adult renal carcinoma (~65–70%)  \n- Classic: nests of clear cells with \"chicken-wire\" capillary vasculature  \n- CA9/CAIX: diffuse strong box-like membranous staining; CK7 negative or focal  \n- VHL gene inactivation (mutation, deletion, methylation) is the key driver  \n- Prognosis depends on TNM stage, ISUP/WHO grade, and coagulative necrosis  \n\n## Terminology\n\n- Clear cell renal cell carcinoma (clear cell RCC, ccRCC)\n- Historic/outdated: nephrocellular carcinoma, Grawitz tumor, hypernephroma (not recommended)  \n  ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n\n## Essential and Desirable Diagnostic Criteria\n\n- **Essential:**\n  - Malignant epithelial tumor arising in the renal cortex, composed of nests, sheets, or alveolar arrangements of clear cells  \n    ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n  - Delicate, arborizing \"chicken-wire\" capillary vasculature around tumor nests  \n    ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=740))\n  - CA9/CAIX: strong, diffuse \"box-like\" membranous immunoreactivity  \n    ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=826))\n  - IHC: PAX8, vimentin, RCC marker, and CD10 positive; CK7 negative or only minutely/focally positive (<25%); AMACR negative ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=826))\n  - WHO/ISUP grading (required for ccRCC, essential for pathology reporting):  \n    - Grade 1: nucleoli inconspicuous or absent at 400x\n    - Grade 2: nucleoli conspicuous at 400x but not at 100x\n    - Grade 3: nucleoli conspicuous at 100x\n    - Grade 4: extreme pleomorphism, multinucleated giant cells, sarcomatoid or rhabdoid transformation  \n      ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantnucleargrading.html))\n- **Desirable:**\n  - Demonstrated VHL gene mutation, deletion, or promoter hypermethylation (~60% of cases) ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=826))\n  - Golden yellow, soft, lipid-rich cut surface (gross feature)\n  - Radiographic/clinical evidence of renal cortical mass ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n  - Exclusion of mimickers by broad IHC panel and/or molecular testing as needed\n\n## Etiology/Pathogenesis\n\n- **Key molecular driver:** VHL tumor suppressor gene inactivation (chromosome 3p25)  \n  - By mutation, deletion, or promoter methylation  \n  - Same event described under “defining molecular event” above ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=826))\n- Risk factors:\n  - Obesity, hypertension, smoking, acquired cystic kidney disease (especially in ESRD)\n  - Occupational: trichloroethylene, heavy metals, solvents\n- **Hereditary/familial syndromes:**  \n  - Von Hippel–Lindau (VHL) syndrome — clear cell RCC may be multifocal/bilateral, and can show tubulopapillary architecture but retains molecular/IHC profile of ccRCC ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n  - Also rarely associated/overlapping with BAP1 tumor predisposition syndrome (often aggressive phenotype) and succinate dehydrogenase (SDH)-deficient syndromes—though these more typically have distinct histologies, ccRCC may occur ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n- Genetic susceptibility: estimated 2–4% of cases\n\n## Clinical Issues\n\n- **Epidemiology:**  \n  - ~65–70% of adult renal cell carcinoma; peak at 60–70y; M:F ≈ 2:1  \n    ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n- **Presentation:**  \n  - Most with gross/microscopic hematuria  \n  - Flank pain or palpable mass (classic triad now rare; ~10%)  \n  - 37–61% found incidentally on imaging  \n  - Paraneoplastic syndromes (in 20%): hypercalcemia, HTN, polycythemia, hepatic dysfunction (Stauffer), others\n- **Site:** Primarily renal cortex but may involve any part and grow very large (>10 cm) ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=861))\n- **Course:**  \n  - Frequently locally advanced or metastatic at diagnosis due to indolent symptoms  \n  - Local invasion (renal vein, perinephric fat, adrenal) and distant spread can occur in advanced disease  \n- **Treatment:**  \n  - Partial or radical nephrectomy (localized disease)  \n  - TKIs and immune checkpoint inhibitors for metastatic/advanced ccRCC  \n  - Active surveillance for select small/low grade tumors  \n- **Prognosis:**  \n  - Directly dependent on TNM stage, WHO/ISUP grade, and coagulative necrosis status\n\n## Staging\n\n- AJCC/UICC TNM for renal cortical carcinomas ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantstaging.html)):\n  - pT1a: ≤4 cm, confined to kidney\n  - pT1b: >4–7 cm, confined\n  - pT2a: >7–10 cm, confined\n  - pT2b: >10 cm, confined\n  - pT3a: invasion of renal vein/perirenal fat/renal sinus fat/pelvicalyceal system\n  - pT3b/c: IVC involvement\n  - pT4: beyond Gerota’s fascia/adrenal\n- Advanced cases often show extension into perirenal fat, renal vein, adrenal gland, or beyond (these features integrated here for clarity)\n![Staging figures](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccZynger01.jpg)\n\n## Macroscopic\n\n- Classically a large, solitary, variegated mass—often >10 cm at diagnosis\n- Cut surface: bright/golden yellow (from lipids); soft, with variable hemorrhage, necrosis, cystic change\n- Pseudocapsule may be present, but large/advanced tumors often not circumscribed; extension into perirenal fat, renal vein, or adrenal possible when locally advanced\n  ![Gross: large clear cell RCC](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccAita01.jpg)\n- Provide clear context: figures used are for classic clear cell RCC, not mimickers/variants\n  ![Venous invasion](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccAita03.jpg)\n\n## Microscopic\n\n- Solid nests, alveolar/acinar/tubular patterns of tumor cells with abundant clear (\"empty\" due to glycogen/lipid) cytoplasm, distinct cell borders, round nuclei (low grade); nucleoli most prominent in high grade\n- Delicate, arborizing (\"chicken-wire\") capillary stroma between nests ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=740))\n- WHO/ISUP grade per nucleolar criteria (see above)\n- High grade: prominent nucleoli, nuclear pleomorphism, sarcomatoid or rhabdoid dedifferentiation can be seen (report percent sarcomatoid/rhabdoid component)\n- Cystic degeneration, necrosis, and hemorrhage are common\n- Can have focal areas of eosinophilic/granular cytoplasm (does not exclude ccRCC)\n  ![Classic clear cell RCC histology](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcc01Tretiakova.jpeg)\n- *Figure: Gu_Practical_page_0861.png* depicts clear cell RCC with sarcomatoid differentiation; use in illustrative cases section with precise annotation only\n\n## Ancillary Tests\n\n- **Immunohistochemistry:**  \n  - CA9/CAIX: strong, diffuse \"box-like\" membranous (essential for classic ccRCC)\n  - PAX8, CD10, RCC marker, vimentin: positive\n  - CK7: negative or rarely focally positive (<25%); AMACR usually negative\n  - Useful panel: CAIX, CD10, RCC, PAX8 positive; CK7 negative/only focal\n  ![IHC of clear cell renal tumors](https://www.pathologyoutlines.com/imgau/kidneytumormalignantrccShah02.jpg)\n- **Molecular:**  \n  - VHL mutations, deletions, or methylation in most cases  \n    ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=826))\n\n## Radiology\n\n- **Ultrasound:** detects solid/cystic renal masses but less sensitive/specific than CT/MRI\n- **CT:** gold standard; classic ccRCC is hypervascular, heterogeneously enhancing, similar to renal cortex\n  - Can be solid, cystic, or mixed; necrosis/hemorrhage result in irregular enhancement\n  - Bosniak classification guides risk in cystic lesions ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html))\n- **MRI:** ccRCC typically iso/hypointense T1, heterogeneously hyperintense T2\n\n## Differential Diagnosis\n\n| Feature                 | Clear Cell RCC              | Clear Cell Papillary Renal Cell Tumor                                        | Papillary RCC                             | Chromophobe RCC                           |\n|-------------------------|-----------------------------|-----------------------------------------------------------------------------|--------------------------------------------|--------------------------------------------|\n| Architecture            | Nests, solid, alveolar      | Tubules/papillae, low grade, cystic often                                   | Papillary/fronded with foamy macs         | Sheets/nests, thick septa                  |\n| Cytoplasm               | Clear                       | Clear                                  | Eosinophilic > clear                      | Pale/eosinophilic, plant-cell membranes    |\n| Vasculature             | Delicate, chicken-wire      | Fine capillary at periphery              | Stalk vessels in papillae                  | Less prominent                             |\n| CA9 (CAIX)              | Box-like (diffuse strong)   | Cup-like (apical only)                   | Patchy/negative                            | Negative                                   |\n| CK7                     | Negative or focal           | Diffuse strong positive                  | Diffuse strong positive                    | Diffuse strong positive                    |\n| CD10                    | Positive                    | Patchy/negative                          | Positive                                   | Negative/focal                             |\n| AMACR                   | Negative/weak               | Negative                                 | Strongly positive                          | Negative                                   |\n\n- **Xp11 translocation RCC (TFE3):**\n  - Usually younger patients  \n  - Papillary, solid, or nested; may have clear or eosinophilic cytoplasm  \n  - Psammoma bodies common  \n  - TFE3 IHC and FISH positive ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=953))\n- **Metanephric adenoma:**\n  - Small blue tumor, tightly packed acini, no true clear cells  \n  - WT1 positive; PAX8 positive; usually AMACR/CK7 negative ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=740))\n- **Well-differentiated neuroendocrine tumor/paraganglioma:**\n  - Zellballen nests, neuroendocrine marker positive (chromogranin, synaptophysin)  \n  - S100 in sustentacular cells  \n  - Negative for RCC markers and keratins ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=964))\n- **Acquired cystic disease-associated RCC:**\n  - ESRD background, often oxalate crystals, variable morphologies  \n  - Heterogeneous, may show clear cells but distinct morphologic and clinical setting ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantacquiredcysticRCC.html))\n- **Renomedullary interstitial cell tumor:**\n  - Small, bland, spindle/stellate cells in loose stroma; background of chronic kidney disease  \n  - Entrapped tubules  \n  - Not epithelial, lacks RCC markers ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumorrenalmedfibroma.html))\n- **Caveats:**  \n  - Clear cell papillary tumor: CK7+, cup-like CA9, PAX8+, often cystic, indolent  \n    ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=912))\n  - Chromophobe RCC: plant cell borders, raisinoid nuclei, CK7+, negative CA9  \n  - Papillary RCC: true papillae, foamy macs, positive CK7/AMACR  \n  - Xp11: TFE3+, young patients, psammoma bodies\n\n## Prognostic Factors\n\n- TNM stage: most important\n- WHO/ISUP nuclear grade (see Essential Criteria above for grading details)\n- Coagulative necrosis: independent adverse prognostic feature ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantstaging.html))\n- Sarcomatoid/rhabdoid transformation: report percentage; indicates high-grade behavior ([Pathology Outlines](https://www.pathologyoutlines.com/topic/kidneytumormalignantclearcellrhabdoid.html))\n- Lymphovascular invasion: may be adverse, less established than stage/grade\n- Surgical margin status: positive increases recurrence risk\n\n## Illustrative Cases\n\n- Clear cell RCC with sarcomatoid transformation: large tumor, classic clear cell and pleomorphic spindle cell regions ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=861)), use figure for sarcomatoid/variant annotation only  \n- Distinction from metastatic carcinoma to kidney/recipient tumor: relies on morphology and immunoprofile (CA9, RCC, PAX8 positive in ccRCC) ([Gu Practical](https://storage.googleapis.com/pathology-hub-0/source_pdfs/GU_Practical.pdf#page=977))",
   "cards": [
     {
       "title": "Collecting duct carcinoma",
@@ -2932,6 +2932,222 @@
       "text_excerpt": "Constitutional balanced chromosome 3 translocation",
       "excerpt": "Constitutional balanced chromosome 3 translocation",
       "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Lynch syndrome",
+      "heading": "Lynch syndrome",
+      "section": "topic_text",
+      "text_excerpt": "Diagrams / tablesContributed by Rajal B. Shah, M.D., Ph.D.",
+      "excerpt": "Diagrams / tablesContributed by Rajal B. Shah, M.D., Ph.D.",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Clear cell renal tumors",
+      "heading": "Clear cell renal tumors",
+      "section": "topic_text",
+      "text_excerpt": "IHC of clear cell renal tumors",
+      "excerpt": "IHC of clear cell renal tumors",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Clinical features",
+      "heading": "Clinical features",
+      "section": "topic_text",
+      "text_excerpt": "Most common manifestation is gross or microscopic hematuria\nClassic clinical triad of costovertebral pain, palpable mass and hematuria is present in ~10% of patients\nIncidental RCC detection in 37 - 61% of cases due to increased use of imaging; historically, large (10 cm) or already metastatic at diagnosis (JAMA 2024;332:1001)\nGreat mimicker due to associated paraneoplastic syndromes (20% of patients), including Cushing syndrome, gynecomastia, hypercalcemia, hypertension, leukemoid reaction, polycythemia, Stauffer syndrome (hepatomegaly with hepatic dysfunction), systemic amyloidosis, polyneuromyopathy",
+      "excerpt": "Most common manifestation is gross or microscopic hematuria\nClassic clinical triad of costovertebral pain, palpable mass and hematuria is present in ~10% of patients\nIncidental RCC detection in 37 - 61% of cases due to increased use of imaging; historically, large (10 cm) or already metastatic at diagnosis (JAMA 2024;332:1001)\nGreat mimicker due to associated paraneoplastic syndromes (20% of patients), including Cushing syndrome, gynecomastia, hypercalcemia, hypertension, leukemoid reaction, polycythemia, Stauffer syndrome (hepatomegaly with hepatic dysfunction), systemic amyloidosis, polyneuromyopathy",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Diagnosis",
+      "heading": "Diagnosis",
+      "section": "topic_text",
+      "text_excerpt": "Diagnosis is usually established based on clinical findings and contrast enhanced computed tomography (CT) imaging\nHistologic confirmation on renal mass biopsy is indicated in the following situations (AUA: Renal Mass and Localized Renal Cancer Evaluation Management and Follow Up [Accessed 13 January 2025])",
+      "excerpt": "Diagnosis is usually established based on clinical findings and contrast enhanced computed tomography (CT) imaging\nHistologic confirmation on renal mass biopsy is indicated in the following situations (AUA: Renal Mass and Localized Renal Cancer Evaluation Management and Follow Up [Accessed 13 January 2025])",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Confirmation of renal primary versus metastasis when there is a known extrarenal primary",
+      "heading": "Confirmation of renal primary versus metastasis when there is a known extrarenal primary",
+      "section": "topic_text",
+      "text_excerpt": "Unresectable solid renal mass before initiation of systemic therapy",
+      "excerpt": "Unresectable solid renal mass before initiation of systemic therapy",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — In comorbid patients noneligible for surgery to further guide treatment and prognosis",
+      "heading": "In comorbid patients noneligible for surgery to further guide treatment and prognosis",
+      "section": "topic_text",
+      "text_excerpt": "Clinically suspected mass forming infectious process that may be managed with antibiotics, such as pyelonephritis or abscess",
+      "excerpt": "Clinically suspected mass forming infectious process that may be managed with antibiotics, such as pyelonephritis or abscess",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Before ablative procedures to ensure histologic diagnosis",
+      "heading": "Before ablative procedures to ensure histologic diagnosis",
+      "section": "topic_text",
+      "text_excerpt": "For tumors involving renal sinus to rule out urothelial carcinoma or lymphoma (JAMA 2024;332:1001)",
+      "excerpt": "For tumors involving renal sinus to rule out urothelial carcinoma or lymphoma (JAMA 2024;332:1001)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — For reporting elements in the synoptic pathology report, see Features to report",
+      "heading": "For reporting elements in the synoptic pathology report, see Features to report",
+      "section": "topic_text",
+      "text_excerpt": "Laboratory\nKidney function tests may show elevated serum creatinine and decreased glomerular filtration rates (GFR) as a reflection of compromised renal function",
+      "excerpt": "Laboratory\nKidney function tests may show elevated serum creatinine and decreased glomerular filtration rates (GFR) as a reflection of compromised renal function",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Ultrasound",
+      "heading": "Ultrasound",
+      "section": "topic_text",
+      "text_excerpt": "Most frequently used for initial diagnosis of a renal mass and to assess the urinary tract\nLower sensitivity and specificity for assessing malignancy and for staging than CT and magnetic resonance imaging (MRI)",
+      "excerpt": "Most frequently used for initial diagnosis of a renal mass and to assess the urinary tract\nLower sensitivity and specificity for assessing malignancy and for staging than CT and magnetic resonance imaging (MRI)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — RCC may appear solid or cystic",
+      "heading": "RCC may appear solid or cystic",
+      "section": "topic_text",
+      "text_excerpt": "Can be hyper, iso or hypoechoic compared to noninvolved renal parenchyma\nVisualizing the tumor pseudocapsule as a hypoechoic halo is fairly specific but has low sensitivity (20%) (Radiopaedia: Renal Cell Carcinoma [Accessed 8 November 2024])\nCT",
+      "excerpt": "Can be hyper, iso or hypoechoic compared to noninvolved renal parenchyma\nVisualizing the tumor pseudocapsule as a hypoechoic halo is fairly specific but has low sensitivity (20%) (Radiopaedia: Renal Cell Carcinoma [Accessed 8 November 2024])\nCT",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Modality of choice for diagnosis and staging of RCC as well as for posttreatment follow up",
+      "heading": "Modality of choice for diagnosis and staging of RCC as well as for posttreatment follow up",
+      "section": "topic_text",
+      "text_excerpt": "Dedicated renal CT protocols are used\nCan differentiate clear cell RCC from non-RCC subtypes with a specificity of up to 100% (Cureus 2021;13:e13231)\nRCC may appear solid or cystic, with irregular enhancement due to the presence of necrosis and can show peripheral or central calcifications\nClear cell RCC typically demonstrates hypervascularity and enhancement similar to normal renal cortex as opposed to non-clear cell RCC subtypes (Cureus 2021;13:e13231)\nBosniak classification (5 categories): helps predict risk of malignancy and guides clinical management for cystic renal masses based on contrast enhanced CT imaging (Cureus 2021;13:e13231)",
+      "excerpt": "Dedicated renal CT protocols are used\nCan differentiate clear cell RCC from non-RCC subtypes with a specificity of up to 100% (Cureus 2021;13:e13231)\nRCC may appear solid or cystic, with irregular enhancement due to the presence of necrosis and can show peripheral or central calcifications\nClear cell RCC typically demonstrates hypervascularity and enhancement similar to normal renal cortex as opposed to non-clear cell RCC subtypes (Cureus 2021;13:e13231)\nBosniak classification (5 categories): helps predict risk of malignancy and guides clinical management for cystic renal masses based on contrast enhanced CT imaging (Cureus 2021;13:e13231)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — MRI",
+      "heading": "MRI",
+      "section": "topic_text",
+      "text_excerpt": "Similar sensitivity and specificity as CT for evaluating renal masses\nClear cell RCC is typically iso or hypointense on precontrast T1 weighted imaging and heterogeneously hyperintense on T2 weighted imaging",
+      "excerpt": "Similar sensitivity and specificity as CT for evaluating renal masses\nClear cell RCC is typically iso or hypointense on precontrast T1 weighted imaging and heterogeneously hyperintense on T2 weighted imaging",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Clear cell RCC is hypervascular and shows prominent enhancement",
+      "heading": "Clear cell RCC is hypervascular and shows prominent enhancement",
+      "section": "topic_text",
+      "text_excerpt": "Radiology imagesContributed by Jean-François Aita, M.D.",
+      "excerpt": "Radiology imagesContributed by Jean-François Aita, M.D.",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Grading",
+      "heading": "Grading",
+      "section": "topic_text",
+      "text_excerpt": "WHO / ISUP grading system is currently validated only for clear cell and papillary RCC",
+      "excerpt": "WHO / ISUP grading system is currently validated only for clear cell and papillary RCC",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Grade 1: nucleoli inconspicuous or absent at 400x (objective magnification 40x)",
+      "heading": "Grade 1: nucleoli inconspicuous or absent at 400x (objective magnification 40x)",
+      "section": "topic_text",
+      "text_excerpt": "Grade 2: nucleoli prominent at 400x",
+      "excerpt": "Grade 2: nucleoli prominent at 400x",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Grade 3: nucleoli prominent at 100x magnification",
+      "heading": "Grade 3: nucleoli prominent at 100x magnification",
+      "section": "topic_text",
+      "text_excerpt": "Grade 4: extreme nuclear pleomorphism, multinucleated giant cells, sarcomatoid or rhabdoid change\nSarcomatoid transformation: poor prognostic indicator in other RCC subtypes as well (e.g., chromophobe RCC, SDH deficient RCC); presentation with advanced stage disease and metastases in 45 - 77% of cases (Am J Surg Pathol 2024;48:e65)",
+      "excerpt": "Grade 4: extreme nuclear pleomorphism, multinucleated giant cells, sarcomatoid or rhabdoid change\nSarcomatoid transformation: poor prognostic indicator in other RCC subtypes as well (e.g., chromophobe RCC, SDH deficient RCC); presentation with advanced stage disease and metastases in 45 - 77% of cases (Am J Surg Pathol 2024;48:e65)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Staging",
+      "heading": "Staging",
+      "section": "topic_text",
+      "text_excerpt": "Histologic subtype: see Kidney tumor\nNecrosis: tumor type necrosis (also known as granular necrosis) has been shown to be an independently significant predictor of a less favorable outcome in clear cell RCC (Pathology 2020;52:507, Histopathology 2019;74:284)\nMicroscopic coagulative tumor necrosis is also associated with worse outcomes in clear cell and chromophobe RCC (Eur Urol 2021;79:225, Am J Surg Pathol 2013;37:1490)",
+      "excerpt": "Histologic subtype: see Kidney tumor\nNecrosis: tumor type necrosis (also known as granular necrosis) has been shown to be an independently significant predictor of a less favorable outcome in clear cell RCC (Pathology 2020;52:507, Histopathology 2019;74:284)\nMicroscopic coagulative tumor necrosis is also associated with worse outcomes in clear cell and chromophobe RCC (Eur Urol 2021;79:225, Am J Surg Pathol 2013;37:1490)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Lymphovascular invasion (LVI)",
+      "heading": "Lymphovascular invasion (LVI)",
+      "section": "topic_text",
+      "text_excerpt": "Conflicting data; according to ISUP 2013 consensus, there is still insufficient evidence to support prognostic significance (Am J Surg Pathol 2013;37:1490)\nNewer studies suggest the detrimental impact of LVI on overall survival in patients with surgically treated renal cell carcinoma (Urol Oncol 2023;41:435.e1)\n5 year survival: 70% (all histologic types and stages), varies from 94% for stage I versus ~80% for stage II versus ~60% for stage III versus ~5 - 10% for stage IV",
+      "excerpt": "Conflicting data; according to ISUP 2013 consensus, there is still insufficient evidence to support prognostic significance (Am J Surg Pathol 2013;37:1490)\nNewer studies suggest the detrimental impact of LVI on overall survival in patients with surgically treated renal cell carcinoma (Urol Oncol 2023;41:435.e1)\n5 year survival: 70% (all histologic types and stages), varies from 94% for stage I versus ~80% for stage II versus ~60% for stage III versus ~5 - 10% for stage IV",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Treatment",
+      "heading": "Treatment",
+      "section": "topic_text",
+      "text_excerpt": "Resection (partial or radical nephrectomy) for localized disease\nActive surveillance may be an option for comorbid patients with low stage, histologically confirmed low risk tumors\nGenerally limited use for chemotherapy in RCC management but may be offered to patients with collecting duct or SMARCB1 deficient RCC (formerly medullary carcinoma) (Uroweb: Renal Cell Carcinoma [Accessed 8 November 2024])\nEspecially in the metastatic setting, it is important to differentiate between clear cell RCC and non-clear cell RCC subtypes, as several HIF1α pathway targeted therapies (e.g., tyrosine kinase inhibitors, anti-VEGF agents) and immune checkpoint inhibitors have been approved for clear cell RCC management in both the U.S. and Europe\nHLRCC associated renal tumors frequently require aggressive treatment with specific chemotherapeutic considerations and follow up regimens even if small and solitary (J Natl Compr Canc Netw 2019;17:1278)\nDual immune checkpoint inhibitors combinations (anti-CTLA4 and anti-PDL1) are used in the U.S. as first line treatment for patients with intermediate or poor risk metastatic clear cell RCC (JAMA 2024;332:1001)",
+      "excerpt": "Resection (partial or radical nephrectomy) for localized disease\nActive surveillance may be an option for comorbid patients with low stage, histologically confirmed low risk tumors\nGenerally limited use for chemotherapy in RCC management but may be offered to patients with collecting duct or SMARCB1 deficient RCC (formerly medullary carcinoma) (Uroweb: Renal Cell Carcinoma [Accessed 8 November 2024])\nEspecially in the metastatic setting, it is important to differentiate between clear cell RCC and non-clear cell RCC subtypes, as several HIF1α pathway targeted therapies (e.g., tyrosine kinase inhibitors, anti-VEGF agents) and immune checkpoint inhibitors have been approved for clear cell RCC management in both the U.S. and Europe\nHLRCC associated renal tumors frequently require aggressive treatment with specific chemotherapeutic considerations and follow up regimens even if small and solitary (J Natl Compr Canc Netw 2019;17:1278)\nDual immune checkpoint inhibitors combinations (anti-CTLA4 and anti-PDL1) are used in the U.S. as first line treatment for patients with intermediate or poor risk metastatic clear cell RCC (JAMA 2024;332:1001)",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Handling and staging guide",
+      "heading": "Handling and staging guide",
+      "section": "topic_text",
+      "text_excerpt": "Staging according to UICC / AJCC 8th edition",
+      "excerpt": "Staging according to UICC / AJCC 8th edition",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Risk of downstaging in RCC is greater than in other cancers",
+      "heading": "Risk of downstaging in RCC is greater than in other cancers",
+      "section": "topic_text",
+      "text_excerpt": "Refer to Grossing topic for sections to take and grossing tips\nGreatest dimension of tumor should be measured after serial sectioning, including tumor extending into extracapsular soft tissue",
+      "excerpt": "Refer to Grossing topic for sections to take and grossing tips\nGreatest dimension of tumor should be measured after serial sectioning, including tumor extending into extracapsular soft tissue",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Do not include tumor extending into renal vein / inferior vena cava in the measurement",
+      "heading": "Do not include tumor extending into renal vein / inferior vena cava in the measurement",
+      "section": "topic_text",
+      "text_excerpt": "Measurement of predominantly cystic lesions with focal solid tumor nodules is controversial; some survey data suggests most urological pathologists would measure the entire cyst if cyst lining and solid nodule are composed of similar cells (Am J Surg Pathol 2018;42:1253)\nSignificantly greater likelihood for tumors > 7 cm to show invasion into sinus or perirenal fat",
+      "excerpt": "Measurement of predominantly cystic lesions with focal solid tumor nodules is controversial; some survey data suggests most urological pathologists would measure the entire cyst if cyst lining and solid nodule are composed of similar cells (Am J Surg Pathol 2018;42:1253)\nSignificantly greater likelihood for tumors > 7 cm to show invasion into sinus or perirenal fat",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — Renal sinus invasion (pT3a)",
+      "heading": "Renal sinus invasion (pT3a)",
+      "section": "topic_text",
+      "text_excerpt": "If tumor is in direct contact with the sinus fat or the loose connective tissue of the sinus, clearly beyond the renal parenchyma",
+      "excerpt": "If tumor is in direct contact with the sinus fat or the loose connective tissue of the sinus, clearly beyond the renal parenchyma",
+      "_pathout_deep": true
+    },
+    {
+      "source": "pathout",
+      "title": "Renal cell carcinoma overview — If tumor involves any endothelium lined spaces within the renal sinus",
+      "heading": "If tumor involves any endothelium lined spaces within the renal sinus",
+      "section": "topic_text",
+      "text_excerpt": "It is recommended to extensively sample tumor sinus interface (> 3 - 5 blocks) if tumor size > 5 cm",
+      "excerpt": "It is recommended to extensively sample tumor sinus interface (> 3 - 5 blocks) if tumor size > 5 cm",
+      "_pathout_deep": true
     }
   ],
   "figures": [
@@ -2940,8 +3156,8 @@
       "title": "Gu Practical",
       "caption": "Fig. 40-39). Histological picture is variable with features shared by both clear cell RCC and clear",
       "figure_id": "Fig. 40-39",
-      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784956447&sig=79752308e2b179c6adf37ca3b1483701367b42df2d2fee99df4c6ab97fbe8a4b",
-      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784956447&sig=79752308e2b179c6adf37ca3b1483701367b42df2d2fee99df4c6ab97fbe8a4b",
+      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784974331&sig=41efa108a781681795d34ceb0f48dca374cc64e3d642a67be1dd7541c87c98a7",
+      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784974331&sig=41efa108a781681795d34ceb0f48dca374cc64e3d642a67be1dd7541c87c98a7",
       "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0925_fig02_fig_40_39.jpeg",
       "original_image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0925_fig02_fig_40_39.jpeg",
       "original_image_url": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0925_fig02_fig_40_39.jpeg",
@@ -2956,14 +3172,14 @@
         {
           "kind": "figure_url",
           "label": "figure_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784956447&sig=79752308e2b179c6adf37ca3b1483701367b42df2d2fee99df4c6ab97fbe8a4b",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784974331&sig=41efa108a781681795d34ceb0f48dca374cc64e3d642a67be1dd7541c87c98a7",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         },
         {
           "kind": "image_url",
           "label": "image_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784956447&sig=79752308e2b179c6adf37ca3b1483701367b42df2d2fee99df4c6ab97fbe8a4b",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNV9maWcwMl9maWdfNDBfMzkuanBlZw&exp=1784974331&sig=41efa108a781681795d34ceb0f48dca374cc64e3d642a67be1dd7541c87c98a7",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         }
@@ -2977,8 +3193,8 @@
       "title": "Gu Practical",
       "caption": "Figure 40-39. Microscopically, RAT-like RCC is composed of large nests of tumor cells and prominent angiomyomatous stroma (a). High magnification shows the histological features of typical clear cell RCC (b). Low-grade clear cells form papillae, tubules, and solid alveolar nests Tumor cells have voluminous clear cytoplasm with nuclei basally positioned",
       "figure_id": "Figure 40-39",
-      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784956447&sig=4f8783c897c2b54fbfeea6cbacf37f5e2ec98956c0689abce337a80febe0cb00",
-      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784956447&sig=4f8783c897c2b54fbfeea6cbacf37f5e2ec98956c0689abce337a80febe0cb00",
+      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784974331&sig=7bcba6635001311c4f40e9482f0c93c6d5ff063438a45d47e44e17f63578b966",
+      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784974331&sig=7bcba6635001311c4f40e9482f0c93c6d5ff063438a45d47e44e17f63578b966",
       "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0926_fig01_figure_40_39.jpeg",
       "original_image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0926_fig01_figure_40_39.jpeg",
       "original_image_url": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0926_fig01_figure_40_39.jpeg",
@@ -2993,14 +3209,14 @@
         {
           "kind": "figure_url",
           "label": "figure_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784956447&sig=4f8783c897c2b54fbfeea6cbacf37f5e2ec98956c0689abce337a80febe0cb00",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784974331&sig=7bcba6635001311c4f40e9482f0c93c6d5ff063438a45d47e44e17f63578b966",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         },
         {
           "kind": "image_url",
           "label": "image_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784956447&sig=4f8783c897c2b54fbfeea6cbacf37f5e2ec98956c0689abce337a80febe0cb00",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyNl9maWcwMV9maWd1cmVfNDBfMzkuanBlZw&exp=1784974331&sig=7bcba6635001311c4f40e9482f0c93c6d5ff063438a45d47e44e17f63578b966",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         }
@@ -3051,8 +3267,8 @@
       "title": "Gu Practical",
       "caption": "Figure 39-21. Clear cell RCC with sarcomatoid differentiation. Grossly, the tumor is a large mass greater than 10 cm, replacing the most of kidney (a). Areas of clear cell RCC can be seen (b). In addition, areas of pleomorphic spindle tumor cells (c and d). Variable color and sizes of nodules, white or fleshy appearance is characteristic",
       "figure_id": "Figure 39-21",
-      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784956447&sig=dd8e008b7e214e16614880ce9d45857550a7e1a8c8a06d5297b83c1559add7ff",
-      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784956447&sig=dd8e008b7e214e16614880ce9d45857550a7e1a8c8a06d5297b83c1559add7ff",
+      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784974331&sig=f15b7d5a3e6e3de10a491f7c8f2617edbbb28bafe880329d6667a01bd4195e9d",
+      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784974331&sig=f15b7d5a3e6e3de10a491f7c8f2617edbbb28bafe880329d6667a01bd4195e9d",
       "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0861_fig01_figure_39_21.jpeg",
       "original_image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0861_fig01_figure_39_21.jpeg",
       "original_image_url": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0861_fig01_figure_39_21.jpeg",
@@ -3067,14 +3283,14 @@
         {
           "kind": "figure_url",
           "label": "figure_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784956447&sig=dd8e008b7e214e16614880ce9d45857550a7e1a8c8a06d5297b83c1559add7ff",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784974331&sig=f15b7d5a3e6e3de10a491f7c8f2617edbbb28bafe880329d6667a01bd4195e9d",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         },
         {
           "kind": "image_url",
           "label": "image_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784956447&sig=dd8e008b7e214e16614880ce9d45857550a7e1a8c8a06d5297b83c1559add7ff",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDg2MV9maWcwMV9maWd1cmVfMzlfMjEuanBlZw&exp=1784974331&sig=f15b7d5a3e6e3de10a491f7c8f2617edbbb28bafe880329d6667a01bd4195e9d",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         }
@@ -3162,8 +3378,8 @@
       "title": "Gu Practical",
       "caption": "Figure 40-40. RCC with RAT-like stroma. Large nests of tumor cells with clear cytoplasm and prominent leiomyomatous stromal component are seen (a). High magnification shows low-grade tumor cells in a prominent fibromuscular stroma (b). Focally, clear cells forming tubules have blister-like snouts in the apical pole (“shark-smile” appearance), reminiscent of RAT Fine capillary network surrounding tumor cells, typical of clear cell RCC, is often seen Immunohistochemistry Variable immunoprofiles CK7 usually positive with a minority of the cases negative AMACR variably positive Vimentin variably positive CD9 positivity (box-shaped) seen in most cases Molecular genetics VHL gene muta",
       "figure_id": "Figure 40-40",
-      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784956447&sig=02fc557e215740186c8b63991231a8ff8c8af96d93812336b10b68f3e7060979",
-      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784956447&sig=02fc557e215740186c8b63991231a8ff8c8af96d93812336b10b68f3e7060979",
+      "figure_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784974331&sig=1e2a6ac5b99d3473cd413fcf8d2bfe93ff4d41bc6d645646cab6c2deba16a590",
+      "image_url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784974331&sig=1e2a6ac5b99d3473cd413fcf8d2bfe93ff4d41bc6d645646cab6c2deba16a590",
       "image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0927_fig01_figure_40_40.jpeg",
       "original_image_path": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0927_fig01_figure_40_40.jpeg",
       "original_image_url": "gs://pathology_hub/01_staged/textbooks/assets/figure_images/gu_practical/gu_practical_p0927_fig01_figure_40_40.jpeg",
@@ -3178,14 +3394,14 @@
         {
           "kind": "figure_url",
           "label": "figure_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784956447&sig=02fc557e215740186c8b63991231a8ff8c8af96d93812336b10b68f3e7060979",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784974331&sig=1e2a6ac5b99d3473cd413fcf8d2bfe93ff4d41bc6d645646cab6c2deba16a590",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         },
         {
           "kind": "image_url",
           "label": "image_url",
-          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784956447&sig=02fc557e215740186c8b63991231a8ff8c8af96d93812336b10b68f3e7060979",
+          "url": "https://pathology-hub-v04-vorn5q2kga-uc.a.run.app/figures/textbook?u=Z3M6Ly9wYXRob2xvZ3lfaHViLzAxX3N0YWdlZC90ZXh0Ym9va3MvYXNzZXRzL2ZpZ3VyZV9pbWFnZXMvZ3VfcHJhY3RpY2FsL2d1X3ByYWN0aWNhbF9wMDkyN19maWcwMV9maWd1cmVfNDBfNDAuanBlZw&exp=1784974331&sig=1e2a6ac5b99d3473cd413fcf8d2bfe93ff4d41bc6d645646cab6c2deba16a590",
           "source_family": "textbooks",
           "source_id": "gu_practical"
         }
@@ -3422,6 +3638,42 @@
       "source_family": "PathOutlines",
       "source_url": "https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html",
       "_pathout_deep_verified": true
+    },
+    {
+      "figure_url": "https://www.pathologyoutlines.com/imgau/1_194_01.jpeg",
+      "image_url": "https://www.pathologyoutlines.com/imgau/1_194_01.jpeg",
+      "url": "https://www.pathologyoutlines.com/imgau/1_194_01.jpeg",
+      "caption": "Retrograde extension of tumor",
+      "title": "Renal cell carcinoma overview",
+      "entity_name": "Renal cell carcinoma overview",
+      "source": "pathout",
+      "source_family": "PathOutlines",
+      "source_url": "https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html",
+      "_pathout_deep_verified": true
+    },
+    {
+      "figure_url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcc01Tretiakova.jpeg",
+      "image_url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcc01Tretiakova.jpeg",
+      "url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcc01Tretiakova.jpeg",
+      "caption": "Clear cell RCC histology",
+      "title": "Renal cell carcinoma overview",
+      "entity_name": "Renal cell carcinoma overview",
+      "source": "pathout",
+      "source_family": "PathOutlines",
+      "source_url": "https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html",
+      "_pathout_deep_verified": true
+    },
+    {
+      "figure_url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcctretiakova01_01.jpeg",
+      "image_url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcctretiakova01_01.jpeg",
+      "url": "https://www.pathologyoutlines.com/imgau/kidneytumormalignantrcctretiakova01_01.jpeg",
+      "caption": "RCC metastatic to stomach",
+      "title": "Renal cell carcinoma overview",
+      "entity_name": "Renal cell carcinoma overview",
+      "source": "pathout",
+      "source_family": "PathOutlines",
+      "source_url": "https://www.pathologyoutlines.com/topic/kidneytumormalignantrcc.html",
+      "_pathout_deep_verified": true
     }
   ],
   "who_cross_mentions": [],
@@ -3429,23 +3681,45 @@
     "critic_ok": true,
     "critic_raw": null,
     "critic_json": {
-      "verdict": "pass",
-      "missing_essentials": [],
-      "redundant": [],
-      "confusing": [],
-      "entity_conflation": [],
+      "verdict": "revise",
+      "missing_essentials": [
+        "WHO/ISUP grading system details (nucleolar features at specified magnification for grades 1-4) explicitly as essential diagnostic criteria (not just referenced in staging/prognostic factors)",
+        "Note about classic syndrome associations with aggressive variants—e.g., BAP1 mutation syndrome and SDH-deficient syndromes may be associated with clear cell RCC, not just other histologies",
+        "Specific histologic note that clear cell RCC in VHL syndrome may show features overlapping with clear cell papillary tumor, but has the molecular/IHC profile of conventional clear cell RCC"
+      ],
+      "redundant": [
+        "Repeated inclusion of 'Prognosis linked to stage, grade, and necrosis' in both Key Facts and Prognostic Factors with slightly different wording"
+      ],
+      "confusing": [
+        "\"Defining molecular event: VHL gene inactivation (mutation, deletion, methylation)\" and \"Driven by inactivation of VHL tumor suppressor gene\"—listed twice in different sections without integrating that this is the same feature",
+        "Differential diagnosis table: architectural and IHC features for MiT/TFE translocation RCC and Oncocytoma are presented in a way that is dense and could be better clarified with individual bullet points outside the table for key discriminators",
+        "\"Well-circumscribed, may have pseudocapsule\" is under Macroscopic with little context—some cases will not be well-circumscribed if large/advanced",
+        "\"May invade renal vein, perinephric fat, or adrenal gland in advanced cases\"—this is restated multiple times (under Macroscopic, Clinical Issues, Staging, figures) and could be integrated for clarity"
+      ],
+      "entity_conflation": [
+        "Some mixing of ELOC-TCEB1 mutated RCC features (e.g., mention of prominent thick fibromuscular septae, box-shaped CAIX in some textbook evidence chunks) with classic clear cell RCC, though the draft page does not explicitly state these features—clarify not to conflate these variants in future drafts."
+      ],
       "off_organ_or_offtopic": [],
-      "missing_ddx_entities": [],
-      "figure_issues": [],
-      "notes_for_revision": ""
+      "missing_ddx_entities": [
+        "Xp11 translocation RCC",
+        "Metanephric adenoma",
+        "Well-differentiated neuroendocrine tumor/paraganglioma",
+        "Acquired cystic disease-associated RCC",
+        "Renomedullary interstitial cell tumor"
+      ],
+      "figure_issues": [
+        "Some figures such as those showing ELOC-TCEB1-mutated RCC or clear cell papillary RCC (gu_practical_p0926_fig01_figure_40_39.jpeg, gu_practical_p0927_fig01_figure_40_40.jpeg, etc.) are not specifically classic clear cell RCC and could confuse the identity of key histopathologic features if not annotated or captioned precisely in the draft; ensure direct match to classic ccRCC or clearly label as a mimicker/variant.",
+        "Figure: Gu_Practical_page_0861.png (clear cell RCC with sarcomatoid change) illustrates prognosis/variant and is repeated in multiple sections as both gross and illustrative case without clear contextual labeling."
+      ],
+      "notes_for_revision": "The page is thorough but should explicitly list the WHO/ISUP grading nucleolar features as essential criteria, cite rare syndromic/variant associations, and separate out classic from mimicker/variant features (especially in figures and tables). Reorganize to avoid redundancy and clarify the differential table with bullets. Add missing DDx entities explicitly by name. Review figure placements and captions for specificity to classic entity."
     },
-    "revision_applied": false
+    "revision_applied": true
   },
   "retrieval_debug_summary": {
-    "cards_capped": 79,
-    "cards_cap_limit": 120,
+    "cards_capped": 103,
+    "cards_cap_limit": 180,
     "cards_raw": 96,
-    "cards_deduped": 79,
+    "cards_deduped": 103,
     "query_variants": [
       "Clear Cell RCC GU   Kidney",
       "Clear Cell RCC GU   Kidney histology microscopic morphology",
@@ -3462,7 +3736,7 @@
     },
     "root_narrow_enabled": true,
     "page_root": "gu",
-    "elapsed_s": 30.3
+    "elapsed_s": 88.9
   },
   "known_limitations": [
     "Prebuilt snapshot; live /api/chat may differ after corpus/backend changes.",
