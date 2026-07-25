@@ -2671,10 +2671,11 @@ function renderTopicGallery(figures, options = {}) {
 /** Differential Diagnosis bullets look like "- **Entity Name** — detail".
  * When the leading bold entity fuzzy-matches a taxonomy leaf, render it as a
  * clickable internal nav button that loads that entity's own fresh topic
- * page; otherwise leave it as plain text (never fabricate a link). */
-function renderDifferentialSection(content, previewIndex, pageContext = null) {
+ * page; otherwise leave it as plain text (never fabricate a link).
+ * Markdown tables (comparison matrices) render as HTML tables, not bullets. */
+function renderDifferentialBullets(content, previewIndex, pageContext = null) {
   const text = String(content || "").trim();
-  if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+  if (!text) return "";
   const ctx = pageContext || pageContextFromBrowseState();
 
   const items = [];
@@ -2683,9 +2684,6 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
     if (!line) continue;
     const match = line.match(/^[-*]\s*\*\*(.+?)\*\*\s*[-\u2014:]*\s*(.*)$/);
     if (!match) {
-      // A stray bare citation link (no bullet, no bold entity name) is a trailing
-      // reference the model shouldn't have added here — drop it rather than
-      // rendering a phantom Differential Diagnosis entry.
       const isBareLink = /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(line);
       if (isBareLink) continue;
       items.push(`<li>${inlineMarkdown(line.replace(/^[-*]\s*/, ""), previewIndex)}</li>`);
@@ -2709,7 +2707,30 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
       );
     }
   }
+  if (!items.length) return "";
   return `<ul class="answer-list ddx-list">${items.join("")}</ul>`;
+}
+
+function renderDifferentialSection(content, previewIndex, pageContext = null) {
+  const text = String(content || "").trim();
+  if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+
+  if (isMarkdownTable(text)) {
+    return `<div class="answer-md ddx-table-wrap">${renderMarkdownTable(text)}</div>`;
+  }
+
+  const blocks = text.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
+  if (blocks.some(isMarkdownTable)) {
+    const htmlParts = blocks.map((block) => {
+      if (isMarkdownTable(block)) {
+        return `<div class="ddx-table-wrap">${renderMarkdownTable(block)}</div>`;
+      }
+      return renderDifferentialBullets(block, previewIndex, pageContext);
+    });
+    return `<div class="answer-md ddx-mixed">${htmlParts.filter(Boolean).join("")}</div>`;
+  }
+
+  return renderDifferentialBullets(text, previewIndex, pageContext);
 }
 
 function renderWhoCrossMentions(mentions, pageContext = null) {
