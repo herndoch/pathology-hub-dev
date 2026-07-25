@@ -13,9 +13,11 @@ try:
     import markdown as _markdown
 
     def _md_to_html(text: str) -> str:
-        return _markdown.markdown(
-            text or "",
-            extensions=["tables", "fenced_code", "sane_lists"],
+        return _wrap_inline_figure_rows(
+            _markdown.markdown(
+                text or "",
+                extensions=["tables", "fenced_code", "sane_lists"],
+            )
         )
 except Exception:
 
@@ -23,6 +25,16 @@ except Exception:
         esc = html.escape(text or "")
         parts = [p.strip() for p in re.split(r"\n\s*\n", esc) if p.strip()]
         return "".join(f"<p>{p.replace(chr(10), '<br>')}</p>" for p in parts)
+
+
+def _wrap_inline_figure_rows(html_text: str) -> str:
+    """Lay out consecutive markdown image paragraphs in a horizontal row."""
+    pattern = r"(?:<p>\s*<img[^>]+>\s*</p>\s*)+"
+
+    def _replacer(match: re.Match[str]) -> str:
+        return f'<div class="inline-figure-row">{match.group(0)}</div>'
+
+    return re.sub(pattern, _replacer, html_text or "", flags=re.IGNORECASE)
 
 
 def slugify_tag(tag: str) -> str:
@@ -191,11 +203,26 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
   .evidence li {{ margin: 0.8rem 0; }}
   .excerpt {{ font-size: 13px; color: #444; }}
   .gallery {{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 0.8rem;
   }}
-  figure {{ margin: 0; }}
+  figure {{
+    margin: 0;
+    flex: 0 0 auto;
+    width: min(220px, 100%);
+  }}
+  .inline-figure-row {{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }}
+  .inline-figure-row p {{ margin: 0; }}
   figure img {{
     width: 100%;
     max-height: 220px;
@@ -217,8 +244,9 @@ def render_topic_review_html(page: dict[str, Any], *, note: str = "") -> str:
     max-width: 240px;
     max-height: 180px;
     object-fit: contain;
-    display: block;
-    margin: 0.5rem 0;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
     border: 1px solid #d0d8d2;
     border-radius: 6px;
     background: #eef2ef;

@@ -1347,6 +1347,18 @@ function renderMarkdown(text, previewIndex) {
       return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
     }
 
+    const isImageOnlyLine = (line) => /^\s*!\[[^\]]*\]\(https?:[^)\s]+\)\s*$/.test(line);
+    if (lines.every((line) => !line.trim() || isImageOnlyLine(line)) && lines.some(isImageOnlyLine)) {
+      const imgs = lines
+        .filter((line) => line.trim())
+        .map((line) => {
+          const match = line.trim().match(/^!\[([^\]]*)\]\((https?:[^)\s]+)\)/);
+          return match ? renderInlineImage(match[1], match[2], previewIndex) : "";
+        })
+        .join("");
+      return `<div class="inline-figure-row">${imgs}</div>`;
+    }
+
     if (lines.length > 1 && lines.every((line) => line.trim())) {
       return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("");
     }
