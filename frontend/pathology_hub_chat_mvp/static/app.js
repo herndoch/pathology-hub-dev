@@ -5,7 +5,7 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
  * too so the debug panel shows the sources that are actually used, not a
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
-const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "videos"];
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "videos"];
 const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
 const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 

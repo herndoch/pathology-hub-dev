@@ -187,18 +187,9 @@ starves results. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
 Use root narrow when off-root textbook/video noise dominates; disable (`TOPIC_PAGE_ROOT_NARROW=0`)
 for thin roots (e.g. some Eye pages dropped 53→24 cards) or when breadth matters.
 
-**Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
-says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe
-shows this note is stale: `source_status.journals == "ok"` and real article metadata (titles,
-DOIs) come back today. However, roughly half of returned journal cards carry no `source_url` at
-all (nothing to cite), and the ones that do point to Elsevier/`modernpathology.org`, which sit
-behind Cloudflare bot-protection that returned 403 to every automated request we tried from this
-dev sandbox — including a control request to `pathologyoutlines.com`, which is known-good in this
-app, so we could not distinguish "dead link" from "bot-blocked sandbox" with any live check. We
-deliberately did **not** add a server-side HEAD-check filter for this: the same check running from
-Cloud Run's egress IP could just as easily get bot-challenged and incorrectly hide valid citations.
-Journals stay in the default `topic_page` source set since retrieval itself is proven live; link
-resolution for end users is unverified either way, not disproven.
+**Known limitation — journals:** Retired 2026-07-26. Local journal FAISS corpus archived to
+`gs://pathology_hub/_archive/retired_journals_20260726/`. See `docs/JOURNALS_RETIRED_ARCHIVE.md`.
+Live literature (Elsevier/PubMed + DOI links) is a planned separate workstream.
 
 ## Citation tags
 

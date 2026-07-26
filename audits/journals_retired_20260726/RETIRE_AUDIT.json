@@ -1,0 +1,62 @@
+{
+  "schema_version": "journals_retire_audit.v0_1",
+  "generated_at_utc": "2026-07-26T23:43:38+00:00",
+  "project": "pathology-annotation-project",
+  "archive_base": "gs://pathology_hub/_archive/retired_journals_20260726",
+  "input_paths": [
+    "gs://pathology_hub/01_sources/journals",
+    "gs://pathology_hub/02_normalized/journals",
+    "gs://pathology_hub/02_normalized/journals_batches",
+    "gs://pathology_hub/03_indexes/journals",
+    "gs://pathology_hub/05_html/article_browser"
+  ],
+  "output_paths": [
+    "gs://pathology_hub/_archive/retired_journals_20260726/01_sources/journals",
+    "gs://pathology_hub/_archive/retired_journals_20260726/02_normalized/journals",
+    "gs://pathology_hub/_archive/retired_journals_20260726/02_normalized/journals_batches",
+    "gs://pathology_hub/_archive/retired_journals_20260726/03_indexes/journals",
+    "gs://pathology_hub/_archive/retired_journals_20260726/05_html/article_browser"
+  ],
+  "moves": [
+    {
+      "source": "gs://pathology_hub/01_sources/journals",
+      "archive": "gs://pathology_hub/_archive/retired_journals_20260726/01_sources/journals",
+      "bytes": 189969731,
+      "status": "moved"
+    },
+    {
+      "source": "gs://pathology_hub/02_normalized/journals",
+      "archive": "gs://pathology_hub/_archive/retired_journals_20260726/02_normalized/journals",
+      "bytes": 672721451,
+      "status": "moved"
+    },
+    {
+      "source": "gs://pathology_hub/02_normalized/journals_batches",
+      "archive": "gs://pathology_hub/_archive/retired_journals_20260726/02_normalized/journals_batches",
+      "bytes": 474424774,
+      "status": "moved"
+    },
+    {
+      "source": "gs://pathology_hub/03_indexes/journals",
+      "archive": "gs://pathology_hub/_archive/retired_journals_20260726/03_indexes/journals",
+      "bytes": 7884615965,
+      "status": "moved"
+    },
+    {
+      "source": "gs://pathology_hub/05_html/article_browser",
+      "archive": "gs://pathology_hub/_archive/retired_journals_20260726/05_html/article_browser",
+      "bytes": 598392996,
+      "status": "moved"
+    }
+  ],
+  "total_bytes_moved": 9820124917,
+  "counts": {
+    "moved": 5,
+    "missing": 0
+  },
+  "known_limitations": [
+    "Archive is cold storage only; backend must set JOURNALS_RETIRED=1.",
+    "AJSP normalized chunks in archive have lowercase-t corruption at ingest.",
+    "Live Cloud Run revision must be redeployed without JOURNAL_* GCS env vars."
+  ]
+}

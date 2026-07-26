@@ -736,17 +736,12 @@ tools/curriculum_provenance_browser/scripts/run_local.sh
 ## Deferred ideas (not started, for later discussion)
 
 - External literature/knowledge API integration is a **separate future
-  workstream**, not yet started and not part of the current provenance/image
-  audit work. Secret Manager already has credentials for `OncoKB`, `Elsevier`,
-  `SpringerOpen`, `SpringerMeta`, and `NCBI` (see `docs/SECRET_REFERENCES.md`),
-  but none of these are called anywhere in current backend/frontend code today.
-- The existing `journals` source in `/evidence/search` is served from a local
-  FAISS vector index built ahead of time, not a live pass-through to any of
-  the five external APIs above.
-- If this workstream is picked up later: keep it separate from Evidence RAG /
-  curriculum provenance work per `AGENTS.md`'s "keep workstreams separate"
-  rule, and note that `OncoKB` (genomic variant interpretation) is a
-  different kind of API than the four literature/journal APIs.
+  workstream**. Secret Manager has credentials for `Elsevier`, `OncoKB`,
+  `NCBI`, `SpringerOpen`, `SpringerMeta` (live-probed 2026-07-26). See
+  `docs/JOURNALS_RETIRED_ARCHIVE.md` for the retired local journal FAISS corpus.
+- The former `journals` source (local FAISS, 129k rows) was **archived**
+  2026-07-26 to `gs://pathology_hub/_archive/retired_journals_20260726/`.
+  Backend default `JOURNALS_RETIRED=1`; not callable from `/evidence/search`.
 
 ## Coordination notes for agents
 

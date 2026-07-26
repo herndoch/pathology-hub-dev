@@ -38,7 +38,6 @@ HEALTH_PATH = "/health"
 SUPPORTED_SOURCES = [
     "who",
     "textbooks",
-    "journals",
     "pathout",
     "lectures",
     "videos",
