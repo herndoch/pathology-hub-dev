@@ -10,15 +10,26 @@ from typing import Optional
 from secrets_helper import get_openai_api_key
 
 DEFAULT_MODEL = "gpt-4o"
-TOPIC_PAGE_DEFAULT_MODEL = "gpt-5.6-luna"
 
 
 def get_model() -> str:
     return os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)
 
 
+# gpt-4o was measured (2026-07-24) to ignore explicit length/depth
+# instructions for topic_page synthesis — same evidence bundle, same prompt,
+# produced ~370-word pages regardless of a "1200-1800 word minimum"
+# instruction. Swapping only the model to gpt-4.1 (identical evidence,
+# identical prompt) produced ~1000-word pages with real cited statistics,
+# a full IHC panel, embedded figures, and multi-point differential diagnosis
+# entries. gpt-4o clearly under-utilizes the evidence bundle for this
+# long-form structured-extraction task; gpt-4.1 does not. Defaults to
+# gpt-4.1 for topic_page; override with OPENAI_TOPIC_PAGE_MODEL if needed.
+TOPIC_PAGE_DEFAULT_MODEL = "gpt-4.1"
+
+
 def get_topic_page_model() -> str:
-    return os.environ.get("OPENAI_TOPIC_PAGE_MODEL", TOPIC_PAGE_DEFAULT_MODEL)
+    return os.environ.get("OPENAI_TOPIC_PAGE_MODEL") or TOPIC_PAGE_DEFAULT_MODEL
 
 
 def _get_client():
@@ -43,10 +54,72 @@ class SynthesisResult:
 
 
 def _compact_evidence_json(evidence_bundle: dict) -> str:
+    """Serialize evidence for synthesis with a source-balanced budget.
+
+    Raised 2026-07-25: a 120-card topic_page bundle was measured at
+    ~250,000 JSON chars, meaning the old 80,000-char budget was silently
+    discarding roughly two-thirds of already-retrieved, already-deduped
+    evidence before the model ever saw it — a major contributor to thin
+    pages. gpt-4.1's ~1M-token context window has enormous headroom even
+    at this new size (~350k chars is ~90k tokens, under 10% of budget)."""
+    max_chars = 350000
+    bundle = dict(evidence_bundle or {})
+    lists: list[tuple[str, list]] = []
+    for key in (
+        "who_results",
+        "textbook_results",
+        "journal_results",
+        "pathout_results",
+        "lecture_results",
+        "video_results",
+        "curriculum_results",
+        "results",
+    ):
+        items = bundle.get(key)
+        if isinstance(items, list) and items:
+            lists.append((key, list(items)))
+
+    if not lists:
+        try:
+            return json.dumps(bundle, indent=2)[:max_chars]
+        except Exception:
+            return str(bundle)[:max_chars]
+
+    trimmed = dict(bundle)
+    for key, _items in lists:
+        trimmed[key] = []
+
+    # Round-robin keep items across source lists until char budget fills.
+    indices = {key: 0 for key, _ in lists}
+    while True:
+        progressed = False
+        for key, items in lists:
+            idx = indices[key]
+            if idx >= len(items):
+                continue
+            candidate = dict(trimmed)
+            candidate[key] = trimmed[key] + [items[idx]]
+            try:
+                encoded = json.dumps(candidate, indent=2)
+            except Exception:
+                encoded = str(candidate)
+            if len(encoded) > max_chars and trimmed[key]:
+                continue
+            trimmed[key].append(items[idx])
+            indices[key] += 1
+            progressed = True
+            if len(encoded) >= max_chars * 0.95:
+                try:
+                    return json.dumps(trimmed, indent=2)
+                except Exception:
+                    return str(trimmed)[:max_chars]
+        if not progressed:
+            break
+
     try:
-        return json.dumps(evidence_bundle, indent=2, sort_keys=True)[:60000]
+        return json.dumps(trimmed, indent=2)
     except Exception:
-        return str(evidence_bundle)[:60000]
+        return str(trimmed)[:max_chars]
 
 
 def synthesize(

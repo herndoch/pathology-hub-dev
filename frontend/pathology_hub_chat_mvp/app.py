@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import html as html_module
 import time
 import uuid
 from datetime import datetime, timezone
@@ -42,13 +43,15 @@ _SOURCE_LABELS = {
 }
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from urllib.parse import quote
 
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
+from topic_review_html import render_review_index_html, render_topic_review_html
+from openai_synthesizer import SynthesisResult, get_model, get_topic_page_model, ping as openai_ping, synthesize
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -64,14 +67,22 @@ from pathology_backend import (
     dedupe_cards,
     dedupe_figures,
     diversify_by_source_id,
+    enrich_cards_with_pathout_deep,
     filter_cards_by_page_root,
+    filter_cards_by_page_tag,
+    filter_cards_by_who_volume,
+    filter_figures_by_entity_match,
     filter_figures_by_page_root,
+    filter_figures_by_who_volume,
     extract_evidence_cards,
     extract_figures,
+    load_pathout_deep_index,
     merge_outcomes,
     page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
+    topic_page_disambiguated_query,
+    topic_page_essential_hints,
     topic_page_query_variants,
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
@@ -89,10 +100,35 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # then has to filter back out; requesting only `videos` gets the identical
 # evidence for half the cost. `lectures` remains a valid standalone choice in
 # `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
-TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures")]
+# v0_2 had narrowed this to WHO + PathOutlines only, on the claim that
+# textbooks/journals added noise without depth. That claim was WRONG for at
+# least some entities — live-probed 2026-07-24: WHO's own HN volume is
+# missing the standalone "Pleomorphic adenoma" entity (only has "Carcinoma
+# ex pleomorphic adenoma"; the benign entity is indexed only under BREAST/
+# THORACIC, different unrelated tumors with the same name), and PathOutlines'
+# own page for this entity is only ~6KB. Textbooks (Gnepp, Thompson, head/neck
+# atlas, Milan cytology) directly probed and confirmed to have real,
+# substantive, non-redundant content (classification tables, gross/histologic
+# descriptions) that WHO+PathOutlines don't have for this entity. Re-added.
+# Journals still excluded: probed and confirmed real facts (e.g. "~70% of all
+# salivary gland neoplasms") but the corpus has a systematic text-corruption
+# bug (nearly every "t" character is dropped — "tested" -> "es ed",
+# "although" -> "al hough") that needs fixing at the source before it's safe
+# to feed into synthesis.
+# `videos`: an earlier v0_2 pass had also dropped this family from topic_page
+# (grouped in with the textbooks/journals noise claim above), leaving topic
+# pages with zero lecture-segment links even when relevant lecture coverage
+# exists. Re-added 2026-07-25 per user request — the "half the cost" comment
+# above already assumed `videos` would stay in this list; `lectures` (the
+# duplicate-content alias) remains excluded.
+TOPIC_PAGE_SOURCES = ["who", "pathout", "textbooks", "videos"]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+REVIEW_PAGES_DIR = os.path.join(STATIC_DIR, "review", "pages")
+REVIEW_SAMPLE_PATH = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "docs", "topic_prepop_review10_sample_v0_1.json")
+)
 
 # Topic-page prepop pilot (v0_1, read-only lookup only) — see
 # docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md. This directory is written
@@ -116,6 +152,21 @@ def _env_bool(name: str, *, default: bool) -> bool:
 
 
 TOPIC_PAGE_ROOT_NARROW = _env_bool("TOPIC_PAGE_ROOT_NARROW", default=True)
+
+# Frontend-only read-time enrichment (see scripts/build_pathout_deep_index_v0_1.py):
+# the live backend caps PathOutlines excerpts at ~4000 chars/page from an older,
+# shallower ingestion. This index reads a richer staged-but-never-indexed crawl
+# (chunks + figures) to expand topic_page evidence for the SAME already-vetted
+# URLs the live search returned. Not a claim that anything is live-indexed.
+PATHOUT_DEEP_INDEX_PATH = os.environ.get(
+    "PATHOUT_DEEP_INDEX_PATH",
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(__file__), "..", "..", "outputs", "chat_mvp_topic_prepop_v0_1", "pathout_deep_index_v0_1.json"
+        )
+    ),
+)
+TOPIC_PAGE_PATHOUT_DEEP_ENRICH = _env_bool("TOPIC_PAGE_PATHOUT_DEEP_ENRICH", default=True)
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -242,7 +293,9 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
     merged/deduped/diversified, then capped before synthesis."""
     sources = _validate_sources(req.sources)
-    variants = topic_page_query_variants(req.query, req.category_context)
+    variants = topic_page_query_variants(req.query, req.category_context, req.page_tag)
+    search_query = topic_page_disambiguated_query(req.query, req.category_context, req.page_tag)
+    max_results = max(req.max_results, 10)
 
     def _retrieve_variant(query: str) -> dict:
         start = time.monotonic()
@@ -250,11 +303,11 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
             _backend_client,
             query,
             sources,
-            max_results=req.max_results,
+            max_results=max_results,
             include_figures=req.include_figures,
             max_figures=req.max_figures,
             compact=req.compact,
-            excerpt_char_limit=req.excerpt_char_limit,
+            excerpt_char_limit=max(req.excerpt_char_limit, 1200),
             render_html=False,
         )
         elapsed_ms = (time.monotonic() - start) * 1000
@@ -276,7 +329,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         )
 
     merged = merge_outcomes(all_outcomes)
-    merged["query"] = req.query
+    merged["query"] = search_query or req.query
     _diversify_merged_results(merged)
 
     raw_cards = extract_evidence_cards(merged)
@@ -285,18 +338,34 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     deduped_cards, raw_figures = _apply_figure_quality_filters(deduped_cards, raw_figures)
     who_cross_mentions = _extract_who_cross_mentions(deduped_cards)
 
+    page_root = page_root_from_tag(req.page_tag)
+    cards_before_root = len(deduped_cards)
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        deduped_cards = filter_cards_by_who_volume(deduped_cards, page_root)
+        deduped_cards = filter_cards_by_page_root(deduped_cards, page_root)
+    deduped_cards = filter_cards_by_page_tag(deduped_cards, req.page_tag)
+
+    figures = raw_figures[: TOPIC_PAGE_MAX_FIGURES * 2]
+    if TOPIC_PAGE_ROOT_NARROW and page_root:
+        figures = filter_figures_by_who_volume(figures, page_root)
+        figures = filter_figures_by_page_root(figures, page_root)
+    figures = filter_figures_by_entity_match(figures, req.page_tag)
+
+    deep_enrich_applied = False
+    if TOPIC_PAGE_PATHOUT_DEEP_ENRICH:
+        deep_index = load_pathout_deep_index(PATHOUT_DEEP_INDEX_PATH)
+        if deep_index:
+            before_n = len(deduped_cards)
+            deduped_cards, figures = enrich_cards_with_pathout_deep(
+                deduped_cards, figures, deep_index, page_tag=req.page_tag
+            )
+            deep_enrich_applied = len(deduped_cards) != before_n
+            figures = filter_figures_by_entity_match(figures, req.page_tag)
+
     capped_cards = cap_cards_diverse(
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
-
-    page_root = page_root_from_tag(req.page_tag)
-    cards_before_root = len(capped_cards)
-    if TOPIC_PAGE_ROOT_NARROW and page_root:
-        capped_cards = filter_cards_by_page_root(capped_cards, page_root)
-
-    figures = raw_figures[:TOPIC_PAGE_MAX_FIGURES]
-    if TOPIC_PAGE_ROOT_NARROW and page_root:
-        figures = filter_figures_by_page_root(figures, page_root)
+    figures = figures[:TOPIC_PAGE_MAX_FIGURES]
 
     slim_merged = slim_merged_from_cards(merged, capped_cards)
     slim_merged["figures"] = figures
@@ -324,7 +393,10 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "root_narrow_enabled": TOPIC_PAGE_ROOT_NARROW,
         "page_root": page_root,
         "cards_before_root_filter": cards_before_root,
-        "cards_after_root_filter": len(capped_cards),
+        "cards_after_root_filter": len(deduped_cards),
+        "cards_after_tag_filter": len(deduped_cards),
+        "pathout_deep_enrich_applied": deep_enrich_applied,
+        "search_query": search_query,
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
@@ -395,6 +467,65 @@ def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
 @app.get("/")
 def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+def _load_review_page(tag: str) -> Optional[dict]:
+    """Load a prebuilt topic sidecar from pilot output dir or bundled review pages."""
+    slug = _slugify_prebuild_tag(tag)
+    for base_dir in (TOPIC_PREBUILD_PAGES_DIR, REVIEW_PAGES_DIR):
+        json_path = os.path.join(base_dir, f"{slug}.json")
+        if os.path.isfile(json_path):
+            try:
+                with open(json_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except (OSError, ValueError):
+                continue
+    return None
+
+
+@app.get("/review", response_class=HTMLResponse)
+def review_index():
+    """Clickable index of topic-page HTML reviews (opens in browser)."""
+    items: list[dict[str, str]] = []
+    if os.path.isfile(REVIEW_SAMPLE_PATH):
+        try:
+            with open(REVIEW_SAMPLE_PATH, "r", encoding="utf-8") as f:
+                sample = json.load(f)
+            for leaf in sample.get("leaves") or []:
+                tag = leaf.get("tag") or ""
+                if not tag or _load_review_page(tag) is None:
+                    continue
+                items.append(
+                    {
+                        "label": str(leaf.get("label") or tag).replace("_", " "),
+                        "href": "/review/topic?tag=" + quote(tag, safe=""),
+                        "meta": str(leaf.get("root_label") or ""),
+                    }
+                )
+        except (OSError, ValueError):
+            pass
+    return render_review_index_html(items)
+
+
+@app.get("/review/topic", response_class=HTMLResponse)
+def review_topic(tag: str):
+    """Open a prebuilt topic page as standalone HTML in the browser."""
+    tag = (tag or "").strip()
+    if not tag:
+        return HTMLResponse("<p>Missing <code>tag</code> query parameter.</p>", status_code=400)
+    page = _load_review_page(tag)
+    if not page:
+        return HTMLResponse(
+            f"<p>No prebuilt review page found for tag <code>{html_module.escape(tag)}</code>.</p>",
+            status_code=404,
+        )
+    note = ""
+    if tag.endswith("Pleomorphic_Adenoma"):
+        note = (
+            "v2 rebuild: salivary-disambiguated retrieval, root/tag filters before cap, "
+            "entity-matched figures (WHO carcinoma-ex images suppressed)."
+        )
+    return HTMLResponse(render_topic_review_html(page, note=note))
 
 
 def _slugify_prebuild_tag(tag: str) -> str:
@@ -494,12 +625,112 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
     )
 
 
+TOPIC_PAGE_CRITIC_ENABLED = _env_bool("TOPIC_PAGE_CRITIC_ENABLED", default=True)
+
+_CRITIC_ISSUE_KEYS = (
+    "missing_essentials",
+    "redundant",
+    "confusing",
+    "entity_conflation",
+    "off_organ_or_offtopic",
+    "missing_ddx_entities",
+    "figure_issues",
+)
+
+
+def _parse_critic_json(text: str) -> Optional[dict]:
+    if not text:
+        return None
+    candidate = text.strip()
+    if candidate.startswith("```"):
+        candidate = re.sub(r"^```(?:json)?\s*|\s*```$", "", candidate.strip())
+    try:
+        parsed = json.loads(candidate)
+    except (ValueError, TypeError):
+        match = re.search(r"\{.*\}", candidate, re.DOTALL)
+        if not match:
+            return None
+        try:
+            parsed = json.loads(match.group(0))
+        except (ValueError, TypeError):
+            return None
+    if not isinstance(parsed, dict):
+        return None
+    return parsed
+
+
+def _critic_has_issues(critic_json: dict) -> bool:
+    if str(critic_json.get("verdict") or "").strip().lower() == "revise":
+        return True
+    return any(isinstance(critic_json.get(k), list) and critic_json.get(k) for k in _CRITIC_ISSUE_KEYS)
+
+
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
-    return synthesize(
-        prompts.topic_page_system_prompt(),
-        req.query,
-        _evidence_for_synthesis(merged, cards),
+    extra_parts = []
+    if req.category_context:
+        extra_parts.append(
+            f"Anatomical/browse context (authoritative — stay within this site/organ): {req.category_context}."
+        )
+    if req.page_tag:
+        extra_parts.append(f"Browse leaf tag: {req.page_tag}.")
+    hint = topic_page_essential_hints(req.page_tag)
+    if hint:
+        extra_parts.append(hint)
+    extra_parts.append(
+        "Blend evidence across WHO and PathOutlines when both have substantive material. "
+        "Do not let a single source dominate. "
+        "Key Facts must be 4–6 board-style pearls only — never repeat bullets from later sections."
     )
+    query = topic_page_disambiguated_query(req.query, req.category_context, req.page_tag) or req.query
+    evidence = _evidence_for_synthesis(merged, cards)
+    model = get_topic_page_model()
+
+    draft = synthesize(
+        prompts.topic_page_system_prompt(),
+        query,
+        evidence,
+        extra_instructions="\n".join(extra_parts),
+        model=model,
+    )
+    if not draft.ok or not draft.text or not TOPIC_PAGE_CRITIC_ENABLED:
+        return draft
+
+    critic_evidence = dict(evidence)
+    critic_evidence["draft_page_markdown"] = draft.text
+    critic_result = synthesize(
+        prompts.topic_page_critic_system_prompt(),
+        query,
+        critic_evidence,
+        model=model,
+    )
+    critic_json = _parse_critic_json(critic_result.text) if critic_result.ok else None
+    critic_debug = {
+        "critic_ok": critic_result.ok,
+        "critic_raw": critic_result.text if not critic_json else None,
+        "critic_json": critic_json,
+        "revision_applied": False,
+    }
+    if not critic_json or not _critic_has_issues(critic_json):
+        draft.raw_debug = {**(draft.raw_debug or {}), "critic": critic_debug}
+        return draft
+
+    revise_evidence = dict(evidence)
+    revise_evidence["draft_page_markdown"] = draft.text
+    revise_evidence["critique_json"] = critic_json
+    revised = synthesize(
+        prompts.topic_page_revise_system_prompt(),
+        query,
+        revise_evidence,
+        extra_instructions="\n".join(extra_parts),
+        model=model,
+    )
+    if not revised.ok or not revised.text:
+        draft.raw_debug = {**(draft.raw_debug or {}), "critic": critic_debug}
+        return draft
+
+    critic_debug["revision_applied"] = True
+    revised.raw_debug = {**(revised.raw_debug or {}), "critic": critic_debug, "pre_revision_draft": draft.text}
+    return revised
 
 
 def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
@@ -581,6 +812,7 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
+        critic_payload = (result.raw_debug or {}).get("critic") if mode == "topic_page" else None
         return {
             "ok": result.ok,
             "mode": mode,
@@ -591,6 +823,7 @@ def api_chat(req: ChatRequest):
             "cards": cards,
             "figures": figures,
             "who_cross_mentions": who_cross_mentions,
+            "critic": critic_payload,
             "debug": _debug_payload(outcomes, retrieval_meta),
         }
     except ValueError as exc:

@@ -1,0 +1,142 @@
+{
+  "schema_version": "topic_prepop_batch_audit_v0_2",
+  "created_at_utc": "2026-07-23T22:50:57.999654+00:00",
+  "input_paths": [
+    "outputs/chat_mvp_topic_prepop_v0_1/browse_tag_index_v0_1.json",
+    "outputs/chat_mvp_topic_prepop_v0_1/review10_sample_v0_1.json",
+    "api_base_url: http://127.0.0.1:8000"
+  ],
+  "output_paths": [
+    "outputs/chat_mvp_topic_prepop_v0_1/pages",
+    "outputs/chat_mvp_topic_prepop_v0_1/review10_prebuild_audit_v0_1.json"
+  ],
+  "counts": {
+    "n_requested": 10,
+    "n_ok": 10,
+    "n_failed": 0,
+    "total_cards": 64,
+    "total_figures": 76
+  },
+  "parallel_workers": 1,
+  "openai_model_at_build": "gpt-4o",
+  "topic_page_root_narrow_at_build": true,
+  "tags": [
+    "HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma",
+    "HN::Salivary_Gland::Malignant_Tumor::Adenoid_Cystic_Carcinoma",
+    "HN::Salivary_Gland::Malignant_Tumor::Secretory_Carcinoma",
+    "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+    "GU::Kidney::Renal_cell::Clear_Cell_RCC",
+    "GU::Prostate::Glandular_neoplasms::Prostatic_Acinar_Adenocarcinoma",
+    "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+    "BST::Soft_TissueAdipocytic::Lipoma",
+    "Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Invasive_Overview_NOS",
+    "GI::Colon::Neoplastic::Adenocarcinoma::Colonic_Adenocarcinoma_Arising_In_Adenoma"
+  ],
+  "results": [
+    {
+      "tag": "HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Benign_Tumor__Pleomorphic_Adenoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Benign_Tumor__Pleomorphic_Adenoma.md",
+      "cards": 18,
+      "figures": 20,
+      "elapsed_s": 65.9,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Adenoid_Cystic_Carcinoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Malignant_Tumor__Adenoid_Cystic_Carcinoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Malignant_Tumor__Adenoid_Cystic_Carcinoma.md",
+      "cards": 19,
+      "figures": 24,
+      "elapsed_s": 60.2,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Secretory_Carcinoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Malignant_Tumor__Secretory_Carcinoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Malignant_Tumor__Secretory_Carcinoma.md",
+      "cards": 0,
+      "figures": 0,
+      "elapsed_s": 61.9,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Breast__Neoplastic__Epithelial__In_Situ__Ductal_Carcinoma_In_Situ_DCIS.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Breast__Neoplastic__Epithelial__In_Situ__Ductal_Carcinoma_In_Situ_DCIS.md",
+      "cards": 6,
+      "figures": 4,
+      "elapsed_s": 65.3,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "GU::Kidney::Renal_cell::Clear_Cell_RCC",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GU__Kidney__Renal_cell__Clear_Cell_RCC.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GU__Kidney__Renal_cell__Clear_Cell_RCC.md",
+      "cards": 4,
+      "figures": 8,
+      "elapsed_s": 48.0,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "GU::Prostate::Glandular_neoplasms::Prostatic_Acinar_Adenocarcinoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GU__Prostate__Glandular_neoplasms__Prostatic_Acinar_Adenocarcinoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GU__Prostate__Glandular_neoplasms__Prostatic_Acinar_Adenocarcinoma.md",
+      "cards": 0,
+      "figures": 0,
+      "elapsed_s": 62.8,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Heme__Mature_B_Cell__Large_B_Cell__Diffuse_Large_B_Cell_Lymphoma_NOS.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Heme__Mature_B_Cell__Large_B_Cell__Diffuse_Large_B_Cell_Lymphoma_NOS.md",
+      "cards": 7,
+      "figures": 8,
+      "elapsed_s": 68.7,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "BST::Soft_TissueAdipocytic::Lipoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/BST__Soft_TissueAdipocytic__Lipoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/BST__Soft_TissueAdipocytic__Lipoma.md",
+      "cards": 3,
+      "figures": 4,
+      "elapsed_s": 58.2,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Invasive_Overview_NOS",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Skin__Neoplastic__Melanocytic__Malignant__Melanoma_Invasive_Overview_NOS.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/Skin__Neoplastic__Melanocytic__Malignant__Melanoma_Invasive_Overview_NOS.md",
+      "cards": 0,
+      "figures": 0,
+      "elapsed_s": 61.4,
+      "model": "gpt-4o"
+    },
+    {
+      "tag": "GI::Colon::Neoplastic::Adenocarcinoma::Colonic_Adenocarcinoma_Arising_In_Adenoma",
+      "ok": true,
+      "json_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GI__Colon__Neoplastic__Adenocarcinoma__Colonic_Adenocarcinoma_Arising_In_Adenoma.json",
+      "md_path": "outputs/chat_mvp_topic_prepop_v0_1/pages/GI__Colon__Neoplastic__Adenocarcinoma__Colonic_Adenocarcinoma_Arising_In_Adenoma.md",
+      "cards": 7,
+      "figures": 8,
+      "elapsed_s": 63.3,
+      "model": "gpt-4o"
+    }
+  ],
+  "known_limitations": [
+    "Prebuilt sidecars are a point-in-time cache; live corpus/backend changes can make them stale.",
+    "Parallel workers increase load on local app + OpenAI; tune --parallel conservatively."
+  ],
+  "figure_quality_note": "Phase 1 suppress_render figure quality filters applied via the same _apply_figure_quality_filters() call used by the live /api/chat path; curriculum_figure_image_quality_flags_v0_1.jsonl and curriculum SQLite were not read or written."
+}

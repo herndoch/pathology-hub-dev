@@ -328,11 +328,11 @@ class TestAppContract(unittest.TestCase):
         self.assertTrue(req.include_figures)
         self.assertEqual(req.max_figures, 8)
 
-    def test_topic_page_sources_excludes_curriculum_includes_journals(self):
+    def test_topic_page_sources_excludes_curriculum_and_journals(self):
         from app import TOPIC_PAGE_SOURCES  # noqa: E402
 
         self.assertNotIn("curriculum", TOPIC_PAGE_SOURCES)
-        self.assertIn("journals", TOPIC_PAGE_SOURCES)
+        self.assertNotIn("journals", TOPIC_PAGE_SOURCES)
         self.assertIn("textbooks", TOPIC_PAGE_SOURCES)
         self.assertIn("videos", TOPIC_PAGE_SOURCES)
         # `lectures` deliberately excluded: live-probed this session and

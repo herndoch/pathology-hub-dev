@@ -1,0 +1,119 @@
+{
+  "schema_version": "topic_prepop_review10_sample_v0_1",
+  "generated_at": "2026-07-23T22:40:19.604803+00:00",
+  "n_drawn": 10,
+  "seed": 20260723,
+  "priority_roots": [
+    "breast",
+    "bst",
+    "gi",
+    "gu",
+    "heme",
+    "hn",
+    "skin"
+  ],
+  "notes": "Curated 10 for human PDF quality review before larger prebuild. Prefer high-yield surgical-path leaves with expected corpus coverage; Skin melanoma overview replaces cyto-only melanoma; GI uses closest real colonic adenocarcinoma leaf (exact Colorectal_Adenocarcinoma tag absent).",
+  "requested_missing": [],
+  "leaves": [
+    {
+      "tag": "HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma",
+      "label": "Pleomorphic_Adenoma",
+      "provenance": "abpath",
+      "query": "Pleomorphic Adenoma",
+      "root_id": "hn",
+      "root_label": "HN",
+      "subcategory_id": "salivary_gland",
+      "subcategory_label": "Salivary_Gland"
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Adenoid_Cystic_Carcinoma",
+      "label": "Adenoid_Cystic_Carcinoma",
+      "provenance": "abpath",
+      "query": "Adenoid Cystic Carcinoma",
+      "root_id": "hn",
+      "root_label": "HN",
+      "subcategory_id": "salivary_gland",
+      "subcategory_label": "Salivary_Gland"
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Secretory_Carcinoma",
+      "label": "Secretory_Carcinoma",
+      "provenance": "abpath",
+      "query": "Secretory Carcinoma",
+      "root_id": "hn",
+      "root_label": "HN",
+      "subcategory_id": "salivary_gland",
+      "subcategory_label": "Salivary_Gland"
+    },
+    {
+      "tag": "Breast::Neoplastic::Epithelial::In_Situ::Ductal_Carcinoma_In_Situ_DCIS",
+      "label": "Ductal_Carcinoma_In_Situ_DCIS",
+      "provenance": "abpath",
+      "query": "Ductal Carcinoma In Situ DCIS",
+      "root_id": "breast",
+      "root_label": "Breast",
+      "subcategory_id": "neoplastic",
+      "subcategory_label": "Neoplastic"
+    },
+    {
+      "tag": "GU::Kidney::Renal_cell::Clear_Cell_RCC",
+      "label": "Clear_Cell_RCC",
+      "provenance": "abpath",
+      "query": "Clear Cell RCC",
+      "root_id": "gu",
+      "root_label": "GU",
+      "subcategory_id": "kidney",
+      "subcategory_label": "Kidney"
+    },
+    {
+      "tag": "GU::Prostate::Glandular_neoplasms::Prostatic_Acinar_Adenocarcinoma",
+      "label": "Prostatic_Acinar_Adenocarcinoma",
+      "provenance": "abpath",
+      "query": "Prostatic Acinar Adenocarcinoma",
+      "root_id": "gu",
+      "root_label": "GU",
+      "subcategory_id": "prostate",
+      "subcategory_label": "Prostate"
+    },
+    {
+      "tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "label": "Diffuse_Large_B_Cell_Lymphoma_NOS",
+      "provenance": "abpath",
+      "query": "Diffuse Large B Cell Lymphoma NOS",
+      "root_id": "heme",
+      "root_label": "Heme",
+      "subcategory_id": "mature_b_cell",
+      "subcategory_label": "Mature_B_Cell"
+    },
+    {
+      "tag": "BST::Soft_TissueAdipocytic::Lipoma",
+      "label": "Lipoma",
+      "provenance": "who",
+      "query": "Lipoma",
+      "root_id": "bst",
+      "root_label": "BST",
+      "subcategory_id": "soft_tissueadipocytic",
+      "subcategory_label": "Soft_TissueAdipocytic"
+    },
+    {
+      "tag": "Skin::Neoplastic::Melanocytic::Malignant::Melanoma_Invasive_Overview_NOS",
+      "label": "Melanoma_Invasive_Overview_NOS",
+      "provenance": "abpath",
+      "query": "Melanoma Invasive Overview NOS",
+      "root_id": "skin",
+      "root_label": "Skin",
+      "subcategory_id": "neoplastic",
+      "subcategory_label": "Neoplastic"
+    },
+    {
+      "tag": "GI::Colon::Neoplastic::Adenocarcinoma::Colonic_Adenocarcinoma_Arising_In_Adenoma",
+      "label": "Colonic_Adenocarcinoma_Arising_In_Adenoma",
+      "provenance": "abpath",
+      "query": "Colonic Adenocarcinoma Arising In Adenoma",
+      "root_id": "gi",
+      "root_label": "GI",
+      "subcategory_id": "colon",
+      "subcategory_label": "Colon"
+    }
+  ]
+}

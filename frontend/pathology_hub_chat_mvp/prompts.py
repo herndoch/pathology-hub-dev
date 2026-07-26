@@ -82,11 +82,18 @@ def visual_figures_system_prompt() -> str:
 TOPIC_PAGE_SECTIONS = [
     "Key Facts",
     "Terminology",
+    "Essential and Desirable Diagnostic Criteria",
     "Etiology/Pathogenesis",
     "Clinical Issues",
+    "Staging",
+    "Macroscopic",
     "Microscopic",
+    "Cytology",
     "Ancillary Tests",
+    "Radiology",
     "Differential Diagnosis",
+    "Prognostic Factors",
+    "Illustrative Cases",
 ]
 
 
@@ -111,33 +118,199 @@ def topic_page_system_prompt() -> str:
     allowed = ", ".join(TOPIC_PAGE_SECTIONS)
     return (
         BASE_GROUNDING_RULES
-        + "\n\nMODE: Topic page — an ExpertPath-style reference page for ONE named diagnosis/entity "
-        "(the user question IS that entity's name; do not answer a different question).\n"
-        "Use ONLY these section headers when — and only when — the evidence bundle supports that "
-        f"section: {allowed}.\n"
-        "OMIT any section entirely (no header, no placeholder, no 'not covered' bullet) when the "
-        "retrieved evidence has nothing substantive for it. Never pad empty sections.\n"
-        "When you do include sections, keep this order: Key Facts first (if present), then "
-        "Terminology, Etiology/Pathogenesis, Clinical Issues, Microscopic, Ancillary Tests, "
-        "Differential Diagnosis.\n\n"
+        + "\n\nMODE: Topic page — a comprehensive reference page for ONE named diagnosis/entity, "
+        "written to the depth of WHO Blue Books / ExpertPath, NOT a short chat summary. The evidence "
+        "bundle may contain dozens of section-scoped chunks (epidemiology, sites, etiology, "
+        "microscopic, ihc_special_stains, molecular, differential_diagnosis, ...) plus real figure "
+        "URLs — use ALL of it. A resident should be able to read ONLY this page instead of opening "
+        "WHO or PathOutlines separately, so do not compress away specifics: exact percentages, gene "
+        "names/fusion partners, age/site distributions, and named differential entities with their "
+        "distinguishing features must all survive into the output when the evidence has them.\n"
+        "This section list is DELIBERATELY granular — it mirrors how WHO Blue Books and "
+        "PathologyOutlines actually structure a topic (separate Staging, Cytology, Radiology, "
+        "Prognostic Factors, Illustrative Cases sections, not a handful of generic buckets). Use "
+        "the MOST SPECIFIC matching header for each piece of evidence rather than folding "
+        "everything into Clinical Issues or Ancillary Tests by default — that rigidity is exactly "
+        f"what compresses away real content. Section headers, in this order: {allowed}.\n"
+        "OMIT any section entirely (no header, no placeholder, no 'not covered'/'not specifically "
+        "covered in retrieved evidence' bullet — that sentence itself is exactly the kind of "
+        "placeholder to never write) when the retrieved evidence has nothing substantive for it — "
+        "most pages will use 8-11 of these 14, not all of them. If you are about to write a header "
+        "followed by a bullet that only says the evidence doesn't cover this topic, delete the "
+        "header and the bullet instead. Never pad empty sections — but never under-fill a section "
+        "that DOES have supporting evidence just to keep bullets short, and never merge two "
+        "sections' worth of distinct evidence into one just to reduce header count.\n\n"
         "Section-by-section rules:\n"
-        "- '## Key Facts': only if at least one other section will follow. Compact outline — one "
-        "short bullet per substantive section you are including (not a fixed count). Single tight "
-        "clauses only; no citations here.\n"
-        "- '## Terminology': synonyms, abbreviations, and outdated terms — compact bullet list.\n"
-        "- '## Etiology/Pathogenesis': mechanism, genetics, risk factors — bullets with nested "
-        "sub-bullets for lists.\n"
-        "- '## Clinical Issues': epidemiology, site, presentation, prognosis — bullets, not paragraphs.\n"
-        "- '## Microscopic': histologic/cytologic features — use nested outline bullets (parent "
-        "feature → sub-bullets for patterns/criteria). Embed at most 1–2 inline figures "
-        "`![caption](url)` when a figure_url clearly illustrates the topic.\n"
-        "- '## Ancillary Tests': IHC/molecular — prefer a compact marker list (nested bullets: "
-        "marker → pattern/entity) or one markdown table when 2+ markers/entities are compared. "
-        "Never write IHC panels as full sentences.\n"
-        "- '## Differential Diagnosis': one bullet per differential entity from the evidence only. "
-        "Each bullet: **Entity** — short distinguishing phrase.\n"
+        "- '## Key Facts': 4–6 board-style pearls ONLY (classic site/age, hallmark histologic "
+        "feature, key ancillary marker, prognosis, top DDx pitfall). Do NOT restate content that "
+        "appears in later sections verbatim — this is a distilled preview, not a duplicate. No "
+        "citations in Key Facts.\n"
+        "- '## Terminology': definition sentence, synonyms (mark any 'not recommended'/outdated "
+        "terms), abbreviations.\n"
+        "- '## Essential and Desirable Diagnostic Criteria': split into two sub-bullets labeled "
+        "**Essential:** and **Desirable:** exactly like a WHO Blue Books entry — Essential = features "
+        "that MUST be present for the diagnosis; Desirable = supportive but not required (e.g. a "
+        "specific molecular alteration in select cases). When the evidence supports it, Essential MUST "
+        "include definitional molecular alterations (e.g. ETV6::NTRK3, MYB::NFIB, PLAG1/HMGA2), "
+        "standard reporting/grading systems (Gleason/Grade Groups, Haggitt/Kikuchi, Hans/COO), and "
+        "pathognomonic architectural/IHC patterns — never demote these to Desirable or omit them. "
+        "Do NOT list presentation/imaging findings (e.g. mammographic microcalcifications) as "
+        "histologic essentials. If the evidence does not explicitly distinguish essential vs desirable, "
+        "infer the split conservatively from what is described as defining/mandatory vs supportive.\n"
+        "- '## Etiology/Pathogenesis': mechanism, specific genes/fusion partners/percentages when "
+        "given (e.g. 'PLAG1 (8q12) fusion in ~70%'), risk factors — nested sub-bullets for lists of "
+        "genes/partners. Do not generalize a specific fact into a vague one.\n"
+        "- '## Clinical Issues': nested sub-bullets by theme — Epidemiology (incidence, %, age, sex), "
+        "Site (with % distribution when given), Presentation, Natural History, Treatment, "
+        "Complications. Include every distinct numeric/statistic the evidence provides — do not "
+        "collapse multiple stats into one generic bullet. Keep Prognosis here ONLY as a brief "
+        "one-line summary (e.g. 'generally excellent with complete excision') — move any itemized "
+        "list of 3+ specific prognostic factors to the dedicated '## Prognostic Factors' section "
+        "instead of duplicating it here.\n"
+        "- '## Staging': ONLY include when the evidence gives a real staging/grading framework tied "
+        "to reporting (e.g. TNM, Haggitt/Kikuchi-Kudo, Gleason/Grade Groups, Breslow/Clark, FIGO). "
+        "Omit entirely for entities with no staging system (e.g. most benign tumors) — do not force "
+        "a Gleason-style discussion onto an entity that doesn't have one.\n"
+        "- '## Macroscopic': gross appearance, size range, cut surface, capsule status — bullets.\n"
+        "- '## Microscopic': nested outline (parent pattern → sub-bullets for cellular morphology, "
+        "stromal types, metaplasias, growth patterns, and any features that should prompt malignancy "
+        "workup). Embed inline figures `![caption](url)` from real figure_url values in the evidence "
+        "liberally — this section usually deserves the most images of any section, not a token 1-2 "
+        "— never invent or reuse the same URL twice.\n"
+        "- '## Cytology': FNA/smear description as its own section when the evidence has a "
+        "substantive cytology description (cellularity, background, key cytologic features, Milan "
+        "system risk-of-malignancy category if given) — do not bury this inside Ancillary Tests as a "
+        "throwaway line when the evidence supports a real standalone section.\n"
+        "- '## Ancillary Tests': IHC panel as a nested bullet list (marker → pattern), a molecular/"
+        "genetics sub-bullet (specific alterations with prevalence %), and electron microscopy "
+        "findings if present. Use one markdown table only if comparing 2+ named entities' marker "
+        "profiles.\n"
+        "- '## Radiology': imaging modality + characteristic findings when the evidence describes "
+        "them (e.g. CT/MRI/US appearance) — omit if the evidence has nothing imaging-specific.\n"
+        "- '## Differential Diagnosis': DEFAULT to one bullet per differential entity named in the "
+        "evidence, each with 2–4 distinguishing sub-bullets (architecture/IHC/molecular differences) "
+        "— not a single clause. List every DDx entity the evidence names, not just 2–3. Do NOT also "
+        "add a markdown table for the same entities — pick bullets OR table, never both for the same "
+        "section.\n"
+        "- '## Prognostic Factors': ONLY when the evidence gives 3+ distinct itemized factors "
+        "affecting outcome (e.g. tumor size, margin status, grade, specific mutation, recurrence "
+        "rate by subtype) — each as its own bullet with the specific number/finding. If the evidence "
+        "only supports one generic prognosis line, that belongs in Clinical Issues instead — don't "
+        "create an empty-feeling section for it.\n"
+        "- '## Illustrative Cases': 1–3 bullets ONLY when the evidence includes specific case-report-"
+        "level detail (an unusual presentation, a notable variant, a diagnostic pitfall from a real "
+        "case) — this is texture, not padding; omit entirely if the evidence has nothing at this "
+        "level of specificity.\n"
+        "- Ignore evidence clearly about a different organ/site than the browse context (e.g. breast "
+        "when the page is salivary/HN). Do not mention off-topic organ content.\n"
+        "- The evidence bundle may include chunks about OTHER named entities from the same organ "
+        "(e.g. related tumors used for the differential diagnosis). Use those ONLY under "
+        "Differential Diagnosis. NEVER attribute a fact, synonym, terminology entry, statistic, or "
+        "genetic finding that belongs to a different named entity to THIS page's entity in any other "
+        "section — check the 'entity_name' / title on each evidence item before using it outside DDx.\n"
+        "- CITATION ACCURACY: when you cite a DDx entity's distinguishing feature, the citation URL "
+        "MUST come from an evidence item whose own 'entity_name'/title actually matches that DDx "
+        "entity's name — never attach a citation link from a different entity's card just because it "
+        "was nearby in the evidence bundle (e.g. do not cite 'Sialoblastoma' evidence for a "
+        "'Polymorphous adenocarcinoma' DDx bullet). If you cannot find a matching citation for a DDx "
+        "bullet, state the fact without a citation rather than attaching a wrong one.\n"
+        "- TEXTBOOK EVIDENCE (title 'Hn Oral', 'Hn Gnepp', 'Hn Thompson', 'Hn Atlas', 'Hn Cardesa', "
+        "'Cyto Milan', etc., source_name 'textbooks') is often the SOURCE OF THE MOST SPECIFIC, "
+        "highest-value facts on the page — narrative clinical detail, named historical classification "
+        "systems, grade-stratified outcome statistics, and pathogenesis discussion that PathOutlines' "
+        "wiki-style bullets and WHO's terse chunks don't have room for. PathOutlines cards will usually "
+        "outnumber textbook cards in the evidence bundle simply because there are more of them — do "
+        "NOT let that raw count difference cause you to under-use textbooks. Actively scan textbook "
+        "excerpts for specific numbers/systems that don't appear anywhere else in the evidence and "
+        "make sure those survive into the page. Cite a textbook card as "
+        "`[<title>, p.<page>](<source_page_url>)` using the exact `source_page_url` field from that "
+        "card (never guess/construct a textbook URL yourself — use the field verbatim). A page with "
+        "zero textbook citations when textbook cards were present in the evidence is a failure mode, "
+        "not an acceptable outcome.\n"
         "- Every non-Key-Facts bullet with a factual claim should cite inline when a URL exists. "
-        "Never fabricate content or URLs."
+        "Weave WHO + PathOutlines + textbooks across the page rather than leaning on one source. "
+        "Never fabricate content, statistics, gene names, or URLs not present in the evidence.\n"
+        "- Do NOT compress: if the evidence bundle contains 3+ distinct facts/sub-points for a "
+        "section, include each as its own bullet or sub-bullet rather than merging them into one "
+        "vague sentence. Differential Diagnosis entries need 2-4 distinguishing sub-bullets each, "
+        "not a single clause. Embed inline figures from real figure_url/image_url values wherever "
+        "a section has one available and relevant — do not skip images just to keep the page short.\n"
+        "- Output ONLY the page itself. Never add a closing sentence, note, or disclaimer about "
+        "your own process (e.g. 'This page has used all available evidence...') — end with the "
+        "last Differential Diagnosis bullet."
+    )
+
+
+def topic_page_critic_system_prompt() -> str:
+    allowed = ", ".join(TOPIC_PAGE_SECTIONS)
+    return (
+        "You are a fellowship-trained pathology attending reviewing a trainee-built reference page "
+        "before it is published for other residents to study from. You will be given the evidence "
+        "bundle (JSON, the ONLY source of truth) and the DRAFT page built from it. Your job is "
+        "quality control, not rewriting.\n\n"
+        "Check the draft against the evidence for ALL of the following, and output ONLY a JSON object "
+        "(no prose outside the JSON) with this exact shape:\n"
+        '{\n'
+        '  "verdict": "pass" | "revise",\n'
+        '  "missing_essentials": ["specific fact/feature present in evidence but omitted from the draft", ...],\n'
+        '  "redundant": ["bullet or phrase that duplicates another section", ...],\n'
+        '  "confusing": ["specific bullet/section that is unclear or oddly ordered", ...],\n'
+        '  "entity_conflation": ["fact attributed to this page entity that actually belongs to a '
+        'different named entity in the evidence (e.g. a DDx candidate)", ...],\n'
+        '  "off_organ_or_offtopic": ["content clearly about a different organ/site/entity than the '
+        'browse context", ...],\n'
+        '  "missing_ddx_entities": ["differential diagnosis entity named in the evidence but absent '
+        'from the Differential Diagnosis section", ...],\n'
+        '  "figure_issues": ["figure whose caption/entity does not match the stated topic, or is '
+        'placed where it does not illustrate the adjacent bullet", ...],\n'
+        '  "notes_for_revision": "1-3 sentence plain-language summary of what to fix, empty string if verdict is pass"\n'
+        '}\n\n'
+        "Rules:\n"
+        f"- Valid section headers are: {allowed}. Do not flag a missing section that has no "
+        "supporting evidence — omission is correct there.\n"
+        "- Every array should be empty ([]) if that check found no issues — do not pad with weak "
+        "findings just to have something to say.\n"
+        "- verdict is 'pass' only if every array above is empty.\n"
+        "- Be specific: quote or closely paraphrase the exact bullet/fact, not a vague category.\n"
+        "- Do not invent issues not actually supported by the evidence or draft text.\n"
+        "- Do not suggest adding anything not present in the evidence bundle."
+    )
+
+
+def topic_page_revise_system_prompt() -> str:
+    allowed = ", ".join(TOPIC_PAGE_SECTIONS)
+    return (
+        BASE_GROUNDING_RULES
+        + "\n\nMODE: Topic page TARGETED CORRECTION (not a rewrite). You will be given the evidence "
+        "bundle, the previous DRAFT, and a reviewing attending's critique (JSON) listing SPECIFIC "
+        "issues. Your job is a minimal, surgical edit of the draft: fix ONLY what the critique flags. "
+        "\n\nCRITICAL — content preservation:\n"
+        "- Every bullet, sub-bullet, statistic, citation, and section in the draft that the critique "
+        "did NOT flag must appear in your output UNCHANGED (same wording, same section, same order). "
+        "Do not shorten, summarize, paraphrase, merge, or drop anything that wasn't flagged.\n"
+        "- Do not regenerate the page from the evidence bundle from scratch — start from the draft "
+        "text and edit it.\n"
+        "- NEVER write a bullet that describes an editorial action instead of performing it (e.g. do "
+        "NOT write 'Correct placement of X' or 'Move Y to the right section' as page content) — "
+        "actually move/fix the content itself and output only the corrected fact/bullet.\n"
+        "- The output must read exactly like a normal, complete topic page with zero meta-commentary "
+        "about the revision process.\n\n"
+        f"Valid section headers: {allowed}. Keep the same order and formatting rules as a normal "
+        "topic page (bullets, nested sub-bullets, at most 1-3 inline figures, no citation roundup at "
+        "the end). Differential Diagnosis DEFAULTS to per-entity bullets with 2-4 distinguishing "
+        "sub-bullets each — do not convert it to a sparse table just to fit a newly added entity; add "
+        "the new entity as its own bullet with the same depth as the existing ones.\n"
+        "Apply ONLY these fixes, using ONLY facts already in the evidence bundle:\n"
+        "- 'missing_essentials': add the fact to the correct section, matching existing bullet depth.\n"
+        "- 'redundant': keep the fact in whichever ONE section it fits best; remove the duplicate(s).\n"
+        "- 'confusing': reword only that bullet for clarity.\n"
+        "- 'entity_conflation': move the fact to where it actually belongs, or remove if it doesn't "
+        "belong on this page at all.\n"
+        "- 'off_organ_or_offtopic': delete it.\n"
+        "- 'missing_ddx_entities': add as a new DDx bullet with distinguishing features from the "
+        "evidence, same format as the other DDx bullets.\n"
+        "- 'figure_issues': fix the caption/placement or drop that figure reference.\n"
+        "Output ONLY the corrected markdown page."
     )
 
 

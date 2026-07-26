@@ -5,7 +5,7 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
  * too so the debug panel shows the sources that are actually used, not a
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
-const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "videos"];
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "videos"];
 const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
 const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
@@ -1347,6 +1347,18 @@ function renderMarkdown(text, previewIndex) {
       return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
     }
 
+    const isImageOnlyLine = (line) => /^\s*!\[[^\]]*\]\(https?:[^)\s]+\)\s*$/.test(line);
+    if (lines.every((line) => !line.trim() || isImageOnlyLine(line)) && lines.some(isImageOnlyLine)) {
+      const imgs = lines
+        .filter((line) => line.trim())
+        .map((line) => {
+          const match = line.trim().match(/^!\[([^\]]*)\]\((https?:[^)\s]+)\)/);
+          return match ? renderInlineImage(match[1], match[2], previewIndex) : "";
+        })
+        .join("");
+      return `<div class="inline-figure-row">${imgs}</div>`;
+    }
+
     if (lines.length > 1 && lines.every((line) => line.trim())) {
       return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("");
     }
@@ -2659,10 +2671,11 @@ function renderTopicGallery(figures, options = {}) {
 /** Differential Diagnosis bullets look like "- **Entity Name** — detail".
  * When the leading bold entity fuzzy-matches a taxonomy leaf, render it as a
  * clickable internal nav button that loads that entity's own fresh topic
- * page; otherwise leave it as plain text (never fabricate a link). */
-function renderDifferentialSection(content, previewIndex, pageContext = null) {
+ * page; otherwise leave it as plain text (never fabricate a link).
+ * Markdown tables (comparison matrices) render as HTML tables, not bullets. */
+function renderDifferentialBullets(content, previewIndex, pageContext = null) {
   const text = String(content || "").trim();
-  if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+  if (!text) return "";
   const ctx = pageContext || pageContextFromBrowseState();
 
   const items = [];
@@ -2671,9 +2684,6 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
     if (!line) continue;
     const match = line.match(/^[-*]\s*\*\*(.+?)\*\*\s*[-\u2014:]*\s*(.*)$/);
     if (!match) {
-      // A stray bare citation link (no bullet, no bold entity name) is a trailing
-      // reference the model shouldn't have added here — drop it rather than
-      // rendering a phantom Differential Diagnosis entry.
       const isBareLink = /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(line);
       if (isBareLink) continue;
       items.push(`<li>${inlineMarkdown(line.replace(/^[-*]\s*/, ""), previewIndex)}</li>`);
@@ -2697,7 +2707,30 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
       );
     }
   }
+  if (!items.length) return "";
   return `<ul class="answer-list ddx-list">${items.join("")}</ul>`;
+}
+
+function renderDifferentialSection(content, previewIndex, pageContext = null) {
+  const text = String(content || "").trim();
+  if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
+
+  if (isMarkdownTable(text)) {
+    return `<div class="answer-md ddx-table-wrap">${renderMarkdownTable(text)}</div>`;
+  }
+
+  const blocks = text.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
+  if (blocks.some(isMarkdownTable)) {
+    const htmlParts = blocks.map((block) => {
+      if (isMarkdownTable(block)) {
+        return `<div class="ddx-table-wrap">${renderMarkdownTable(block)}</div>`;
+      }
+      return renderDifferentialBullets(block, previewIndex, pageContext);
+    });
+    return `<div class="answer-md ddx-mixed">${htmlParts.filter(Boolean).join("")}</div>`;
+  }
+
+  return renderDifferentialBullets(text, previewIndex, pageContext);
 }
 
 function renderWhoCrossMentions(mentions, pageContext = null) {
@@ -3065,6 +3098,57 @@ async function fetchCachedTopicPage(tag) {
   }
 }
 
+/** Triggers a browser download of `obj` as a pretty-printed .json file. */
+function downloadJsonFile(filename, obj) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/** Exports the full retrieved evidence + synthesized answer for a topic page
+ * as a JSON file — lets a user keep the markdown, every card's source_url/
+ * excerpt, and every figure's image URL + caption for their own personal
+ * study use, independent of this app staying up. */
+function exportTopicPageJson(data, meta) {
+  const figures = (data.figures || []).map((fig) => ({
+    caption: fig.caption || fig.title || null,
+    figure_url: pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url) || null,
+    page_image_url: pickHttp(fig.page_image_url) || null,
+    source_url: pickHttp(fig.source_url) || null,
+    source_page_url: pickHttp(fig.source_page_url) || null,
+  }));
+  const cards = (data.cards || []).map((card) => ({
+    source: card.source || card._result_key || null,
+    title: card.title || card.heading || card.entity_name || null,
+    source_url: pickHttp(card.source_url) || null,
+    source_page_url: pickHttp(card.source_page_url) || null,
+    video_time_url: pickHttp(card.video_time_url) || pickHttp(card.video_url) || null,
+    excerpt: card.text_excerpt || card.excerpt || null,
+  }));
+  const exportObj = {
+    schema_version: "pathology_hub_topic_page_export.v1",
+    exported_at: new Date().toISOString(),
+    tag: meta.tag || null,
+    label: meta.label || null,
+    query: meta.query || null,
+    category_context: meta.categoryContext || null,
+    model: data.model || null,
+    generated_at: data.cached_at || null,
+    answer_markdown: data.answer || data.answer_markdown || "",
+    figures,
+    cards,
+    who_cross_mentions: data.who_cross_mentions || [],
+  };
+  const slug = String(meta.tag || meta.label || "topic_page").replace(/[^a-zA-Z0-9_-]+/g, "_");
+  downloadJsonFile(`${slug}.json`, exportObj);
+}
+
 function topicPageCacheHint(data, cachedMeta) {
   if (data?.cache_hit || cachedMeta) {
     const when = data?.cached_at || cachedMeta?.generated_at || "";
@@ -3149,6 +3233,7 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
     if (leafRef.tag) {
       html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
     }
+    html += `<button type="button" class="btn-secondary export-page-btn">Export JSON</button>`;
     html += renderVsButton(compareEnt);
     html += "</div>";
     html += topicPageCacheHint(data, cachedMeta);
@@ -3169,6 +3254,9 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
     });
     browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
       loadLeafTopicPage(leafRef, { rebuild: true });
+    });
+    browseContentEl.querySelector(".export-page-btn")?.addEventListener("click", () => {
+      exportTopicPageJson(data, { tag: leafRef.tag, label: displayLabel, query, categoryContext });
     });
     bindPreviewHandlers(browseContentEl);
     bindDdxLinks(browseContentEl);
