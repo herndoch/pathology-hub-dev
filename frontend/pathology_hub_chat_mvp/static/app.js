@@ -1308,17 +1308,62 @@ function stripTrailingLinkDump(text) {
   return blocks.join("\n\n");
 }
 
+function isMarkdownImageOnlyLine(line) {
+  return /^\s*!\[[^\]]*\]\(https?:[^)\s]+\)\s*$/.test(line || "");
+}
+
+function isMarkdownImageOnlyBlock(block) {
+  const lines = String(block || "")
+    .split("\n")
+    .filter((line) => line.trim());
+  return lines.length > 0 && lines.every(isMarkdownImageOnlyLine);
+}
+
+function renderImageRowFromBlock(block, previewIndex) {
+  const imgs = String(block || "")
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => {
+      const match = line.trim().match(/^!\[([^\]]*)\]\((https?:[^)\s]+)\)/);
+      return match ? renderInlineImage(match[1], match[2], previewIndex) : "";
+    })
+    .join("");
+  return `<div class="inline-figure-row">${imgs}</div>`;
+}
+
 function renderMarkdown(text, previewIndex) {
   const normalized = stripTrailingLinkDump(normalizeAnswerText(unwrapFencedMarkdownBlocks(text)));
   if (!normalized.trim()) return "";
 
   const blocks = normalized.split(/\n{2,}/);
-  const htmlBlocks = blocks.map((block) => {
+  const htmlBlocks = [];
+  let imageBuffer = [];
+
+  const flushImages = () => {
+    if (!imageBuffer.length) return;
+    htmlBlocks.push(renderImageRowFromBlock(imageBuffer.join("\n"), previewIndex));
+    imageBuffer = [];
+  };
+
+  for (const block of blocks) {
     const trimmed = block.replace(/^\n+|\n+$/g, "");
-    if (!trimmed.trim()) return "";
+    if (!trimmed.trim()) continue;
+
+    // Coalesce consecutive image-only blocks (common model output with blank
+    // lines between figures) into one horizontal row instead of a column of <p>s.
+    if (isMarkdownImageOnlyBlock(trimmed)) {
+      imageBuffer.push(
+        ...trimmed
+          .split("\n")
+          .filter((line) => line.trim()),
+      );
+      continue;
+    }
+    flushImages();
 
     if (isMarkdownTable(trimmed)) {
-      return renderMarkdownTable(trimmed);
+      htmlBlocks.push(renderMarkdownTable(trimmed));
+      continue;
     }
 
     const lines = trimmed.split("\n");
@@ -1332,27 +1377,57 @@ function renderMarkdown(text, previewIndex) {
       const headingContent = lines[0].replace(/^#{1,3}\s+/, "");
       const headingHtml = `<${tag} class="answer-heading">${inlineMarkdown(headingContent, previewIndex)}</${tag}>`;
       const restLines = lines.slice(1).filter((line) => line.trim());
-      if (!restLines.length) return headingHtml;
-      if (restLines.every((line) => /^\s*[-*]\s+/.test(line))) {
-        return headingHtml + renderNestedList(restLines, previewIndex);
+      if (!restLines.length) {
+        htmlBlocks.push(headingHtml);
+        continue;
       }
-      return (
+      if (restLines.every(isMarkdownImageOnlyLine)) {
+        htmlBlocks.push(headingHtml + renderImageRowFromBlock(restLines.join("\n"), previewIndex));
+        continue;
+      }
+      if (restLines.every((line) => /^\s*[-*]\s+/.test(line))) {
+        htmlBlocks.push(headingHtml + renderNestedList(restLines, previewIndex));
+        continue;
+      }
+      htmlBlocks.push(
         headingHtml +
-        restLines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("")
+          restLines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join(""),
       );
+      continue;
     }
 
     const isList = lines.every((line) => /^\s*[-*]\s+/.test(line) || line.trim() === "");
     if (isList && lines.some((line) => /^\s*[-*]\s+/.test(line))) {
-      return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
+      htmlBlocks.push(renderNestedList(lines.filter((line) => line.trim()), previewIndex));
+      continue;
     }
 
     if (lines.length > 1 && lines.every((line) => line.trim())) {
-      return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("");
+      // Mixed block: keep prose as paragraphs, but group consecutive image-only
+      // lines into a horizontal row.
+      let chunk = "";
+      const imgChunk = [];
+      const flushImgChunk = () => {
+        if (!imgChunk.length) return;
+        chunk += renderImageRowFromBlock(imgChunk.join("\n"), previewIndex);
+        imgChunk.length = 0;
+      };
+      for (const line of lines) {
+        if (isMarkdownImageOnlyLine(line)) {
+          imgChunk.push(line);
+        } else {
+          flushImgChunk();
+          chunk += `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`;
+        }
+      }
+      flushImgChunk();
+      htmlBlocks.push(chunk);
+      continue;
     }
 
-    return `<p class="answer-line">${inlineMarkdown(trimmed, previewIndex)}</p>`;
-  });
+    htmlBlocks.push(`<p class="answer-line">${inlineMarkdown(trimmed, previewIndex)}</p>`);
+  }
+  flushImages();
 
   return `<div class="answer-md">${htmlBlocks.join("")}</div>`;
 }
@@ -2466,6 +2541,8 @@ const TOPIC_PAGE_SECTION_ORDER = [
   "Terminology",
   "Etiology/Pathogenesis",
   "Clinical Issues",
+  "Imaging Features",
+  "Gross Features",
   "Microscopic",
   "Ancillary Tests",
   "Differential Diagnosis",

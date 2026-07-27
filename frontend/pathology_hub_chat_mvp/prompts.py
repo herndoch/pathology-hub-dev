@@ -84,6 +84,8 @@ TOPIC_PAGE_SECTIONS = [
     "Terminology",
     "Etiology/Pathogenesis",
     "Clinical Issues",
+    "Imaging Features",
+    "Gross Features",
     "Microscopic",
     "Ancillary Tests",
     "Differential Diagnosis",
@@ -111,15 +113,27 @@ def topic_page_system_prompt() -> str:
     allowed = ", ".join(TOPIC_PAGE_SECTIONS)
     return (
         BASE_GROUNDING_RULES
-        + "\n\nMODE: Topic page — an ExpertPath-style reference page for ONE named diagnosis/entity "
-        "(the user question IS that entity's name; do not answer a different question).\n"
+        + "\n\nMODE: Topic page — an ExpertPath / PathologyOutlines-style reference page for ONE "
+        "named diagnosis/entity (the user question IS that entity's name; do not answer a different "
+        "question).\n"
         "Use ONLY these section headers when — and only when — the evidence bundle supports that "
         f"section: {allowed}.\n"
         "OMIT any section entirely (no header, no placeholder, no 'not covered' bullet) when the "
         "retrieved evidence has nothing substantive for it. Never pad empty sections.\n"
         "When you do include sections, keep this order: Key Facts first (if present), then "
-        "Terminology, Etiology/Pathogenesis, Clinical Issues, Microscopic, Ancillary Tests, "
-        "Differential Diagnosis.\n\n"
+        "Terminology, Etiology/Pathogenesis, Clinical Issues, Imaging Features, Gross Features, "
+        "Microscopic, Ancillary Tests, Differential Diagnosis.\n\n"
+        "FIGURE PLACEMENT (critical — mirrors PathologyOutlines):\n"
+        "- Scan EVERY figure in the evidence bundle (figure_url / image_url + caption / alt / "
+        "section tags). Captions alone count as support for a section.\n"
+        "- Gross/specimen/cut-surface/macroscopic photos → MUST go under '## Gross Features' "
+        "(create that section if any such figure exists; do NOT dump them under Microscopic).\n"
+        "- Radiology/imaging photos (mammogram, ultrasound, MRI, CT, radiograph, PET, etc.) → "
+        "MUST go under '## Imaging Features' (create that section if any such figure exists).\n"
+        "- Histology/H&E/IHC photomicrographs → '## Microscopic' (or Ancillary Tests for IHC "
+        "stains).\n"
+        "- Embed figures as consecutive markdown images `![caption](url)` (blank line between "
+        "images is fine) using real figure_url values only — never invent URLs.\n\n"
         "Section-by-section rules:\n"
         "- '## Key Facts': only if at least one other section will follow. Compact outline — one "
         "short bullet per substantive section you are including (not a fixed count). Single tight "
@@ -128,9 +142,15 @@ def topic_page_system_prompt() -> str:
         "- '## Etiology/Pathogenesis': mechanism, genetics, risk factors — bullets with nested "
         "sub-bullets for lists.\n"
         "- '## Clinical Issues': epidemiology, site, presentation, prognosis — bullets, not paragraphs.\n"
+        "- '## Imaging Features': modality + characteristic findings (e.g. mammographic, US, MRI, "
+        "CT). Include when the evidence text OR any figure caption describes imaging. Embed the "
+        "imaging figures here.\n"
+        "- '## Gross Features': size, shape, cut surface, borders, capsule — bullets. Include when "
+        "the evidence text OR any figure caption describes gross/specimen findings. Embed the "
+        "gross figures here.\n"
         "- '## Microscopic': histologic/cytologic features — use nested outline bullets (parent "
-        "feature → sub-bullets for patterns/criteria). Embed at most 1–2 inline figures "
-        "`![caption](url)` when a figure_url clearly illustrates the topic.\n"
+        "feature → sub-bullets for patterns/criteria). Embed histology figures liberally here; "
+        "do not put gross or radiology images in this section.\n"
         "- '## Ancillary Tests': IHC/molecular — prefer a compact marker list (nested bullets: "
         "marker → pattern/entity) or one markdown table when 2+ markers/entities are compared. "
         "Never write IHC panels as full sentences.\n"
