@@ -22,8 +22,14 @@ Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
 - `OPENAI_MODEL` — default **`gpt-4o`** (see **Synthesis model A/B** below); override e.g. `OPENAI_MODEL=gpt-4.1-mini`
-- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO + journals always kept)
+- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO always kept)
+- `TOPIC_PAGE_LIVE_LITERATURE` — **on by default**; set to `0` to skip live Elsevier Scopus / PubMed / OncoKB on topic pages
+- `ELSEVIER_API_KEY`, `NCBI_API_KEY`, `ONCOKB_API_TOKEN` — optional env overrides; otherwise loaded from Secret Manager secrets `Elsevier`, `NCBI`, `OncoKB`
 - `PORT` — local server port (default `8000`)
+
+### Live literature (topic pages)
+
+Topic pages call Elsevier Scopus + NCBI PubMed (+ OncoKB when gene symbols appear in the query) in parallel with hub RAG. Results become `literature` cards with DOI/PubMed links and feed **Key Literature** / **Molecular / Therapeutic** sections. This replaces the retired local journal FAISS index.
 
 ## Run locally
 
