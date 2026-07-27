@@ -1430,7 +1430,29 @@ function renderMarkdown(text, previewIndex) {
   }
   flushImages();
 
-  return `<div class="answer-md">${htmlBlocks.join("")}</div>`;
+  return `<div class="answer-md">${groupAdjacentFigureButtons(htmlBlocks.join(""))}</div>`;
+}
+
+/** Wrap runs of figure-only paragraphs / bare figure buttons into a horizontal
+ * `.inline-figure-row`. Catches model output that puts each `![...](url)` in its
+ * own blank-line block (rendered as `<p class="answer-line">`) — the common case
+ * that still looked like a vertical column. */
+function groupAdjacentFigureButtons(html) {
+  if (!html || !html.includes("inline-figure-btn")) return html;
+  const figureOnlyP =
+    /(?:<p class="answer-line">\s*)?(<button\b[^>]*class="[^"]*\binline-figure-btn\b[^"]*"[^>]*>[\s\S]*?<\/button>)\s*(?:<\/p>)?/g;
+  // Collapse consecutive figure-only units into one row.
+  return html.replace(
+    /(?:(?:<p class="answer-line">\s*)?<button\b[^>]*class="[^"]*\binline-figure-btn\b[^"]*"[^>]*>[\s\S]*?<\/button>\s*(?:<\/p>)?\s*){2,}/g,
+    (run) => {
+      const buttons = [];
+      let m;
+      const re = new RegExp(figureOnlyP.source, "g");
+      while ((m = re.exec(run)) !== null) buttons.push(m[1]);
+      if (buttons.length < 2) return run;
+      return `<div class="inline-figure-row">${buttons.join("")}</div>`;
+    },
+  );
 }
 
 /** Indentation-aware bullet list renderer. Every 2 (or 1-4) leading spaces
@@ -2997,6 +3019,16 @@ function renderTopicSourceSummary(data, entryMeta = null) {
   const figTotal = (data.figures || []).length;
   if (figTotal) {
     html += ` · ${figTotal} figure${figTotal === 1 ? "" : "s"}`;
+  }
+  const litCount =
+    (data.literature || []).length ||
+    (data.cards || []).filter((c) => (c.source || "") === "literature").length;
+  if (litCount) {
+    html += ` · <strong>${litCount} live literature</strong> (Elsevier/PubMed/OncoKB)`;
+  } else if (data.debug && data.debug.live_literature_enabled === false) {
+    html += " · live literature off";
+  } else if (data.debug && data.mode === "topic_page") {
+    html += " · live literature: none returned";
   }
   html += ".</p>";
 
