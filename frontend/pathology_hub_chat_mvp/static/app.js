@@ -5,7 +5,7 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
  * too so the debug panel shows the sources that are actually used, not a
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
-const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "videos"];
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "videos"];
 const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
 const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
@@ -13,7 +13,8 @@ const SOURCE_LABELS = {
   who: "WHO Classification",
   textbooks: "Textbooks",
   pathout: "Pathoutlines",
-  journals: "Journals",
+  journals: "Journals (retired)",
+  literature: "Live literature",
   lectures: "Lectures",
   videos: "Videos",
   curriculum: "Curriculum map",
@@ -2545,7 +2546,9 @@ const TOPIC_PAGE_SECTION_ORDER = [
   "Gross Features",
   "Microscopic",
   "Ancillary Tests",
+  "Molecular / Therapeutic",
   "Differential Diagnosis",
+  "Key Literature",
 ];
 
 function normalizeHeaderKey(value) {
@@ -3066,9 +3069,36 @@ function renderEntryTagsFooter(tag, provenance) {
   return html;
 }
 
+function renderLiteratureStrip(cards) {
+  const lit =
+    (cards || []).filter((c) => (c.source || "").toLowerCase() === "literature") ||
+    [];
+  if (!lit.length) return "";
+  let html =
+    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div><ul class="literature-list">';
+  for (const card of lit.slice(0, 10)) {
+    const title = card.title || "Untitled";
+    const journal = card.journal || card.source_name || "";
+    const year = card.year || "";
+    const mode = card.retrieval_mode || "";
+    const url = card.source_url || card.url || (card.doi ? `https://doi.org/${card.doi}` : "");
+    const snip = (card.excerpt || card.text || "").replace(/\s+/g, " ").trim().slice(0, 220);
+    const link = url
+      ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`
+      : escapeHtml(title);
+    html += `<li><div class="literature-title">${link}</div>`;
+    html += `<div class="literature-meta">${escapeHtml([journal, year, mode].filter(Boolean).join(" · "))}</div>`;
+    if (snip) html += `<div class="literature-snip">${escapeHtml(snip)}${snip.length >= 220 ? "…" : ""}</div>`;
+    html += "</li>";
+  }
+  html += "</ul></div>";
+  return html;
+}
+
 function renderTopicPageResult(data, query, entryMeta = null) {
   const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
+  const literatureCards = data.literature || sortedCards.filter((c) => (c.source || "") === "literature");
   const videoFilter = filterVideoCardsByRelevance(query, sortedCards, { maxShown: 6 });
   const lectureCards = videoFilter.shown;
   const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 16 });
@@ -3095,6 +3125,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     lectureCards,
     pageContext,
   );
+  html += renderLiteratureStrip(literatureCards);
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;

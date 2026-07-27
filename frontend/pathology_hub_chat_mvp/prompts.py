@@ -88,7 +88,9 @@ TOPIC_PAGE_SECTIONS = [
     "Gross Features",
     "Microscopic",
     "Ancillary Tests",
+    "Molecular / Therapeutic",
     "Differential Diagnosis",
+    "Key Literature",
 ]
 
 
@@ -122,7 +124,12 @@ def topic_page_system_prompt() -> str:
         "retrieved evidence has nothing substantive for it. Never pad empty sections.\n"
         "When you do include sections, keep this order: Key Facts first (if present), then "
         "Terminology, Etiology/Pathogenesis, Clinical Issues, Imaging Features, Gross Features, "
-        "Microscopic, Ancillary Tests, Differential Diagnosis.\n\n"
+        "Microscopic, Ancillary Tests, Molecular / Therapeutic, Differential Diagnosis, "
+        "Key Literature.\n\n"
+        "LIVE LITERATURE: The evidence bundle may include `literature_results` from Elsevier "
+        "Scopus, PubMed/NCBI, and OncoKB (source='literature'). These are clean abstracts + DOI "
+        "links — prefer them for recent papers and molecular actionability. Cite with the DOI/"
+        "source_url from the card only.\n\n"
         "FIGURE PLACEMENT (critical — mirrors PathologyOutlines):\n"
         "- Scan EVERY figure in the evidence bundle (figure_url / image_url + caption / alt / "
         "section tags). Captions alone count as support for a section.\n"
@@ -153,8 +160,15 @@ def topic_page_system_prompt() -> str:
         "- '## Ancillary Tests': IHC/molecular — prefer a compact marker list (nested bullets: "
         "marker → pattern/entity) or one markdown table when 2+ markers/entities are compared. "
         "Never write IHC panels as full sentences.\n"
+        "- '## Molecular / Therapeutic': ONLY when OncoKB or other literature cards give gene/"
+        "alteration oncogenicity or LEVEL therapy associations (e.g. NTRK3 Fusion → larotrectinib). "
+        "One bullet per alteration; include drug + evidence level when present. Omit if no "
+        "molecular literature cards.\n"
         "- '## Differential Diagnosis': one bullet per differential entity from the evidence only. "
         "Each bullet: **Entity** — short distinguishing phrase.\n"
+        "- '## Key Literature': 3–6 bullets from literature_results (prefer items with abstracts). "
+        "Format: **Title** — Journal (year). One-sentence takeaway from the abstract. Inline cite "
+        "the DOI/PubMed URL. Omit if no literature_results.\n"
         "- Every non-Key-Facts bullet with a factual claim should cite inline when a URL exists. "
         "Never fabricate content or URLs."
     )

@@ -75,6 +75,7 @@ from pathology_backend import (
     topic_page_query_variants,
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
+from literature_apis import fetch_live_literature, live_literature_enabled
 
 # Full source set for topic_page (ExpertPath-style reference) requests —
 # always comprehensive regardless of the sidebar checkbox state, since a
@@ -89,7 +90,11 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # then has to filter back out; requesting only `videos` gets the identical
 # evidence for half the cost. `lectures` remains a valid standalone choice in
 # `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
-TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures")]
+# `journals` excluded: local journal FAISS corpus retired (AJSP corruption);
+# topic pages use live Elsevier Scopus + PubMed + OncoKB instead.
+TOPIC_PAGE_SOURCES = [
+    s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures", "journals")
+]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -238,9 +243,20 @@ def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
     return outcomes, merged
 
 
-def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict], dict]:
+def _tumor_type_hint(req: ChatRequest) -> Optional[str]:
+    """Best-effort tumorType for OncoKB from page tag / category context."""
+    tag = (req.page_tag or req.category_context or "").replace("_", " ")
+    parts = [p for p in re.split(r"::|>|/", tag) if p.strip()]
+    if not parts:
+        return None
+    # Prefer leaf-ish / organ-ish tokens; OncoKB accepts free-text tumor types.
+    return parts[-1].strip()[:80] or None
+
+
+def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
     """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
-    merged/deduped/diversified, then capped before synthesis."""
+    merged/deduped/diversified, then capped before synthesis. Also fetches live
+    Elsevier/PubMed/OncoKB literature cards when enabled."""
     sources = _validate_sources(req.sources)
     variants = topic_page_query_variants(req.query, req.category_context)
 
@@ -298,8 +314,21 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         figures = filter_figures_by_page_root(figures, page_root)
 
-    slim_merged = slim_merged_from_cards(merged, capped_cards)
+    # Live literature (Elsevier Scopus + PubMed + OncoKB) — parallel to hub RAG.
+    literature_bundle = fetch_live_literature(
+        req.query,
+        max_per_provider=4,
+        tumor_type=_tumor_type_hint(req),
+        include_oncokb=True,
+    )
+    literature_cards = literature_bundle.get("cards") or []
+    # Cap literature separately so it cannot crowd out WHO/textbooks/pathout.
+    literature_cards = literature_cards[:10]
+    capped_cards = list(capped_cards) + literature_cards
+
+    slim_merged = slim_merged_from_cards(merged, [c for c in capped_cards if c.get("source") != "literature"])
     slim_merged["figures"] = figures
+    slim_merged["literature_results"] = literature_cards
 
     counts_before = {}
     counts_after = {}
@@ -324,7 +353,13 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "root_narrow_enabled": TOPIC_PAGE_ROOT_NARROW,
         "page_root": page_root,
         "cards_before_root_filter": cards_before_root,
-        "cards_after_root_filter": len(capped_cards),
+        "cards_after_root_filter": cards_before_root if not (TOPIC_PAGE_ROOT_NARROW and page_root) else len(
+            [c for c in capped_cards if c.get("source") != "literature"]
+        ),
+        "live_literature_enabled": live_literature_enabled(),
+        "literature_count": len(literature_cards),
+        "literature_providers": literature_bundle.get("providers") or {},
+        "literature_warnings": literature_bundle.get("warnings") or [],
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
@@ -581,6 +616,9 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
+        literature_cards = [
+            c for c in cards if (c.get("source") or "").lower() == "literature"
+        ]
         return {
             "ok": result.ok,
             "mode": mode,
@@ -590,6 +628,7 @@ def api_chat(req: ChatRequest):
             "evidence": merged,
             "cards": cards,
             "figures": figures,
+            "literature": literature_cards,
             "who_cross_mentions": who_cross_mentions,
             "debug": _debug_payload(outcomes, retrieval_meta),
         }

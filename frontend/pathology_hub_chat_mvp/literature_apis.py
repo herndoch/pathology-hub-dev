@@ -1,0 +1,422 @@
+"""Live literature / knowledge APIs for topic pages.
+
+Fetches clean abstracts + DOI links from Elsevier Scopus and NCBI PubMed,
+plus optional OncoKB molecular annotations. Replaces the retired local
+journal FAISS corpus for topic-page evidence.
+
+Secrets (env first, then GCP Secret Manager names):
+  ELSEVIER_API_KEY / Elsevier
+  NCBI_API_KEY     / NCBI
+  ONCOKB_API_TOKEN / OncoKB
+
+Never logs secret values.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Optional
+
+from secrets_helper import get_elsevier_api_key, get_ncbi_api_key, get_oncokb_api_token
+
+# Feature flag — default ON for topic pages.
+def live_literature_enabled() -> bool:
+    raw = os.environ.get("TOPIC_PAGE_LIVE_LITERATURE", "1")
+    return str(raw).strip().lower() not in {"0", "false", "off", "no"}
+
+
+# Common pathology genes / fusions worth probing OncoKB when mentioned.
+_ONCOKB_GENE_RE = re.compile(
+    r"\b("
+    r"BRAF|NRAS|KRAS|HRAS|EGFR|ALK|ROS1|RET|MET|ERBB2|HER2|KIT|PDGFRA|"
+    r"NTRK1|NTRK2|NTRK3|ETV6|MYB|MYBL1|NFIB|PLAG1|HMGA2|EWSR1|FLI1|"
+    r"SS18|SSX1|SSX2|BCOR|CIC|YAP1|TFE3|TFEB|PRCC|ASPSCR1|"
+    r"IDH1|IDH2|TP53|RB1|CDKN2A|PTEN|PIK3CA|AKT1|CTNNB1|APC|"
+    r"BRCA1|BRCA2|PALB2|ATM|CHEK2|MLH1|MSH2|MSH6|PMS2|"
+    r"BCL2|BCL6|MYC|CCND1|IGH|JAK2|CALR|MPL|NPM1|FLT3|IDH|"
+    r"VHL|BAP1|PBRM1|SETD2|FH|SDHB|SDHA|SDHC|SDHD|"
+    r"KIT|PDGFRA|BRAF"
+    r")\b",
+    re.I,
+)
+
+_USER_AGENT = "PathologyHubChatMVP/0.1 (literature; research; non-commercial)"
+
+
+def _http_get_json(url: str, headers: dict[str, str], timeout: float = 25.0) -> dict[str, Any]:
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def _http_get_bytes(url: str, headers: dict[str, str], timeout: float = 25.0) -> bytes:
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read()
+
+
+def _doi_url(doi: Optional[str]) -> Optional[str]:
+    if not doi:
+        return None
+    doi = str(doi).strip()
+    if not doi:
+        return None
+    if doi.startswith("http"):
+        return doi
+    return f"https://doi.org/{doi}"
+
+
+def _card(
+    *,
+    title: str,
+    journal: str,
+    doi: Optional[str],
+    abstract: str,
+    year: Optional[str],
+    retrieval_mode: str,
+    source_name: str,
+    extra: Optional[dict] = None,
+) -> dict[str, Any]:
+    url = _doi_url(doi)
+    card: dict[str, Any] = {
+        "source": "literature",
+        "source_name": source_name or journal or "Literature",
+        "journal": journal or None,
+        "title": title,
+        "doi": doi,
+        "source_url": url,
+        "url": url,
+        "excerpt": (abstract or "")[:1200],
+        "text": abstract or "",
+        "year": year,
+        "retrieval_mode": retrieval_mode,
+        "rank": None,
+    }
+    if extra:
+        card.update(extra)
+    return card
+
+
+def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
+    """Elsevier Scopus search — titles, journals, DOIs; abstracts via Abstract API when possible."""
+    api_key = get_elsevier_api_key()
+    meta: dict[str, Any] = {"provider": "elsevier_scopus", "ok": False}
+    if not api_key:
+        meta["error"] = "missing_api_key"
+        return [], meta
+
+    # Prefer pathology journals in ranking via query terms; keep query short.
+    q = f'TITLE-ABS-KEY({query}) AND PUBYEAR > 2005'
+    params = urllib.parse.urlencode(
+        {
+            "query": q,
+            "count": max(1, min(max_results, 8)),
+            "field": "dc:title,prism:doi,prism:publicationName,prism:coverDate,description,subtypeDescription",
+            "sort": "-coverDate",
+        }
+    )
+    url = f"https://api.elsevier.com/content/search/scopus?{params}"
+    headers = {
+        "Accept": "application/json",
+        "X-ELS-APIKey": api_key,
+        "User-Agent": _USER_AGENT,
+    }
+    try:
+        data = _http_get_json(url, headers)
+    except urllib.error.HTTPError as exc:
+        meta["error"] = f"http_{exc.code}"
+        return [], meta
+    except Exception as exc:
+        meta["error"] = f"{type(exc).__name__}"
+        return [], meta
+
+    sr = data.get("search-results") or {}
+    meta["ok"] = True
+    meta["total"] = sr.get("opensearch:totalResults")
+    entries = [e for e in (sr.get("entry") or []) if e.get("dc:title")]
+    cards: list[dict] = []
+    for e in entries[:max_results]:
+        doi = e.get("prism:doi")
+        abstract = (e.get("description") or "").strip()
+        # Enrich with Abstract Retrieval when search omitted abstract.
+        if doi and not abstract:
+            abstract = _scopus_abstract_by_doi(doi, api_key) or ""
+        date = e.get("prism:coverDate") or ""
+        year = date[:4] if date else None
+        cards.append(
+            _card(
+                title=e.get("dc:title") or "",
+                journal=e.get("prism:publicationName") or "",
+                doi=doi,
+                abstract=abstract,
+                year=year,
+                retrieval_mode="elsevier_scopus",
+                source_name="Elsevier Scopus",
+                extra={"subtype": e.get("subtypeDescription")},
+            )
+        )
+    meta["returned"] = len(cards)
+    return cards, meta
+
+
+def _scopus_abstract_by_doi(doi: str, api_key: str) -> Optional[str]:
+    url = f"https://api.elsevier.com/content/abstract/doi/{urllib.parse.quote(doi, safe='')}"
+    headers = {
+        "Accept": "application/json",
+        "X-ELS-APIKey": api_key,
+        "User-Agent": _USER_AGENT,
+    }
+    try:
+        data = _http_get_json(url, headers, timeout=20.0)
+    except Exception:
+        return None
+    absrec = data.get("abstracts-retrieval-response") or {}
+    core = absrec.get("coredata") or {}
+    if core.get("dc:description"):
+        return str(core["dc:description"]).strip()
+    absnode = (absrec.get("abstracts") or {}).get("abstract")
+    if isinstance(absnode, dict):
+        paras = absnode.get("para")
+        if isinstance(paras, str):
+            return paras.strip()
+        if isinstance(paras, list):
+            return " ".join(str(x) for x in paras).strip()
+    return None
+
+
+def search_pubmed(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
+    """NCBI PubMed esearch + efetch — titles, journals, abstracts, PMIDs."""
+    api_key = get_ncbi_api_key()
+    meta: dict[str, Any] = {"provider": "pubmed_ncbi", "ok": False}
+    key_q = f"&api_key={urllib.parse.quote(api_key)}" if api_key else ""
+    term = urllib.parse.quote(f"{query}[Title/Abstract]")
+    search_url = (
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+        f"?db=pubmed&retmode=json&retmax={max(1, min(max_results, 8))}&term={term}{key_q}"
+    )
+    headers = {"User-Agent": _USER_AGENT}
+    try:
+        data = _http_get_json(search_url, headers)
+    except Exception as exc:
+        meta["error"] = f"{type(exc).__name__}"
+        return [], meta
+
+    ids = (data.get("esearchresult") or {}).get("idlist") or []
+    meta["total"] = (data.get("esearchresult") or {}).get("count")
+    if not ids:
+        meta["ok"] = True
+        meta["returned"] = 0
+        return [], meta
+
+    fetch_url = (
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+        f"?db=pubmed&retmode=xml&id={','.join(ids)}{key_q}"
+    )
+    try:
+        xml_bytes = _http_get_bytes(fetch_url, headers)
+        root = ET.fromstring(xml_bytes)
+    except Exception as exc:
+        meta["error"] = f"efetch_{type(exc).__name__}"
+        return [], meta
+
+    cards: list[dict] = []
+    for art in root.findall(".//PubmedArticle"):
+        title = "".join(art.findtext(".//ArticleTitle") or "")
+        journal = art.findtext(".//Journal/Title") or art.findtext(".//MedlineJournalInfo/MedlineTA") or ""
+        year = art.findtext(".//JournalIssue/PubDate/Year") or art.findtext(".//PubDate/Year")
+        pmid = art.findtext(".//PMID")
+        abstract_parts = []
+        for el in art.findall(".//Abstract/AbstractText"):
+            label = el.attrib.get("Label")
+            text = "".join(el.itertext()) if el is not None else ""
+            if label and text:
+                abstract_parts.append(f"{label}: {text}")
+            elif text:
+                abstract_parts.append(text)
+        abstract = " ".join(abstract_parts).strip()
+        doi = None
+        for aid in art.findall(".//ArticleId"):
+            if aid.attrib.get("IdType") == "doi" and aid.text:
+                doi = aid.text.strip()
+                break
+        url = _doi_url(doi) or (f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else None)
+        cards.append(
+            _card(
+                title=title,
+                journal=journal,
+                doi=doi,
+                abstract=abstract,
+                year=year,
+                retrieval_mode="pubmed_ncbi",
+                source_name="PubMed",
+                extra={"pmid": pmid, "source_url": url, "url": url},
+            )
+        )
+    meta["ok"] = True
+    meta["returned"] = len(cards)
+    return cards[:max_results], meta
+
+
+def _extract_genes(text: str) -> list[str]:
+    found = []
+    seen = set()
+    for m in _ONCOKB_GENE_RE.finditer(text or ""):
+        g = m.group(1).upper()
+        if g == "HER2":
+            g = "ERBB2"
+        if g not in seen:
+            seen.add(g)
+            found.append(g)
+    return found[:4]
+
+
+def annotate_oncokb(query: str, tumor_type: Optional[str] = None) -> tuple[list[dict], dict]:
+    """OncoKB protein-change / fusion hints for genes mentioned in the query."""
+    token = get_oncokb_api_token()
+    meta: dict[str, Any] = {"provider": "oncokb", "ok": False}
+    if not token:
+        meta["error"] = "missing_api_key"
+        return [], meta
+
+    genes = _extract_genes(query)
+    if not genes:
+        meta["ok"] = True
+        meta["skipped"] = "no_gene_tokens"
+        return [], meta
+
+    headers = {
+        "Accept": "application/json",
+        "Authorization": f"Bearer {token}",
+        "User-Agent": _USER_AGENT,
+    }
+    cards: list[dict] = []
+    # Probe gene-level + common Fusion alteration when fusion-prone genes appear.
+    fusion_prone = {"ETV6", "NTRK1", "NTRK2", "NTRK3", "ALK", "ROS1", "RET", "EWSR1", "SS18", "MYB"}
+    for gene in genes:
+        alterations = ["Fusion"] if gene in fusion_prone else [""]
+        if gene == "BRAF":
+            alterations = ["V600E"]
+        for alt in alterations:
+            params: dict[str, str] = {"hugoSymbol": gene}
+            if alt:
+                params["alteration"] = alt
+            if tumor_type:
+                params["tumorType"] = tumor_type
+            qs = urllib.parse.urlencode(params)
+            url = f"https://www.oncokb.org/api/v1/annotate/mutations/byProteinChange?{qs}"
+            try:
+                data = _http_get_json(url, headers, timeout=20.0)
+            except Exception as exc:
+                meta.setdefault("errors", []).append(f"{gene}:{type(exc).__name__}")
+                continue
+            oncogenic = data.get("oncogenic")
+            effect = data.get("mutationEffect")
+            if isinstance(effect, dict):
+                effect = effect.get("knownEffect")
+            treatments = data.get("treatments") or []
+            drug_lines = []
+            for t in treatments[:4]:
+                drugs = ", ".join(d.get("drugName") or "" for d in (t.get("drugs") or []) if d.get("drugName"))
+                level = t.get("level") or ""
+                if drugs:
+                    drug_lines.append(f"{level}: {drugs}".strip(": "))
+            summary_bits = [
+                f"Gene: {gene}" + (f" / {alt}" if alt else ""),
+                f"Oncogenic: {oncogenic}" if oncogenic else None,
+                f"Effect: {effect}" if effect else None,
+            ]
+            if drug_lines:
+                summary_bits.append("Treatments: " + "; ".join(drug_lines))
+            abstract = "\n".join(b for b in summary_bits if b)
+            if not oncogenic and not treatments:
+                continue
+            cards.append(
+                _card(
+                    title=f"OncoKB: {gene}" + (f" {alt}" if alt else ""),
+                    journal="OncoKB",
+                    doi=None,
+                    abstract=abstract,
+                    year=None,
+                    retrieval_mode="oncokb",
+                    source_name="OncoKB",
+                    extra={
+                        "source_url": f"https://www.oncokb.org/gene/{gene}",
+                        "url": f"https://www.oncokb.org/gene/{gene}",
+                        "gene": gene,
+                        "alteration": alt or None,
+                        "oncogenic": oncogenic,
+                    },
+                )
+            )
+    meta["ok"] = True
+    meta["genes"] = genes
+    meta["returned"] = len(cards)
+    return cards, meta
+
+
+def fetch_live_literature(
+    query: str,
+    *,
+    max_per_provider: int = 4,
+    tumor_type: Optional[str] = None,
+    include_oncokb: bool = True,
+) -> dict[str, Any]:
+    """Parallel fetch from Scopus + PubMed (+ OncoKB). Returns cards + provider meta."""
+    if not live_literature_enabled():
+        return {
+            "enabled": False,
+            "cards": [],
+            "providers": {},
+            "warnings": ["live_literature_disabled"],
+        }
+
+    providers: dict[str, Any] = {}
+    cards: list[dict] = []
+    warnings: list[str] = []
+
+    jobs = {
+        "scopus": lambda: search_scopus(query, max_per_provider),
+        "pubmed": lambda: search_pubmed(query, max_per_provider),
+    }
+    if include_oncokb:
+        jobs["oncokb"] = lambda: annotate_oncokb(query, tumor_type=tumor_type)
+
+    with ThreadPoolExecutor(max_workers=len(jobs)) as pool:
+        futures = {pool.submit(fn): name for name, fn in jobs.items()}
+        for fut in as_completed(futures):
+            name = futures[fut]
+            try:
+                part_cards, part_meta = fut.result()
+            except Exception as exc:
+                providers[name] = {"ok": False, "error": type(exc).__name__}
+                warnings.append(f"literature_{name}_error")
+                continue
+            providers[name] = part_meta
+            cards.extend(part_cards)
+            if not part_meta.get("ok"):
+                warnings.append(f"literature_{name}_{part_meta.get('error', 'failed')}")
+
+    # Prefer cards that have abstracts; de-dupe by DOI / title.
+    seen: set[str] = set()
+    deduped: list[dict] = []
+    for card in sorted(cards, key=lambda c: (0 if (c.get("text") or c.get("excerpt")) else 1, c.get("retrieval_mode") or "")):
+        key = (card.get("doi") or "").lower() or (card.get("title") or "").strip().lower()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        deduped.append(card)
+
+    return {
+        "enabled": True,
+        "cards": deduped,
+        "providers": providers,
+        "warnings": warnings,
+        "query": query,
+    }

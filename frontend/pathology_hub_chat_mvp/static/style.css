@@ -330,6 +330,40 @@ code {
   margin-left: 0.9rem;
 }
 
+.literature-strip {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+}
+
+.literature-list {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.literature-title {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.literature-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.literature-snip {
+  font-size: 0.85rem;
+  color: #3c4043;
+  margin-top: 0.15rem;
+  line-height: 1.4;
+}
+
 .topic-gallery-grid {
   display: flex;
   flex-direction: row;
