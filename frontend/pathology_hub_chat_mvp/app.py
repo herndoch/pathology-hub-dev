@@ -48,7 +48,13 @@ from pydantic import BaseModel, Field
 
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
+from openai_synthesizer import (
+    SynthesisResult,
+    get_model,
+    get_topic_page_model,
+    ping as openai_ping,
+    synthesize,
+)
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -475,6 +481,7 @@ def api_health():
         "backend": backend_health,
         "secrets": secret_status,
         "openai_model": get_model(),
+        "topic_page_model": get_topic_page_model(),
         "supported_sources": SUPPORTED_SOURCES,
         "supported_modes": sorted(VALID_MODES),
         "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
@@ -534,6 +541,7 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
         prompts.topic_page_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        model=get_topic_page_model(),
     )
 
 
@@ -619,6 +627,10 @@ def api_chat(req: ChatRequest):
         literature_cards = [
             c for c in cards if (c.get("source") or "").lower() == "literature"
         ]
+        debug_payload = _debug_payload(outcomes, retrieval_meta)
+        if mode != "html_teaching":
+            debug_payload["evidence_truncated_for_synthesis"] = result.evidence_truncated
+            debug_payload["evidence_char_len_before_cap"] = result.evidence_char_len
         return {
             "ok": result.ok,
             "mode": mode,
@@ -630,7 +642,7 @@ def api_chat(req: ChatRequest):
             "figures": figures,
             "literature": literature_cards,
             "who_cross_mentions": who_cross_mentions,
-            "debug": _debug_payload(outcomes, retrieval_meta),
+            "debug": debug_payload,
         }
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}

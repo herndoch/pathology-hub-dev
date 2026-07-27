@@ -777,14 +777,14 @@ code {
   white-space: nowrap;
 }
 
-.topic-tags-footer {
+.topic-tags-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.55rem;
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--panel-border);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .topic-tags-label {
@@ -1235,6 +1235,9 @@ button:disabled {
 }
 
 .topic-source-summary {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--panel-border);
   margin-bottom: 0.35rem;
 }
 
@@ -1397,6 +1400,27 @@ button:disabled {
 .controls h2 {
   margin: 0 0 0.75rem;
   font-size: 1rem;
+}
+
+.controls-details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  list-style: none;
+}
+
+.controls-details[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.controls-summary-hint {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .controls label,

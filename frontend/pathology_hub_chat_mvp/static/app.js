@@ -3088,9 +3088,9 @@ function topicPageFanoutHint(data) {
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
 
-function renderEntryTagsFooter(tag, provenance) {
+function renderEntryTagsHeader(tag, provenance) {
   if (!tag) return "";
-  let html = '<div class="topic-tags-footer">';
+  let html = '<div class="topic-tags-header">';
   html += '<span class="topic-tags-label">Tags:</span>';
   html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">${escapeHtml(formatDisplayLabel(tag))}</span>`;
   const provenanceLabel = formatNavProvenanceLabel(provenance);
@@ -3146,9 +3146,13 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     }
   }
   const pageContext = pageContextFromEntryMeta(entryMeta);
+  const tag = entryMeta?.tag || null;
+  const provenance = entryMeta?.provenance || null;
 
-  let html = renderTopicSourceSummary(data, entryMeta);
-  html += topicPageFanoutHint(data);
+  // Tags at the top (what this page is about); evidence-source breakdown
+  // moves down next to references (how we know it) — see user request to
+  // stop leading with source-count clutter above Key Facts.
+  let html = renderEntryTagsHeader(tag, provenance);
   html += renderTopicPage(
     sections,
     previewIndex,
@@ -3162,9 +3166,8 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
-  const tag = entryMeta?.tag || null;
-  const provenance = entryMeta?.provenance || null;
-  html += renderEntryTagsFooter(tag, provenance);
+  html += renderTopicSourceSummary(data, entryMeta);
+  html += topicPageFanoutHint(data);
   html += renderDebugBlock(data);
   return html;
 }

@@ -55,31 +55,36 @@
 
     <div class="sidebar-stack">
       <aside class="controls">
-        <h2>Settings</h2>
+        <details class="controls-details" id="controls-details">
+          <summary>
+            Advanced: answer mode &amp; sources
+            <span class="hint controls-summary-hint">defaults to GPT-like · WHO + Textbooks + Pathoutlines — open this only to scope to lectures, journals, or a specific mode</span>
+          </summary>
 
-        <label for="mode-select">Answer mode</label>
-        <select id="mode-select">
-          <option value="gpt_like" selected>GPT-like — synthesized answer</option>
-          <option value="search_only">Search only — raw evidence cards</option>
-          <option value="compare_sources">Compare sources — side-by-side</option>
-          <option value="visual">Visual — figures included</option>
-          <option value="html_teaching">HTML teaching page</option>
-          <option value="topic_page">Topic page — ExpertPath-style reference</option>
-        </select>
-        <p class="hint mode-hint" id="mode-hint">
-          Default: grounded summary with inline citations from selected sources.
-        </p>
-
-        <fieldset>
-          <legend>Evidence sources</legend>
-          <div id="source-checkboxes" class="source-grid"></div>
-          <p class="hint curriculum-hint">
-            <strong>Curriculum</strong> is a study-map navigator only — not diagnostic proof.
+          <label for="mode-select">Answer mode</label>
+          <select id="mode-select">
+            <option value="gpt_like" selected>GPT-like — synthesized answer</option>
+            <option value="search_only">Search only — raw evidence cards</option>
+            <option value="compare_sources">Compare sources — side-by-side</option>
+            <option value="visual">Visual — figures included</option>
+            <option value="html_teaching">HTML teaching page</option>
+            <option value="topic_page">Topic page — ExpertPath-style reference</option>
+          </select>
+          <p class="hint mode-hint" id="mode-hint">
+            Default: grounded summary with inline citations from selected sources.
           </p>
-        </fieldset>
 
-        <label for="max-results">Max results per source</label>
-        <input type="number" id="max-results" min="1" max="10" value="5" />
+          <fieldset>
+            <legend>Evidence sources</legend>
+            <div id="source-checkboxes" class="source-grid"></div>
+            <p class="hint curriculum-hint">
+              <strong>Curriculum</strong> is a study-map navigator only — not diagnostic proof.
+            </p>
+          </fieldset>
+
+          <label for="max-results">Max results per source</label>
+          <input type="number" id="max-results" min="1" max="10" value="5" />
+        </details>
       </aside>
 
       <aside class="notes-panel">
