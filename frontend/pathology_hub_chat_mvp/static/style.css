@@ -311,12 +311,30 @@ code {
   gap: 1rem;
 }
 
+.topic-page-top-facts-only {
+  grid-template-columns: 1fr;
+}
+
 .topic-key-facts,
-.topic-gallery {
+.topic-gallery,
+.section-gallery {
   background: #f8f9fa;
   border: 1px solid var(--panel-border);
   border-radius: 10px;
   padding: 0.85rem;
+}
+
+.section-gallery {
+  margin-top: 0.85rem;
+}
+
+.section-gallery-title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 0.45rem;
 }
 
 .topic-panel-title {
@@ -1468,6 +1486,13 @@ fieldset {
   padding: 0.85rem 1rem;
   margin-bottom: 1rem;
   box-shadow: inset 0 0 0 1px rgba(26, 115, 232, 0.08);
+}
+
+.thinking-panel.thinking-live {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  box-shadow: 0 4px 16px rgba(26, 115, 232, 0.12);
 }
 
 .thinking-panel-title {

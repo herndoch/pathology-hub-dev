@@ -495,6 +495,14 @@ class TestTopicPagePrompt(unittest.TestCase):
         text = prompts.topic_page_system_prompt()
         self.assertIn("NEVER invent, guess, autocomplete, or reconstruct a URL", text)
 
+    def test_topic_page_prompt_requires_section_scoped_figure_placement(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("dedicated gallery under each of Imaging Features", text)
+        self.assertIn("IHC / special-stain photomicrographs → Ancillary Tests", text)
+        self.assertIn("Embed IHC / special-stain figures here", text)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt
@@ -1083,6 +1091,18 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("function normalizeInlineLinkLabel", js)
         self.assertIn("function renderTopicVideos", js)
         self.assertIn("function renderTopicLectureGallery", js)
+
+    def test_app_js_has_section_scoped_figure_galleries(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function classifyFigureModality", js)
+        self.assertIn("function bucketFiguresBySection", js)
+        self.assertIn("function renderSectionGallery", js)
+        self.assertIn("section-gallery", js)
+        # Global dump beside Key Facts should be gone from topic pages.
+        self.assertNotIn(
+            'topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}',
+            js,
+        )
         self.assertIn("function sectionHasContent", js)
         self.assertIn("function compactBrowseRoots", js)
         self.assertIn("compare-gallery-grid", js)

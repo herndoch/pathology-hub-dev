@@ -2723,6 +2723,116 @@ function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems,
   return merged.slice(0, maxShown);
 }
 
+/** Map figure modality → topic-page section that should own its gallery. */
+const FIGURE_MODALITY_SECTION = {
+  imaging: "Imaging Features",
+  gross: "Gross Features",
+  microscopic: "Microscopic",
+  ihc: "Ancillary Tests",
+};
+
+/** Classify a retrieved/inline figure into imaging / gross / microscopic / ihc / other. */
+function classifyFigureModality(fig) {
+  const blob = [
+    fig?.caption,
+    fig?.title,
+    fig?.alt,
+    fig?.section,
+    fig?.chunk_type,
+    fig?.source_id,
+    fig?.figure_url,
+    fig?.image_url,
+    fig?.url,
+  ]
+    .map((x) => String(x || "").toLowerCase())
+    .join(" ");
+
+  if (
+    /\b(mammog|ultrasound|sonograph|\bmri\b|magnetic resonance|\bct\b|radiograph|x-?ray|pet[- ]?ct|fluoroscop|imaging|radiolog)\b/.test(
+      blob,
+    )
+  ) {
+    return "imaging";
+  }
+  if (/\b(gross|macroscopic|cut[- ]surface|specimen|fresh tissue|resection specimen|excised)\b/.test(blob)) {
+    return "gross";
+  }
+  if (
+    /\b(ihc|immuno[- ]?histochem|immunostain|immuno stain|her2|er\/pr|ki-?67|cd\d{1,3}|cytokeratin|stain for)\b/.test(
+      blob,
+    )
+  ) {
+    return "ihc";
+  }
+  if (
+    /\b(h&amp;e|h&e|h\/e|histolog|microscop|photomicro|cytolog|nuclear|cytoplasm|architecture|ductal|lobular|acin)\b/.test(
+      blob,
+    )
+  ) {
+    return "microscopic";
+  }
+  // PathOutlines / textbook figures without a caption cue are usually micro.
+  const src = String(fig?.source || "").toLowerCase();
+  if (src === "pathout" || src === "textbooks" || src === "who") return "microscopic";
+  return "other";
+}
+
+/**
+ * Bucket figures into section galleries. Prefer the section that already
+ * inlined the image in markdown; otherwise classify by caption/URL heuristics.
+ */
+function bucketFiguresBySection(retrievedFigures, sections) {
+  const buckets = {
+    "Imaging Features": [],
+    "Gross Features": [],
+    Microscopic: [],
+    "Ancillary Tests": [],
+    other: [],
+  };
+  const used = new Set();
+  const push = (sectionKey, fig) => {
+    const url = figureGalleryUrl(fig);
+    if (!url || used.has(url)) return;
+    used.add(url);
+    buckets[sectionKey].push(fig);
+  };
+
+  for (const name of Object.keys(buckets)) {
+    if (name === "other") continue;
+    for (const fig of extractInlineFiguresFromMarkdown(findSectionContent(sections, name))) {
+      push(name, fig);
+    }
+  }
+
+  for (const fig of retrievedFigures || []) {
+    const url = figureGalleryUrl(fig);
+    if (!url || used.has(url)) continue;
+    const modality = classifyFigureModality(fig);
+    const section = FIGURE_MODALITY_SECTION[modality] || "other";
+    push(section, { ...fig, _modality: modality });
+  }
+  return buckets;
+}
+
+function renderSectionGallery(sectionName, figures, { maxItems = 24 } = {}) {
+  if (!figures || !figures.length) return "";
+  const title = `${sectionName} gallery`;
+  return (
+    `<div class="section-gallery" data-section-gallery="${escapeAttr(sectionName)}">` +
+    `<div class="section-gallery-title">${escapeHtml(title)}</div>` +
+    renderTopicGallery(figures, { maxItems }) +
+    "</div>"
+  );
+}
+
+/** Drop markdown images from prose when a dedicated section gallery will show them. */
+function stripMarkdownImages(text) {
+  return String(text || "")
+    .replace(/!\[[^\]]*\]\(https?:[^)\s]+\)\s*/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function lectureFramePlaceholderDataUrl(card) {
   const title = cardTitle(card).slice(0, 48);
   const ts = formatVideoTimestamp(card) || "Lecture segment";
@@ -3056,14 +3166,22 @@ function renderTopicVideos(cards) {
 function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards, pageContext = null) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const ctx = pageContext || pageContextFromBrowseState();
+  // figures = retrieved pool; bucket into Imaging / Gross / Micro / IHC galleries
+  // instead of one dump "Selected Images" box beside Key Facts.
+  const buckets = bucketFiguresBySection(figures || [], sections);
+  const gallerySections = new Set([
+    "Imaging Features",
+    "Gross Features",
+    "Microscopic",
+    "Ancillary Tests",
+  ]);
 
   let html = '<div class="topic-page">';
-  html += '<div class="topic-page-top">';
   if (sectionHasContent(keyFacts)) {
+    html += '<div class="topic-page-top topic-page-top-facts-only">';
     html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+    html += "</div>";
   }
-  html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
-  html += "</div>";
 
   // Frame thumbs when available; always keep the honest link/unavailable list.
   html += renderTopicLectureGallery(videoCards);
@@ -3075,15 +3193,38 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
   for (const name of TOPIC_PAGE_SECTION_ORDER) {
     if (name === "Key Facts") continue;
     const content = findSectionContent(sections, name);
-    if (!sectionHasContent(content)) continue;
-    html += '<div class="topic-section">';
+    const sectionFigs = gallerySections.has(name) ? buckets[name] || [] : [];
+    if (!sectionHasContent(content) && !sectionFigs.length) continue;
+    html += `<div class="topic-section" data-topic-section="${escapeAttr(name)}">`;
     html += `<div class="topic-section-header">${escapeHtml(name.toUpperCase())}</div>`;
     html += '<div class="topic-section-body">';
-    if (name === "Differential Diagnosis") {
-      html += renderDifferentialSection(content, previewIndex, ctx);
-    } else {
-      html += renderMarkdown(content, previewIndex);
+    if (sectionHasContent(content)) {
+      if (name === "Differential Diagnosis") {
+        html += renderDifferentialSection(content, previewIndex, ctx);
+      } else {
+        // Prefer one gallery under the section over duplicating the same
+        // images as both inline markdown thumbs and a gallery grid.
+        const prose = sectionFigs.length ? stripMarkdownImages(content) : content;
+        if (sectionHasContent(prose)) {
+          html += renderMarkdown(prose, previewIndex);
+        }
+      }
+    } else if (sectionFigs.length) {
+      html +=
+        '<p class="hint">No prose for this section in the synthesized page — showing figures matched from retrieved evidence.</p>';
     }
+    if (sectionFigs.length) {
+      html += renderSectionGallery(name, sectionFigs);
+    }
+    html += "</div></div>";
+  }
+  if (buckets.other.length) {
+    html += '<div class="topic-section" data-topic-section="Additional Images">';
+    html += '<div class="topic-section-header">ADDITIONAL IMAGES</div>';
+    html += '<div class="topic-section-body">';
+    html +=
+      '<p class="hint">Figures that could not be confidently placed under Imaging, Gross, Microscopic, or Ancillary Tests.</p>';
+    html += renderSectionGallery("Additional images", buckets.other);
     html += "</div></div>";
   }
   html += "</div></div>";
@@ -3228,16 +3369,17 @@ function renderTopicExportBar() {
 }
 
 /** Build HTML for the live SSE thinking / progress panel. */
-function renderThinkingPanel(steps) {
+function renderThinkingPanel(steps, { live = false } = {}) {
+  const liveClass = live ? " thinking-live" : "";
   if (!steps?.length) {
     return (
-      '<div class="thinking-panel" data-thinking-panel>' +
+      `<div class="thinking-panel${liveClass}" data-thinking-panel>` +
       '<div class="thinking-panel-title">Working…</div>' +
       '<ul class="thinking-steps"></ul></div>'
     );
   }
   let html =
-    '<div class="thinking-panel" data-thinking-panel>' +
+    `<div class="thinking-panel${liveClass}" data-thinking-panel>` +
     '<div class="thinking-panel-title">Building evidence</div><ul class="thinking-steps">';
   for (const step of steps) {
     const status = step.status || "running";
@@ -3470,7 +3612,9 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
   const sections = parseTopicPageSections(data.answer || "");
   const inlineFigures = collectInlineFiguresFromSections(sections);
-  const galleryFigures = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 40 });
+  // Pass retrieved figures (plus any inline-only URLs) into section bucketing —
+  // renderTopicPage places them under Imaging / Gross / Micro / Ancillary galleries.
+  const sectionFigurePool = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 40 });
   const previewIndex = buildUrlPreviewIndex(data.cards || [], [...shownFigures, ...inlineFigures]);
   for (const card of lectureCards) {
     const presentation = lectureCardPresentation(card);
@@ -3489,7 +3633,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   html += renderTopicPage(
     sections,
     previewIndex,
-    galleryFigures,
+    sectionFigurePool,
     data.who_cross_mentions || [],
     lectureCards,
     pageContext,
@@ -3605,9 +3749,10 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {
-    thinkingHtml: renderThinkingPanel([
-      { status: "running", label: "Starting live retrieval…", detail: displayLabel },
-    ]),
+    thinkingHtml: renderThinkingPanel(
+      [{ status: "running", label: "Starting live retrieval…", detail: displayLabel }],
+      { live: true },
+    ),
   });
   bindTopicPageChrome(browseContentEl, leafRef, displayLabel, leafRef.query || displayLabel);
 
@@ -3648,14 +3793,9 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       const paintThinking = () => {
         if (seq !== browseRequestSeq) return;
         browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, query, {
-          thinkingHtml: renderThinkingPanel(steps),
+          thinkingHtml: renderThinkingPanel(steps, { live: true }),
         });
         bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
-        // Keep the thinking panel in view while rounds run.
-        browseContentEl.querySelector("[data-thinking-panel]")?.scrollIntoView({
-          block: "nearest",
-          behavior: "smooth",
-        });
       };
       paintThinking();
       data = await streamChat(
@@ -3689,9 +3829,27 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       data,
     });
 
-    const thinkingHtml = steps.length
-      ? renderThinkingPanel(steps)
-      : "";
+    // Always surface a retrieval transcript: live SSE steps when present,
+    // otherwise rebuild a summary from debug.round_summaries so the user
+    // still sees that iterative work happened.
+    let thinkingHtml = steps.length ? renderThinkingPanel(steps) : "";
+    if (!thinkingHtml && data.debug?.round_summaries?.length) {
+      thinkingHtml = renderThinkingPanel(
+        data.debug.round_summaries.map((r) => ({
+          status: "done",
+          label: `Round ${r.round} — ${r.label || "retrieval"}`,
+          detail: [
+            typeof r.cards === "number" ? `${r.cards} cards` : null,
+            typeof r.figures === "number" ? `${r.figures} figures` : null,
+            typeof r.literature_total === "number" ? `${r.literature_total} literature` : null,
+            typeof r.cards_added === "number" && r.cards_added ? `+${r.cards_added}` : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+          queries: r.queries || null,
+        })),
+      );
+    }
     let html = renderTopicPageShell(leafRef, displayLabel, query, {
       thinkingHtml,
       bodyHtml:
