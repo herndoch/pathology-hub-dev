@@ -294,14 +294,13 @@ function countLeaves(category) {
  * BROWSE_TAXONOMY above so the tree is never blank. */
 let browseIndex = null;
 
-/** Locked browse-nav policy: accepted topic tags come from ABPath and/or WHO
- * only (PathOut is a citation source, not a nav tag source). Mirrors
- * `dedupe_rules` in browse_tag_index_v0_2. */
+/** Locked browse-nav policy: accepted topic tags come from ABPath AP content
+ * specifications and/or WHO only (PathOut is citation-only, not nav). */
 const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both"]);
 const NAV_PROVENANCE_LABELS = {
-  abpath: "ABPath board curriculum",
+  abpath: "ABPath content specifications",
   who: "WHO classification map",
-  both: "ABPath board + WHO",
+  both: "ABPath content spec + WHO",
   curated: "Curated starter (not board-mapped)",
 };
 
@@ -333,12 +332,24 @@ function normalizeBrowseRootId(value) {
     .replace(/[^a-z0-9]+/g, "");
 }
 
+/** Browse root id encoded in a tag (`Heme::…` or `ABPathSpec::heme::…`). */
+function tagBrowseRootId(tag) {
+  const parts = String(tag || "")
+    .split("::")
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (!parts.length) return "";
+  const head = normalizeBrowseRootId(parts[0]);
+  if (head === "abpathspec" && parts[1]) return normalizeBrowseRootId(parts[1]);
+  return head;
+}
+
 /** True when a board-index leaf belongs under the Browse category the user opened. */
 function leafMatchesBrowseRoot(leafRef, row, leaf) {
   const preferred = normalizeBrowseRootId(leafRef?.categoryId);
   if (!preferred) return true;
   const indexRoot = normalizeBrowseRootId(row?.root?.id);
-  const tagRoot = normalizeBrowseRootId(String(leaf?.tag || "").split("::")[0]);
+  const tagRoot = tagBrowseRootId(leaf?.tag);
   if (preferred === indexRoot || preferred === tagRoot) return true;
   // Browse "cyto" covers every Cyto_* organ root in the index.
   if (preferred === "cyto" && (indexRoot.startsWith("cyto") || tagRoot.startsWith("cyto"))) {
@@ -457,6 +468,8 @@ const BROWSE_ROOT_STYLE = {
   molecular: { glyph: "MO", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
   eye_orbit: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
   eye: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  cardio: { glyph: "CV", gradient: "linear-gradient(135deg, #c45c6a, #5c2430)" },
+  forensic: { glyph: "FP", gradient: "linear-gradient(135deg, #6a7a8a, #2e3844)" },
   general_pathology: { glyph: "GP", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
 };
 const DEFAULT_ROOT_STYLE = { glyph: "PA", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
@@ -751,12 +764,13 @@ async function loadBrowseIndex() {
     }
     const rules = data.dedupe_rules || {};
     const navSources = Array.isArray(rules.nav_sources) ? rules.nav_sources : [];
-    if (
-      !navSources.includes("abpath")
-      || !navSources.includes("who")
-      || rules.pathout_nav !== false
-    ) {
-      throw new Error("Browse index nav_sources are not WHO + ABPath only");
+    const hasAbpathNav =
+      navSources.includes("abpath_content_spec") || navSources.includes("abpath");
+    if (!hasAbpathNav || !navSources.includes("who") || rules.pathout_nav !== false) {
+      throw new Error("Browse index nav_sources are not WHO + ABPath content-spec only");
+    }
+    if (rules.bloated_abpath_ontology_excluded === false) {
+      throw new Error("Browse index still claims bloated ABPath ontology nav");
     }
     browseIndex = data;
     const compact = compactBrowseRoots(browseIndex.roots);
@@ -3004,7 +3018,7 @@ function renderBrowseHome() {
   let html = "";
   if (usingIndex) {
     html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full WHO + ABPath (${fullTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full WHO + ABPath specs (${fullTotal})</button>`;
     html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter sample (${starterTotal})</button>`;
     html += "</div>";
   }
@@ -3013,16 +3027,17 @@ function renderBrowseHome() {
     const abpathCount = browseIndex.counts?.leaves_abpath_only;
     const whoOnlyCount = browseIndex.counts?.leaves_who_only;
     const bothCount = browseIndex.counts?.leaves_both;
+    const specRows = browseIndex.counts?.abpath_content_spec_terminal_rows;
     const provenanceNote =
       abpathCount != null && whoOnlyCount != null
-        ? ` Built from ABPath curriculum tags (${abpathCount} ABPath, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only additions).`
+        ? ` Built from the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals)` : ""} + WHO — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only. Expanded curriculum ontology tags are excluded.`
         : "";
     const dedupeNote =
-      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; ABPath spelling wins on overlap).` : "";
-    html += `<p class="hint"><strong>Full index (default)</strong> — complete WHO + ABPath browse tree; PathOut is citation-only (not nav).${provenanceNote}${dedupeNote} Use search on long lists; first topic open builds live, then caches. “Starter sample” is only ~${starterTotal} hand-picked high-yield topics, not the WHO catalog.</p>`;
+      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; content-spec spelling wins on overlap).` : "";
+    html += `<p class="hint"><strong>Full index (default)</strong> — WHO entities plus real ABPath AP content-spec topics; PathOut is citation-only (not nav).${provenanceNote}${dedupeNote} Use search on long lists; first topic open builds live, then caches. “Starter sample” is only ~${starterTotal} hand-picked high-yield topics, not the WHO catalog.</p>`;
     html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
   } else if (usingIndex) {
-    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for quick smoke testing. It does <em>not</em> list all WHO entities. Switch to <strong>Full WHO + ABPath</strong> (${fullTotal} topics) for the complete tree.</p>`;
+    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for quick smoke testing. It does <em>not</em> list all WHO entities. Switch to <strong>Full WHO + ABPath specs</strong> (${fullTotal} topics) for the complete tree.</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
@@ -3120,7 +3135,7 @@ function renderBrowseCategory(categoryId) {
   const showingFull = Boolean(browseIndex && browseNavMode === "full");
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
   html += showingFull
-    ? '<p class="hint">WHO + ABPath tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
+    ? '<p class="hint">WHO + ABPath content-spec tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
     : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   if (showingFull) {
     html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
@@ -4009,7 +4024,7 @@ function renderTopicSourceSummary(data, entryMeta = null) {
   }
 
   const debug = data?.debug;
-  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? entryMeta.tag.split("::", 1)[0] : null);
+  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? tagBrowseRootId(entryMeta.tag) : null);
   let html = '<div class="topic-source-summary">';
   html += `<p class="hint"><strong>Evidence used:</strong> ${escapeHtml(parts.join(" · "))}`;
   const figTotal = (data.figures || []).length;
@@ -4280,21 +4295,30 @@ async function streamChat(payload, { onProgress } = {}) {
  * so the page shows where this sits in the curriculum, not just a raw tag
  * string with literal "::" separators. */
 function tagBreadcrumbSegments(tag) {
-  const parts = String(tag || "")
+  let parts = String(tag || "")
     .split("::")
     .map((p) => p.trim())
     .filter(Boolean);
   if (!parts.length) return [];
+  // Content-spec tags: ABPathSpec::<root>::<sub>::<entity>
+  let contentSpecPrefix = null;
+  if (normalizeBrowseRootId(parts[0]) === "abpathspec") {
+    contentSpecPrefix = "ABPath content spec";
+    parts = parts.slice(1);
+  }
+  if (!parts.length) return contentSpecPrefix ? [contentSpecPrefix] : [];
   const rootSlug = parts[0]
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
   const matchedRoot = (getBrowseRoots() || []).find((r) => r.id === rootSlug);
-  return parts.map((part, i) => {
+  const segments = parts.map((part, i) => {
     if (i === 0) return matchedRoot ? formatDisplayLabel(matchedRoot.label) : formatDisplayLabel(part);
     if (i === parts.length - 1) return formatDisplayLabel(part);
     return formatSubcategoryLabel(part);
   });
+  if (contentSpecPrefix) segments.unshift(contentSpecPrefix);
+  return segments;
 }
 
 function browsePathSegments(entryMeta) {

@@ -47,16 +47,30 @@ def smoke_offline() -> None:
     if idx.status_code != 200:
         _fail("browse index", f"HTTP {idx.status_code}")
     data = idx.json()
-    if data.get("schema_version") != "browse_tag_index_v0_2":
-        _fail("browse index schema", data.get("schema_version"))
+    schema = data.get("schema_version")
+    if schema not in {"browse_tag_index_v0_2", "browse_tag_index_v0_3"}:
+        _fail("browse index schema", schema)
     counts = data.get("counts") or {}
     if counts.get("roots_total", 0) < 10:
         _fail("browse roots", str(counts))
     rules = data.get("dedupe_rules") or {}
-    if rules.get("nav_sources") != ["abpath", "who"] or rules.get("pathout_nav") is not False:
-        _fail("browse nav sources", rules.get("nav_sources"))
+    nav_sources = rules.get("nav_sources") or []
+    allowed_nav = (
+        nav_sources == ["abpath_content_spec", "who"]
+        or nav_sources == ["abpath", "who"]
+    )
+    if not allowed_nav or rules.get("pathout_nav") is not False:
+        _fail("browse nav sources", nav_sources)
     if rules.get("provenance_values") != ["abpath", "who", "both"]:
         _fail("browse provenance values", rules.get("provenance_values"))
+    if schema == "browse_tag_index_v0_3":
+        if rules.get("bloated_abpath_ontology_excluded") is not True:
+            _fail("bloated ontology exclusion", rules.get("bloated_abpath_ontology_excluded"))
+        if not counts.get("abpath_content_spec_terminal_rows"):
+            _fail("content-spec terminal rows", str(counts))
+        # Guardrail: must not silently reintroduce the ~6k ontology expansion.
+        if (counts.get("leaves_abpath_only") or 0) > 4500:
+            _fail("abpath-only leaf count looks like bloated ontology", str(counts))
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text
@@ -69,7 +83,7 @@ def smoke_offline() -> None:
         "/api/flag",
         "/api/compare",
         "ACCEPTED_NAV_PROVENANCES",
-        'both: "ABPath + WHO"',
+        "ABPath content spec + WHO",
         "formatNavProvenanceLabel",
         "unwrapFencedMarkdownBlocks",
         "renderTopicVideos",

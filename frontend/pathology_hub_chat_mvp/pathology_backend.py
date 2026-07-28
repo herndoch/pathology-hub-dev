@@ -725,9 +725,20 @@ def card_root_token(card: dict) -> Optional[str]:
 
 
 def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
+    """Organ/root token from a board tag.
+
+    Content-spec tags are ``ABPathSpec::<root>::…`` — the real browse root is
+    the second segment, not the literal ``ABPathSpec`` prefix.
+    """
     if not isinstance(tag, str) or "::" not in tag:
         return None
-    return normalize_root_token(tag.split("::", 1)[0])
+    parts = [p for p in tag.split("::") if p]
+    if not parts:
+        return None
+    head = normalize_root_token(parts[0])
+    if head == "abpathspec" and len(parts) >= 2:
+        return normalize_root_token(parts[1])
+    return head
 
 
 def effective_page_root(
