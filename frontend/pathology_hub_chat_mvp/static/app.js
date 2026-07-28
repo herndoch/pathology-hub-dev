@@ -1809,6 +1809,63 @@ function buildPayload(query, modeOverride, options = {}) {
   return payload;
 }
 
+/** Pull an entity name out of Ask phrasing like "what is LCIS?". */
+function extractEntityFromAskQuery(query) {
+  const q = String(query || "").trim();
+  if (!q) return null;
+  const m = q.match(
+    /^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+(.+?)\??$/i,
+  );
+  if (m) return m[1].replace(/[?.!]+$/g, "").trim();
+  // Bare short entity / abbreviation ("LCIS", "florid LCIS").
+  if (/^[A-Za-z][A-Za-z0-9\- ]{0,40}$/.test(q) && q.split(/\s+/).length <= 6) {
+    return q;
+  }
+  return null;
+}
+
+/**
+ * Default Ask mode is gpt_like (short bullets). Entity / "what is X" questions
+ * should become full topic pages (board map, sections, literature, galleries).
+ */
+function planAskRequest(rawQuery) {
+  const selectedMode = modeSelect.value;
+  if (selectedMode !== "gpt_like") {
+    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+  }
+  const entity = extractEntityFromAskQuery(rawQuery);
+  if (!entity) {
+    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+  }
+  // Leave compare / differential asks in normal gpt_like.
+  if (/\b(difference|differ|vs\.?|versus|compare|between|or)\b/i.test(entity)) {
+    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+  }
+  let leaf = findTaxonomyMatch(entity, null);
+  if (leaf) {
+    leaf = resolveBoardMappedLeaf(leaf) || leaf;
+    const label = leaf.label || entity;
+    return {
+      query: leaf.query || leaf.label || entity,
+      mode: "topic_page",
+      leaf,
+      routed: true,
+      routeNote: `Routed to topic page for ${formatDisplayLabel(label)} (board curriculum / multi-section reference — not a short GPT-like blurb).`,
+    };
+  }
+  if (/^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+/i.test(rawQuery.trim())) {
+    const expanded = ENTITY_ABBREVIATION_EXPANSIONS[entity.toLowerCase()] || entity;
+    return {
+      query: expanded,
+      mode: "topic_page",
+      leaf: null,
+      routed: true,
+      routeNote: `Treating “${entity}” as a topic-page entity reference.`,
+    };
+  }
+  return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+}
+
 function setModalAction(el, url, label) {
   if (url) {
     el.href = url;
@@ -4029,35 +4086,72 @@ form.addEventListener("submit", async (event) => {
   queryInput.value = "";
   sendBtn.disabled = true;
 
+  const plan = planAskRequest(query);
+  const category = plan.leaf?.categoryId ? findCategory(plan.leaf.categoryId) : null;
+  const subcategory =
+    category && plan.leaf?.subcategoryId ? findSubcategory(category, plan.leaf.subcategoryId) : null;
+  const categoryContext =
+    category && subcategory ? `${category.label} > ${subcategory.label}` : category?.label || null;
+
   const steps = [];
-  const thinking = appendMessage("assistant", renderThinkingPanel(steps));
+  if (plan.routed) {
+    steps.push({
+      status: "done",
+      label: "Routed to topic page",
+      detail: plan.routeNote,
+    });
+  }
+  const thinking = appendMessage("assistant", renderThinkingPanel(steps, { live: true }));
   const bodyEl = thinking.querySelector(".body");
   const paintThinking = () => {
-    bodyEl.innerHTML = renderThinkingPanel(steps);
+    bodyEl.innerHTML = renderThinkingPanel(steps, { live: true });
     messagesEl.scrollTop = messagesEl.scrollHeight;
   };
 
   try {
-    const data = await streamChat(buildPayload(query), {
-      onProgress: async (ev) => {
-        upsertThinkingStep(steps, ev);
-        paintThinking();
+    const data = await streamChat(
+      buildPayload(plan.query, plan.mode, {
+        categoryContext,
+        pageTag: plan.leaf?.tag || null,
+      }),
+      {
+        onProgress: async (ev) => {
+          upsertThinkingStep(steps, ev);
+          paintThinking();
+        },
       },
-    });
+    );
     let body = "";
     const doneSteps = steps.map((s) => (s.status === "running" ? { ...s, status: "done" } : s));
     if (doneSteps.length) {
       body += renderThinkingPanel(doneSteps);
     }
+    if (plan.routed) {
+      body += `<p class="hint topic-route-hint">${escapeHtml(plan.routeNote)}</p>`;
+    }
 
     if (data.ok) {
-      setLastExportableResult({ source: data.mode || "chat", query, data });
+      setLastExportableResult({
+        source: data.mode || "chat",
+        query: plan.query,
+        original_query: query,
+        tag: plan.leaf?.tag || null,
+        label: plan.leaf?.label || null,
+        data,
+      });
     }
 
     if (!data.ok) {
       body = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
     } else if (data.mode === "topic_page") {
-      body += renderTopicPageResult(data, query);
+      body += renderTopicPageResult(data, plan.query, {
+        tag: plan.leaf?.tag || null,
+        provenance: plan.leaf?.provenance || null,
+        categoryId: plan.leaf?.categoryId || null,
+        subcategoryId: plan.leaf?.subcategoryId || null,
+        label: plan.leaf?.label || plan.query,
+        query: plan.query,
+      });
     } else {
       const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];

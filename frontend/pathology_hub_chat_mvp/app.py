@@ -784,8 +784,55 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
     )
 
 
+_ENTITY_ASK_RE = re.compile(
+    r"^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+(.+?)\??$",
+    re.IGNORECASE,
+)
+_ENTITY_ABBREV = {
+    "lcis": "lobular carcinoma in situ",
+    "dcis": "ductal carcinoma in situ",
+    "plcis": "pleomorphic lobular carcinoma in situ",
+    "alh": "atypical lobular hyperplasia",
+    "adh": "atypical ductal hyperplasia",
+    "hsil": "high grade squamous intraepithelial lesion",
+    "lsil": "low grade squamous intraepithelial lesion",
+    "gist": "gastrointestinal stromal tumor",
+}
+
+
+def _maybe_route_entity_ask_to_topic_page(req: ChatRequest) -> Optional[str]:
+    """Upgrade default gpt_like 'what is LCIS' asks to topic_page entity retrieval.
+
+    Returns a short route note for debug, or None when unchanged.
+    """
+    mode = (req.mode or "gpt_like").strip()
+    if mode != "gpt_like":
+        return None
+    raw = (req.query or "").strip()
+    if not raw:
+        return None
+    entity = None
+    match = _ENTITY_ASK_RE.match(raw)
+    if match:
+        entity = match.group(1).strip().rstrip("?.!")
+    elif re.fullmatch(r"[A-Za-z][A-Za-z0-9\- ]{0,40}", raw) and len(raw.split()) <= 6:
+        # Bare entity / abbreviation asks ("LCIS", "florid LCIS").
+        entity = raw
+    if not entity:
+        return None
+    # Leave compare / differential questions in gpt_like / compare_sources.
+    if re.search(r"\b(difference|differ|vs\.?|versus|compare|between|or)\b", entity, re.I):
+        return None
+    key = re.sub(r"[^a-z0-9]+", "", entity.lower())
+    expanded = _ENTITY_ABBREV.get(key) or entity
+    req.query = expanded
+    req.mode = "topic_page"
+    return f"routed_entity_ask:{raw}→{expanded}"
+
+
 def _prepare_chat_request(req: ChatRequest) -> str:
     """Validate mode/sources and apply topic-page / figure defaults. Returns mode."""
+    route_note = _maybe_route_entity_ask_to_topic_page(req)
     mode = (req.mode or "gpt_like").strip()
     if mode not in VALID_MODES:
         raise ValueError(f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}")
@@ -797,6 +844,9 @@ def _prepare_chat_request(req: ChatRequest) -> str:
     if mode == "html_teaching":
         req.render_html = True
     _apply_figure_defaults(req, mode)
+    if route_note:
+        # Stash on the request object for debug payloads (not part of the schema).
+        setattr(req, "_route_note", route_note)
     return mode
 
 

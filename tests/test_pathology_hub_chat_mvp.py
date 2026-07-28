@@ -530,6 +530,21 @@ class TestTopicPagePrompt(unittest.TestCase):
         again = _ensure_key_literature_section(out, cards)
         self.assertEqual(again.count("## Key Literature"), 1)
 
+    def test_what_is_lcis_ask_routes_to_topic_page(self):
+        from app import ChatRequest, _maybe_route_entity_ask_to_topic_page  # noqa: E402
+
+        req = ChatRequest(query="what is lcis", mode="gpt_like", sources=["textbooks"])
+        note = _maybe_route_entity_ask_to_topic_page(req)
+        self.assertIsNotNone(note)
+        self.assertEqual(req.mode, "topic_page")
+        self.assertEqual(req.query.lower(), "lobular carcinoma in situ")
+
+    def test_app_js_routes_entity_asks_to_topic_page(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function planAskRequest", js)
+        self.assertIn("function extractEntityFromAskQuery", js)
+        self.assertIn("Routed to topic page", js)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt
