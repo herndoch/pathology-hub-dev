@@ -704,6 +704,27 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertIn("def search_europe_pmc", lit)
         self.assertIn("HAS_ABSTRACT:Y", lit)
 
+    def test_browse_defaults_to_full_who_abpath_index(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('ph_browse_nav_mode_v0_3', js)
+        self.assertIn('if (stored === "starter") return "starter"', js)
+        self.assertIn("Full WHO + ABPath", js)
+        self.assertIn("Starter sample", js)
+        self.assertIn("not the WHO catalog", js)
+
+    def test_pathologist_review_prompt_and_script_exist(self):
+        import prompts  # noqa: E402
+
+        text = prompts.pathologist_page_review_system_prompt()
+        self.assertIn("ready_for_human_review", text)
+        self.assertIn("needs_fixes", text)
+        self.assertIn("blocked_thin_evidence", text)
+        script = MVP_DIR / "scripts" / "pathologist_review_topic_pages_v0_1.py"
+        self.assertTrue(script.is_file())
+        body = script.read_text(encoding="utf-8")
+        self.assertIn("topic_page_pathologist_review_v0_1", body)
+        self.assertIn(".review.json", body)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt

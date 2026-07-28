@@ -495,7 +495,8 @@ function curatedFallbackRoots() {
 }
 
 const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
-const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_2";
+/** v0_3 defaults to Full WHO+ABPath (starters are only a ~149-topic sample). */
+const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_3";
 const BROWSE_LEAF_PREVIEW_CAP = 48;
 const BROWSE_NAV_THINNING = {
   abpath_primary: false,
@@ -509,14 +510,16 @@ let browseFilterQuery = "";
 function readBrowseNavMode() {
   try {
     const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
-    return stored === "full" ? "full" : "starter";
+    // Explicit starter only when chosen; first visit / anything else → full.
+    if (stored === "starter") return "starter";
+    return "full";
   } catch (_err) {
-    return "starter";
+    return "full";
   }
 }
 
 function writeBrowseNavMode(mode) {
-  browseNavMode = mode === "full" ? "full" : "starter";
+  browseNavMode = mode === "starter" ? "starter" : "full";
   try {
     localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
   } catch (_err) {
@@ -3001,8 +3004,8 @@ function renderBrowseHome() {
   let html = "";
   if (usingIndex) {
     html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter topics (${starterTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full index (${fullTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full WHO + ABPath (${fullTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter sample (${starterTotal})</button>`;
     html += "</div>";
   }
 
@@ -3016,10 +3019,10 @@ function renderBrowseHome() {
         : "";
     const dedupeNote =
       leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; ABPath spelling wins on overlap).` : "";
-    html += `<p class="hint">WHO + ABPath browse index only — no PathOut nav tags.${provenanceNote}${dedupeNote} Cyto cytology-only entries stay when no surgical twin exists. Use search on long lists; first topic open builds live, then caches.</p>`;
-    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
+    html += `<p class="hint"><strong>Full index (default)</strong> — complete WHO + ABPath browse tree; PathOut is citation-only (not nav).${provenanceNote}${dedupeNote} Use search on long lists; first topic open builds live, then caches. “Starter sample” is only ~${starterTotal} hand-picked high-yield topics, not the WHO catalog.</p>`;
+    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
   } else if (usingIndex) {
-    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics. Switch to <strong>Full index</strong> for the complete WHO + ABPath tree (${fullTotal} topics).</p>`;
+    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for quick smoke testing. It does <em>not</em> list all WHO entities. Switch to <strong>Full WHO + ABPath</strong> (${fullTotal} topics) for the complete tree.</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }

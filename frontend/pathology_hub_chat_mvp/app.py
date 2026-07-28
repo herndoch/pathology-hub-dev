@@ -269,6 +269,17 @@ class FlagRequest(BaseModel):
     page_kind: str = "topic_page"
 
 
+class TopicReviewRequest(BaseModel):
+    """Advisory pathologist-style critique of an already-built topic page."""
+
+    label: str = ""
+    query: str = ""
+    tag: Optional[str] = None
+    answer_markdown: str
+    cards: list[dict] = Field(default_factory=list)
+    figures: list[dict] = Field(default_factory=list)
+
+
 class CompareEntity(BaseModel):
     tag: Optional[str] = None
     label: str
@@ -1380,6 +1391,77 @@ def api_flag(req: FlagRequest):
     with open(PAGE_FLAGS_PATH, "a", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
     return {"ok": True, "flag_id": record["flag_id"]}
+
+
+@app.post("/api/topic_review")
+def api_topic_review(req: TopicReviewRequest):
+    """Advisory 'fake pathologist' critique — does not rewrite the page.
+
+    Used for prebuild QA / optional live review. Verdict is not a publish gate.
+    """
+    draft = (req.answer_markdown or "").strip()
+    if not draft:
+        return {"ok": False, "error": "answer_markdown is required."}
+    label = (req.label or req.query or req.tag or "topic").strip()
+    slim_cards = []
+    for card in (req.cards or [])[:40]:
+        if not isinstance(card, dict):
+            continue
+        slim_cards.append(
+            {
+                "source": card.get("source"),
+                "source_id": card.get("source_id"),
+                "title": card.get("title") or card.get("name") or card.get("heading"),
+                "section": card.get("section"),
+                "source_url": card.get("source_url") or card.get("source_page_url"),
+                "doi": card.get("doi"),
+                "excerpt": (card.get("excerpt") or card.get("text") or "")[:400],
+            }
+        )
+    slim_figs = []
+    for fig in (req.figures or [])[:24]:
+        if not isinstance(fig, dict):
+            continue
+        slim_figs.append(
+            {
+                "caption": fig.get("caption") or fig.get("title") or fig.get("alt"),
+                "source": fig.get("source"),
+                "source_id": fig.get("source_id"),
+                "figure_url": fig.get("figure_url") or fig.get("image_url") or fig.get("url"),
+            }
+        )
+    bundle = {
+        "tag": req.tag,
+        "label": label,
+        "draft_answer_markdown": draft,
+        "cards": slim_cards,
+        "figures": slim_figs,
+    }
+    result = synthesize(
+        prompts.pathologist_page_review_system_prompt(),
+        f"Review the draft topic page for: {label}",
+        bundle,
+        model=get_topic_page_model(),
+    )
+    if not result.ok:
+        return {"ok": False, "error": result.error, "model": result.model}
+    low = (result.text or "").lower()
+    verdict = "needs_fixes"
+    for key in ("blocked_thin_evidence", "needs_fixes", "ready_for_human_review"):
+        if key in low:
+            verdict = key
+            break
+    return {
+        "ok": True,
+        "verdict": verdict,
+        "review_markdown": result.text,
+        "model": result.model,
+        "advisory_only": True,
+        "known_limitations": [
+            "LLM advisory only — not a human pathologist sign-off.",
+            "Does not mutate the topic page.",
+        ],
+    }
 
 
 @app.post("/api/compare")
