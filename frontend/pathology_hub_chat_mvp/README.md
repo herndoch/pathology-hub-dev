@@ -10,7 +10,7 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 - Calls live Cloud Run `pathology-hub-v04` `/evidence/search` (via `pathology_backend.py`)
 - Shows per-source result links (`source_url`, `figure_url`, `video_time_url`, etc.) when returned by the API
 - Optional debug panel: request payloads, `source_status`, warnings (never API keys)
-- Modes: `gpt_like` (default), `search_only`, `compare_sources`, `visual`, `html_teaching`, `topic_page` (see Browse tab section below)
+- **One Ask box** — no mode picker. The query is auto-routed to an internal shape: `topic_page` (entity / “what is…”), `compare_sources` (vs / difference), `visual` (show figures), `search_only` (“sources only”), or short `gpt_like`. Browse leaves still force `topic_page`.
 
 ## Prerequisites
 
