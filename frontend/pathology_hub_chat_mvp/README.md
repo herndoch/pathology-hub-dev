@@ -124,7 +124,7 @@ sections above). Audits land under `outputs/chat_mvp_topic_prepop_v0_1/` (gitign
 
 ## Teaching session notes
 
-Settings (answer mode / sources) and **Export current page as JSON** live in a bottom stack under the chat panel so Browse topics are full-width. Topic pages also show an export button at the bottom of the page. Live journal papers come from Elsevier / PubMed / OncoKB (`literature`); the retired local `journals` FAISS corpus is not offered in the source checkboxes.
+Advanced (evidence sources) and **Export current page as JSON** live in a bottom stack under the chat panel so Browse topics are full-width. Topic pages also show an export button at the bottom of the page. Live journal papers come from Elsevier / PubMed / OncoKB (`literature`); the retired local `journals` FAISS corpus is not offered in the source checkboxes.
 
 ## UI features
 
@@ -147,8 +147,8 @@ entity's own fresh topic page when confident; unmatched entries stay plain text 
 link). The taxonomy (`BROWSE_TAXONOMY` in `app.js`) is a self-contained, editorially curated static
 structure — not read from the curriculum provenance browser's SQLite (different workstream) — and
 every navigation still goes through the single supported `POST /evidence/search` operation. The
-**Ask** tab keeps the original free-text chat flow (mode dropdown includes `topic_page` too, for
-typing an entity name directly).
+**Ask** is a single free-text box: entity names and “what is…” questions become topic pages
+automatically; compare/visual/search-only phrasing selects those shapes without a dropdown.
 
 `topic_page` requests always use the **full source set** (`textbooks`, `who`, `pathout`,
 `journals`, `lectures`, `videos` — never `curriculum`, which is navigation-only), enforced
