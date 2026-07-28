@@ -591,10 +591,15 @@ class TestTopicPagePrompt(unittest.TestCase):
     def test_app_js_renders_bullet_wrapped_ddx_tables_and_hides_gallery_titles(self):
         js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
         self.assertIn("function coerceBulletWrappedMarkdownTable", js)
-        self.assertIn("coerceBulletWrappedMarkdownTable(text)", js)
+        self.assertIn("function splitDdxTablesAndProse", js)
+        self.assertIn("function buildCiteBySource", js)
+        self.assertIn("citeDisplayLabel", js)
+        self.assertIn('return "DOI"', js)
         # Section gallery should not emit "X gallery" subtitle headers.
         self.assertNotIn("${sectionName} gallery", js)
         self.assertNotIn("section-gallery-title", js)
+        # Key Facts side gallery restored alongside section galleries.
+        self.assertIn('topic-panel-title">Selected Images', js)
 
 
 class TestWhoSectionMentions(unittest.TestCase):

@@ -1346,6 +1346,98 @@ function cardPresentation(card) {
   };
 }
 
+let activeCiteBySource = new Map();
+
+function buildCiteBySource(cards, literatureCards) {
+  const map = new Map();
+  const setFirst = (key, url) => {
+    if (!key || !url || map.has(key)) return;
+    map.set(key, url);
+  };
+  const consider = (card) => {
+    if (!card || typeof card !== "object") return;
+    const src = String(card.source || "").toLowerCase();
+    const doi = String(card.doi || "").trim();
+    const doiUrl = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : "";
+    const url =
+      pickHttp(card.source_url) ||
+      pickHttp(card.source_page_url) ||
+      pickHttp(doiUrl) ||
+      pickHttp(card.video_time_url);
+    if (!url) return;
+    if (src === "who" || /who/i.test(String(card.source_name || ""))) setFirst("who", url);
+    if (src === "pathout") setFirst("pathout", url);
+    if (src === "textbooks") setFirst("textbooks", url);
+    if (src === "videos") setFirst("videos", url);
+    if (src === "lectures") setFirst("lectures", url);
+    if (src === "literature" || doiUrl || /doi\.org/i.test(url)) setFirst("doi", url);
+  };
+  for (const card of cards || []) consider(card);
+  for (const card of literatureCards || []) consider(card);
+  return map;
+}
+
+function isDoiOrJournalUrl(url) {
+  const u = String(url || "").toLowerCase();
+  return (
+    u.includes("doi.org") ||
+    u.includes("pubmed.ncbi.nlm.nih.gov") ||
+    u.includes("ncbi.nlm.nih.gov/pubmed") ||
+    u.includes("ncbi.nlm.nih.gov/pmc") ||
+    /\/doi\//.test(u)
+  );
+}
+
+function citeDisplayLabel(label, url) {
+  const raw = String(label || "").trim().replace(/^\(+|\)+$/g, "");
+  const normalized = normalizeInlineLinkLabel(raw);
+  // Keep hub source badges as-is.
+  if (/^(WHO|Pathoutlines|Textbooks|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef)$/i.test(normalized)) {
+    return normalized;
+  }
+  if (isDoiOrJournalUrl(url)) return "DOI";
+  // Publisher / paper titles ("Virchows Archiv review", "fibroepithelial tumor review").
+  if (/\b(review|archiv|virchow|modern\s*pathol|histopathol|journal|pubmed|doi)\b/i.test(raw)) {
+    return "DOI";
+  }
+  if (
+    cardSourceFromUrl(url) === "literature" ||
+    String(url || "").includes("elsevier") ||
+    String(url || "").includes("springer")
+  ) {
+    return "DOI";
+  }
+  return normalized;
+}
+
+function cardSourceFromUrl(url) {
+  const u = String(url || "").toLowerCase();
+  if (!u) return "";
+  if (u.includes("who") && u.includes("storage.googleapis.com")) return "who";
+  if (u.includes("pathologyoutlines") || u.includes("pathout")) return "pathout";
+  if (isDoiOrJournalUrl(u)) return "literature";
+  return "";
+}
+
+/** Turn bare (WHO)/(Pathoutlines) into markdown links when we have a URL from cards. */
+function linkifyBareSourceParens(text) {
+  let s = String(text || "");
+  const rules = [
+    { re: /\(WHO\)/gi, key: "who", label: "WHO" },
+    { re: /\(Pathoutlines?\)/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(PathOut(?:lines)?\)/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(Textbooks?\)/gi, key: "textbooks", label: "Textbooks" },
+    { re: /\(Lectures?\)/gi, key: "lectures", label: "Lectures" },
+    { re: /\(Videos?\)/gi, key: "videos", label: "Videos" },
+  ];
+  for (const rule of rules) {
+    const url = activeCiteBySource.get(rule.key);
+    if (!url) continue;
+    s = s.replace(rule.re, `[${rule.label}](${url})`);
+  }
+  return s;
+}
+
 function normalizeAnswerText(text) {
   return String(text || "")
     .replace(/<br\s*\/?>/gi, "\n")
@@ -1653,6 +1745,56 @@ function coerceBulletWrappedMarkdownTable(block) {
   return isMarkdownTable(stripped) ? stripped : null;
 }
 
+/** Split mixed DDX content into table runs + leftover prose/bullets.
+ * Models often emit "- | a | b |" rows then trailing lecture/DOI links. */
+function splitDdxTablesAndProse(text) {
+  const lines = String(text || "").split("\n");
+  const parts = [];
+  let proseBuf = [];
+  const flushProse = () => {
+    const blob = proseBuf.join("\n").trim();
+    proseBuf = [];
+    if (blob) parts.push({ type: "prose", text: blob });
+  };
+  let i = 0;
+  while (i < lines.length) {
+    const raw = lines[i];
+    const trimmed = raw.trim();
+    if (!trimmed) {
+      proseBuf.push(raw);
+      i += 1;
+      continue;
+    }
+    const stripped = trimmed.replace(/^[-*]\s+/, "");
+    const looksTableRow = stripped.includes("|") && stripped.split("|").filter((c) => c.trim()).length >= 2;
+    if (looksTableRow) {
+      flushProse();
+      const tableLines = [];
+      while (i < lines.length) {
+        const t = lines[i].trim();
+        if (!t) {
+          i += 1;
+          continue;
+        }
+        const s = t.replace(/^[-*]\s+/, "");
+        if (!(s.includes("|") && s.split("|").filter((c) => c.trim()).length >= 2)) break;
+        tableLines.push(s);
+        i += 1;
+      }
+      if (tableLines.length >= 2 && isMarkdownTable(tableLines.join("\n"))) {
+        parts.push({ type: "table", text: tableLines.join("\n") });
+      } else {
+        proseBuf.push(...tableLines.map((l) => `- ${l}`));
+      }
+      continue;
+    }
+    proseBuf.push(raw);
+    i += 1;
+  }
+  flushProse();
+  return parts;
+}
+
 function renderMarkdownTable(block) {
   const lines = block
     .split("\n")
@@ -1687,7 +1829,7 @@ function renderMarkdownTable(block) {
 }
 
 function inlineMarkdown(text, previewIndex) {
-  text = stripFigureReferences(text);
+  text = stripFigureReferences(linkifyBareSourceParens(text));
   const tokens = [];
   const stash = (html) => {
     const token = `__MDTOK${tokens.length}__`;
@@ -1701,9 +1843,9 @@ function inlineMarkdown(text, previewIndex) {
   });
 
   // Plain links: [label](url) -> preview-aware link when we recognize the URL,
-  // otherwise a normal external link.
+  // otherwise a normal external link. Journal/DOI targets always show as (DOI).
   scratch = scratch.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
-    return stash(renderInlineLink(normalizeInlineLinkLabel(label), url, previewIndex));
+    return stash(renderInlineLink(citeDisplayLabel(label, url), url, previewIndex));
   });
 
   let html = escapeHtml(scratch);
@@ -1721,12 +1863,17 @@ function inlineMarkdown(text, previewIndex) {
 function renderInlineLink(label, url, previewIndex) {
   const preview = previewIndex?.get(url);
   const safeHref = escapeAttr(url);
-  const safeLabel = escapeHtml(label);
+  // Journal/DOI cites render as "(DOI)"; hub sources as "(WHO)" etc.
+  const bare = String(label || "").replace(/^\(+|\)+$/g, "");
+  const display = /^(DOI|WHO|Pathoutlines|Textbooks|Lectures|Videos)$/i.test(bare)
+    ? `(${bare})`
+    : bare;
+  const safeLabel = escapeHtml(display);
   if (preview?.previewUrl) {
     const payload = escapeAttr(JSON.stringify(preview));
     return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link" data-preview="${payload}">${safeLabel}</a>`;
   }
-  return `<a href="${safeHref}" target="_blank" rel="noopener">${safeLabel}</a>`;
+  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link">${safeLabel}</a>`;
 }
 
 function renderInlineImage(alt, url, previewIndex) {
@@ -3193,24 +3340,32 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
   if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
   const ctx = pageContext || pageContextFromBrowseState();
 
-  // Prefer a real HTML table when the model emitted markdown pipes (often
-  // each row incorrectly prefixed with "- ").
-  const tableFromBullets = coerceBulletWrappedMarkdownTable(text);
-  if (tableFromBullets || isMarkdownTable(text)) {
-    return renderMarkdown(tableFromBullets || text, previewIndex);
+  const parts = splitDdxTablesAndProse(text);
+  if (parts.some((p) => p.type === "table")) {
+    let html = "";
+    for (const part of parts) {
+      if (part.type === "table") {
+        html += renderMarkdownTable(part.text);
+      } else {
+        html += renderDifferentialBulletList(part.text, previewIndex, ctx);
+      }
+    }
+    return html || '<p class="hint">Not covered in retrieved evidence.</p>';
   }
 
+  return renderDifferentialBulletList(text, previewIndex, ctx);
+}
+
+function renderDifferentialBulletList(text, previewIndex, pageContext = null) {
+  const ctx = pageContext || pageContextFromBrowseState();
   const items = [];
-  for (const rawLine of text.split("\n")) {
+  for (const rawLine of String(text || "").split("\n")) {
     const line = rawLine.trim();
     if (!line) continue;
     const match = line.match(/^[-*]\s*\*\*(.+?)\*\*\s*[-\u2014:]*\s*(.*)$/);
     if (!match) {
-      // A stray bare citation link (no bullet, no bold entity name) is a trailing
-      // reference the model shouldn't have added here — drop it rather than
-      // rendering a phantom Differential Diagnosis entry.
-      const isBareLink = /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(line);
-      if (isBareLink) continue;
+      // Trailing markdown cites (often journal/DOI) — keep them; display label
+      // is normalized to (DOI) / WHO / etc. inside inlineMarkdown.
       items.push(`<li>${inlineMarkdown(line.replace(/^[-*]\s*/, ""), previewIndex)}</li>`);
       continue;
     }
@@ -3444,9 +3599,10 @@ function renderTopicVideos(cards) {
 function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards, pageContext = null) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const ctx = pageContext || pageContextFromBrowseState();
-  // figures = retrieved pool; bucket into Imaging / Gross / Micro / IHC galleries
-  // instead of one dump "Selected Images" box beside Key Facts.
-  const buckets = bucketFiguresBySection(figures || [], sections);
+  // figures = retrieved pool; show ALL beside Key Facts, and also bucket into
+  // Imaging / Gross / Micro / IHC section galleries below.
+  const allFigures = figures || [];
+  const buckets = bucketFiguresBySection(allFigures, sections);
   const gallerySections = new Set([
     "Imaging Features",
     "Gross Features",
@@ -3455,9 +3611,16 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
   ]);
 
   let html = '<div class="topic-page">';
-  if (sectionHasContent(keyFacts)) {
-    html += '<div class="topic-page-top topic-page-top-facts-only">';
-    html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+  if (sectionHasContent(keyFacts) || allFigures.length) {
+    html += '<div class="topic-page-top">';
+    if (sectionHasContent(keyFacts)) {
+      html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+    }
+    if (allFigures.length) {
+      html += '<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>';
+      html += renderTopicGallery(allFigures, { maxItems: 16 });
+      html += "</div>";
+    }
     html += "</div>";
   }
 
@@ -3978,6 +4141,8 @@ function renderTopicPageResult(data, query, entryMeta = null) {
       previewIndex.set(presentation.previewUrl, presentation);
     }
   }
+  // Enables bare (WHO)/(Pathoutlines) → real links, and journal labels → (DOI).
+  activeCiteBySource = buildCiteBySource(data.cards || [], literatureCards);
   const pageContext = pageContextFromEntryMeta(entryMeta);
   const tag = entryMeta?.tag || null;
   const provenance = entryMeta?.provenance || null;
