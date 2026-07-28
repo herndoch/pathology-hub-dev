@@ -318,10 +318,44 @@ function normalizeTopicMatchKey(value) {
     .trim();
 }
 
+/** Strip trailing / standalone NOS so "DLBCL" matches "Diffuse_Large_B_Cell_Lymphoma_NOS". */
+function stripNosMatchKey(value) {
+  return normalizeTopicMatchKey(value)
+    .replace(/\bnos\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Normalize browse/index root ids for comparison (Heme ≈ heme, Cyto_Fluids ≈ cyto). */
+function normalizeBrowseRootId(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+/** True when a board-index leaf belongs under the Browse category the user opened. */
+function leafMatchesBrowseRoot(leafRef, row, leaf) {
+  const preferred = normalizeBrowseRootId(leafRef?.categoryId);
+  if (!preferred) return true;
+  const indexRoot = normalizeBrowseRootId(row?.root?.id);
+  const tagRoot = normalizeBrowseRootId(String(leaf?.tag || "").split("::")[0]);
+  if (preferred === indexRoot || preferred === tagRoot) return true;
+  // Browse "cyto" covers every Cyto_* organ root in the index.
+  if (preferred === "cyto" && (indexRoot.startsWith("cyto") || tagRoot.startsWith("cyto"))) {
+    return true;
+  }
+  return false;
+}
+
 /**
  * When Browse opens a curated starter leaf (`tag: null`), try to attach the
  * real ABPath/WHO hierarchical tag from the full browse index so the topic
  * page can show board/curricular location instead of a blank tag header.
+ *
+ * Critical: when the user is under Hematopathology / Breast / etc., only map
+ * to tags in that same root — otherwise extranodal organ-site clones
+ * (Breast::…::Diffuse_Large_B_Cell_Lymphoma) steal the match and root-narrow
+ * drops real heme pathout/videos/textbooks.
  */
 function resolveBoardMappedLeaf(leafRef) {
   if (!leafRef) return leafRef;
@@ -334,43 +368,68 @@ function resolveBoardMappedLeaf(leafRef) {
   );
   if (!keys.size) return leafRef;
 
+  const allRows = collectLeavesFromRoots(getBrowseNavRootsFull() || []);
+  const preferredRoot = normalizeBrowseRootId(leafRef.categoryId);
+  const scopedRows = preferredRoot
+    ? allRows.filter((row) => leafMatchesBrowseRoot(leafRef, row, row.leaf))
+    : allRows;
+  // Prefer same-root candidates; fall back only if that pool has no usable match.
+  const pools = scopedRows.length ? [scopedRows, allRows] : [allRows];
+
   let best = null;
   let bestScore = -1;
-  for (const row of collectLeavesFromRoots(getBrowseNavRootsFull() || [])) {
-    const leaf = row.leaf;
-    if (!leaf?.tag) continue;
-    const leafKeys = [leaf.label, leaf.query].map(normalizeTopicMatchKey);
-    let score = 0;
-    for (const k of keys) {
-      for (const lk of leafKeys) {
-        if (!lk) continue;
-        if (lk === k) score = Math.max(score, 100);
-        else if (lk.includes(k) || k.includes(lk)) score = Math.max(score, 60);
+  for (const pool of pools) {
+    best = null;
+    bestScore = -1;
+    for (const row of pool) {
+      const leaf = row.leaf;
+      if (!leaf?.tag) continue;
+      const leafKeys = [leaf.label, leaf.query, leaf.tag?.split("::").pop()].map(normalizeTopicMatchKey);
+      let score = 0;
+      for (const k of keys) {
+        const kNos = stripNosMatchKey(k);
+        for (const lk of leafKeys) {
+          if (!lk) continue;
+          const lkNos = stripNosMatchKey(lk);
+          if (lk === k) score = Math.max(score, 100);
+          else if (kNos && lkNos && lkNos === kNos) score = Math.max(score, 98);
+          else if (lk.includes(k) || k.includes(lk)) score = Math.max(score, 60);
+          else if (kNos && lkNos && (lkNos.includes(kNos) || kNos.includes(lkNos))) {
+            score = Math.max(score, 58);
+          }
+        }
+      }
+      // Bare starter "LCIS" / classic labels must not map to Florid /
+      // Pleomorphic / EBV+ / leg-type board tags unless the starter names them.
+      const starterBlob = [...keys].join(" ");
+      const leafBlob = leafKeys.join(" ");
+      for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
+        if (leafBlob.includes(mod) && !starterBlob.includes(mod)) score -= 40;
+      }
+      const prov = String(leaf.provenance || "").toLowerCase();
+      if (prov === "abpath" || prov === "both") score += 5;
+      if (leafMatchesBrowseRoot(leafRef, row, leaf)) score += 25;
+      // Prefer canonical NOS / shorter tag over long extranodal site clones.
+      const tagDepth = String(leaf.tag || "").split("::").length;
+      if (tagDepth <= 4) score += 2;
+      if (/\bnos\b/i.test(leafBlob) && !/ebv|kshv|cutaneous|inflammation|myc/i.test(leafBlob)) {
+        score += 3;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        best = { row, leaf };
       }
     }
-    // Bare starter "LCIS" / classic in-situ labels must not map to Florid /
-    // Pleomorphic board tags unless the starter leaf itself names that subtype.
-    const starterBlob = [...keys].join(" ");
-    const leafBlob = leafKeys.join(" ");
-    for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
-      if (leafBlob.includes(mod) && !starterBlob.includes(mod)) score -= 40;
-    }
-    // Prefer ABPath / both over WHO-only; prefer same organ root when known.
-    const prov = String(leaf.provenance || "").toLowerCase();
-    if (prov === "abpath" || prov === "both") score += 5;
-    if (leafRef.categoryId && row.root?.id === leafRef.categoryId) score += 8;
-    if (score > bestScore) {
-      bestScore = score;
-      best = { row, leaf };
-    }
+    if (best && bestScore >= 58) break;
   }
-  if (!best || bestScore < 60) return leafRef;
+  if (!best || bestScore < 58) return leafRef;
   return {
     ...leafRef,
     tag: best.leaf.tag,
     provenance: best.leaf.provenance || leafRef.provenance || null,
     label: leafRef.label || best.leaf.label,
     query: leafRef.query || best.leaf.query || best.leaf.label,
+    // Keep the Browse root the user opened (heme), not the mapped tag's root.
     categoryId: leafRef.categoryId || best.row.root?.id || null,
     subcategoryId: leafRef.subcategoryId || best.row.sub?.id || null,
     boardResolvedFrom: "browse_tag_index",
@@ -749,12 +808,20 @@ const ENTITY_ABBREVIATION_EXPANSIONS = {
 };
 
 /** Subtype adjectives that must be queried explicitly — bare "LCIS" should
- * resolve to classic lobular carcinoma in situ, not Florid/Pleomorphic. */
+ * resolve to classic lobular carcinoma in situ, not Florid/Pleomorphic.
+ * Trailing "NOS" is handled separately (equivalence, not a penalty). */
 const ENTITY_SUBTYPE_MODIFIERS = new Set([
   "florid",
   "pleomorphic",
   "classic",
   "atypical",
+  "ebv",
+  "kshv",
+  "hhv8",
+  "primary cutaneous",
+  "leg type",
+  "associated with chronic inflammation",
+  "high grade with myc",
 ]);
 
 function normalizeEntityName(name) {
@@ -2143,6 +2210,11 @@ function buildPayload(query, modeOverride, options = {}) {
   }
   if (mode === "topic_page" && options.pageTag) {
     payload.page_tag = options.pageTag;
+  }
+  // Browse category the user opened (heme/breast/…) — used as root-narrow
+  // authority so a wrong extranodal board tag cannot drop on-root pathout/videos.
+  if (mode === "topic_page" && options.browseRoot) {
+    payload.browse_root = options.browseRoot;
   }
   if (options.rebuild) {
     payload.rebuild = true;
@@ -4268,27 +4340,32 @@ function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
   return html;
 }
 
+function literatureProviderLabel(key) {
+  const k = String(key || "").toLowerCase();
+  if (k.includes("scopus") || k === "elsevier") return "Elsevier Scopus";
+  if (k.includes("pubmed")) return "PubMed";
+  if (k.includes("oncokb")) return "OncoKB";
+  if (k.includes("europe")) return "Europe PMC";
+  return key;
+}
+
 function renderLiteratureProviderStatus(debug) {
   const providers = debug?.literature_providers;
   if (!providers || typeof providers !== "object") return "";
   const parts = [];
   for (const [name, meta] of Object.entries(providers)) {
     if (!meta || typeof meta !== "object") continue;
-    const label =
-      name === "scopus" || name.includes("scopus")
-        ? "Elsevier Scopus"
-        : name === "pubmed" || name.includes("pubmed")
-          ? "PubMed"
-          : name === "oncokb" || name.includes("oncokb")
-            ? "OncoKB"
-            : name;
+    const label = literatureProviderLabel(name);
     if (meta.ok) {
       const n = typeof meta.returned === "number" ? meta.returned : "?";
       const total = meta.total != null ? ` / ${meta.total} total` : "";
       const skipped = meta.skipped ? ` (${meta.skipped})` : "";
-      parts.push(`${label}: ok (${n}${total})${skipped}`);
+      const abs =
+        typeof meta.abstracts_filled === "number" ? `, ${meta.abstracts_filled} with abstract` : "";
+      parts.push(`${label}: ok (${n}${total}${abs})${skipped}`);
     } else {
-      parts.push(`${label}: failed (${meta.error || "unknown"})`);
+      const err = meta.error === "missing_api_key" ? "missing provider key" : meta.error || "unknown";
+      parts.push(`${label}: failed (${err})`);
     }
   }
   const warnings = Array.isArray(debug?.literature_warnings) ? debug.literature_warnings : [];
@@ -4563,6 +4640,7 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
         buildPayload(query, "topic_page", {
           categoryContext,
           pageTag: leafRef.tag,
+          browseRoot: leafRef.categoryId || browseState.categoryId || null,
           rebuild,
         }),
         {

@@ -730,6 +730,26 @@ def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
     return normalize_root_token(tag.split("::", 1)[0])
 
 
+def effective_page_root(
+    page_tag: Optional[str] = None,
+    browse_root: Optional[str] = None,
+) -> Optional[str]:
+    """Root used for B8 narrow: Browse category wins over extranodal page_tag.
+
+    Example: user opens Hematopathology → DLBCL starter, but board map attaches
+    ``Breast::…::Diffuse_Large_B_Cell_Lymphoma``. Tag root is breast; browse
+    root is heme. Prefer heme so pathout/videos/textbooks are not wiped.
+    """
+    tag_root = page_root_from_tag(page_tag)
+    browse = normalize_root_token(browse_root or "")
+    if browse:
+        # Browse "cyto" is a family; keep cyto-* tag roots when present.
+        if browse == "cyto" and tag_root and tag_root.startswith("cyto"):
+            return tag_root
+        return browse
+    return tag_root
+
+
 def is_cyto_root_token(root_token: Optional[str]) -> bool:
     """True when a normalized root token (see `normalize_root_token`) came from
     a `Cyto_*` ABPath tag root (e.g. "Cyto_Thyroid" -> "cytothyroid"). Used to

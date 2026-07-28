@@ -674,6 +674,36 @@ class TestTopicPagePrompt(unittest.TestCase):
         )
         self.assertEqual(idx[0]["source_label"], "Atlas")
 
+    def test_browse_root_wins_over_extranodal_page_tag(self):
+        from pathology_backend import effective_page_root, filter_cards_by_page_root  # noqa: E402
+
+        breast_dlbcl = (
+            "Breast::Neoplastic::Hematolymphoid::Malignant::Diffuse_Large_B_Cell_Lymphoma"
+        )
+        self.assertEqual(effective_page_root(breast_dlbcl, "heme"), "heme")
+        cards = [
+            {
+                "source": "pathout",
+                "primary_tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+            },
+            {"source": "videos", "source_id": "heme_lymphoma_intro"},
+            {"source": "who", "title": "DLBCL"},
+        ]
+        kept = filter_cards_by_page_root(cards, effective_page_root(breast_dlbcl, "heme"))
+        self.assertEqual({c["source"] for c in kept}, {"pathout", "videos", "who"})
+        # Without browse_root, breast narrow drops heme pathout/videos.
+        kept_wrong = filter_cards_by_page_root(cards, effective_page_root(breast_dlbcl, None))
+        self.assertEqual({c["source"] for c in kept_wrong}, {"who"})
+
+    def test_app_js_board_map_prefers_browse_root(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        lit = (MVP_DIR / "literature_apis.py").read_text(encoding="utf-8")
+        self.assertIn("function leafMatchesBrowseRoot", js)
+        self.assertIn("function stripNosMatchKey", js)
+        self.assertIn("browse_root", js)
+        self.assertIn("def search_europe_pmc", lit)
+        self.assertIn("HAS_ABSTRACT:Y", lit)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt

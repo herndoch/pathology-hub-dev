@@ -28,6 +28,7 @@ from pathology_backend import (
     filter_cards_by_page_root,
     filter_figures_by_page_root,
     merge_outcomes,
+    effective_page_root,
     page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
@@ -150,6 +151,7 @@ def run_iterative_topic_retrieval(
     compact: bool = True,
     excerpt_char_limit: int = 900,
     page_tag: Optional[str] = None,
+    browse_root: Optional[str] = None,
     category_context: Optional[str] = None,
     root_narrow: bool = True,
     apply_figure_quality: Optional[Callable[[list, list], tuple[list, list]]] = None,
@@ -432,7 +434,7 @@ def run_iterative_topic_retrieval(
     capped = cap_cards_diverse(
         hub_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
-    page_root = page_root_from_tag(page_tag)
+    page_root = effective_page_root(page_tag, browse_root)
     cards_before_root = len(capped)
     if root_narrow and page_root:
         capped = filter_cards_by_page_root(capped, page_root)

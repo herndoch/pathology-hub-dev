@@ -43,7 +43,7 @@ gcloud run deploy "$SERVICE" \
   --max-instances=3 \
   --timeout=300 \
   --set-env-vars="PATHOLOGY_HUB_API_URL=${API_URL},OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o}" \
-  --set-secrets="OPENAI_API_KEY=OPENAI:latest,PATHOLOGY_HUB_API_KEY=PATHOLOGY_HUB_API_KEY:latest"
+  --set-secrets="OPENAI_API_KEY=OPENAI:latest,PATHOLOGY_HUB_API_KEY=PATHOLOGY_HUB_API_KEY:latest,ELSEVIER_API_KEY=Elsevier:latest,NCBI_API_KEY=NCBI:latest,ONCOKB_API_TOKEN=OncoKB:latest"
 
 URL="$(gcloud run services describe "$SERVICE" \
   --region="$REGION" \

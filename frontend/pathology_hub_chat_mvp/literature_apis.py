@@ -203,8 +203,11 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
                 extra={"subtype": e.get("subtypeDescription")},
             )
         )
-    meta["returned"] = len(cards)
-    return cards, meta
+    # Europe PMC fills many paywalled/title-only Scopus hits.
+    enriched = [_enrich_card_abstract(c) for c in cards]
+    meta["returned"] = len(enriched)
+    meta["abstracts_filled"] = sum(1 for c in enriched if (c.get("text") or "").strip())
+    return enriched, meta
 
 
 def _scopus_abstract_by_doi(doi: str, api_key: str) -> Optional[str]:
@@ -230,6 +233,50 @@ def _scopus_abstract_by_doi(doi: str, api_key: str) -> Optional[str]:
         if isinstance(paras, list):
             return " ".join(str(x) for x in paras).strip()
     return None
+
+
+def _europe_pmc_abstract(*, pmid: Optional[str] = None, doi: Optional[str] = None) -> Optional[str]:
+    """Open Europe PMC abstract fallback when PubMed/Scopus omit AbstractText.
+
+    Many high-profile reviews (NEJM, Semin Hematol) return title-only from
+    NCBI efetch / Scopus search; Europe PMC often still has abstractText.
+    """
+    query = None
+    if pmid:
+        query = f"EXT_ID:{pmid} AND SRC:MED"
+    elif doi:
+        query = f'DOI:"{doi.strip()}"'
+    if not query:
+        return None
+    params = urllib.parse.urlencode(
+        {"query": query, "format": "json", "resultType": "core", "pageSize": 1}
+    )
+    url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/search?{params}"
+    try:
+        data = _http_get_json(url, {"User-Agent": _USER_AGENT, "Accept": "application/json"}, timeout=20.0)
+    except Exception:
+        return None
+    results = ((data.get("resultList") or {}).get("result") or [])
+    if not results:
+        return None
+    text = (results[0].get("abstractText") or "").strip()
+    return text or None
+
+
+def _enrich_card_abstract(card: dict) -> dict:
+    """Fill empty abstract/excerpt from Europe PMC using PMID or DOI."""
+    if not isinstance(card, dict):
+        return card
+    if (card.get("text") or card.get("excerpt") or "").strip():
+        return card
+    abstract = _europe_pmc_abstract(pmid=card.get("pmid"), doi=card.get("doi"))
+    if not abstract:
+        return card
+    card = dict(card)
+    card["text"] = abstract
+    card["excerpt"] = abstract[:1200]
+    card["abstract_source"] = "europe_pmc"
+    return card
 
 
 def search_pubmed(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
@@ -304,9 +351,11 @@ def search_pubmed(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
                 extra={"pmid": pmid, "source_url": url, "url": url},
             )
         )
+    enriched = [_enrich_card_abstract(c) for c in cards[:max_results]]
     meta["ok"] = True
-    meta["returned"] = len(cards)
-    return cards[:max_results], meta
+    meta["returned"] = len(enriched)
+    meta["abstracts_filled"] = sum(1 for c in enriched if (c.get("text") or "").strip())
+    return enriched, meta
 
 
 def _extract_genes(text: str) -> list[str]:
@@ -549,6 +598,68 @@ def filter_literature_cards(
     return kept, dropped, stats
 
 
+def search_europe_pmc(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
+    """Europe PMC search — prefers records that already ship abstracts."""
+    meta: dict[str, Any] = {"provider": "europe_pmc", "ok": False}
+    clean = re.sub(r"\s+", " ", str(query or "")).strip()
+    if not clean:
+        meta["error"] = "empty_query"
+        return [], meta
+    # HAS_ABSTRACT:Y avoids the title-only NEJM/Semin Hematol stubs PubMed often returns first.
+    epmc_q = f"({clean}) AND HAS_ABSTRACT:Y"
+    # Do not pass sort=RELEVANCE — Europe PMC returns empty hitCount for that
+    # value; default ranking is relevance-like enough for our use.
+    params = urllib.parse.urlencode(
+        {
+            "query": epmc_q,
+            "format": "json",
+            "resultType": "core",
+            "pageSize": max(1, min(max_results, 8)),
+        }
+    )
+    url = f"https://www.ebi.ac.uk/europepmc/webservices/rest/search?{params}"
+    try:
+        data = _http_get_json(url, {"User-Agent": _USER_AGENT, "Accept": "application/json"}, timeout=25.0)
+    except Exception as exc:
+        meta["error"] = type(exc).__name__
+        return [], meta
+
+    results = ((data.get("resultList") or {}).get("result") or [])
+    meta["ok"] = True
+    meta["total"] = data.get("hitCount")
+    cards: list[dict] = []
+    for r in results[:max_results]:
+        abstract = (r.get("abstractText") or "").strip()
+        doi = (r.get("doi") or "").strip() or None
+        pmid = str(r.get("pmid") or "").strip() or None
+        title = (r.get("title") or "").strip()
+        if not title:
+            continue
+        journal = (r.get("journalTitle") or r.get("journalInfo", {}).get("journal", {}).get("title") or "")
+        if isinstance(journal, dict):
+            journal = journal.get("title") or ""
+        year = None
+        for key in ("pubYear", "publishYear"):
+            if r.get(key):
+                year = str(r.get(key))[:4]
+                break
+        cards.append(
+            _card(
+                title=title,
+                journal=str(journal or ""),
+                doi=doi,
+                abstract=abstract,
+                year=year,
+                retrieval_mode="europe_pmc",
+                source_name="Europe PMC",
+                extra={"pmid": pmid},
+            )
+        )
+    meta["returned"] = len(cards)
+    meta["abstracts_filled"] = sum(1 for c in cards if (c.get("text") or "").strip())
+    return cards, meta
+
+
 def fetch_live_literature(
     query: str,
     *,
@@ -556,7 +667,7 @@ def fetch_live_literature(
     tumor_type: Optional[str] = None,
     include_oncokb: bool = True,
 ) -> dict[str, Any]:
-    """Parallel fetch from Scopus + PubMed (+ OncoKB). Returns cards + provider meta."""
+    """Parallel fetch from Scopus + PubMed + Europe PMC (+ OncoKB)."""
     if not live_literature_enabled():
         return {
             "enabled": False,
@@ -575,6 +686,7 @@ def fetch_live_literature(
     jobs = {
         "scopus": lambda: search_scopus(scoped_query, max_per_provider),
         "pubmed": lambda: search_pubmed(scoped_query, max_per_provider),
+        "europe_pmc": lambda: search_europe_pmc(scoped_query, max_per_provider),
     }
     if include_oncokb:
         jobs["oncokb"] = lambda: annotate_oncokb(query, tumor_type=tumor_type)

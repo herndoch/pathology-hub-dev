@@ -114,6 +114,7 @@ from pathology_backend import (
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
+    effective_page_root,
     page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
@@ -255,6 +256,9 @@ class ChatRequest(SearchRequest):
     mode: str = "auto"
     category_context: Optional[str] = None
     page_tag: Optional[str] = None
+    # Browse category id the user opened (e.g. "heme"). When set, root-narrow
+    # prefers this over an extranodal page_tag root (Breast::…::DLBCL).
+    browse_root: Optional[str] = None
 
 
 class FlagRequest(BaseModel):
@@ -346,6 +350,10 @@ def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
 
 def _tumor_type_hint(req: ChatRequest) -> Optional[str]:
     """Best-effort tumorType for OncoKB from page tag / category context."""
+    # Prefer browse root (heme) over a wrong extranodal page_tag prefix.
+    browse = (req.browse_root or "").strip()
+    if browse and browse.lower() not in {"cyto"}:
+        return browse.replace("_", " ")[:80]
     tag = (req.page_tag or req.category_context or "").replace("_", " ")
     parts = [p for p in re.split(r"::|>|/", tag) if p.strip()]
     if not parts:
@@ -371,6 +379,7 @@ def _drain_iterative_topic_retrieval(req: ChatRequest, on_progress=None) -> tupl
         compact=req.compact,
         excerpt_char_limit=req.excerpt_char_limit,
         page_tag=req.page_tag,
+        browse_root=req.browse_root,
         category_context=req.category_context,
         root_narrow=TOPIC_PAGE_ROOT_NARROW,
         apply_figure_quality=_apply_figure_quality_filters,
@@ -447,7 +456,7 @@ def _run_topic_page_retrieval_legacy(req: ChatRequest) -> tuple:
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
 
-    page_root = page_root_from_tag(req.page_tag)
+    page_root = effective_page_root(req.page_tag, req.browse_root)
     cards_before_root = len(capped_cards)
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         capped_cards = filter_cards_by_page_root(capped_cards, page_root)
@@ -1172,6 +1181,7 @@ def api_chat_stream(req: ChatRequest):
                         compact=req.compact,
                         excerpt_char_limit=req.excerpt_char_limit,
                         page_tag=req.page_tag,
+                        browse_root=req.browse_root,
                         category_context=req.category_context,
                         root_narrow=TOPIC_PAGE_ROOT_NARROW,
                         apply_figure_quality=_apply_figure_quality_filters,
