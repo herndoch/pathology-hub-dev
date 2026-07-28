@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import time
 import uuid
 from datetime import datetime, timezone
@@ -137,8 +138,43 @@ def _env_bool(name: str, *, default: bool) -> bool:
 
 TOPIC_PAGE_ROOT_NARROW = _env_bool("TOPIC_PAGE_ROOT_NARROW", default=True)
 
+# Fingerprint so a wrong local checkout is obvious in /api/health + startup logs.
+# The Elsevier "(LCIS)" HTTP 400 fix lives only on builds that advertise
+# scopus_paren_sanitize=true — older processes log unsanitized queries instead.
+BUILD_MARKER = "topic-iterative-sse-layout-9231"
+SCOPUS_PAREN_SANITIZE = True
+
+
+def _git_sha_short() -> str:
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=os.path.dirname(__file__),
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=2,
+        )
+        return (out or "").strip() or "unknown"
+    except Exception:
+        return "unknown"
+
+
+BUILD_GIT_SHA = _git_sha_short()
+
+
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.on_event("startup")
+def _log_build_fingerprint() -> None:
+    print(
+        f"[chat-mvp] BUILD={BUILD_MARKER} sha={BUILD_GIT_SHA} "
+        f"scopus_paren_sanitize={SCOPUS_PAREN_SANITIZE} "
+        f"iterative={iterative_enabled()} live_literature={live_literature_enabled()}",
+        flush=True,
+    )
+
 
 _backend_client = PathologyHubClient(api_url=os.environ.get("PATHOLOGY_HUB_API_URL"))
 
@@ -692,6 +728,10 @@ def api_health():
         "topic_page_live_literature": live_literature_enabled(),
         "topic_page_iterative": iterative_enabled(),
         "topic_page_iterative_rounds": iterative_max_rounds() if iterative_enabled() else 1,
+        # Build fingerprint — UI treats missing/false scopus_paren_sanitize as outdated.
+        "build_marker": BUILD_MARKER,
+        "build_git_sha": BUILD_GIT_SHA,
+        "scopus_paren_sanitize": SCOPUS_PAREN_SANITIZE,
     }
 
 

@@ -7,6 +7,9 @@ let healthFlags = {
   iterative: true,
   liveLiterature: true,
   streamEndpoint: true,
+  scopusSanitize: true,
+  buildMarker: "",
+  buildSha: "",
 };
 /** Topic pages are meant to be comprehensive, so they always request every
  * supported source regardless of the sidebar checkbox state — this mirrors
@@ -2128,20 +2131,35 @@ async function refreshHealth() {
     healthFlags.liveLiterature = data.topic_page_live_literature !== false;
     // Older servers lack these fields — treat missing iterative flag as "not this build".
     healthFlags.streamEndpoint = typeof data.topic_page_iterative === "boolean";
+    healthFlags.scopusSanitize = data.scopus_paren_sanitize === true;
+    healthFlags.buildMarker = data.build_marker || "";
+    healthFlags.buildSha = data.build_git_sha || "";
 
     const hubKey = data.secrets?.pathology_hub?.present;
     const openaiKey = data.secrets?.openai?.present;
     const backendOk = data.backend?.ok;
+    const outdatedBuild = !healthFlags.streamEndpoint || !healthFlags.scopusSanitize;
     healthStatus.className = "status";
-    if (backendOk && hubKey) {
+    if (outdatedBuild) {
+      healthStatus.classList.add("error");
+      healthStatus.textContent = "Outdated server — pull iterative branch";
+      healthStatus.title =
+        "This process is NOT cursor/topic-iterative-sse-layout-9231 (missing " +
+        "topic_page_iterative / scopus_paren_sanitize). Elsevier LCIS 400s and " +
+        "missing thinking panel mean the wrong checkout is still running. " +
+        "git fetch && git checkout cursor/topic-iterative-sse-layout-9231 && " +
+        "restart ./scripts/run_local.sh — look for startup log " +
+        "[chat-mvp] BUILD=topic-iterative-sse-layout-9231";
+    } else if (backendOk && hubKey) {
       healthStatus.classList.add("ok");
       const bits = [openaiKey ? "Ready" : "Ready (search-only)"];
       if (healthFlags.streamEndpoint && healthFlags.iterative) bits.push("live thinking");
       if (healthFlags.liveLiterature) bits.push("literature");
+      if (healthFlags.buildSha) bits.push(healthFlags.buildSha);
       healthStatus.textContent = bits.join(" · ");
-      healthStatus.title = healthFlags.streamEndpoint
-        ? "Iterative SSE build active — topic pages stream round progress."
-        : "Server build may be outdated (no topic_page_iterative flag). Checkout cursor/topic-iterative-sse-layout-9231 and restart.";
+      healthStatus.title =
+        `Build ${healthFlags.buildMarker || "ok"} @ ${healthFlags.buildSha || "?"} — ` +
+        "iterative SSE + Scopus parenthesis sanitize active.";
     } else if (!hubKey) {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "API key missing";

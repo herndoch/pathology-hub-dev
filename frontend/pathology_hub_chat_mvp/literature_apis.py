@@ -166,6 +166,13 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
                 meta["error_body"] = body
         except Exception:
             pass
+        # Log sanitized query only — if you still see raw "(LCIS)" here, the
+        # running process is an older checkout without _sanitize_scopus_query_text.
+        print(
+            f"[chat-mvp] Scopus HTTP {exc.code} sanitized_query={clean!r} "
+            f"raw_query={str(query or '')!r}",
+            flush=True,
+        )
         return [], meta
     except Exception as exc:
         meta["error"] = f"{type(exc).__name__}"
