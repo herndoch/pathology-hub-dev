@@ -26,10 +26,15 @@ FORMAT (strict — ExpertPath-style scannable answers):
   entity — instead of bullets. Follow the table with at most 2 short bullets for caveats. Do not
   restate the table content as bullets afterward.
 - Inline citations MUST be markdown links when a URL exists. Use short labels only:
-  [WHO](exact-who-url), [Pathoutlines](url), [Textbooks](url). For any journal /
-  PubMed / DOI / publisher paper link, the markdown label MUST be exactly `DOI`
-  (e.g. [DOI](https://doi.org/...)) — never journal names like Virchows, Modern
-  Pathology, or “fibroepithelial review”. If no URL exists, use plain (WHO) with no link.
+  [WHO](exact-who-url), [Pathoutlines](url), and for textbooks the SHORT book name
+  from evidence `source_id` / `_citation_link_index.source_label` — prefer
+  [Atlas](url) for Breast Atlas / *atlas* books, [Gnepp](url), [Biopsy](url), etc.
+  Never use the generic label [Textbooks] when a specific book name is known.
+  Do NOT wrap cites in extra parentheses — write [Atlas](url) or (Atlas), never
+  ((Atlas)) or ((Textbooks)). For any journal / PubMed / DOI / publisher paper
+  link, the markdown label MUST be exactly `DOI` (e.g. [DOI](https://doi.org/...))
+  — never journal names like Virchows, Modern Pathology, or “fibroepithelial
+  review”. If no URL exists, use plain (WHO) with no link.
 - When a `_citation_link_index` entry has field `figure_url` or `page_image_url` and it clearly
   illustrates the point of a bullet, you may embed it inline as an image once with
   `![short caption](that-exact-url)` — do this at most once or twice per answer, never for every
@@ -135,7 +140,10 @@ def topic_page_system_prompt() -> str:
         "includes `00_hub_sources_must_use` or textbook_results / who_results / pathout_results, "
         "ground Terminology, Clinical Issues, Gross, Microscopic, Ancillary Tests, and "
         "Differential Diagnosis primarily in those hub cards. Cite them inline as "
-        "[Textbooks](url) / [WHO](url) / [Pathoutlines](url) using exact source_url values. "
+        "[Atlas](url) / [Gnepp](url) / [Biopsy](url) / [WHO](url) / [Pathoutlines](url) "
+        "using exact source_url values and the short book label from source_id "
+        "(breast_atlas → Atlas — never generic Textbooks when the book is known). "
+        "Never emit double parentheses like ((Atlas)) or ((Textbooks)). "
         "Do not write a textbook-free page when textbook cards are present.\n\n"
         "LIVE LITERATURE (critical): When the evidence bundle includes "
         "`00_live_literature_must_use` and/or `literature_results` (Elsevier Scopus, PubMed/NCBI, "
@@ -157,7 +165,8 @@ def topic_page_system_prompt() -> str:
         "MUST create Imaging Features and embed those figures there.\n"
         "- Gross/specimen/cut-surface/macroscopic photos → MUST create Gross Features and embed "
         "those figures there; do NOT dump them under Microscopic.\n"
-        "- Histology/H&E tissue photomicrographs → Microscopic (NOT Cytology).\n"
+        "- Histology/H&E tissue photomicrographs → Microscopic ONLY (never under Gross Features, "
+        "even if the nearby prose discusses gross findings).\n"
         "- Cytology/FNA/smear/Pap/liquid-based photos → Cytology (own section; NEVER under "
         "Microscopic).\n"
         "- IHC / special-stain photomicrographs → Ancillary Tests (not Microscopic).\n"

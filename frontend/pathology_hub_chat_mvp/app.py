@@ -42,6 +42,44 @@ _SOURCE_LABELS = {
     "curriculum": "Curriculum",
 }
 
+# Short cite labels for textbook source_id tails (breast_atlas → Atlas).
+_TEXTBOOK_ALIASES = {
+    "gnepp": "Gnepp",
+    "atlas": "Atlas",
+    "cardesa": "Cardesa",
+    "vasef": "Vasef",
+    "faq": "FAQ",
+    "biopsy": "Biopsy",
+    "biopsy_interpretation": "Biopsy",
+    "biopsy_interpretation_neoplastic": "Biopsy",
+    "biopsy_interpretation_non_neoplastic": "Biopsy",
+}
+
+
+def _textbook_cite_label(source_id: object) -> str:
+    """Map textbook source_id → short cite label (Atlas preferred over Textbooks)."""
+    if not isinstance(source_id, str) or not source_id.strip():
+        return "Textbook"
+    parts = [p for p in source_id.split("_") if p]
+    if len(parts) < 2:
+        key = source_id.lower()
+        if key in _TEXTBOOK_ALIASES:
+            return _TEXTBOOK_ALIASES[key]
+        if "atlas" in key:
+            return "Atlas"
+        return source_id.replace("_", " ").strip() or "Textbook"
+    book_key = "_".join(parts[1:]).lower()
+    if book_key in _TEXTBOOK_ALIASES:
+        return _TEXTBOOK_ALIASES[book_key]
+    for token in book_key.split("_"):
+        if token in _TEXTBOOK_ALIASES:
+            return _TEXTBOOK_ALIASES[token]
+    if "atlas" in book_key:
+        return "Atlas"
+    if "gnepp" in book_key:
+        return "Gnepp"
+    return book_key.replace("_", " ").strip() or "Textbook"
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -584,7 +622,11 @@ def _build_citation_link_index(cards: list[dict]) -> list[dict]:
         if not isinstance(card, dict):
             continue
         src = card.get("source") or "unknown"
-        source_label = _SOURCE_LABELS.get(src, src)
+        src_l = str(src).lower()
+        if src_l == "textbooks":
+            source_label = _textbook_cite_label(card.get("source_id"))
+        else:
+            source_label = _SOURCE_LABELS.get(src_l, src)
         title = (card.get("title") or card.get("name") or card.get("heading") or "")[:120]
         for field in (
             "source_url",
@@ -649,10 +691,14 @@ def _slim_hub_for_prompt(cards: list[dict]) -> list[dict]:
             continue
         src = str(card.get("source") or "").lower()
         if src in by_src and len(by_src[src]) < 8:
+            cite_label = (
+                _textbook_cite_label(card.get("source_id")) if src == "textbooks" else _SOURCE_LABELS.get(src, src)
+            )
             by_src[src].append(
                 {
                     "source": src,
                     "source_id": card.get("source_id"),
+                    "cite_label": cite_label,
                     "title": card.get("title") or card.get("name") or card.get("heading"),
                     "section": card.get("section"),
                     "source_url": card.get("source_url") or card.get("source_page_url"),
@@ -844,8 +890,10 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
         extra_bits.append(
             f"HUB SOURCES PRESENT ({bits}) in `00_hub_sources_must_use`. Core diagnostic "
             "facts (Terminology, Clinical Issues, Gross, Microscopic, Ancillary, DDx) MUST "
-            "cite Textbooks / WHO / Pathoutlines via markdown links from those cards — not "
-            "literature alone. Prefer textbook/WHO/pathout URLs for routine histology facts."
+            "cite short book names from cite_label/source_id (Atlas for breast_atlas, Gnepp, "
+            "Biopsy) / WHO / Pathoutlines via markdown links from those cards — not "
+            "literature alone. Prefer textbook/WHO/pathout URLs for routine histology facts. "
+            "Never emit ((Textbooks)) or generic Textbooks when cite_label is Atlas."
         )
     if literature:
         extra_bits.append(

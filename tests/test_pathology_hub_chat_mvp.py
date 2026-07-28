@@ -645,6 +645,35 @@ class TestTopicPagePrompt(unittest.TestCase):
         # Key Facts side gallery restored alongside section galleries.
         self.assertIn('topic-panel-title">Selected Images', js)
 
+    def test_app_js_atlas_cites_and_double_paren_normalize(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function textbookLabelFromUrl", js)
+        self.assertIn("function indexTextbookLabelsFromCards", js)
+        self.assertIn("function normalizeSourceParenLayers", js)
+        self.assertIn("function sectionForFigureModality", js)
+        self.assertIn(r"/\(+Textbooks?\)+/gi", js)
+        self.assertIn('return "Atlas"', js)
+        # Generic Textbooks cites resolve to Atlas when URL/source_id says so.
+        self.assertIn('textbookLabelFromUrl(url) || "Textbook"', js)
+
+    def test_textbook_cite_label_prefers_atlas(self):
+        from app import _build_citation_link_index, _textbook_cite_label  # noqa: E402
+
+        self.assertEqual(_textbook_cite_label("breast_atlas"), "Atlas")
+        self.assertEqual(_textbook_cite_label("hn_gnepp"), "Gnepp")
+        self.assertEqual(_textbook_cite_label("breast_biopsy"), "Biopsy")
+        idx = _build_citation_link_index(
+            [
+                {
+                    "source": "textbooks",
+                    "source_id": "breast_atlas",
+                    "title": "Intraductal papilloma",
+                    "source_url": "https://example.com/atlas/papilloma",
+                }
+            ]
+        )
+        self.assertEqual(idx[0]["source_label"], "Atlas")
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt
@@ -1240,6 +1269,9 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("function bucketFiguresBySection", js)
         self.assertIn("function renderSectionGallery", js)
         self.assertIn("section-gallery", js)
+        # Modality overrides wrong inline section (micro under Gross).
+        self.assertIn("sectionForFigureModality", js)
+        self.assertIn("strongGross", js)
         # Global dump beside Key Facts should be gone from topic pages.
         self.assertNotIn(
             'topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}',

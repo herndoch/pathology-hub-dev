@@ -37,6 +37,10 @@ const TEXTBOOK_ALIASES = {
   cardesa: "Cardesa",
   vasef: "Vasef",
   faq: "FAQ",
+  biopsy: "Biopsy",
+  biopsy_interpretation: "Biopsy",
+  biopsy_interpretation_neoplastic: "Biopsy",
+  biopsy_interpretation_non_neoplastic: "Biopsy",
 };
 
 /** Normalize inline markdown link labels baked into prebuild/synthesis text. */
@@ -1032,15 +1036,26 @@ function sourceLabel(source) {
   return SOURCE_LABELS[source] || source;
 }
 
-/** Strip the organ-root prefix from textbook source_id (e.g. hn_gnepp → Gnepp). */
+/** Strip the organ-root prefix from textbook source_id (e.g. hn_gnepp → Gnepp,
+ * breast_atlas → Atlas). Prefer short book aliases over generic "Textbook(s)". */
 function textbookLabel(sourceId) {
   if (!sourceId) return "Textbook";
-  const parts = String(sourceId).split("_");
-  if (parts.length < 2) return formatDisplayLabel(sourceId);
+  const parts = String(sourceId).split("_").filter(Boolean);
+  if (parts.length < 2) {
+    const one = String(sourceId).toLowerCase();
+    if (TEXTBOOK_ALIASES[one]) return TEXTBOOK_ALIASES[one];
+    if (one.includes("atlas")) return "Atlas";
+    return formatDisplayLabel(sourceId);
+  }
   parts.shift();
-  const bookKey = parts.join("_");
-  const alias = TEXTBOOK_ALIASES[bookKey.toLowerCase()];
-  if (alias) return alias;
+  const bookKey = parts.join("_").toLowerCase();
+  if (TEXTBOOK_ALIASES[bookKey]) return TEXTBOOK_ALIASES[bookKey];
+  // Token fallback: breast_diagnostic_atlas → Atlas, hn_gnepp_5e → Gnepp.
+  for (const token of bookKey.split("_")) {
+    if (TEXTBOOK_ALIASES[token]) return TEXTBOOK_ALIASES[token];
+  }
+  if (bookKey.includes("atlas")) return "Atlas";
+  if (bookKey.includes("gnepp")) return "Gnepp";
   return formatDisplayLabel(bookKey);
 }
 
@@ -1347,6 +1362,64 @@ function cardPresentation(card) {
 }
 
 let activeCiteBySource = new Map();
+/** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
+let activeTextbookLabelByUrl = new Map();
+
+function rememberTextbookUrlLabel(url, label) {
+  const u = pickHttp(url);
+  const book = String(label || "").trim();
+  if (!u || !book || /^textbooks?$/i.test(book)) return;
+  if (!activeTextbookLabelByUrl.has(u)) activeTextbookLabelByUrl.set(u, book);
+}
+
+function indexTextbookLabelsFromCards(cards, figures) {
+  activeTextbookLabelByUrl = new Map();
+  for (const card of cards || []) {
+    if (!card || typeof card !== "object") continue;
+    if (String(card.source || "").toLowerCase() !== "textbooks") continue;
+    const book = textbookLabel(card.source_id);
+    for (const field of [
+      "source_url",
+      "source_page_url",
+      "source_pdf_url",
+      "figure_url",
+      "page_image_url",
+      "image_url",
+    ]) {
+      rememberTextbookUrlLabel(card[field], book);
+    }
+    for (const fig of card.figures || []) {
+      if (!fig || typeof fig !== "object") continue;
+      rememberTextbookUrlLabel(fig.figure_url || fig.image_url || fig.url, book);
+      rememberTextbookUrlLabel(fig.source_url || fig.source_page_url, book);
+    }
+  }
+  for (const fig of figures || []) {
+    if (!fig || typeof fig !== "object") continue;
+    const src = String(fig.source || fig.source_kind || "").toLowerCase();
+    const sid = String(fig.source_id || "");
+    if (src !== "textbooks" && !sid) continue;
+    if (src && src !== "textbooks" && src !== "inline_markdown") continue;
+    if (!sid) continue;
+    const book = textbookLabel(sid);
+    rememberTextbookUrlLabel(fig.figure_url || fig.image_url || fig.url, book);
+    rememberTextbookUrlLabel(fig.source_url || fig.source_page_url, book);
+  }
+}
+
+/** Resolve Atlas/Gnepp/… from a cite URL when the model said generic Textbooks. */
+function textbookLabelFromUrl(url) {
+  const u = pickHttp(url);
+  if (!u) return "";
+  if (activeTextbookLabelByUrl.has(u)) return activeTextbookLabelByUrl.get(u);
+  const lower = u.toLowerCase();
+  if (lower.includes("atlas")) return "Atlas";
+  if (lower.includes("gnepp")) return "Gnepp";
+  if (lower.includes("cardesa")) return "Cardesa";
+  if (lower.includes("vasef")) return "Vasef";
+  if (lower.includes("biopsy")) return "Biopsy";
+  return "";
+}
 
 function buildCiteBySource(cards, literatureCards) {
   const map = new Map();
@@ -1367,7 +1440,11 @@ function buildCiteBySource(cards, literatureCards) {
     if (!url) return;
     if (src === "who" || /who/i.test(String(card.source_name || ""))) setFirst("who", url);
     if (src === "pathout") setFirst("pathout", url);
-    if (src === "textbooks") setFirst("textbooks", url);
+    if (src === "textbooks") {
+      setFirst("textbooks", url);
+      const book = textbookLabel(card.source_id);
+      if (book && !/^textbooks?$/i.test(book)) setFirst(book.toLowerCase(), url);
+    }
     if (src === "videos") setFirst("videos", url);
     if (src === "lectures") setFirst("lectures", url);
     if (src === "literature" || doiUrl || /doi\.org/i.test(url)) setFirst("doi", url);
@@ -1391,10 +1468,15 @@ function isDoiOrJournalUrl(url) {
 function citeDisplayLabel(label, url) {
   const raw = String(label || "").trim().replace(/^\(+|\)+$/g, "");
   const normalized = normalizeInlineLinkLabel(raw);
-  // Keep hub source badges as-is.
-  if (/^(WHO|Pathoutlines|Textbooks|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef)$/i.test(normalized)) {
+  // Generic "Textbooks" → specific book when the URL maps to breast_atlas etc.
+  if (/^textbooks?$/i.test(normalized)) {
+    return textbookLabelFromUrl(url) || "Textbook";
+  }
+  // Keep hub / book badges as-is (Atlas preferred over Breast Atlas).
+  if (/^(WHO|Pathoutlines|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ)$/i.test(normalized)) {
     return normalized;
   }
+  if (/^breast\s*atlas$/i.test(normalized)) return "Atlas";
   if (isDoiOrJournalUrl(url)) return "DOI";
   // Publisher / paper titles ("Virchows Archiv review", "fibroepithelial tumor review").
   if (/\b(review|archiv|virchow|modern\s*pathol|histopathol|journal|pubmed|doi)\b/i.test(raw)) {
@@ -1406,6 +1488,11 @@ function citeDisplayLabel(label, url) {
     String(url || "").includes("springer")
   ) {
     return "DOI";
+  }
+  // Textbook URL with a long model label → prefer short book name.
+  const fromUrl = textbookLabelFromUrl(url);
+  if (fromUrl && /textbook|atlas|gnepp|biopsy|cardesa|vasef/i.test(normalized)) {
+    return fromUrl;
   }
   return normalized;
 }
@@ -1419,21 +1506,49 @@ function cardSourceFromUrl(url) {
   return "";
 }
 
-/** Turn bare (WHO)/(Pathoutlines) into markdown links when we have a URL from cards. */
-function linkifyBareSourceParens(text) {
+/** Collapse ((WHO)) / (((Textbooks))) → (WHO) / (Textbooks) before linkify. */
+function normalizeSourceParenLayers(text) {
   let s = String(text || "");
+  s = s.replace(
+    /\(+(\s*(?:WHO(?:\s+Blue\s+Books?)?|Pathoutlines?|PathOut(?:lines)?|Textbooks?|Textbook|Lectures?|Videos?|DOI|Atlas|Gnepp|Cardesa|Vasef|Biopsy)\s*)\)+/gi,
+    "($1)",
+  );
+  // (([WHO](url))) → ([WHO](url)) — later unwrapped to [WHO](url).
+  s = s.replace(/\(+(\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*)\)+/g, "($1)");
+  return s;
+}
+
+/** Turn bare (WHO)/(Pathoutlines)/(Atlas) into markdown links when we have a URL. */
+function linkifyBareSourceParens(text) {
+  let s = normalizeSourceParenLayers(text);
   const rules = [
-    { re: /\(WHO\)/gi, key: "who", label: "WHO" },
-    { re: /\(Pathoutlines?\)/gi, key: "pathout", label: "Pathoutlines" },
-    { re: /\(PathOut(?:lines)?\)/gi, key: "pathout", label: "Pathoutlines" },
-    { re: /\(Textbooks?\)/gi, key: "textbooks", label: "Textbooks" },
-    { re: /\(Lectures?\)/gi, key: "lectures", label: "Lectures" },
-    { re: /\(Videos?\)/gi, key: "videos", label: "Videos" },
+    { re: /\(+WHO(?:\s+Blue\s+Books?)?\)+/gi, key: "who", label: "WHO" },
+    { re: /\(+Pathoutlines?\)+/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(+PathOut(?:lines)?\)+/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(+Textbooks?\)+/gi, key: "textbooks", label: "Textbook" },
+    { re: /\(+Atlas\)+/gi, key: "atlas", label: "Atlas" },
+    { re: /\(+Gnepp\)+/gi, key: "gnepp", label: "Gnepp" },
+    { re: /\(+Biopsy\)+/gi, key: "biopsy", label: "Biopsy" },
+    { re: /\(+Lectures?\)+/gi, key: "lectures", label: "Lectures" },
+    { re: /\(+Videos?\)+/gi, key: "videos", label: "Videos" },
   ];
   for (const rule of rules) {
-    const url = activeCiteBySource.get(rule.key);
+    let url = activeCiteBySource.get(rule.key);
+    if (!url && rule.key === "atlas") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "gnepp") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "biopsy") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "textbooks") {
+      // Prefer a concrete book URL when rewriting generic (Textbook).
+      url =
+        activeCiteBySource.get("atlas") ||
+        activeCiteBySource.get("gnepp") ||
+        activeCiteBySource.get("biopsy") ||
+        activeCiteBySource.get("textbooks");
+    }
     if (!url) continue;
-    s = s.replace(rule.re, `[${rule.label}](${url})`);
+    const label =
+      rule.key === "textbooks" ? textbookLabelFromUrl(url) || rule.label : rule.label;
+    s = s.replace(rule.re, `[${label}](${url})`);
   }
   return s;
 }
@@ -1842,7 +1957,8 @@ function inlineMarkdown(text, previewIndex) {
     return stash(renderInlineImage(alt, url, previewIndex));
   });
 
-  // Unwrap "([WHO](url))" / "((DOI))" style so we do not render ((WHO)).
+  // Unwrap "([WHO](url))" / "((DOI))" / "(([Atlas](url)))" so we never render ((WHO)).
+  scratch = scratch.replace(/\(+(\s*\[([^\]]+)\]\((https?:[^)\s]+)\)\s*)\)+/g, "[$2]($3)");
   scratch = scratch.replace(/\(\s*\[([^\]]+)\]\((https?:[^)\s]+)\)\s*\)/g, "[$1]($2)");
 
   // Plain links: [label](url) -> preview-aware link when we recognize the URL,
@@ -3192,65 +3308,79 @@ function classifyFigureModality(fig) {
     fig?.title,
     fig?.alt,
     fig?.section,
+    fig?.section_heading,
     fig?.chunk_type,
+    fig?.figure_id,
     fig?.source_id,
     fig?.primary_tag,
     fig?.figure_url,
     fig?.image_url,
     fig?.url,
+    fig?.excerpt,
   ]
     .map((x) => String(x || "").toLowerCase())
     .join(" ");
   const src = String(fig?.source || "").toLowerCase();
   const sid = String(fig?.source_id || "").toLowerCase();
+  const explicit = String(fig?.modality || fig?.figure_kind || fig?.image_type || "").toLowerCase();
 
-  if (
-    /\b(mammog|ultrasound|sonograph|\bmri\b|magnetic resonance|\bct\b|radiograph|x-?ray|pet[- ]?ct|fluoroscop|imaging|radiolog)\b/.test(
-      blob,
-    )
-  ) {
-    return "imaging";
+  if (explicit) {
+    if (/\b(gross|macro)/.test(explicit)) return "gross";
+    if (/\b(cyto)/.test(explicit)) return "cytology";
+    if (/\b(imag|radio|mammo|ultrasound|mri|ct)\b/.test(explicit)) return "imaging";
+    if (/\b(ihc|immuno)/.test(explicit)) return "ihc";
+    if (/\b(histo|micro)/.test(explicit)) return "microscopic";
   }
-  if (/\b(gross|macroscopic|cut[- ]surface|specimen|fresh tissue|resection specimen|excised)\b/.test(blob)) {
-    return "gross";
-  }
-  if (
-    /\b(ihc|immuno[- ]?histochem|immunostain|immuno stain|her2|er\/pr|ki-?67|cd\d{1,3}|cytokeratin|stain for)\b/.test(
-      blob,
-    )
-  ) {
-    return "ihc";
-  }
-  // Cytology before histology — smears/FNA must not land under Microscopic.
-  if (
+
+  const imaging = /\b(mammograms?|mammog\w*|ultrasound|sonograph|\bmri\b|magnetic resonance|\bct\b|radiographs?|x-?rays?|pet[- ]?ct|fluoroscop\w*|radiolog\w*)\b/.test(
+    blob,
+  );
+  const strongGross = /\b(gross\s+(photo|photograph|image|appearance|findings?|features?)|macroscopic|cut[- ]surface|external\s+surface)\b/.test(
+    blob,
+  );
+  // "specimen" alone is too weak — micro captions often say "resection specimen, H&E".
+  const weakGross = /\b(gross|fresh tissue|resection specimen|excised mass|operative specimen)\b/.test(blob);
+  const ihc = /\b(ihc|immuno[- ]?histochem|immunostain|immuno stain|her2|er\/pr|ki-?67|cd\d{1,3}|cytokeratin|stain for)\b/.test(
+    blob,
+  );
+  const cytology =
     sid.startsWith("cyto_") ||
     /\bcyto[_-]/.test(sid) ||
-    /\b(cytolog|cytopath|\bfna\b|fine[- ]needle|smear|diff[- ]?quik|pap stain|liquid[- ]based|exfoliativ|bethesda|yokohama|imprint cytolog)\b/.test(
+    /\b(cytolog|cytopath|\bfna\b|fine[- ]needle|smear|diff[- ]?quik|pap stain|liquid[- ]based|exfoliativ|bethesda|yokohama|imprint cytolog|cytospin|papanicolaou)\b/.test(
       blob,
-    )
-  ) {
-    return "cytology";
-  }
-  if (
-    /\b(h&amp;e|h&e|h\/e|histolog|histopath|photomicro|tissue section|low[- ]power|high[- ]power|microscop)\b/.test(
-      blob,
-    )
-  ) {
-    return "microscopic";
-  }
-  // Generic nuclear/architecture cues without cytology markers → histology.
-  if (/\b(nuclear|cytoplasm|architecture|ductal|lobular|acin|stroma|epithelial)\b/.test(blob)) {
-    return "microscopic";
-  }
+    );
+  const histology = /\b(h&amp;e|h&e|h\/e|histolog|histopath|photomicro|tissue section|low[- ]power|high[- ]power|microscop|papillary\s+fronds?|fibrovascular|ductal\s+hyperplasia)\b/.test(
+    blob,
+  ) || /\b(nuclear|cytoplasm|architecture|ductal|lobular|acin|stroma|epithelial)\b/.test(blob);
+
+  // Imaging before weak gross; mammograms must not sit under Microscopic.
+  if (imaging && !histology && !cytology) return "imaging";
+  if (cytology && !strongGross) return "cytology";
+  if (ihc && !strongGross) return "ihc";
+  // Histology beats weak "specimen/gross" wording so micro photos leave Gross Features.
+  if (histology && !strongGross) return "microscopic";
+  if (strongGross) return "gross";
+  if (weakGross && !histology && !imaging && !cytology) return "gross";
+  if (imaging) return "imaging";
+  if (histology) return "microscopic";
   // WHO / PathOut / textbook figures without a cue are usually histology tissue photos.
   // (Cytology books are caught above via cyto_ source_id.)
   if (src === "pathout" || src === "textbooks" || src === "who") return "microscopic";
   return "other";
 }
 
+/** When the model inlined a figure under the wrong section, prefer modality. */
+function sectionForFigureModality(claimedSection, modality) {
+  const modalitySection = FIGURE_MODALITY_SECTION[modality];
+  if (!modalitySection || modality === "other") return claimedSection || "other";
+  if (!claimedSection || claimedSection === "other") return modalitySection;
+  if (claimedSection !== modalitySection) return modalitySection;
+  return claimedSection;
+}
+
 /**
- * Bucket figures into section galleries. Prefer the section that already
- * inlined the image in markdown; otherwise classify by caption/URL heuristics.
+ * Bucket figures into section galleries. Inline placement is a hint only —
+ * caption/URL modality wins when it conflicts (micro under Gross, etc.).
  */
 function bucketFiguresBySection(retrievedFigures, sections) {
   const buckets = {
@@ -3264,15 +3394,33 @@ function bucketFiguresBySection(retrievedFigures, sections) {
   const used = new Set();
   const push = (sectionKey, fig) => {
     const url = figureGalleryUrl(fig);
+    const key = sectionKey && buckets[sectionKey] ? sectionKey : "other";
     if (!url || used.has(url)) return;
     used.add(url);
-    buckets[sectionKey].push(fig);
+    buckets[key].push(fig);
   };
+
+  const richByUrl = new Map();
+  for (const fig of retrievedFigures || []) {
+    const url = figureGalleryUrl(fig);
+    if (url && !richByUrl.has(url)) richByUrl.set(url, fig);
+  }
 
   for (const name of Object.keys(buckets)) {
     if (name === "other") continue;
     for (const fig of extractInlineFiguresFromMarkdown(findSectionContent(sections, name))) {
-      push(name, fig);
+      const rich = richByUrl.get(fig.figure_url) || {};
+      const merged = {
+        ...rich,
+        ...fig,
+        caption: fig.caption || rich.caption || rich.title,
+        source: fig.source || rich.source,
+        source_id: fig.source_id || rich.source_id,
+        excerpt: rich.excerpt || rich.text || fig.excerpt,
+      };
+      const modality = classifyFigureModality(merged);
+      const target = sectionForFigureModality(name, modality);
+      push(target, { ...merged, _modality: modality });
     }
   }
 
@@ -4220,8 +4368,9 @@ function renderTopicPageResult(data, query, entryMeta = null) {
       previewIndex.set(presentation.previewUrl, presentation);
     }
   }
-  // Enables bare (WHO)/(Pathoutlines) → real links, and journal labels → (DOI).
+  // Enables bare (WHO)/(Pathoutlines)/(Atlas) → real links, and journal labels → (DOI).
   activeCiteBySource = buildCiteBySource(data.cards || [], literatureCards);
+  indexTextbookLabelsFromCards(data.cards || [], shownFigures);
   const pageContext = pageContextFromEntryMeta(entryMeta);
   const tag = entryMeta?.tag || null;
   const provenance = entryMeta?.provenance || null;
@@ -4561,6 +4710,8 @@ form.addEventListener("submit", async (event) => {
       const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
       const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
+      activeCiteBySource = buildCiteBySource(data.cards || [], []);
+      indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
       body += renderFiguresStrip(data.figures, query);
