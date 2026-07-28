@@ -151,6 +151,8 @@ class ChatStreamEndpointTests(unittest.TestCase):
         self.assertEqual(body["ui_sources"], UI_SOURCES)
         self.assertIn("topic_page_iterative", body)
         self.assertIn("topic_page_live_literature", body)
+        self.assertTrue(body.get("scopus_paren_sanitize"))
+        self.assertEqual(body.get("build_marker"), "topic-iterative-sse-layout-9231")
 
     def test_sse_stream_topic_page_emits_progress_then_result(self):
         from fastapi.testclient import TestClient
