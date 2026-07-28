@@ -3740,7 +3740,11 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   // synthesis, so the page looked far shallower than the real evidence base.
   const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 80 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
-  const literatureCards = data.literature || sortedCards.filter((c) => (c.source || "") === "literature");
+  const rawLiterature =
+    data.literature || sortedCards.filter((c) => (c.source || "") === "literature");
+  // Same relevance gate as figures/cards — hide prostate/etc. off-targets on breast pages.
+  const litFilter = filterByQueryRelevance(query, rawLiterature, { maxShown: 10 });
+  const literatureCards = litFilter.shown.length ? litFilter.shown : [];
   const videoFilter = filterVideoCardsByRelevance(query, sortedCards, { maxShown: 6 });
   const lectureCards = videoFilter.shown;
   const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 40 });
@@ -3772,6 +3776,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     pageContext,
   );
   html += renderLiteratureStrip(literatureCards, data.debug || null);
+  if (litFilter.note) html += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;

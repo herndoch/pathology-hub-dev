@@ -415,6 +415,8 @@ def _run_topic_page_retrieval_legacy(req: ChatRequest) -> tuple:
         "literature_count": len(literature_cards),
         "literature_providers": literature_bundle.get("providers") or {},
         "literature_warnings": literature_bundle.get("warnings") or [],
+        "literature_filter": literature_bundle.get("filter") or {},
+        "literature_scoped_query": literature_bundle.get("scoped_query"),
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
 
@@ -560,10 +562,76 @@ def _build_citation_link_index(cards: list[dict]) -> list[dict]:
     return index[:48]
 
 
+def _literature_cards_from(merged: dict, cards: list[dict]) -> list[dict]:
+    lit = [c for c in (cards or []) if (c.get("source") or "").lower() == "literature"]
+    if lit:
+        return lit
+    return [c for c in (merged.get("literature_results") or []) if isinstance(c, dict)]
+
+
+def _slim_literature_for_prompt(literature_cards: list[dict]) -> list[dict]:
+    slim: list[dict] = []
+    for card in literature_cards[:10]:
+        slim.append(
+            {
+                "title": card.get("title"),
+                "journal": card.get("journal"),
+                "year": card.get("year"),
+                "doi": card.get("doi"),
+                "source_url": card.get("source_url") or card.get("url"),
+                "abstract": (card.get("excerpt") or card.get("text") or "")[:900],
+                "retrieval_mode": card.get("retrieval_mode"),
+                "source": "literature",
+            }
+        )
+    return slim
+
+
 def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
     bundle = dict(merged)
+    literature = _literature_cards_from(merged, cards)
+    if literature:
+        # Key sorts first under json.dumps(..., sort_keys=True) so literature
+        # cannot be truncated away, and the model sees it before hub RAG noise.
+        bundle["00_live_literature_must_use"] = _slim_literature_for_prompt(literature)
+        bundle["literature_results"] = literature
     bundle["_citation_link_index"] = _build_citation_link_index(cards)
     return bundle
+
+
+def _format_key_literature_section(literature_cards: list[dict]) -> str:
+    lines = ["## Key Literature"]
+    for card in literature_cards[:6]:
+        title = (card.get("title") or "Untitled").strip()
+        journal = (card.get("journal") or "").strip()
+        year = str(card.get("year") or "").strip()
+        url = (card.get("source_url") or card.get("url") or "").strip()
+        takeaway = re.sub(r"\s+", " ", (card.get("excerpt") or card.get("text") or "")).strip()[:220]
+        meta = " — ".join(p for p in (journal, f"({year})" if year else "") if p)
+        bullet = f"- **{title}**"
+        if meta:
+            bullet += f" {meta}."
+        if takeaway:
+            bullet += f" {takeaway}"
+            if len((card.get("excerpt") or "")) > 220:
+                bullet += "…"
+        if url.startswith("http"):
+            bullet += f" ([source]({url}))"
+        lines.append(bullet)
+    return "\n".join(lines)
+
+
+def _ensure_key_literature_section(answer: str, literature_cards: list[dict]) -> str:
+    """If the model omitted Key Literature despite live cards, append a grounded section."""
+    if not literature_cards:
+        return answer or ""
+    text = answer or ""
+    if re.search(r"^##\s*Key Literature\b", text, flags=re.IGNORECASE | re.MULTILINE):
+        return text
+    block = _format_key_literature_section(literature_cards)
+    if not text.strip():
+        return block + "\n"
+    return text.rstrip() + "\n\n" + block + "\n"
 
 
 @app.get("/")
@@ -676,12 +744,29 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
 
 
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
-    return synthesize(
+    literature = _literature_cards_from(merged, cards)
+    extra = None
+    if literature:
+        extra = (
+            f"LIVE LITERATURE IS PRESENT ({len(literature)} cards in "
+            "`00_live_literature_must_use` / `literature_results`). You MUST include "
+            "`## Key Literature` with 3–6 bullets drawn from those cards (title, journal, "
+            "year, one-sentence abstract takeaway, DOI/URL cite). Also weave 1–2 on-topic "
+            "findings into Clinical Issues and/or Etiology/Pathogenesis when the abstracts "
+            "support them. Ignore any literature card about a different organ/system."
+        )
+    result = synthesize(
         prompts.topic_page_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        extra_instructions=extra,
         model=get_topic_page_model(),
     )
+    if result.ok and literature:
+        ensured = _ensure_key_literature_section(result.text, literature)
+        if ensured != (result.text or ""):
+            result.text = ensured
+    return result
 
 
 def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:

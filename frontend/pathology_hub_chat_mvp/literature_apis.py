@@ -403,6 +403,145 @@ def annotate_oncokb(query: str, tumor_type: Optional[str] = None) -> tuple[list[
     return cards, meta
 
 
+# Organ scoping for literature queries — reduces classic off-target hits
+# (e.g. prostate "intraductal carcinoma" for breast LCIS).
+_ORGAN_POSITIVE: dict[str, tuple[str, ...]] = {
+    "breast": ("breast", "mammary", "ductal", "lobular", "lcis", "dcis", "mastectomy"),
+    "prostate": ("prostate", "prostatic", "pin", "gleason"),
+    "salivary": ("salivary", "parotid", "submandibular", "minor salivary"),
+    "colon": ("colon", "colorectal", "rectal", "bowel"),
+    "cervix": ("cervix", "cervical", "cin", "hsil", "lsil"),
+    "thyroid": ("thyroid", "papillary thyroid", "follicular thyroid"),
+    "lung": ("lung", "pulmonary", "bronchial"),
+    "skin": ("skin", "cutaneous", "melanoma", "dermat"),
+}
+_ORGAN_BLOCKS: dict[str, tuple[str, ...]] = {
+    "breast": ("prostate", "prostatic", "salivary", "parotid", "colon", "cervix", "ovarian", "endometrial"),
+    "prostate": ("breast", "salivary", "colon", "cervix", "thyroid"),
+    "salivary": ("breast", "prostate", "colon", "cervix"),
+    "colon": ("breast", "prostate", "salivary", "cervix", "thyroid"),
+    "cervix": ("breast", "prostate", "salivary", "colon"),
+    "thyroid": ("breast", "prostate", "salivary", "colon", "cervix"),
+    "lung": ("breast", "prostate", "salivary", "colon"),
+    "skin": ("breast", "prostate", "salivary", "colon", "cervix"),
+}
+
+
+def infer_organ_hint(query: str, tumor_type: Optional[str] = None) -> Optional[str]:
+    blob = f"{query or ''} {tumor_type or ''}".lower()
+    # Specific abbreviations first.
+    if re.search(r"\b(lcis|dcis)\b", blob) or "lobular carcinoma in situ" in blob:
+        return "breast"
+    for organ, positives in _ORGAN_POSITIVE.items():
+        if any(p in blob for p in positives):
+            return organ
+    return None
+
+
+def scope_literature_query(query: str, organ_hint: Optional[str] = None) -> str:
+    """Append a light organ scope term when the bare query is organ-ambiguous."""
+    q = (query or "").strip()
+    if not q or not organ_hint:
+        return q
+    positives = _ORGAN_POSITIVE.get(organ_hint) or ()
+    low = q.lower()
+    if any(p in low for p in positives[:3]):  # already scoped
+        return q
+    # One anchoring organ word — enough for PubMed/Scopus without drowning the entity.
+    anchor = {"breast": "breast", "prostate": "prostate", "salivary": "salivary", "colon": "colorectal"}.get(
+        organ_hint, organ_hint
+    )
+    return f"{q} {anchor}"
+
+
+def _literature_haystack(card: dict) -> str:
+    return " ".join(
+        str(card.get(k) or "")
+        for k in ("title", "excerpt", "text", "journal", "abstract")
+    ).lower()
+
+
+def _query_entity_tokens(query: str) -> list[str]:
+    stop = {
+        "the",
+        "a",
+        "an",
+        "of",
+        "in",
+        "for",
+        "and",
+        "or",
+        "with",
+        "to",
+        "on",
+        "at",
+        "by",
+        "from",
+        "features",
+        "molecular",
+        "genetics",
+        "macroscopic",
+        "clinicopathologic",
+        "review",
+    }
+    tokens = re.findall(r"[a-z0-9]{3,}", (query or "").lower())
+    return [t for t in tokens if t not in stop]
+
+
+def filter_literature_cards(
+    query: str,
+    cards: list[dict],
+    *,
+    organ_hint: Optional[str] = None,
+) -> tuple[list[dict], list[dict], dict[str, Any]]:
+    """Drop organ-conflict / weak-match literature before synthesis + UI.
+
+    Returns (kept, dropped, stats).
+    """
+    organ = organ_hint or infer_organ_hint(query)
+    entity_tokens = _query_entity_tokens(query)
+    # Prefer distinctive tokens (lcis, lobular, …) over generic ones.
+    strong = [t for t in entity_tokens if t not in {"carcinoma", "cancer", "tumor", "tumour", "lesion", "breast"}]
+    if not strong:
+        strong = entity_tokens[:4]
+
+    kept: list[dict] = []
+    dropped: list[dict] = []
+    for card in cards or []:
+        # OncoKB cards are gene-level — keep when present.
+        if (card.get("retrieval_mode") or "") == "oncokb":
+            kept.append(card)
+            continue
+        hay = _literature_haystack(card)
+        if not hay.strip():
+            dropped.append(card)
+            continue
+        if organ:
+            blocks = _ORGAN_BLOCKS.get(organ) or ()
+            positives = _ORGAN_POSITIVE.get(organ) or ()
+            has_block = any(b in hay for b in blocks)
+            has_pos = any(p in hay for p in positives)
+            if has_block and not has_pos:
+                dropped.append(card)
+                continue
+        if strong:
+            hits = sum(1 for t in strong if t in hay)
+            # Require at least one distinctive entity token in title/abstract.
+            if hits < 1:
+                dropped.append(card)
+                continue
+        kept.append(card)
+
+    stats = {
+        "organ_hint": organ,
+        "input": len(cards or []),
+        "kept": len(kept),
+        "dropped": len(dropped),
+        "entity_tokens": strong[:8],
+    }
+    return kept, dropped, stats
+
+
 def fetch_live_literature(
     query: str,
     *,
@@ -423,9 +562,12 @@ def fetch_live_literature(
     cards: list[dict] = []
     warnings: list[str] = []
 
+    organ_hint = infer_organ_hint(query, tumor_type)
+    scoped_query = scope_literature_query(query, organ_hint)
+
     jobs = {
-        "scopus": lambda: search_scopus(query, max_per_provider),
-        "pubmed": lambda: search_pubmed(query, max_per_provider),
+        "scopus": lambda: search_scopus(scoped_query, max_per_provider),
+        "pubmed": lambda: search_pubmed(scoped_query, max_per_provider),
     }
     if include_oncokb:
         jobs["oncokb"] = lambda: annotate_oncokb(query, tumor_type=tumor_type)
@@ -455,10 +597,19 @@ def fetch_live_literature(
         seen.add(key)
         deduped.append(card)
 
+    kept, dropped, filt_stats = filter_literature_cards(
+        query, deduped, organ_hint=organ_hint
+    )
+    if dropped:
+        warnings.append(f"literature_filtered_offtopic_{len(dropped)}")
+
     return {
         "enabled": True,
-        "cards": deduped,
+        "cards": kept,
         "providers": providers,
         "warnings": warnings,
         "query": query,
+        "scoped_query": scoped_query,
+        "filter": filt_stats,
+        "dropped_offtopic": len(dropped),
     }

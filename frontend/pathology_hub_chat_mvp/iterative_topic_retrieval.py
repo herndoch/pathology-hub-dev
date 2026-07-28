@@ -177,6 +177,7 @@ def run_iterative_topic_retrieval(
     literature_all: list[dict] = []
     literature_providers: dict = {}
     literature_warnings: list[str] = []
+    literature_filter: dict = {}
     round_summaries: list[dict] = []
 
     # ----- Round 1: broad -----
@@ -242,17 +243,26 @@ def run_iterative_topic_retrieval(
         # Copy so later deepen rounds can annotate without mutating provider payloads.
         literature_providers = dict(lit.get("providers") or {})
         literature_warnings = list(lit.get("warnings") or [])
+        literature_filter = lit.get("filter") or {}
         yield {
             "phase": "literature",
             "round": 1,
             "status": "done",
             "label": "Live literature — Elsevier / PubMed / OncoKB",
-            "detail": f"{len(literature_all)} literature cards",
+            "detail": (
+                f"{len(literature_all)} on-topic literature cards"
+                + (
+                    f" · filtered {lit.get('dropped_offtopic', 0)} off-target"
+                    if lit.get("dropped_offtopic")
+                    else ""
+                )
+            ),
             "cards": len(literature_all),
             "providers": {
                 k: {"ok": v.get("ok"), "returned": v.get("returned"), "total": v.get("total")}
                 for k, v in literature_providers.items()
             },
+            "filter": literature_filter,
         }
 
     # ----- Round 2: gap fill -----
@@ -419,6 +429,7 @@ def run_iterative_topic_retrieval(
         "literature_count": len(literature_cards),
         "literature_providers": literature_providers,
         "literature_warnings": literature_warnings,
+        "literature_filter": literature_filter,
     }
 
     yield {

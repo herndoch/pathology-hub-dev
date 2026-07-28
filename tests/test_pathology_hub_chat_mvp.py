@@ -503,6 +503,33 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertIn("IHC / special-stain photomicrographs → Ancillary Tests", text)
         self.assertIn("Embed IHC / special-stain figures here", text)
 
+    def test_topic_page_prompt_requires_key_literature_when_present(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("00_live_literature_must_use", text)
+        self.assertIn("REQUIRED whenever literature_results", text)
+        self.assertIn("not a footer-only dump", text)
+
+    def test_ensure_key_literature_section_appends_when_missing(self):
+        from app import _ensure_key_literature_section  # noqa: E402
+
+        cards = [
+            {
+                "title": "Lobular Carcinoma In Situ",
+                "journal": "Surg Pathol Clin",
+                "year": "2018",
+                "excerpt": "Classic LCIS features and management.",
+                "source_url": "https://doi.org/10.1/test",
+            }
+        ]
+        out = _ensure_key_literature_section("## Clinical Issues\n- Risk lesion\n", cards)
+        self.assertIn("## Key Literature", out)
+        self.assertIn("Lobular Carcinoma In Situ", out)
+        # Idempotent when already present.
+        again = _ensure_key_literature_section(out, cards)
+        self.assertEqual(again.count("## Key Literature"), 1)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt

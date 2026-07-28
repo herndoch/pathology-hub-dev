@@ -90,6 +90,42 @@ class TestLiteratureHelpers(unittest.TestCase):
         self.assertEqual(card["source"], "literature")
         self.assertTrue(card["source_url"].startswith("https://doi.org/"))
 
+    def test_filter_literature_drops_prostate_for_breast_lcis(self):
+        cards = [
+            {
+                "title": "Lobular Carcinoma In Situ",
+                "excerpt": "Classic LCIS of the breast and E-cadherin loss.",
+                "retrieval_mode": "pubmed_ncbi",
+            },
+            {
+                "title": "Intraductal Carcinoma of the Prostate: Pathogenesis and Molecular Perspectives",
+                "excerpt": "Prostatic intraductal carcinoma molecular update.",
+                "retrieval_mode": "pubmed_ncbi",
+            },
+            {
+                "title": "Adenoid cystic carcinoma of the breast",
+                "excerpt": "MYB detection in breast AdCC.",
+                "retrieval_mode": "pubmed_ncbi",
+            },
+        ]
+        kept, dropped, stats = literature_apis.filter_literature_cards(
+            "Lobular carcinoma in situ (LCIS)", cards
+        )
+        self.assertEqual(stats["organ_hint"], "breast")
+        titles = {c["title"] for c in kept}
+        self.assertIn("Lobular Carcinoma In Situ", titles)
+        self.assertNotIn(
+            "Intraductal Carcinoma of the Prostate: Pathogenesis and Molecular Perspectives",
+            titles,
+        )
+        self.assertGreaterEqual(len(dropped), 1)
+
+    def test_scope_literature_query_adds_breast_anchor(self):
+        scoped = literature_apis.scope_literature_query(
+            "Lobular carcinoma in situ (LCIS)", "breast"
+        )
+        self.assertIn("breast", scoped.lower())
+
 
 if __name__ == "__main__":
     unittest.main()
