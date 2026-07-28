@@ -451,7 +451,16 @@ def _run_topic_page_retrieval(req: ChatRequest, on_progress=None) -> tuple:
 
 
 def _sse_frame(event: str, data: dict) -> str:
-    return f"event: {event}\ndata: {json.dumps(data, default=str)}\n\n"
+    """Build one SSE event.
+
+    Appends a padded comment line so common proxies / browsers flush the
+    chunk immediately instead of buffering until the generator finishes
+    (which would make the UI look like it had no live thinking).
+    """
+    payload = json.dumps(data, default=str)
+    # ~2KB pad: forces flush past typical proxy/browser buffer thresholds.
+    pad = ": " + (" " * 2048) + "\n"
+    return f"event: {event}\ndata: {payload}\n{pad}\n"
 
 
 def _chat_response_payload(

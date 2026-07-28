@@ -25,5 +25,6 @@ echo "Set PATHOLOGY_HUB_API_KEY or HUB_API for evidence search."
 echo "Set OPENAI_API_KEY for GPT-like synthesis modes."
 echo "TOPIC_PAGE_LIVE_LITERATURE=${TOPIC_PAGE_LIVE_LITERATURE} (Elsevier/PubMed/OncoKB; set 0 to disable)."
 echo "TOPIC_PAGE_ITERATIVE=${TOPIC_PAGE_ITERATIVE} rounds=${TOPIC_PAGE_ITERATIVE_ROUNDS} (SSE: POST /api/chat/stream)."
+echo "Hard-refresh the browser (Ctrl+Shift+R). Status badge should say 'live thinking' when this build is running."
 
 exec uvicorn app:app --host 127.0.0.1 --port "$PORT" --reload

@@ -2,6 +2,12 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
 /** Most-recently-rendered chat/topic-page result, for the "Export current
  * page as JSON" button — replaces the old teaching-session-notes panel. */
 let lastExportableResult = null;
+/** From /api/health — drives cache skip + status badge. */
+let healthFlags = {
+  iterative: true,
+  liveLiterature: true,
+  streamEndpoint: true,
+};
 /** Topic pages are meant to be comprehensive, so they always request every
  * supported source regardless of the sidebar checkbox state — this mirrors
  * (and is redundant with) the server-side enforcement in app.py, kept here
@@ -2000,13 +2006,24 @@ async function refreshHealth() {
     supportedSources = raw.filter((s) => s !== "journals");
     renderSourceCheckboxes();
 
+    healthFlags.iterative = data.topic_page_iterative !== false;
+    healthFlags.liveLiterature = data.topic_page_live_literature !== false;
+    // Older servers lack these fields — treat missing iterative flag as "not this build".
+    healthFlags.streamEndpoint = typeof data.topic_page_iterative === "boolean";
+
     const hubKey = data.secrets?.pathology_hub?.present;
     const openaiKey = data.secrets?.openai?.present;
     const backendOk = data.backend?.ok;
     healthStatus.className = "status";
     if (backendOk && hubKey) {
       healthStatus.classList.add("ok");
-      healthStatus.textContent = openaiKey ? "Ready" : "Ready (search-only)";
+      const bits = [openaiKey ? "Ready" : "Ready (search-only)"];
+      if (healthFlags.streamEndpoint && healthFlags.iterative) bits.push("live thinking");
+      if (healthFlags.liveLiterature) bits.push("literature");
+      healthStatus.textContent = bits.join(" · ");
+      healthStatus.title = healthFlags.streamEndpoint
+        ? "Iterative SSE build active — topic pages stream round progress."
+        : "Server build may be outdated (no topic_page_iterative flag). Checkout cursor/topic-iterative-sse-layout-9231 and restart.";
     } else if (!hubKey) {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "API key missing";
@@ -3271,9 +3288,22 @@ function upsertThinkingStep(steps, ev) {
   return steps;
 }
 
+function yieldToBrowserPaint() {
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => resolve());
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
+}
+
 /**
  * Real SSE client for POST /api/chat/stream — yields progress events live
  * (not a post-hoc replay). Returns the final `result` payload.
+ *
+ * Awaits onProgress and yields to the browser between events so the thinking
+ * panel can paint even when chunks arrive in a burst.
  */
 async function streamChat(payload, { onProgress } = {}) {
   const resp = await fetch("/api/chat/stream", {
@@ -3292,6 +3322,10 @@ async function streamChat(payload, { onProgress } = {}) {
     } catch (_) {
       /* ignore */
     }
+    if (resp.status === 404) {
+      detail =
+        "No /api/chat/stream on this server — checkout cursor/topic-iterative-sse-layout-9231, restart ./scripts/run_local.sh, hard-refresh.";
+    }
     throw new Error(detail);
   }
   if (!resp.body || typeof resp.body.getReader !== "function") {
@@ -3309,11 +3343,12 @@ async function streamChat(payload, { onProgress } = {}) {
   let buffer = "";
   let resultPayload = null;
 
-  const flushBlock = (block) => {
+  const flushBlock = async (block) => {
     const lines = block.split(/\r?\n/);
     let eventName = "message";
     const dataLines = [];
     for (const line of lines) {
+      if (!line || line.startsWith(":")) continue; // SSE comments / flush pads
       if (line.startsWith("event:")) eventName = line.slice(6).trim();
       else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
     }
@@ -3325,7 +3360,8 @@ async function streamChat(payload, { onProgress } = {}) {
       return;
     }
     if (eventName === "progress") {
-      if (onProgress) onProgress(data);
+      if (onProgress) await onProgress(data);
+      await yieldToBrowserPaint();
     } else if (eventName === "result") {
       resultPayload = data;
     } else if (eventName === "error") {
@@ -3338,13 +3374,15 @@ async function streamChat(payload, { onProgress } = {}) {
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
     let sep;
+    // Split on blank line; tolerate padded comment frames between events.
     while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
       const block = buffer.slice(0, sep);
-      buffer = buffer.slice(sep).replace(/^\r?\n\r?\n/, "");
-      if (block.trim()) flushBlock(block);
+      const match = buffer.slice(sep).match(/^\r?\n\r?\n/);
+      buffer = buffer.slice(sep + (match ? match[0].length : 2));
+      if (block.trim()) await flushBlock(block);
     }
   }
-  if (buffer.trim()) flushBlock(buffer);
+  if (buffer.trim()) await flushBlock(buffer);
   if (!resultPayload) {
     throw new Error("Stream ended without a result event.");
   }
@@ -3560,13 +3598,16 @@ function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thi
   return html;
 }
 
-/** Loads a Browse leaf's topic page. Tries read-only cache first; on miss runs
- * live topic_page via SSE stream so round progress is visible. Rebuild skips cache. */
+/** Loads a Browse leaf's topic page via SSE so round progress is visible.
+ * Skips the silent prebuild cache when iterative retrieval is on (otherwise
+ * cache hits hide all thinking). Rebuild always forces a live stream. */
 async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {
-    thinkingHtml: renderThinkingPanel([{ status: "running", label: "Loading…", detail: displayLabel }]),
+    thinkingHtml: renderThinkingPanel([
+      { status: "running", label: "Starting live retrieval…", detail: displayLabel },
+    ]),
   });
   bindTopicPageChrome(browseContentEl, leafRef, displayLabel, leafRef.query || displayLabel);
 
@@ -3577,14 +3618,18 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const query = leafRef.query || displayLabel;
 
   try {
+    // Silent cache skips thinking entirely — only use it when iterative/SSE
+    // is off (older server) and the user did not ask to Rebuild.
     let cachedMeta = null;
-    if (!rebuild && leafRef.tag) {
+    const allowCache = !rebuild && !healthFlags.iterative && Boolean(leafRef.tag);
+    if (allowCache) {
       cachedMeta = await fetchCachedTopicPage(leafRef.tag);
     }
     if (seq !== browseRequestSeq) return;
 
     let data;
-    if (cachedMeta && !rebuild) {
+    let steps = [];
+    if (cachedMeta && allowCache) {
       data = {
         ok: true,
         mode: "topic_page",
@@ -3600,13 +3645,17 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
         debug: null,
       };
     } else {
-      const steps = [];
       const paintThinking = () => {
         if (seq !== browseRequestSeq) return;
         browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, query, {
           thinkingHtml: renderThinkingPanel(steps),
         });
         bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
+        // Keep the thinking panel in view while rounds run.
+        browseContentEl.querySelector("[data-thinking-panel]")?.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth",
+        });
       };
       paintThinking();
       data = await streamChat(
@@ -3616,12 +3665,14 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
           rebuild,
         }),
         {
-          onProgress: (ev) => {
+          onProgress: async (ev) => {
             upsertThinkingStep(steps, ev);
             paintThinking();
           },
         },
       );
+      // Mark any still-running steps done for the retained summary.
+      steps = steps.map((s) => (s.status === "running" ? { ...s, status: "done" } : s));
     }
     if (seq !== browseRequestSeq) return;
 
@@ -3638,7 +3689,11 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       data,
     });
 
+    const thinkingHtml = steps.length
+      ? renderThinkingPanel(steps)
+      : "";
     let html = renderTopicPageShell(leafRef, displayLabel, query, {
+      thinkingHtml,
       bodyHtml:
         topicPageCacheHint(data, cachedMeta) +
         renderTopicPageResult(data, query, {
@@ -3676,12 +3731,16 @@ form.addEventListener("submit", async (event) => {
 
   try {
     const data = await streamChat(buildPayload(query), {
-      onProgress: (ev) => {
+      onProgress: async (ev) => {
         upsertThinkingStep(steps, ev);
         paintThinking();
       },
     });
     let body = "";
+    const doneSteps = steps.map((s) => (s.status === "running" ? { ...s, status: "done" } : s));
+    if (doneSteps.length) {
+      body += renderThinkingPanel(doneSteps);
+    }
 
     if (data.ok) {
       setLastExportableResult({ source: data.mode || "chat", query, data });
