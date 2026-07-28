@@ -10,29 +10,13 @@
   <header class="topbar">
     <div class="brand">
       <h1>Pathology Hub Chat</h1>
-      <p class="subtitle">Evidence-grounded pathology Q&amp;A — textbooks, WHO, Pathoutlines, lectures, and more</p>
+      <p class="subtitle">Evidence-grounded pathology Q&amp;A — textbooks, WHO, Pathoutlines, lectures, and live literature</p>
     </div>
     <div class="status" id="health-status">Checking…</div>
   </header>
 
   <main class="layout">
     <section class="chat-panel">
-      <form class="composer composer-top" id="chat-form">
-        <textarea
-          id="query-input"
-          rows="2"
-          placeholder="Ask or search pathology (e.g. LCIS breast, tubular adenoma colon)…"
-          required
-        ></textarea>
-        <div class="composer-actions">
-          <button type="submit" id="send-btn">Send</button>
-          <label class="inline-check">
-            <input type="checkbox" id="debug-toggle" />
-            Show debug panel
-          </label>
-        </div>
-      </form>
-
       <div class="view-tabs">
         <button type="button" class="view-tab active" data-view="browse">Browse</button>
         <button type="button" class="view-tab" data-view="ask">Ask</button>
@@ -51,14 +35,30 @@
       <div id="ask-view" class="view-panel hidden">
         <div class="messages" id="messages" aria-live="polite"></div>
       </div>
+
+      <form class="composer composer-bottom" id="chat-form">
+        <textarea
+          id="query-input"
+          rows="2"
+          placeholder="Ask or search pathology (e.g. LCIS breast, tubular adenoma colon)…"
+          required
+        ></textarea>
+        <div class="composer-actions">
+          <button type="submit" id="send-btn">Send</button>
+          <label class="inline-check">
+            <input type="checkbox" id="debug-toggle" />
+            Show debug panel
+          </label>
+        </div>
+      </form>
     </section>
 
-    <div class="sidebar-stack">
+    <div class="bottom-stack" id="bottom-stack">
       <aside class="controls">
         <details class="controls-details" id="controls-details">
           <summary>
             Advanced: answer mode &amp; sources
-            <span class="hint controls-summary-hint">defaults to GPT-like · WHO + Textbooks + Pathoutlines — open this only to scope to lectures, journals, or a specific mode</span>
+            <span class="hint controls-summary-hint">defaults to GPT-like · WHO + Textbooks + Pathoutlines — open to scope lectures/videos or pick a mode</span>
           </summary>
 
           <label for="mode-select">Answer mode</label>
@@ -79,6 +79,7 @@
             <div id="source-checkboxes" class="source-grid"></div>
             <p class="hint curriculum-hint">
               <strong>Curriculum</strong> is a study-map navigator only — not diagnostic proof.
+              Live journal papers come from Elsevier / PubMed / OncoKB on topic pages (not the retired local journals index).
             </p>
           </fieldset>
 
@@ -89,7 +90,7 @@
 
       <aside class="notes-panel">
         <h2 class="export-panel-title">Export</h2>
-        <p class="hint">Download the full raw response (answer, cards, figures, literature, debug) for whichever page or chat answer you last opened — everything the app actually received, not just what's rendered.</p>
+        <p class="hint">Download the full raw response (answer, cards, figures, literature, debug) for whichever page or chat answer you last opened.</p>
         <button type="button" id="export-page-btn" class="btn-secondary" disabled>Export current page as JSON</button>
         <p class="hint export-status" id="export-status" aria-live="polite"></p>
       </aside>

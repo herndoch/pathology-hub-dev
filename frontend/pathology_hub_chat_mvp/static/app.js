@@ -45,7 +45,7 @@ const MODE_HINTS = {
   compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
   visual: "Figures retrieved and shown above the answer.",
   html_teaching: "Hosted HTML teaching page — link appears above citations.",
-  topic_page: "ExpertPath-style reference page: Key Facts box, section headers, figure gallery, and multi-query retrieval (3–4 parallel aspect variants × all sources) for broader coverage. Also reachable via the Browse tab.",
+  topic_page: "ExpertPath-style reference page with iterative retrieval (broad → gap-fill → literature deepen), live Elsevier/PubMed/OncoKB, and visible round-by-round progress. Also reachable via the Browse tab.",
 };
 
 const VISUAL_QUERY_RE =
@@ -1994,7 +1994,10 @@ async function refreshHealth() {
   try {
     const resp = await fetch("/api/health");
     const data = await resp.json();
-    supportedSources = data.supported_sources || [];
+    // Prefer ui_sources (journals retired from checkboxes). Fall back to
+    // supported_sources filtered client-side for older servers.
+    const raw = data.ui_sources || data.supported_sources || [];
+    supportedSources = raw.filter((s) => s !== "journals");
     renderSourceCheckboxes();
 
     const hubKey = data.secrets?.pathology_hub?.present;
@@ -2020,6 +2023,7 @@ async function refreshHealth() {
 function renderSourceCheckboxes() {
   if (!supportedSources.length || sourceCheckboxes.childElementCount) return;
   for (const src of supportedSources) {
+    if (src === "journals") continue; // retired local FAISS corpus — live literature is separate
     const label = document.createElement("label");
     const input = document.createElement("input");
     input.type = "checkbox";
@@ -3128,10 +3132,23 @@ function renderTopicSourceSummary(data, entryMeta = null) {
     const before = debug?.cards_before_root_filter;
     const after = debug?.cards_after_root_filter;
     if (narrow === true && typeof before === "number" && typeof after === "number" && before !== after) {
-      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO + journals kept).</p>`;
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO kept).</p>`;
     } else if (narrow === true) {
       html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong> active for textbooks, Pathoutlines, and lecture segments.</p>`;
     }
+  }
+
+  if (debug?.iterative && Array.isArray(debug.round_summaries) && debug.round_summaries.length) {
+    const rounds = debug.round_summaries
+      .map((r) => {
+        const bits = [`R${r.round} ${r.label || ""}`.trim()];
+        if (typeof r.cards === "number") bits.push(`${r.cards} cards`);
+        if (typeof r.literature_total === "number") bits.push(`${r.literature_total} lit`);
+        if (typeof r.cards_added === "number" && r.cards_added) bits.push(`+${r.cards_added}`);
+        return bits.join(" · ");
+      })
+      .join(" → ");
+    html += `<p class="hint"><strong>Iterative retrieval:</strong> ${escapeHtml(rounds)}</p>`;
   }
 
   if (debug?.cards_by_source_before_cap && debug?.cards_by_source_after_cap) {
@@ -3172,11 +3189,166 @@ function topicPageFanoutHint(data) {
   const callCount = debug.call_count || "?";
   const capped = debug.cards_capped;
   const capLimit = debug.cards_cap_limit;
-  let text = `Retrieval used ${variantCount} parallel query variants (${callCount} total source calls) for broader coverage.`;
+  let text = debug.iterative
+    ? `Iterative retrieval across ${debug.iterative_rounds || "?"} rounds · ${variantCount} hub queries (${callCount} source calls).`
+    : `Retrieval used ${variantCount} parallel query variants (${callCount} total source calls) for broader coverage.`;
   if (typeof capped === "number" && typeof capLimit === "number") {
     text += ` ${capped} unique cards (cap ${capLimit}) sent to synthesis.`;
   }
+  if (typeof debug.literature_count === "number") {
+    text += ` ${debug.literature_count} live literature cards.`;
+  }
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
+}
+
+function renderTopicExportBar() {
+  return (
+    '<div class="topic-export-bar">' +
+    '<button type="button" class="btn-secondary topic-export-btn">Export page as JSON</button>' +
+    '<p class="hint">Full raw response (answer, cards, figures, literature, debug).</p>' +
+    "</div>"
+  );
+}
+
+/** Build HTML for the live SSE thinking / progress panel. */
+function renderThinkingPanel(steps) {
+  if (!steps?.length) {
+    return (
+      '<div class="thinking-panel" data-thinking-panel>' +
+      '<div class="thinking-panel-title">Working…</div>' +
+      '<ul class="thinking-steps"></ul></div>'
+    );
+  }
+  let html =
+    '<div class="thinking-panel" data-thinking-panel>' +
+    '<div class="thinking-panel-title">Building evidence</div><ul class="thinking-steps">';
+  for (const step of steps) {
+    const status = step.status || "running";
+    html += `<li class="thinking-step ${escapeAttr(status)}">`;
+    html += '<span class="thinking-mark" aria-hidden="true"></span>';
+    html += "<div>";
+    html += `<div class="thinking-label">${escapeHtml(step.label || step.phase || "…")}</div>`;
+    if (step.detail) {
+      html += `<div class="thinking-detail">${escapeHtml(step.detail)}</div>`;
+    }
+    if (Array.isArray(step.queries) && step.queries.length) {
+      html += '<ul class="thinking-queries">';
+      for (const q of step.queries.slice(0, 6)) {
+        html += `<li>${escapeHtml(q)}</li>`;
+      }
+      html += "</ul>";
+    }
+    html += "</div></li>";
+  }
+  html += "</ul></div>";
+  return html;
+}
+
+function thinkingStepKey(ev) {
+  if (ev.phase === "round" || ev.phase === "literature") {
+    return `${ev.phase}-${ev.round || 0}-${ev.label || ""}`;
+  }
+  return `${ev.phase || "step"}-${ev.label || ""}`;
+}
+
+function upsertThinkingStep(steps, ev) {
+  const key = thinkingStepKey(ev);
+  const next = {
+    key,
+    phase: ev.phase,
+    round: ev.round,
+    status: ev.status || "running",
+    label: ev.label || ev.phase || "Working…",
+    detail: ev.detail || "",
+    queries: ev.queries || null,
+  };
+  const idx = steps.findIndex((s) => s.key === key);
+  if (idx >= 0) {
+    steps[idx] = { ...steps[idx], ...next };
+  } else {
+    steps.push(next);
+  }
+  return steps;
+}
+
+/**
+ * Real SSE client for POST /api/chat/stream — yields progress events live
+ * (not a post-hoc replay). Returns the final `result` payload.
+ */
+async function streamChat(payload, { onProgress } = {}) {
+  const resp = await fetch("/api/chat/stream", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!resp.ok) {
+    let detail = `HTTP ${resp.status}`;
+    try {
+      const errBody = await resp.json();
+      detail = errBody.error || detail;
+    } catch (_) {
+      /* ignore */
+    }
+    throw new Error(detail);
+  }
+  if (!resp.body || typeof resp.body.getReader !== "function") {
+    // Extremely old environments — fall back to blocking chat.
+    const fallback = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return fallback.json();
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let resultPayload = null;
+
+  const flushBlock = (block) => {
+    const lines = block.split(/\r?\n/);
+    let eventName = "message";
+    const dataLines = [];
+    for (const line of lines) {
+      if (line.startsWith("event:")) eventName = line.slice(6).trim();
+      else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+    }
+    if (!dataLines.length) return;
+    let data;
+    try {
+      data = JSON.parse(dataLines.join("\n"));
+    } catch (_) {
+      return;
+    }
+    if (eventName === "progress") {
+      if (onProgress) onProgress(data);
+    } else if (eventName === "result") {
+      resultPayload = data;
+    } else if (eventName === "error") {
+      throw new Error(data.error || "Stream error");
+    }
+  };
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let sep;
+    while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
+      const block = buffer.slice(0, sep);
+      buffer = buffer.slice(sep).replace(/^\r?\n\r?\n/, "");
+      if (block.trim()) flushBlock(block);
+    }
+  }
+  if (buffer.trim()) flushBlock(buffer);
+  if (!resultPayload) {
+    throw new Error("Stream ended without a result event.");
+  }
+  return resultPayload;
 }
 
 /** Splits a raw "Root::Sub::Leaf" tag into human-readable breadcrumb
@@ -3292,6 +3464,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   html += renderTopicSourceSummary(data, entryMeta);
   html += topicPageFanoutHint(data);
   html += renderDebugBlock(data);
+  html += renderTopicExportBar();
   return html;
 }
 
@@ -3349,12 +3522,53 @@ function topicPageCacheHint(data, cachedMeta) {
   return "";
 }
 
+function bindTopicPageChrome(root, leafRef, displayLabel, query) {
+  root.querySelector(".flag-page-btn")?.addEventListener("click", () => {
+    openFlagModal({
+      tag: leafRef.tag,
+      label: displayLabel,
+      query,
+      page_kind: "topic_page",
+    });
+  });
+  root.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
+    loadLeafTopicPage(leafRef, { rebuild: true });
+  });
+  root.querySelectorAll(".topic-export-btn").forEach((btn) => {
+    btn.addEventListener("click", exportCurrentPageAsJson);
+  });
+  bindPreviewHandlers(root);
+  bindDdxLinks(root);
+  bindVsButtons(root);
+}
+
+function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thinkingHtml = "" } = {}) {
+  const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
+    tag: leafRef.tag,
+    label: leafRef.label,
+    query,
+  });
+  let html = '<div class="topic-page-actions">';
+  html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
+  if (leafRef.tag) {
+    html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+  }
+  html += renderVsButton(compareEnt);
+  html += "</div>";
+  html += thinkingHtml;
+  html += bodyHtml;
+  return html;
+}
+
 /** Loads a Browse leaf's topic page. Tries read-only cache first; on miss runs
- * live topic_page (server also caches on success). Rebuild skips cache. */
+ * live topic_page via SSE stream so round progress is visible. Rebuild skips cache. */
 async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
-  browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
+  browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {
+    thinkingHtml: renderThinkingPanel([{ status: "running", label: "Loading…", detail: displayLabel }]),
+  });
+  bindTopicPageChrome(browseContentEl, leafRef, displayLabel, leafRef.query || displayLabel);
 
   const category = findCategory(leafRef.categoryId);
   const subcategory = category ? findSubcategory(category, leafRef.subcategoryId) : null;
@@ -3377,6 +3591,7 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
         answer: cachedMeta.answer_markdown,
         cards: cachedMeta.cards || [],
         figures: cachedMeta.figures || [],
+        literature: (cachedMeta.cards || []).filter((c) => (c.source || "") === "literature"),
         who_cross_mentions: cachedMeta.who_cross_mentions || [],
         cache_hit: true,
         cache_source: cachedMeta.cache_source,
@@ -3385,18 +3600,28 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
         debug: null,
       };
     } else {
-      const resp = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          buildPayload(query, "topic_page", {
-            categoryContext,
-            pageTag: leafRef.tag,
-            rebuild,
-          }),
-        ),
-      });
-      data = await resp.json();
+      const steps = [];
+      const paintThinking = () => {
+        if (seq !== browseRequestSeq) return;
+        browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, query, {
+          thinkingHtml: renderThinkingPanel(steps),
+        });
+        bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
+      };
+      paintThinking();
+      data = await streamChat(
+        buildPayload(query, "topic_page", {
+          categoryContext,
+          pageTag: leafRef.tag,
+          rebuild,
+        }),
+        {
+          onProgress: (ev) => {
+            upsertThinkingStep(steps, ev);
+            paintThinking();
+          },
+        },
+      );
     }
     if (seq !== browseRequestSeq) return;
 
@@ -3413,40 +3638,18 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       data,
     });
 
-    const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
-      tag: leafRef.tag,
-      label: leafRef.label,
-      query,
-    });
-    let html = '<div class="topic-page-actions">';
-    html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
-    if (leafRef.tag) {
-      html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
-    }
-    html += renderVsButton(compareEnt);
-    html += "</div>";
-    html += topicPageCacheHint(data, cachedMeta);
-    html += renderTopicPageResult(data, query, {
-      tag: leafRef.tag,
-      provenance: leafRef.provenance || null,
-      categoryId: leafRef.categoryId || browseState.categoryId || null,
-      subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+    let html = renderTopicPageShell(leafRef, displayLabel, query, {
+      bodyHtml:
+        topicPageCacheHint(data, cachedMeta) +
+        renderTopicPageResult(data, query, {
+          tag: leafRef.tag,
+          provenance: leafRef.provenance || null,
+          categoryId: leafRef.categoryId || browseState.categoryId || null,
+          subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+        }),
     });
     browseContentEl.innerHTML = html;
-    browseContentEl.querySelector(".flag-page-btn")?.addEventListener("click", () => {
-      openFlagModal({
-        tag: leafRef.tag,
-        label: displayLabel,
-        query,
-        page_kind: "topic_page",
-      });
-    });
-    browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
-      loadLeafTopicPage(leafRef, { rebuild: true });
-    });
-    bindPreviewHandlers(browseContentEl);
-    bindDdxLinks(browseContentEl);
-    bindVsButtons(browseContentEl);
+    bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
   } catch (err) {
     if (seq !== browseRequestSeq) return;
     browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
@@ -3463,15 +3666,21 @@ form.addEventListener("submit", async (event) => {
   queryInput.value = "";
   sendBtn.disabled = true;
 
-  const thinking = appendMessage("assistant", "<em>Searching evidence…</em>");
+  const steps = [];
+  const thinking = appendMessage("assistant", renderThinkingPanel(steps));
+  const bodyEl = thinking.querySelector(".body");
+  const paintThinking = () => {
+    bodyEl.innerHTML = renderThinkingPanel(steps);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
 
   try {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildPayload(query)),
+    const data = await streamChat(buildPayload(query), {
+      onProgress: (ev) => {
+        upsertThinkingStep(steps, ev);
+        paintThinking();
+      },
     });
-    const data = await resp.json();
     let body = "";
 
     if (data.ok) {
@@ -3508,12 +3717,22 @@ form.addEventListener("submit", async (event) => {
     if (data.ok && data.mode !== "topic_page") {
       body += renderDebugBlock(data);
     }
+    if (data.ok && data.mode === "topic_page") {
+      /* export bar already included in renderTopicPageResult */
+    } else if (data.ok) {
+      body += renderTopicExportBar();
+    }
 
-    const bodyEl = thinking.querySelector(".body");
     bodyEl.innerHTML = body;
+    bodyEl.querySelectorAll(".topic-export-btn").forEach((btn) => {
+      btn.addEventListener("click", exportCurrentPageAsJson);
+    });
     bindPreviewHandlers(bodyEl);
+    if (data.mode === "topic_page") {
+      bindDdxLinks(bodyEl);
+    }
   } catch (err) {
-    thinking.querySelector(".body").innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
+    bodyEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
   } finally {
     sendBtn.disabled = false;
     messagesEl.scrollTop = messagesEl.scrollHeight;

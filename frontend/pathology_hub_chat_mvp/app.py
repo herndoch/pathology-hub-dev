@@ -42,7 +42,7 @@ _SOURCE_LABELS = {
 }
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -82,6 +82,15 @@ from pathology_backend import (
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 from literature_apis import fetch_live_literature, live_literature_enabled
+from iterative_topic_retrieval import (
+    iterative_enabled,
+    max_rounds as iterative_max_rounds,
+    run_iterative_topic_retrieval,
+)
+
+# Local journal FAISS corpus is retired — do not offer it in the UI checkbox list.
+# Live papers come from Elsevier/PubMed/OncoKB (`source: literature`), not `journals`.
+UI_SOURCES = [s for s in SUPPORTED_SOURCES if s != "journals"]
 
 # Full source set for topic_page (ExpertPath-style reference) requests —
 # always comprehensive regardless of the sidebar checkbox state, since a
@@ -259,10 +268,51 @@ def _tumor_type_hint(req: ChatRequest) -> Optional[str]:
     return parts[-1].strip()[:80] or None
 
 
-def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
-    """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
-    merged/deduped/diversified, then capped before synthesis. Also fetches live
-    Elsevier/PubMed/OncoKB literature cards when enabled."""
+def _drain_iterative_topic_retrieval(req: ChatRequest, on_progress=None) -> tuple:
+    """Run multi-round iterative retrieval; optionally emit progress callbacks.
+
+    Returns the same 5-tuple shape as the legacy single-pass path:
+    (outcomes, slim_merged, cards, retrieval_meta, who_cross_mentions).
+    """
+    sources = _validate_sources(req.sources)
+    gen = run_iterative_topic_retrieval(
+        _backend_client,
+        query=req.query,
+        sources=sources,
+        max_results=req.max_results,
+        include_figures=req.include_figures,
+        max_figures=req.max_figures,
+        compact=req.compact,
+        excerpt_char_limit=req.excerpt_char_limit,
+        page_tag=req.page_tag,
+        category_context=req.category_context,
+        root_narrow=TOPIC_PAGE_ROOT_NARROW,
+        apply_figure_quality=_apply_figure_quality_filters,
+        extract_who_mentions=_extract_who_cross_mentions,
+        tumor_type=_tumor_type_hint(req),
+    )
+    final = None
+    try:
+        while True:
+            ev = next(gen)
+            if on_progress:
+                on_progress(ev)
+    except StopIteration as stop:
+        final = stop.value or {}
+    if not final:
+        raise RuntimeError("Iterative topic retrieval produced no result bundle.")
+    outcomes = final.get("outcomes") or []
+    merged = final.get("merged") or {}
+    cards = final.get("cards") or []
+    if isinstance(merged, dict):
+        _diversify_merged_results(merged)
+    meta = dict(final.get("retrieval_meta") or {})
+    meta.setdefault("multi_query", True)
+    return outcomes, merged, cards, meta, final.get("who_cross_mentions") or []
+
+
+def _run_topic_page_retrieval_legacy(req: ChatRequest) -> tuple:
+    """Single-pass multi-query fan-out (pre-iterative). Used when TOPIC_PAGE_ITERATIVE=0."""
     sources = _validate_sources(req.sources)
     variants = topic_page_query_variants(req.query, req.category_context)
 
@@ -320,7 +370,6 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         figures = filter_figures_by_page_root(figures, page_root)
 
-    # Live literature (Elsevier Scopus + PubMed + OncoKB) — parallel to hub RAG.
     literature_bundle = fetch_live_literature(
         req.query,
         max_per_provider=4,
@@ -328,7 +377,6 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
         include_oncokb=True,
     )
     literature_cards = literature_bundle.get("cards") or []
-    # Cap literature separately so it cannot crowd out WHO/textbooks/pathout.
     literature_cards = literature_cards[:10]
     capped_cards = list(capped_cards) + literature_cards
 
@@ -347,6 +395,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
 
     retrieval_meta = {
         "multi_query": True,
+        "iterative": False,
         "query_variants": variants,
         "variant_timing": variant_timing,
         "cards_raw": len(raw_cards),
@@ -368,6 +417,74 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple:
         "literature_warnings": literature_bundle.get("warnings") or [],
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
+
+
+def _run_topic_page_retrieval(req: ChatRequest, on_progress=None) -> tuple:
+    """Topic-page retrieval: iterative multi-round by default (TOPIC_PAGE_ITERATIVE=1).
+
+    When iterative is on, rounds refine hub queries + deepen Elsevier/PubMed/OncoKB.
+    Progress events are forwarded via on_progress for SSE streaming.
+    """
+    if iterative_enabled():
+        return _drain_iterative_topic_retrieval(req, on_progress=on_progress)
+    if on_progress:
+        on_progress(
+            {
+                "phase": "round",
+                "round": 1,
+                "status": "running",
+                "label": "Single-pass hub + literature retrieval",
+                "detail": "TOPIC_PAGE_ITERATIVE is off",
+            }
+        )
+    result = _run_topic_page_retrieval_legacy(req)
+    if on_progress:
+        on_progress(
+            {
+                "phase": "assemble",
+                "status": "done",
+                "label": "Assembled evidence bundle",
+                "detail": f"{len(result[2])} cards for synthesis",
+            }
+        )
+    return result
+
+
+def _sse_frame(event: str, data: dict) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, default=str)}\n\n"
+
+
+def _chat_response_payload(
+    *,
+    mode: str,
+    result: SynthesisResult,
+    merged: dict,
+    cards: list,
+    figures: list,
+    who_cross_mentions: list,
+    outcomes: list,
+    retrieval_meta: Optional[dict],
+) -> dict:
+    literature_cards = [
+        c for c in cards if (c.get("source") or "").lower() == "literature"
+    ]
+    debug_payload = _debug_payload(outcomes, retrieval_meta)
+    if mode != "html_teaching":
+        debug_payload["evidence_truncated_for_synthesis"] = result.evidence_truncated
+        debug_payload["evidence_char_len_before_cap"] = result.evidence_char_len
+    return {
+        "ok": result.ok,
+        "mode": mode,
+        "answer": result.text if result.ok else None,
+        "answer_error": None if result.ok else result.error,
+        "model": result.model,
+        "evidence": merged,
+        "cards": cards,
+        "figures": figures,
+        "literature": literature_cards,
+        "who_cross_mentions": who_cross_mentions,
+        "debug": debug_payload,
+    }
 
 
 def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dict:
@@ -489,9 +606,15 @@ def api_health():
         "secrets": secret_status,
         "openai_model": get_model(),
         "topic_page_model": get_topic_page_model(),
+        # Full backend source vocabulary (includes retired `journals` for API compat).
         "supported_sources": SUPPORTED_SOURCES,
+        # Checkbox list for the UI — journals retired; live papers are `literature`.
+        "ui_sources": UI_SOURCES,
         "supported_modes": sorted(VALID_MODES),
         "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
+        "topic_page_live_literature": live_literature_enabled(),
+        "topic_page_iterative": iterative_enabled(),
+        "topic_page_iterative_rounds": iterative_max_rounds() if iterative_enabled() else 1,
     }
 
 
@@ -567,28 +690,26 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
     )
 
 
-@app.post("/api/chat")
-def api_chat(req: ChatRequest):
+def _prepare_chat_request(req: ChatRequest) -> str:
+    """Validate mode/sources and apply topic-page / figure defaults. Returns mode."""
     mode = (req.mode or "gpt_like").strip()
     if mode not in VALID_MODES:
-        return {
-            "ok": False,
-            "error": f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}",
-        }
+        raise ValueError(f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}")
+    sources = _validate_sources(req.sources)
+    req.sources = sources
+    if mode == "topic_page":
+        # Comprehensive source set regardless of sidebar checkboxes.
+        req.sources = TOPIC_PAGE_SOURCES
+    if mode == "html_teaching":
+        req.render_html = True
+    _apply_figure_defaults(req, mode)
+    return mode
 
+
+@app.post("/api/chat")
+def api_chat(req: ChatRequest):
     try:
-        sources = _validate_sources(req.sources)
-        req.sources = sources
-
-        if mode == "topic_page":
-            # A topic page is meant to be comprehensive — always request the
-            # full source set, regardless of sidebar checkbox state (server
-            # enforced so it holds for any caller, not just this frontend).
-            req.sources = TOPIC_PAGE_SOURCES
-
-        if mode == "html_teaching":
-            req.render_html = True
-        _apply_figure_defaults(req, mode)
+        mode = _prepare_chat_request(req)
 
         retrieval_meta: Optional[dict] = None
         who_cross_mentions: list[dict] = []
@@ -631,28 +752,212 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
-        literature_cards = [
-            c for c in cards if (c.get("source") or "").lower() == "literature"
-        ]
-        debug_payload = _debug_payload(outcomes, retrieval_meta)
-        if mode != "html_teaching":
-            debug_payload["evidence_truncated_for_synthesis"] = result.evidence_truncated
-            debug_payload["evidence_char_len_before_cap"] = result.evidence_char_len
-        return {
-            "ok": result.ok,
-            "mode": mode,
-            "answer": result.text if result.ok else None,
-            "answer_error": None if result.ok else result.error,
-            "model": result.model,
-            "evidence": merged,
-            "cards": cards,
-            "figures": figures,
-            "literature": literature_cards,
-            "who_cross_mentions": who_cross_mentions,
-            "debug": debug_payload,
-        }
+        return _chat_response_payload(
+            mode=mode,
+            result=result,
+            merged=merged,
+            cards=cards,
+            figures=figures,
+            who_cross_mentions=who_cross_mentions,
+            outcomes=outcomes,
+            retrieval_meta=retrieval_meta,
+        )
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
+
+
+@app.post("/api/chat/stream")
+def api_chat_stream(req: ChatRequest):
+    """SSE stream of topic-page (or any mode) progress + final result.
+
+    Real round-by-round progress for iterative topic retrieval:
+      event: progress  — plan / round / literature / synthesize status
+      event: result    — same JSON shape as POST /api/chat
+      event: error     — {ok:false, error:...}
+
+    Non-topic modes still stream a short progress line then a single result
+    so the client can use one code path.
+    """
+
+    def event_gen():
+        try:
+            mode = _prepare_chat_request(req)
+        except ValueError as exc:
+            yield _sse_frame("error", {"ok": False, "error": str(exc)})
+            return
+
+        try:
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "start",
+                    "status": "running",
+                    "label": "Starting request",
+                    "detail": f"mode={mode}",
+                    "mode": mode,
+                    "iterative": iterative_enabled() if mode == "topic_page" else False,
+                },
+            )
+
+            retrieval_meta: Optional[dict] = None
+            who_cross_mentions: list[dict] = []
+            if mode == "topic_page":
+                # Drain iterative generator, flushing progress as it arrives.
+                # We cannot yield from inside on_progress easily with a sync
+                # generator that also calls a nested generator — so run a
+                # dedicated streaming drain here.
+                sources = _validate_sources(req.sources)
+                if iterative_enabled():
+                    gen = run_iterative_topic_retrieval(
+                        _backend_client,
+                        query=req.query,
+                        sources=sources,
+                        max_results=req.max_results,
+                        include_figures=req.include_figures,
+                        max_figures=req.max_figures,
+                        compact=req.compact,
+                        excerpt_char_limit=req.excerpt_char_limit,
+                        page_tag=req.page_tag,
+                        category_context=req.category_context,
+                        root_narrow=TOPIC_PAGE_ROOT_NARROW,
+                        apply_figure_quality=_apply_figure_quality_filters,
+                        extract_who_mentions=_extract_who_cross_mentions,
+                        tumor_type=_tumor_type_hint(req),
+                    )
+                    final = None
+                    try:
+                        while True:
+                            ev = next(gen)
+                            yield _sse_frame("progress", ev)
+                    except StopIteration as stop:
+                        final = stop.value or {}
+                    if not final:
+                        yield _sse_frame("error", {"ok": False, "error": "Empty iterative retrieval."})
+                        return
+                    outcomes = final.get("outcomes") or []
+                    merged = final.get("merged") or {}
+                    cards = final.get("cards") or []
+                    if isinstance(merged, dict):
+                        _diversify_merged_results(merged)
+                    retrieval_meta = dict(final.get("retrieval_meta") or {})
+                    retrieval_meta.setdefault("multi_query", True)
+                    who_cross_mentions = final.get("who_cross_mentions") or []
+                    figures = final.get("figures") or extract_figures(merged)
+                else:
+                    outcomes, merged, cards, retrieval_meta, who_cross_mentions = (
+                        _run_topic_page_retrieval_legacy(req)
+                    )
+                    yield _sse_frame(
+                        "progress",
+                        {
+                            "phase": "assemble",
+                            "status": "done",
+                            "label": "Assembled evidence bundle",
+                            "detail": f"{len(cards)} cards",
+                        },
+                    )
+                    figures = extract_figures(merged)
+            else:
+                yield _sse_frame(
+                    "progress",
+                    {
+                        "phase": "round",
+                        "round": 1,
+                        "status": "running",
+                        "label": "Retrieving evidence",
+                        "detail": f"sources: {', '.join(req.sources)}",
+                    },
+                )
+                outcomes, merged = _run_retrieval(req)
+                cards = dedupe_cards(extract_evidence_cards(merged))
+                figures = dedupe_figures(extract_figures(merged))
+                cards, figures = _apply_figure_quality_filters(cards, figures)
+                yield _sse_frame(
+                    "progress",
+                    {
+                        "phase": "round",
+                        "round": 1,
+                        "status": "done",
+                        "label": "Retrieving evidence",
+                        "detail": f"{len(cards)} cards · {len(figures)} figures",
+                        "cards": len(cards),
+                        "figures": len(figures),
+                    },
+                )
+
+            if mode == "search_only":
+                payload = {
+                    "ok": True,
+                    "mode": mode,
+                    "answer": None,
+                    "answer_note": prompts.search_only_note(),
+                    "evidence": merged,
+                    "cards": cards,
+                    "figures": figures,
+                    "literature": [
+                        c for c in cards if (c.get("source") or "").lower() == "literature"
+                    ],
+                    "who_cross_mentions": who_cross_mentions,
+                    "debug": _debug_payload(outcomes, retrieval_meta),
+                }
+                yield _sse_frame("result", payload)
+                return
+
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "synthesize",
+                    "status": "running",
+                    "label": "Writing answer from evidence…",
+                    "detail": get_topic_page_model() if mode == "topic_page" else get_model(),
+                },
+            )
+
+            handlers = {
+                "gpt_like": _answer_gpt_like,
+                "compare_sources": _answer_compare_sources,
+                "visual": _answer_visual,
+                "html_teaching": _answer_html_teaching,
+                "topic_page": _answer_topic_page,
+            }
+            handler = handlers[mode]
+            if mode == "html_teaching":
+                result = handler(req, merged)
+            else:
+                result = handler(req, merged, cards)
+
+            payload = _chat_response_payload(
+                mode=mode,
+                result=result,
+                merged=merged,
+                cards=cards,
+                figures=figures,
+                who_cross_mentions=who_cross_mentions,
+                outcomes=outcomes,
+                retrieval_meta=retrieval_meta,
+            )
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "synthesize",
+                    "status": "done",
+                    "label": "Answer ready",
+                    "detail": "ok" if payload.get("ok") else (payload.get("answer_error") or "error"),
+                },
+            )
+            yield _sse_frame("result", payload)
+        except Exception as exc:  # noqa: BLE001 — surface to client as SSE error
+            yield _sse_frame("error", {"ok": False, "error": str(exc)})
+
+    return StreamingResponse(
+        event_gen(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 def _load_prebuilt_page(tag: Optional[str]) -> Optional[dict]:

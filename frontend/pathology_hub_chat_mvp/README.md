@@ -24,6 +24,8 @@ Optional overrides:
 - `OPENAI_MODEL` — default **`gpt-4o`** (see **Synthesis model A/B** below); override e.g. `OPENAI_MODEL=gpt-4.1-mini`
 - `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO always kept, **except** on `Cyto_*` pages — see B9 below)
 - `TOPIC_PAGE_LIVE_LITERATURE` — **on by default**; set to `0` to skip live Elsevier Scopus / PubMed / OncoKB on topic pages
+- `TOPIC_PAGE_ITERATIVE` — **on by default**; multi-round retrieval (broad → gap-fill → literature deepen) with SSE progress via `POST /api/chat/stream`
+- `TOPIC_PAGE_ITERATIVE_ROUNDS` — max rounds 1–3 (default `3`)
 - `ELSEVIER_API_KEY`, `NCBI_API_KEY`, `ONCOKB_API_TOKEN` — optional env overrides; otherwise loaded from Secret Manager secrets `Elsevier`, `NCBI`, `OncoKB`
 - `PORT` — local server port (default `8000`)
 
@@ -66,8 +68,9 @@ See `docs/DEPLOY_CHAT_MVP_HTTPS_CLOUD_RUN_v0_1.md`.
 | Route | Purpose |
 |-------|---------|
 | `GET /` | Chat UI |
-| `GET /api/health` | App + backend health, secret presence (no values) |
-| `POST /api/chat` | Retrieve evidence + optional OpenAI answer |
+| `GET /api/health` | App + backend health, secret presence (no values); includes `ui_sources`, iterative/literature flags |
+| `POST /api/chat` | Retrieve evidence + optional OpenAI answer (blocking) |
+| `POST /api/chat/stream` | Same as `/api/chat` but SSE: `progress` events per retrieval round, then `result` |
 | `POST /api/search` | Raw evidence only |
 | `GET /api/openai_ping` | OpenAI connectivity smoke test |
 
@@ -76,7 +79,10 @@ See `docs/DEPLOY_CHAT_MVP_HTTPS_CLOUD_RUN_v0_1.md`.
 From repo root (no live API key required):
 
 ```bash
-frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest \
+  tests.test_pathology_hub_chat_mvp \
+  tests.test_iterative_topic_retrieval \
+  tests.test_literature_apis -v
 ```
 
 Offline + optional live smoke:
@@ -118,7 +124,7 @@ sections above). Audits land under `outputs/chat_mvp_topic_prepop_v0_1/` (gitign
 
 ## Teaching session notes
 
-The right sidebar includes a collapsible **Teaching session notes** panel for capturing teaching points or session follow-ups. Content auto-saves to browser `localStorage` (`pathology_hub_teaching_session_notes`; migrates from legacy `pathology_hub_experiment_notes`) and survives refresh. Use **Copy notes** or **Export markdown** to share.
+Settings (answer mode / sources) and **Export current page as JSON** live in a bottom stack under the chat panel so Browse topics are full-width. Topic pages also show an export button at the bottom of the page. Live journal papers come from Elsevier / PubMed / OncoKB (`literature`); the retired local `journals` FAISS corpus is not offered in the source checkboxes.
 
 ## UI features
 

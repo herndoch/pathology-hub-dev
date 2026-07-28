@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -370,10 +371,21 @@ class TestAppContract(unittest.TestCase):
                 for _ in sources
             ]
 
-        with patch("app.staged_retrieve", side_effect=_fake_staged_retrieve), patch(
-            "app.synthesize"
-        ) as mock_synthesize:
-            mock_synthesize.return_value = MagicMock(ok=True, text="- fake answer", model="test-model")
+        # Use legacy single-pass path so this test stays focused on source override;
+        # iterative multi-round coverage lives in test_iterative_topic_retrieval.py.
+        with patch.dict(os.environ, {"TOPIC_PAGE_ITERATIVE": "0"}), patch(
+            "app.staged_retrieve", side_effect=_fake_staged_retrieve
+        ), patch(
+            "app.fetch_live_literature",
+            return_value={"cards": [], "providers": {}, "warnings": []},
+        ), patch("app.synthesize") as mock_synthesize:
+            mock_synthesize.return_value = MagicMock(
+                ok=True,
+                text="- fake answer",
+                model="test-model",
+                evidence_truncated=False,
+                evidence_char_len=10,
+            )
             client = TestClient(app)
             resp = client.post(
                 "/api/chat",

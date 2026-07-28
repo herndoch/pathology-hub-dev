@@ -286,6 +286,10 @@ def _extract_genes(text: str) -> list[str]:
     return found[:4]
 
 
+# Public alias for iterative retrieval / callers outside this module.
+extract_genes = _extract_genes
+
+
 def annotate_oncokb(query: str, tumor_type: Optional[str] = None) -> tuple[list[dict], dict]:
     """OncoKB protein-change / fusion hints for genes mentioned in the query."""
     token = get_oncokb_api_token()
