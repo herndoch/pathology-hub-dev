@@ -3572,13 +3572,59 @@ function renderEntryTagsHeader(tag, provenance) {
   return html;
 }
 
-function renderLiteratureStrip(cards) {
+function renderLiteratureProviderStatus(debug) {
+  const providers = debug?.literature_providers;
+  if (!providers || typeof providers !== "object") return "";
+  const parts = [];
+  for (const [name, meta] of Object.entries(providers)) {
+    if (!meta || typeof meta !== "object") continue;
+    const label =
+      name === "scopus" || name.includes("scopus")
+        ? "Elsevier Scopus"
+        : name === "pubmed" || name.includes("pubmed")
+          ? "PubMed"
+          : name === "oncokb" || name.includes("oncokb")
+            ? "OncoKB"
+            : name;
+    if (meta.ok) {
+      const n = typeof meta.returned === "number" ? meta.returned : "?";
+      const total = meta.total != null ? ` / ${meta.total} total` : "";
+      const skipped = meta.skipped ? ` (${meta.skipped})` : "";
+      parts.push(`${label}: ok (${n}${total})${skipped}`);
+    } else {
+      parts.push(`${label}: failed (${meta.error || "unknown"})`);
+    }
+  }
+  const warnings = Array.isArray(debug?.literature_warnings) ? debug.literature_warnings : [];
+  if (!parts.length && !warnings.length) return "";
+  let html = '<div class="literature-status">';
+  if (parts.length) {
+    html += `<p class="hint"><strong>Literature APIs:</strong> ${escapeHtml(parts.join(" · "))}</p>`;
+  }
+  if (warnings.length) {
+    html += `<p class="hint literature-warning">${escapeHtml(warnings.join("; "))}</p>`;
+  }
+  html += "</div>";
+  return html;
+}
+
+function renderLiteratureStrip(cards, debug = null) {
   const lit =
     (cards || []).filter((c) => (c.source || "").toLowerCase() === "literature") ||
     [];
-  if (!lit.length) return "";
+  const statusHtml = renderLiteratureProviderStatus(debug);
+  if (!lit.length) {
+    if (!statusHtml) return "";
+    return (
+      '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>' +
+      statusHtml +
+      '<p class="hint">No literature cards returned for this page.</p></div>'
+    );
+  }
   let html =
-    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div><ul class="literature-list">';
+    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>';
+  html += statusHtml;
+  html += '<ul class="literature-list">';
   for (const card of lit.slice(0, 10)) {
     const title = card.title || "Untitled";
     const journal = card.journal || card.source_name || "";
@@ -3638,7 +3684,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     lectureCards,
     pageContext,
   );
-  html += renderLiteratureStrip(literatureCards);
+  html += renderLiteratureStrip(literatureCards, data.debug || null);
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;

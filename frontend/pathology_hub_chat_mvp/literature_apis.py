@@ -104,6 +104,22 @@ def _card(
     return card
 
 
+def _sanitize_scopus_query_text(query: str) -> str:
+    """Strip characters that break Scopus TITLE-ABS-KEY(...) syntax.
+
+    Entity labels from Browse often look like ``Lobular carcinoma in situ (LCIS)``.
+    Nested parentheses inside ``TITLE-ABS-KEY(...)`` make Elsevier return HTTP 400,
+    which showed up live as "elsevier failed" with zero Scopus cards. Also strip
+    braces/brackets/quotes and collapse whitespace.
+    """
+    text = str(query or "")
+    text = re.sub(r"[(){}\[\]\"'\\]", " ", text)
+    # Boolean operators as free tokens can also break bare TITLE-ABS-KEY queries.
+    text = re.sub(r"\b(?:AND|OR|NOT|W\/\d+|PRE\/\d+)\b", " ", text, flags=re.I)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
 def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
     """Elsevier Scopus search — titles, journals, DOIs; abstracts via Abstract API when possible."""
     api_key = get_elsevier_api_key()
@@ -112,6 +128,12 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
         meta["error"] = "missing_api_key"
         return [], meta
 
+    clean = _sanitize_scopus_query_text(query)
+    if not clean:
+        meta["error"] = "empty_query_after_sanitize"
+        return [], meta
+    meta["query_sanitized"] = clean
+
     # Prefer pathology journals in ranking via query terms; keep query short.
     # No explicit `sort` param: Scopus defaults to relevancy ranking. An
     # earlier version forced `sort=-coverDate`, which meant every query
@@ -119,7 +141,7 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
     # well they matched — in practice a stream of very recent case reports
     # (Elsevier indexes those fast) crowding out any older, more substantive,
     # more-cited literature. Relevancy ranking surfaces the latter instead.
-    q = f'TITLE-ABS-KEY({query}) AND PUBYEAR > 2005'
+    q = f'TITLE-ABS-KEY({clean}) AND PUBYEAR > 2005'
     params = urllib.parse.urlencode(
         {
             "query": q,
@@ -137,6 +159,13 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
         data = _http_get_json(url, headers)
     except urllib.error.HTTPError as exc:
         meta["error"] = f"http_{exc.code}"
+        # Include a short body snippet for diagnostics (never includes API key).
+        try:
+            body = exc.read().decode("utf-8", errors="replace")[:240]
+            if body:
+                meta["error_body"] = body
+        except Exception:
+            pass
         return [], meta
     except Exception as exc:
         meta["error"] = f"{type(exc).__name__}"

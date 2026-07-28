@@ -384,6 +384,14 @@ code {
   line-height: 1.4;
 }
 
+.literature-status {
+  margin: 0.35rem 0 0.5rem;
+}
+
+.literature-warning {
+  color: var(--warn);
+}
+
 .topic-gallery-grid {
   display: flex;
   flex-direction: row;
