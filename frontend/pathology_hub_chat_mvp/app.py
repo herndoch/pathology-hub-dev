@@ -381,16 +381,23 @@ def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dic
 
 
 def _apply_figure_defaults(req: ChatRequest, mode: str) -> None:
-    """Enable figure retrieval for visual mode, topic pages, or show-me-style queries."""
+    """Figures default ON for every evidence-producing mode. Previously
+    `gpt_like`/`compare_sources` only fetched figures when the query text
+    matched a "show me a picture"-style regex — meaning a plain factual
+    question got zero figures even when the sources it pulled from had
+    plenty. Now every mode gets a modest figure budget by default; an
+    explicitly visual-sounding query (or `mode=visual`/`topic_page`) just
+    raises that budget."""
+    visual_query = bool(_VISUAL_QUERY.search(req.query or ""))
     if mode in {"visual", "topic_page"}:
         req.include_figures = True
         if req.max_figures <= 0:
             req.max_figures = 5 if mode == "visual" else 8
         return
-    if mode in {"gpt_like", "compare_sources"} and _VISUAL_QUERY.search(req.query or ""):
+    if mode in {"gpt_like", "compare_sources", "search_only"}:
         req.include_figures = True
         if req.max_figures <= 0:
-            req.max_figures = 5
+            req.max_figures = 8 if visual_query else 4
 
 
 def _build_citation_link_index(cards: list[dict]) -> list[dict]:

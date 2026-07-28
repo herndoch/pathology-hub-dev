@@ -113,13 +113,18 @@ def search_scopus(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
         return [], meta
 
     # Prefer pathology journals in ranking via query terms; keep query short.
+    # No explicit `sort` param: Scopus defaults to relevancy ranking. An
+    # earlier version forced `sort=-coverDate`, which meant every query
+    # returned only the *most recently published* matches regardless of how
+    # well they matched — in practice a stream of very recent case reports
+    # (Elsevier indexes those fast) crowding out any older, more substantive,
+    # more-cited literature. Relevancy ranking surfaces the latter instead.
     q = f'TITLE-ABS-KEY({query}) AND PUBYEAR > 2005'
     params = urllib.parse.urlencode(
         {
             "query": q,
             "count": max(1, min(max_results, 8)),
             "field": "dc:title,prism:doi,prism:publicationName,prism:coverDate,description,subtypeDescription",
-            "sort": "-coverDate",
         }
     )
     url = f"https://api.elsevier.com/content/search/scopus?{params}"
@@ -197,9 +202,13 @@ def search_pubmed(query: str, max_results: int = 5) -> tuple[list[dict], dict]:
     meta: dict[str, Any] = {"provider": "pubmed_ncbi", "ok": False}
     key_q = f"&api_key={urllib.parse.quote(api_key)}" if api_key else ""
     term = urllib.parse.quote(f"{query}[Title/Abstract]")
+    # Explicit relevance sort — esearch's default sort for db=pubmed is not
+    # documented as relevance and has been observed to skew toward most-recent
+    # (same failure mode as the old Scopus `-coverDate` sort; see comment
+    # there). Explicit `sort=relevance` avoids relying on an undocumented default.
     search_url = (
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-        f"?db=pubmed&retmode=json&retmax={max(1, min(max_results, 8))}&term={term}{key_q}"
+        f"?db=pubmed&retmode=json&retmax={max(1, min(max_results, 8))}&sort=relevance&term={term}{key_q}"
     )
     headers = {"User-Agent": _USER_AGENT}
     try:

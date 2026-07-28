@@ -40,13 +40,33 @@ class SynthesisResult:
     ok: bool
     error: Optional[str] = None
     raw_debug: Optional[dict] = None
+    evidence_truncated: bool = False
+    evidence_char_len: int = 0
 
 
-def _compact_evidence_json(evidence_bundle: dict) -> str:
+# Measured live (2026-07-26): a modest 4-source x10-results search bundle alone
+# serializes to ~331k chars; a full topic_page bundle (up to 120 cards + 40
+# figures + 10 literature cards + citation index) is materially larger. The
+# previous 60,000-char cap silently discarded most of that on every
+# topic_page/gpt_like call — and because json.dumps(..., sort_keys=True)
+# alphabetizes keys, the cut always landed the same way: who_results/
+# video_results/textbook_results/pathout_results (alphabetically late) were
+# routinely dropped entirely while figures/literature_results (alphabetically
+# early) survived. Raised to match the context-window headroom already
+# established in pathology_backend.py's TOPIC_PAGE_MAX_CARDS comment (gpt-4o's
+# ~128k-token window comfortably fits this at ~3-4 chars/token). Re-probe if a
+# future OPENAI_MODEL/topic-page model has a materially smaller context window.
+_EVIDENCE_JSON_CHAR_CAP = 350000
+
+
+def _compact_evidence_json(evidence_bundle: dict) -> tuple[str, bool, int]:
+    """Returns (json_text, was_truncated, original_char_len)."""
     try:
-        return json.dumps(evidence_bundle, indent=2, sort_keys=True)[:60000]
+        full = json.dumps(evidence_bundle, indent=2, sort_keys=True)
     except Exception:
-        return str(evidence_bundle)[:60000]
+        full = str(evidence_bundle)
+    original_len = len(full)
+    return full[:_EVIDENCE_JSON_CHAR_CAP], original_len > _EVIDENCE_JSON_CHAR_CAP, original_len
 
 
 def synthesize(
@@ -63,7 +83,7 @@ def synthesize(
     except RuntimeError as exc:
         return SynthesisResult(text="", model=model, ok=False, error=str(exc))
 
-    evidence_json = _compact_evidence_json(evidence_bundle)
+    evidence_json, was_truncated, original_len = _compact_evidence_json(evidence_bundle)
     user_content = (
         f"User question:\n{user_question}\n\n"
         "Evidence bundle (JSON, from Pathology Hub /evidence/search — the ONLY source of truth):\n"
@@ -81,13 +101,21 @@ def synthesize(
         text = getattr(response, "output_text", None)
         if not text:
             text = _fallback_extract_text(response)
-        return SynthesisResult(text=text or "", model=model, ok=True)
+        return SynthesisResult(
+            text=text or "",
+            model=model,
+            ok=True,
+            evidence_truncated=was_truncated,
+            evidence_char_len=original_len,
+        )
     except Exception as exc:
         return SynthesisResult(
             text="",
             model=model,
             ok=False,
             error=f"{type(exc).__name__}: {exc}",
+            evidence_truncated=was_truncated,
+            evidence_char_len=original_len,
         )
 
 

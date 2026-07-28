@@ -88,20 +88,10 @@
       </aside>
 
       <aside class="notes-panel">
-        <details class="notes-details" open>
-          <summary>Teaching session notes</summary>
-          <p class="hint">Capture teaching points, caveats, or follow-ups for this session. Saved locally in this browser.</p>
-          <textarea
-            id="session-notes"
-            rows="8"
-            placeholder="e.g. LCIS — emphasize E-cadherin loss; show florid vs classic Pathoutlines pages…"
-          ></textarea>
-          <div class="notes-actions">
-            <button type="button" id="copy-notes-btn" class="btn-secondary">Copy notes</button>
-            <button type="button" id="export-notes-btn" class="btn-secondary">Export markdown</button>
-          </div>
-          <p class="hint notes-status" id="notes-status" aria-live="polite"></p>
-        </details>
+        <h2 class="export-panel-title">Export</h2>
+        <p class="hint">Download the full raw response (answer, cards, figures, literature, debug) for whichever page or chat answer you last opened — everything the app actually received, not just what's rendered.</p>
+        <button type="button" id="export-page-btn" class="btn-secondary" disabled>Export current page as JSON</button>
+        <p class="hint export-status" id="export-status" aria-live="polite"></p>
       </aside>
     </div>
   </main>

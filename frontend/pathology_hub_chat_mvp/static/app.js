@@ -1,4 +1,7 @@
 const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
+/** Most-recently-rendered chat/topic-page result, for the "Export current
+ * page as JSON" button — replaces the old teaching-session-notes panel. */
+let lastExportableResult = null;
 /** Topic pages are meant to be comprehensive, so they always request every
  * supported source regardless of the sidebar checkbox state — this mirrors
  * (and is redundant with) the server-side enforcement in app.py, kept here
@@ -6,8 +9,6 @@ const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
 const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "videos"];
-const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
-const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
 
 const SOURCE_LABELS = {
   who: "WHO Classification",
@@ -873,10 +874,8 @@ const maxResultsInput = document.getElementById("max-results");
 const debugToggle = document.getElementById("debug-toggle");
 const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
-const sessionNotes = document.getElementById("session-notes");
-const copyNotesBtn = document.getElementById("copy-notes-btn");
-const exportNotesBtn = document.getElementById("export-notes-btn");
-const notesStatus = document.getElementById("notes-status");
+const exportPageBtn = document.getElementById("export-page-btn");
+const exportStatus = document.getElementById("export-status");
 const mediaModal = document.getElementById("media-modal");
 const mediaModalImg = document.getElementById("media-modal-img");
 const mediaModalCaption = document.getElementById("media-modal-caption");
@@ -909,7 +908,6 @@ const browseBreadcrumbsEl = document.getElementById("browse-breadcrumbs");
 const browseContentEl = document.getElementById("browse-content");
 
 let supportedSources = [];
-let notesSaveTimer = null;
 let browseState = { level: "home" };
 let browseRequestSeq = 0;
 
@@ -1074,8 +1072,13 @@ function filterVideoCardsByRelevance(query, cards, { maxShown = 6 } = {}) {
   const conflicts = scored.filter((row) => row.score < 0);
   const irrelevant = scored.filter((row) => row.score === 0);
   if (relevant.length) {
-    const shown = dedupeVideoCards(relevant.slice(0, maxShown).map((row) => row.item));
-    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
+    // Collapse to one best segment per distinct LECTURE (not per raw chunk)
+    // before applying `maxShown`, so e.g. 5 timestamped segments of the same
+    // lecture never eat up the display cap as if they were 5 different
+    // lectures — see bestVideoCardPerLecture for identity/tiebreak rules.
+    const collapsed = bestVideoCardPerLecture(relevant);
+    const shown = collapsed.slice(0, maxShown);
+    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, collapsed.length - maxShown);
     const note =
       hiddenCount > 0
         ? `${hiddenCount} off-topic lecture segment${hiddenCount === 1 ? "" : "s"} hidden for this query.`
@@ -1105,12 +1108,22 @@ function filterByQueryRelevance(query, items, { maxShown = 8 } = {}) {
 
   if (relevant.length) {
     const shown = relevant.slice(0, maxShown).map((row) => row.item);
-    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
-    const note =
-      hiddenCount > 0
-        ? `${hiddenCount} off-topic hit${hiddenCount === 1 ? "" : "s"} hidden for this query.`
-        : "";
-    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
+    // Split "actually off-topic" from "relevant but past the display cap" —
+    // lumping both under one "off-topic" note made it look like retrieval
+    // found little of value, when often most of it was on-topic and simply
+    // not rendered.
+    const offTopicCount = conflicts.length + irrelevant.length;
+    const overflowCount = Math.max(0, relevant.length - maxShown);
+    const notes = [];
+    if (offTopicCount > 0) {
+      notes.push(`${offTopicCount} off-topic hit${offTopicCount === 1 ? "" : "s"} hidden for this query.`);
+    }
+    if (overflowCount > 0) {
+      notes.push(
+        `${overflowCount} more relevant result${overflowCount === 1 ? "" : "s"} retrieved but not shown here (display cap).`,
+      );
+    }
+    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note: notes.join(" ") };
   }
 
   if (conflicts.length) {
@@ -1707,8 +1720,12 @@ function buildPayload(query, modeOverride, options = {}) {
     mode,
     sources: sources.length ? sources : DEFAULT_SOURCES,
     max_results: Number(maxResultsInput.value) || 5,
-    include_figures: visual,
-    max_figures: mode === "topic_page" ? 8 : visual ? 5 : 0,
+    // Figures default ON regardless of query wording — a plain factual
+    // question shouldn't need "show me a picture" phrasing to surface pics
+    // that the pulled sources actually have. Explicitly visual queries and
+    // topic pages just get a bigger figure budget.
+    include_figures: true,
+    max_figures: mode === "topic_page" ? 8 : visual ? 8 : 4,
     compact: true,
     excerpt_char_limit: 900,
     render_html: mode === "html_teaching",
@@ -1937,9 +1954,16 @@ function bindPreviewHandlers(root) {
         if (el.tagName === "A") event.preventDefault();
         const payload = JSON.parse(el.dataset.preview);
         const compareCol = el.closest(".compare-column");
+        // `.topic-section-body`/`.topic-key-facts` come before the narrower
+        // `.topic-gallery-grid` etc. here so inline figures embedded in a
+        // topic-page section (Microscopic, Gross Features, ...) become a
+        // scrollable (arrow-key) gallery of every image in that section,
+        // not just the ones in the same consecutive image row.
         const gallery = compareCol
           ? compareCol.querySelector(".compare-gallery-grid, .topic-gallery-grid")
-          : el.closest(".topic-gallery-grid, .figures-grid, .figures-grid-prominent");
+          : el.closest(
+              ".topic-section-body, .topic-key-facts, .topic-gallery-grid, .figures-grid, .figures-grid-prominent",
+            );
         let items = [payload];
         let index = 0;
         if (gallery) {
@@ -2735,7 +2759,7 @@ function renderTopicGallery(figures, options = {}) {
       ? ` class="${gridClass}" data-compare-col="${options.compareCol}"`
       : ` class="${gridClass}"`;
   let html = `<div${gridAttrs}>`;
-  const maxItems = options.maxItems ?? 16;
+  const maxItems = options.maxItems ?? 40;
   for (const fig of figures.slice(0, maxItems)) {
     const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
     if (!url) continue;
@@ -2866,6 +2890,73 @@ function dedupeVideoCards(cards) {
     result.push(card);
   }
   return result;
+}
+
+/**
+ * LECTURE-level identity for a video/lecture card — same video_id/title
+ * fallback rules as backend `video_card_key` (pathology_backend.py), but
+ * deliberately WITHOUT the chunk_id shortcut that `videoCardKey` above uses
+ * first. `videoCardKey` is chunk/segment-level (each timestamped segment of
+ * a lecture has its own chunk_id, so it never collapses segments of the
+ * same lecture — that's intentional for `dedupeVideoCards`, which only
+ * exists to drop literal duplicate chunks). Here we want the coarser
+ * "which single underlying lecture is this from" identity, so that e.g. 5
+ * timestamped segments of one "BST Lecture 3 SoftTissue2" video are
+ * recognized as ONE lecture instead of 5. `source_id` is not usable for
+ * this (documented corpus-wide-constant limitation), so identity is
+ * video_id when it isn't a path-blob placeholder, else the lecture title.
+ */
+function videoLectureKey(card) {
+  const videoId = String(card?.video_id || "").trim();
+  const looksLikePathBlob =
+    !videoId ||
+    /^gcs_gs_/i.test(videoId) ||
+    /lecture_chunks$/i.test(videoId) ||
+    videoId.includes("/");
+  if (!looksLikePathBlob) return videoId;
+  const title = String(card?.title || "").trim();
+  if (title) return `title:${title}`;
+  const chunk = String(card?.chunk_id || "").trim();
+  return videoId || chunk || null;
+}
+
+function videoSegmentDurationSec(card) {
+  const start = card?.start_sec ?? card?.start_time_sec;
+  const end = card?.end_sec ?? card?.end_time_sec;
+  if (typeof start === "number" && typeof end === "number" && end > start) {
+    return end - start;
+  }
+  return 0;
+}
+
+/**
+ * Collapse a list of already-relevance-sorted `{ item, score }` rows down to
+ * one row per distinct lecture (via `videoLectureKey`), keeping the single
+ * "best" row per lecture. Per the user's own "best/longest match" wording:
+ * relevance score is the primary tiebreak (it already governs display order
+ * everywhere else on the topic page), and segment duration (end - start) is
+ * the secondary tiebreak when scores are equal. Distinct lectures are never
+ * dropped here — only redundant same-lecture segments are — so a topic with
+ * N genuinely different lectures still surfaces up to N entries.
+ */
+function bestVideoCardPerLecture(rows) {
+  const winners = new Map();
+  const order = [];
+  for (const row of rows || []) {
+    const key = videoLectureKey(row.item) || `chunk:${row.item?.chunk_id || order.length}`;
+    const current = winners.get(key);
+    if (!current) {
+      winners.set(key, row);
+      order.push(key);
+      continue;
+    }
+    const currentDuration = videoSegmentDurationSec(current.item);
+    const candidateDuration = videoSegmentDurationSec(row.item);
+    if (row.score > current.score || (row.score === current.score && candidateDuration > currentDuration)) {
+      winners.set(key, row);
+    }
+  }
+  return order.map((key) => winners.get(key).item);
 }
 
 function collapseVideoCardsForCitations(cards) {
@@ -3088,11 +3179,39 @@ function topicPageFanoutHint(data) {
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
 
+/** Splits a raw "Root::Sub::Leaf" tag into human-readable breadcrumb
+ * segments, resolving the root segment against the loaded Browse taxonomy's
+ * display label when possible (e.g. tag root "HN" -> taxonomy root label)
+ * so the page shows where this sits in the curriculum, not just a raw tag
+ * string with literal "::" separators. */
+function tagBreadcrumbSegments(tag) {
+  const parts = String(tag || "")
+    .split("::")
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (!parts.length) return [];
+  const rootSlug = parts[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  const matchedRoot = (getBrowseRoots() || []).find((r) => r.id === rootSlug);
+  return parts.map((part, i) => {
+    if (i === 0) return matchedRoot ? formatDisplayLabel(matchedRoot.label) : formatDisplayLabel(part);
+    if (i === parts.length - 1) return formatDisplayLabel(part);
+    return formatSubcategoryLabel(part);
+  });
+}
+
 function renderEntryTagsHeader(tag, provenance) {
   if (!tag) return "";
+  const segments = tagBreadcrumbSegments(tag);
   let html = '<div class="topic-tags-header">';
-  html += '<span class="topic-tags-label">Tags:</span>';
-  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">${escapeHtml(formatDisplayLabel(tag))}</span>`;
+  html += '<span class="topic-tags-label">Curriculum location:</span>';
+  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">`;
+  html += segments
+    .map((seg) => escapeHtml(seg))
+    .join(' <span class="tag-breadcrumb-sep">\u203a</span> ');
+  html += "</span>";
   const provenanceLabel = formatNavProvenanceLabel(provenance);
   if (provenanceLabel) {
     html += `<span class="source-badge provenance-badge">${escapeHtml(provenanceLabel)}</span>`;
@@ -3128,16 +3247,20 @@ function renderLiteratureStrip(cards) {
 }
 
 function renderTopicPageResult(data, query, entryMeta = null) {
-  const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
+  // Display caps mirror the actual backend retrieval caps (TOPIC_PAGE_MAX_CARDS=120,
+  // TOPIC_PAGE_MAX_FIGURES=40 in pathology_backend.py) — these used to be
+  // much smaller (20/16) than what was actually retrieved and sent to
+  // synthesis, so the page looked far shallower than the real evidence base.
+  const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 80 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
   const literatureCards = data.literature || sortedCards.filter((c) => (c.source || "") === "literature");
   const videoFilter = filterVideoCardsByRelevance(query, sortedCards, { maxShown: 6 });
   const lectureCards = videoFilter.shown;
-  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 16 });
+  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 40 });
   const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
   const sections = parseTopicPageSections(data.answer || "");
   const inlineFigures = collectInlineFiguresFromSections(sections);
-  const galleryFigures = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 16 });
+  const galleryFigures = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 40 });
   const previewIndex = buildUrlPreviewIndex(data.cards || [], [...shownFigures, ...inlineFigures]);
   for (const card of lectureCards) {
     const presentation = lectureCardPresentation(card);
@@ -3282,6 +3405,14 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       return;
     }
 
+    setLastExportableResult({
+      source: "topic_page",
+      query,
+      tag: leafRef.tag || null,
+      label: displayLabel || leafRef.label || null,
+      data,
+    });
+
     const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
       tag: leafRef.tag,
       label: leafRef.label,
@@ -3343,6 +3474,10 @@ form.addEventListener("submit", async (event) => {
     const data = await resp.json();
     let body = "";
 
+    if (data.ok) {
+      setLastExportableResult({ source: data.mode || "chat", query, data });
+    }
+
     if (!data.ok) {
       body = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
     } else if (data.mode === "topic_page") {
@@ -3385,61 +3520,43 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-function loadSessionNotes() {
-  try {
-    let saved = localStorage.getItem(NOTES_STORAGE_KEY);
-    if (saved == null) saved = localStorage.getItem(LEGACY_NOTES_STORAGE_KEY);
-    if (saved != null && saved !== "undefined") sessionNotes.value = saved;
-  } catch (err) {
-    notesStatus.textContent = "Could not load saved notes.";
-  }
+/** Tracks whatever was last rendered (topic page or Ask-tab chat answer) so
+ * the sidebar "Export current page as JSON" button always has something real
+ * to download — the full raw API response, not just what got rendered. */
+function setLastExportableResult(meta) {
+  lastExportableResult = { ...meta, exported_at: null };
+  exportPageBtn.disabled = false;
+  exportStatus.textContent = "";
 }
 
-function saveSessionNotes() {
-  try {
-    localStorage.setItem(NOTES_STORAGE_KEY, sessionNotes.value);
-    notesStatus.textContent = "Saved locally.";
-  } catch (err) {
-    notesStatus.textContent = "Could not save notes.";
-  }
+function slugForFilename(text) {
+  return (
+    String(text || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .slice(0, 60) || "page"
+  );
 }
 
-function scheduleNotesSave() {
-  clearTimeout(notesSaveTimer);
-  notesSaveTimer = setTimeout(saveSessionNotes, 300);
-}
-
-function notesMarkdownExport() {
-  const body = sessionNotes.value.trim();
-  const stamp = new Date().toISOString();
-  return `# Pathology Hub teaching session notes\n\nExported: ${stamp}\n\n---\n\n${body}\n`;
-}
-
-async function copySessionNotes() {
-  const text = sessionNotes.value;
-  if (!text.trim()) {
-    notesStatus.textContent = "Nothing to copy.";
+function exportCurrentPageAsJson() {
+  if (!lastExportableResult) {
+    exportStatus.textContent = "Nothing to export yet — ask a question or open a topic page first.";
     return;
   }
-  try {
-    await navigator.clipboard.writeText(text);
-    notesStatus.textContent = "Copied to clipboard.";
-  } catch (err) {
-    notesStatus.textContent = "Copy failed — select and copy manually.";
-  }
-}
-
-function exportSessionNotes() {
-  const md = notesMarkdownExport();
-  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const payload = { ...lastExportableResult, exported_at: new Date().toISOString() };
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   const stamp = new Date().toISOString().slice(0, 10);
+  const slug = slugForFilename(payload.tag || payload.query || payload.source);
   anchor.href = url;
-  anchor.download = `pathology_hub_teaching_session_${stamp}.md`;
+  anchor.download = `pathology_hub_${slug}_${stamp}.json`;
   anchor.click();
   URL.revokeObjectURL(url);
-  notesStatus.textContent = "Markdown file downloaded.";
+  exportStatus.textContent = "JSON file downloaded.";
 }
 
 function appendMessage(role, html) {
@@ -3473,9 +3590,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 modeSelect.addEventListener("change", updateModeHint);
-sessionNotes.addEventListener("input", scheduleNotesSave);
-copyNotesBtn.addEventListener("click", copySessionNotes);
-exportNotesBtn.addEventListener("click", exportSessionNotes);
+exportPageBtn.addEventListener("click", exportCurrentPageAsJson);
 
 viewTabs.forEach((tab) => {
   tab.addEventListener("click", () => setActiveView(tab.dataset.view));
@@ -3493,7 +3608,6 @@ flagModal?.querySelectorAll("[data-flag-close]").forEach((el) => {
 });
 flagSendBtn?.addEventListener("click", submitFlag);
 
-loadSessionNotes();
 updateModeHint();
 setActiveView("browse");
 browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';

@@ -22,7 +22,7 @@ Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
 - `OPENAI_MODEL` — default **`gpt-4o`** (see **Synthesis model A/B** below); override e.g. `OPENAI_MODEL=gpt-4.1-mini`
-- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO always kept)
+- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO always kept, **except** on `Cyto_*` pages — see B9 below)
 - `TOPIC_PAGE_LIVE_LITERATURE` — **on by default**; set to `0` to skip live Elsevier Scopus / PubMed / OncoKB on topic pages
 - `ELSEVIER_API_KEY`, `NCBI_API_KEY`, `ONCOKB_API_TOKEN` — optional env overrides; otherwise loaded from Secret Manager secrets `Elsevier`, `NCBI`, `OncoKB`
 - `PORT` — local server port (default `8000`)
@@ -192,6 +192,21 @@ starves results. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
 
 Use root narrow when off-root textbook/video noise dominates; disable (`TOPIC_PAGE_ROOT_NARROW=0`)
 for thin roots (e.g. some Eye pages dropped 53→24 cards) or when breadth matters.
+
+**Cyto strictness (B9, added 2026-07-26):** `Cyto_*` pages (e.g. `Cyto_Thyroid`) apply a stricter
+variant of the same filter — see `is_cyto_root_token`/`filter_cards_by_page_root` in
+`pathology_backend.py`. Root cause: WHO entity cards never carry a `primary_tag` (confirmed across
+every captured WHO response in `audits/**/*.json` — always `None`), so the ordinary B8 policy of
+"keep WHO regardless of root" showed the generic/histologic WHO write-up for a diagnosis on its
+`Cyto_*` page too, purely because the diagnosis text/entity is shared with the non-cyto surgical
+entity of the same name — reported by the user as cyto pages "covering non cyto things ... cuz of
+using the same diagnosis". For `Cyto_*` pages only: WHO is added to the root-filterable source set,
+and cards/figures with no resolvable root (previously kept by default) are now dropped instead of
+kept, since only content with a confirmed matching `Cyto_*` root can be shown. Textbook/pathout/
+video content was already reliably tagged with a resolvable `Cyto_*` vs non-cyto `primary_tag` in
+every sampled live response, so this mainly affects WHO; non-cyto pages are completely unaffected
+(same behavior as before). Live literature (`journals`, fetched separately via Elsevier/PubMed/
+OncoKB) is unscoped either way — it never carries repo-tag metadata to filter on.
 
 **Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
 says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe

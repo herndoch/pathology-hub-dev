@@ -1,15 +1,178 @@
 # Active Context
 
-Last updated: 2026-07-10
+Last updated: 2026-07-26
 
-## Product decision (locked 2026-07-10)
+## Product decision (current — corrected 2026-07-26)
 
-**Browse nav = combined, deduped ABPath + PathOut topic tags** (not ABPath-only; not
-`cyto_*` book folders). PathOut may cover histo/entity pages ABPath misses. Books remain
-retrieval sources only. Cytopathology stays its own top-level root from `Cyto_*` tag roots.
+**Browse nav = combined, deduped ABPath + WHO topic tags; PathOut is retrieval/citation-only,
+not a nav source.** Live since the 2026-07-11 Browse UX overhaul
+(`frontend/pathology_hub_chat_mvp/scripts/build_browse_tag_index_v0_1.py`, rules A1–A5): ABPath
+tags are primary and deduped by casefolded full tag path (one leaf per root+display label,
+ABPath spelling wins on overlap); WHO tags are ingested as a gap-filler overlay only (tags not
+already covered by ABPath under the same label). Confirmed live in
+`frontend/pathology_hub_chat_mvp/static/browse_tag_index_v0_1.json`
+(`schema_version: browse_tag_index_v0_2`, generated `2026-07-11T14:44:00Z`): **7,692 leaves / 15
+roots** — 5,759 ABPath-only, 1,765 WHO-only (genuine ABPath gaps WHO filled), 168 overlap
+(`"both"`). `dedupe_rules.pathout_nav` is explicitly `false`. Cytopathology stays its own
+top-level root from `Cyto_*` tag roots.
+
 Browse IA plan: `docs/PLAN_CHAT_MVP_BROWSE_EXPERTPATH_INSPIRED_v0_1.md`.  
 Prepop pilot plan: `docs/PLAN_CHAT_MVP_TOPIC_PAGE_PREPOP_v0_1.md` +  
 `docs/HANDOFF_TOPIC_PAGE_PREPOP_PILOT_NEXT_AGENT.md` — **pilot complete, see below**.
+
+<details>
+<summary>Superseded (2026-07-10 decision — kept for history, do not follow)</summary>
+
+**Product decision (locked 2026-07-10, superseded 2026-07-11):** Browse nav = combined,
+deduped ABPath + PathOut topic tags (not ABPath-only; not `cyto_*` book folders). PathOut may
+cover histo/entity pages ABPath misses. Books remain retrieval sources only.
+
+This was superseded the next day by the Browse UX overhaul (A1: "Browse nav = WHO + ABPath
+only, no PathOut leaves") to keep PathOut strictly a retrieval/citation source per the
+workstream-separation rule in `AGENTS.md`. This section had gone uncorrected in this doc for two
+weeks despite the live index already reflecting the newer rule — reconciled 2026-07-26.
+
+</details>
+
+## Current task (local WSL agent — cyto retrieval leakage fix, 2026-07-26 night)
+
+**Fix: cyto topic pages no longer show non-cyto content that shares a diagnosis label — offline
+tests only, NOT confirmed live in a browser this session.** User report (verbatim): "the cyto tags
+should prob only follow abpath cuz like cyto pages are covering non cyto things when they populate
+cuz of using the same diagnosis."
+
+**Root cause:** Topic pages already had a B8 "root-narrow" post-retrieval filter
+(`page_root_from_tag`/`filter_cards_by_page_root`/`filter_figures_by_page_root` in
+`frontend/pathology_hub_chat_mvp/pathology_backend.py`, previously lines 702–751) that drops
+off-root textbook/pathout/video cards after retrieval — and it turns out to work correctly for
+those three sources: every sampled live textbook/pathout/video card in this repo's `audits/**/*.json`
+(65/65, 60/60, 35/35) carries a resolvable `primary_tag` or organ-prefixed `source_id`, e.g.
+`Cyto_Thyroid::Malignant::...` vs plain `Thyroid::...`, so the existing root filter already tells
+these apart correctly. The actual leak is **WHO**, which B8 deliberately always kept "regardless of
+root" — and every WHO card sampled across this repo (`who_results` in every `audits/**/*.json` that
+has any) carries `primary_tag: None`. WHO entity write-ups are generic diagnosis/classification
+content (largely histologic/surgical in framing) with no cyto-vs-histo distinction at all, so the
+"always keep WHO" policy meant the general WHO write-up for a diagnosis (e.g. "Papillary thyroid
+carcinoma") showed up unconditionally on its `Cyto_Thyroid` page too, purely because the diagnosis
+text/entity is shared with the non-cyto surgical entity of the same name — i.e. exactly the
+diagnosis-driven leakage the user described. (Live literature/`journals` cards are fetched
+separately via Elsevier/PubMed/OncoKB free-text search and were left out of scope — they carry no
+repo tag metadata to filter on either way, same as before.)
+
+**Fix (B9 cyto scoping, additive — zero behavior change for non-cyto pages):**
+`frontend/pathology_hub_chat_mvp/pathology_backend.py`:
+- New `is_cyto_root_token()` (~line 708) — true for any normalized root token derived from a
+  `Cyto_*` ABPath tag root (e.g. `Cyto_Thyroid` → `cytothyroid`).
+- New `_GENERIC_CYTO_SOURCE_TOKEN`/`_root_matches_page()` (~lines 722–735) — cyto textbooks/atlases
+  (e.g. `cyto_cibas`, `cyto_comprehensive_part_two`) span every cyto organ in one book; only the
+  per-chunk `primary_tag` carries the specific `Cyto_<Organ>` root, and figures never carry
+  `primary_tag` at all (confirmed: 0/5 sampled figures have it) — only `source_id`. So the
+  `source_id`-prefix fallback can only ever resolve cyto content to the generic `"cyto"` bucket,
+  never a specific organ; `_root_matches_page` treats that generic bucket as on-topic for **any**
+  `Cyto_*` page (not the wrong-organ rejection it would otherwise be).
+- `filter_cards_by_page_root()` (~line 738) and `filter_figures_by_page_root()` (~line 780): when
+  the page root is cyto-rooted, `who` is added to the filterable-source set, and the previous
+  "unknown root → keep" fallback flips to "unknown root → drop" (for cards: textbooks/pathout/
+  videos/who; for figures: any figure with no `source_id` at all) — i.e. cyto pages now require a
+  *confirmed* on-root (or generic-cyto) tag rather than being shown by default. Non-cyto pages take
+  the exact same code path as before B9 and are provably unaffected (see tests below).
+- `frontend/pathology_hub_chat_mvp/README.md`: added a "Cyto strictness (B9)" paragraph under the
+  existing "Root-narrowed retrieval (B8)" section documenting this.
+
+**Test coverage added** (`tests/test_pathology_hub_chat_mvp.py`, `TestRootNarrowFilter`, new
+imports `filter_figures_by_page_root`/`is_cyto_root_token`): `test_is_cyto_root_token`,
+`test_cyto_page_drops_generic_who_card_for_same_diagnosis` (the core regression case — WHO card
+dropped, cyto textbook/pathout kept, non-cyto textbook dropped, journals untouched),
+`test_non_cyto_page_still_keeps_who_regardless_of_root` (proves zero regression for ordinary
+pages), `test_cyto_page_drops_unresolvable_root_textbook_pathout_cards`,
+`test_cyto_page_keeps_generic_cyto_sourced_card_missing_primary_tag`,
+`test_filter_figures_by_page_root_drops_off_root_keeps_generic_cyto_on_cyto_pages`,
+`test_filter_figures_by_page_root_keeps_unresolvable_on_non_cyto_pages`.
+
+**Verification status: offline only.** Full suite green, 62/62 (`python -m unittest
+tests.test_pathology_hub_chat_mvp -v` from repo root using
+`frontend/pathology_hub_chat_mvp/.venv`), plus
+`frontend/pathology_hub_chat_mvp/scripts/smoke_test_chat_mvp_v0_1.py` still green (`root_narrow=True`
+in `/api/health`). Could not start the local server to hit the live backend from this sandboxed
+shell (network is isolated even after `set -a && source .env`/`run_local.sh` — the already-running
+dev server from the user's own terminal, PID 203045, is bound to `127.0.0.1:8000` in a different
+network namespace this agent's shell cannot reach: `curl` to it here returns "Connection refused"
+even with `full_network`/`all` permission attempts). **Not confirmed live in a browser.** User
+should manually verify: open Browse → Cytopathology → Thyroid → a papillary/medullary/etc. thyroid
+carcinoma leaf topic page, and confirm the WHO reference card (if previously visible) either
+disappears or is replaced by nothing-from-WHO, while cyto-specific textbook/pathout/lecture-figure
+content for that same leaf still appears unchanged. Also spot-check a **non-cyto** page (e.g. any
+plain `Thyroid` or `Breast` leaf) still shows its WHO card as before, to confirm no regression.
+
+## Current task (local WSL agent — session handoff, 2026-07-26 evening)
+
+**Chat MVP shallow-answers / UX cleanup pass — uncommitted, mostly offline-verified only.**
+Branch `cursor/topic-live-literature-apis-9231`, working tree dirty (not committed — user did
+not ask for a commit). Touched files: `frontend/pathology_hub_chat_mvp/app.py`,
+`literature_apis.py`, `openai_synthesizer.py`, `static/app.js`, `static/index.html`,
+`static/style.css`, `tests/test_pathology_hub_chat_mvp.py`, this doc.
+
+Chain of user reports → fixes this session:
+
+1. **OpenAI 401** — stale key in local `.env`. Fix: removed `OPENAI_API_KEY` /
+   `PATHOLOGY_HUB_API_KEY` (and `ELSEVIER_API_KEY`/`NCBI_API_KEY`/`ONCOKB_API_TOKEN` if present)
+   from `.env` so the app falls back to GCP Secret Manager (user confirmed GCS keys are the
+   current ones). **User must restart `run_local.sh` with `.env` re-sourced for this to take
+   effect** — terminal 2 shows this restart was in progress when context ran out; not confirmed
+   healthy post-restart.
+2. **Topic pages shallow despite rich retrieval** — root cause:
+   `openai_synthesizer._compact_evidence_json` hard-capped evidence JSON at 60k chars
+   (`sort_keys=True` meant alphabetically-late sources like WHO/textbooks/videos got cut first).
+   Fix: raised `_EVIDENCE_JSON_CHAR_CAP` to 350k in `openai_synthesizer.py`; `synthesize()` /
+   `SynthesisResult` now report `evidence_truncated` + `evidence_char_len` so truncation is
+   visible in the debug payload instead of silent.
+3. **`gpt-5.6-luna` never actually used for topic pages** — `_answer_topic_page` in `app.py`
+   wasn't passing `get_topic_page_model()`'s result through; fixed the wiring, and
+   `topic_page_model` is now exposed in `/api/health`.
+4. **Chat not showing pics** — figures were only fetched by default for queries with "visual"
+   keywords. Fixed `_apply_figure_defaults` (`app.py`) + `buildPayload` (`app.js`) to request a
+   modest figure budget (4, up to 8 for visual-sounding queries) by default for `gpt_like` /
+   `compare_sources` modes.
+5. **No left/right modal arrows for inline body images** — `bindPreviewHandlers` gallery
+   detector only matched dedicated gallery grids. Broadened it to include
+   `.topic-section-body` / `.topic-key-facts` so inline figures are part of the navigable
+   gallery too.
+6. **Topic-page display caps way below backend retrieval caps** — client capped citations at 20
+   / figures at 16 while backend retrieves up to 120 cards / 40 figures. Raised `maxShown` to 80
+   / 40 in `renderTopicPageResult`, `filterByQueryRelevance`, `renderTopicGallery`; also split
+   the filter note into "off-topic" vs "overflowed but relevant" instead of one misleading
+   message.
+7. **Literature = recency-only text matching** — Scopus search forced `sort=-coverDate`. Removed
+   that sort (relevance-ranked instead) in `literature_apis.py`; added explicit
+   `sort=relevance` to PubMed esearch too.
+8. **Too many options cluttering responses** — collapsed "Answer mode" + "Evidence sources"
+   controls into a hidden-by-default `<details>` in `index.html`/`style.css`.
+9. **Wanted curriculum tags at top, not evidence-source list** — `renderEntryTagsHeader` now
+   renders a `Root › Sub › Leaf` breadcrumb at the top of topic pages; source summary moved to
+   the bottom as references.
+10. **"Teaching session notes" panel replaced with page export** — removed all notes JS/HTML,
+    added `setLastExportableResult` / `exportCurrentPageAsJson` + an "Export current page as
+    JSON" button.
+11. **Redundant lecture segments** — same lecture appeared multiple times (once per matched
+    timestamp) in both the lecture-segments gallery and the videos list. Added
+    `videoLectureKey()` + `bestVideoCardPerLecture()` in `app.js` to collapse to one
+    best-scoring segment per distinct lecture before display caps apply. Covered by new
+    `TestBestVideoCardPerLecture` in `tests/test_pathology_hub_chat_mvp.py`.
+
+**Verification status:** full offline pytest suite green after every change (last known count
+55/55); no `node` available in sandbox so JS edits were reviewed by hand instead of
+`node --check`. **None of items 2–11 above have been confirmed live in a browser by the user
+yet in this session** — the dev server was mid-restart (to pick up the new `.env`/secret-manager
+key path) when the user ran out of context and asked to save progress. Item 1 (secrets) is the
+one thing that must be re-verified first, since a broken key blocks testing everything else.
+
+### Immediate next step
+Restart `./scripts/run_local.sh` with `.env` re-sourced (see terminal), hit `/api/health` to
+confirm `secrets.present: true` and no 401s, then click through a topic page live to confirm
+items 2–11 actually look right in the browser (not just offline-test-green) — figures showing by
+default, modal arrows on inline images, tag breadcrumb at top, one row per lecture, literature
+citations that aren't just last-year's papers, export button working. Nothing has been
+committed; commit only if/when the user asks.
 
 ## Current task (cloud / online agent)
 

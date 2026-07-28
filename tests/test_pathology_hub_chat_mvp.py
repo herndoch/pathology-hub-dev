@@ -25,6 +25,8 @@ from pathology_backend import (  # noqa: E402
     extract_evidence_cards,
     extract_figures,
     filter_cards_by_page_root,
+    filter_figures_by_page_root,
+    is_cyto_root_token,
     merge_outcomes,
     normalize_root_token,
     page_root_from_tag,
@@ -722,6 +724,118 @@ class TestRootNarrowFilter(unittest.TestCase):
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "hn_lecture"]), 1)
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "breast_lecture"]), 0)
 
+    def test_is_cyto_root_token(self):
+        self.assertTrue(is_cyto_root_token(page_root_from_tag("Cyto_Thyroid::Malignant::X")))
+        self.assertTrue(is_cyto_root_token("cytobreast"))
+        self.assertFalse(is_cyto_root_token(page_root_from_tag("Thyroid::Malignant::X")))
+        self.assertFalse(is_cyto_root_token(None))
+        self.assertFalse(is_cyto_root_token(""))
+
+    def test_cyto_page_drops_generic_who_card_for_same_diagnosis(self):
+        """Regression for user report (2026-07-26): a Cyto_* topic page must not
+        show the generic/histologic WHO write-up just because it shares a
+        diagnosis label with the underlying entity — WHO cards never carry a
+        primary_tag, so they must be dropped (not kept-by-default) on cyto
+        pages, unlike on ordinary (non-cyto) pages where WHO is always kept."""
+        cards = [
+            {"source": "who", "title": "Papillary thyroid carcinoma (WHO)"},
+            {
+                "source": "textbooks",
+                "source_id": "thyroid_rosai",
+                "primary_tag": "Thyroid::Malignant::Papillary_Thyroid_Carcinoma",
+                "title": "Surgical pathology of PTC",
+            },
+            {
+                "source": "textbooks",
+                "source_id": "cyto_cibas",
+                "primary_tag": "Cyto_Thyroid::Malignant::Papillary::Papillary_Thyroid_Carcinoma_Classic",
+                "title": "Cytology of PTC",
+            },
+            {
+                "source": "pathout",
+                "source_id": "cyto_pattern",
+                "primary_tag": "Cyto_Thyroid::Pattern::Papillary_Fragments",
+                "title": "Cyto pattern reference",
+            },
+            {"source": "journals", "title": "PubMed: PTC review"},
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag(
+            "Cyto_Thyroid::Malignant::Papillary::Papillary_Thyroid_Carcinoma_Classic"
+        ))
+        titles = {c["title"] for c in filtered}
+        self.assertNotIn("Papillary thyroid carcinoma (WHO)", titles)
+        self.assertNotIn("Surgical pathology of PTC", titles)
+        self.assertIn("Cytology of PTC", titles)
+        self.assertIn("Cyto pattern reference", titles)
+        # Live literature is fetched/scoped separately — untouched by this filter.
+        self.assertIn("PubMed: PTC review", titles)
+
+    def test_non_cyto_page_still_keeps_who_regardless_of_root(self):
+        """Non-cyto pages must see zero behavior change from the B9 fix."""
+        cards = [
+            {"source": "who", "title": "Generic WHO entity"},
+            {
+                "source": "textbooks",
+                "source_id": "breast_wolf",
+                "primary_tag": "Breast::Neoplastic::DCIS",
+                "title": "On-root textbook",
+            },
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Breast::Neoplastic::DCIS"))
+        self.assertEqual({c["title"] for c in filtered}, {"Generic WHO entity", "On-root textbook"})
+
+    def test_cyto_page_drops_unresolvable_root_textbook_pathout_cards(self):
+        """B9: on cyto pages, even textbooks/pathout with no resolvable tag/source_id
+        prefix are dropped (stricter than the B8 'keep unless proven off-root')."""
+        cards = [
+            {"source": "textbooks", "title": "No tag at all"},
+            {
+                "source": "textbooks",
+                "source_id": "cyto_milan",
+                "primary_tag": "Cyto_Salivary::Category::Milan_III",
+                "title": "On-root cyto textbook",
+            },
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Cyto_Salivary::Category::Milan_III"))
+        self.assertEqual({c["title"] for c in filtered}, {"On-root cyto textbook"})
+
+    def test_cyto_page_keeps_generic_cyto_sourced_card_missing_primary_tag(self):
+        """Cyto textbooks/atlases (e.g. 'cyto_cibas') span every cyto organ in
+        one source_id-named book — only the per-chunk primary_tag carries the
+        specific Cyto_<Organ> root. A card that (unusually) has a cyto-book
+        source_id but no primary_tag should still be kept on any Cyto_* page
+        rather than dropped for not matching the specific organ exactly."""
+        cards = [
+            {"source": "textbooks", "source_id": "cyto_cibas", "title": "Generic cyto book, no primary_tag"},
+            {"source": "textbooks", "source_id": "thyroid_rosai", "title": "Generic surgical book, no primary_tag"},
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Cyto_Thyroid::Malignant::X"))
+        self.assertEqual({c["title"] for c in filtered}, {"Generic cyto book, no primary_tag"})
+
+    def test_filter_figures_by_page_root_drops_off_root_keeps_generic_cyto_on_cyto_pages(self):
+        """Figures never carry primary_tag (confirmed live — see README B9 note),
+        only source_id. Real cyto book source_ids (e.g. 'cyto_cibas_fig12') are
+        organ-agnostic, so any Cyto_* page must keep them; a non-cyto figure
+        (e.g. 'thyroid_rosai_fig3') and one with no source_id at all must not."""
+        figures = [
+            {"source_id": "cyto_cibas_fig12", "caption": "Cyto figure"},
+            {"source_id": "thyroid_rosai_fig3", "caption": "Off-root surgical figure"},
+            {"caption": "No source_id at all"},
+        ]
+        filtered = filter_figures_by_page_root(figures, page_root_from_tag("Cyto_Thyroid::Malignant::X"))
+        captions = {f["caption"] for f in filtered}
+        self.assertEqual(captions, {"Cyto figure"})
+
+    def test_filter_figures_by_page_root_keeps_unresolvable_on_non_cyto_pages(self):
+        """Non-cyto pages must see zero behavior change from the B9 fix."""
+        figures = [
+            {"source_id": "breast_wolf_fig1", "caption": "On-root figure"},
+            {"caption": "No source_id at all"},
+        ]
+        filtered = filter_figures_by_page_root(figures, page_root_from_tag("Breast::Neoplastic::DCIS"))
+        captions = {f["caption"] for f in filtered}
+        self.assertEqual(captions, {"On-root figure", "No source_id at all"})
+
 
 class TestVideoDedupe(unittest.TestCase):
     def test_dedupe_video_cards_by_video_id(self):
@@ -773,6 +887,108 @@ class TestVideoDedupe(unittest.TestCase):
             "Benign Cystic Neck Mass (Case 01)",
             "Other Lecture Title",
         })
+
+
+class TestBestVideoCardPerLecture(unittest.TestCase):
+    """Parity check for `videoLectureKey` / `bestVideoCardPerLecture` in app.js.
+
+    Those two helpers collapse the "LECTURE SEGMENTS" gallery and "VIDEOS"
+    list down to one best segment per distinct lecture (e.g. the screenshot
+    bug: 5 timestamped chunks of one "BST Lecture 3 SoftTissue2" video all
+    rendered as if they were 5 separate lectures). This file's tests hit
+    app.js mostly via string assertions rather than a JS runtime, so this
+    reimplements the same identity/tiebreak logic in Python and exercises it
+    directly against the exact multi-segment-one-lecture shape from the bug
+    report, plus a genuinely-multi-lecture case that must NOT collapse.
+    """
+
+    @staticmethod
+    def _video_lecture_key(card):
+        video_id = str(card.get("video_id") or "").strip()
+        looks_like_path_blob = (
+            not video_id
+            or video_id.lower().startswith("gcs_gs_")
+            or video_id.lower().endswith("lecture_chunks")
+            or "/" in video_id
+        )
+        if not looks_like_path_blob:
+            return video_id
+        title = str(card.get("title") or "").strip()
+        if title:
+            return f"title:{title}"
+        return video_id or str(card.get("chunk_id") or "").strip() or None
+
+    @classmethod
+    def _duration(cls, card):
+        start = card.get("start_sec", card.get("start_time_sec"))
+        end = card.get("end_sec", card.get("end_time_sec"))
+        if isinstance(start, (int, float)) and isinstance(end, (int, float)) and end > start:
+            return end - start
+        return 0
+
+    @classmethod
+    def _best_per_lecture(cls, rows):
+        """rows: list of (card, score), already sorted by score descending."""
+        winners = {}
+        order = []
+        for card, score in rows:
+            key = cls._video_lecture_key(card) or f"chunk:{card.get('chunk_id')}"
+            current = winners.get(key)
+            if current is None:
+                winners[key] = (card, score)
+                order.append(key)
+                continue
+            current_card, current_score = current
+            if score > current_score or (
+                score == current_score and cls._duration(card) > cls._duration(current_card)
+            ):
+                winners[key] = (card, score)
+        return [winners[key][0] for key in order]
+
+    def test_five_segments_of_one_lecture_collapse_to_single_best(self):
+        # Mirrors the screenshot: 5 timestamped segments, same lecture title,
+        # path-blob-style video_id (so identity must fall back to title).
+        rows = [
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c1", "start_sec": 1846, "end_sec": 1959}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c2", "start_sec": 1382, "end_sec": 1492}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c3", "start_sec": 1624, "end_sec": 1717}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c4", "start_sec": 1718, "end_sec": 1846}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c5", "start_sec": 2202, "end_sec": 2311}, 1.0),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 1)
+        # Equal scores -> longest segment wins (c4: 128s is the longest here).
+        self.assertEqual(best[0]["chunk_id"], "c4")
+
+    def test_higher_score_wins_over_longer_duration(self):
+        rows = [
+            ({"title": "Same Lecture", "video_id": "vid-x", "chunk_id": "short", "start_sec": 0, "end_sec": 10}, 1.0),
+            ({"title": "Same Lecture", "video_id": "vid-x", "chunk_id": "long", "start_sec": 0, "end_sec": 500}, 0.5),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 1)
+        self.assertEqual(best[0]["chunk_id"], "short")
+
+    def test_genuinely_distinct_lectures_are_not_collapsed(self):
+        rows = [
+            ({"title": "Lecture A", "video_id": "vid-a", "chunk_id": "a1"}, 1.0),
+            ({"title": "Lecture A", "video_id": "vid-a", "chunk_id": "a2"}, 0.8),
+            ({"title": "Lecture B", "video_id": "vid-b", "chunk_id": "b1"}, 0.9),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 2)
+        self.assertEqual({c["chunk_id"] for c in best}, {"a1", "b1"})
+
+    def test_app_js_has_lecture_collapse_helpers(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function videoLectureKey", js)
+        self.assertIn("function bestVideoCardPerLecture", js)
+        self.assertIn("function videoSegmentDurationSec", js)
 
 
 class TestDdxRootPreference(unittest.TestCase):

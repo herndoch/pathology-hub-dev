@@ -800,6 +800,12 @@ code {
   white-space: normal;
 }
 
+.tag-breadcrumb-sep {
+  color: var(--muted);
+  opacity: 0.7;
+  padding: 0 0.05rem;
+}
+
 .provenance-badge {
   text-transform: capitalize;
 }
@@ -1087,7 +1093,6 @@ body.modal-open {
 }
 
 .composer textarea:focus,
-.notes-panel textarea:focus,
 .controls select:focus,
 .controls input[type="number"]:focus {
   outline: 2px solid var(--accent);
@@ -1140,32 +1145,13 @@ button:disabled {
   padding: 1rem;
 }
 
-.notes-details summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+.export-panel-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
 }
 
-.notes-panel textarea {
+#export-page-btn {
   width: 100%;
-  resize: vertical;
-  min-height: 6rem;
-  background: #ffffff;
-  color: var(--text);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
-  padding: 0.65rem;
-  font: inherit;
-  line-height: 1.45;
-  margin-bottom: 0.5rem;
-}
-
-.notes-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
 }
 
 .btn-secondary {
@@ -1392,7 +1378,7 @@ button:disabled {
   margin-top: 0.5rem;
 }
 
-.notes-status {
+.export-status {
   margin: 0.5rem 0 0;
   min-height: 1.1rem;
 }
