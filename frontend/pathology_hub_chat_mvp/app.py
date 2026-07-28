@@ -178,9 +178,20 @@ def _log_build_fingerprint() -> None:
 
 _backend_client = PathologyHubClient(api_url=os.environ.get("PATHOLOGY_HUB_API_URL"))
 
+# Internal response shapes. User-facing Ask is a single box; `auto` (and bare
+# `gpt_like` posts) are resolved from the query in `_resolve_ask_mode`.
 VALID_MODES = frozenset(
-    {"gpt_like", "compare_sources", "visual", "search_only", "html_teaching", "topic_page"}
+    {
+        "auto",
+        "gpt_like",
+        "compare_sources",
+        "visual",
+        "search_only",
+        "html_teaching",
+        "topic_page",
+    }
 )
+RESOLVED_MODES = frozenset(VALID_MODES - {"auto"})
 
 
 class SearchRequest(BaseModel):
@@ -202,7 +213,8 @@ class SearchRequest(BaseModel):
 
 
 class ChatRequest(SearchRequest):
-    mode: str = "gpt_like"
+    # Default is auto — server infers topic_page / compare / visual / etc.
+    mode: str = "auto"
     category_context: Optional[str] = None
     page_tag: Optional[str] = None
 
@@ -732,6 +744,8 @@ def api_health():
         "build_marker": BUILD_MARKER,
         "build_git_sha": BUILD_GIT_SHA,
         "scopus_paren_sanitize": SCOPUS_PAREN_SANITIZE,
+        # Single Ask box — modes listed here are internal/resolved shapes.
+        "ask_auto_route": True,
     }
 
 
@@ -825,7 +839,27 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
 
 
 _ENTITY_ASK_RE = re.compile(
-    r"^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+(.+?)\??$",
+    r"^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe|"
+    r"features?\s+of|pathology\s+of|histology\s+of|criteria\s+for|workup\s+of)\s+(.+?)\??$",
+    re.IGNORECASE,
+)
+_COMPARE_ASK_RE = re.compile(
+    r"\b(difference|differ|vs\.?|versus|compare|comparison|between)\b",
+    re.IGNORECASE,
+)
+_SEARCH_ONLY_ASK_RE = re.compile(
+    r"\b(sources?\s+only|search\s+only|raw\s+evidence|no\s+synthesis|"
+    r"just\s+(the\s+)?(sources|cards|evidence))\b",
+    re.IGNORECASE,
+)
+_HTML_TEACHING_ASK_RE = re.compile(
+    r"\b(html\s+teaching|teaching\s+page|lecture\s+handout)\b",
+    re.IGNORECASE,
+)
+_TOPIC_FEATURE_ASK_RE = re.compile(
+    r"\b(diagnostic\s+criteria|differential\s+diagnosis|molecular\s+features|"
+    r"gross\s+(pathology|findings)|microscopic\s+features|"
+    r"ancillary\s+(studies|tests)|clinical\s+features)\b",
     re.IGNORECASE,
 )
 _ENTITY_ABBREV = {
@@ -840,41 +874,81 @@ _ENTITY_ABBREV = {
 }
 
 
-def _maybe_route_entity_ask_to_topic_page(req: ChatRequest) -> Optional[str]:
-    """Upgrade default gpt_like 'what is LCIS' asks to topic_page entity retrieval.
+def _extract_ask_entity(raw: str) -> Optional[str]:
+    text = (raw or "").strip()
+    if not text:
+        return None
+    match = _ENTITY_ASK_RE.match(text)
+    if match:
+        return match.group(1).strip().rstrip("?.!")
+    if _VISUAL_QUERY.search(text) or _COMPARE_ASK_RE.search(text):
+        return None
+    if re.fullmatch(r"[A-Za-z][A-Za-z0-9\- ]{0,40}", text) and len(text.split()) <= 6:
+        return text
+    return None
+
+
+def _resolve_ask_mode(req: ChatRequest) -> Optional[str]:
+    """Infer internal response shape from the query when Ask is in auto/gpt_like.
 
     Returns a short route note for debug, or None when unchanged.
+    Explicit modes from Browse / API (topic_page, compare_sources, …) are kept.
     """
-    mode = (req.mode or "gpt_like").strip()
-    if mode != "gpt_like":
+    mode = (req.mode or "auto").strip() or "auto"
+    if mode not in {"auto", "gpt_like"}:
         return None
     raw = (req.query or "").strip()
     if not raw:
+        req.mode = "gpt_like"
         return None
-    entity = None
-    match = _ENTITY_ASK_RE.match(raw)
-    if match:
-        entity = match.group(1).strip().rstrip("?.!")
-    elif re.fullmatch(r"[A-Za-z][A-Za-z0-9\- ]{0,40}", raw) and len(raw.split()) <= 6:
-        # Bare entity / abbreviation asks ("LCIS", "florid LCIS").
-        entity = raw
-    if not entity:
-        return None
-    # Leave compare / differential questions in gpt_like / compare_sources.
-    if re.search(r"\b(difference|differ|vs\.?|versus|compare|between|or)\b", entity, re.I):
-        return None
-    key = re.sub(r"[^a-z0-9]+", "", entity.lower())
-    expanded = _ENTITY_ABBREV.get(key) or entity
-    req.query = expanded
-    req.mode = "topic_page"
-    return f"routed_entity_ask:{raw}→{expanded}"
+
+    if _SEARCH_ONLY_ASK_RE.search(raw):
+        req.mode = "search_only"
+        return "inferred:search_only"
+
+    if _HTML_TEACHING_ASK_RE.search(raw):
+        req.mode = "html_teaching"
+        return "inferred:html_teaching"
+
+    if _COMPARE_ASK_RE.search(raw):
+        req.mode = "compare_sources"
+        return "inferred:compare_sources"
+
+    entity = _extract_ask_entity(raw)
+    looks_topic = bool(entity) or bool(_TOPIC_FEATURE_ASK_RE.search(raw))
+    if looks_topic and entity and not _COMPARE_ASK_RE.search(entity):
+        key = re.sub(r"[^a-z0-9]+", "", entity.lower())
+        expanded = _ENTITY_ABBREV.get(key) or entity
+        req.query = expanded
+        req.mode = "topic_page"
+        return f"inferred:topic_page:{raw}→{expanded}"
+
+    if looks_topic and not entity:
+        req.mode = "topic_page"
+        return "inferred:topic_page"
+
+    if _VISUAL_QUERY.search(raw):
+        req.mode = "visual"
+        return "inferred:visual"
+
+    req.mode = "gpt_like"
+    return None
+
+
+# Back-compat name used by tests / older call sites.
+def _maybe_route_entity_ask_to_topic_page(req: ChatRequest) -> Optional[str]:
+    return _resolve_ask_mode(req)
 
 
 def _prepare_chat_request(req: ChatRequest) -> str:
     """Validate mode/sources and apply topic-page / figure defaults. Returns mode."""
-    route_note = _maybe_route_entity_ask_to_topic_page(req)
+    route_note = _resolve_ask_mode(req)
     mode = (req.mode or "gpt_like").strip()
-    if mode not in VALID_MODES:
+    if mode == "auto":
+        # Resolver should have replaced auto; fall back defensively.
+        mode = "gpt_like"
+        req.mode = mode
+    if mode not in RESOLVED_MODES:
         raise ValueError(f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}")
     sources = _validate_sources(req.sources)
     req.sources = sources

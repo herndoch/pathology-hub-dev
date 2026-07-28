@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pathology Hub Chat</title>
-  <link rel="stylesheet" href="/static/style.css?v=ask-topic-route-7" />
+  <link rel="stylesheet" href="/static/style.css?v=auto-mode-1" />
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
       <h1>Pathology Hub Chat</h1>
-      <p class="subtitle">Evidence-grounded pathology Q&amp;A — textbooks, WHO, Pathoutlines, lectures, and live literature</p>
+      <p class="subtitle">Ask anything — topic pages, comparisons, figures, and literature are chosen from your query</p>
     </div>
     <div class="status" id="health-status">Checking…</div>
   </header>
@@ -40,7 +40,7 @@
         <textarea
           id="query-input"
           rows="2"
-          placeholder="Ask or search pathology (e.g. LCIS breast, tubular adenoma colon)…"
+          placeholder="Ask anything — e.g. what is LCIS, LCIS vs DCIS, show LCIS histology…"
           required
         ></textarea>
         <div class="composer-actions">
@@ -57,21 +57,12 @@
       <aside class="controls">
         <details class="controls-details" id="controls-details">
           <summary>
-            Advanced: answer mode &amp; sources
-            <span class="hint controls-summary-hint">defaults to GPT-like · WHO + Textbooks + Pathoutlines — open to scope lectures/videos or pick a mode</span>
+            Advanced: evidence sources
+            <span class="hint controls-summary-hint">one Ask box — answer shape is inferred from your query · default WHO + Textbooks + Pathoutlines</span>
           </summary>
 
-          <label for="mode-select">Answer mode</label>
-          <select id="mode-select">
-            <option value="gpt_like" selected>GPT-like — synthesized answer</option>
-            <option value="search_only">Search only — raw evidence cards</option>
-            <option value="compare_sources">Compare sources — side-by-side</option>
-            <option value="visual">Visual — figures included</option>
-            <option value="html_teaching">HTML teaching page</option>
-            <option value="topic_page">Topic page — ExpertPath-style reference</option>
-          </select>
           <p class="hint mode-hint" id="mode-hint">
-            Default: grounded summary with inline citations from selected sources.
+            No mode picker. Entity / “what is…” → topic page · compare/vs → comparison · show figures → visual · “sources only” → raw cards · otherwise a short grounded answer.
           </p>
 
           <fieldset>
@@ -137,6 +128,6 @@
     </article>
   </template>
 
-  <script src="/static/app.js?v=ask-topic-route-7"></script>
+  <script src="/static/app.js?v=auto-mode-1"></script>
 </body>
 </html>

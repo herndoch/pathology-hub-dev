@@ -48,14 +48,9 @@ const INLINE_LINK_LABEL_ALIASES = {
   "hn gnepp": "Gnepp",
 };
 
-const MODE_HINTS = {
-  gpt_like: "Bullet summary with inline source links. Figures auto-included when you ask to show something.",
-  search_only: "Raw evidence cards only — no OpenAI synthesis.",
-  compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
-  visual: "Figures retrieved and shown above the answer.",
-  html_teaching: "Hosted HTML teaching page — link appears above citations.",
-  topic_page: "ExpertPath-style reference page with iterative retrieval (broad → gap-fill → literature deepen), live Elsevier/PubMed/OncoKB, and visible round-by-round progress. Also reachable via the Browse tab.",
-};
+/** Internal response shapes — not user-facing. Ask always auto-routes. */
+const AUTO_MODE_HINT =
+  "One Ask box: entity / “what is…” → topic page · compare/vs → comparison · show figures → visual · “sources only” → raw cards · otherwise a short grounded answer.";
 
 const VISUAL_QUERY_RE =
   /\b(show\s+me|show|picture|pictures|photo|photos|image|images|figure|figures|histology|histologic|microscopic|microscopy|gross|what\s+does|look\s+like|demonstrate|illustrate|visual)\b/i;
@@ -938,7 +933,6 @@ const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
 const sendBtn = document.getElementById("send-btn");
-const modeSelect = document.getElementById("mode-select");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
 const debugToggle = document.getElementById("debug-toggle");
@@ -1782,7 +1776,8 @@ function selectedSources() {
 }
 
 function buildPayload(query, modeOverride, options = {}) {
-  const mode = modeOverride || modeSelect.value;
+  // Ask always passes an explicit resolved mode; Browse hardcodes topic_page.
+  const mode = modeOverride || "auto";
   const visual = wantsVisual(query, mode) || mode === "topic_page";
   const sources = mode === "topic_page" ? TOPIC_PAGE_SOURCES : selectedSources();
   const payload = {
@@ -1817,9 +1812,13 @@ function extractEntityFromAskQuery(query) {
   const q = String(query || "").trim();
   if (!q) return null;
   const m = q.match(
-    /^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+(.+?)\??$/i,
+    /^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe|features?\s+of|pathology\s+of|histology\s+of|criteria\s+for|workup\s+of)\s+(.+?)\??$/i,
   );
   if (m) return m[1].replace(/[?.!]+$/g, "").trim();
+  // Visual / compare phrasing is not a bare entity label.
+  if (VISUAL_QUERY_RE.test(q) || /\b(difference|differ|vs\.?|versus|compare|between)\b/i.test(q)) {
+    return null;
+  }
   // Bare short entity / abbreviation ("LCIS", "florid LCIS").
   if (/^[A-Za-z][A-Za-z0-9\- ]{0,40}$/.test(q) && q.split(/\s+/).length <= 6) {
     return q;
@@ -1827,46 +1826,104 @@ function extractEntityFromAskQuery(query) {
   return null;
 }
 
+function expandAskEntity(entity) {
+  const key = String(entity || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+  return ENTITY_ABBREVIATION_EXPANSIONS[key] || ENTITY_ABBREVIATION_EXPANSIONS[String(entity || "").toLowerCase()] || entity;
+}
+
 /**
- * Default Ask mode is gpt_like (short bullets). Entity / "what is X" questions
- * should become full topic pages (board map, sections, literature, galleries).
+ * Single Ask entry: infer the internal response shape from the query.
+ * No user-facing mode picker — Browse still forces topic_page separately.
  */
 function planAskRequest(rawQuery) {
-  const selectedMode = modeSelect.value;
-  if (selectedMode !== "gpt_like") {
-    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+  const q = String(rawQuery || "").trim();
+  if (!q) {
+    return { query: q, mode: "gpt_like", leaf: null, routed: false, routeNote: "" };
   }
-  const entity = extractEntityFromAskQuery(rawQuery);
-  if (!entity) {
-    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
-  }
-  // Leave compare / differential asks in normal gpt_like.
-  if (/\b(difference|differ|vs\.?|versus|compare|between|or)\b/i.test(entity)) {
-    return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
-  }
-  let leaf = findTaxonomyMatch(entity, null);
-  if (leaf) {
-    leaf = resolveBoardMappedLeaf(leaf) || leaf;
-    const label = leaf.label || entity;
+
+  if (/\b(sources?\s+only|search\s+only|raw\s+evidence|no\s+synthesis|just\s+(the\s+)?(sources|cards|evidence))\b/i.test(q)) {
     return {
-      query: leaf.query || leaf.label || entity,
-      mode: "topic_page",
-      leaf,
+      query: q,
+      mode: "search_only",
+      leaf: null,
       routed: true,
-      routeNote: `Routed to topic page for ${formatDisplayLabel(label)} (board curriculum / multi-section reference — not a short GPT-like blurb).`,
+      routeNote: "Inferred: raw evidence cards only (no synthesis).",
     };
   }
-  if (/^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe)\s+/i.test(rawQuery.trim())) {
-    const expanded = ENTITY_ABBREVIATION_EXPANSIONS[entity.toLowerCase()] || entity;
+
+  if (/\b(html\s+teaching|teaching\s+page|lecture\s+handout)\b/i.test(q)) {
+    return {
+      query: q,
+      mode: "html_teaching",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: HTML teaching page.",
+    };
+  }
+
+  if (/\b(difference|differ|vs\.?|versus|compare|comparison|between)\b/i.test(q)) {
+    return {
+      query: q,
+      mode: "compare_sources",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: comparison answer across sources.",
+    };
+  }
+
+  const entity = extractEntityFromAskQuery(q);
+  const looksTopic =
+    Boolean(entity) ||
+    /\b(diagnostic\s+criteria|differential\s+diagnosis|molecular\s+features|gross\s+(pathology|findings)|microscopic\s+features|ancillary\s+(studies|tests)|clinical\s+features)\b/i.test(
+      q,
+    );
+
+  if (looksTopic && entity && !/\b(difference|differ|vs\.?|versus|compare|between)\b/i.test(entity)) {
+    let leaf = findTaxonomyMatch(entity, null);
+    if (leaf) leaf = resolveBoardMappedLeaf(leaf) || leaf;
+    if (leaf) {
+      const label = leaf.label || entity;
+      return {
+        query: leaf.query || leaf.label || entity,
+        mode: "topic_page",
+        leaf,
+        routed: true,
+        routeNote: `Inferred topic page for ${formatDisplayLabel(label)}.`,
+      };
+    }
+    const expanded = expandAskEntity(entity);
     return {
       query: expanded,
       mode: "topic_page",
       leaf: null,
       routed: true,
-      routeNote: `Treating “${entity}” as a topic-page entity reference.`,
+      routeNote: `Inferred topic page for “${entity}”.`,
     };
   }
-  return { query: rawQuery, mode: selectedMode, leaf: null, routed: false, routeNote: "" };
+
+  if (looksTopic && !entity) {
+    return {
+      query: q,
+      mode: "topic_page",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred topic-page reference from the query.",
+    };
+  }
+
+  if (VISUAL_QUERY_RE.test(q)) {
+    return {
+      query: q,
+      mode: "visual",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: figure-focused answer.",
+    };
+  }
+
+  return { query: q, mode: "gpt_like", leaf: null, routed: false, routeNote: "" };
 }
 
 function setModalAction(el, url, label) {
@@ -2189,7 +2246,7 @@ function renderSourceCheckboxes() {
 }
 
 function updateModeHint() {
-  modeHint.textContent = MODE_HINTS[modeSelect.value] || "";
+  if (modeHint) modeHint.textContent = AUTO_MODE_HINT;
 }
 
 function setActiveView(view) {
@@ -4115,7 +4172,7 @@ form.addEventListener("submit", async (event) => {
   if (plan.routed) {
     steps.push({
       status: "done",
-      label: "Routed to topic page",
+      label: plan.routeNote ? "Inferred answer shape" : "Routed",
       detail: plan.routeNote,
     });
   }
@@ -4287,7 +4344,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-modeSelect.addEventListener("change", updateModeHint);
 exportPageBtn.addEventListener("click", exportCurrentPageAsJson);
 
 viewTabs.forEach((tab) => {

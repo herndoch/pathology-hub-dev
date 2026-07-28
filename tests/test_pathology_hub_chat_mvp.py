@@ -531,19 +531,45 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertEqual(again.count("## Key Literature"), 1)
 
     def test_what_is_lcis_ask_routes_to_topic_page(self):
-        from app import ChatRequest, _maybe_route_entity_ask_to_topic_page  # noqa: E402
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
 
-        req = ChatRequest(query="what is lcis", mode="gpt_like", sources=["textbooks"])
-        note = _maybe_route_entity_ask_to_topic_page(req)
+        req = ChatRequest(query="what is lcis", mode="auto", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
         self.assertIsNotNone(note)
         self.assertEqual(req.mode, "topic_page")
         self.assertEqual(req.query.lower(), "lobular carcinoma in situ")
 
-    def test_app_js_routes_entity_asks_to_topic_page(self):
+    def test_compare_ask_routes_to_compare_sources(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="LCIS vs DCIS", mode="auto", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "compare_sources")
+        self.assertIn("compare", note or "")
+
+    def test_search_only_phrase_routes(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="LCIS sources only", mode="auto", sources=["textbooks"])
+        _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "search_only")
+
+    def test_explicit_topic_page_mode_not_overridden(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="what is lcis", mode="topic_page", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
+        self.assertIsNone(note)
+        self.assertEqual(req.mode, "topic_page")
+
+    def test_app_js_has_single_ask_auto_router(self):
         js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        html = (MVP_DIR / "static" / "index.html").read_text(encoding="utf-8")
         self.assertIn("function planAskRequest", js)
         self.assertIn("function extractEntityFromAskQuery", js)
-        self.assertIn("Routed to topic page", js)
+        self.assertIn("Inferred topic page", js)
+        self.assertNotIn('id="mode-select"', html)
+        self.assertNotIn("modeSelect", js)
 
 
 class TestWhoSectionMentions(unittest.TestCase):
