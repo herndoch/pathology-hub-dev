@@ -3881,6 +3881,16 @@ function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thi
 async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   // Attach ABPath/WHO hierarchical tag when a starter leaf had tag:null.
   const leafRef = resolveBoardMappedLeaf(leafRefIn) || leafRefIn;
+  // Keep Browse state in sync so breadcrumbs / rebuild / export see the tag.
+  if (leafRef.tag && browseState?.level === "leaf") {
+    browseState = {
+      ...browseState,
+      tag: leafRef.tag,
+      provenance: leafRef.provenance || browseState.provenance || null,
+      categoryId: leafRef.categoryId || browseState.categoryId || null,
+      subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+    };
+  }
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {
