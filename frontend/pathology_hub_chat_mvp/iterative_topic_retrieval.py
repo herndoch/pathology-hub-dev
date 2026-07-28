@@ -51,6 +51,11 @@ def max_rounds() -> int:
 _GAP_ASPECTS: list[tuple[str, str, tuple[str, ...]]] = [
     ("imaging", "imaging mammogram ultrasound MRI CT radiology", ("radiology", "imaging", "mammog", "ultrasound", "mri")),
     ("gross", "gross macroscopic cut surface specimen", ("gross", "macroscopic", "cut surface", "specimen")),
+    (
+        "cytology",
+        "cytology FNA smear cytopathology Pap",
+        ("cytolog", "cytopath", "fna", "smear", "bethesda", "yokohama"),
+    ),
     ("ihc", "immunohistochemistry IHC stains markers", ("ihc", "immunohistochem", "stain", "positive for")),
     ("molecular", "molecular genetics fusion mutation", ("fusion", "mutation", "molecular", "gene", "etv6", "ntrk")),
     ("ddx", "differential diagnosis distinguish from", ("differential", "versus", "distinguish", "ddx")),

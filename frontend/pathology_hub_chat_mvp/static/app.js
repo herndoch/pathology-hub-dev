@@ -1842,6 +1842,9 @@ function inlineMarkdown(text, previewIndex) {
     return stash(renderInlineImage(alt, url, previewIndex));
   });
 
+  // Unwrap "([WHO](url))" / "((DOI))" style so we do not render ((WHO)).
+  scratch = scratch.replace(/\(\s*\[([^\]]+)\]\((https?:[^)\s]+)\)\s*\)/g, "[$1]($2)");
+
   // Plain links: [label](url) -> preview-aware link when we recognize the URL,
   // otherwise a normal external link. Journal/DOI targets always show as (DOI).
   scratch = scratch.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
@@ -1863,11 +1866,10 @@ function inlineMarkdown(text, previewIndex) {
 function renderInlineLink(label, url, previewIndex) {
   const preview = previewIndex?.get(url);
   const safeHref = escapeAttr(url);
-  // Journal/DOI cites render as "(DOI)"; hub sources as "(WHO)" etc.
+  // Journal/DOI → "(DOI)". Hub sources stay bare "WHO"/"Textbooks" so surrounding
+  // prose parentheses from the model do not become ((WHO)).
   const bare = String(label || "").replace(/^\(+|\)+$/g, "");
-  const display = /^(DOI|WHO|Pathoutlines|Textbooks|Lectures|Videos)$/i.test(bare)
-    ? `(${bare})`
-    : bare;
+  const display = /^DOI$/i.test(bare) ? "(DOI)" : bare;
   const safeLabel = escapeHtml(display);
   if (preview?.previewUrl) {
     const payload = escapeAttr(JSON.stringify(preview));
@@ -3030,6 +3032,7 @@ const TOPIC_PAGE_SECTION_ORDER = [
   "Imaging Features",
   "Gross Features",
   "Microscopic",
+  "Cytology",
   "Ancillary Tests",
   "Molecular / Therapeutic",
   "Differential Diagnosis",
@@ -3118,6 +3121,38 @@ function figureGalleryUrl(fig) {
   return pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
 }
 
+function diversifyFiguresBySource(figures) {
+  const groups = new Map();
+  const order = [];
+  for (const fig of figures || []) {
+    const src = String(fig?.source || fig?.source_kind || "unknown").toLowerCase();
+    if (!groups.has(src)) {
+      groups.set(src, []);
+      order.push(src);
+    }
+    groups.get(src).push(fig);
+  }
+  // Prefer WHO / textbooks / pathout early so WHO photos are not crowded out.
+  const prefer = ["who", "textbooks", "pathout", "videos", "lectures", "literature", "inline_markdown", "unknown"];
+  const ranked = [
+    ...prefer.filter((s) => order.includes(s)),
+    ...order.filter((s) => !prefer.includes(s)),
+  ];
+  const out = [];
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (const src of ranked) {
+      const bucket = groups.get(src);
+      if (bucket?.length) {
+        out.push(bucket.shift());
+        progress = true;
+      }
+    }
+  }
+  return out;
+}
+
 function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems, { maxShown = 16 } = {}) {
   const merged = [];
   const seen = new Set();
@@ -3138,7 +3173,7 @@ function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems,
       source_kind: "lecture_frame",
     });
   }
-  return merged.slice(0, maxShown);
+  return diversifyFiguresBySource(merged).slice(0, maxShown);
 }
 
 /** Map figure modality → topic-page section that should own its gallery. */
@@ -3146,10 +3181,11 @@ const FIGURE_MODALITY_SECTION = {
   imaging: "Imaging Features",
   gross: "Gross Features",
   microscopic: "Microscopic",
+  cytology: "Cytology",
   ihc: "Ancillary Tests",
 };
 
-/** Classify a retrieved/inline figure into imaging / gross / microscopic / ihc / other. */
+/** Classify a retrieved/inline figure into imaging / gross / cytology / microscopic / ihc / other. */
 function classifyFigureModality(fig) {
   const blob = [
     fig?.caption,
@@ -3158,12 +3194,15 @@ function classifyFigureModality(fig) {
     fig?.section,
     fig?.chunk_type,
     fig?.source_id,
+    fig?.primary_tag,
     fig?.figure_url,
     fig?.image_url,
     fig?.url,
   ]
     .map((x) => String(x || "").toLowerCase())
     .join(" ");
+  const src = String(fig?.source || "").toLowerCase();
+  const sid = String(fig?.source_id || "").toLowerCase();
 
   if (
     /\b(mammog|ultrasound|sonograph|\bmri\b|magnetic resonance|\bct\b|radiograph|x-?ray|pet[- ]?ct|fluoroscop|imaging|radiolog)\b/.test(
@@ -3182,15 +3221,29 @@ function classifyFigureModality(fig) {
   ) {
     return "ihc";
   }
+  // Cytology before histology — smears/FNA must not land under Microscopic.
   if (
-    /\b(h&amp;e|h&e|h\/e|histolog|microscop|photomicro|cytolog|nuclear|cytoplasm|architecture|ductal|lobular|acin)\b/.test(
+    sid.startsWith("cyto_") ||
+    /\bcyto[_-]/.test(sid) ||
+    /\b(cytolog|cytopath|\bfna\b|fine[- ]needle|smear|diff[- ]?quik|pap stain|liquid[- ]based|exfoliativ|bethesda|yokohama|imprint cytolog)\b/.test(
+      blob,
+    )
+  ) {
+    return "cytology";
+  }
+  if (
+    /\b(h&amp;e|h&e|h\/e|histolog|histopath|photomicro|tissue section|low[- ]power|high[- ]power|microscop)\b/.test(
       blob,
     )
   ) {
     return "microscopic";
   }
-  // PathOutlines / textbook figures without a caption cue are usually micro.
-  const src = String(fig?.source || "").toLowerCase();
+  // Generic nuclear/architecture cues without cytology markers → histology.
+  if (/\b(nuclear|cytoplasm|architecture|ductal|lobular|acin|stroma|epithelial)\b/.test(blob)) {
+    return "microscopic";
+  }
+  // WHO / PathOut / textbook figures without a cue are usually histology tissue photos.
+  // (Cytology books are caught above via cyto_ source_id.)
   if (src === "pathout" || src === "textbooks" || src === "who") return "microscopic";
   return "other";
 }
@@ -3204,6 +3257,7 @@ function bucketFiguresBySection(retrievedFigures, sections) {
     "Imaging Features": [],
     "Gross Features": [],
     Microscopic: [],
+    Cytology: [],
     "Ancillary Tests": [],
     other: [],
   };
@@ -3607,6 +3661,7 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
     "Imaging Features",
     "Gross Features",
     "Microscopic",
+    "Cytology",
     "Ancillary Tests",
   ]);
 
@@ -3664,7 +3719,7 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
     html += '<div class="topic-section-header">ADDITIONAL IMAGES</div>';
     html += '<div class="topic-section-body">';
     html +=
-      '<p class="hint">Figures that could not be confidently placed under Imaging, Gross, Microscopic, or Ancillary Tests.</p>';
+      '<p class="hint">Figures that could not be confidently placed under Imaging, Gross, Microscopic, Cytology, or Ancillary Tests.</p>';
     html += renderSectionGallery("Additional images", buckets.other);
     html += "</div></div>";
   }

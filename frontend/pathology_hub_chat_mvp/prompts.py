@@ -91,6 +91,7 @@ TOPIC_PAGE_SECTIONS = [
     "Imaging Features",
     "Gross Features",
     "Microscopic",
+    "Cytology",
     "Ancillary Tests",
     "Molecular / Therapeutic",
     "Differential Diagnosis",
@@ -128,7 +129,7 @@ def topic_page_system_prompt() -> str:
         "retrieved evidence has nothing substantive for it. Never pad empty sections.\n"
         "When you do include sections, keep this order: Key Facts first (if present), then "
         "Terminology, Etiology/Pathogenesis, Clinical Issues, Imaging Features, Gross Features, "
-        "Microscopic, Ancillary Tests, Molecular / Therapeutic, Differential Diagnosis, "
+        "Microscopic, Cytology, Ancillary Tests, Molecular / Therapeutic, Differential Diagnosis, "
         "Key Literature.\n\n"
         "HUB SOURCES (critical — textbooks / WHO / Pathoutlines): When the evidence bundle "
         "includes `00_hub_sources_must_use` or textbook_results / who_results / pathout_results, "
@@ -150,14 +151,17 @@ def topic_page_system_prompt() -> str:
         "- Scan EVERY figure in the evidence bundle (figure_url / image_url + caption / alt / "
         "section tags). Captions alone count as support for a section.\n"
         "- The UI renders a dedicated gallery under each of Imaging Features, Gross Features, "
-        "Microscopic, and Ancillary Tests — place each figure in the CORRECT section so those "
-        "galleries fill correctly. Do NOT put all images under Microscopic.\n"
+        "Microscopic, Cytology, and Ancillary Tests — place each figure in the CORRECT section "
+        "so those galleries fill correctly. Do NOT put all images under Microscopic.\n"
         "- Radiology/imaging photos (mammogram, ultrasound, MRI, CT, radiograph, PET, etc.) → "
         "MUST create Imaging Features and embed those figures there.\n"
         "- Gross/specimen/cut-surface/macroscopic photos → MUST create Gross Features and embed "
         "those figures there; do NOT dump them under Microscopic.\n"
-        "- Histology/H&E photomicrographs → Microscopic.\n"
+        "- Histology/H&E tissue photomicrographs → Microscopic (NOT Cytology).\n"
+        "- Cytology/FNA/smear/Pap/liquid-based photos → Cytology (own section; NEVER under "
+        "Microscopic).\n"
         "- IHC / special-stain photomicrographs → Ancillary Tests (not Microscopic).\n"
+        "- Prefer embedding WHO figure_url images when present — they are first-class evidence.\n"
         "- Embed figures as consecutive markdown images on their OWN lines after the bullets "
         "(not nested under an 'Images:' bullet). Example:\n"
         "  - Cut surface is bulging and white\n"
@@ -178,9 +182,12 @@ def topic_page_system_prompt() -> str:
         "- '## Gross Features': size, shape, cut surface, borders, capsule — bullets. Include when "
         "the evidence text OR any figure caption describes gross/specimen findings. Embed the "
         "gross figures here.\n"
-        "- '## Microscopic': histologic/cytologic features — use nested outline bullets (parent "
-        "feature → sub-bullets for patterns/criteria). Embed histology figures liberally here; "
-        "do not put gross or radiology images in this section.\n"
+        "- '## Microscopic': histologic tissue features only — nested outline bullets (parent "
+        "feature → sub-bullets for patterns/criteria). Embed H&E histology figures here; "
+        "do not put cytology smears, gross, or radiology images in this section.\n"
+        "- '## Cytology': FNA / smear / exfoliative findings when evidence or cytology figures "
+        "exist. Embed cytology figures here only. Omit the section when there is no cytology "
+        "text and no cytology figures.\n"
         "- '## Ancillary Tests': IHC/molecular — prefer a compact marker list (nested bullets: "
         "marker → pattern/entity) or one markdown table when 2+ markers/entities are compared. "
         "Never write IHC panels as full sentences. Embed IHC / special-stain figures here.\n"

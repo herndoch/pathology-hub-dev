@@ -541,8 +541,22 @@ class TestTopicPagePrompt(unittest.TestCase):
 
         text = prompts.topic_page_system_prompt()
         self.assertIn("dedicated gallery under each of Imaging Features", text)
+        self.assertIn("Cytology", prompts.TOPIC_PAGE_SECTIONS)
+        self.assertIn("Cytology/FNA/smear", text)
         self.assertIn("IHC / special-stain photomicrographs → Ancillary Tests", text)
         self.assertIn("Embed IHC / special-stain figures here", text)
+        self.assertIn("Prefer embedding WHO figure_url", text)
+
+    def test_app_js_separates_cytology_from_microscopic_figures(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('cytology: "Cytology"', js)
+        self.assertIn('"Cytology"', js)
+        self.assertIn("diversifyFiguresBySource", js)
+        # Cytology cues must be classified before generic histology fallback.
+        cyto_idx = js.find("return \"cytology\"")
+        micro_idx = js.find("return \"microscopic\"")
+        self.assertGreater(cyto_idx, 0)
+        self.assertGreater(micro_idx, cyto_idx)
 
     def test_topic_page_prompt_requires_key_literature_when_present(self):
         import prompts  # noqa: E402
