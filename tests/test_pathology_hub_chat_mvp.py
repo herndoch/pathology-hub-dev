@@ -571,6 +571,12 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertNotIn('id="mode-select"', html)
         self.assertNotIn("modeSelect", js)
 
+    def test_app_js_prefers_classic_lcis_over_florid_subtype(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("ENTITY_SUBTYPE_MODIFIERS", js)
+        self.assertIn("leafHasUnrequestedSubtype", js)
+        self.assertIn("words.every((w) => tokenSet.has(w))", js)
+
 
 class TestWhoSectionMentions(unittest.TestCase):
     """Fixture text below is real WHO `differential_diagnosis`-section excerpt

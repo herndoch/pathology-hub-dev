@@ -344,6 +344,13 @@ function resolveBoardMappedLeaf(leafRef) {
         else if (lk.includes(k) || k.includes(lk)) score = Math.max(score, 60);
       }
     }
+    // Bare starter "LCIS" / classic in-situ labels must not map to Florid /
+    // Pleomorphic board tags unless the starter leaf itself names that subtype.
+    const starterBlob = [...keys].join(" ");
+    const leafBlob = leafKeys.join(" ");
+    for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
+      if (leafBlob.includes(mod) && !starterBlob.includes(mod)) score -= 40;
+    }
     // Prefer ABPath / both over WHO-only; prefer same organ root when known.
     const prov = String(leaf.provenance || "").toLowerCase();
     if (prov === "abpath" || prov === "both") score += 5;
@@ -737,6 +744,15 @@ const ENTITY_ABBREVIATION_EXPANSIONS = {
   cll: "chronic lymphocytic leukemia",
 };
 
+/** Subtype adjectives that must be queried explicitly — bare "LCIS" should
+ * resolve to classic lobular carcinoma in situ, not Florid/Pleomorphic. */
+const ENTITY_SUBTYPE_MODIFIERS = new Set([
+  "florid",
+  "pleomorphic",
+  "classic",
+  "atypical",
+]);
+
 function normalizeEntityName(name) {
   const base = String(name || "")
     .toLowerCase()
@@ -744,10 +760,25 @@ function normalizeEntityName(name) {
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  return base
-    .split(" ")
-    .map((token) => ENTITY_ABBREVIATION_EXPANSIONS[token] || token)
-    .join(" ");
+  if (!base) return "";
+  const tokens = base.split(" ").filter(Boolean);
+  const tokenSet = new Set(tokens);
+  // Expand abbrev tokens only when the expanded words are not already present.
+  // Otherwise "Lobular Carcinoma In Situ LCIS" becomes the phrase twice and
+  // loses the exact match against query "LCIS" → "lobular carcinoma in situ",
+  // letting subtype leaves like Florid LCIS win on substring score.
+  const expanded = [];
+  for (const token of tokens) {
+    const phrase = ENTITY_ABBREVIATION_EXPANSIONS[token];
+    if (!phrase) {
+      expanded.push(token);
+      continue;
+    }
+    const words = phrase.split(" ").filter(Boolean);
+    if (words.every((w) => tokenSet.has(w))) continue;
+    expanded.push(...words);
+  }
+  return expanded.join(" ").replace(/\s+/g, " ").trim();
 }
 
 /** Built from the thinned full index when available (curated fallback until
@@ -861,13 +892,26 @@ function scoreLeafForPageContext(leaf, pageContext) {
   return score;
 }
 
-function pickBestLeaf(candidates, pageContext) {
+function leafHasUnrequestedSubtype(leaf, queryNorm) {
+  const leafTokens = new Set(String(leaf?.normalized || "").split(" ").filter(Boolean));
+  const queryTokens = new Set(String(queryNorm || "").split(" ").filter(Boolean));
+  for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
+    if (leafTokens.has(mod) && !queryTokens.has(mod)) return true;
+  }
+  return false;
+}
+
+function pickBestLeaf(candidates, pageContext, queryNorm = "") {
   if (!candidates?.length) return null;
-  let best = candidates[0];
-  let bestScore = scoreLeafForPageContext(best, pageContext);
-  for (let i = 1; i < candidates.length; i += 1) {
-    const leaf = candidates[i];
-    const score = scoreLeafForPageContext(leaf, pageContext);
+  let best = null;
+  let bestScore = -Infinity;
+  for (const leaf of candidates) {
+    let score = scoreLeafForPageContext(leaf, pageContext);
+    // Prefer classic entity over Florid/Pleomorphic when the user didn't ask
+    // for that subtype (bare "LCIS" / "what is LCIS").
+    if (leafHasUnrequestedSubtype(leaf, queryNorm)) score -= 50;
+    // Prefer shorter/more exact labels when scores tie.
+    score -= Math.min(String(leaf.normalized || "").length, 80) / 1000;
     if (score > bestScore) {
       best = leaf;
       bestScore = score;
@@ -917,13 +961,22 @@ function findTaxonomyMatch(rawName, pageContext = null) {
   }
 
   if (exactMatches.length) {
-    return leafRefFrom(pickBestLeaf(exactMatches, ctx));
+    return leafRefFrom(pickBestLeaf(exactMatches, ctx, norm));
   }
 
   if (fuzzyByScore.size) {
-    const topScore = Math.max(...fuzzyByScore.keys());
-    if (topScore >= 0.5) {
-      return leafRefFrom(pickBestLeaf(fuzzyByScore.get(topScore), ctx));
+    // Re-rank all fuzzy hits with subtype penalty so bare "LCIS" does not
+    // prefer Florid/Pleomorphic just because those labels contain the phrase.
+    const allFuzzy = [];
+    for (const leaves of fuzzyByScore.values()) allFuzzy.push(...leaves);
+    const ranked = pickBestLeaf(allFuzzy, ctx, norm);
+    if (ranked) {
+      const rawScore =
+        [...fuzzyByScore.entries()].find(([, leaves]) => leaves.includes(ranked))?.[0] || 0;
+      const adj = leafHasUnrequestedSubtype(ranked, norm) ? rawScore - 0.3 : rawScore;
+      if (adj >= 0.5 || ranked.normalized === norm) {
+        return leafRefFrom(ranked);
+      }
     }
   }
   return null;
