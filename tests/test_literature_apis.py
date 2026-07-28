@@ -63,10 +63,11 @@ class TestLiteratureHelpers(unittest.TestCase):
             )
         self.assertTrue(meta["ok"])
         self.assertEqual(meta["query_sanitized"], "Lobular carcinoma in situ LCIS")
-        from urllib.parse import unquote
+        from urllib.parse import unquote, parse_qs, urlparse
 
         decoded = unquote(captured["url"])
-        self.assertIn("TITLE-ABS-KEY(Lobular carcinoma in situ LCIS)", decoded)
+        query_param = parse_qs(urlparse(captured["url"]).query).get("query", [""])[0]
+        self.assertIn("TITLE-ABS-KEY(Lobular carcinoma in situ LCIS)", unquote(query_param).replace("+", " "))
         self.assertNotIn("(LCIS)", decoded)
         self.assertEqual(len(cards), 1)
 
