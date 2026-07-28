@@ -211,18 +211,48 @@ class TestTopicPageQueryVariants(unittest.TestCase):
             "HGSC",
             category_context="GYN — Ovary > Carcinomas",
         )
-        # Organ token only — never the full "Parent > Child" breadcrumb.
-        self.assertEqual(variants[0], "HGSC Ovary")
-        self.assertNotIn(">", variants[0])
+        # Bare entity first, then organ token — never the full breadcrumb.
+        self.assertEqual(variants[0], "HGSC")
+        self.assertIn("HGSC Ovary", variants)
+        self.assertTrue(all(">" not in v for v in variants))
 
     def test_fibroadenoma_gets_organ_not_breadcrumb(self):
         variants = topic_page_query_variants(
             "Fibroadenoma",
             category_context="Breast > Benign Changes",
         )
-        self.assertEqual(variants[0], "Fibroadenoma Breast")
-        self.assertTrue(all("Benign Changes" not in v for v in variants))
+        # Bare entity first, then organ-enriched — never full breadcrumb.
+        self.assertEqual(variants[0], "Fibroadenoma")
+        self.assertIn("Fibroadenoma Breast", variants)
+        self.assertTrue(all("Benign Changes" not in v for v in variants)
+        )
         self.assertTrue(all("Fibroadenoma" in v for v in variants))
+
+    def test_hub_sources_pinned_for_synthesis(self):
+        from app import _evidence_for_synthesis, _slim_hub_for_prompt  # noqa: E402
+
+        cards = [
+            {
+                "source": "textbooks",
+                "source_id": "breast_atlas",
+                "title": "Fibroadenoma",
+                "source_url": "https://example.com/tb",
+                "excerpt": "Benign biphasic tumor",
+            },
+            {
+                "source": "who",
+                "title": "Fibroadenoma",
+                "source_url": "https://example.com/who",
+                "excerpt": "WHO entity",
+            },
+        ]
+        slim = _slim_hub_for_prompt(cards)
+        self.assertTrue(any(c.get("source") == "textbooks" for c in slim))
+        bundle = _evidence_for_synthesis({"query": "Fibroadenoma"}, cards)
+        self.assertIn("00_hub_sources_must_use", bundle)
+        self.assertTrue(
+            any(c.get("source") == "textbooks" for c in bundle["00_hub_sources_must_use"])
+        )
 
     def test_category_context_skipped_for_descriptive_entity_names(self):
         variants = topic_page_query_variants(

@@ -347,7 +347,11 @@ def topic_page_query_variants(
 
     variants: list[str] = []
     seen: set[str] = set()
-    for candidate in (enriched, *(f"{enriched} {aspect}" for aspect in TOPIC_PAGE_QUERY_ASPECTS)):
+    # Always try the bare entity first, then the organ-enriched form, then
+    # aspect probes. Bare-first matters when enrichment is noisy and when we
+    # need a reliable Round-1 hub hit for textbooks/WHO/pathout.
+    seed = (base, enriched) if enriched != base else (enriched,)
+    for candidate in (*seed, *(f"{enriched} {aspect}" for aspect in TOPIC_PAGE_QUERY_ASPECTS)):
         normalized = candidate.strip().lower()
         if not normalized or normalized in seen:
             continue

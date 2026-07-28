@@ -350,6 +350,42 @@ code {
   margin-left: 0.9rem;
 }
 
+.evidence-source-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0.65rem 0 0.85rem;
+}
+
+.evidence-source-bar .source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  border: 1px solid var(--panel-border);
+  background: #f8f9fa;
+  color: #3c4043;
+}
+
+.evidence-source-bar .source-chip.ok {
+  border-color: #c8e6c9;
+  background: #e8f5e9;
+}
+
+.evidence-source-bar .source-chip.missing {
+  border-color: #ffcdd2;
+  background: #ffebee;
+  color: #b71c1c;
+}
+
+.evidence-source-bar .source-chip-note {
+  flex: 1 1 100%;
+  margin: 0.15rem 0 0;
+}
+
 .literature-strip {
   margin: 1rem 0 1.25rem;
   padding: 0.85rem 1rem;

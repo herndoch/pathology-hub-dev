@@ -209,6 +209,45 @@ def run_iterative_topic_retrieval(
     figures = dedupe_figures(extract_figures(merged))
     if apply_figure_quality:
         cards, figures = apply_figure_quality(cards, figures)
+
+    # If the broad multi-query fan-out somehow returns nothing (transient hub
+    # blip / overloaded parallel calls), retry once with the bare entity only.
+    if not cards and query.strip():
+        yield {
+            "phase": "round",
+            "round": 1,
+            "status": "running",
+            "label": "Round 1 — retry bare hub query",
+            "detail": f"First pass empty — retrying `{query.strip()}`",
+            "queries": [query.strip()],
+        }
+        outcomes_retry, timing_retry = _retrieve_queries(
+            client,
+            [query.strip()],
+            sources,
+            max_results=max_results,
+            include_figures=include_figures,
+            max_figures=max_figures,
+            compact=compact,
+            excerpt_char_limit=excerpt_char_limit,
+        )
+        all_outcomes.extend(outcomes_retry)
+        variant_timing.extend(timing_retry)
+        merged = merge_outcomes(all_outcomes)
+        merged["query"] = query
+        cards = dedupe_cards(extract_evidence_cards(merged))
+        figures = dedupe_figures(extract_figures(merged))
+        if apply_figure_quality:
+            cards, figures = apply_figure_quality(cards, figures)
+
+    by_source: dict[str, int] = {}
+    for card in cards:
+        src = str(card.get("source") or "unknown")
+        by_source[src] = by_source.get(src, 0) + 1
+    source_detail = " · ".join(f"{k} {v}" for k, v in sorted(by_source.items(), key=lambda kv: (-kv[1], kv[0])))
+    if not source_detail:
+        source_detail = "no hub cards"
+
     round_summaries.append(
         {
             "round": 1,
@@ -216,6 +255,7 @@ def run_iterative_topic_retrieval(
             "queries": variants,
             "cards": len(cards),
             "figures": len(figures),
+            "by_source": by_source,
             "elapsed_ms": round((time.monotonic() - t0) * 1000, 1),
         }
     )
@@ -224,9 +264,10 @@ def run_iterative_topic_retrieval(
         "round": 1,
         "status": "done",
         "label": "Round 1 — broad hub retrieval",
-        "detail": f"{len(cards)} unique cards · {len(figures)} figures",
+        "detail": f"{len(cards)} unique cards · {len(figures)} figures · {source_detail}",
         "cards": len(cards),
         "figures": len(figures),
+        "by_source": by_source,
     }
 
     # Literature pass (after round 1 so genes in query still work; also before gap-fill)

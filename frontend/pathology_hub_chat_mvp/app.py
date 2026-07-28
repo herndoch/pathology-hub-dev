@@ -635,8 +635,42 @@ def _slim_literature_for_prompt(literature_cards: list[dict]) -> list[dict]:
     return slim
 
 
+def _slim_hub_for_prompt(cards: list[dict]) -> list[dict]:
+    """Compact WHO/textbook/pathout cards that must survive evidence truncation.
+
+    json.dumps(..., sort_keys=True) + a char cap historically dropped late keys
+    like textbook_results while keeping literature. Pin hub sources under an
+    early `00_` key so Fibroadenoma-style pages still see Breast Atlas / WHO.
+    """
+    prefer = ("textbooks", "who", "pathout")
+    by_src: dict[str, list[dict]] = {s: [] for s in prefer}
+    for card in cards or []:
+        if not isinstance(card, dict):
+            continue
+        src = str(card.get("source") or "").lower()
+        if src in by_src and len(by_src[src]) < 8:
+            by_src[src].append(
+                {
+                    "source": src,
+                    "source_id": card.get("source_id"),
+                    "title": card.get("title") or card.get("name") or card.get("heading"),
+                    "section": card.get("section"),
+                    "source_url": card.get("source_url") or card.get("source_page_url"),
+                    "excerpt": (card.get("excerpt") or card.get("text") or card.get("text_excerpt") or "")[:700],
+                }
+            )
+    slim: list[dict] = []
+    for src in prefer:
+        slim.extend(by_src[src])
+    return slim
+
+
 def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
     bundle = dict(merged)
+    hub_must = _slim_hub_for_prompt(cards)
+    if hub_must:
+        # Sorts before literature alphabetically (00_hub < 00_live).
+        bundle["00_hub_sources_must_use"] = hub_must
     literature = _literature_cards_from(merged, cards)
     if literature:
         # Key sorts first under json.dumps(..., sort_keys=True) so literature
@@ -799,9 +833,22 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
 
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
     literature = _literature_cards_from(merged, cards)
-    extra = None
+    hub_counts: dict[str, int] = {}
+    for card in cards or []:
+        src = str((card or {}).get("source") or "").lower()
+        if src in {"textbooks", "who", "pathout"}:
+            hub_counts[src] = hub_counts.get(src, 0) + 1
+    extra_bits: list[str] = []
+    if hub_counts:
+        bits = ", ".join(f"{k}={v}" for k, v in sorted(hub_counts.items()))
+        extra_bits.append(
+            f"HUB SOURCES PRESENT ({bits}) in `00_hub_sources_must_use`. Core diagnostic "
+            "facts (Terminology, Clinical Issues, Gross, Microscopic, Ancillary, DDx) MUST "
+            "cite Textbooks / WHO / Pathoutlines via markdown links from those cards — not "
+            "literature alone. Prefer textbook/WHO/pathout URLs for routine histology facts."
+        )
     if literature:
-        extra = (
+        extra_bits.append(
             f"LIVE LITERATURE IS PRESENT ({len(literature)} cards in "
             "`00_live_literature_must_use` / `literature_results`). You MUST include "
             "`## Key Literature` with 3–6 bullets drawn from those cards (title, journal, "
@@ -809,6 +856,7 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
             "findings into Clinical Issues and/or Etiology/Pathogenesis when the abstracts "
             "support them. Ignore any literature card about a different organ/system."
         )
+    extra = "\n".join(extra_bits) if extra_bits else None
     result = synthesize(
         prompts.topic_page_system_prompt(),
         req.query,

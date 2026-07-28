@@ -3695,6 +3695,30 @@ function formatSourceCountLabel(sourceKey, count) {
   return `${label} ${count}`;
 }
 
+/** Compact source chips under the board map so missing textbooks are obvious. */
+function renderEvidenceSourceBar(data) {
+  const cards = data?.cards || [];
+  const order = ["textbooks", "who", "pathout", "videos", "literature"];
+  const counts = countItemsBySource(cards);
+  if ((data.literature || []).length && !counts.literature) {
+    counts.literature = data.literature.length;
+  }
+  const chips = [];
+  for (const src of order) {
+    const n = counts[src] || 0;
+    const label = SOURCE_LABELS[src] || src;
+    const cls = n > 0 ? "source-chip ok" : "source-chip missing";
+    chips.push(`<span class="${cls}">${escapeHtml(label)} <strong>${n}</strong></span>`);
+  }
+  const tb = counts.textbooks || 0;
+  let note = "";
+  if (tb === 0) {
+    note =
+      '<p class="hint source-chip-note">No textbook cards in this evidence bundle — hub Round 1 may have missed; try Rebuild. WHO/Pathout/literature may still support the page.</p>';
+  }
+  return `<div class="evidence-source-bar" aria-label="Evidence sources used">${chips.join("")}${note}</div>`;
+}
+
 /** Always-visible retrieval breakdown for topic pages (works on cache hits too). */
 function renderTopicSourceSummary(data, entryMeta = null) {
   const cardCounts = countItemsBySource(data.cards || []);
@@ -4149,6 +4173,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
 
   // Board/curriculum hierarchy at the top (ABPath/WHO tag path when known).
   let html = renderEntryTagsHeader(tag, provenance, entryMeta);
+  html += renderEvidenceSourceBar(data);
   html += renderTopicPage(
     sections,
     previewIndex,
