@@ -303,6 +303,26 @@ def staged_retrieve(
         return list(executor.map(_search_one, sources))
 
 
+def _organ_enrichment_from_category_context(category_context: Optional[str]) -> str:
+    """Turn browse breadcrumb context into a short organ token for search.
+
+    Browse sends strings like ``Breast > Benign Changes``. Appending the full
+    breadcrumb pollutes retrieval (``Fibroadenoma Breast > Benign Changes``).
+    Keep only the organ/root segment before ``>``.
+    """
+    context = (category_context or "").strip()
+    if not context:
+        return ""
+    head = re.split(r"\s*>\s*", context, maxsplit=1)[0].strip()
+    if not head:
+        return ""
+    # "GYN — Ovary" / "GU - Prostate" → prefer the trailing organ word.
+    parts = re.split(r"\s*[—–\-]\s*", head)
+    label = (parts[-1] if parts else head).strip()
+    label = re.sub(r"\s+", " ", label)
+    return label
+
+
 def topic_page_query_variants(
     entity_name: str,
     category_context: Optional[str] = None,
@@ -311,18 +331,19 @@ def topic_page_query_variants(
 
     Variants are programmatic (not per-disease hardcoded): base entity name,
     then aspect-specific suffixes for histology, ancillary/IHC, and DDx.
-    Optional browse category context enriches short entity names.
+    Optional browse category context enriches short entity names with a short
+    organ token (never the full ``Parent > Child`` breadcrumb).
     """
     base = (entity_name or "").strip()
     if not base:
         return [base]
 
     enriched = base
-    context = (category_context or "").strip()
+    organ = _organ_enrichment_from_category_context(category_context)
     # Only enrich abbreviated/short entity labels — skip when the name is
     # already descriptive (e.g. "ovarian high-grade serous carcinoma").
-    if context and len(base.split()) <= 3:
-        enriched = f"{base} {context}"
+    if organ and len(base.split()) <= 3 and organ.lower() not in base.lower():
+        enriched = f"{base} {organ}"
 
     variants: list[str] = []
     seen: set[str] = set()

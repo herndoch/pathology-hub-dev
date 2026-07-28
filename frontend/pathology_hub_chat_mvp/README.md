@@ -12,6 +12,19 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 - Optional debug panel: request payloads, `source_status`, warnings (never API keys)
 - **One Ask box** — no mode picker. The query is auto-routed to an internal shape: `topic_page` (entity / “what is…”), `compare_sources` (vs / difference), `visual` (show figures), `search_only` (“sources only”), or short `gpt_like`. Browse leaves still force `topic_page`.
 
+## Keep local WSL in sync with cloud-agent edits
+
+Cloud agents push to a feature branch; your WSL checkout does **not** auto-update. After an agent says it pushed:
+
+```bash
+cd /home/charlie/pathology-hub-dev
+./frontend/pathology_hub_chat_mvp/scripts/sync_and_run_local.sh
+# equivalent: pull cursor/topic-iterative-sse-layout-9231, kill old uvicorn, restart
+```
+
+Then hard-refresh the browser (Ctrl+Shift+R). Confirm the terminal shows
+`BUILD=topic-iterative-sse-layout-9231 sha=<new>` matching the agent’s latest commit.
+
 ## Prerequisites
 
 - Python 3.11+ (3.14 works with the bundled venv)

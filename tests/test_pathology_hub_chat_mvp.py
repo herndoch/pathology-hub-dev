@@ -211,7 +211,18 @@ class TestTopicPageQueryVariants(unittest.TestCase):
             "HGSC",
             category_context="GYN — Ovary > Carcinomas",
         )
-        self.assertTrue(variants[0].startswith("HGSC GYN — Ovary > Carcinomas"))
+        # Organ token only — never the full "Parent > Child" breadcrumb.
+        self.assertEqual(variants[0], "HGSC Ovary")
+        self.assertNotIn(">", variants[0])
+
+    def test_fibroadenoma_gets_organ_not_breadcrumb(self):
+        variants = topic_page_query_variants(
+            "Fibroadenoma",
+            category_context="Breast > Benign Changes",
+        )
+        self.assertEqual(variants[0], "Fibroadenoma Breast")
+        self.assertTrue(all("Benign Changes" not in v for v in variants))
+        self.assertTrue(all("Fibroadenoma" in v for v in variants))
 
     def test_category_context_skipped_for_descriptive_entity_names(self):
         variants = topic_page_query_variants(
@@ -576,6 +587,14 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertIn("ENTITY_SUBTYPE_MODIFIERS", js)
         self.assertIn("leafHasUnrequestedSubtype", js)
         self.assertIn("words.every((w) => tokenSet.has(w))", js)
+
+    def test_app_js_renders_bullet_wrapped_ddx_tables_and_hides_gallery_titles(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function coerceBulletWrappedMarkdownTable", js)
+        self.assertIn("coerceBulletWrappedMarkdownTable(text)", js)
+        # Section gallery should not emit "X gallery" subtitle headers.
+        self.assertNotIn("${sectionName} gallery", js)
+        self.assertNotIn("section-gallery-title", js)
 
 
 class TestWhoSectionMentions(unittest.TestCase):

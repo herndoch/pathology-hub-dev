@@ -1497,6 +1497,14 @@ function renderMarkdown(text, previewIndex) {
       continue;
     }
 
+    // Models often wrap each table row in a markdown bullet ("- | a | b |").
+    // Detect that before the generic list renderer turns pipes into <li> text.
+    const tableFromBullets = coerceBulletWrappedMarkdownTable(trimmed);
+    if (tableFromBullets) {
+      htmlBlocks.push(renderMarkdownTable(tableFromBullets));
+      continue;
+    }
+
     const lines = trimmed.split("\n");
 
     // A "## Header" line glued (no blank line) to bullets/prose right after it is common
@@ -1628,11 +1636,28 @@ function renderNestedList(lines, previewIndex) {
 function isMarkdownTable(block) {
   const lines = block.split("\n").filter((line) => line.trim());
   if (lines.length < 2) return false;
-  return lines.every((line) => line.includes("|"));
+  if (!lines.every((line) => line.includes("|"))) return false;
+  // Require a real multi-column shape (avoids "see A | B" prose).
+  return lines.some((line) => line.replace(/^\s*[-*]\s+/, "").split("|").filter((c) => c.trim()).length >= 2);
+}
+
+/** If every non-empty line is a bullet + pipe row, return cleaned table text. */
+function coerceBulletWrappedMarkdownTable(block) {
+  const lines = String(block || "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length < 2) return null;
+  if (!lines.every((line) => /^[-*]\s+/.test(line) && line.includes("|"))) return null;
+  const stripped = lines.map((line) => line.replace(/^\s*[-*]\s+/, "")).join("\n");
+  return isMarkdownTable(stripped) ? stripped : null;
 }
 
 function renderMarkdownTable(block) {
-  const lines = block.split("\n").filter((line) => line.trim() && !/^\|[\s\-:|]+\|$/.test(line.trim()));
+  const lines = block
+    .split("\n")
+    .map((line) => line.replace(/^\s*[-*]\s+/, "").trim())
+    .filter((line) => line && !/^\|?[\s\-:|]+\|?$/.test(line));
   if (!lines.length) return "";
 
   const rows = lines.map((line) =>
@@ -3062,10 +3087,10 @@ function bucketFiguresBySection(retrievedFigures, sections) {
 
 function renderSectionGallery(sectionName, figures, { maxItems = 24 } = {}) {
   if (!figures || !figures.length) return "";
-  const title = `${sectionName} gallery`;
+  // No "Microscopic gallery" / "____ gallery" subtitle — the section header
+  // already names the modality; keep the thumbs only.
   return (
     `<div class="section-gallery" data-section-gallery="${escapeAttr(sectionName)}">` +
-    `<div class="section-gallery-title">${escapeHtml(title)}</div>` +
     renderTopicGallery(figures, { maxItems }) +
     "</div>"
   );
@@ -3167,6 +3192,13 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
   const text = String(content || "").trim();
   if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
   const ctx = pageContext || pageContextFromBrowseState();
+
+  // Prefer a real HTML table when the model emitted markdown pipes (often
+  // each row incorrectly prefixed with "- ").
+  const tableFromBullets = coerceBulletWrappedMarkdownTable(text);
+  if (tableFromBullets || isMarkdownTable(text)) {
+    return renderMarkdown(tableFromBullets || text, previewIndex);
+  }
 
   const items = [];
   for (const rawLine of text.split("\n")) {
