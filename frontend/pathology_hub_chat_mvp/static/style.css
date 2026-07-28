@@ -805,14 +805,49 @@ code {
   white-space: nowrap;
 }
 
-.topic-tags-header {
+.topic-tags-header,
+.curriculum-board-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #c5d8f5;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
+}
+
+.curriculum-board-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.curriculum-board-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.55rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--panel-border);
+}
+
+.curriculum-board-tagline {
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.curriculum-tag-path {
+  font-size: 0.78rem;
+  background: #eef3fb;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+.curriculum-board-hint {
+  margin: 0;
 }
 
 .topic-tags-label {
@@ -826,6 +861,9 @@ code {
 .topic-entry-tag {
   max-width: none;
   white-space: normal;
+  background: #e8f0fe;
+  color: #174ea6;
+  font-weight: 600;
 }
 
 .tag-breadcrumb-sep {
@@ -835,7 +873,8 @@ code {
 }
 
 .provenance-badge {
-  text-transform: capitalize;
+  text-transform: none;
+  font-weight: 600;
 }
 
 .citation-excerpt {

@@ -297,14 +297,75 @@ let browseIndex = null;
  * `dedupe_rules` in browse_tag_index_v0_2. */
 const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both"]);
 const NAV_PROVENANCE_LABELS = {
-  abpath: "ABPath",
-  who: "WHO",
-  both: "ABPath + WHO",
+  abpath: "ABPath board curriculum",
+  who: "WHO classification map",
+  both: "ABPath board + WHO",
+  curated: "Curated starter (not board-mapped)",
 };
 
 function formatNavProvenanceLabel(provenance) {
   const key = String(provenance || "").toLowerCase();
   return NAV_PROVENANCE_LABELS[key] || null;
+}
+
+/** Normalize label/query text for matching starter leaves → full ABPath/WHO tags. */
+function normalizeTopicMatchKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/**
+ * When Browse opens a curated starter leaf (`tag: null`), try to attach the
+ * real ABPath/WHO hierarchical tag from the full browse index so the topic
+ * page can show board/curricular location instead of a blank tag header.
+ */
+function resolveBoardMappedLeaf(leafRef) {
+  if (!leafRef) return leafRef;
+  if (leafRef.tag) return leafRef;
+  if (!browseIndex) return leafRef;
+  const keys = new Set(
+    [leafRef.label, leafRef.query]
+      .map(normalizeTopicMatchKey)
+      .filter(Boolean),
+  );
+  if (!keys.size) return leafRef;
+
+  let best = null;
+  let bestScore = -1;
+  for (const row of collectLeavesFromRoots(getBrowseNavRootsFull() || [])) {
+    const leaf = row.leaf;
+    if (!leaf?.tag) continue;
+    const leafKeys = [leaf.label, leaf.query].map(normalizeTopicMatchKey);
+    let score = 0;
+    for (const k of keys) {
+      for (const lk of leafKeys) {
+        if (!lk) continue;
+        if (lk === k) score = Math.max(score, 100);
+        else if (lk.includes(k) || k.includes(lk)) score = Math.max(score, 60);
+      }
+    }
+    // Prefer ABPath / both over WHO-only; prefer same organ root when known.
+    const prov = String(leaf.provenance || "").toLowerCase();
+    if (prov === "abpath" || prov === "both") score += 5;
+    if (leafRef.categoryId && row.root?.id === leafRef.categoryId) score += 8;
+    if (score > bestScore) {
+      bestScore = score;
+      best = { row, leaf };
+    }
+  }
+  if (!best || bestScore < 60) return leafRef;
+  return {
+    ...leafRef,
+    tag: best.leaf.tag,
+    provenance: best.leaf.provenance || leafRef.provenance || null,
+    label: leafRef.label || best.leaf.label,
+    query: leafRef.query || best.leaf.query || best.leaf.label,
+    categoryId: leafRef.categoryId || best.row.root?.id || null,
+    subcategoryId: leafRef.subcategoryId || best.row.sub?.id || null,
+    boardResolvedFrom: "browse_tag_index",
+  };
 }
 
 /** Known-root glyph/gradient styling, keyed by the generated index's root
@@ -3554,19 +3615,47 @@ function tagBreadcrumbSegments(tag) {
   });
 }
 
-function renderEntryTagsHeader(tag, provenance) {
-  if (!tag) return "";
-  const segments = tagBreadcrumbSegments(tag);
-  let html = '<div class="topic-tags-header">';
-  html += '<span class="topic-tags-label">Curriculum location:</span>';
-  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">`;
+function browsePathSegments(entryMeta) {
+  const segments = [];
+  const category = entryMeta?.categoryId ? findCategory(entryMeta.categoryId) : null;
+  const subcategory = category ? findSubcategory(category, entryMeta.subcategoryId) : null;
+  if (category?.label) segments.push(formatDisplayLabel(category.label));
+  if (subcategory?.label) segments.push(formatSubcategoryLabel(subcategory.label));
+  const leafLabel = entryMeta?.label || entryMeta?.query;
+  if (leafLabel) segments.push(formatDisplayLabel(leafLabel));
+  return segments;
+}
+
+/** Board / hierarchical curriculum panel — always shown on topic pages when
+ * we have either a formal ABPath/WHO tag or a Browse path. */
+function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
+  const tagSegments = tag ? tagBreadcrumbSegments(tag) : [];
+  const pathSegments = browsePathSegments(entryMeta || {});
+  const segments = tagSegments.length ? tagSegments : pathSegments;
+  if (!segments.length && !tag && !provenance) return "";
+
+  const provenanceLabel =
+    formatNavProvenanceLabel(provenance) ||
+    (tag ? null : "Browse path only — open from Full index for ABPath board tags");
+
+  let html = '<div class="topic-tags-header curriculum-board-panel">';
+  html += '<div class="curriculum-board-title">Board / curriculum map</div>';
+  html += '<div class="curriculum-board-row">';
+  html += '<span class="topic-tags-label">Hierarchy:</span>';
+  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag || segments.join(" › "))}">`;
   html += segments
     .map((seg) => escapeHtml(seg))
     .join(' <span class="tag-breadcrumb-sep">\u203a</span> ');
   html += "</span>";
-  const provenanceLabel = formatNavProvenanceLabel(provenance);
   if (provenanceLabel) {
     html += `<span class="source-badge provenance-badge">${escapeHtml(provenanceLabel)}</span>`;
+  }
+  html += "</div>";
+  if (tag) {
+    html += `<div class="curriculum-board-tagline"><span class="topic-tags-label">Tag path:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
+  } else {
+    html +=
+      '<p class="hint curriculum-board-hint">No ABPath/WHO tag on this leaf yet — switch Browse to <strong>Full index</strong> (or Rebuild after pull) to attach board curricular tags like <code>Breast::Neoplastic::…::Lobular_Carcinoma_In_Situ_LCIS</code>.</p>';
   }
   html += "</div>";
   return html;
@@ -3672,10 +3761,8 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   const tag = entryMeta?.tag || null;
   const provenance = entryMeta?.provenance || null;
 
-  // Tags at the top (what this page is about); evidence-source breakdown
-  // moves down next to references (how we know it) — see user request to
-  // stop leading with source-count clutter above Key Facts.
-  let html = renderEntryTagsHeader(tag, provenance);
+  // Board/curriculum hierarchy at the top (ABPath/WHO tag path when known).
+  let html = renderEntryTagsHeader(tag, provenance, entryMeta);
   html += renderTopicPage(
     sections,
     previewIndex,
@@ -3791,7 +3878,9 @@ function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thi
 /** Loads a Browse leaf's topic page via SSE so round progress is visible.
  * Skips the silent prebuild cache when iterative retrieval is on (otherwise
  * cache hits hide all thinking). Rebuild always forces a live stream. */
-async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
+async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
+  // Attach ABPath/WHO hierarchical tag when a starter leaf had tag:null.
+  const leafRef = resolveBoardMappedLeaf(leafRefIn) || leafRefIn;
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
   browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {

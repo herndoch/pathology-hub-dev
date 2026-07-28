@@ -1103,6 +1103,13 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
             'topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}',
             js,
         )
+
+    def test_app_js_has_board_curriculum_panel_and_tag_resolver(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function resolveBoardMappedLeaf", js)
+        self.assertIn("Board / curriculum map", js)
+        self.assertIn("curriculum-board-panel", js)
+        self.assertIn("ABPath board curriculum", js)
         self.assertIn("function sectionHasContent", js)
         self.assertIn("function compactBrowseRoots", js)
         self.assertIn("compare-gallery-grid", js)
