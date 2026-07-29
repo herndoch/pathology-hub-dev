@@ -87,9 +87,157 @@ SKIP_ITEM_RE = re.compile(
     re.I,
 )
 
+# Browse topics must be actual diagnoses / disease entities — not cell types,
+# normal anatomy, lab methods, QA, or generic curriculum headers.
+DIAGNOSIS_HINT_RE = re.compile(
+    r"(?i)\b("
+    r"carcinoma|adenocarcinoma|sarcoma|lymphoma|leukemia|melanoma|myeloma|"
+    r"adenoma|papilloma|hamartoma|blastoma|glioma|meningioma|schwannoma|"
+    r"neoplasm|tumor|tumour|malignanc|metastas|in situ|dysplasia|metaplasia|"
+    r"hyperplasia|polyp|cyst(?!ic fibrosis)|abscess|granuloma|"
+    r"disease|disorder|syndrome|anomaly|malformation|atresia|"
+    r"infection|pneumonia|hepatitis|nephritis|colitis|gastritis|dermatitis|"
+    r"dermatosis|vasculitis|pemphigus|lupus|sarcoidosis|amyloid|"
+    r"anemia|thalassemia|spherocytosis|elliptocytosis|thrombocytopenia|"
+    r"hemophilia|thrombophilia|polycythemia|myelofibrosis|myelodysplas|"
+    r"leukocytos|neutropenia|eosinophilia|mastocytosis|histiocytosis|"
+    r"infarct|embolism|atherosclero|aneurysm|stenosis|thrombosis|"
+    r"tuberculosis|histoplasma|candida|aspergillus|malaria|babesia|"
+    r"mgus|mds\b|mpn\b|cmml|cll|sll|dlbcl|\baml\b|\ball\b|\bcml\b|"
+    r"ptld|hlh\b|ttp\b|hus\b|dic\b|pnh\b|poems|"
+    r"atypical |suspicious for|malignant |benign [a-z].*(oma|osis|itis)|"
+    r"itis\b|osis\b|oma\b|omas\b"
+    r")",
+)
+
+NON_DIAGNOSIS_ITEM_RE = re.compile(
+    r"(?i)^(?:"
+    r".*\bnormal anatomy\b.*|.+\bnormal histology\b.*|.+\bnormal cytology\b.*|"
+    r"normal anatomy.*|normal histology.*|normal cytology.*|normal microanatomy.*|"
+    r"normal (?:bladder|salivary|thyroid|breast|lung|liver).*"
+    r"|normal development.*|normal / negative.*"
+    r"|physiologic changes.*"
+    r"|diagnostic methodologies|basic methods|basic methodology|pitfalls|"
+    r"general consideration|laboratory (?:management|inspections|diagnostics)|"
+    r"rules and regulations|quality assurance.*|qa/qc.*|"
+    r"coding and billing|.*\bbilling\b.*|informatics|safety|accreditation|"
+    r"regulations and safety|compliance programs.*"
+    r"|.*\b(?:techniques?|methods?|methodology|processing|fixation|instrument(?:ation)?s?|"
+    r"screening)\b.*"
+    r"|.*\btesting\b$|.*\bmonitoring\b$"
+    r"|sample collection and processing|preparatory techniques.*"
+    r"|wbc analysis|rbc analysis|platelet analysis|"
+    r"romanovsky type stains|routine and special histologic stains|"
+    r"cytochemical and advanced hematology stains|"
+    r"peripheral blood smear review|bone marrow review|fluid review|"
+    r"review of other tissues in hematopathology|"
+    r"classical|fish|advanced flow cytometry|lymphoid testing|myeloid testing|"
+    r"pnh & other non-neoplastic disease testing|"
+    r"alkaline & acid electrophoresis|capillary electrophoresis|"
+    r"high performance liquid chromatography.*|isoelectric focusing|"
+    r"advance hemoglobinopathy analysis|"
+    r"antiplatelet agent monitoring|warfarin and warfarin monitoring|"
+    r"heparin and heparinoid monitoring|direct thrombin and factor xa inhibitor monitoring|"
+    r"clonality/lineage|translocations/mutations|coagulation-related molecular testing|"
+    r"other molecular assays.*|other cytogenetic techniques.*"
+    r"|adrenal cortical hormones|endocrine tests|"
+    r"coagulation and fibrinolysis$|"
+    r"advanced erythrocyte abnormalities|therapy related effects"
+    r")$",
+)
+
+# Bare lineage / cell-type curriculum rows (keep when diagnosis-hinted).
+CELL_TYPE_ITEM_RE = re.compile(
+    r"(?i)^(?:"
+    r"(?:other )?(?:myeloid|lymphoid) cells|"
+    r"monocytes?(?:/dendritic cells)?(?:\s*[–—-].*)?|"
+    r"neutrophils?(?:\s*[–—-].*)?|"
+    r"eosinophils?(?:\s+and\s+basophils)?(?:/basophils(?:/mast cells)?)?(?:\s*[–—-].*)?|"
+    r"basophils?(?:\s*[–—-].*)?|"
+    r"lymphocytes?(?:\s*[–—-].*)?|"
+    r"plasma cells?$|"
+    r"macrophages?$|"
+    r"dendritic cells?$|"
+    r"plasmacytoid dendritic cells?$|"
+    r"leukocytes?(?:\s*\(.*\))?$|"
+    r"white cells and macrophages|"
+    r"erythrocytes?(?:\s*\(rbcs?\))?$|"
+    r"nk-?cells?$|"
+    r"inflammatory cells$|"
+    r"urothelial cells$|"
+    r"squamous cells$|"
+    r"squamous cell contamination$|"
+    r"shed endometrial cells$|"
+    r"alveolar macrophages$|"
+    r"non-neoplastic mesothelial cells$|"
+    r"choroid plexus and ependymal cells$|"
+    r"bronchial\s*\(e\.g\..*cells.*\)|"
+    r"other\s*\(e\.g\.,\s*mesothelial cells.*\)|"
+    r"a\)\s*non-neoplastic\s*\(e\.g\.,\s*lymphocyte subsets\)"
+    r")$",
+)
+
+GENERIC_HEADER_ITEM_RE = re.compile(
+    r"(?i)^(?:"
+    r"genetic abnormalities|miscellaneous|"
+    r"indications for evaluation(?: and complications)?|"
+    r"indications for evaluation, including imaging findings|"
+    r"acquired|immune|inherited|iatrogenic|viral-associated|extranodal|classic$"
+    r")$",
+)
+
+NON_DIAGNOSIS_PATH_RE = re.compile(
+    r"(?i)("
+    r"normal anatomy, histology, hematopoiesis|"
+    r"general hematology testing and hematology instruments|"
+    r"staining methods|"
+    r"hematology & hematopathology-specific administration|"
+    r"laboratory management|"
+    r"cytopathology billing|"
+    r"autopsy procedures"
+    r")",
+)
+
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def looks_like_diagnosis(item: str) -> bool:
+    """True when item text is a named diagnosis / disease entity."""
+    text = normalize_whitespace(item or "")
+    if not text or SKIP_ITEM_RE.match(text):
+        return False
+    if NON_DIAGNOSIS_ITEM_RE.match(text):
+        return False
+    if GENERIC_HEADER_ITEM_RE.match(text):
+        return False
+    if CELL_TYPE_ITEM_RE.match(text) and not DIAGNOSIS_HINT_RE.search(text):
+        return False
+    # Parenthetical prep notes / contaminant lists are not diagnoses.
+    if text.startswith("(e.g.") or text.startswith("(eg.") or text.startswith("("):
+        return False
+    return True
+
+
+def is_diagnosis_content_spec_row(row: dict[str, Any]) -> bool:
+    """Keep only diagnosis-like ABPath content-spec terminals for Browse nav."""
+    item = (row.get("item_text") or "").strip()
+    if not looks_like_diagnosis(item):
+        return False
+    path = " / ".join(
+        [
+            row.get("major_section") or "",
+            row.get("organ_system") or "",
+            row.get("subsection") or "",
+            row.get("category") or "",
+        ]
+    )
+    # Pure methodology / normal-hematopoiesis sections: keep only if the leaf
+    # itself clearly names a diagnosis (parser sometimes nests diseases oddly).
+    if NON_DIAGNOSIS_PATH_RE.search(path) and not DIAGNOSIS_HINT_RE.search(item):
+        return False
+    return True
 
 
 def clean_pdf_line(line: str) -> str:
@@ -154,6 +302,8 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
     if not item or SKIP_ITEM_RE.match(item):
         return None
     if not row.get("abpath_level"):
+        return None
+    if not is_diagnosis_content_spec_row(row):
         return None
     maj = major_number(row.get("major_section") or "")
     if maj not in MAJOR_TO_ROOT:
@@ -391,7 +541,17 @@ def main() -> int:
 
     abpath_leaves: list[dict[str, Any]] = []
     skipped = 0
+    skipped_non_diagnosis = 0
+    dropped_non_diagnosis_samples: list[str] = []
     for row in rows:
+        item = (row.get("item_text") or "").strip()
+        if item and row.get("abpath_level") and major_number(row.get("major_section") or "") in MAJOR_TO_ROOT:
+            if not is_diagnosis_content_spec_row(row):
+                skipped_non_diagnosis += 1
+                if len(dropped_non_diagnosis_samples) < 40:
+                    dropped_non_diagnosis_samples.append(
+                        f"{row.get('major_section')}|{item}"
+                    )
         leaf = content_spec_to_leaf(row)
         if leaf is None:
             skipped += 1
@@ -466,6 +626,7 @@ def main() -> int:
             "leaves_both": prov.get("both", 0),
             "roots_total": len(roots),
             "content_spec_rows_skipped": skipped,
+            "content_spec_rows_dropped_non_diagnosis": skipped_non_diagnosis,
             "parser_warnings": len(warnings),
             "per_root_leaf_counts": per_root,
         },
@@ -477,11 +638,13 @@ def main() -> int:
             "pathout_nav": False,
             "bloated_abpath_ontology_excluded": True,
             "default_nav_mode": "full",
-            "abpath_means": "official_AP_content_specifications_C_AR_F_terminals",
+            "abpath_means": "official_AP_content_specifications_diagnosis_entities_only",
+            "abpath_topic_filter": "diagnosis_entities_only",
         },
         "roots": roots,
         "known_limitations": [
-            "ABPath nav leaves come ONLY from the official AP Content Specifications (C/AR/F terminals).",
+            "ABPath nav leaves come ONLY from diagnosis-like terminals in the official AP Content Specifications.",
+            "Cell types, normal anatomy/histology/cytology, lab methods, QA/billing, and generic headers are excluded from ABPath nav.",
             "The expanded abpath_source_tags.jsonl curriculum ontology is intentionally excluded.",
             "WHO leaves are overlaid; PathOut remains citation-only (not nav).",
             "Content-spec tags use ABPathSpec::<root>::… identity — retrieval still uses the query/label text.",
@@ -499,6 +662,7 @@ def main() -> int:
             str(AUDIT_PATH.relative_to(REPO_ROOT)),
         ],
         "counts": index["counts"],
+        "dropped_non_diagnosis_samples": dropped_non_diagnosis_samples,
         "known_limitations": index["known_limitations"],
     }
 

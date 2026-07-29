@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_3",
-  "generated_at": "2026-07-28T22:21:07.857181+00:00",
+  "generated_at": "2026-07-29T02:33:29.200572+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -9,33 +9,34 @@
   },
   "counts": {
     "abpath_content_spec_terminal_rows": 4455,
-    "abpath_nav_leaves": 3999,
+    "abpath_nav_leaves": 3797,
     "who_nav_leaves_input": 1933,
-    "leaves_total": 5721,
-    "leaves_abpath_only": 3814,
+    "leaves_total": 5519,
+    "leaves_abpath_only": 3612,
     "leaves_who_only": 1722,
     "leaves_both": 185,
     "roots_total": 17,
-    "content_spec_rows_skipped": 1,
+    "content_spec_rows_skipped": 339,
+    "content_spec_rows_dropped_non_diagnosis": 338,
     "parser_warnings": 3,
     "per_root_leaf_counts": {
-      "bst": 206,
-      "breast": 99,
-      "cardio": 51,
-      "cyto": 517,
-      "skin": 1043,
-      "endo": 102,
+      "bst": 204,
+      "breast": 97,
+      "cardio": 49,
+      "cyto": 476,
+      "skin": 1033,
+      "endo": 100,
       "eye_orbit": 141,
-      "forensic": 408,
-      "gi": 228,
-      "gu": 264,
-      "gyn": 344,
-      "hn": 267,
-      "heme": 309,
+      "forensic": 387,
+      "gi": 225,
+      "gu": 261,
+      "gyn": 342,
+      "hn": 265,
+      "heme": 229,
       "molecular": 57,
-      "neuro": 628,
-      "peds": 893,
-      "thorax_mediastinum": 164
+      "neuro": 624,
+      "peds": 867,
+      "thorax_mediastinum": 162
     }
   },
   "dedupe_rules": {
@@ -53,14 +54,15 @@
     "pathout_nav": false,
     "bloated_abpath_ontology_excluded": true,
     "default_nav_mode": "full",
-    "abpath_means": "official_AP_content_specifications_C_AR_F_terminals"
+    "abpath_means": "official_AP_content_specifications_diagnosis_entities_only",
+    "abpath_topic_filter": "diagnosis_entities_only"
   },
   "roots": [
     {
       "id": "bst",
       "label": "Bone / Soft Tissue",
       "kind": "root",
-      "leaf_count": 206,
+      "leaf_count": 204,
       "subcategories": [
         {
           "id": "bone",
@@ -494,7 +496,7 @@
         {
           "id": "joints",
           "label": "Joints",
-          "leaf_count": 13,
+          "leaf_count": 11,
           "leaves": [
             {
               "tag": "ABPathSpec::bst::joints::calcium_pyrophosphate_crystal_deposition",
@@ -525,13 +527,6 @@
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::bst::joints::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::bst::joints::osteoarthritis",
               "label": "Osteoarthritis",
               "provenance": "abpath",
@@ -543,13 +538,6 @@
               "label": "Osteonecrosis",
               "provenance": "abpath",
               "query": "Osteonecrosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::bst::joints::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
               "abpath_level": "C"
             },
             {
@@ -1429,7 +1417,7 @@
       "id": "breast",
       "label": "Breast",
       "kind": "root",
-      "leaf_count": 99,
+      "leaf_count": 97,
       "subcategories": [
         {
           "id": "e_g_sclerosing_adenosis_tubular_adenosis",
@@ -1749,27 +1737,6 @@
               "label": "Tubular_Adenoma",
               "provenance": "who",
               "query": "Tubular Adenoma"
-            }
-          ]
-        },
-        {
-          "id": "general",
-          "label": "General",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::breast::general::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::general::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "abpath_level": "C"
             }
           ]
         },
@@ -2189,7 +2156,7 @@
       "id": "cardio",
       "label": "Cardiovascular",
       "kind": "root",
-      "leaf_count": 51,
+      "leaf_count": 49,
       "subcategories": [
         {
           "id": "benign",
@@ -2236,7 +2203,7 @@
         {
           "id": "general",
           "label": "General",
-          "leaf_count": 10,
+          "leaf_count": 8,
           "leaves": [
             {
               "tag": "ABPathSpec::cardio::general::atherosclerosis",
@@ -2281,24 +2248,10 @@
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::cardio::general::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::cardio::general::peripheral_aneurysms_and_dissections",
               "label": "Peripheral aneurysms and dissections",
               "provenance": "abpath",
               "query": "Peripheral aneurysms and dissections",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
               "abpath_level": "C"
             },
             {
@@ -2617,7 +2570,7 @@
       "id": "cyto",
       "label": "Cytopathology",
       "kind": "cyto_aggregate",
-      "leaf_count": 517,
+      "leaf_count": 476,
       "subcategories": [
         {
           "id": "adenocarcinomas",
@@ -2959,20 +2912,6 @@
               "provenance": "abpath",
               "query": "Reactive Changes",
               "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "bone",
-          "label": "Bone",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::bone::normal_cytology",
-              "label": "Normal Cytology",
-              "provenance": "abpath",
-              "query": "Normal Cytology",
-              "abpath_level": "C"
             }
           ]
         },
@@ -3925,7 +3864,7 @@
         {
           "id": "cytopathology_laboratory_administration_management_and_procedures",
           "label": "Cytopathology Laboratory Administration, Management, and Procedures",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::cytopathology_laboratory_administration_management_and_procedures::fna_performance_related_safety_measures",
@@ -3933,20 +3872,13 @@
               "provenance": "abpath",
               "query": "FNA Performance-Related Safety Measures",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::cytopathology_laboratory_administration_management_and_procedures::safety",
-              "label": "Safety",
-              "provenance": "abpath",
-              "query": "Safety",
-              "abpath_level": "AR"
             }
           ]
         },
         {
           "id": "cytopathology_qc_qa_clia_regulatory",
           "label": "Cytopathology QC/QA, CLIA, Regulatory",
-          "leaf_count": 9,
+          "leaf_count": 8,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::cytopathology_qc_qa_clia_regulatory::cytologic_histologic_correlation_and_discrepancies",
@@ -3960,13 +3892,6 @@
               "label": "Five-Year Retrospective Review (i.e. Look Back)",
               "provenance": "abpath",
               "query": "Five-Year Retrospective Review (i.e. Look Back)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::cytopathology_qc_qa_clia_regulatory::proficiency_testing",
-              "label": "Proficiency Testing",
-              "provenance": "abpath",
-              "query": "Proficiency Testing",
               "abpath_level": "AR"
             },
             {
@@ -4037,7 +3962,7 @@
         {
           "id": "endometrial_cells",
           "label": "Endometrial Cells",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::endometrial_cells::directly_sampled_lower_uterine_segment",
@@ -4045,13 +3970,6 @@
               "provenance": "abpath",
               "query": "Directly Sampled Lower Uterine Segment",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::endometrial_cells::shed_endometrial_cells",
-              "label": "Shed Endometrial Cells",
-              "provenance": "abpath",
-              "query": "Shed Endometrial Cells",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -4317,7 +4235,7 @@
         {
           "id": "indications_techniques",
           "label": "Indications / Techniques",
-          "leaf_count": 14,
+          "leaf_count": 9,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::indications_techniques::adrenal_cortical_carcinoma",
@@ -4362,38 +4280,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::indications_techniques::indications_for_evaluation",
-              "label": "Indications for Evaluation",
-              "provenance": "abpath",
-              "query": "Indications for Evaluation",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::indications_techniques::indications_for_evaluation_and_complications",
-              "label": "Indications for Evaluation and Complications",
-              "provenance": "abpath",
-              "query": "Indications for Evaluation and Complications",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::indications_techniques::indications_for_evaluation_including_imaging_findings",
-              "label": "Indications for Evaluation, including Imaging Findings",
-              "provenance": "abpath",
-              "query": "Indications for Evaluation, including Imaging Findings",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::cyto::indications_techniques::other_ancillary_testing_e_g_flow_cytometry_molecular_diagnostics",
               "label": "Other Ancillary Testing (e.g., Flow Cytometry, Molecular Diagnostics)",
               "provenance": "abpath",
               "query": "Other Ancillary Testing (e.g., Flow Cytometry, Molecular Diagnostics)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::indications_techniques::preparatory_techniques_e_g_liquid_based_preparations",
-              "label": "Preparatory Techniques (e.g., Liquid-Based Preparations)",
-              "provenance": "abpath",
-              "query": "Preparatory Techniques (e.g., Liquid-Based Preparations)",
               "abpath_level": "F"
             },
             {
@@ -4408,13 +4298,6 @@
               "label": "Sampling (e.g., Lumbar Puncture, Ventricular-Peritoneal (VP) Shunt",
               "provenance": "abpath",
               "query": "Sampling (e.g., Lumbar Puncture, Ventricular-Peritoneal (VP) Shunt",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::indications_techniques::specific_sampling_techniques",
-              "label": "Specific Sampling Techniques",
-              "provenance": "abpath",
-              "query": "Specific Sampling Techniques",
               "abpath_level": "F"
             }
           ]
@@ -4702,27 +4585,13 @@
         {
           "id": "instrumentation_computers_capital_equipment",
           "label": "Instrumentation, Computers, Capital Equipment",
-          "leaf_count": 3,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::instrumentation_computers_capital_equipment::acquisition",
               "label": "Acquisition",
               "provenance": "abpath",
               "query": "Acquisition",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::instrumentation_computers_capital_equipment::automated_processing_also_see_screening",
-              "label": "Automated Processing (Also See Screening)",
-              "provenance": "abpath",
-              "query": "Automated Processing (Also See Screening)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::instrumentation_computers_capital_equipment::processing_methods_also_see_screening",
-              "label": "Processing Methods (Also See Screening)",
-              "provenance": "abpath",
-              "query": "Processing Methods (Also See Screening)",
               "abpath_level": "F"
             }
           ]
@@ -5003,20 +4872,13 @@
         {
           "id": "mediastinum_and_retroperitoneum",
           "label": "Mediastinum and Retroperitoneum",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::mediastinum_and_retroperitoneum::ectopic_tissue_e_g_thyroid_thymus_ganglion_cells",
               "label": "Ectopic Tissue (e.g., Thyroid, Thymus, Ganglion Cells)",
               "provenance": "abpath",
               "query": "Ectopic Tissue (e.g., Thyroid, Thymus, Ganglion Cells)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::mediastinum_and_retroperitoneum::indications_techniques",
-              "label": "Indications / Techniques",
-              "provenance": "abpath",
-              "query": "Indications / Techniques",
               "abpath_level": "AR"
             }
           ]
@@ -5246,20 +5108,6 @@
           ]
         },
         {
-          "id": "non_neoplastic_inflammatory_lesions",
-          "label": "Non-Neoplastic Inflammatory Lesions",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::non_neoplastic_inflammatory_lesions::e_g_xanthogranulomatous_pyelonephritis",
-              "label": "(e.g., Xanthogranulomatous pyelonephritis)",
-              "provenance": "abpath",
-              "query": "(e.g., Xanthogranulomatous pyelonephritis)",
-              "abpath_level": "F"
-            }
-          ]
-        },
-        {
           "id": "non_neoplastic_tumor_like_conditions",
           "label": "Non-Neoplastic Tumor-Like Conditions",
           "leaf_count": 2,
@@ -5330,64 +5178,15 @@
           ]
         },
         {
-          "id": "normal_negative_contamination_elements",
-          "label": "Normal / Negative / Contamination Elements",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::normal_negative_contamination_elements::alveolar_macrophages",
-              "label": "Alveolar Macrophages",
-              "provenance": "abpath",
-              "query": "Alveolar Macrophages",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_negative_contamination_elements::bronchial_e_g_ciliated_cells_goblet_cells",
-              "label": "Bronchial (e.g., Ciliated Cells, Goblet Cells)",
-              "provenance": "abpath",
-              "query": "Bronchial (e.g., Ciliated Cells, Goblet Cells)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_negative_contamination_elements::other_e_g_mesothelial_cells_cartilage",
-              "label": "Other (e.g., Mesothelial Cells, Cartilage)",
-              "provenance": "abpath",
-              "query": "Other (e.g., Mesothelial Cells, Cartilage)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_negative_contamination_elements::squamous_cells",
-              "label": "Squamous Cells",
-              "provenance": "abpath",
-              "query": "Squamous Cells",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "normal_constituents_and_contaminants",
           "label": "Normal Constituents and Contaminants",
-          "leaf_count": 5,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::normal_constituents_and_contaminants::bone_marrow_contamination",
               "label": "Bone Marrow Contamination",
               "provenance": "abpath",
               "query": "Bone Marrow Contamination",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_constituents_and_contaminants::choroid_plexus_and_ependymal_cells",
-              "label": "Choroid Plexus and Ependymal Cells",
-              "provenance": "abpath",
-              "query": "Choroid Plexus and Ependymal Cells",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_constituents_and_contaminants::leukocytes_e_g_lymphocytes_and_macrophages",
-              "label": "Leukocytes (e.g., Lymphocytes and Macrophages)",
-              "provenance": "abpath",
-              "query": "Leukocytes (e.g., Lymphocytes and Macrophages)",
               "abpath_level": "AR"
             },
             {
@@ -5409,7 +5208,7 @@
         {
           "id": "normal_cytology",
           "label": "Normal Cytology",
-          "leaf_count": 4,
+          "leaf_count": 2,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::normal_cytology::collagen_balls",
@@ -5424,27 +5223,13 @@
               "provenance": "abpath",
               "query": "Leukocytes and Macrophages",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_cytology::non_neoplastic_mesothelial_cells",
-              "label": "Non-Neoplastic Mesothelial Cells",
-              "provenance": "abpath",
-              "query": "Non-Neoplastic Mesothelial Cells",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_cytology::white_cells_and_macrophages",
-              "label": "White Cells and Macrophages",
-              "provenance": "abpath",
-              "query": "White Cells and Macrophages",
-              "abpath_level": "AR"
             }
           ]
         },
         {
           "id": "normal_cytology_contamination_elements",
           "label": "Normal Cytology & Contamination Elements",
-          "leaf_count": 7,
+          "leaf_count": 4,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::normal_cytology_contamination_elements::contaminants",
@@ -5461,13 +5246,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::normal_cytology_contamination_elements::normal_bladder_wash",
-              "label": "Normal Bladder Wash",
-              "provenance": "abpath",
-              "query": "Normal Bladder Wash",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::cyto::normal_cytology_contamination_elements::normal_upper_urinary_tract",
               "label": "Normal Upper Urinary Tract",
               "provenance": "abpath",
@@ -5479,20 +5257,6 @@
               "label": "Normal Voided Urine",
               "provenance": "abpath",
               "query": "Normal Voided Urine",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_cytology_contamination_elements::squamous_cell_contamination",
-              "label": "Squamous Cell Contamination",
-              "provenance": "abpath",
-              "query": "Squamous Cell Contamination",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cyto::normal_cytology_contamination_elements::urothelial_cells",
-              "label": "Urothelial Cells",
-              "provenance": "abpath",
-              "query": "Urothelial Cells",
               "abpath_level": "C"
             }
           ]
@@ -5515,20 +5279,6 @@
               "provenance": "abpath",
               "query": "Benign Thyroid",
               "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "other_ancillary_testing_techniques",
-          "label": "Other Ancillary Testing Techniques",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::other_ancillary_testing_techniques::sampling_e_g_void_instrumentation_ileal_conduit",
-              "label": "Sampling (e.g., void, instrumentation, ileal conduit)",
-              "provenance": "abpath",
-              "query": "Sampling (e.g., void, instrumentation, ileal conduit)",
-              "abpath_level": "F"
             }
           ]
         },
@@ -5577,20 +5327,13 @@
         {
           "id": "pancreatic_cytopathology",
           "label": "Pancreatic Cytopathology",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::pancreatic_cytopathology::cyst_fluid_chemical_analysis",
               "label": "Cyst Fluid Chemical Analysis",
               "provenance": "abpath",
               "query": "Cyst Fluid Chemical Analysis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::pancreatic_cytopathology::sampling_techniques",
-              "label": "Sampling Techniques",
-              "provenance": "abpath",
-              "query": "Sampling Techniques",
               "abpath_level": "AR"
             }
           ]
@@ -5976,7 +5719,7 @@
         {
           "id": "reactive",
           "label": "Reactive",
-          "leaf_count": 6,
+          "leaf_count": 5,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::reactive::autoimmune_e_g_rheumatoid_lupus",
@@ -6011,13 +5754,6 @@
               "label": "Inflammatory",
               "provenance": "abpath",
               "query": "Inflammatory",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::reactive::inflammatory_cells",
-              "label": "Inflammatory Cells",
-              "provenance": "abpath",
-              "query": "Inflammatory Cells",
               "abpath_level": "F"
             }
           ]
@@ -6338,20 +6074,6 @@
           ]
         },
         {
-          "id": "salivary_gland_fna",
-          "label": "Salivary Gland FNA",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::salivary_gland_fna::specific_fna_techniques",
-              "label": "Specific FNA Techniques",
-              "provenance": "abpath",
-              "query": "Specific FNA Techniques",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "sarcomas",
           "label": "Sarcomas",
           "leaf_count": 1,
@@ -6368,15 +6090,8 @@
         {
           "id": "screening_and_review_methods",
           "label": "Screening and Review Methods",
-          "leaf_count": 6,
+          "leaf_count": 5,
           "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::screening_and_review_methods::automated_screening",
-              "label": "Automated Screening",
-              "provenance": "abpath",
-              "query": "Automated Screening",
-              "abpath_level": "F"
-            },
             {
               "tag": "ABPathSpec::cyto::screening_and_review_methods::cytopathology_laboratory_accreditation",
               "label": "Cytopathology Laboratory Accreditation",
@@ -6416,30 +6131,9 @@
         },
         {
           "id": "screening_indications_and_techniques",
-          "label": "Screening, Indications, and Techniques",
-          "leaf_count": 8,
+          "label": "Screening, Indications and Techniques",
+          "leaf_count": 2,
           "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::ancillary_testing_techniques_e_g_hpv_p16",
-              "label": "Ancillary Testing Techniques (e.g., HPV, p16)",
-              "provenance": "abpath",
-              "query": "Ancillary Testing Techniques (e.g., HPV, p16)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::liquid_cytology_techniques",
-              "label": "Liquid Cytology Techniques",
-              "provenance": "abpath",
-              "query": "Liquid Cytology Techniques",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::liquid_cytology_techniques_for_cervical_vaginal",
-              "label": "Liquid Cytology Techniques for Cervical / Vaginal",
-              "provenance": "abpath",
-              "query": "Liquid Cytology Techniques for Cervical / Vaginal",
-              "abpath_level": "F"
-            },
             {
               "tag": "ABPathSpec::cyto::screening_indications_and_techniques::management_of_abnormalities",
               "label": "Management of Abnormalities",
@@ -6452,27 +6146,6 @@
               "label": "Metastatic and Other Malignancies (e.g., Melanoma)",
               "provenance": "abpath",
               "query": "Metastatic and Other Malignancies (e.g., Melanoma)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::screening_guidelines",
-              "label": "Screening Guidelines",
-              "provenance": "abpath",
-              "query": "Screening Guidelines",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::screening_guidelines_resources",
-              "label": "Screening Guidelines – Resources",
-              "provenance": "abpath",
-              "query": "Screening Guidelines – Resources",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::screening_indications_and_techniques::screening_guidelines_specifics",
-              "label": "Screening Guidelines – Specifics",
-              "provenance": "abpath",
-              "query": "Screening Guidelines – Specifics",
               "abpath_level": "F"
             }
           ]
@@ -6550,36 +6223,8 @@
         {
           "id": "specimen_processing",
           "label": "Specimen Processing",
-          "leaf_count": 5,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::specimen_processing::cytopathology_billing_and_coding",
-              "label": "Cytopathology Billing and Coding",
-              "provenance": "abpath",
-              "query": "Cytopathology Billing and Coding",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::specimen_processing::fixation",
-              "label": "Fixation",
-              "provenance": "abpath",
-              "query": "Fixation",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::specimen_processing::fna_indications_and_techniques",
-              "label": "FNA Indications and Techniques",
-              "provenance": "abpath",
-              "query": "FNA Indications and Techniques",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cyto::specimen_processing::immediate_evaluation_techniques",
-              "label": "Immediate Evaluation Techniques",
-              "provenance": "abpath",
-              "query": "Immediate Evaluation Techniques",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::cyto::specimen_processing::slide_preparation",
               "label": "Slide Preparation",
@@ -6632,23 +6277,9 @@
           ]
         },
         {
-          "id": "synovial_fluid",
-          "label": "Synovial Fluid",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cyto::synovial_fluid::processing_techniques_indication_e_g_crystal_analysis",
-              "label": "Processing / Techniques / Indication (e.g., Crystal Analysis)",
-              "provenance": "abpath",
-              "query": "Processing / Techniques / Indication (e.g., Crystal Analysis)",
-              "abpath_level": "F"
-            }
-          ]
-        },
-        {
           "id": "technical_aspects_and_test_utilization",
           "label": "Technical Aspects and Test Utilization",
-          "leaf_count": 4,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::cyto::technical_aspects_and_test_utilization::flow_cytometry",
@@ -6662,13 +6293,6 @@
               "label": "Immunohistochemistry",
               "provenance": "abpath",
               "query": "Immunohistochemistry",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cyto::technical_aspects_and_test_utilization::molecular_testing",
-              "label": "Molecular Testing",
-              "provenance": "abpath",
-              "query": "Molecular Testing",
               "abpath_level": "F"
             },
             {
@@ -6721,7 +6345,7 @@
       "id": "skin",
       "label": "Dermatopathology",
       "kind": "root",
-      "leaf_count": 1043,
+      "leaf_count": 1033,
       "subcategories": [
         {
           "id": "acanthomas",
@@ -9230,15 +8854,8 @@
         {
           "id": "epithelioid_sarcoma_like_hemangioendothelioma",
           "label": "Epithelioid Sarcoma-Like Hemangioendothelioma",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::skin::epithelioid_sarcoma_like_hemangioendothelioma::pseudomyogenic_hemangioendothelioma",
-              "label": "(Pseudomyogenic Hemangioendothelioma)",
-              "provenance": "abpath",
-              "query": "(Pseudomyogenic Hemangioendothelioma)",
-              "abpath_level": "F"
-            },
             {
               "tag": "ABPathSpec::skin::epithelioid_sarcoma_like_hemangioendothelioma::composite_hemangioendothelioma",
               "label": "Composite Hemangioendothelioma",
@@ -9251,20 +8868,13 @@
         {
           "id": "face_acral_mucosa_trunk_axillary_genital_scalp",
           "label": "Face, Acral, Mucosa, Trunk, Axillary, Genital, Scalp,",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::skin::face_acral_mucosa_trunk_axillary_genital_scalp::and_eyelid_conjunctiva",
               "label": "and Eyelid/Conjunctiva.",
               "provenance": "abpath",
               "query": "and Eyelid/Conjunctiva.",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::face_acral_mucosa_trunk_axillary_genital_scalp::normal_microanatomy_e_g_adnexal_structures_nerve_versus_muscle",
-              "label": "Normal Microanatomy (e.g., Adnexal Structures, Nerve versus Muscle)",
-              "provenance": "abpath",
-              "query": "Normal Microanatomy (e.g., Adnexal Structures, Nerve versus Muscle)",
               "abpath_level": "C"
             }
           ]
@@ -9336,20 +8946,6 @@
               "provenance": "abpath",
               "query": "b) Trypanosomiasis",
               "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "freeze_electrocautery_formalin_pigment_floaters_tissue_carry_over",
-          "label": "Freeze, Electrocautery, Formalin Pigment, Floaters/Tissue Carry Over,",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::skin::freeze_electrocautery_formalin_pigment_floaters_tissue_carry_over::poor_fixation_tissue_folding_microtomy_artifact_and_crush_artifact",
-              "label": "Poor Fixation, Tissue Folding, Microtomy Artifact, and Crush Artifact",
-              "provenance": "abpath",
-              "query": "Poor Fixation, Tissue Folding, Microtomy Artifact, and Crush Artifact",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -10105,62 +9701,6 @@
               "provenance": "abpath",
               "query": "Kaposiform Hemangioendothelioma",
               "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "laboratory_management",
-          "label": "Laboratory Management",
-          "leaf_count": 7,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::appropriate_utilization",
-              "label": "Appropriate Utilization",
-              "provenance": "abpath",
-              "query": "Appropriate Utilization",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::clia_and_cap_regulations",
-              "label": "CLIA and CAP Regulations",
-              "provenance": "abpath",
-              "query": "CLIA and CAP Regulations",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::coding_and_billing",
-              "label": "Coding and Billing",
-              "provenance": "abpath",
-              "query": "Coding and Billing",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::quality_assurance_principles",
-              "label": "Quality Assurance Principles",
-              "provenance": "abpath",
-              "query": "Quality Assurance Principles",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::quality_control",
-              "label": "Quality Control",
-              "provenance": "abpath",
-              "query": "Quality Control",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::root_cause_analysis",
-              "label": "Root Cause Analysis",
-              "provenance": "abpath",
-              "query": "Root Cause Analysis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::laboratory_management::slide_and_block_retention",
-              "label": "Slide and Block Retention",
-              "provenance": "abpath",
-              "query": "Slide and Block Retention",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -14888,7 +14428,7 @@
       "id": "endo",
       "label": "Endocrine",
       "kind": "root",
-      "leaf_count": 102,
+      "leaf_count": 100,
       "subcategories": [
         {
           "id": "adrenal",
@@ -15268,7 +14808,7 @@
         {
           "id": "the_adrenal_glands",
           "label": "The Adrenal Glands",
-          "leaf_count": 15,
+          "leaf_count": 13,
           "leaves": [
             {
               "tag": "ABPathSpec::endo::the_adrenal_glands::adrenal_cysts",
@@ -15348,13 +14888,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::endo::the_adrenal_glands::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::endo::the_adrenal_glands::paraganglioma",
               "label": "Paraganglioma",
               "provenance": "abpath",
@@ -15366,13 +14899,6 @@
               "label": "Pheochromocytoma",
               "provenance": "abpath",
               "query": "Pheochromocytoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::endo::the_adrenal_glands::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
               "abpath_level": "C"
             }
           ]
@@ -16592,7 +16118,7 @@
       "id": "forensic",
       "label": "Forensic Pathology",
       "kind": "root",
-      "leaf_count": 408,
+      "leaf_count": 387,
       "subcategories": [
         {
           "id": "acute_stress_related_deaths",
@@ -16639,7 +16165,7 @@
         {
           "id": "anaphylaxis_related_deaths",
           "label": "Anaphylaxis Related Deaths",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
             {
               "tag": "ABPathSpec::forensic::anaphylaxis_related_deaths::3470_deaths_due_to_change_in_atmosphere_i_e_barotrauma",
@@ -16653,13 +16179,6 @@
               "label": "Gross and Microscopic Findings",
               "provenance": "abpath",
               "query": "Gross and Microscopic Findings",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::anaphylaxis_related_deaths::laboratory_diagnostics",
-              "label": "Laboratory Diagnostics",
-              "provenance": "abpath",
-              "query": "Laboratory Diagnostics",
               "abpath_level": "F"
             }
           ]
@@ -16723,90 +16242,6 @@
               "label": "Suffocation",
               "provenance": "abpath",
               "query": "Suffocation",
-              "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "autopsy_procedures",
-          "label": "Autopsy Procedures",
-          "leaf_count": 11,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::cardiac_conduction_system",
-              "label": "Cardiac Conduction System",
-              "provenance": "abpath",
-              "query": "Cardiac Conduction System",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::evisceration_techniques",
-              "label": "Evisceration Techniques",
-              "provenance": "abpath",
-              "query": "Evisceration Techniques",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::facial_tissue_dissection",
-              "label": "Facial Tissue Dissection",
-              "provenance": "abpath",
-              "query": "Facial Tissue Dissection",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::layered_anterior_and_posterior_neck",
-              "label": "Layered Anterior and Posterior Neck",
-              "provenance": "abpath",
-              "query": "Layered Anterior and Posterior Neck",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::leg_vein_dissection",
-              "label": "Leg Vein Dissection",
-              "provenance": "abpath",
-              "query": "Leg Vein Dissection",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::medical_device_evaluation",
-              "label": "Medical Device Evaluation",
-              "provenance": "abpath",
-              "query": "Medical Device Evaluation",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::middle_ear_dissection",
-              "label": "Middle Ear Dissection",
-              "provenance": "abpath",
-              "query": "Middle Ear Dissection",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::orbital_exenteration",
-              "label": "Orbital Exenteration",
-              "provenance": "abpath",
-              "query": "Orbital Exenteration",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::posterior_subcutaneous_examination",
-              "label": "Posterior Subcutaneous Examination",
-              "provenance": "abpath",
-              "query": "Posterior Subcutaneous Examination",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::spinal_cord_removal_anterior_and_posterior",
-              "label": "Spinal Cord Removal, Anterior and Posterior",
-              "provenance": "abpath",
-              "query": "Spinal Cord Removal, Anterior and Posterior",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::forensic::autopsy_procedures::vertebral_artery",
-              "label": "Vertebral Artery",
-              "provenance": "abpath",
-              "query": "Vertebral Artery",
               "abpath_level": "F"
             }
           ]
@@ -18305,29 +17740,8 @@
         {
           "id": "pediatric_deaths",
           "label": "Pediatric Deaths",
-          "leaf_count": 19,
+          "leaf_count": 16,
           "leaves": [
-            {
-              "tag": "ABPathSpec::forensic::pediatric_deaths::bones_and_joints_normal_anatomy_variations",
-              "label": "Bones and Joints, Normal Anatomy & Variations",
-              "provenance": "abpath",
-              "query": "Bones and Joints, Normal Anatomy & Variations",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::forensic::pediatric_deaths::cardiovascular_system_normal_anatomy_variations",
-              "label": "Cardiovascular System, Normal Anatomy & Variations",
-              "provenance": "abpath",
-              "query": "Cardiovascular System, Normal Anatomy & Variations",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::forensic::pediatric_deaths::central_nervous_system_normal_anatomy_variations",
-              "label": "Central Nervous System, Normal Anatomy & Variations",
-              "provenance": "abpath",
-              "query": "Central Nervous System, Normal Anatomy & Variations",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::forensic::pediatric_deaths::congenital_anomalies_common",
               "label": "Congenital Anomalies, Common",
@@ -18690,7 +18104,7 @@
         {
           "id": "selected_topics_management_in_forensic_pathology",
           "label": "Selected Topics/Management in Forensic Pathology",
-          "leaf_count": 7,
+          "leaf_count": 5,
           "leaves": [
             {
               "tag": "ABPathSpec::forensic::selected_topics_management_in_forensic_pathology::administration_and_management",
@@ -18725,20 +18139,6 @@
               "label": "Organ/Tissue Procurement",
               "provenance": "abpath",
               "query": "Organ/Tissue Procurement",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::selected_topics_management_in_forensic_pathology::quality_assurance",
-              "label": "Quality Assurance",
-              "provenance": "abpath",
-              "query": "Quality Assurance",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::selected_topics_management_in_forensic_pathology::regulations_and_safety",
-              "label": "Regulations and Safety",
-              "provenance": "abpath",
-              "query": "Regulations and Safety",
               "abpath_level": "F"
             }
           ]
@@ -18879,7 +18279,7 @@
         {
           "id": "the_cardiovascular_system",
           "label": "The Cardiovascular System",
-          "leaf_count": 20,
+          "leaf_count": 19,
           "leaves": [
             {
               "tag": "ABPathSpec::forensic::the_cardiovascular_system::amyloid",
@@ -18980,13 +18380,6 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::forensic::the_cardiovascular_system::normal_anatomy",
-              "label": "Normal Anatomy",
-              "provenance": "abpath",
-              "query": "Normal Anatomy",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::forensic::the_cardiovascular_system::pericardial_diseases",
               "label": "Pericardial Diseases",
               "provenance": "abpath",
@@ -19026,7 +18419,7 @@
         {
           "id": "the_central_nervous_system",
           "label": "The Central Nervous System",
-          "leaf_count": 13,
+          "leaf_count": 12,
           "leaves": [
             {
               "tag": "ABPathSpec::forensic::the_central_nervous_system::aneurysms",
@@ -19076,13 +18469,6 @@
               "provenance": "abpath",
               "query": "Meningitis",
               "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::forensic::the_central_nervous_system::normal_anatomy_and_variations",
-              "label": "Normal Anatomy and Variations",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Variations",
-              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::forensic::the_central_nervous_system::phakomatoses",
@@ -19474,27 +18860,13 @@
         {
           "id": "toxicologic_analytic_methods",
           "label": "Toxicologic Analytic Methods",
-          "leaf_count": 3,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::forensic::toxicologic_analytic_methods::confirmatory_tests",
               "label": "Confirmatory Tests",
               "provenance": "abpath",
               "query": "Confirmatory Tests",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::toxicologic_analytic_methods::methodology",
-              "label": "Methodology",
-              "provenance": "abpath",
-              "query": "Methodology",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::forensic::toxicologic_analytic_methods::screening_tests",
-              "label": "Screening Tests",
-              "provenance": "abpath",
-              "query": "Screening Tests",
               "abpath_level": "F"
             }
           ]
@@ -19764,7 +19136,7 @@
       "id": "gi",
       "label": "Gastrointestinal",
       "kind": "root",
-      "leaf_count": 228,
+      "leaf_count": 225,
       "subcategories": [
         {
           "id": "anus",
@@ -20915,7 +20287,7 @@
         {
           "id": "the_liver_and_biliary_tract",
           "label": "The Liver and Biliary Tract",
-          "leaf_count": 49,
+          "leaf_count": 48,
           "leaves": [
             {
               "tag": "ABPathSpec::gi::the_liver_and_biliary_tract::adenocarcinoma_of_the_gallbladder_and_bile_ducts",
@@ -21233,13 +20605,6 @@
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::the_liver_and_biliary_tract::the_gallbladder_and_associated_ducts_normal_anatomy_and_histology",
-              "label": "The Gallbladder and Associated Ducts Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "The Gallbladder and Associated Ducts Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::gi::the_liver_and_biliary_tract::vascular_disorders_of_the_liver",
               "label": "Vascular disorders of the Liver",
               "provenance": "abpath",
@@ -21265,7 +20630,7 @@
         {
           "id": "the_pancreas",
           "label": "The Pancreas",
-          "leaf_count": 16,
+          "leaf_count": 14,
           "leaves": [
             {
               "tag": "ABPathSpec::gi::the_pancreas::acinar_cell_carcinoma",
@@ -21324,13 +20689,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::the_pancreas::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::gi::the_pancreas::other_malignancies_of_the_pancreas",
               "label": "Other malignancies of the pancreas",
               "provenance": "abpath",
@@ -21350,13 +20708,6 @@
               "provenance": "abpath",
               "query": "Pancreatoblastoma",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::the_pancreas::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::gi::the_pancreas::pseudocyst",
@@ -21387,7 +20738,7 @@
       "id": "gu",
       "label": "Genitourinary",
       "kind": "root",
-      "leaf_count": 264,
+      "leaf_count": 261,
       "subcategories": [
         {
           "id": "heme",
@@ -21417,7 +20768,7 @@
         {
           "id": "kidney",
           "label": "Kidney",
-          "leaf_count": 76,
+          "leaf_count": 75,
           "leaves": [
             {
               "tag": "GU::Kidney::RCC_Other::Acquired_Cystic_Disease_Associated_RCC",
@@ -21895,13 +21246,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gu::kidney::tissue_processing_of_renal_biopsies",
-              "label": "Tissue processing of renal biopsies",
-              "provenance": "abpath",
-              "query": "Tissue processing of renal biopsies",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::gu::kidney::translocation_related_renal_cell_carcinoma",
               "label": "Translocation related renal cell carcinoma",
               "provenance": "abpath",
@@ -21995,7 +21339,7 @@
         {
           "id": "penis",
           "label": "Penis",
-          "leaf_count": 8,
+          "leaf_count": 6,
           "leaves": [
             {
               "tag": "ABPathSpec::gu::penis::bowenoid_papulosis",
@@ -22019,13 +21363,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gu::penis::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::gu::penis::paget_disease",
               "label": "Paget Disease",
               "provenance": "abpath",
@@ -22037,13 +21374,6 @@
               "label": "Penile intraepithelial neoplasia",
               "provenance": "abpath",
               "query": "Penile intraepithelial neoplasia",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gu::penis::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
               "abpath_level": "C"
             },
             {
@@ -23231,7 +22561,7 @@
       "id": "gyn",
       "label": "Gynecologic",
       "kind": "root",
-      "leaf_count": 344,
+      "leaf_count": 342,
       "subcategories": [
         {
           "id": "broad_ligament",
@@ -23629,27 +22959,6 @@
               "label": "Placental_Site_Nodule_and_Plaque",
               "provenance": "who",
               "query": "Placental Site Nodule and Plaque"
-            }
-          ]
-        },
-        {
-          "id": "general",
-          "label": "General",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::gyn::general::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gyn::general::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "abpath_level": "C"
             }
           ]
         },
@@ -25611,7 +24920,7 @@
       "id": "hn",
       "label": "Head and Neck",
       "kind": "root",
-      "leaf_count": 267,
+      "leaf_count": 265,
       "subcategories": [
         {
           "id": "bone",
@@ -25910,7 +25219,7 @@
         {
           "id": "eye_and_ocular_adnexa",
           "label": "Eye and Ocular Adnexa",
-          "leaf_count": 6,
+          "leaf_count": 4,
           "leaves": [
             {
               "tag": "ABPathSpec::hn::eye_and_ocular_adnexa::benign",
@@ -25932,20 +25241,6 @@
               "provenance": "abpath",
               "query": "Non-Neoplastic Disorders",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::hn::eye_and_ocular_adnexa::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::hn::eye_and_ocular_adnexa::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions, & Trauma/Infarct",
-              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::hn::eye_and_ocular_adnexa::premalignant_malignant_and_borderline",
@@ -27455,7 +26750,7 @@
       "id": "heme",
       "label": "Hematopathology / Lymph Nodes",
       "kind": "root",
-      "leaf_count": 309,
+      "leaf_count": 229,
       "subcategories": [
         {
           "id": "3964",
@@ -27605,41 +26900,6 @@
           ]
         },
         {
-          "id": "antiplatelet_and_anticoagulant_drugs",
-          "label": "Antiplatelet and Anticoagulant Drugs",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::antiplatelet_and_anticoagulant_drugs::antiplatelet_agent_monitoring",
-              "label": "Antiplatelet Agent Monitoring",
-              "provenance": "abpath",
-              "query": "Antiplatelet Agent Monitoring",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::antiplatelet_and_anticoagulant_drugs::direct_thrombin_and_factor_xa_inhibitor_monitoring",
-              "label": "Direct Thrombin and Factor Xa Inhibitor Monitoring",
-              "provenance": "abpath",
-              "query": "Direct Thrombin and Factor Xa Inhibitor Monitoring",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::antiplatelet_and_anticoagulant_drugs::heparin_and_heparinoid_monitoring",
-              "label": "Heparin and Heparinoid Monitoring",
-              "provenance": "abpath",
-              "query": "Heparin and Heparinoid Monitoring",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::antiplatelet_and_anticoagulant_drugs::warfarin_and_warfarin_monitoring",
-              "label": "Warfarin and Warfarin Monitoring",
-              "provenance": "abpath",
-              "query": "Warfarin and Warfarin Monitoring",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "b_lymphoblastic_leukemia_lymphoma",
           "label": "B Lymphoblastic Leukemia/Lymphoma",
           "leaf_count": 1,
@@ -27656,15 +26916,8 @@
         {
           "id": "b_lymphoblastic_leukemia_lymphoma_with_recurrent",
           "label": "B Lymphoblastic Leukemia/Lymphoma with Recurrent",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
-            {
-              "tag": "ABPathSpec::heme::b_lymphoblastic_leukemia_lymphoma_with_recurrent::genetic_abnormalities",
-              "label": "Genetic Abnormalities",
-              "provenance": "abpath",
-              "query": "Genetic Abnormalities",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::heme::b_lymphoblastic_leukemia_lymphoma_with_recurrent::other_b_lymphoblastic_leukemias_lymphomas",
               "label": "Other B Lymphoblastic Leukemias & Lymphomas",
@@ -27811,7 +27064,7 @@
         {
           "id": "benign_hematologic_disorders_of_the_bone_marrow_not_otherwise_classified",
           "label": "Benign Hematologic Disorders of the Bone Marrow Not Otherwise Classified",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::heme::benign_hematologic_disorders_of_the_bone_marrow_not_otherwise_classified::infectious_disorders_e_g_parvovirus",
@@ -27819,13 +27072,6 @@
               "provenance": "abpath",
               "query": "Infectious Disorders (e.g., Parvovirus)",
               "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::benign_hematologic_disorders_of_the_bone_marrow_not_otherwise_classified::therapy_related_effects",
-              "label": "Therapy Related Effects",
-              "provenance": "abpath",
-              "query": "Therapy Related Effects",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -27881,34 +27127,6 @@
               "label": "Fibrinolysis",
               "provenance": "abpath",
               "query": "Fibrinolysis",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "cytogenetic_testing",
-          "label": "Cytogenetic Testing",
-          "leaf_count": 3,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::cytogenetic_testing::classical",
-              "label": "Classical",
-              "provenance": "abpath",
-              "query": "Classical",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::cytogenetic_testing::fish",
-              "label": "FISH",
-              "provenance": "abpath",
-              "query": "FISH",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::cytogenetic_testing::other_cytogenetic_techniques_e_g_acgh_snp",
-              "label": "Other Cytogenetic Techniques (e.g., aCGH, SNP)",
-              "provenance": "abpath",
-              "query": "Other Cytogenetic Techniques (e.g., aCGH, SNP)",
               "abpath_level": "AR"
             }
           ]
@@ -28033,48 +27251,6 @@
           ]
         },
         {
-          "id": "flow_cytometry",
-          "label": "Flow Cytometry",
-          "leaf_count": 5,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::flow_cytometry::advanced_flow_cytometry",
-              "label": "Advanced Flow Cytometry",
-              "provenance": "abpath",
-              "query": "Advanced Flow Cytometry",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::flow_cytometry::basic_methodology",
-              "label": "Basic Methodology",
-              "provenance": "abpath",
-              "query": "Basic Methodology",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::flow_cytometry::lymphoid_testing",
-              "label": "Lymphoid Testing",
-              "provenance": "abpath",
-              "query": "Lymphoid Testing",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::flow_cytometry::myeloid_testing",
-              "label": "Myeloid Testing",
-              "provenance": "abpath",
-              "query": "Myeloid Testing",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::flow_cytometry::pnh_other_non_neoplastic_disease_testing",
-              "label": "PNH & Other Non-Neoplastic Disease Testing",
-              "provenance": "abpath",
-              "query": "PNH & Other Non-Neoplastic Disease Testing",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "fluid_specimens",
           "label": "Fluid Specimens",
           "leaf_count": 2,
@@ -28091,41 +27267,6 @@
               "label": "Other Body Fluids",
               "provenance": "abpath",
               "query": "Other Body Fluids",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "general_hematology_testing_and_hematology_instruments",
-          "label": "General Hematology Testing and Hematology Instruments",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::general_hematology_testing_and_hematology_instruments::general_consideration",
-              "label": "General Consideration",
-              "provenance": "abpath",
-              "query": "General Consideration",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::general_hematology_testing_and_hematology_instruments::platelet_analysis",
-              "label": "Platelet Analysis",
-              "provenance": "abpath",
-              "query": "Platelet Analysis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::general_hematology_testing_and_hematology_instruments::rbc_analysis",
-              "label": "RBC Analysis",
-              "provenance": "abpath",
-              "query": "RBC Analysis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::general_hematology_testing_and_hematology_instruments::wbc_analysis",
-              "label": "WBC Analysis",
-              "provenance": "abpath",
-              "query": "WBC Analysis",
               "abpath_level": "C"
             }
           ]
@@ -28158,48 +27299,6 @@
               "label": "RASopathies",
               "provenance": "who",
               "query": "RASopathies"
-            }
-          ]
-        },
-        {
-          "id": "hematology_hematopathology_specific_administration_laboratory_management",
-          "label": "Hematology & Hematopathology-Specific Administration & Laboratory Management",
-          "leaf_count": 5,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::hematology_hematopathology_specific_administration_laboratory_management::laboratory_inspections",
-              "label": "Laboratory Inspections",
-              "provenance": "abpath",
-              "query": "Laboratory Inspections",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::hematology_hematopathology_specific_administration_laboratory_management::laboratory_management",
-              "label": "Laboratory Management",
-              "provenance": "abpath",
-              "query": "Laboratory Management",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::hematology_hematopathology_specific_administration_laboratory_management::other_administration_laboratory_management_issues",
-              "label": "Other Administration/Laboratory Management Issues",
-              "provenance": "abpath",
-              "query": "Other Administration/Laboratory Management Issues",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::hematology_hematopathology_specific_administration_laboratory_management::qa_qc_issue",
-              "label": "QA/QC Issue",
-              "provenance": "abpath",
-              "query": "QA/QC Issue",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::hematology_hematopathology_specific_administration_laboratory_management::rules_and_regulations",
-              "label": "Rules and Regulations",
-              "provenance": "abpath",
-              "query": "Rules and Regulations",
-              "abpath_level": "F"
             }
           ]
         },
@@ -28260,71 +27359,15 @@
           ]
         },
         {
-          "id": "hemoglobinopathy_analysis",
-          "label": "Hemoglobinopathy Analysis",
-          "leaf_count": 5,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::hemoglobinopathy_analysis::advance_hemoglobinopathy_analysis",
-              "label": "Advance Hemoglobinopathy Analysis",
-              "provenance": "abpath",
-              "query": "Advance Hemoglobinopathy Analysis",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemoglobinopathy_analysis::alkaline_acid_electrophoresis",
-              "label": "Alkaline & Acid Electrophoresis",
-              "provenance": "abpath",
-              "query": "Alkaline & Acid Electrophoresis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemoglobinopathy_analysis::capillary_electrophoresis",
-              "label": "Capillary Electrophoresis",
-              "provenance": "abpath",
-              "query": "Capillary Electrophoresis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemoglobinopathy_analysis::high_performance_liquid_chromatography_hplc",
-              "label": "High Performance Liquid Chromatography (HPLC)",
-              "provenance": "abpath",
-              "query": "High Performance Liquid Chromatography (HPLC)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemoglobinopathy_analysis::isoelectric_focusing",
-              "label": "Isoelectric Focusing",
-              "provenance": "abpath",
-              "query": "Isoelectric Focusing",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "hemostasis_and_thrombosis_testing",
           "label": "Hemostasis and Thrombosis Testing",
-          "leaf_count": 3,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::heme::hemostasis_and_thrombosis_testing::platelet_testing_including_von_willebrand_disease",
               "label": "Platelet Testing, including von Willebrand Disease",
               "provenance": "abpath",
               "query": "Platelet Testing, including von Willebrand Disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemostasis_and_thrombosis_testing::sample_collection_and_processing",
-              "label": "Sample Collection and Processing",
-              "provenance": "abpath",
-              "query": "Sample Collection and Processing",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::hemostasis_and_thrombosis_testing::thrombophilia_testing",
-              "label": "Thrombophilia Testing",
-              "provenance": "abpath",
-              "query": "Thrombophilia Testing",
               "abpath_level": "AR"
             }
           ]
@@ -28401,15 +27444,8 @@
         {
           "id": "hodgkin_lymphoma",
           "label": "Hodgkin Lymphoma",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::heme::hodgkin_lymphoma::classic",
-              "label": "Classic",
-              "provenance": "abpath",
-              "query": "Classic",
-              "abpath_level": "C"
-            },
             {
               "tag": "ABPathSpec::heme::hodgkin_lymphoma::nodular_lymphocyte_predominant",
               "label": "Nodular Lymphocyte Predominant",
@@ -28462,30 +27498,9 @@
           ]
         },
         {
-          "id": "immunohistochemistry",
-          "label": "Immunohistochemistry",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::immunohistochemistry::basic_methods",
-              "label": "Basic Methods",
-              "provenance": "abpath",
-              "query": "Basic Methods",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::immunohistochemistry::pitfalls",
-              "label": "Pitfalls",
-              "provenance": "abpath",
-              "query": "Pitfalls",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "inherited_disorders_with_morphologic_correlates",
           "label": "Inherited Disorders with Morphologic Correlates",
-          "leaf_count": 5,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::heme::inherited_disorders_with_morphologic_correlates::alder_reilly_anomaly",
@@ -28500,20 +27515,6 @@
               "provenance": "abpath",
               "query": "Chediak-Higashi Syndrome",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::inherited_disorders_with_morphologic_correlates::monocytes_quantitative_qualitative_aspects",
-              "label": "Monocytes – Quantitative & Qualitative Aspects",
-              "provenance": "abpath",
-              "query": "Monocytes – Quantitative & Qualitative Aspects",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::inherited_disorders_with_morphologic_correlates::neutrophils_quantitative_qualitative_aspects",
-              "label": "Neutrophils – Quantitative & Qualitative Aspects",
-              "provenance": "abpath",
-              "query": "Neutrophils – Quantitative & Qualitative Aspects",
-              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::heme::inherited_disorders_with_morphologic_correlates::pelger_huet_anomaly",
@@ -28850,41 +27851,6 @@
               "provenance": "abpath",
               "query": "Metastases to the Lymph Nodes",
               "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "molecular_testing",
-          "label": "Molecular Testing",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::molecular_testing::clonality_lineage",
-              "label": "Clonality/Lineage",
-              "provenance": "abpath",
-              "query": "Clonality/Lineage",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::molecular_testing::coagulation_related_molecular_testing",
-              "label": "Coagulation-Related Molecular Testing",
-              "provenance": "abpath",
-              "query": "Coagulation-Related Molecular Testing",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::molecular_testing::other_molecular_assays_e_g_gene_expression_arrays",
-              "label": "Other Molecular Assays (e.g., Gene Expression Arrays)",
-              "provenance": "abpath",
-              "query": "Other Molecular Assays (e.g., Gene Expression Arrays)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::molecular_testing::translocations_mutations",
-              "label": "Translocations/Mutations",
-              "provenance": "abpath",
-              "query": "Translocations/Mutations",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -29273,167 +28239,13 @@
         {
           "id": "normal_anatomy_histology_hematopoiesis_and_hemostasis",
           "label": "Normal Anatomy, Histology, Hematopoiesis and Hemostasis",
-          "leaf_count": 23,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::b_cells",
-              "label": "B-Cells",
-              "provenance": "abpath",
-              "query": "B-Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::bone_marrow",
-              "label": "Bone Marrow",
-              "provenance": "abpath",
-              "query": "Bone Marrow",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::coagulation_and_fibrinolysis",
-              "label": "Coagulation and Fibrinolysis",
-              "provenance": "abpath",
-              "query": "Coagulation and Fibrinolysis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::eosinophils_basophils_mast_cells",
-              "label": "Eosinophils/Basophils/Mast Cells",
-              "provenance": "abpath",
-              "query": "Eosinophils/Basophils/Mast Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::erythrocytes_rbcs",
-              "label": "Erythrocytes (RBCs)",
-              "provenance": "abpath",
-              "query": "Erythrocytes (RBCs)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::general_hematopoiesis",
-              "label": "General Hematopoiesis",
-              "provenance": "abpath",
-              "query": "General Hematopoiesis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::granulocytes",
-              "label": "Granulocytes",
-              "provenance": "abpath",
-              "query": "Granulocytes",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::leucocytes_wbcs",
-              "label": "Leucocytes (WBCs)",
-              "provenance": "abpath",
-              "query": "Leucocytes (WBCs)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::lymph_nodes",
-              "label": "Lymph Nodes",
-              "provenance": "abpath",
-              "query": "Lymph Nodes",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::lymphoid",
-              "label": "Lymphoid",
-              "provenance": "abpath",
-              "query": "Lymphoid",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::monocytes_dendritic_cells",
-              "label": "Monocytes/Dendritic Cells",
-              "provenance": "abpath",
-              "query": "Monocytes/Dendritic Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::myeloid",
-              "label": "Myeloid",
-              "provenance": "abpath",
-              "query": "Myeloid",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::nk_cells",
-              "label": "NK-Cells",
-              "provenance": "abpath",
-              "query": "NK-Cells",
-              "abpath_level": "C"
-            },
             {
               "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::normal_hemostasis_thrombosis",
               "label": "Normal Hemostasis & Thrombosis",
               "provenance": "abpath",
               "query": "Normal Hemostasis & Thrombosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::other_lymphoid_cells",
-              "label": "Other Lymphoid Cells",
-              "provenance": "abpath",
-              "query": "Other Lymphoid Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::other_lymphoid_tissues_e_g_tonsils",
-              "label": "Other Lymphoid Tissues (e.g., Tonsils)",
-              "provenance": "abpath",
-              "query": "Other Lymphoid Tissues (e.g., Tonsils)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::other_myeloid_cells",
-              "label": "Other Myeloid Cells",
-              "provenance": "abpath",
-              "query": "Other Myeloid Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::pediatric_issues_including_fetal_hematopoiesis",
-              "label": "Pediatric Issues, Including Fetal Hematopoiesis",
-              "provenance": "abpath",
-              "query": "Pediatric Issues, Including Fetal Hematopoiesis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::peripheral_blood",
-              "label": "Peripheral Blood",
-              "provenance": "abpath",
-              "query": "Peripheral Blood",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::platelets_megakaryocytes",
-              "label": "Platelets & Megakaryocytes",
-              "provenance": "abpath",
-              "query": "Platelets & Megakaryocytes",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::spleen",
-              "label": "Spleen",
-              "provenance": "abpath",
-              "query": "Spleen",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::t_cells",
-              "label": "T-Cells",
-              "provenance": "abpath",
-              "query": "T-Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::normal_anatomy_histology_hematopoiesis_and_hemostasis::thymus",
-              "label": "Thymus",
-              "provenance": "abpath",
-              "query": "Thymus",
               "abpath_level": "C"
             }
           ]
@@ -29441,15 +28253,8 @@
         {
           "id": "other_causes_of_anemia",
           "label": "Other Causes of Anemia",
-          "leaf_count": 5,
+          "leaf_count": 4,
           "leaves": [
-            {
-              "tag": "ABPathSpec::heme::other_causes_of_anemia::advanced_erythrocyte_abnormalities",
-              "label": "Advanced Erythrocyte Abnormalities",
-              "provenance": "abpath",
-              "query": "Advanced Erythrocyte Abnormalities",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::heme::other_causes_of_anemia::cold_agglutinin_disease",
               "label": "Cold Agglutinin Disease",
@@ -29530,55 +28335,6 @@
           ]
         },
         {
-          "id": "other_histocytic_disorders",
-          "label": "Other Histocytic Disorders",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::other_histocytic_disorders::eosinophils_and_basophils",
-              "label": "Eosinophils and Basophils",
-              "provenance": "abpath",
-              "query": "Eosinophils and Basophils",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::other_histocytic_disorders::lymphocytes_including_quantitative_aspects",
-              "label": "Lymphocytes – Including Quantitative Aspects",
-              "provenance": "abpath",
-              "query": "Lymphocytes – Including Quantitative Aspects",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::other_histocytic_disorders::plasma_cells",
-              "label": "Plasma Cells",
-              "provenance": "abpath",
-              "query": "Plasma Cells",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::other_histocytic_disorders::plasmacytoid_dendritic_cells",
-              "label": "Plasmacytoid Dendritic Cells",
-              "provenance": "abpath",
-              "query": "Plasmacytoid Dendritic Cells",
-              "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "other_infections_of_leucocytes",
-          "label": "Other Infections of Leucocytes",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::other_infections_of_leucocytes::e_g_fungi_including_histoplasma_pertussis",
-              "label": "(e.g., Fungi including Histoplasma, Pertussis)",
-              "provenance": "abpath",
-              "query": "(e.g., Fungi including Histoplasma, Pertussis)",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "plasma_cell_neoplasms_paraprotein_disorders_amyloidosis",
           "label": "Plasma Cell Neoplasms, Paraprotein Disorders, & Amyloidosis",
           "leaf_count": 4,
@@ -29635,41 +28391,6 @@
           ]
         },
         {
-          "id": "secondary_immunodeficiencies",
-          "label": "Secondary Immunodeficiencies",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::secondary_immunodeficiencies::iatrogenic",
-              "label": "Iatrogenic",
-              "provenance": "abpath",
-              "query": "Iatrogenic",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::secondary_immunodeficiencies::viral_associated",
-              "label": "Viral-Associated",
-              "provenance": "abpath",
-              "query": "Viral-Associated",
-              "abpath_level": "F"
-            }
-          ]
-        },
-        {
-          "id": "sideroblastic_anemias",
-          "label": "Sideroblastic Anemias",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::sideroblastic_anemias::acquired",
-              "label": "Acquired",
-              "provenance": "abpath",
-              "query": "Acquired",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "spleen",
           "label": "Spleen",
           "leaf_count": 2,
@@ -29687,62 +28408,6 @@
               "provenance": "abpath",
               "query": "Splenic Cysts & Other Non-Neoplastic Proliferations (e.g., Hamartomas)",
               "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "staining_methods",
-          "label": "Staining Methods",
-          "leaf_count": 7,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::staining_methods::bone_marrow_review",
-              "label": "Bone Marrow Review",
-              "provenance": "abpath",
-              "query": "Bone Marrow Review",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::cytochemical_and_advanced_hematology_stains",
-              "label": "Cytochemical and Advanced Hematology Stains",
-              "provenance": "abpath",
-              "query": "Cytochemical and Advanced Hematology Stains",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::fluid_review",
-              "label": "Fluid Review",
-              "provenance": "abpath",
-              "query": "Fluid Review",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::peripheral_blood_smear_review",
-              "label": "Peripheral Blood Smear Review",
-              "provenance": "abpath",
-              "query": "Peripheral Blood Smear Review",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::review_of_other_tissues_in_hematopathology",
-              "label": "Review of Other Tissues in Hematopathology",
-              "provenance": "abpath",
-              "query": "Review of Other Tissues in Hematopathology",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::romanovsky_type_stains",
-              "label": "Romanovsky Type Stains",
-              "provenance": "abpath",
-              "query": "Romanovsky Type Stains",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::staining_methods::routine_and_special_histologic_stains",
-              "label": "Routine and Special Histologic Stains",
-              "provenance": "abpath",
-              "query": "Routine and Special Histologic Stains",
-              "abpath_level": "C"
             }
           ]
         },
@@ -29853,27 +28518,13 @@
         {
           "id": "thrombocytopenia",
           "label": "Thrombocytopenia",
-          "leaf_count": 5,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::heme::thrombocytopenia::abnormal_platelet_morphology_not_otherwise_specified",
               "label": "Abnormal Platelet Morphology, Not Otherwise Specified",
               "provenance": "abpath",
               "query": "Abnormal Platelet Morphology, Not Otherwise Specified",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::heme::thrombocytopenia::immune",
-              "label": "Immune",
-              "provenance": "abpath",
-              "query": "Immune",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::heme::thrombocytopenia::inherited",
-              "label": "Inherited",
-              "provenance": "abpath",
-              "query": "Inherited",
               "abpath_level": "AR"
             },
             {
@@ -29944,15 +28595,8 @@
         {
           "id": "thymus",
           "label": "Thymus",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
-            {
-              "tag": "ABPathSpec::heme::thymus::extranodal",
-              "label": "Extranodal",
-              "provenance": "abpath",
-              "query": "Extranodal",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::heme::thymus::other_benign_thymus_disorders_e_g_thymoma",
               "label": "Other Benign Thymus Disorders (e.g., Thymoma)",
@@ -30381,7 +29025,7 @@
       "id": "neuro",
       "label": "Neuropathology",
       "kind": "root",
-      "leaf_count": 628,
+      "leaf_count": 624,
       "subcategories": [
         {
           "id": "acute_subacute_white_matter_lesions",
@@ -33671,15 +32315,8 @@
         {
           "id": "muscle_biopsy",
           "label": "Muscle Biopsy",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::neuro::muscle_biopsy::muscle_biopsy_techniques_ihc_special_stains",
-              "label": "Muscle Biopsy Techniques, IHC/Special Stains",
-              "provenance": "abpath",
-              "query": "Muscle Biopsy Techniques, IHC/Special Stains",
-              "abpath_level": "F"
-            },
             {
               "tag": "ABPathSpec::neuro::muscle_biopsy::skeletal_muscle_ultrastructure",
               "label": "Skeletal Muscle Ultrastructure",
@@ -34726,15 +33363,8 @@
         {
           "id": "secondary_mineralization_associated_with_other_disorders",
           "label": "Secondary mineralization associated with other disorders",
-          "leaf_count": 5,
+          "leaf_count": 2,
           "leaves": [
-            {
-              "tag": "ABPathSpec::neuro::secondary_mineralization_associated_with_other_disorders::e_g_calcium_metabolism_infection_ischemia_etc",
-              "label": "(e.g., calcium metabolism, infection, ischemia, etc.)",
-              "provenance": "abpath",
-              "query": "(e.g., calcium metabolism, infection, ischemia, etc.)",
-              "abpath_level": "F"
-            },
             {
               "tag": "ABPathSpec::neuro::secondary_mineralization_associated_with_other_disorders::artifacts_of_tissue_handling_and_foreign_material",
               "label": "Artifacts of Tissue Handling and Foreign Material",
@@ -34747,20 +33377,6 @@
               "label": "Edema and Herniation",
               "provenance": "abpath",
               "query": "Edema and Herniation",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::neuro::secondary_mineralization_associated_with_other_disorders::molecular_techniques",
-              "label": "Molecular Techniques",
-              "provenance": "abpath",
-              "query": "Molecular Techniques",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::neuro::secondary_mineralization_associated_with_other_disorders::staining_methods_and_special_microscopy",
-              "label": "Staining Methods and Special Microscopy",
-              "provenance": "abpath",
-              "query": "Staining Methods and Special Microscopy",
               "abpath_level": "AR"
             }
           ]
@@ -35659,7 +34275,7 @@
       "id": "peds",
       "label": "Pediatric Pathology",
       "kind": "root",
-      "leaf_count": 893,
+      "leaf_count": 867,
       "subcategories": [
         {
           "id": "acquired_abnormalities",
@@ -35755,7 +34371,7 @@
         {
           "id": "administration_management",
           "label": "Administration & Management",
-          "leaf_count": 14,
+          "leaf_count": 10,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::administration_management::accreditation_different_accrediting_agencies",
@@ -35772,24 +34388,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::administration_management::compliance_programs_and_billing",
-              "label": "Compliance Programs and Billing",
-              "provenance": "abpath",
-              "query": "Compliance Programs and Billing",
-              "abpath_level": "AR"
-            },
-            {
               "tag": "ABPathSpec::peds::administration_management::confidentiality_hipaa",
               "label": "Confidentiality / HIPAA",
               "provenance": "abpath",
               "query": "Confidentiality / HIPAA",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::administration_management::informatics",
-              "label": "Informatics",
-              "provenance": "abpath",
-              "query": "Informatics",
               "abpath_level": "AR"
             },
             {
@@ -35814,13 +34416,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::administration_management::proficiency_testing",
-              "label": "Proficiency Testing",
-              "provenance": "abpath",
-              "query": "Proficiency Testing",
-              "abpath_level": "AR"
-            },
-            {
               "tag": "ABPathSpec::peds::administration_management::quality_control_procedures",
               "label": "Quality Control Procedures",
               "provenance": "abpath",
@@ -35839,13 +34434,6 @@
               "label": "Research Content and IRB",
               "provenance": "abpath",
               "query": "Research Content and IRB",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::administration_management::safety",
-              "label": "Safety",
-              "provenance": "abpath",
-              "query": "Safety",
               "abpath_level": "AR"
             },
             {
@@ -35986,15 +34574,8 @@
         {
           "id": "autoimmune_immune_dysregulation_disorders",
           "label": "Autoimmune/Immune Dysregulation Disorders",
-          "leaf_count": 5,
+          "leaf_count": 4,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::autoimmune_immune_dysregulation_disorders::iatrogenic",
-              "label": "Iatrogenic",
-              "provenance": "abpath",
-              "query": "Iatrogenic",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::autoimmune_immune_dysregulation_disorders::post_transplant_lymphoproliferative_disorder_ptld",
               "label": "Post-Transplant Lymphoproliferative Disorder (PTLD)",
@@ -36084,15 +34665,8 @@
         {
           "id": "blood_bank_transfusion_medicine_tests",
           "label": "Blood Bank/Transfusion Medicine Tests",
-          "leaf_count": 10,
+          "leaf_count": 9,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::blood_bank_transfusion_medicine_tests::antibody_screening_and_identification",
-              "label": "Antibody Screening and Identification",
-              "provenance": "abpath",
-              "query": "Antibody Screening and Identification",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::blood_bank_transfusion_medicine_tests::apheresis_indications_and_practices",
               "label": "Apheresis Indications and Practices",
@@ -37247,15 +35821,8 @@
         {
           "id": "endocrine_tests",
           "label": "Endocrine Tests",
-          "leaf_count": 10,
+          "leaf_count": 9,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::endocrine_tests::adrenal_cortical_hormones",
-              "label": "Adrenal Cortical Hormones",
-              "provenance": "abpath",
-              "query": "Adrenal Cortical Hormones",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::endocrine_tests::adrenal_medullary_hormones",
               "label": "Adrenal Medullary Hormones",
@@ -37324,7 +35891,7 @@
         {
           "id": "endoplasmic_reticulin_storage_disorders",
           "label": "Endoplasmic Reticulin Storage Disorders",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::endoplasmic_reticulin_storage_disorders::alpha_1_antitrypsin_deficiency",
@@ -37332,13 +35899,6 @@
               "provenance": "abpath",
               "query": "Alpha-1-Antitrypsin Deficiency",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::endoplasmic_reticulin_storage_disorders::diagnostic_methodologies",
-              "label": "Diagnostic Methodologies",
-              "provenance": "abpath",
-              "query": "Diagnostic Methodologies",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::peds::endoplasmic_reticulin_storage_disorders::metabolic_autopsy",
@@ -37880,20 +36440,13 @@
         {
           "id": "gallbladder",
           "label": "Gallbladder",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::gallbladder::common_pathologic_conditions_e_g_cholecystitis",
               "label": "Common Pathologic Conditions (e.g., Cholecystitis)",
               "provenance": "abpath",
               "query": "Common Pathologic Conditions (e.g., Cholecystitis)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::gallbladder::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
               "abpath_level": "C"
             }
           ]
@@ -38296,15 +36849,8 @@
         {
           "id": "hematology_and_bone_marrow_tests",
           "label": "Hematology and Bone Marrow Tests",
-          "leaf_count": 12,
+          "leaf_count": 11,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::a_non_neoplastic_e_g_lymphocyte_subsets",
-              "label": "a) Non-Neoplastic (e.g., Lymphocyte Subsets)",
-              "provenance": "abpath",
-              "query": "a) Non-Neoplastic (e.g., Lymphocyte Subsets)",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::b_neoplastic_e_g_leukemia_lymphoma",
               "label": "b) Neoplastic (e.g., Leukemia/Lymphoma)",
@@ -38529,15 +37075,8 @@
         {
           "id": "hodgkin_lymphoma",
           "label": "Hodgkin Lymphoma",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::hodgkin_lymphoma::classic",
-              "label": "Classic",
-              "provenance": "abpath",
-              "query": "Classic",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::hodgkin_lymphoma::lymphocyte_predominant",
               "label": "Lymphocyte Predominant",
@@ -38550,15 +37089,8 @@
         {
           "id": "hydrops",
           "label": "Hydrops",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::hydrops::immune",
-              "label": "Immune",
-              "provenance": "abpath",
-              "query": "Immune",
-              "abpath_level": "C"
-            },
             {
               "tag": "ABPathSpec::peds::hydrops::non_immune",
               "label": "Non-Immune",
@@ -39642,7 +38174,7 @@
         {
           "id": "malformations_of_the_gastrointestinal_tract",
           "label": "Malformations of the Gastrointestinal Tract",
-          "leaf_count": 6,
+          "leaf_count": 5,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::malformations_of_the_gastrointestinal_tract::atresia_stenosis",
@@ -39663,13 +38195,6 @@
               "label": "Fistula",
               "provenance": "abpath",
               "query": "Fistula",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::malformations_of_the_gastrointestinal_tract::malrotation_abnormal_fixation",
-              "label": "Malrotation / Abnormal Fixation",
-              "provenance": "abpath",
-              "query": "Malrotation / Abnormal Fixation",
               "abpath_level": "AR"
             },
             {
@@ -39985,7 +38510,7 @@
         {
           "id": "metabolic_test",
           "label": "Metabolic Test",
-          "leaf_count": 12,
+          "leaf_count": 9,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::metabolic_test::amino_acids_and_proteins",
@@ -39993,20 +38518,6 @@
               "provenance": "abpath",
               "query": "Amino Acids and Proteins",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::peds::metabolic_test::collection_preservation_of_tissues_for_metabolic_testing",
-              "label": "Collection & Preservation of Tissues for Metabolic Testing",
-              "provenance": "abpath",
-              "query": "Collection & Preservation of Tissues for Metabolic Testing",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::metabolic_test::drug_metabolism_testing",
-              "label": "Drug Metabolism Testing",
-              "provenance": "abpath",
-              "query": "Drug Metabolism Testing",
-              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::peds::metabolic_test::glucose_and_carbohydrates",
@@ -40028,13 +38539,6 @@
               "provenance": "abpath",
               "query": "Liver Function and Bile Acids",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::metabolic_test::newborn_screening",
-              "label": "Newborn Screening",
-              "provenance": "abpath",
-              "query": "Newborn Screening",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::peds::metabolic_test::organic_acids",
@@ -40202,20 +38706,13 @@
         {
           "id": "molecular_analysis",
           "label": "Molecular Analysis",
-          "leaf_count": 11,
+          "leaf_count": 9,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::molecular_analysis::development_of_reference_ranges_assay_validation",
               "label": "Development of Reference Ranges/Assay Validation",
               "provenance": "abpath",
               "query": "Development of Reference Ranges/Assay Validation",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::molecular_analysis::dna_amplification_techniques",
-              "label": "DNA Amplification Techniques",
-              "provenance": "abpath",
-              "query": "DNA Amplification Techniques",
               "abpath_level": "AR"
             },
             {
@@ -40230,13 +38727,6 @@
               "label": "Loss of Heterozygosity Studies",
               "provenance": "abpath",
               "query": "Loss of Heterozygosity Studies",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::molecular_analysis::rna_rt_pcr_and_gene_expression_analytic_techniques",
-              "label": "RNA RT-PCR and Gene Expression Analytic Techniques",
-              "provenance": "abpath",
-              "query": "RNA RT-PCR and Gene Expression Analytic Techniques",
               "abpath_level": "AR"
             },
             {
@@ -40760,7 +39250,7 @@
         {
           "id": "normal_embryonic_and_fetal_development",
           "label": "Normal Embryonic and Fetal Development",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::normal_embryonic_and_fetal_development::embryologic_processes",
@@ -40768,13 +39258,6 @@
               "provenance": "abpath",
               "query": "Embryologic Processes",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::peds::normal_embryonic_and_fetal_development::normal_histology_of_fetal_organs",
-              "label": "Normal Histology of Fetal Organs",
-              "provenance": "abpath",
-              "query": "Normal Histology of Fetal Organs",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -41892,7 +40375,7 @@
         {
           "id": "special_anatomic_procedures",
           "label": "Special Anatomic Procedures",
-          "leaf_count": 10,
+          "leaf_count": 9,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::special_anatomic_procedures::ciliary_biopsy_evaluation",
@@ -41941,13 +40424,6 @@
               "label": "Immunohistochemistry",
               "provenance": "abpath",
               "query": "Immunohistochemistry",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::special_anatomic_procedures::special_dissection_techniques_e_g_conduction_system",
-              "label": "Special Dissection Techniques (e.g., Conduction System)",
-              "provenance": "abpath",
-              "query": "Special Dissection Techniques (e.g., Conduction System)",
               "abpath_level": "AR"
             },
             {
@@ -42058,37 +40534,9 @@
           ]
         },
         {
-          "id": "tests_for_congenital_hormone_disorders",
-          "label": "Tests for Congenital Hormone Disorders",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::peds::tests_for_congenital_hormone_disorders::e_g_cah_congenital_hyperinsulinemia",
-              "label": "(e.g., CAH, Congenital Hyperinsulinemia)",
-              "provenance": "abpath",
-              "query": "(e.g., CAH, Congenital Hyperinsulinemia)",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "the_alimentary_tract",
-          "label": "The Alimentary Tract",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::peds::the_alimentary_tract::normal_development_structure_and_function",
-              "label": "Normal Development, Structure, and Function",
-              "provenance": "abpath",
-              "query": "Normal Development, Structure, and Function",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "the_breast",
           "label": "The Breast",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::the_breast::developmental_malformations",
@@ -42096,13 +40544,6 @@
               "provenance": "abpath",
               "query": "Developmental Malformations",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::peds::the_breast::normal_anatomy_history_and_development",
-              "label": "Normal Anatomy, History, and Development",
-              "provenance": "abpath",
-              "query": "Normal Anatomy, History, and Development",
-              "abpath_level": "C"
             }
           ]
         },
@@ -42123,7 +40564,7 @@
         {
           "id": "the_hepatobiliary_system_and_pancreas",
           "label": "The Hepatobiliary System and Pancreas",
-          "leaf_count": 4,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::the_hepatobiliary_system_and_pancreas::caroli_disease",
@@ -42145,13 +40586,6 @@
               "provenance": "abpath",
               "query": "Developmental Anomalies of the Liver & Extrahepatic Biliary Tree",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::peds::the_hepatobiliary_system_and_pancreas::normal_anatomy_and_development",
-              "label": "Normal Anatomy and Development",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Development",
-              "abpath_level": "C"
             }
           ]
         },
@@ -42172,20 +40606,13 @@
         {
           "id": "the_skeletal_system",
           "label": "The Skeletal System",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::the_skeletal_system::infections_e_g_osteomyelitis",
               "label": "Infections (e.g., Osteomyelitis)",
               "provenance": "abpath",
               "query": "Infections (e.g., Osteomyelitis)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::the_skeletal_system::normal_anatomy_histology_and_development",
-              "label": "Normal Anatomy, Histology, and Development",
-              "provenance": "abpath",
-              "query": "Normal Anatomy, Histology, and Development",
               "abpath_level": "C"
             },
             {
@@ -42645,20 +41072,13 @@
         {
           "id": "urine_analysis",
           "label": "Urine Analysis",
-          "leaf_count": 4,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::urine_analysis::crystals_casts_and_cells",
               "label": "Crystals, Casts, and Cells",
               "provenance": "abpath",
               "query": "Crystals, Casts, and Cells",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::urine_analysis::dip_stick_and_point_of_card_testing",
-              "label": "Dip-Stick and Point-of-Card Testing",
-              "provenance": "abpath",
-              "query": "Dip-Stick and Point-of-Card Testing",
               "abpath_level": "AR"
             },
             {
@@ -42879,7 +41299,7 @@
       "id": "thorax_mediastinum",
       "label": "Thorax / Mediastinum",
       "kind": "root",
-      "leaf_count": 164,
+      "leaf_count": 162,
       "subcategories": [
         {
           "id": "benign",
@@ -43471,7 +41891,7 @@
         {
           "id": "the_mediastinum",
           "label": "The Mediastinum",
-          "leaf_count": 15,
+          "leaf_count": 13,
           "leaves": [
             {
               "tag": "ABPathSpec::thorax_mediastinum::the_mediastinum::congenital_developmental_and_familial_conditions",
@@ -43537,24 +41957,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::thorax_mediastinum::the_mediastinum::normal_anatomy_and_histology",
-              "label": "Normal Anatomy and Histology",
-              "provenance": "abpath",
-              "query": "Normal Anatomy and Histology",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::thorax_mediastinum::the_mediastinum::paragangliomas",
               "label": "Paragangliomas",
               "provenance": "abpath",
               "query": "Paragangliomas",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::thorax_mediastinum::the_mediastinum::physiologic_changes_metabolic_conditions_trauma_infarct",
-              "label": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
-              "provenance": "abpath",
-              "query": "Physiologic Changes, Metabolic Conditions & Trauma/Infarct",
               "abpath_level": "C"
             },
             {
@@ -44035,7 +42441,8 @@
     }
   ],
   "known_limitations": [
-    "ABPath nav leaves come ONLY from the official AP Content Specifications (C/AR/F terminals).",
+    "ABPath nav leaves come ONLY from diagnosis-like terminals in the official AP Content Specifications.",
+    "Cell types, normal anatomy/histology/cytology, lab methods, QA/billing, and generic headers are excluded from ABPath nav.",
     "The expanded abpath_source_tags.jsonl curriculum ontology is intentionally excluded.",
     "WHO leaves are overlaid; PathOut remains citation-only (not nav).",
     "Content-spec tags use ABPathSpec::<root>::… identity — retrieval still uses the query/label text.",

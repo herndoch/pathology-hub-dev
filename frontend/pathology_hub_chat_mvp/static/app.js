@@ -3028,9 +3028,10 @@ function renderBrowseHome() {
     const whoOnlyCount = browseIndex.counts?.leaves_who_only;
     const bothCount = browseIndex.counts?.leaves_both;
     const specRows = browseIndex.counts?.abpath_content_spec_terminal_rows;
+    const droppedNonDx = browseIndex.counts?.content_spec_rows_dropped_non_diagnosis;
     const provenanceNote =
       abpathCount != null && whoOnlyCount != null
-        ? ` Built from the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals)` : ""} + WHO — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only. Expanded curriculum ontology tags are excluded.`
+        ? ` Built from WHO + diagnosis entities in the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals` : ""}${droppedNonDx != null ? `, ${droppedNonDx} non-diagnosis rows dropped` : ""}${specRows != null ? ")" : ""} — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only. Cell types, anatomy, techniques, and lab/QA rows are excluded.`
         : "";
     const dedupeNote =
       leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; content-spec spelling wins on overlap).` : "";

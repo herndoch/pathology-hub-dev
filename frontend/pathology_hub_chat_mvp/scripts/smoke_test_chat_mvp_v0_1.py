@@ -71,6 +71,13 @@ def smoke_offline() -> None:
         # Guardrail: must not silently reintroduce the ~6k ontology expansion.
         if (counts.get("leaves_abpath_only") or 0) > 4500:
             _fail("abpath-only leaf count looks like bloated ontology", str(counts))
+        if rules.get("abpath_topic_filter") != "diagnosis_entities_only":
+            _fail("abpath topic filter", rules.get("abpath_topic_filter"))
+        if (counts.get("content_spec_rows_dropped_non_diagnosis") or 0) < 50:
+            _fail(
+                "expected non-diagnosis content-spec drops",
+                str(counts.get("content_spec_rows_dropped_non_diagnosis")),
+            )
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text
