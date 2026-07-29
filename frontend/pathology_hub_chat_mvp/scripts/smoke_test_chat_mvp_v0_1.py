@@ -110,6 +110,60 @@ def smoke_offline() -> None:
                     bad_subs.append(f"{root.get('id')}:{label}")
         if bad_subs:
             _fail("methodology subcategory buckets remain", bad_subs[:8])
+        # No leaf may be a residual "Other ..." catch-all or a bare generic
+        # word with zero organ/entity-specific qualifier — not prebuild-worthy.
+        generic_bare = {
+            "benign", "malignant", "premalignant", "borderline", "carcinoma",
+            "sarcoma", "lymphoma", "leukemia", "adenoma", "tumor", "tumour",
+            "tumors", "tumours", "neoplasm", "neoplasms", "lesion", "lesions",
+            "disorder", "disorders", "disease", "diseases", "syndrome",
+            "infection", "infections", "infectious", "inflammatory", "other",
+            "others", "general", "normal", "miscellaneous", "cyst", "cysts",
+            "polyp", "polyps", "hyperplasia", "metaplasia", "dysplasia",
+            "atypia", "metastasis", "metastases", "condition", "conditions",
+            "change", "changes", "process", "processes", "topic", "topics",
+            "type", "types",
+        }
+        bad_leaves = []
+        for root in data.get("roots") or []:
+            for sub in root.get("subcategories") or []:
+                for leaf in sub.get("leaves") or []:
+                    label = str(leaf.get("label") or "").replace("_", " ")
+                    if re.match(r"(?i)^other\b", label):
+                        bad_leaves.append(f"{root.get('id')}:{label}")
+                        continue
+                    toks = re.sub(r"[^a-z0-9]+", " ", label.lower()).split()
+                    if toks and all(t in generic_bare for t in toks):
+                        bad_leaves.append(f"{root.get('id')}:{label}")
+        if bad_leaves:
+            _fail("non-prebuildable leaf topics remain", bad_leaves[:10])
+        # No "The X" / "X" or "X Gland(s)" / "X" near-duplicate subcategories.
+        stop = {"the", "of", "gland"}
+
+        def _sing(t: str) -> str:
+            if len(t) > 4 and t.endswith("ies"):
+                return t[:-3] + "y"
+            if len(t) > 4 and t.endswith("ses"):
+                return t[:-2]
+            if len(t) > 3 and t.endswith("s") and not t.endswith("ss"):
+                return t[:-1]
+            return t
+
+        def _sub_key(label: str) -> str:
+            toks = [_sing(t) for t in re.sub(r"[^a-z0-9]+", " ", label.lower()).split() if t]
+            toks = [t for t in toks if t not in stop]
+            return " ".join(sorted(toks))
+
+        for root in data.get("roots") or []:
+            seen: dict[str, str] = {}
+            for sub in root.get("subcategories") or []:
+                k = _sub_key(str(sub.get("label") or ""))
+                if k in seen:
+                    _fail(
+                        "near-duplicate subcategories",
+                        f"{root.get('id')}: {seen[k]!r} vs {sub.get('label')!r}",
+                    )
+                seen[k] = sub.get("label")
         # Heme must always read as Hematolymphoid, never the old label.
         heme_root = next((r for r in data.get("roots") or [] if r.get("id") == "heme"), None)
         if not heme_root or heme_root.get("label") != "Hematolymphoid":

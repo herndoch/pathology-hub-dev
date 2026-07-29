@@ -268,6 +268,11 @@ SUBCATEGORY_ALIASES: dict[str, tuple[str, str]] = {
     "heme": ("hematolymphoid", "Hematolymphoid"),
     "hematolymphoid": ("hematolymphoid", "Hematolymphoid"),
     "hematopathology": ("hematolymphoid", "Hematolymphoid"),
+    # A subcategory literally named "Other"/"Others" is a catch-all, not an
+    # organ/family grouping — normalize to the standard "General" bucket.
+    "other": ("general", "General"),
+    "others": ("general", "General"),
+    "miscellaneous": ("general", "General"),
 }
 
 # Acronyms to re-uppercase after title-casing all-caps ABPath section headers
@@ -319,13 +324,20 @@ def _singularize_token(tok: str) -> str:
     return tok
 
 
+# Filler words dropped from the generic subcategory key so "The Thyroid" /
+# "Thyroid" and "The Adrenal Glands" / "Adrenal" collapse together.
+_SUBCATEGORY_STOPWORDS = {"the", "of", "gland"}
+
+
 def _generic_subcategory_key(label: str) -> str:
-    """Plural/word-order-insensitive key so e.g. "Bone" / "Bones",
-    "Malformation" / "Malformations" collapse into one Browse subcategory
-    without needing every organ system hand-listed in SUBCATEGORY_ALIASES."""
+    """Plural/word-order/filler-word-insensitive key so e.g. "Bone" /
+    "Bones", "The Thyroid" / "Thyroid", "The Adrenal Glands" / "Adrenal"
+    collapse into one Browse subcategory without hand-listing every organ
+    system in SUBCATEGORY_ALIASES."""
     text = re.sub(r"[^a-z0-9]+", " ", (label or "").lower()).strip()
-    tokens = sorted(_singularize_token(t) for t in text.split() if t)
-    return " ".join(tokens)
+    all_tokens = [_singularize_token(t) for t in text.split() if t]
+    tokens = [t for t in all_tokens if t not in _SUBCATEGORY_STOPWORDS]
+    return " ".join(sorted(tokens or all_tokens))
 
 
 # Aggressive dedupe cache: first canonical (sub_id, label) seen per generic
@@ -342,6 +354,9 @@ def normalize_subcategory(sub_label: str) -> tuple[str, str]:
     raw = re.sub(r"(?i)\bSoft_TissueAdipocytic\b", "Soft Tissue", raw)
     # Strip OCR/PDF placeholder glyphs rendered as trailing "XXX".
     raw = re.sub(r"(?i)\s+x{2,}\s*$", "", raw).strip() or raw
+    # Cosmetic: "The Adrenal Glands" -> "Adrenal Glands" — the leading
+    # article added nothing and only made near-duplicates read as different.
+    raw = re.sub(r"(?i)^the\s+", "", raw).strip() or raw
     raw = _smart_titlecase_subcategory(raw)
     key = re.sub(r"[^a-z0-9]+", " ", raw.lower()).strip()
     if key in SUBCATEGORY_ALIASES:
@@ -363,8 +378,31 @@ def repair_who_tag(tag: str) -> str:
     return tag
 
 
+# Single generic words that never stand alone as a real diagnosis name (no
+# WHO/ABPath entity is literally just "Carcinoma" or "Benign" — real entries
+# always carry a specific qualifier). Used two ways: (1) reject a leaf whose
+# every token is in this set, and (2) reject any leaf starting with "Other"
+# — a residual catch-all bucket, not something a topic-page prebuild can be
+# meaningfully written for.
+_GENERIC_BARE_TOKENS = {
+    "benign", "malignant", "premalignant", "borderline", "carcinoma",
+    "sarcoma", "lymphoma", "leukemia", "adenoma", "tumor", "tumour",
+    "tumors", "tumours", "neoplasm", "neoplasms", "lesion", "lesions",
+    "disorder", "disorders", "disease", "diseases", "syndrome",
+    "infection", "infections", "infectious", "inflammatory", "other",
+    "others", "general", "normal", "miscellaneous", "cyst", "cysts",
+    "polyp", "polyps", "hyperplasia", "metaplasia", "dysplasia", "atypia",
+    "metastasis", "metastases", "condition", "conditions", "change",
+    "changes", "process", "processes", "topic", "topics", "type", "types",
+}
+_OTHER_LEAF_RE = re.compile(r"(?i)^other\b")
+
+
 def looks_like_diagnosis(item: str) -> bool:
-    """True when item text is a named diagnosis / disease entity."""
+    """True when item text is a specific, nameable diagnosis/disease entity
+    that a topic-page prebuild could meaningfully be written for — not a
+    residual "Other ..." catch-all, and not a bare generic word/phrase with
+    no organ- or entity-specific qualifier."""
     text = normalize_whitespace(item or "")
     if not text or SKIP_ITEM_RE.match(text):
         return False
@@ -378,6 +416,15 @@ def looks_like_diagnosis(item: str) -> bool:
         return False
     # Parenthetical prep notes / contaminant lists are not diagnoses.
     if text.startswith("(e.g.") or text.startswith("(eg.") or text.startswith("("):
+        return False
+    # "Other <anything>" is a residual catch-all bucket, never a specific
+    # entity — e.g. "Other malignancies involving the thyroid".
+    if _OTHER_LEAF_RE.match(text):
+        return False
+    # Bare generic phrase with zero organ/entity-specific words at all
+    # (e.g. "Carcinoma", "Benign", "Infections", "Cysts").
+    tokens = re.sub(r"[^a-z0-9]+", " ", text.lower()).split()
+    if tokens and all(t in _GENERIC_BARE_TOKENS for t in tokens):
         return False
     return True
 
@@ -543,7 +590,12 @@ def _who_leaf_from_parts(
     root_id: str,
     sub_id: str,
     sub_label: str,
-) -> dict[str, Any]:
+) -> Optional[dict[str, Any]]:
+    # WHO also carries residual "Other ..." catch-alls and bare generic
+    # entries; apply the same diagnosis-specificity filter as ABPath/PathOut
+    # so nothing lands in nav that a prebuild couldn't be usefully written for.
+    if not looks_like_diagnosis(label.replace("_", " ")):
+        return None
     tag = repair_who_tag(tag)
     sub_id, sub_label = normalize_subcategory(sub_label)
     # If tag path implies Soft_Tissue after repair, keep subcategory Soft Tissue.
@@ -578,16 +630,16 @@ def harvest_who_from_browse_index(index: dict[str, Any]) -> list[dict[str, Any]]
                     continue
                 if prov not in {"who", "both", ""}:
                     continue
-                leaves.append(
-                    _who_leaf_from_parts(
-                        tag=tag,
-                        label=leaf.get("label") or tag.split("::")[-1],
-                        query=leaf.get("query") or str(leaf.get("label") or "").replace("_", " "),
-                        root_id=root["id"],
-                        sub_id=sub["id"],
-                        sub_label=sub["label"],
-                    )
+                who_leaf = _who_leaf_from_parts(
+                    tag=tag,
+                    label=leaf.get("label") or tag.split("::")[-1],
+                    query=leaf.get("query") or str(leaf.get("label") or "").replace("_", " "),
+                    root_id=root["id"],
+                    sub_id=sub["id"],
+                    sub_label=sub["label"],
                 )
+                if who_leaf is not None:
+                    leaves.append(who_leaf)
     return leaves
 
 
@@ -614,16 +666,16 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
                         sub_label = segments[1] if len(segments) > 2 else "General"
                     label = segments[-1]
                     sub_id, sub_label = normalize_subcategory(sub_label)
-                    leaves.append(
-                        _who_leaf_from_parts(
-                            tag=raw_tag,
-                            label=label,
-                            query=label.replace("_", " "),
-                            root_id=root_id,
-                            sub_id=sub_id,
-                            sub_label=sub_label,
-                        )
+                    who_leaf = _who_leaf_from_parts(
+                        tag=raw_tag,
+                        label=label,
+                        query=label.replace("_", " "),
+                        root_id=root_id,
+                        sub_id=sub_id,
+                        sub_label=sub_label,
                     )
+                    if who_leaf is not None:
+                        leaves.append(who_leaf)
         return leaves, str(WHO_DIR.relative_to(REPO_ROOT))
 
     if WHO_SNAPSHOT.exists():
@@ -633,16 +685,16 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
             for leaf in raw_leaves:
                 if not isinstance(leaf, dict) or not leaf.get("tag"):
                     continue
-                leaves.append(
-                    _who_leaf_from_parts(
-                        tag=leaf["tag"],
-                        label=leaf.get("label") or leaf["tag"].split("::")[-1],
-                        query=leaf.get("query") or str(leaf.get("label") or "").replace("_", " "),
-                        root_id=leaf["root_id"],
-                        sub_id=leaf.get("sub_id") or "general",
-                        sub_label=leaf.get("sub_label") or "General",
-                    )
+                who_leaf = _who_leaf_from_parts(
+                    tag=leaf["tag"],
+                    label=leaf.get("label") or leaf["tag"].split("::")[-1],
+                    query=leaf.get("query") or str(leaf.get("label") or "").replace("_", " "),
+                    root_id=leaf["root_id"],
+                    sub_id=leaf.get("sub_id") or "general",
+                    sub_label=leaf.get("sub_label") or "General",
                 )
+                if who_leaf is not None:
+                    leaves.append(who_leaf)
             return leaves, str(WHO_SNAPSHOT.relative_to(REPO_ROOT))
 
     if not PRIOR_INDEX.exists():
