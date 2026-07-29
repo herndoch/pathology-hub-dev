@@ -91,6 +91,25 @@ def smoke_offline() -> None:
             _fail("who_pathout should exceed who-only", f"{who_po_total} vs {who_total}")
         if rules.get("pathout_nav") is not False:
             _fail("default pathout_nav should stay false", rules.get("pathout_nav"))
+        # Architecture hygiene: Bone/Bones must be collapsed; no Soft_TissueAdipocytic.
+        bst = next((r for r in data.get("roots") or [] if r.get("id") == "bst"), None)
+        if not bst:
+            _fail("missing bst root", None)
+        else:
+            sub_ids = {s.get("id") for s in bst.get("subcategories") or []}
+            if "bones" in sub_ids and "bone" in sub_ids:
+                _fail("bst still has Bone + Bones split", sorted(sub_ids))
+            if "soft_tissueadipocytic" in sub_ids:
+                _fail("bst still has Soft_TissueAdipocytic", sorted(sub_ids))
+        # Ancillary/QA buckets should not remain as Browse subcategories.
+        bad_subs = []
+        for root in data.get("roots") or []:
+            for sub in root.get("subcategories") or []:
+                label = str(sub.get("label") or "")
+                if re.search(r"(?i)ancillary|qc/?qa|indications\s*/\s*techniques", label):
+                    bad_subs.append(f"{root.get('id')}:{label}")
+        if bad_subs:
+            _fail("methodology subcategory buckets remain", bad_subs[:8])
         js = client.get("/static/app.js").text
         for needle in (
             'data-browse-mode="who"',

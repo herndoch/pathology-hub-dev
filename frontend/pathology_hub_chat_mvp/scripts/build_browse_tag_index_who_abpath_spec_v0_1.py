@@ -115,16 +115,23 @@ NON_DIAGNOSIS_ITEM_RE = re.compile(
     r"(?i)^(?:"
     r".*\bnormal anatomy\b.*|.+\bnormal histology\b.*|.+\bnormal cytology\b.*|"
     r"normal anatomy.*|normal histology.*|normal cytology.*|normal microanatomy.*|"
-    r"normal (?:bladder|salivary|thyroid|breast|lung|liver).*"
-    r"|normal development.*|normal / negative.*"
+    r"normal (?:bladder|salivary|thyroid|breast|lung|liver|elements?|voided|upper urinary|hemostasis).*"
+    r"|normal,? nilm$|normal development.*|normal / negative.*|normal hematopoiesis$"
     r"|physiologic changes.*"
     r"|diagnostic methodologies|basic methods|basic methodology|pitfalls|"
     r"general consideration|laboratory (?:management|inspections|diagnostics)|"
-    r"rules and regulations|quality assurance.*|qa/qc.*|"
+    r"rules and regulations|quality assurance.*|qa/qc.*|quality statistics|"
     r"coding and billing|.*\bbilling\b.*|informatics|safety|accreditation|"
-    r"regulations and safety|compliance programs.*"
-    r"|.*\b(?:techniques?|methods?|methodology|processing|fixation|instrument(?:ation)?s?|"
-    r"screening)\b.*"
+    r"regulations and safety|compliance programs.*|"
+    r"cytologic-histologic correlation.*|five-year retrospective review.*|"
+    r"record and slide retention|reporting rates|rescreening.*|workload limits|"
+    r"test development and validation|storage / preservation|"
+    r".*\bancillary (?:studies|testing)\b.*|ihc and flow cytometry|"
+    r"molecular studies\b.*|constitutional fish|neoplastic fish|"
+    r"development of reference ranges.*|loss of heterozygosity studies|"
+    r"vascular injection studies|blood stain pattern interpretation|"
+    r".*\b(?:techniques?|methods?|methodology|processing|fixation|instrument(?:ation)?s?|"
+    r"screening|sampling)\b.*"
     r"|.*\btesting\b$|.*\bmonitoring\b$"
     r"|sample collection and processing|preparatory techniques.*"
     r"|wbc analysis|rbc analysis|platelet analysis|"
@@ -143,7 +150,41 @@ NON_DIAGNOSIS_ITEM_RE = re.compile(
     r"other molecular assays.*|other cytogenetic techniques.*"
     r"|adrenal cortical hormones|endocrine tests|"
     r"coagulation and fibrinolysis$|"
-    r"advanced erythrocyte abnormalities|therapy related effects"
+    r"advanced erythrocyte abnormalities|therapy related effects|"
+    r"basal plate|chorionic villi|fetal vessels|maternal intervillous space|"
+    r"membranes$|umbilical cord$|other elements\b.*|benign thyroid$|benign parathyroid$|"
+    r"infectious$|malignant$|"
+    r"fna performance-related safety measures|specimen adequacy$|"
+    r"administration and management$|slide preparation$|"
+    r"specimen requisition.*|unsatisfactory$|contaminants.*"
+    r")$",
+)
+
+# Content-spec bucket headers that are curriculum folders, not diagnoses.
+# Require plural folders (tumors/conditions/…) so "Benign Mixed Tumor" stays.
+BUCKET_HEADER_ITEM_RE = re.compile(
+    r"(?i)^(?:"
+    r"(?:other )?(?:benign|malignant|premalignant|borderline|congenital|developmental|"
+    r"familial|inflammatory|infectious|physiologic|metabolic|miscellaneous|"
+    r"hereditary)(?:[,/ ].*)?(?:tumors|tumours|lesions|conditions|disorders|"
+    r"neoplasms|changes|processes)$|"
+    r"congenital,\s*developmental,\s*and\s*familial\s*conditions|"
+    r"premalignant,\s*malignant,\s*and\s*borderline|"
+    r"physiologic changes,\s*metabolic conditions.*"
+    r"|benign soft tissue tumors of intermediate malignancy of uncertain type|"
+    r"benign fibrous/myofibroblastic lesions|"
+    r"benign fibrohistiocytic tumors|"
+    r"benign osseous soft tissue tumors|"
+    r"benign soft tissue tumors of uncertain type|"
+    r"benign tumors of the synovium|"
+    r"benign cartilaginous tumors|"
+    r"benign bone cysts|"
+    r"malignant cartilaginous soft tissue tumors|"
+    r"malignant osseous soft tissue tumors|"
+    r"other (?:uncommon )?carcinomas|"
+    r"other (?:benign|malignant|chondroid|metabolic|mds|mpn|myeloproliferative|"
+    r"histiocytic|cutaneous|mature|erythrocyte|body fluids|iatrogenic|"
+    r"large b-cell|b lymphoblastic|aml|infectious|hemoglobinopath).*"
     r")$",
 )
 
@@ -189,19 +230,70 @@ GENERIC_HEADER_ITEM_RE = re.compile(
 
 NON_DIAGNOSIS_PATH_RE = re.compile(
     r"(?i)("
-    r"normal anatomy, histology, hematopoiesis|"
+    r"normal anatomy|normal histology|hematopoiesis and hemostasis|"
     r"general hematology testing and hematology instruments|"
     r"staining methods|"
     r"hematology & hematopathology-specific administration|"
-    r"laboratory management|"
-    r"cytopathology billing|"
-    r"autopsy procedures"
+    r"laboratory management|administration & management|"
+    r"cytopathology billing|cytopathology qc/?qa|"
+    r"cytopathology laboratory administration|"
+    r"autopsy procedures|special anatomic procedures|"
+    r"ancillary testing|indications\s*/\s*techniques|indications and sampling|"
+    r"preparation techniques|specimen (?:collection|processing|adequacy)|"
+    r"screening and review methods|screening, indications|"
+    r"technical aspects and test utilization|"
+    r"molecular analysis|cytogenetics|"
+    r"fluid specimens|other techniques|"
+    r"administration & management|selected topics/management"
     r")",
 )
+
+# Canonical subcategory ids/labels so WHO "Bone" and ABPath "Bones" collapse.
+SUBCATEGORY_ALIASES: dict[str, tuple[str, str]] = {
+    "bone": ("bone", "Bone"),
+    "bones": ("bone", "Bone"),
+    "soft tissue": ("soft_tissue", "Soft Tissue"),
+    "soft_tissue": ("soft_tissue", "Soft Tissue"),
+    "soft tissueadipocytic": ("soft_tissue", "Soft Tissue"),
+    "soft_tissueadipocytic": ("soft_tissue", "Soft Tissue"),
+    "round cell sarcomas": ("round_cell_sarcomas", "Round Cell Sarcomas"),
+    "round_cell_sarcomas": ("round_cell_sarcomas", "Round Cell Sarcomas"),
+    "cyst and neoplasms": ("cysts_and_neoplasms", "Cysts and Neoplasms"),
+    "cysts and neoplasms": ("cysts_and_neoplasms", "Cysts and Neoplasms"),
+    "malformation": ("malformations", "Malformations"),
+    "malformations": ("malformations", "Malformations"),
+    "joint": ("joints", "Joints"),
+    "joints": ("joints", "Joints"),
+}
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def normalize_subcategory(sub_label: str) -> tuple[str, str]:
+    """Return canonical (sub_id, sub_label) for Browse grouping."""
+    raw = normalize_whitespace((sub_label or "").replace("_", " "))
+    raw = re.sub(r"^[A-Za-z0-9]+\.\s+", "", raw).strip() or "General"
+    # Repair glued WHO segments: Soft TissueAdipocytic → Soft Tissue
+    raw = re.sub(r"(?i)\bSoft TissueAdipocytic\b", "Soft Tissue", raw)
+    raw = re.sub(r"(?i)\bSoft_TissueAdipocytic\b", "Soft Tissue", raw)
+    key = re.sub(r"[^a-z0-9]+", " ", raw.lower()).strip()
+    if key in SUBCATEGORY_ALIASES:
+        return SUBCATEGORY_ALIASES[key]
+    # Singular/plural near-match against known aliases
+    singular = key[:-1] if key.endswith("s") and not key.endswith("ss") else key
+    for alias_key, canon in SUBCATEGORY_ALIASES.items():
+        a_sing = alias_key[:-1] if alias_key.endswith("s") and not alias_key.endswith("ss") else alias_key
+        if singular == a_sing or key == alias_key:
+            return canon
+    return slugify(raw) or "general", raw
+
+
+def repair_who_tag(tag: str) -> str:
+    """Fix known malformed WHO tag segments before nav ingest."""
+    tag = tag.replace("BST::Soft_TissueAdipocytic::", "BST::Soft_Tissue::Adipocytic::")
+    return tag
 
 
 def looks_like_diagnosis(item: str) -> bool:
@@ -211,6 +303,8 @@ def looks_like_diagnosis(item: str) -> bool:
         return False
     if NON_DIAGNOSIS_ITEM_RE.match(text):
         return False
+    if BUCKET_HEADER_ITEM_RE.match(text):
+        return False
     if GENERIC_HEADER_ITEM_RE.match(text):
         return False
     if CELL_TYPE_ITEM_RE.match(text) and not DIAGNOSIS_HINT_RE.search(text):
@@ -219,6 +313,10 @@ def looks_like_diagnosis(item: str) -> bool:
     if text.startswith("(e.g.") or text.startswith("(eg.") or text.startswith("("):
         return False
     return True
+
+
+def is_methodology_path(path: str) -> bool:
+    return bool(NON_DIAGNOSIS_PATH_RE.search(path or ""))
 
 
 def is_diagnosis_content_spec_row(row: dict[str, Any]) -> bool:
@@ -234,9 +332,12 @@ def is_diagnosis_content_spec_row(row: dict[str, Any]) -> bool:
             row.get("category") or "",
         ]
     )
-    # Pure methodology / normal-hematopoiesis sections: keep only if the leaf
-    # itself clearly names a diagnosis (parser sometimes nests diseases oddly).
-    if NON_DIAGNOSIS_PATH_RE.search(path) and not DIAGNOSIS_HINT_RE.search(item):
+    # Methodology / QA / anatomy sections: keep only clear named diagnoses
+    # (parser sometimes nests real disease names under Techniques).
+    if is_methodology_path(path) and not DIAGNOSIS_HINT_RE.search(item):
+        return False
+    # Bucket headers never belong in nav even under disease sections.
+    if BUCKET_HEADER_ITEM_RE.match(item):
         return False
     return True
 
@@ -313,15 +414,30 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
     organ = (row.get("organ_system") or "").strip()
     category = (row.get("category") or "").strip()
     subsection = (row.get("subsection") or "").strip()
-    sub_label = organ or category or subsection or "General"
-    # Strip leading "A. " / "1. " from subcategory display
-    sub_label = re.sub(r"^[A-Za-z0-9]+\.\s+", "", sub_label).strip() or "General"
+    path = " / ".join(
+        [
+            row.get("major_section") or "",
+            organ,
+            subsection,
+            category,
+        ]
+    )
+    # Prefer organ-system as Browse subcategory. If the only hierarchy is a
+    # methodology/QA folder, re-home diagnosis leaves under General so they
+    # do not create Ancillary/Techniques nav buckets.
+    if organ:
+        sub_label = organ
+    elif is_methodology_path(path):
+        sub_label = "General"
+    else:
+        sub_label = category or subsection or "General"
+    sub_id, sub_label = normalize_subcategory(sub_label)
     label = item
     tag = "::".join(
         [
             "ABPathSpec",
             root_id,
-            slugify(sub_label) or "general",
+            sub_id,
             slugify(label) or "item",
         ]
     )
@@ -331,7 +447,7 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
         "query": label,
         "provenance": "abpath",
         "root_id": root_id,
-        "sub_id": slugify(sub_label) or "general",
+        "sub_id": sub_id,
         "sub_label": sub_label,
         "abpath_level": row.get("abpath_level"),
         "abpath_spec_id": row.get("abpath_spec_id"),
@@ -348,6 +464,13 @@ def _who_leaf_from_parts(
     sub_id: str,
     sub_label: str,
 ) -> dict[str, Any]:
+    tag = repair_who_tag(tag)
+    sub_id, sub_label = normalize_subcategory(sub_label)
+    # If tag path implies Soft_Tissue after repair, keep subcategory Soft Tissue.
+    if tag.startswith("BST::Soft_Tissue::"):
+        sub_id, sub_label = "soft_tissue", "Soft Tissue"
+    elif tag.startswith("BST::Bone::"):
+        sub_id, sub_label = "bone", "Bone"
     return {
         "tag": tag,
         "label": label,
@@ -370,9 +493,8 @@ def harvest_who_from_browse_index(index: dict[str, Any]) -> list[dict[str, Any]]
                     continue
                 if tag.startswith("ABPathSpec::"):
                     continue
-                # Accept prior who/both; also accept who-shaped tags if provenance missing.
                 prov = str(leaf.get("provenance") or "").lower()
-                if prov in {"abpath"}:
+                if prov in {"abpath", "pathout"}:
                     continue
                 if prov not in {"who", "both", ""}:
                     continue
@@ -401,6 +523,7 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
                 for raw_tag in entity.get("tags") or []:
                     if not isinstance(raw_tag, str) or "::" not in raw_tag:
                         continue
+                    raw_tag = repair_who_tag(raw_tag)
                     segments = raw_tag.split("::")
                     root_seg = segments[0]
                     if root_seg.startswith("Cyto_"):
@@ -410,13 +533,14 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
                         root_id = re.sub(r"[^a-z0-9]+", "", root_seg.lower()) or slugify(root_seg)
                         sub_label = segments[1] if len(segments) > 2 else "General"
                     label = segments[-1]
+                    sub_id, sub_label = normalize_subcategory(sub_label)
                     leaves.append(
                         _who_leaf_from_parts(
                             tag=raw_tag,
                             label=label,
                             query=label.replace("_", " "),
                             root_id=root_id,
-                            sub_id=slugify(sub_label) or "general",
+                            sub_id=sub_id,
                             sub_label=sub_label,
                         )
                     )
@@ -483,7 +607,8 @@ def pathout_root_and_sub(tag: str) -> tuple[Optional[str], str, str]:
         return None, "", ""
     head = parts[0]
     if head.startswith("Cyto_"):
-        return "cyto", slugify(head) or "cyto", head
+        sub_id, sub_label = normalize_subcategory(head)
+        return "cyto", sub_id, sub_label
     if head.lower() == "soft_tissue":
         return "bst", "soft_tissue", "Soft Tissue"
     if head.upper() == "HEME":
@@ -492,8 +617,8 @@ def pathout_root_and_sub(tag: str) -> tuple[Optional[str], str, str]:
         root_id = PATHOUT_ROOT_MAP.get(re.sub(r"[^a-z0-9]+", "_", head.lower()).strip("_"))
     if not root_id:
         return None, "", ""
-    sub_label = parts[1].replace("_", " ")
-    return root_id, slugify(sub_label) or "general", sub_label
+    sub_id, sub_label = normalize_subcategory(parts[1].replace("_", " "))
+    return root_id, sub_id, sub_label
 
 
 def is_diagnosis_pathout_tag(tag: str) -> bool:
