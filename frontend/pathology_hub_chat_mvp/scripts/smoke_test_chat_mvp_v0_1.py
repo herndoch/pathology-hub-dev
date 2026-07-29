@@ -164,6 +164,11 @@ def smoke_offline() -> None:
                         f"{root.get('id')}: {seen[k]!r} vs {sub.get('label')!r}",
                     )
                 seen[k] = sub.get("label")
+        # Known WHO source typo (doubled letter) must be self-healed.
+        for root in data.get("roots") or []:
+            for sub in root.get("subcategories") or []:
+                if re.match(r"(?i)^v+agina$", str(sub.get("label") or "")) and sub.get("label") != "Vagina":
+                    _fail("VVagina typo not repaired", f"{root.get('id')}:{sub.get('label')}")
         # Heme must always read as Hematolymphoid, never the old label.
         heme_root = next((r for r in data.get("roots") or [] if r.get("id") == "heme"), None)
         if not heme_root or heme_root.get("label") != "Hematolymphoid":

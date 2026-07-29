@@ -273,6 +273,14 @@ SUBCATEGORY_ALIASES: dict[str, tuple[str, str]] = {
     "other": ("general", "General"),
     "others": ("general", "General"),
     "miscellaneous": ("general", "General"),
+    # WHO's narrow per-site tag vs ABPath's broader content-spec section
+    # heading for the same anatomic scope — verified by inspecting leaf tags.
+    "gtd": ("gestational_trophoblastic_disease", "Gestational Trophoblastic Disease"),
+    "cervix": ("uterine_cervix", "Uterine Cervix"),
+    "fallopian tube": ("fallopian_tubes_and_broad_ligaments", "Fallopian Tubes and Broad Ligaments"),
+    "ear": ("ear_and_temporal_bone", "Ear and Temporal Bone"),
+    "nasopharynx": ("nose_paranasal_sinuses_and_nasopharynx", "Nose, Paranasal Sinuses, and Nasopharynx"),
+    "oropharynx": ("jaws_oral_cavity_and_oropharynx", "Jaws, Oral Cavity, and Oropharynx"),
 }
 
 # Acronyms to re-uppercase after title-casing all-caps ABPath section headers
@@ -352,6 +360,11 @@ def normalize_subcategory(sub_label: str) -> tuple[str, str]:
     # Repair glued WHO segments: Soft TissueAdipocytic → Soft Tissue
     raw = re.sub(r"(?i)\bSoft TissueAdipocytic\b", "Soft Tissue", raw)
     raw = re.sub(r"(?i)\bSoft_TissueAdipocytic\b", "Soft Tissue", raw)
+    # Known WHO source-data typo (doubled leading letter): VVagina -> Vagina.
+    # Fixed here (label-level) rather than only in repair_who_tag(tag=...) so
+    # it self-heals even when a stale who_nav_leaves_snapshot_v0_1.json still
+    # carries the old sub_label text.
+    raw = re.sub(r"(?i)^V+(agina)$", r"V\1", raw)
     # Strip OCR/PDF placeholder glyphs rendered as trailing "XXX".
     raw = re.sub(r"(?i)\s+x{2,}\s*$", "", raw).strip() or raw
     # Cosmetic: "The Adrenal Glands" -> "Adrenal Glands" — the leading
@@ -375,6 +388,7 @@ def normalize_subcategory(sub_label: str) -> tuple[str, str]:
 def repair_who_tag(tag: str) -> str:
     """Fix known malformed WHO tag segments before nav ingest."""
     tag = tag.replace("BST::Soft_TissueAdipocytic::", "BST::Soft_Tissue::Adipocytic::")
+    tag = tag.replace("GYN::VVagina::", "GYN::Vagina::")
     return tag
 
 

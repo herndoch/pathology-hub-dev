@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_4",
-  "generated_at": "2026-07-29T22:22:20.099970+00:00",
+  "generated_at": "2026-07-29T22:51:00.564698+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -21459,161 +21459,17 @@
           ]
         },
         {
-          "id": "cervix",
-          "label": "Cervix",
-          "leaf_count": 24,
+          "id": "fallopian_tubes_and_broad_ligaments",
+          "label": "Fallopian Tubes and Broad Ligaments",
+          "leaf_count": 17,
           "leaves": [
             {
-              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-              "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
+              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::adenomatoid_tumor",
+              "label": "Adenomatoid tumor",
+              "provenance": "both",
+              "query": "Adenomatoid tumor",
+              "abpath_level": "AR"
             },
-            {
-              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-              "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-              "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-              "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-              "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
-              "label": "Adenomyoma_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenomyoma of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
-              "label": "Adenosarcoma_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenosarcoma of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-              "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
-              "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Arias Stella Reaction of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
-              "label": "Atrophy_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Atrophy of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-              "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-              "provenance": "who",
-              "query": "Carcinoma of the Uterine Cervix Unclassifiable"
-            },
-            {
-              "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
-              "label": "Carcinosarcoma_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Carcinosarcoma of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
-              "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
-              "provenance": "who",
-              "query": "Diffuse Laminar Endocervical Hyperplasia"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
-              "label": "Ectopic_Prostate_Tissue",
-              "provenance": "who",
-              "query": "Ectopic Prostate Tissue"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
-              "label": "Endocervical_Polyp",
-              "provenance": "who",
-              "query": "Endocervical Polyp"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
-              "label": "Endocervicosis_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Endocervicosis of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
-              "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Germ Cell Tumors of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
-              "label": "Lobular_Endocervical_Glandular_Hyperplasia",
-              "provenance": "who",
-              "query": "Lobular Endocervical Glandular Hyperplasia"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
-              "label": "Mesonephric_Remnants_and_Hyperplasia",
-              "provenance": "who",
-              "query": "Mesonephric Remnants and Hyperplasia"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
-              "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Mullerian Papilloma of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
-              "label": "Nabothian_Cyst",
-              "provenance": "who",
-              "query": "Nabothian Cyst"
-            },
-            {
-              "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-              "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-              "provenance": "who",
-              "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
-              "label": "Tuboendometrioid_Metaplasia",
-              "provenance": "who",
-              "query": "Tuboendometrioid Metaplasia"
-            },
-            {
-              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
-              "label": "Tunnel_Clusters",
-              "provenance": "who",
-              "query": "Tunnel Clusters"
-            }
-          ]
-        },
-        {
-          "id": "fallopian_tube",
-          "label": "Fallopian Tube",
-          "leaf_count": 12,
-          "leaves": [
             {
               "tag": "GYN::Fallopian_Tube::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Fallopian_Tube",
               "label": "Adenosarcoma_of_the_Fallopian_Tube",
@@ -21627,10 +21483,24 @@
               "query": "Carcinosarcoma of the Fallopian Tube"
             },
             {
+              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::ectopic_pregnancy",
+              "label": "Ectopic pregnancy",
+              "provenance": "abpath",
+              "query": "Ectopic pregnancy",
+              "abpath_level": "C"
+            },
+            {
               "tag": "GYN::Fallopian_Tube::Endometrioid_Carcinoma_of_the_Fallopian_Tube",
               "label": "Endometrioid_Carcinoma_of_the_Fallopian_Tube",
               "provenance": "who",
               "query": "Endometrioid Carcinoma of the Fallopian Tube"
+            },
+            {
+              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::high_grade_serous_carcinoma_and_precursor",
+              "label": "High-grade serous carcinoma and precursor",
+              "provenance": "abpath",
+              "query": "High-grade serous carcinoma and precursor",
+              "abpath_level": "AR"
             },
             {
               "tag": "GYN::Fallopian_Tube::Tumor_Like::Metaplastic_Papillary_Lesion",
@@ -21655,6 +21525,13 @@
               "label": "Placental_Site_Nodule_Occurring_in_the_Fallopian_Tube",
               "provenance": "who",
               "query": "Placental Site Nodule Occurring in the Fallopian Tube"
+            },
+            {
+              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::salpingitis_isthmica_nodosa",
+              "label": "Salpingitis isthmica nodosa",
+              "provenance": "both",
+              "query": "Salpingitis isthmica nodosa",
+              "abpath_level": "C"
             },
             {
               "tag": "GYN::Fallopian_Tube::Benign_Serous::Serous_Adenofibroma_and_Papilloma_of_the_Fallopian_Tube",
@@ -21685,41 +21562,6 @@
               "label": "Tubo_ovarian_Abscess",
               "provenance": "who",
               "query": "Tubo ovarian Abscess"
-            }
-          ]
-        },
-        {
-          "id": "fallopian_tubes_and_broad_ligaments",
-          "label": "Fallopian Tubes and Broad Ligaments",
-          "leaf_count": 5,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::adenomatoid_tumor",
-              "label": "Adenomatoid tumor",
-              "provenance": "both",
-              "query": "Adenomatoid tumor",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::ectopic_pregnancy",
-              "label": "Ectopic pregnancy",
-              "provenance": "abpath",
-              "query": "Ectopic pregnancy",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::high_grade_serous_carcinoma_and_precursor",
-              "label": "High-grade serous carcinoma and precursor",
-              "provenance": "abpath",
-              "query": "High-grade serous carcinoma and precursor",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::salpingitis_isthmica_nodosa",
-              "label": "Salpingitis isthmica nodosa",
-              "provenance": "both",
-              "query": "Salpingitis isthmica nodosa",
-              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::gyn::fallopian_tubes_and_broad_ligaments::walthard_cell_rests",
@@ -21748,55 +21590,6 @@
               "provenance": "abpath",
               "query": "Chorioamnionitis",
               "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "gtd",
-          "label": "GTD",
-          "leaf_count": 7,
-          "leaves": [
-            {
-              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Abnormal_non_molar_Villous_Lesions",
-              "label": "Abnormal_non_molar_Villous_Lesions",
-              "provenance": "who",
-              "query": "Abnormal non molar Villous Lesions"
-            },
-            {
-              "tag": "GYN::GTD::Tumor_Like::Molar::Complete_Hydatidiform_Mole",
-              "label": "Complete_Hydatidiform_Mole",
-              "provenance": "who",
-              "query": "Complete Hydatidiform Mole"
-            },
-            {
-              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Exaggerated_Placental_Site_Reaction",
-              "label": "Exaggerated_Placental_Site_Reaction",
-              "provenance": "who",
-              "query": "Exaggerated Placental Site Reaction"
-            },
-            {
-              "tag": "GYN::GTD::Tumor_Like::Molar::Invasive_and_Metastatic_Hydatidiform_Moles",
-              "label": "Invasive_and_Metastatic_Hydatidiform_Moles",
-              "provenance": "who",
-              "query": "Invasive and Metastatic Hydatidiform Moles"
-            },
-            {
-              "tag": "GYN::GTD::GTN::Mixed_Trophoblastic_Tumor",
-              "label": "Mixed_Trophoblastic_Tumor",
-              "provenance": "who",
-              "query": "Mixed Trophoblastic Tumor"
-            },
-            {
-              "tag": "GYN::GTD::Tumor_Like::Molar::Partial_Hydatidiform_Mole",
-              "label": "Partial_Hydatidiform_Mole",
-              "provenance": "who",
-              "query": "Partial Hydatidiform Mole"
-            },
-            {
-              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Placental_Site_Nodule_and_Plaque",
-              "label": "Placental_Site_Nodule_and_Plaque",
-              "provenance": "who",
-              "query": "Placental Site Nodule and Plaque"
             }
           ]
         },
@@ -21834,14 +21627,26 @@
         {
           "id": "gestational_trophoblastic_disease",
           "label": "Gestational Trophoblastic Disease",
-          "leaf_count": 5,
+          "leaf_count": 12,
           "leaves": [
+            {
+              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Abnormal_non_molar_Villous_Lesions",
+              "label": "Abnormal_non_molar_Villous_Lesions",
+              "provenance": "who",
+              "query": "Abnormal non molar Villous Lesions"
+            },
             {
               "tag": "ABPathSpec::gyn::gestational_trophoblastic_disease::choriocarcinoma",
               "label": "Choriocarcinoma",
               "provenance": "abpath",
               "query": "Choriocarcinoma",
               "abpath_level": "C"
+            },
+            {
+              "tag": "GYN::GTD::Tumor_Like::Molar::Complete_Hydatidiform_Mole",
+              "label": "Complete_Hydatidiform_Mole",
+              "provenance": "who",
+              "query": "Complete Hydatidiform Mole"
             },
             {
               "tag": "ABPathSpec::gyn::gestational_trophoblastic_disease::epithelioid_trophoblastic_tumor",
@@ -21858,6 +21663,12 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Exaggerated_Placental_Site_Reaction",
+              "label": "Exaggerated_Placental_Site_Reaction",
+              "provenance": "who",
+              "query": "Exaggerated Placental Site Reaction"
+            },
+            {
               "tag": "ABPathSpec::gyn::gestational_trophoblastic_disease::hydatidiform_mole",
               "label": "Hydatidiform mole",
               "provenance": "abpath",
@@ -21865,11 +21676,35 @@
               "abpath_level": "C"
             },
             {
+              "tag": "GYN::GTD::Tumor_Like::Molar::Invasive_and_Metastatic_Hydatidiform_Moles",
+              "label": "Invasive_and_Metastatic_Hydatidiform_Moles",
+              "provenance": "who",
+              "query": "Invasive and Metastatic Hydatidiform Moles"
+            },
+            {
+              "tag": "GYN::GTD::GTN::Mixed_Trophoblastic_Tumor",
+              "label": "Mixed_Trophoblastic_Tumor",
+              "provenance": "who",
+              "query": "Mixed Trophoblastic Tumor"
+            },
+            {
+              "tag": "GYN::GTD::Tumor_Like::Molar::Partial_Hydatidiform_Mole",
+              "label": "Partial_Hydatidiform_Mole",
+              "provenance": "who",
+              "query": "Partial Hydatidiform Mole"
+            },
+            {
               "tag": "ABPathSpec::gyn::gestational_trophoblastic_disease::placental_site_trophoblastic_tumor",
               "label": "Placental site trophoblastic tumor",
               "provenance": "both",
               "query": "Placental site trophoblastic tumor",
               "abpath_level": "F"
+            },
+            {
+              "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Placental_Site_Nodule_and_Plaque",
+              "label": "Placental_Site_Nodule_and_Plaque",
+              "provenance": "who",
+              "query": "Placental Site Nodule and Plaque"
             }
           ]
         },
@@ -22945,7 +22780,7 @@
         {
           "id": "uterine_cervix",
           "label": "Uterine Cervix",
-          "leaf_count": 12,
+          "leaf_count": 36,
           "leaves": [
             {
               "tag": "ABPathSpec::gyn::uterine_cervix::adenocarcinoma_in_situ",
@@ -22953,6 +22788,30 @@
               "provenance": "abpath",
               "query": "Adenocarcinoma in situ",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+              "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+              "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+              "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+              "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
             },
             {
               "tag": "ABPathSpec::gyn::uterine_cervix::adenoid_basal_carcinoma",
@@ -22969,11 +22828,95 @@
               "abpath_level": "F"
             },
             {
+              "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+              "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
+              "label": "Adenomyoma_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenomyoma of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
+              "label": "Adenosarcoma_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenosarcoma of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+              "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
+              "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Arias Stella Reaction of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
+              "label": "Atrophy_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Atrophy of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+              "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+              "provenance": "who",
+              "query": "Carcinoma of the Uterine Cervix Unclassifiable"
+            },
+            {
+              "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
+              "label": "Carcinosarcoma_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Carcinosarcoma of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
+              "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
+              "provenance": "who",
+              "query": "Diffuse Laminar Endocervical Hyperplasia"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
+              "label": "Ectopic_Prostate_Tissue",
+              "provenance": "who",
+              "query": "Ectopic Prostate Tissue"
+            },
+            {
               "tag": "ABPathSpec::gyn::uterine_cervix::endocervical_adenocarcinoma",
               "label": "Endocervical adenocarcinoma",
               "provenance": "abpath",
               "query": "Endocervical adenocarcinoma",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
+              "label": "Endocervical_Polyp",
+              "provenance": "who",
+              "query": "Endocervical Polyp"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
+              "label": "Endocervicosis_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Endocervicosis of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
+              "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Germ Cell Tumors of the Uterine Cervix"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
+              "label": "Lobular_Endocervical_Glandular_Hyperplasia",
+              "provenance": "who",
+              "query": "Lobular Endocervical Glandular Hyperplasia"
             },
             {
               "tag": "ABPathSpec::gyn::uterine_cervix::mesenchymal_tumors_of_the_cervix",
@@ -22997,6 +22940,12 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
+              "label": "Mesonephric_Remnants_and_Hyperplasia",
+              "provenance": "who",
+              "query": "Mesonephric Remnants and Hyperplasia"
+            },
+            {
               "tag": "ABPathSpec::gyn::uterine_cervix::microglandular_hyperplasia",
               "label": "Microglandular hyperplasia",
               "provenance": "both",
@@ -23004,11 +22953,23 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
+              "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Mullerian Papilloma of the Uterine Cervix"
+            },
+            {
               "tag": "ABPathSpec::gyn::uterine_cervix::nabothian_cysts_and_tunnel_clusters",
               "label": "Nabothian cysts and tunnel clusters",
               "provenance": "abpath",
               "query": "Nabothian cysts and tunnel clusters",
               "abpath_level": "C"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
+              "label": "Nabothian_Cyst",
+              "provenance": "who",
+              "query": "Nabothian Cyst"
             },
             {
               "tag": "ABPathSpec::gyn::uterine_cervix::squamous_cell_carcinoma",
@@ -23025,11 +22986,29 @@
               "abpath_level": "C"
             },
             {
+              "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+              "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+              "provenance": "who",
+              "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
+            },
+            {
               "tag": "ABPathSpec::gyn::uterine_cervix::tubal_metaplasia",
               "label": "Tubal metaplasia",
               "provenance": "abpath",
               "query": "Tubal metaplasia",
               "abpath_level": "C"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
+              "label": "Tuboendometrioid_Metaplasia",
+              "provenance": "who",
+              "query": "Tuboendometrioid Metaplasia"
+            },
+            {
+              "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
+              "label": "Tunnel_Clusters",
+              "provenance": "who",
+              "query": "Tunnel Clusters"
             }
           ]
         },
@@ -23321,22 +23300,9 @@
           ]
         },
         {
-          "id": "vvagina",
-          "label": "VVagina",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "GYN::VVagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-              "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-              "provenance": "who",
-              "query": "Mucinous Carcinoma Gastric Type of the Vagina"
-            }
-          ]
-        },
-        {
           "id": "vagina",
           "label": "Vagina",
-          "leaf_count": 23,
+          "leaf_count": 24,
           "leaves": [
             {
               "tag": "GYN::Vagina::Glandular_Tumors::Adenocarcinoma_HPV_associated_of_the_Vagina",
@@ -23422,6 +23388,12 @@
               "label": "Mixed_Tumor_of_the_Vagina",
               "provenance": "who",
               "query": "Mixed Tumor of the Vagina"
+            },
+            {
+              "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+              "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+              "provenance": "who",
+              "query": "Mucinous Carcinoma Gastric Type of the Vagina"
             },
             {
               "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Intestinal_Type_of_the_Vagina",
@@ -23757,82 +23729,9 @@
           ]
         },
         {
-          "id": "ear",
-          "label": "Ear",
-          "leaf_count": 11,
-          "leaves": [
-            {
-              "tag": "HN::Ear::Chondrodermatitis_Nodularis_Chronica_Helicis",
-              "label": "Chondrodermatitis_Nodularis_Chronica_Helicis",
-              "provenance": "who",
-              "query": "Chondrodermatitis Nodularis Chronica Helicis"
-            },
-            {
-              "tag": "HN::Ear::Cystic_Chondromalacia",
-              "label": "Cystic_Chondromalacia",
-              "provenance": "who",
-              "query": "Cystic Chondromalacia"
-            },
-            {
-              "tag": "HN::Ear::Endolymphatic_Sac_Tumor",
-              "label": "Endolymphatic_Sac_Tumor",
-              "provenance": "who",
-              "query": "Endolymphatic Sac Tumor"
-            },
-            {
-              "tag": "HN::Ear::Exostosis_Osteoma_of_the_Ear",
-              "label": "Exostosis_Osteoma_of_the_Ear",
-              "provenance": "who",
-              "query": "Exostosis Osteoma of the Ear"
-            },
-            {
-              "tag": "HN::Ear::Middle_Ear_Adenocarcinoma",
-              "label": "Middle_Ear_Adenocarcinoma",
-              "provenance": "who",
-              "query": "Middle Ear Adenocarcinoma"
-            },
-            {
-              "tag": "HN::Ear::Middle_Ear_Neuroendocrine_Tumor",
-              "label": "Middle_Ear_Neuroendocrine_Tumor",
-              "provenance": "who",
-              "query": "Middle Ear Neuroendocrine Tumor"
-            },
-            {
-              "tag": "HN::Ear::Middle_Ear_Papilloma",
-              "label": "Middle_Ear_Papilloma",
-              "provenance": "who",
-              "query": "Middle Ear Papilloma"
-            },
-            {
-              "tag": "HN::Ear::Middle_Ear_Squamous_Cell_Carcinoma",
-              "label": "Middle_Ear_Squamous_Cell_Carcinoma",
-              "provenance": "who",
-              "query": "Middle Ear Squamous Cell Carcinoma"
-            },
-            {
-              "tag": "HN::Ear::Otosclerosis",
-              "label": "Otosclerosis",
-              "provenance": "who",
-              "query": "Otosclerosis"
-            },
-            {
-              "tag": "HN::Ear::Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
-              "label": "Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
-              "provenance": "who",
-              "query": "Squamous Cell Carcinoma of the External Auditory Canal"
-            },
-            {
-              "tag": "HN::Ear::Vestibular_Schwannoma",
-              "label": "Vestibular_Schwannoma",
-              "provenance": "who",
-              "query": "Vestibular Schwannoma"
-            }
-          ]
-        },
-        {
           "id": "ear_and_temporal_bone",
           "label": "Ear and Temporal Bone",
-          "leaf_count": 14,
+          "leaf_count": 25,
           "leaves": [
             {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::auricular_pseudocyst",
@@ -23870,6 +23769,18 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "HN::Ear::Chondrodermatitis_Nodularis_Chronica_Helicis",
+              "label": "Chondrodermatitis_Nodularis_Chronica_Helicis",
+              "provenance": "who",
+              "query": "Chondrodermatitis Nodularis Chronica Helicis"
+            },
+            {
+              "tag": "HN::Ear::Cystic_Chondromalacia",
+              "label": "Cystic_Chondromalacia",
+              "provenance": "who",
+              "query": "Cystic Chondromalacia"
+            },
+            {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::endolymphatic_sac_papillary_tumor",
               "label": "Endolymphatic sac papillary tumor",
               "provenance": "abpath",
@@ -23877,11 +23788,23 @@
               "abpath_level": "F"
             },
             {
+              "tag": "HN::Ear::Endolymphatic_Sac_Tumor",
+              "label": "Endolymphatic_Sac_Tumor",
+              "provenance": "who",
+              "query": "Endolymphatic Sac Tumor"
+            },
+            {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::epithelioid_hemangioma",
               "label": "Epithelioid hemangioma",
               "provenance": "both",
               "query": "Epithelioid hemangioma",
               "abpath_level": "F"
+            },
+            {
+              "tag": "HN::Ear::Exostosis_Osteoma_of_the_Ear",
+              "label": "Exostosis_Osteoma_of_the_Ear",
+              "provenance": "who",
+              "query": "Exostosis Osteoma of the Ear"
             },
             {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::keloid",
@@ -23905,11 +23828,41 @@
               "abpath_level": "F"
             },
             {
+              "tag": "HN::Ear::Middle_Ear_Adenocarcinoma",
+              "label": "Middle_Ear_Adenocarcinoma",
+              "provenance": "who",
+              "query": "Middle Ear Adenocarcinoma"
+            },
+            {
+              "tag": "HN::Ear::Middle_Ear_Neuroendocrine_Tumor",
+              "label": "Middle_Ear_Neuroendocrine_Tumor",
+              "provenance": "who",
+              "query": "Middle Ear Neuroendocrine Tumor"
+            },
+            {
+              "tag": "HN::Ear::Middle_Ear_Papilloma",
+              "label": "Middle_Ear_Papilloma",
+              "provenance": "who",
+              "query": "Middle Ear Papilloma"
+            },
+            {
+              "tag": "HN::Ear::Middle_Ear_Squamous_Cell_Carcinoma",
+              "label": "Middle_Ear_Squamous_Cell_Carcinoma",
+              "provenance": "who",
+              "query": "Middle Ear Squamous Cell Carcinoma"
+            },
+            {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::otic_aural_polyp",
               "label": "Otic (Aural) polyp",
               "provenance": "abpath",
               "query": "Otic (Aural) polyp",
               "abpath_level": "C"
+            },
+            {
+              "tag": "HN::Ear::Otosclerosis",
+              "label": "Otosclerosis",
+              "provenance": "who",
+              "query": "Otosclerosis"
             },
             {
               "tag": "ABPathSpec::hn::ear_and_temporal_bone::paraganglioma_jugulotypanic",
@@ -23931,6 +23884,18 @@
               "provenance": "both",
               "query": "Squamous cell carcinoma",
               "abpath_level": "C"
+            },
+            {
+              "tag": "HN::Ear::Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
+              "label": "Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
+              "provenance": "who",
+              "query": "Squamous Cell Carcinoma of the External Auditory Canal"
+            },
+            {
+              "tag": "HN::Ear::Vestibular_Schwannoma",
+              "label": "Vestibular_Schwannoma",
+              "provenance": "who",
+              "query": "Vestibular Schwannoma"
             }
           ]
         },
@@ -24225,7 +24190,7 @@
         {
           "id": "jaws_oral_cavity_and_oropharynx",
           "label": "Jaws, Oral Cavity, and Oropharynx",
-          "leaf_count": 12,
+          "leaf_count": 14,
           "leaves": [
             {
               "tag": "ABPathSpec::hn::jaws_oral_cavity_and_oropharynx::central_giant_cell_granuloma",
@@ -24247,6 +24212,12 @@
               "provenance": "both",
               "query": "Granular cell tumor",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
+              "label": "Hamartomatous_Polyps",
+              "provenance": "who",
+              "query": "Hamartomatous Polyps"
             },
             {
               "tag": "ABPathSpec::hn::jaws_oral_cavity_and_oropharynx::infections_of_the_jaws_oral_cavity",
@@ -24303,6 +24274,12 @@
               "provenance": "abpath",
               "query": "Squamous cell carcinoma, HPV-associated",
               "abpath_level": "C"
+            },
+            {
+              "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
+              "label": "Squamous_Cell_Carcinoma_HPV_independent",
+              "provenance": "who",
+              "query": "Squamous Cell Carcinoma HPV independent"
             },
             {
               "tag": "ABPathSpec::hn::jaws_oral_cavity_and_oropharynx::variants_of_squamous_cell_carcinoma",
@@ -24525,31 +24502,6 @@
           ]
         },
         {
-          "id": "nasopharynx",
-          "label": "Nasopharynx",
-          "leaf_count": 3,
-          "leaves": [
-            {
-              "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
-              "label": "Hairy_Polyp",
-              "provenance": "who",
-              "query": "Hairy Polyp"
-            },
-            {
-              "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-              "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-              "provenance": "who",
-              "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
-            },
-            {
-              "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
-              "label": "Salivary_Gland_Anlage_Tumor",
-              "provenance": "who",
-              "query": "Salivary Gland Anlage Tumor"
-            }
-          ]
-        },
-        {
           "id": "neck",
           "label": "Neck",
           "leaf_count": 6,
@@ -24614,7 +24566,7 @@
         {
           "id": "nose_paranasal_sinuses_and_nasopharynx",
           "label": "Nose, Paranasal Sinuses, and Nasopharynx",
-          "leaf_count": 15,
+          "leaf_count": 18,
           "leaves": [
             {
               "tag": "ABPathSpec::hn::nose_paranasal_sinuses_and_nasopharynx::adenocarcinoma",
@@ -24645,11 +24597,23 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
+              "label": "Hairy_Polyp",
+              "provenance": "who",
+              "query": "Hairy Polyp"
+            },
+            {
               "tag": "ABPathSpec::hn::nose_paranasal_sinuses_and_nasopharynx::lobular_capillary_hemangioma_pyogenic_granuloma",
               "label": "Lobular capillary hemangioma (pyogenic granuloma)",
               "provenance": "abpath",
               "query": "Lobular capillary hemangioma (pyogenic granuloma)",
               "abpath_level": "C"
+            },
+            {
+              "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+              "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+              "provenance": "who",
+              "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
             },
             {
               "tag": "ABPathSpec::hn::nose_paranasal_sinuses_and_nasopharynx::lymphoma_including_nk_t_cell_lymphoma",
@@ -24692,6 +24656,12 @@
               "provenance": "both",
               "query": "Respiratory epithelial adenomatoid hamartoma",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
+              "label": "Salivary_Gland_Anlage_Tumor",
+              "provenance": "who",
+              "query": "Salivary Gland Anlage Tumor"
             },
             {
               "tag": "ABPathSpec::hn::nose_paranasal_sinuses_and_nasopharynx::schneiderian_papilloma",
@@ -24938,25 +24908,6 @@
               "label": "Submucous_Fibrosis",
               "provenance": "who",
               "query": "Submucous Fibrosis"
-            }
-          ]
-        },
-        {
-          "id": "oropharynx",
-          "label": "Oropharynx",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
-              "label": "Hamartomatous_Polyps",
-              "provenance": "who",
-              "query": "Hamartomatous Polyps"
-            },
-            {
-              "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
-              "label": "Squamous_Cell_Carcinoma_HPV_independent",
-              "provenance": "who",
-              "query": "Squamous Cell Carcinoma HPV independent"
             }
           ]
         },
@@ -46702,165 +46653,8 @@
               ]
             },
             {
-              "id": "cervix",
-              "label": "Cervix",
-              "leaf_count": 25,
-              "leaves": [
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-                  "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
-                  "label": "Adenomyoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenomyoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
-                  "label": "Adenosarcoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenosarcoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-                  "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
-                  "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Arias Stella Reaction of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
-                  "label": "Atrophy_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Atrophy of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-                  "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-                  "provenance": "who",
-                  "query": "Carcinoma of the Uterine Cervix Unclassifiable"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
-                  "label": "Carcinosarcoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Carcinosarcoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
-                  "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Diffuse Laminar Endocervical Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
-                  "label": "Ectopic_Prostate_Tissue",
-                  "provenance": "who",
-                  "query": "Ectopic Prostate Tissue"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
-                  "label": "Endocervical_Polyp",
-                  "provenance": "who",
-                  "query": "Endocervical Polyp"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
-                  "label": "Endocervicosis_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Endocervicosis of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
-                  "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Germ Cell Tumors of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
-                  "label": "Lobular_Endocervical_Glandular_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Lobular Endocervical Glandular Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
-                  "label": "Mesonephric_Remnants_and_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Mesonephric Remnants and Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Microglandular_Hyperplasia",
-                  "label": "Microglandular_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Microglandular Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
-                  "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Mullerian Papilloma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
-                  "label": "Nabothian_Cyst",
-                  "provenance": "who",
-                  "query": "Nabothian Cyst"
-                },
-                {
-                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-                  "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
-                  "label": "Tuboendometrioid_Metaplasia",
-                  "provenance": "who",
-                  "query": "Tuboendometrioid Metaplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
-                  "label": "Tunnel_Clusters",
-                  "provenance": "who",
-                  "query": "Tunnel Clusters"
-                }
-              ]
-            },
-            {
-              "id": "fallopian_tube",
-              "label": "Fallopian Tube",
+              "id": "fallopian_tubes_and_broad_ligaments",
+              "label": "Fallopian Tubes and Broad Ligaments",
               "leaf_count": 13,
               "leaves": [
                 {
@@ -46944,8 +46738,39 @@
               ]
             },
             {
-              "id": "gtd",
-              "label": "GTD",
+              "id": "genetics",
+              "label": "Genetics",
+              "leaf_count": 4,
+              "leaves": [
+                {
+                  "tag": "GYN::GENETICS::Cowden_Syndrome",
+                  "label": "Cowden_Syndrome",
+                  "provenance": "who",
+                  "query": "Cowden Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "provenance": "who",
+                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
+                },
+                {
+                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
+                  "label": "Li_Fraumeni_Syndrome",
+                  "provenance": "who",
+                  "query": "Li Fraumeni Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
+                  "label": "Ovarian_Dysgenesis",
+                  "provenance": "who",
+                  "query": "Ovarian Dysgenesis"
+                }
+              ]
+            },
+            {
+              "id": "gestational_trophoblastic_disease",
+              "label": "Gestational Trophoblastic Disease",
               "leaf_count": 9,
               "leaves": [
                 {
@@ -47001,37 +46826,6 @@
                   "label": "Placental_Site_Trophoblastic_Tumor",
                   "provenance": "who",
                   "query": "Placental Site Trophoblastic Tumor"
-                }
-              ]
-            },
-            {
-              "id": "genetics",
-              "label": "Genetics",
-              "leaf_count": 4,
-              "leaves": [
-                {
-                  "tag": "GYN::GENETICS::Cowden_Syndrome",
-                  "label": "Cowden_Syndrome",
-                  "provenance": "who",
-                  "query": "Cowden Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "provenance": "who",
-                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
-                },
-                {
-                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
-                  "label": "Li_Fraumeni_Syndrome",
-                  "provenance": "who",
-                  "query": "Li Fraumeni Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
-                  "label": "Ovarian_Dysgenesis",
-                  "provenance": "who",
-                  "query": "Ovarian Dysgenesis"
                 }
               ]
             },
@@ -47847,6 +47641,163 @@
               ]
             },
             {
+              "id": "uterine_cervix",
+              "label": "Uterine Cervix",
+              "leaf_count": 25,
+              "leaves": [
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+                  "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
+                  "label": "Adenomyoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenomyoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
+                  "label": "Adenosarcoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenosarcoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+                  "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
+                  "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Arias Stella Reaction of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
+                  "label": "Atrophy_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Atrophy of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+                  "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+                  "provenance": "who",
+                  "query": "Carcinoma of the Uterine Cervix Unclassifiable"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
+                  "label": "Carcinosarcoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Carcinosarcoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
+                  "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Diffuse Laminar Endocervical Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
+                  "label": "Ectopic_Prostate_Tissue",
+                  "provenance": "who",
+                  "query": "Ectopic Prostate Tissue"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
+                  "label": "Endocervical_Polyp",
+                  "provenance": "who",
+                  "query": "Endocervical Polyp"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
+                  "label": "Endocervicosis_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Endocervicosis of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
+                  "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Germ Cell Tumors of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
+                  "label": "Lobular_Endocervical_Glandular_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Lobular Endocervical Glandular Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
+                  "label": "Mesonephric_Remnants_and_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Mesonephric Remnants and Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Microglandular_Hyperplasia",
+                  "label": "Microglandular_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Microglandular Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
+                  "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Mullerian Papilloma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
+                  "label": "Nabothian_Cyst",
+                  "provenance": "who",
+                  "query": "Nabothian Cyst"
+                },
+                {
+                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+                  "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
+                  "label": "Tuboendometrioid_Metaplasia",
+                  "provenance": "who",
+                  "query": "Tuboendometrioid Metaplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
+                  "label": "Tunnel_Clusters",
+                  "provenance": "who",
+                  "query": "Tunnel Clusters"
+                }
+              ]
+            },
+            {
               "id": "uterine_corpus",
               "label": "Uterine Corpus",
               "leaf_count": 25,
@@ -48004,22 +47955,9 @@
               ]
             },
             {
-              "id": "vvagina",
-              "label": "VVagina",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GYN::VVagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-                  "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-                  "provenance": "who",
-                  "query": "Mucinous Carcinoma Gastric Type of the Vagina"
-                }
-              ]
-            },
-            {
               "id": "vagina",
               "label": "Vagina",
-              "leaf_count": 20,
+              "leaf_count": 21,
               "leaves": [
                 {
                   "tag": "GYN::Vagina::Glandular_Tumors::Adenocarcinoma_HPV_associated_of_the_Vagina",
@@ -48098,6 +48036,12 @@
                   "label": "Mixed_Tumor_of_the_Vagina",
                   "provenance": "who",
                   "query": "Mixed Tumor of the Vagina"
+                },
+                {
+                  "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+                  "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+                  "provenance": "who",
+                  "query": "Mucinous Carcinoma Gastric Type of the Vagina"
                 },
                 {
                   "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Intestinal_Type_of_the_Vagina",
@@ -48388,8 +48332,8 @@
               ]
             },
             {
-              "id": "ear",
-              "label": "Ear",
+              "id": "ear_and_temporal_bone",
+              "label": "Ear and Temporal Bone",
               "leaf_count": 12,
               "leaves": [
                 {
@@ -48741,6 +48685,25 @@
               ]
             },
             {
+              "id": "jaws_oral_cavity_and_oropharynx",
+              "label": "Jaws, Oral Cavity, and Oropharynx",
+              "leaf_count": 2,
+              "leaves": [
+                {
+                  "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
+                  "label": "Hamartomatous_Polyps",
+                  "provenance": "who",
+                  "query": "Hamartomatous Polyps"
+                },
+                {
+                  "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
+                  "label": "Squamous_Cell_Carcinoma_HPV_independent",
+                  "provenance": "who",
+                  "query": "Squamous Cell Carcinoma HPV independent"
+                }
+              ]
+            },
+            {
               "id": "larynx_pharynx",
               "label": "Larynx Pharynx",
               "leaf_count": 6,
@@ -48887,31 +48850,6 @@
               ]
             },
             {
-              "id": "nasopharynx",
-              "label": "Nasopharynx",
-              "leaf_count": 3,
-              "leaves": [
-                {
-                  "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
-                  "label": "Hairy_Polyp",
-                  "provenance": "who",
-                  "query": "Hairy Polyp"
-                },
-                {
-                  "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-                  "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-                  "provenance": "who",
-                  "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
-                },
-                {
-                  "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
-                  "label": "Salivary_Gland_Anlage_Tumor",
-                  "provenance": "who",
-                  "query": "Salivary Gland Anlage Tumor"
-                }
-              ]
-            },
-            {
               "id": "neck",
               "label": "Neck",
               "leaf_count": 7,
@@ -48976,6 +48914,31 @@
                   "label": "Small_Cell_Neuroendocrine_Carcinoma",
                   "provenance": "who",
                   "query": "Small Cell Neuroendocrine Carcinoma"
+                }
+              ]
+            },
+            {
+              "id": "nose_paranasal_sinuses_and_nasopharynx",
+              "label": "Nose, Paranasal Sinuses, and Nasopharynx",
+              "leaf_count": 3,
+              "leaves": [
+                {
+                  "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
+                  "label": "Hairy_Polyp",
+                  "provenance": "who",
+                  "query": "Hairy Polyp"
+                },
+                {
+                  "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+                  "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+                  "provenance": "who",
+                  "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
+                },
+                {
+                  "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
+                  "label": "Salivary_Gland_Anlage_Tumor",
+                  "provenance": "who",
+                  "query": "Salivary Gland Anlage Tumor"
                 }
               ]
             },
@@ -49212,25 +49175,6 @@
                   "label": "Submucous_Fibrosis",
                   "provenance": "who",
                   "query": "Submucous Fibrosis"
-                }
-              ]
-            },
-            {
-              "id": "oropharynx",
-              "label": "Oropharynx",
-              "leaf_count": 2,
-              "leaves": [
-                {
-                  "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
-                  "label": "Hamartomatous_Polyps",
-                  "provenance": "who",
-                  "query": "Hamartomatous Polyps"
-                },
-                {
-                  "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
-                  "label": "Squamous_Cell_Carcinoma_HPV_independent",
-                  "provenance": "who",
-                  "query": "Squamous Cell Carcinoma HPV independent"
                 }
               ]
             },
@@ -67373,399 +67317,8 @@
               ]
             },
             {
-              "id": "cervix",
-              "label": "Cervix",
-              "leaf_count": 64,
-              "leaves": [
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Precursor::Adenocarcinoma_In_Situ",
-                  "label": "Adenocarcinoma_In_Situ",
-                  "provenance": "pathout",
-                  "query": "Adenocarcinoma In Situ"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-                  "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Adenoid_Basal_Carcinoma",
-                  "label": "Adenoid_Basal_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "Adenoid Basal Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-                  "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Adenoid_Cystic_Carcinoma",
-                  "label": "Adenoid_Cystic_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "Adenoid Cystic Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Mixed::Benign::Adenomyoma_Endocervical_Type",
-                  "label": "Adenomyoma_Endocervical_Type",
-                  "provenance": "pathout",
-                  "query": "Adenomyoma Endocervical Type"
-                },
-                {
-                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
-                  "label": "Adenomyoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenomyoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
-                  "label": "Adenosarcoma_of_the_Uterine_Cervix",
-                  "provenance": "both",
-                  "query": "Adenosarcoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-                  "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Physiologic_Change::Arias_Stella_Reaction",
-                  "label": "Arias_Stella_Reaction",
-                  "provenance": "pathout",
-                  "query": "Arias Stella Reaction"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
-                  "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Arias Stella Reaction of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Atrophy",
-                  "label": "Atrophy",
-                  "provenance": "pathout",
-                  "query": "Atrophy"
-                },
-                {
-                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
-                  "label": "Atrophy_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Atrophy of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Bacterial_Vaginosis",
-                  "label": "Bacterial_Vaginosis",
-                  "provenance": "pathout",
-                  "query": "Bacterial Vaginosis"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Benign::Blue_Nevus",
-                  "label": "Blue_Nevus",
-                  "provenance": "pathout",
-                  "query": "Blue Nevus"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Candida_Fungi",
-                  "label": "Candida_Fungi",
-                  "provenance": "pathout",
-                  "query": "Candida Fungi"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-                  "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
-                  "provenance": "who",
-                  "query": "Carcinoma of the Uterine Cervix Unclassifiable"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Carcinosarcoma",
-                  "label": "Carcinosarcoma",
-                  "provenance": "both",
-                  "query": "Carcinosarcoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
-                  "label": "Carcinosarcoma_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Carcinosarcoma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Inflammatory::Chlamydia_Trachomatis",
-                  "label": "Chlamydia_Trachomatis",
-                  "provenance": "pathout",
-                  "query": "Chlamydia Trachomatis"
-                },
-                {
-                  "tag": "GYN::Cervix::Inflammatory::Chronic_Cervicitis",
-                  "label": "Chronic_Cervicitis",
-                  "provenance": "pathout",
-                  "query": "Chronic Cervicitis"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::CMV",
-                  "label": "CMV",
-                  "provenance": "pathout",
-                  "query": "CMV"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Condyloma",
-                  "label": "Condyloma",
-                  "provenance": "pathout",
-                  "query": "Condyloma"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
-                  "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
-                  "provenance": "both",
-                  "query": "Diffuse Laminar Endocervical Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
-                  "label": "Ectopic_Prostate_Tissue",
-                  "provenance": "who",
-                  "query": "Ectopic Prostate Tissue"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Embryology",
-                  "label": "Embryology",
-                  "provenance": "pathout",
-                  "query": "Embryology"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Benign::Endocervical_Glandular_Hyperplasia",
-                  "label": "Endocervical_Glandular_Hyperplasia",
-                  "provenance": "pathout",
-                  "query": "Endocervical Glandular Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
-                  "label": "Endocervical_Polyp",
-                  "provenance": "both",
-                  "query": "Endocervical Polyp"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
-                  "label": "Endocervicosis_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Endocervicosis of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Gastric_Type_Adenocarcinoma_HPV_Independent",
-                  "label": "Gastric_Type_Adenocarcinoma_HPV_Independent",
-                  "provenance": "pathout",
-                  "query": "Gastric Type Adenocarcinoma HPV Independent"
-                },
-                {
-                  "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
-                  "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Germ Cell Tumors of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Glial_Polyp",
-                  "label": "Glial_Polyp",
-                  "provenance": "pathout",
-                  "query": "Glial Polyp"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Histology",
-                  "label": "Histology",
-                  "provenance": "pathout",
-                  "query": "Histology"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::HPV_Associated_Adenocarcinoma",
-                  "label": "HPV_Associated_Adenocarcinoma",
-                  "provenance": "pathout",
-                  "query": "HPV Associated Adenocarcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::HPV_Associated_Adenosquamous_Carcinoma",
-                  "label": "HPV_Associated_Adenosquamous_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "HPV Associated Adenosquamous Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::HPV_Overview",
-                  "label": "HPV_Overview",
-                  "provenance": "pathout",
-                  "query": "HPV Overview"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Hsil_Cin_Ii_Cin_Iii",
-                  "label": "Hsil_Cin_Ii_Cin_Iii",
-                  "provenance": "pathout",
-                  "query": "Hsil Cin Ii Cin Iii"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Metaplasia::Immature_Squamous_Metaplasia",
-                  "label": "Immature_Squamous_Metaplasia",
-                  "provenance": "pathout",
-                  "query": "Immature Squamous Metaplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Malignant::Invasive_Stratified_Mucin_Producing_Carcinoma",
-                  "label": "Invasive_Stratified_Mucin_Producing_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "Invasive Stratified Mucin Producing Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
-                  "label": "Lobular_Endocervical_Glandular_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Lobular Endocervical Glandular Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Lsil_Cin_I",
-                  "label": "Lsil_Cin_I",
-                  "provenance": "pathout",
-                  "query": "Lsil Cin I"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Malignant::Lymphoepithelioma_Like_Carcinoma",
-                  "label": "Lymphoepithelioma_Like_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "Lymphoepithelioma Like Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Precursor::Melanosis",
-                  "label": "Melanosis",
-                  "provenance": "pathout",
-                  "query": "Melanosis"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Mesonephric_Adenocarcinoma_HPV_Independent",
-                  "label": "Mesonephric_Adenocarcinoma_HPV_Independent",
-                  "provenance": "pathout",
-                  "query": "Mesonephric Adenocarcinoma HPV Independent"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Benign::Mesonephric_Hyperplasia",
-                  "label": "Mesonephric_Hyperplasia",
-                  "provenance": "pathout",
-                  "query": "Mesonephric Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
-                  "label": "Mesonephric_Remnants_and_Hyperplasia",
-                  "provenance": "who",
-                  "query": "Mesonephric Remnants and Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Microglandular_Hyperplasia",
-                  "label": "Microglandular_Hyperplasia",
-                  "provenance": "both",
-                  "query": "Microglandular Hyperplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
-                  "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
-                  "provenance": "both",
-                  "query": "Mullerian Papilloma of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
-                  "label": "Nabothian_Cyst",
-                  "provenance": "both",
-                  "query": "Nabothian Cyst"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Normal_And_Nonneoplastic_Findings",
-                  "label": "Normal_And_Nonneoplastic_Findings",
-                  "provenance": "pathout",
-                  "query": "Normal And Nonneoplastic Findings"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Precursor::Smile_Stratified_Mucin_Producing_Intraepithelial_Lesion",
-                  "label": "Smile_Stratified_Mucin_Producing_Intraepithelial_Lesion",
-                  "provenance": "pathout",
-                  "query": "Smile Stratified Mucin Producing Intraepithelial Lesion"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Mesenchymal::Malignant::Spindle_Cell_Sarcoma_NTRK_Rearranged",
-                  "label": "Spindle_Cell_Sarcoma_NTRK_Rearranged",
-                  "provenance": "pathout",
-                  "query": "Spindle Cell Sarcoma NTRK Rearranged"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Squamous_Cell_Carcinoma",
-                  "label": "Squamous_Cell_Carcinoma",
-                  "provenance": "pathout",
-                  "query": "Squamous Cell Carcinoma"
-                },
-                {
-                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-                  "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
-                  "provenance": "who",
-                  "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
-                },
-                {
-                  "tag": "GYN::Cervix::Neoplastic::Benign::Squamous_Papilloma",
-                  "label": "Squamous_Papilloma",
-                  "provenance": "pathout",
-                  "query": "Squamous Papilloma"
-                },
-                {
-                  "tag": "GYN::Cervix::Depositional_Metabolic::Traumatic_Neuroma",
-                  "label": "Traumatic_Neuroma",
-                  "provenance": "pathout",
-                  "query": "Traumatic Neuroma"
-                },
-                {
-                  "tag": "GYN::Cervix::Infectious::Trichomonas_Vaginalis",
-                  "label": "Trichomonas_Vaginalis",
-                  "provenance": "pathout",
-                  "query": "Trichomonas Vaginalis"
-                },
-                {
-                  "tag": "GYN::Cervix::Normal_Histology::Metaplasia::Tubal_And_Tuboendometrioid_Metaplasia",
-                  "label": "Tubal_And_Tuboendometrioid_Metaplasia",
-                  "provenance": "pathout",
-                  "query": "Tubal And Tuboendometrioid Metaplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
-                  "label": "Tuboendometrioid_Metaplasia",
-                  "provenance": "who",
-                  "query": "Tuboendometrioid Metaplasia"
-                },
-                {
-                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
-                  "label": "Tunnel_Clusters",
-                  "provenance": "both",
-                  "query": "Tunnel Clusters"
-                },
-                {
-                  "tag": "GYN::Cervix::Inflammatory::Vasculitis",
-                  "label": "Vasculitis",
-                  "provenance": "pathout",
-                  "query": "Vasculitis"
-                }
-              ]
-            },
-            {
-              "id": "fallopian_tube",
-              "label": "Fallopian Tube",
+              "id": "fallopian_tubes_and_broad_ligaments",
+              "label": "Fallopian Tubes and Broad Ligaments",
               "leaf_count": 23,
               "leaves": [
                 {
@@ -67909,67 +67462,6 @@
               ]
             },
             {
-              "id": "gtd",
-              "label": "GTD",
-              "leaf_count": 9,
-              "leaves": [
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Abnormal_non_molar_Villous_Lesions",
-                  "label": "Abnormal_non_molar_Villous_Lesions",
-                  "provenance": "who",
-                  "query": "Abnormal non molar Villous Lesions"
-                },
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Molar::Complete_Hydatidiform_Mole",
-                  "label": "Complete_Hydatidiform_Mole",
-                  "provenance": "both",
-                  "query": "Complete Hydatidiform Mole"
-                },
-                {
-                  "tag": "GYN::GTD::GTN::Epithelioid_Trophoblastic_Tumor",
-                  "label": "Epithelioid_Trophoblastic_Tumor",
-                  "provenance": "both",
-                  "query": "Epithelioid Trophoblastic Tumor"
-                },
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Exaggerated_Placental_Site_Reaction",
-                  "label": "Exaggerated_Placental_Site_Reaction",
-                  "provenance": "both",
-                  "query": "Exaggerated Placental Site Reaction"
-                },
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Molar::Invasive_and_Metastatic_Hydatidiform_Moles",
-                  "label": "Invasive_and_Metastatic_Hydatidiform_Moles",
-                  "provenance": "who",
-                  "query": "Invasive and Metastatic Hydatidiform Moles"
-                },
-                {
-                  "tag": "GYN::GTD::GTN::Mixed_Trophoblastic_Tumor",
-                  "label": "Mixed_Trophoblastic_Tumor",
-                  "provenance": "who",
-                  "query": "Mixed Trophoblastic Tumor"
-                },
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Molar::Partial_Hydatidiform_Mole",
-                  "label": "Partial_Hydatidiform_Mole",
-                  "provenance": "both",
-                  "query": "Partial Hydatidiform Mole"
-                },
-                {
-                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Placental_Site_Nodule_and_Plaque",
-                  "label": "Placental_Site_Nodule_and_Plaque",
-                  "provenance": "both",
-                  "query": "Placental Site Nodule and Plaque"
-                },
-                {
-                  "tag": "GYN::GTD::GTN::Placental_Site_Trophoblastic_Tumor",
-                  "label": "Placental_Site_Trophoblastic_Tumor",
-                  "provenance": "both",
-                  "query": "Placental Site Trophoblastic Tumor"
-                }
-              ]
-            },
-            {
               "id": "general",
               "label": "General",
               "leaf_count": 9,
@@ -68058,6 +67550,67 @@
                   "label": "Ovarian_Dysgenesis",
                   "provenance": "who",
                   "query": "Ovarian Dysgenesis"
+                }
+              ]
+            },
+            {
+              "id": "gestational_trophoblastic_disease",
+              "label": "Gestational Trophoblastic Disease",
+              "leaf_count": 9,
+              "leaves": [
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Abnormal_non_molar_Villous_Lesions",
+                  "label": "Abnormal_non_molar_Villous_Lesions",
+                  "provenance": "who",
+                  "query": "Abnormal non molar Villous Lesions"
+                },
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Molar::Complete_Hydatidiform_Mole",
+                  "label": "Complete_Hydatidiform_Mole",
+                  "provenance": "both",
+                  "query": "Complete Hydatidiform Mole"
+                },
+                {
+                  "tag": "GYN::GTD::GTN::Epithelioid_Trophoblastic_Tumor",
+                  "label": "Epithelioid_Trophoblastic_Tumor",
+                  "provenance": "both",
+                  "query": "Epithelioid Trophoblastic Tumor"
+                },
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Exaggerated_Placental_Site_Reaction",
+                  "label": "Exaggerated_Placental_Site_Reaction",
+                  "provenance": "both",
+                  "query": "Exaggerated Placental Site Reaction"
+                },
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Molar::Invasive_and_Metastatic_Hydatidiform_Moles",
+                  "label": "Invasive_and_Metastatic_Hydatidiform_Moles",
+                  "provenance": "who",
+                  "query": "Invasive and Metastatic Hydatidiform Moles"
+                },
+                {
+                  "tag": "GYN::GTD::GTN::Mixed_Trophoblastic_Tumor",
+                  "label": "Mixed_Trophoblastic_Tumor",
+                  "provenance": "who",
+                  "query": "Mixed Trophoblastic Tumor"
+                },
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Molar::Partial_Hydatidiform_Mole",
+                  "label": "Partial_Hydatidiform_Mole",
+                  "provenance": "both",
+                  "query": "Partial Hydatidiform Mole"
+                },
+                {
+                  "tag": "GYN::GTD::Tumor_Like::Non_Neoplastic::Placental_Site_Nodule_and_Plaque",
+                  "label": "Placental_Site_Nodule_and_Plaque",
+                  "provenance": "both",
+                  "query": "Placental Site Nodule and Plaque"
+                },
+                {
+                  "tag": "GYN::GTD::GTN::Placental_Site_Trophoblastic_Tumor",
+                  "label": "Placental_Site_Trophoblastic_Tumor",
+                  "provenance": "both",
+                  "query": "Placental Site Trophoblastic Tumor"
                 }
               ]
             },
@@ -69270,6 +68823,397 @@
               ]
             },
             {
+              "id": "uterine_cervix",
+              "label": "Uterine Cervix",
+              "leaf_count": 64,
+              "leaves": [
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Clear_Cell_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Clear Cell Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Gastric_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Gastric Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_HPV_independent_Mesonephric_Type_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma HPV independent Mesonephric Type of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Precursor::Adenocarcinoma_In_Situ",
+                  "label": "Adenocarcinoma_In_Situ",
+                  "provenance": "pathout",
+                  "query": "Adenocarcinoma In Situ"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Adenocarcinoma::Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+                  "label": "Adenocarcinoma_in_Situ_HPV_independent_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenocarcinoma in Situ HPV independent of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Adenoid_Basal_Carcinoma",
+                  "label": "Adenoid_Basal_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "Adenoid Basal Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+                  "label": "Adenoid_Basal_Carcinoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenoid Basal Carcinoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Adenoid_Cystic_Carcinoma",
+                  "label": "Adenoid_Cystic_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "Adenoid Cystic Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Mixed::Benign::Adenomyoma_Endocervical_Type",
+                  "label": "Adenomyoma_Endocervical_Type",
+                  "provenance": "pathout",
+                  "query": "Adenomyoma Endocervical Type"
+                },
+                {
+                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenomyoma_of_the_Uterine_Cervix",
+                  "label": "Adenomyoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenomyoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Mixed_Epithelial_Mesenchymal::Adenosarcoma_of_the_Uterine_Cervix",
+                  "label": "Adenosarcoma_of_the_Uterine_Cervix",
+                  "provenance": "both",
+                  "query": "Adenosarcoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+                  "label": "Adenosquamous_and_Mucoepidermoid_Carcinomas_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Adenosquamous and Mucoepidermoid Carcinomas of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Physiologic_Change::Arias_Stella_Reaction",
+                  "label": "Arias_Stella_Reaction",
+                  "provenance": "pathout",
+                  "query": "Arias Stella Reaction"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Arias_Stella_Reaction_of_the_Uterine_Cervix",
+                  "label": "Arias_Stella_Reaction_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Arias Stella Reaction of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Atrophy",
+                  "label": "Atrophy",
+                  "provenance": "pathout",
+                  "query": "Atrophy"
+                },
+                {
+                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Precursor_Mimics::Atrophy_of_the_Uterine_Cervix",
+                  "label": "Atrophy_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Atrophy of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Bacterial_Vaginosis",
+                  "label": "Bacterial_Vaginosis",
+                  "provenance": "pathout",
+                  "query": "Bacterial Vaginosis"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Benign::Blue_Nevus",
+                  "label": "Blue_Nevus",
+                  "provenance": "pathout",
+                  "query": "Blue Nevus"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Candida_Fungi",
+                  "label": "Candida_Fungi",
+                  "provenance": "pathout",
+                  "query": "Candida Fungi"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+                  "label": "Carcinoma_of_the_Uterine_Cervix_Unclassifiable",
+                  "provenance": "who",
+                  "query": "Carcinoma of the Uterine Cervix Unclassifiable"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Carcinosarcoma",
+                  "label": "Carcinosarcoma",
+                  "provenance": "both",
+                  "query": "Carcinosarcoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Other_Epithelial::Carcinosarcoma_of_the_Uterine_Cervix",
+                  "label": "Carcinosarcoma_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Carcinosarcoma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Inflammatory::Chlamydia_Trachomatis",
+                  "label": "Chlamydia_Trachomatis",
+                  "provenance": "pathout",
+                  "query": "Chlamydia Trachomatis"
+                },
+                {
+                  "tag": "GYN::Cervix::Inflammatory::Chronic_Cervicitis",
+                  "label": "Chronic_Cervicitis",
+                  "provenance": "pathout",
+                  "query": "Chronic Cervicitis"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::CMV",
+                  "label": "CMV",
+                  "provenance": "pathout",
+                  "query": "CMV"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Condyloma",
+                  "label": "Condyloma",
+                  "provenance": "pathout",
+                  "query": "Condyloma"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Diffuse_Laminar_Endocervical_Hyperplasia",
+                  "label": "Diffuse_Laminar_Endocervical_Hyperplasia",
+                  "provenance": "both",
+                  "query": "Diffuse Laminar Endocervical Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Ectopic_Prostate_Tissue",
+                  "label": "Ectopic_Prostate_Tissue",
+                  "provenance": "who",
+                  "query": "Ectopic Prostate Tissue"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Embryology",
+                  "label": "Embryology",
+                  "provenance": "pathout",
+                  "query": "Embryology"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Benign::Endocervical_Glandular_Hyperplasia",
+                  "label": "Endocervical_Glandular_Hyperplasia",
+                  "provenance": "pathout",
+                  "query": "Endocervical Glandular Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervical_Polyp",
+                  "label": "Endocervical_Polyp",
+                  "provenance": "both",
+                  "query": "Endocervical Polyp"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Endocervicosis_of_the_Uterine_Cervix",
+                  "label": "Endocervicosis_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Endocervicosis of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Gastric_Type_Adenocarcinoma_HPV_Independent",
+                  "label": "Gastric_Type_Adenocarcinoma_HPV_Independent",
+                  "provenance": "pathout",
+                  "query": "Gastric Type Adenocarcinoma HPV Independent"
+                },
+                {
+                  "tag": "GYN::Cervix::Germ_Cell::Germ_Cell_Tumors_of_the_Uterine_Cervix",
+                  "label": "Germ_Cell_Tumors_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Germ Cell Tumors of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Glial_Polyp",
+                  "label": "Glial_Polyp",
+                  "provenance": "pathout",
+                  "query": "Glial Polyp"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Histology",
+                  "label": "Histology",
+                  "provenance": "pathout",
+                  "query": "Histology"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::HPV_Associated_Adenocarcinoma",
+                  "label": "HPV_Associated_Adenocarcinoma",
+                  "provenance": "pathout",
+                  "query": "HPV Associated Adenocarcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::HPV_Associated_Adenosquamous_Carcinoma",
+                  "label": "HPV_Associated_Adenosquamous_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "HPV Associated Adenosquamous Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::HPV_Overview",
+                  "label": "HPV_Overview",
+                  "provenance": "pathout",
+                  "query": "HPV Overview"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Hsil_Cin_Ii_Cin_Iii",
+                  "label": "Hsil_Cin_Ii_Cin_Iii",
+                  "provenance": "pathout",
+                  "query": "Hsil Cin Ii Cin Iii"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Metaplasia::Immature_Squamous_Metaplasia",
+                  "label": "Immature_Squamous_Metaplasia",
+                  "provenance": "pathout",
+                  "query": "Immature Squamous Metaplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Malignant::Invasive_Stratified_Mucin_Producing_Carcinoma",
+                  "label": "Invasive_Stratified_Mucin_Producing_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "Invasive Stratified Mucin Producing Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Lobular_Endocervical_Glandular_Hyperplasia",
+                  "label": "Lobular_Endocervical_Glandular_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Lobular Endocervical Glandular Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Lsil_Cin_I",
+                  "label": "Lsil_Cin_I",
+                  "provenance": "pathout",
+                  "query": "Lsil Cin I"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Malignant::Lymphoepithelioma_Like_Carcinoma",
+                  "label": "Lymphoepithelioma_Like_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "Lymphoepithelioma Like Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Precursor::Melanosis",
+                  "label": "Melanosis",
+                  "provenance": "pathout",
+                  "query": "Melanosis"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Mesonephric_Adenocarcinoma_HPV_Independent",
+                  "label": "Mesonephric_Adenocarcinoma_HPV_Independent",
+                  "provenance": "pathout",
+                  "query": "Mesonephric Adenocarcinoma HPV Independent"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Benign::Mesonephric_Hyperplasia",
+                  "label": "Mesonephric_Hyperplasia",
+                  "provenance": "pathout",
+                  "query": "Mesonephric Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mesonephric_Remnants_and_Hyperplasia",
+                  "label": "Mesonephric_Remnants_and_Hyperplasia",
+                  "provenance": "who",
+                  "query": "Mesonephric Remnants and Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Microglandular_Hyperplasia",
+                  "label": "Microglandular_Hyperplasia",
+                  "provenance": "both",
+                  "query": "Microglandular Hyperplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Mullerian_Papilloma_of_the_Uterine_Cervix",
+                  "label": "Mullerian_Papilloma_of_the_Uterine_Cervix",
+                  "provenance": "both",
+                  "query": "Mullerian Papilloma of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Nabothian_Cyst",
+                  "label": "Nabothian_Cyst",
+                  "provenance": "both",
+                  "query": "Nabothian Cyst"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Normal_And_Nonneoplastic_Findings",
+                  "label": "Normal_And_Nonneoplastic_Findings",
+                  "provenance": "pathout",
+                  "query": "Normal And Nonneoplastic Findings"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Precursor::Smile_Stratified_Mucin_Producing_Intraepithelial_Lesion",
+                  "label": "Smile_Stratified_Mucin_Producing_Intraepithelial_Lesion",
+                  "provenance": "pathout",
+                  "query": "Smile Stratified Mucin Producing Intraepithelial Lesion"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Mesenchymal::Malignant::Spindle_Cell_Sarcoma_NTRK_Rearranged",
+                  "label": "Spindle_Cell_Sarcoma_NTRK_Rearranged",
+                  "provenance": "pathout",
+                  "query": "Spindle Cell Sarcoma NTRK Rearranged"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Epithelial::Malignant::Squamous_Cell_Carcinoma",
+                  "label": "Squamous_Cell_Carcinoma",
+                  "provenance": "pathout",
+                  "query": "Squamous Cell Carcinoma"
+                },
+                {
+                  "tag": "GYN::Cervix::Squamous_Epithelial::Squamous_Tumors::Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+                  "label": "Squamous_Cell_Carcinoma_HPV_independent_of_the_Uterine_Cervix",
+                  "provenance": "who",
+                  "query": "Squamous Cell Carcinoma HPV independent of the Uterine Cervix"
+                },
+                {
+                  "tag": "GYN::Cervix::Neoplastic::Benign::Squamous_Papilloma",
+                  "label": "Squamous_Papilloma",
+                  "provenance": "pathout",
+                  "query": "Squamous Papilloma"
+                },
+                {
+                  "tag": "GYN::Cervix::Depositional_Metabolic::Traumatic_Neuroma",
+                  "label": "Traumatic_Neuroma",
+                  "provenance": "pathout",
+                  "query": "Traumatic Neuroma"
+                },
+                {
+                  "tag": "GYN::Cervix::Infectious::Trichomonas_Vaginalis",
+                  "label": "Trichomonas_Vaginalis",
+                  "provenance": "pathout",
+                  "query": "Trichomonas Vaginalis"
+                },
+                {
+                  "tag": "GYN::Cervix::Normal_Histology::Metaplasia::Tubal_And_Tuboendometrioid_Metaplasia",
+                  "label": "Tubal_And_Tuboendometrioid_Metaplasia",
+                  "provenance": "pathout",
+                  "query": "Tubal And Tuboendometrioid Metaplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tuboendometrioid_Metaplasia",
+                  "label": "Tuboendometrioid_Metaplasia",
+                  "provenance": "who",
+                  "query": "Tuboendometrioid Metaplasia"
+                },
+                {
+                  "tag": "GYN::Cervix::Glandular::Benign_Glandular::Tunnel_Clusters",
+                  "label": "Tunnel_Clusters",
+                  "provenance": "both",
+                  "query": "Tunnel Clusters"
+                },
+                {
+                  "tag": "GYN::Cervix::Inflammatory::Vasculitis",
+                  "label": "Vasculitis",
+                  "provenance": "pathout",
+                  "query": "Vasculitis"
+                }
+              ]
+            },
+            {
               "id": "uterine_corpus",
               "label": "Uterine Corpus",
               "leaf_count": 25,
@@ -69560,22 +69504,9 @@
               ]
             },
             {
-              "id": "vvagina",
-              "label": "VVagina",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GYN::VVagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-                  "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
-                  "provenance": "who",
-                  "query": "Mucinous Carcinoma Gastric Type of the Vagina"
-                }
-              ]
-            },
-            {
               "id": "vagina",
               "label": "Vagina",
-              "leaf_count": 25,
+              "leaf_count": 26,
               "leaves": [
                 {
                   "tag": "GYN::Vagina::Glandular_Tumors::Adenocarcinoma_HPV_associated_of_the_Vagina",
@@ -69672,6 +69603,12 @@
                   "label": "Mixed_Tumor_of_the_Vagina",
                   "provenance": "both",
                   "query": "Mixed Tumor of the Vagina"
+                },
+                {
+                  "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+                  "label": "Mucinous_Carcinoma_Gastric_Type_of_the_Vagina",
+                  "provenance": "who",
+                  "query": "Mucinous Carcinoma Gastric Type of the Vagina"
                 },
                 {
                   "tag": "GYN::Vagina::Glandular_Tumors::Mucinous_Carcinoma_Intestinal_Type_of_the_Vagina",
@@ -70118,85 +70055,6 @@
               ]
             },
             {
-              "id": "ear",
-              "label": "Ear",
-              "leaf_count": 12,
-              "leaves": [
-                {
-                  "tag": "HN::Ear::Cholesteatoma",
-                  "label": "Cholesteatoma",
-                  "provenance": "both",
-                  "query": "Cholesteatoma"
-                },
-                {
-                  "tag": "HN::Ear::Chondrodermatitis_Nodularis_Chronica_Helicis",
-                  "label": "Chondrodermatitis_Nodularis_Chronica_Helicis",
-                  "provenance": "both",
-                  "query": "Chondrodermatitis Nodularis Chronica Helicis"
-                },
-                {
-                  "tag": "HN::Ear::Cystic_Chondromalacia",
-                  "label": "Cystic_Chondromalacia",
-                  "provenance": "who",
-                  "query": "Cystic Chondromalacia"
-                },
-                {
-                  "tag": "HN::Ear::Endolymphatic_Sac_Tumor",
-                  "label": "Endolymphatic_Sac_Tumor",
-                  "provenance": "both",
-                  "query": "Endolymphatic Sac Tumor"
-                },
-                {
-                  "tag": "HN::Ear::Exostosis_Osteoma_of_the_Ear",
-                  "label": "Exostosis_Osteoma_of_the_Ear",
-                  "provenance": "who",
-                  "query": "Exostosis Osteoma of the Ear"
-                },
-                {
-                  "tag": "HN::Ear::Middle_Ear_Adenocarcinoma",
-                  "label": "Middle_Ear_Adenocarcinoma",
-                  "provenance": "who",
-                  "query": "Middle Ear Adenocarcinoma"
-                },
-                {
-                  "tag": "HN::Ear::Middle_Ear_Neuroendocrine_Tumor",
-                  "label": "Middle_Ear_Neuroendocrine_Tumor",
-                  "provenance": "both",
-                  "query": "Middle Ear Neuroendocrine Tumor"
-                },
-                {
-                  "tag": "HN::Ear::Middle_Ear_Papilloma",
-                  "label": "Middle_Ear_Papilloma",
-                  "provenance": "both",
-                  "query": "Middle Ear Papilloma"
-                },
-                {
-                  "tag": "HN::Ear::Middle_Ear_Squamous_Cell_Carcinoma",
-                  "label": "Middle_Ear_Squamous_Cell_Carcinoma",
-                  "provenance": "who",
-                  "query": "Middle Ear Squamous Cell Carcinoma"
-                },
-                {
-                  "tag": "HN::Ear::Otosclerosis",
-                  "label": "Otosclerosis",
-                  "provenance": "both",
-                  "query": "Otosclerosis"
-                },
-                {
-                  "tag": "HN::Ear::Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
-                  "label": "Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
-                  "provenance": "who",
-                  "query": "Squamous Cell Carcinoma of the External Auditory Canal"
-                },
-                {
-                  "tag": "HN::Ear::Vestibular_Schwannoma",
-                  "label": "Vestibular_Schwannoma",
-                  "provenance": "who",
-                  "query": "Vestibular Schwannoma"
-                }
-              ]
-            },
-            {
               "id": "ear_temporal_bone",
               "label": "Ear Temporal Bone",
               "leaf_count": 31,
@@ -70386,6 +70244,85 @@
                   "label": "Valves",
                   "provenance": "pathout",
                   "query": "Valves"
+                }
+              ]
+            },
+            {
+              "id": "ear_and_temporal_bone",
+              "label": "Ear and Temporal Bone",
+              "leaf_count": 12,
+              "leaves": [
+                {
+                  "tag": "HN::Ear::Cholesteatoma",
+                  "label": "Cholesteatoma",
+                  "provenance": "both",
+                  "query": "Cholesteatoma"
+                },
+                {
+                  "tag": "HN::Ear::Chondrodermatitis_Nodularis_Chronica_Helicis",
+                  "label": "Chondrodermatitis_Nodularis_Chronica_Helicis",
+                  "provenance": "both",
+                  "query": "Chondrodermatitis Nodularis Chronica Helicis"
+                },
+                {
+                  "tag": "HN::Ear::Cystic_Chondromalacia",
+                  "label": "Cystic_Chondromalacia",
+                  "provenance": "who",
+                  "query": "Cystic Chondromalacia"
+                },
+                {
+                  "tag": "HN::Ear::Endolymphatic_Sac_Tumor",
+                  "label": "Endolymphatic_Sac_Tumor",
+                  "provenance": "both",
+                  "query": "Endolymphatic Sac Tumor"
+                },
+                {
+                  "tag": "HN::Ear::Exostosis_Osteoma_of_the_Ear",
+                  "label": "Exostosis_Osteoma_of_the_Ear",
+                  "provenance": "who",
+                  "query": "Exostosis Osteoma of the Ear"
+                },
+                {
+                  "tag": "HN::Ear::Middle_Ear_Adenocarcinoma",
+                  "label": "Middle_Ear_Adenocarcinoma",
+                  "provenance": "who",
+                  "query": "Middle Ear Adenocarcinoma"
+                },
+                {
+                  "tag": "HN::Ear::Middle_Ear_Neuroendocrine_Tumor",
+                  "label": "Middle_Ear_Neuroendocrine_Tumor",
+                  "provenance": "both",
+                  "query": "Middle Ear Neuroendocrine Tumor"
+                },
+                {
+                  "tag": "HN::Ear::Middle_Ear_Papilloma",
+                  "label": "Middle_Ear_Papilloma",
+                  "provenance": "both",
+                  "query": "Middle Ear Papilloma"
+                },
+                {
+                  "tag": "HN::Ear::Middle_Ear_Squamous_Cell_Carcinoma",
+                  "label": "Middle_Ear_Squamous_Cell_Carcinoma",
+                  "provenance": "who",
+                  "query": "Middle Ear Squamous Cell Carcinoma"
+                },
+                {
+                  "tag": "HN::Ear::Otosclerosis",
+                  "label": "Otosclerosis",
+                  "provenance": "both",
+                  "query": "Otosclerosis"
+                },
+                {
+                  "tag": "HN::Ear::Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
+                  "label": "Squamous_Cell_Carcinoma_of_the_External_Auditory_Canal",
+                  "provenance": "who",
+                  "query": "Squamous Cell Carcinoma of the External Auditory Canal"
+                },
+                {
+                  "tag": "HN::Ear::Vestibular_Schwannoma",
+                  "label": "Vestibular_Schwannoma",
+                  "provenance": "who",
+                  "query": "Vestibular Schwannoma"
                 }
               ]
             },
@@ -70846,6 +70783,25 @@
               ]
             },
             {
+              "id": "jaws_oral_cavity_and_oropharynx",
+              "label": "Jaws, Oral Cavity, and Oropharynx",
+              "leaf_count": 2,
+              "leaves": [
+                {
+                  "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
+                  "label": "Hamartomatous_Polyps",
+                  "provenance": "who",
+                  "query": "Hamartomatous Polyps"
+                },
+                {
+                  "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
+                  "label": "Squamous_Cell_Carcinoma_HPV_independent",
+                  "provenance": "both",
+                  "query": "Squamous Cell Carcinoma HPV independent"
+                }
+              ]
+            },
+            {
               "id": "larynx_hypopharynx_trachea",
               "label": "Larynx Hypopharynx Trachea",
               "leaf_count": 11,
@@ -71078,31 +71034,6 @@
               ]
             },
             {
-              "id": "nasopharynx",
-              "label": "Nasopharynx",
-              "leaf_count": 3,
-              "leaves": [
-                {
-                  "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
-                  "label": "Hairy_Polyp",
-                  "provenance": "both",
-                  "query": "Hairy Polyp"
-                },
-                {
-                  "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-                  "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
-                  "provenance": "both",
-                  "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
-                },
-                {
-                  "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
-                  "label": "Salivary_Gland_Anlage_Tumor",
-                  "provenance": "who",
-                  "query": "Salivary Gland Anlage Tumor"
-                }
-              ]
-            },
-            {
               "id": "neck",
               "label": "Neck",
               "leaf_count": 7,
@@ -71193,6 +71124,31 @@
                   "label": "Merkel_Cell_Carcinoma",
                   "provenance": "pathout",
                   "query": "Merkel Cell Carcinoma"
+                }
+              ]
+            },
+            {
+              "id": "nose_paranasal_sinuses_and_nasopharynx",
+              "label": "Nose, Paranasal Sinuses, and Nasopharynx",
+              "leaf_count": 3,
+              "leaves": [
+                {
+                  "tag": "HN::Nasopharynx::Hamartoma::Hairy_Polyp",
+                  "label": "Hairy_Polyp",
+                  "provenance": "both",
+                  "query": "Hairy Polyp"
+                },
+                {
+                  "tag": "HN::Nasopharynx::Carcinoma::Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+                  "label": "Low_Grade_Nasopharyngeal_Papillary_Adenocarcinoma",
+                  "provenance": "both",
+                  "query": "Low Grade Nasopharyngeal Papillary Adenocarcinoma"
+                },
+                {
+                  "tag": "HN::Nasopharynx::Hamartoma::Salivary_Gland_Anlage_Tumor",
+                  "label": "Salivary_Gland_Anlage_Tumor",
+                  "provenance": "who",
+                  "query": "Salivary Gland Anlage Tumor"
                 }
               ]
             },
@@ -71623,25 +71579,6 @@
                   "label": "White_Sponge_Nevus",
                   "provenance": "pathout",
                   "query": "White Sponge Nevus"
-                }
-              ]
-            },
-            {
-              "id": "oropharynx",
-              "label": "Oropharynx",
-              "leaf_count": 2,
-              "leaves": [
-                {
-                  "tag": "HN::Oropharynx::Benign_Lesion::Hamartomatous_Polyps",
-                  "label": "Hamartomatous_Polyps",
-                  "provenance": "who",
-                  "query": "Hamartomatous Polyps"
-                },
-                {
-                  "tag": "HN::Oropharynx::Epithelial_Tumor::Squamous_Carcinoma::Squamous_Cell_Carcinoma_HPV_independent",
-                  "label": "Squamous_Cell_Carcinoma_HPV_independent",
-                  "provenance": "both",
-                  "query": "Squamous Cell Carcinoma HPV independent"
                 }
               ]
             },
