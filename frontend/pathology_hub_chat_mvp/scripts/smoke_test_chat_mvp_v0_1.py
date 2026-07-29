@@ -110,14 +110,16 @@ def smoke_offline() -> None:
                     bad_subs.append(f"{root.get('id')}:{label}")
         if bad_subs:
             _fail("methodology subcategory buckets remain", bad_subs[:8])
+        # Heme must always read as Hematolymphoid, never the old label.
+        heme_root = next((r for r in data.get("roots") or [] if r.get("id") == "heme"), None)
+        if not heme_root or heme_root.get("label") != "Hematolymphoid":
+            _fail("heme root label", heme_root.get("label") if heme_root else None)
         js = client.get("/static/app.js").text
-        for needle in (
-            'data-browse-mode="who"',
-            'data-browse-mode="who_pathout"',
-            "ph_browse_nav_mode_v0_4",
-        ):
+        if 'data-browse-mode=' in js:
+            _fail("browse mode toggle should be removed", "found data-browse-mode in app.js")
+        for needle in ('"Hematolymphoid"', "browse-tile-glyph"):
             if needle not in js:
-                _fail("browse mode UI missing", needle)
+                _fail("browse UI missing", needle)
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text

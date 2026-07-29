@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_4",
-  "generated_at": "2026-07-29T02:59:34.972868+00:00",
+  "generated_at": "2026-07-29T03:29:27.726491+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -13,10 +13,10 @@
     "abpath_nav_leaves": 3623,
     "who_nav_leaves_input": 1933,
     "pathout_nav_leaves_input": 2695,
-    "leaves_total": 5345,
-    "leaves_abpath_only": 3438,
-    "leaves_who_only": 1722,
-    "leaves_both": 185,
+    "leaves_total": 5343,
+    "leaves_abpath_only": 3436,
+    "leaves_who_only": 1720,
+    "leaves_both": 187,
     "roots_total": 17,
     "content_spec_rows_skipped": 570,
     "content_spec_rows_dropped_non_diagnosis": 569,
@@ -34,9 +34,9 @@
       "gu": 259,
       "gyn": 340,
       "hn": 262,
-      "heme": 207,
+      "heme": 206,
       "molecular": 57,
-      "neuro": 623,
+      "neuro": 622,
       "peds": 811,
       "thorax_mediastinum": 160
     },
@@ -1315,132 +1315,6 @@
       "leaf_count": 96,
       "subcategories": [
         {
-          "id": "e_g_sclerosing_adenosis_tubular_adenosis",
-          "label": "(e.g., sclerosing adenosis, tubular adenosis,",
-          "leaf_count": 17,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::adenomyoepithelioma",
-              "label": "Adenomyoepithelioma",
-              "provenance": "abpath",
-              "query": "Adenomyoepithelioma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::epithelial_hyperplasia",
-              "label": "Epithelial Hyperplasia",
-              "provenance": "abpath",
-              "query": "Epithelial Hyperplasia",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::fibroadenoma",
-              "label": "Fibroadenoma",
-              "provenance": "abpath",
-              "query": "Fibroadenoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::fibromatosis",
-              "label": "Fibromatosis",
-              "provenance": "abpath",
-              "query": "Fibromatosis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::flat_epithelial_hyperplasia",
-              "label": "Flat epithelial hyperplasia",
-              "provenance": "abpath",
-              "query": "Flat epithelial hyperplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::galactocele",
-              "label": "Galactocele",
-              "provenance": "abpath",
-              "query": "Galactocele",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::hemangioma",
-              "label": "Hemangioma",
-              "provenance": "both",
-              "query": "Hemangioma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::intraductal_papilloma",
-              "label": "Intraductal papilloma",
-              "provenance": "abpath",
-              "query": "Intraductal papilloma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::lactating_adenoma",
-              "label": "Lactating adenoma",
-              "provenance": "both",
-              "query": "Lactating adenoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::leiomyoma",
-              "label": "Leiomyoma",
-              "provenance": "both",
-              "query": "Leiomyoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::lipoma",
-              "label": "Lipoma",
-              "provenance": "both",
-              "query": "Lipoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::microglandular_adenosis_columnar_cell_alteration_radial_scar",
-              "label": "microglandular adenosis, columnar cell alteration) Radial Scar",
-              "provenance": "abpath",
-              "query": "microglandular adenosis, columnar cell alteration) Radial Scar",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::mucocele_like_lesions",
-              "label": "Mucocele-like lesions",
-              "provenance": "abpath",
-              "query": "Mucocele-like lesions",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::myofibroblastoma",
-              "label": "Myofibroblastoma",
-              "provenance": "both",
-              "query": "Myofibroblastoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::nipple_adenoma",
-              "label": "Nipple adenoma",
-              "provenance": "both",
-              "query": "Nipple adenoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::syringomatous_adenoma",
-              "label": "Syringomatous adenoma",
-              "provenance": "abpath",
-              "query": "Syringomatous adenoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::breast::e_g_sclerosing_adenosis_tubular_adenosis::usual_ductal_hyperplasia",
-              "label": "Usual ductal hyperplasia",
-              "provenance": "both",
-              "query": "Usual ductal hyperplasia",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "additional_topics",
           "label": "Additional Topics",
           "leaf_count": 7,
@@ -1499,8 +1373,15 @@
         {
           "id": "benign",
           "label": "Benign",
-          "leaf_count": 3,
+          "leaf_count": 20,
           "leaves": [
+            {
+              "tag": "ABPathSpec::breast::benign::adenomyoepithelioma",
+              "label": "Adenomyoepithelioma",
+              "provenance": "abpath",
+              "query": "Adenomyoepithelioma",
+              "abpath_level": "AR"
+            },
             {
               "tag": "ABPathSpec::breast::benign::adenosis",
               "label": "Adenosis",
@@ -1520,6 +1401,118 @@
               "label": "Cysts",
               "provenance": "abpath",
               "query": "Cysts",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::epithelial_hyperplasia",
+              "label": "Epithelial Hyperplasia",
+              "provenance": "abpath",
+              "query": "Epithelial Hyperplasia",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::fibroadenoma",
+              "label": "Fibroadenoma",
+              "provenance": "abpath",
+              "query": "Fibroadenoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::fibromatosis",
+              "label": "Fibromatosis",
+              "provenance": "abpath",
+              "query": "Fibromatosis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::flat_epithelial_hyperplasia",
+              "label": "Flat epithelial hyperplasia",
+              "provenance": "abpath",
+              "query": "Flat epithelial hyperplasia",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::galactocele",
+              "label": "Galactocele",
+              "provenance": "abpath",
+              "query": "Galactocele",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::hemangioma",
+              "label": "Hemangioma",
+              "provenance": "both",
+              "query": "Hemangioma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::intraductal_papilloma",
+              "label": "Intraductal papilloma",
+              "provenance": "abpath",
+              "query": "Intraductal papilloma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::lactating_adenoma",
+              "label": "Lactating adenoma",
+              "provenance": "both",
+              "query": "Lactating adenoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::leiomyoma",
+              "label": "Leiomyoma",
+              "provenance": "both",
+              "query": "Leiomyoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::lipoma",
+              "label": "Lipoma",
+              "provenance": "both",
+              "query": "Lipoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::microglandular_adenosis_columnar_cell_alteration_radial_scar",
+              "label": "microglandular adenosis, columnar cell alteration) Radial Scar",
+              "provenance": "abpath",
+              "query": "microglandular adenosis, columnar cell alteration) Radial Scar",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::mucocele_like_lesions",
+              "label": "Mucocele-like lesions",
+              "provenance": "abpath",
+              "query": "Mucocele-like lesions",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::myofibroblastoma",
+              "label": "Myofibroblastoma",
+              "provenance": "both",
+              "query": "Myofibroblastoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::nipple_adenoma",
+              "label": "Nipple adenoma",
+              "provenance": "both",
+              "query": "Nipple adenoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::syringomatous_adenoma",
+              "label": "Syringomatous adenoma",
+              "provenance": "abpath",
+              "query": "Syringomatous adenoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::breast::benign::usual_ductal_hyperplasia",
+              "label": "Usual ductal hyperplasia",
+              "provenance": "both",
+              "query": "Usual ductal hyperplasia",
               "abpath_level": "C"
             }
           ]
@@ -4436,12 +4429,12 @@
           ]
         },
         {
-          "id": "malignancy",
-          "label": "Malignancy",
+          "id": "malignancies",
+          "label": "Malignancies",
           "leaf_count": 1,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::malignancy::adenocarcinoma",
+              "tag": "ABPathSpec::cyto::malignancies::adenocarcinoma",
               "label": "Adenocarcinoma",
               "provenance": "abpath",
               "query": "Adenocarcinoma",
@@ -5073,124 +5066,124 @@
           ]
         },
         {
-          "id": "primary_epithelial_myoepithelial_tumors_xxx",
-          "label": "Primary Epithelial/Myoepithelial Tumors XXX",
+          "id": "primary_epithelial_myoepithelial_tumors",
+          "label": "Primary Epithelial/Myoepithelial Tumors",
           "leaf_count": 17,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::acinic_cell_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::acinic_cell_carcinoma",
               "label": "Acinic Cell Carcinoma",
               "provenance": "abpath",
               "query": "Acinic Cell Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::adenoid_cystic_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::adenoid_cystic_carcinoma",
               "label": "Adenoid Cystic Carcinoma",
               "provenance": "abpath",
               "query": "Adenoid Cystic Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::basal_cell_adenoma_basal_cell_adenocarcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::basal_cell_adenoma_basal_cell_adenocarcinoma",
               "label": "Basal Cell Adenoma/ Basal Cell Adenocarcinoma",
               "provenance": "abpath",
               "query": "Basal Cell Adenoma/ Basal Cell Adenocarcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::carcinoma_ex_pleomorphic_adenoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::carcinoma_ex_pleomorphic_adenoma",
               "label": "Carcinoma Ex Pleomorphic Adenoma",
               "provenance": "abpath",
               "query": "Carcinoma Ex Pleomorphic Adenoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::epithelial_myoepithelial_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::epithelial_myoepithelial_carcinoma",
               "label": "Epithelial Myoepithelial Carcinoma",
               "provenance": "abpath",
               "query": "Epithelial Myoepithelial Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::hematopoietic_diseases_and_lymphoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::hematopoietic_diseases_and_lymphoma",
               "label": "Hematopoietic Diseases and Lymphoma",
               "provenance": "abpath",
               "query": "Hematopoietic Diseases and Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::management",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::management",
               "label": "Management",
               "provenance": "abpath",
               "query": "Management",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::mesenchymal_tumors_e_g_angiosarcoma_nerve_sheath_tumors",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::mesenchymal_tumors_e_g_angiosarcoma_nerve_sheath_tumors",
               "label": "Mesenchymal Tumors (e.g., Angiosarcoma, Nerve Sheath Tumors)",
               "provenance": "abpath",
               "query": "Mesenchymal Tumors (e.g., Angiosarcoma, Nerve Sheath Tumors)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::mucoepidermoid_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::mucoepidermoid_carcinoma",
               "label": "Mucoepidermoid Carcinoma",
               "provenance": "abpath",
               "query": "Mucoepidermoid Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::myoepithelioma_myoepithelial_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::myoepithelioma_myoepithelial_carcinoma",
               "label": "Myoepithelioma/ Myoepithelial Carcinoma",
               "provenance": "abpath",
               "query": "Myoepithelioma/ Myoepithelial Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::onchocytoma_onchocytosis",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::onchocytoma_onchocytosis",
               "label": "Onchocytoma / Onchocytosis",
               "provenance": "abpath",
               "query": "Onchocytoma / Onchocytosis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::pleomorphic_adenoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::pleomorphic_adenoma",
               "label": "Pleomorphic Adenoma",
               "provenance": "abpath",
               "query": "Pleomorphic Adenoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::reporting_guidelines",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::reporting_guidelines",
               "label": "Reporting Guidelines",
               "provenance": "abpath",
               "query": "Reporting Guidelines",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::salivary_duct_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::salivary_duct_carcinoma",
               "label": "Salivary Duct Carcinoma",
               "provenance": "abpath",
               "query": "Salivary Duct Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::secretory_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::secretory_carcinoma",
               "label": "Secretory Carcinoma",
               "provenance": "abpath",
               "query": "Secretory Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::squamous_cell_carcinoma",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::squamous_cell_carcinoma",
               "label": "Squamous Cell Carcinoma",
               "provenance": "both",
               "query": "Squamous Cell Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors_xxx::warthin_tumor",
+              "tag": "ABPathSpec::cyto::primary_epithelial_myoepithelial_tumors::warthin_tumor",
               "label": "Warthin Tumor",
               "provenance": "abpath",
               "query": "Warthin Tumor",
@@ -13878,7 +13871,7 @@
         },
         {
           "id": "genetics",
-          "label": "GENETICS",
+          "label": "Genetics",
           "leaf_count": 4,
           "leaves": [
             {
@@ -13927,8 +13920,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "HEME",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 5,
           "leaves": [
             {
@@ -14942,8 +14935,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "HEME",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 11,
           "leaves": [
             {
@@ -18572,8 +18565,21 @@
           ]
         },
         {
+          "id": "gallbladder_bile_ducts",
+          "label": "Gallbladder Bile Ducts",
+          "leaf_count": 1,
+          "leaves": [
+            {
+              "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
+              "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
+              "provenance": "who",
+              "query": "Pyloric Gland Adenoma of the Gallbladder"
+            }
+          ]
+        },
+        {
           "id": "genetics",
-          "label": "GENETICS",
+          "label": "Genetics",
           "leaf_count": 5,
           "leaves": [
             {
@@ -18609,21 +18615,8 @@
           ]
         },
         {
-          "id": "gallbladder_bile_ducts",
-          "label": "Gallbladder Bile Ducts",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
-              "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
-              "provenance": "who",
-              "query": "Pyloric Gland Adenoma of the Gallbladder"
-            }
-          ]
-        },
-        {
-          "id": "heme",
-          "label": "HEME",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 14,
           "leaves": [
             {
@@ -20041,8 +20034,8 @@
       "leaf_count": 259,
       "subcategories": [
         {
-          "id": "heme",
-          "label": "HEME",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 3,
           "leaves": [
             {
@@ -22169,37 +22162,6 @@
           ]
         },
         {
-          "id": "genetics",
-          "label": "GENETICS",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "GYN::GENETICS::Cowden_Syndrome",
-              "label": "Cowden_Syndrome",
-              "provenance": "who",
-              "query": "Cowden Syndrome"
-            },
-            {
-              "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-              "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-              "provenance": "who",
-              "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
-            },
-            {
-              "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
-              "label": "Li_Fraumeni_Syndrome",
-              "provenance": "who",
-              "query": "Li Fraumeni Syndrome"
-            },
-            {
-              "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
-              "label": "Ovarian_Dysgenesis",
-              "provenance": "who",
-              "query": "Ovarian Dysgenesis"
-            }
-          ]
-        },
-        {
           "id": "gtd",
           "label": "GTD",
           "leaf_count": 7,
@@ -22249,6 +22211,37 @@
           ]
         },
         {
+          "id": "genetics",
+          "label": "Genetics",
+          "leaf_count": 4,
+          "leaves": [
+            {
+              "tag": "GYN::GENETICS::Cowden_Syndrome",
+              "label": "Cowden_Syndrome",
+              "provenance": "who",
+              "query": "Cowden Syndrome"
+            },
+            {
+              "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+              "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+              "provenance": "who",
+              "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
+            },
+            {
+              "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
+              "label": "Li_Fraumeni_Syndrome",
+              "provenance": "who",
+              "query": "Li Fraumeni Syndrome"
+            },
+            {
+              "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
+              "label": "Ovarian_Dysgenesis",
+              "provenance": "who",
+              "query": "Ovarian Dysgenesis"
+            }
+          ]
+        },
+        {
           "id": "gestational_trophoblastic_disease",
           "label": "Gestational Trophoblastic Disease",
           "leaf_count": 5,
@@ -22291,8 +22284,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "HEME",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 6,
           "leaves": [
             {
@@ -24596,8 +24589,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "Heme",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 18,
           "leaves": [
             {
@@ -25999,24 +25992,10 @@
     },
     {
       "id": "heme",
-      "label": "Hematopathology / Lymph Nodes",
+      "label": "Hematolymphoid",
       "kind": "root",
-      "leaf_count": 207,
+      "leaf_count": 206,
       "subcategories": [
-        {
-          "id": "3964",
-          "label": "3964",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::heme::3964::acute_leukemias_of_ambiguous_lineage",
-              "label": "Acute Leukemias of Ambiguous Lineage",
-              "provenance": "abpath",
-              "query": "Acute Leukemias of Ambiguous Lineage",
-              "abpath_level": "F"
-            }
-          ]
-        },
         {
           "id": "aml_with_recurrent_genetic_abnormalities",
           "label": "AML with Recurrent Genetic Abnormalities",
@@ -26062,13 +26041,20 @@
         {
           "id": "aml_not_otherwise_specified",
           "label": "AML, Not Otherwise Specified",
-          "leaf_count": 8,
+          "leaf_count": 9,
           "leaves": [
             {
               "tag": "ABPathSpec::heme::aml_not_otherwise_specified::acute_erythroid_leukemia",
               "label": "Acute Erythroid Leukemia",
               "provenance": "abpath",
               "query": "Acute Erythroid Leukemia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::heme::aml_not_otherwise_specified::acute_leukemias_of_ambiguous_lineage",
+              "label": "Acute Leukemias of Ambiguous Lineage",
+              "provenance": "abpath",
+              "query": "Acute Leukemias of Ambiguous Lineage",
               "abpath_level": "F"
             },
             {
@@ -26139,14 +26125,8 @@
         {
           "id": "b_cell_lymphomas",
           "label": "B Cell Lymphomas",
-          "leaf_count": 20,
+          "leaf_count": 19,
           "leaves": [
-            {
-              "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_NOS",
-              "label": "B_lymphoblastic_Leukemia_lymphoma_NOS",
-              "provenance": "who",
-              "query": "B lymphoblastic Leukemia lymphoma NOS"
-            },
             {
               "tag": "Heme::B_Cell_Lymphomas::Precursor_B_Cell::B_ALL::B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
               "label": "B_lymphoblastic_Leukemia_lymphoma_with_BCR_ABL1_like_Features",
@@ -26271,7 +26251,7 @@
             {
               "tag": "ABPathSpec::heme::b_lymphoblastic_leukemia_lymphoma::b_lymphoblastic_leukemia_lymphoma_not_otherwise_specified",
               "label": "B Lymphoblastic Leukemia/Lymphoma, Not Otherwise Specified",
-              "provenance": "abpath",
+              "provenance": "both",
               "query": "B Lymphoblastic Leukemia/Lymphoma, Not Otherwise Specified",
               "abpath_level": "AR"
             }
@@ -27706,7 +27686,7 @@
       "subcategories": [
         {
           "id": "cell_cycle_apoptosis",
-          "label": "CELL CYCLE APOPTOSIS",
+          "label": "Cell Cycle Apoptosis",
           "leaf_count": 4,
           "leaves": [
             {
@@ -27737,7 +27717,7 @@
         },
         {
           "id": "dna_repair_stability",
-          "label": "DNA REPAIR STABILITY",
+          "label": "DNA Repair Stability",
           "leaf_count": 16,
           "leaves": [
             {
@@ -27840,7 +27820,7 @@
         },
         {
           "id": "epigenetics_chromatin",
-          "label": "EPIGENETICS CHROMATIN",
+          "label": "Epigenetics Chromatin",
           "leaf_count": 4,
           "leaves": [
             {
@@ -27871,7 +27851,7 @@
         },
         {
           "id": "growth_factor_signaling",
-          "label": "GROWTH FACTOR SIGNALING",
+          "label": "Growth Factor Signaling",
           "leaf_count": 27,
           "leaves": [
             {
@@ -28040,7 +28020,7 @@
         },
         {
           "id": "metabolism_oxidative_stress",
-          "label": "METABOLISM OXIDATIVE STRESS",
+          "label": "Metabolism Oxidative Stress",
           "leaf_count": 2,
           "leaves": [
             {
@@ -28059,7 +28039,7 @@
         },
         {
           "id": "protein_regulation",
-          "label": "PROTEIN REGULATION",
+          "label": "Protein Regulation",
           "leaf_count": 1,
           "leaves": [
             {
@@ -28072,7 +28052,7 @@
         },
         {
           "id": "rna_regulation",
-          "label": "RNA REGULATION",
+          "label": "RNA Regulation",
           "leaf_count": 2,
           "leaves": [
             {
@@ -28091,7 +28071,7 @@
         },
         {
           "id": "telomere_maintenance",
-          "label": "TELOMERE MAINTENANCE",
+          "label": "Telomere Maintenance",
           "leaf_count": 1,
           "leaves": [
             {
@@ -28108,7 +28088,7 @@
       "id": "neuro",
       "label": "Neuropathology",
       "kind": "root",
-      "leaf_count": 623,
+      "leaf_count": 622,
       "subcategories": [
         {
           "id": "acute_subacute_white_matter_lesions",
@@ -29505,7 +29485,7 @@
         {
           "id": "embryonal",
           "label": "Embryonal",
-          "leaf_count": 4,
+          "leaf_count": 3,
           "leaves": [
             {
               "tag": "Neuro::Embryonal::Other_Embryonal::CNS_embryonal_tumor_NEC_NOS",
@@ -29524,12 +29504,6 @@
               "label": "Medulloblastoma_non_WNT_non_SHH",
               "provenance": "who",
               "query": "Medulloblastoma non WNT non SHH"
-            },
-            {
-              "tag": "Neuro::Embryonal::Medulloblastoma::Molecular_Defined::Medulloblastoma_SHH_activated_and_TP53_mutant",
-              "label": "Medulloblastoma_SHH_activated_and_TP53_mutant",
-              "provenance": "who",
-              "query": "Medulloblastoma SHH activated and TP53 mutant"
             }
           ]
         },
@@ -29611,7 +29585,7 @@
             {
               "tag": "ABPathSpec::neuro::embryonal_tumors::medulloblastoma_shh_activated_tp53_mutant",
               "label": "Medulloblastoma, SHH-Activated & TP53 Mutant",
-              "provenance": "abpath",
+              "provenance": "both",
               "query": "Medulloblastoma, SHH-Activated & TP53 Mutant",
               "abpath_level": "F"
             },
@@ -29976,7 +29950,7 @@
         },
         {
           "id": "genetics",
-          "label": "GENETICS",
+          "label": "Genetics",
           "leaf_count": 2,
           "leaves": [
             {
@@ -30217,8 +30191,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "Heme",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 10,
           "leaves": [
             {
@@ -35797,8 +35771,8 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "Heme",
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
           "leaf_count": 19,
           "leaves": [
             {
@@ -36212,55 +36186,6 @@
           ]
         },
         {
-          "id": "infectious_inflammatory_and_autoimmune_disorders",
-          "label": "Infectious, Inflammatory, and Autoimmune Disorders",
-          "leaf_count": 6,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::autoimmune_hepatitis",
-              "label": "Autoimmune Hepatitis",
-              "provenance": "abpath",
-              "query": "Autoimmune Hepatitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::cholangitis_e_g_primary_sclerosis_cholangitis",
-              "label": "Cholangitis (e.g., Primary Sclerosis Cholangitis)",
-              "provenance": "abpath",
-              "query": "Cholangitis (e.g., Primary Sclerosis Cholangitis)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::drug_toxin_induced",
-              "label": "Drug/Toxin Induced",
-              "provenance": "abpath",
-              "query": "Drug/Toxin Induced",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::neonatal_giant_cell_hepatitis",
-              "label": "Neonatal Giant Cell Hepatitis",
-              "provenance": "abpath",
-              "query": "Neonatal Giant Cell Hepatitis",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::non_viral_causes_of_infectious_hepatitis",
-              "label": "Non-Viral Causes of Infectious Hepatitis",
-              "provenance": "abpath",
-              "query": "Non-Viral Causes of Infectious Hepatitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::infectious_inflammatory_and_autoimmune_disorders::viral_hepatitis",
-              "label": "Viral Hepatitis",
-              "provenance": "abpath",
-              "query": "Viral Hepatitis",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
           "id": "inflammatory_bowel_disease",
           "label": "Inflammatory Bowel Disease",
           "leaf_count": 3,
@@ -36438,7 +36363,7 @@
         {
           "id": "inflammatory_infectious_and_autoimmune_disorders",
           "label": "Inflammatory, Infectious, and Autoimmune Disorders",
-          "leaf_count": 26,
+          "leaf_count": 32,
           "leaves": [
             {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::anti_basement_membrane_disease",
@@ -36448,11 +36373,25 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::autoimmune_hepatitis",
+              "label": "Autoimmune Hepatitis",
+              "provenance": "abpath",
+              "query": "Autoimmune Hepatitis",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::bacterial_infections",
               "label": "Bacterial Infections",
               "provenance": "abpath",
               "query": "Bacterial Infections",
               "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::cholangitis_e_g_primary_sclerosis_cholangitis",
+              "label": "Cholangitis (e.g., Primary Sclerosis Cholangitis)",
+              "provenance": "abpath",
+              "query": "Cholangitis (e.g., Primary Sclerosis Cholangitis)",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::congenital_pneumonia",
@@ -36474,6 +36413,13 @@
               "provenance": "abpath",
               "query": "Dermatophytoses",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::drug_toxin_induced",
+              "label": "Drug/Toxin Induced",
+              "provenance": "abpath",
+              "query": "Drug/Toxin Induced",
+              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::endocarditis",
@@ -36560,6 +36506,20 @@
               "abpath_level": "C"
             },
             {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::neonatal_giant_cell_hepatitis",
+              "label": "Neonatal Giant Cell Hepatitis",
+              "provenance": "abpath",
+              "query": "Neonatal Giant Cell Hepatitis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::non_viral_causes_of_infectious_hepatitis",
+              "label": "Non-Viral Causes of Infectious Hepatitis",
+              "provenance": "abpath",
+              "query": "Non-Viral Causes of Infectious Hepatitis",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::ophthalmitis",
               "label": "Ophthalmitis",
               "provenance": "abpath",
@@ -36614,6 +36574,13 @@
               "provenance": "abpath",
               "query": "Viral Exanthems",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::viral_hepatitis",
+              "label": "Viral Hepatitis",
+              "provenance": "abpath",
+              "query": "Viral Hepatitis",
+              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::peds::inflammatory_infectious_and_autoimmune_disorders::viral_infections",
@@ -38590,12 +38557,12 @@
           ]
         },
         {
-          "id": "salivary_gland",
-          "label": "Salivary Gland",
+          "id": "salivary_glands",
+          "label": "Salivary Glands",
           "leaf_count": 1,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::salivary_gland::sialadenitis_infectious_inflammatory_autoimmune",
+              "tag": "ABPathSpec::peds::salivary_glands::sialadenitis_infectious_inflammatory_autoimmune",
               "label": "Sialadenitis (Infectious/Inflammatory/Autoimmune)",
               "provenance": "abpath",
               "query": "Sialadenitis (Infectious/Inflammatory/Autoimmune)",
@@ -40140,73 +40107,6 @@
           ]
         },
         {
-          "id": "heme",
-          "label": "HEME",
-          "leaf_count": 10,
-          "leaves": [
-            {
-              "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-              "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-              "provenance": "who",
-              "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-              "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-              "provenance": "who",
-              "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-              "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-              "provenance": "who",
-              "query": "Intravascular Large B Cell Lymphoma of the Lung"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
-              "label": "MALT_Lymphoma_of_the_Lung",
-              "provenance": "who",
-              "query": "MALT Lymphoma of the Lung"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
-              "label": "MALT_Lymphoma_of_the_Mediastinum",
-              "provenance": "who",
-              "query": "MALT Lymphoma of the Mediastinum"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
-              "label": "Mediastinal_Grey_Zone_Lymphoma",
-              "provenance": "who",
-              "query": "Mediastinal Grey Zone Lymphoma"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
-              "label": "Myeloid_Sarcoma_of_the_Mediastinum",
-              "provenance": "who",
-              "query": "Myeloid Sarcoma of the Mediastinum"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-              "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-              "provenance": "who",
-              "query": "Pulmonary Diffuse Large B Cell Lymphoma"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
-              "label": "Pulmonary_Erdheim_Chester_Disease",
-              "provenance": "who",
-              "query": "Pulmonary Erdheim Chester Disease"
-            },
-            {
-              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
-              "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
-              "provenance": "who",
-              "query": "Pulmonary Langerhans Cell Histiocytosis"
-            }
-          ]
-        },
-        {
           "id": "heart",
           "label": "Heart",
           "leaf_count": 14,
@@ -40294,6 +40194,73 @@
               "label": "Lipomatous_Hamartoma_of_the_Atrioventricular_Valve",
               "provenance": "who",
               "query": "Lipomatous Hamartoma of the Atrioventricular Valve"
+            }
+          ]
+        },
+        {
+          "id": "hematolymphoid",
+          "label": "Hematolymphoid",
+          "leaf_count": 10,
+          "leaves": [
+            {
+              "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+              "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+              "provenance": "who",
+              "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+              "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+              "provenance": "who",
+              "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+              "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+              "provenance": "who",
+              "query": "Intravascular Large B Cell Lymphoma of the Lung"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
+              "label": "MALT_Lymphoma_of_the_Lung",
+              "provenance": "who",
+              "query": "MALT Lymphoma of the Lung"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
+              "label": "MALT_Lymphoma_of_the_Mediastinum",
+              "provenance": "who",
+              "query": "MALT Lymphoma of the Mediastinum"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
+              "label": "Mediastinal_Grey_Zone_Lymphoma",
+              "provenance": "who",
+              "query": "Mediastinal Grey Zone Lymphoma"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
+              "label": "Myeloid_Sarcoma_of_the_Mediastinum",
+              "provenance": "who",
+              "query": "Myeloid Sarcoma of the Mediastinum"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+              "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+              "provenance": "who",
+              "query": "Pulmonary Diffuse Large B Cell Lymphoma"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
+              "label": "Pulmonary_Erdheim_Chester_Disease",
+              "provenance": "who",
+              "query": "Pulmonary Erdheim Chester Disease"
+            },
+            {
+              "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
+              "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
+              "provenance": "who",
+              "query": "Pulmonary Langerhans Cell Histiocytosis"
             }
           ]
         },
@@ -44604,7 +44571,7 @@
             },
             {
               "id": "genetics",
-              "label": "GENETICS",
+              "label": "Genetics",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -44653,8 +44620,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 5,
               "leaves": [
                 {
@@ -45381,8 +45348,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 11,
               "leaves": [
                 {
@@ -46042,8 +46009,21 @@
               ]
             },
             {
+              "id": "gallbladder_bile_ducts",
+              "label": "Gallbladder Bile Ducts",
+              "leaf_count": 1,
+              "leaves": [
+                {
+                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "provenance": "who",
+                  "query": "Pyloric Gland Adenoma of the Gallbladder"
+                }
+              ]
+            },
+            {
               "id": "genetics",
-              "label": "GENETICS",
+              "label": "Genetics",
               "leaf_count": 5,
               "leaves": [
                 {
@@ -46079,21 +46059,8 @@
               ]
             },
             {
-              "id": "gallbladder_bile_ducts",
-              "label": "Gallbladder Bile Ducts",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "provenance": "who",
-                  "query": "Pyloric Gland Adenoma of the Gallbladder"
-                }
-              ]
-            },
-            {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 14,
               "leaves": [
                 {
@@ -46551,8 +46518,8 @@
           "leaf_count": 140,
           "subcategories": [
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -47793,37 +47760,6 @@
               ]
             },
             {
-              "id": "genetics",
-              "label": "GENETICS",
-              "leaf_count": 4,
-              "leaves": [
-                {
-                  "tag": "GYN::GENETICS::Cowden_Syndrome",
-                  "label": "Cowden_Syndrome",
-                  "provenance": "who",
-                  "query": "Cowden Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "provenance": "who",
-                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
-                },
-                {
-                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
-                  "label": "Li_Fraumeni_Syndrome",
-                  "provenance": "who",
-                  "query": "Li Fraumeni Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
-                  "label": "Ovarian_Dysgenesis",
-                  "provenance": "who",
-                  "query": "Ovarian Dysgenesis"
-                }
-              ]
-            },
-            {
               "id": "gtd",
               "label": "GTD",
               "leaf_count": 9,
@@ -47885,8 +47821,39 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "genetics",
+              "label": "Genetics",
+              "leaf_count": 4,
+              "leaves": [
+                {
+                  "tag": "GYN::GENETICS::Cowden_Syndrome",
+                  "label": "Cowden_Syndrome",
+                  "provenance": "who",
+                  "query": "Cowden Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "provenance": "who",
+                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
+                },
+                {
+                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
+                  "label": "Li_Fraumeni_Syndrome",
+                  "provenance": "who",
+                  "query": "Li Fraumeni Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
+                  "label": "Ovarian_Dysgenesis",
+                  "provenance": "who",
+                  "query": "Ovarian Dysgenesis"
+                }
+              ]
+            },
+            {
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 6,
               "leaves": [
                 {
@@ -49420,8 +49387,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 18,
               "leaves": [
                 {
@@ -50473,7 +50440,7 @@
         },
         {
           "id": "heme",
-          "label": "Hematopathology / Lymph Nodes",
+          "label": "Hematolymphoid",
           "kind": "root",
           "leaf_count": 79,
           "subcategories": [
@@ -51003,7 +50970,7 @@
           "subcategories": [
             {
               "id": "cell_cycle_apoptosis",
-              "label": "CELL CYCLE APOPTOSIS",
+              "label": "Cell Cycle Apoptosis",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -51034,7 +51001,7 @@
             },
             {
               "id": "dna_repair_stability",
-              "label": "DNA REPAIR STABILITY",
+              "label": "DNA Repair Stability",
               "leaf_count": 16,
               "leaves": [
                 {
@@ -51137,7 +51104,7 @@
             },
             {
               "id": "epigenetics_chromatin",
-              "label": "EPIGENETICS CHROMATIN",
+              "label": "Epigenetics Chromatin",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -51168,7 +51135,7 @@
             },
             {
               "id": "growth_factor_signaling",
-              "label": "GROWTH FACTOR SIGNALING",
+              "label": "Growth Factor Signaling",
               "leaf_count": 27,
               "leaves": [
                 {
@@ -51337,7 +51304,7 @@
             },
             {
               "id": "metabolism_oxidative_stress",
-              "label": "METABOLISM OXIDATIVE STRESS",
+              "label": "Metabolism Oxidative Stress",
               "leaf_count": 2,
               "leaves": [
                 {
@@ -51356,7 +51323,7 @@
             },
             {
               "id": "protein_regulation",
-              "label": "PROTEIN REGULATION",
+              "label": "Protein Regulation",
               "leaf_count": 1,
               "leaves": [
                 {
@@ -51369,7 +51336,7 @@
             },
             {
               "id": "rna_regulation",
-              "label": "RNA REGULATION",
+              "label": "RNA Regulation",
               "leaf_count": 2,
               "leaves": [
                 {
@@ -51388,7 +51355,7 @@
             },
             {
               "id": "telomere_maintenance",
-              "label": "TELOMERE MAINTENANCE",
+              "label": "Telomere Maintenance",
               "leaf_count": 1,
               "leaves": [
                 {
@@ -51471,7 +51438,7 @@
             },
             {
               "id": "genetics",
-              "label": "GENETICS",
+              "label": "Genetics",
               "leaf_count": 6,
               "leaves": [
                 {
@@ -51622,8 +51589,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 12,
               "leaves": [
                 {
@@ -52432,8 +52399,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 20,
               "leaves": [
                 {
@@ -53375,73 +53342,6 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
-              "leaf_count": 10,
-              "leaves": [
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-                  "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-                  "provenance": "who",
-                  "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-                  "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-                  "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-                  "provenance": "who",
-                  "query": "Intravascular Large B Cell Lymphoma of the Lung"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
-                  "label": "MALT_Lymphoma_of_the_Lung",
-                  "provenance": "who",
-                  "query": "MALT Lymphoma of the Lung"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
-                  "label": "MALT_Lymphoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "MALT Lymphoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
-                  "label": "Mediastinal_Grey_Zone_Lymphoma",
-                  "provenance": "who",
-                  "query": "Mediastinal Grey Zone Lymphoma"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
-                  "label": "Myeloid_Sarcoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "Myeloid Sarcoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-                  "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-                  "provenance": "who",
-                  "query": "Pulmonary Diffuse Large B Cell Lymphoma"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
-                  "label": "Pulmonary_Erdheim_Chester_Disease",
-                  "provenance": "who",
-                  "query": "Pulmonary Erdheim Chester Disease"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
-                  "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
-                  "provenance": "who",
-                  "query": "Pulmonary Langerhans Cell Histiocytosis"
-                }
-              ]
-            },
-            {
               "id": "heart",
               "label": "Heart",
               "leaf_count": 14,
@@ -53529,6 +53429,73 @@
                   "label": "Lipomatous_Hamartoma_of_the_Atrioventricular_Valve",
                   "provenance": "who",
                   "query": "Lipomatous Hamartoma of the Atrioventricular Valve"
+                }
+              ]
+            },
+            {
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
+              "leaf_count": 10,
+              "leaves": [
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+                  "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+                  "provenance": "who",
+                  "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+                  "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+                  "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+                  "provenance": "who",
+                  "query": "Intravascular Large B Cell Lymphoma of the Lung"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
+                  "label": "MALT_Lymphoma_of_the_Lung",
+                  "provenance": "who",
+                  "query": "MALT Lymphoma of the Lung"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
+                  "label": "MALT_Lymphoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "MALT Lymphoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
+                  "label": "Mediastinal_Grey_Zone_Lymphoma",
+                  "provenance": "who",
+                  "query": "Mediastinal Grey Zone Lymphoma"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
+                  "label": "Myeloid_Sarcoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "Myeloid Sarcoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+                  "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+                  "provenance": "who",
+                  "query": "Pulmonary Diffuse Large B Cell Lymphoma"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
+                  "label": "Pulmonary_Erdheim_Chester_Disease",
+                  "provenance": "who",
+                  "query": "Pulmonary Erdheim Chester Disease"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
+                  "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
+                  "provenance": "who",
+                  "query": "Pulmonary Langerhans Cell Histiocytosis"
                 }
               ]
             },
@@ -60761,7 +60728,7 @@
             },
             {
               "id": "genetics",
-              "label": "GENETICS",
+              "label": "Genetics",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -60810,8 +60777,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 5,
               "leaves": [
                 {
@@ -62220,8 +62187,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 11,
               "leaves": [
                 {
@@ -64103,43 +64070,6 @@
               ]
             },
             {
-              "id": "genetics",
-              "label": "GENETICS",
-              "leaf_count": 5,
-              "leaves": [
-                {
-                  "tag": "GI::GENETICS::Syndromes::Cowden_Syndrome",
-                  "label": "Cowden_Syndrome",
-                  "provenance": "both",
-                  "query": "Cowden Syndrome"
-                },
-                {
-                  "tag": "GI::GENETICS::Syndromes::Familial_Pancreatic_Cancer",
-                  "label": "Familial_Pancreatic_Cancer",
-                  "provenance": "who",
-                  "query": "Familial Pancreatic Cancer"
-                },
-                {
-                  "tag": "GI::GENETICS::Syndromes::GAPPS_and_Other_Fundic_Gland_Polyposes",
-                  "label": "GAPPS_and_Other_Fundic_Gland_Polyposes",
-                  "provenance": "who",
-                  "query": "GAPPS and Other Fundic Gland Polyposes"
-                },
-                {
-                  "tag": "GI::GENETICS::Syndromes::Other_Adenomatous_Polyposes",
-                  "label": "Other_Adenomatous_Polyposes",
-                  "provenance": "who",
-                  "query": "Other Adenomatous Polyposes"
-                },
-                {
-                  "tag": "GI::GENETICS::Syndromes::Peutz_Jeghers_Syndrome",
-                  "label": "Peutz_Jeghers_Syndrome",
-                  "provenance": "who",
-                  "query": "Peutz Jeghers Syndrome"
-                }
-              ]
-            },
-            {
               "id": "gallbladder_bile_ducts",
               "label": "Gallbladder Bile Ducts",
               "leaf_count": 1,
@@ -64184,9 +64114,46 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
-              "leaf_count": 14,
+              "id": "genetics",
+              "label": "Genetics",
+              "leaf_count": 5,
+              "leaves": [
+                {
+                  "tag": "GI::GENETICS::Syndromes::Cowden_Syndrome",
+                  "label": "Cowden_Syndrome",
+                  "provenance": "both",
+                  "query": "Cowden Syndrome"
+                },
+                {
+                  "tag": "GI::GENETICS::Syndromes::Familial_Pancreatic_Cancer",
+                  "label": "Familial_Pancreatic_Cancer",
+                  "provenance": "who",
+                  "query": "Familial Pancreatic Cancer"
+                },
+                {
+                  "tag": "GI::GENETICS::Syndromes::GAPPS_and_Other_Fundic_Gland_Polyposes",
+                  "label": "GAPPS_and_Other_Fundic_Gland_Polyposes",
+                  "provenance": "who",
+                  "query": "GAPPS and Other Fundic Gland Polyposes"
+                },
+                {
+                  "tag": "GI::GENETICS::Syndromes::Other_Adenomatous_Polyposes",
+                  "label": "Other_Adenomatous_Polyposes",
+                  "provenance": "who",
+                  "query": "Other Adenomatous Polyposes"
+                },
+                {
+                  "tag": "GI::GENETICS::Syndromes::Peutz_Jeghers_Syndrome",
+                  "label": "Peutz_Jeghers_Syndrome",
+                  "provenance": "who",
+                  "query": "Peutz Jeghers Syndrome"
+                }
+              ]
+            },
+            {
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
+              "leaf_count": 15,
               "leaves": [
                 {
                   "tag": "GI::HEME::Site_Specific_Hema::Duodenal_Type_Follicular_Lymphoma",
@@ -64231,6 +64198,12 @@
                   "query": "Histiocytic Sarcoma"
                 },
                 {
+                  "tag": "GI::Hematolymphoid::T_Cell_Lymphoma::Indolent_T_Cell_Lymphoma_GI_Tract",
+                  "label": "Indolent_T_Cell_Lymphoma_GI_Tract",
+                  "provenance": "pathout",
+                  "query": "Indolent T Cell Lymphoma GI Tract"
+                },
+                {
                   "tag": "GI::HEME::Site_Specific_Hema::Indolent_T_Cell_Lymphoproliferative_Disorder_of_the_GI_Tract",
                   "label": "Indolent_T_Cell_Lymphoproliferative_Disorder_of_the_GI_Tract",
                   "provenance": "who",
@@ -64271,19 +64244,6 @@
                   "label": "Posttransplant_Lymphoproliferative_Disorders",
                   "provenance": "who",
                   "query": "Posttransplant Lymphoproliferative Disorders"
-                }
-              ]
-            },
-            {
-              "id": "hematolymphoid",
-              "label": "Hematolymphoid",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GI::Hematolymphoid::T_Cell_Lymphoma::Indolent_T_Cell_Lymphoma_GI_Tract",
-                  "label": "Indolent_T_Cell_Lymphoma_GI_Tract",
-                  "provenance": "pathout",
-                  "query": "Indolent T Cell Lymphoma GI Tract"
                 }
               ]
             },
@@ -65850,8 +65810,8 @@
               ]
             },
             {
-              "id": "syndrome",
-              "label": "Syndrome",
+              "id": "syndromes",
+              "label": "Syndromes",
               "leaf_count": 8,
               "leaves": [
                 {
@@ -66370,8 +66330,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -69000,37 +68960,6 @@
               ]
             },
             {
-              "id": "genetics",
-              "label": "GENETICS",
-              "leaf_count": 4,
-              "leaves": [
-                {
-                  "tag": "GYN::GENETICS::Cowden_Syndrome",
-                  "label": "Cowden_Syndrome",
-                  "provenance": "who",
-                  "query": "Cowden Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
-                  "provenance": "who",
-                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
-                },
-                {
-                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
-                  "label": "Li_Fraumeni_Syndrome",
-                  "provenance": "who",
-                  "query": "Li Fraumeni Syndrome"
-                },
-                {
-                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
-                  "label": "Ovarian_Dysgenesis",
-                  "provenance": "who",
-                  "query": "Ovarian Dysgenesis"
-                }
-              ]
-            },
-            {
               "id": "gtd",
               "label": "GTD",
               "leaf_count": 9,
@@ -69092,8 +69021,39 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
+              "id": "genetics",
+              "label": "Genetics",
+              "leaf_count": 4,
+              "leaves": [
+                {
+                  "tag": "GYN::GENETICS::Cowden_Syndrome",
+                  "label": "Cowden_Syndrome",
+                  "provenance": "who",
+                  "query": "Cowden Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "label": "Hereditary_Leiomyomatosis_and_Renal_Cell_Carcinoma",
+                  "provenance": "who",
+                  "query": "Hereditary Leiomyomatosis and Renal Cell Carcinoma"
+                },
+                {
+                  "tag": "GYN::GENETICS::Li_Fraumeni_Syndrome",
+                  "label": "Li_Fraumeni_Syndrome",
+                  "provenance": "who",
+                  "query": "Li Fraumeni Syndrome"
+                },
+                {
+                  "tag": "GYN::GENETICS::Ovarian_Dysgenesis",
+                  "label": "Ovarian_Dysgenesis",
+                  "provenance": "who",
+                  "query": "Ovarian Dysgenesis"
+                }
+              ]
+            },
+            {
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 6,
               "leaves": [
                 {
@@ -71622,8 +71582,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 20,
               "leaves": [
                 {
@@ -72966,8 +72926,8 @@
               ]
             },
             {
-              "id": "salivary_gland",
-              "label": "Salivary Gland",
+              "id": "salivary_glands",
+              "label": "Salivary Glands",
               "leaf_count": 24,
               "leaves": [
                 {
@@ -73483,7 +73443,7 @@
         },
         {
           "id": "heme",
-          "label": "Hematopathology / Lymph Nodes",
+          "label": "Hematolymphoid",
           "kind": "root",
           "leaf_count": 334,
           "subcategories": [
@@ -74010,8 +73970,8 @@
               ]
             },
             {
-              "id": "infection",
-              "label": "Infection",
+              "id": "infections",
+              "label": "Infections",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -74873,7 +74833,7 @@
             },
             {
               "id": "non_neoplastic",
-              "label": "Non Neoplastic",
+              "label": "Non-Neoplastic",
               "leaf_count": 16,
               "leaves": [
                 {
@@ -75620,7 +75580,7 @@
           "subcategories": [
             {
               "id": "cell_cycle_apoptosis",
-              "label": "CELL CYCLE APOPTOSIS",
+              "label": "Cell Cycle Apoptosis",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -75651,7 +75611,7 @@
             },
             {
               "id": "dna_repair_stability",
-              "label": "DNA REPAIR STABILITY",
+              "label": "DNA Repair Stability",
               "leaf_count": 16,
               "leaves": [
                 {
@@ -75754,7 +75714,7 @@
             },
             {
               "id": "epigenetics_chromatin",
-              "label": "EPIGENETICS CHROMATIN",
+              "label": "Epigenetics Chromatin",
               "leaf_count": 4,
               "leaves": [
                 {
@@ -75785,7 +75745,7 @@
             },
             {
               "id": "growth_factor_signaling",
-              "label": "GROWTH FACTOR SIGNALING",
+              "label": "Growth Factor Signaling",
               "leaf_count": 27,
               "leaves": [
                 {
@@ -75953,8 +75913,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 48,
               "leaves": [
                 {
@@ -76317,7 +76277,7 @@
             },
             {
               "id": "metabolism_oxidative_stress",
-              "label": "METABOLISM OXIDATIVE STRESS",
+              "label": "Metabolism Oxidative Stress",
               "leaf_count": 2,
               "leaves": [
                 {
@@ -76336,7 +76296,7 @@
             },
             {
               "id": "protein_regulation",
-              "label": "PROTEIN REGULATION",
+              "label": "Protein Regulation",
               "leaf_count": 1,
               "leaves": [
                 {
@@ -76349,7 +76309,7 @@
             },
             {
               "id": "rna_regulation",
-              "label": "RNA REGULATION",
+              "label": "RNA Regulation",
               "leaf_count": 2,
               "leaves": [
                 {
@@ -76567,7 +76527,7 @@
             },
             {
               "id": "telomere_maintenance",
-              "label": "TELOMERE MAINTENANCE",
+              "label": "Telomere Maintenance",
               "leaf_count": 1,
               "leaves": [
                 {
@@ -76612,8 +76572,8 @@
               ]
             },
             {
-              "id": "cyst",
-              "label": "Cyst",
+              "id": "cysts",
+              "label": "Cysts",
               "leaf_count": 2,
               "leaves": [
                 {
@@ -76669,7 +76629,7 @@
             },
             {
               "id": "genetics",
-              "label": "GENETICS",
+              "label": "Genetics",
               "leaf_count": 6,
               "leaves": [
                 {
@@ -76820,8 +76780,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 12,
               "leaves": [
                 {
@@ -76899,8 +76859,8 @@
               ]
             },
             {
-              "id": "infection",
-              "label": "Infection",
+              "id": "infections",
+              "label": "Infections",
               "leaf_count": 12,
               "leaves": [
                 {
@@ -77048,7 +77008,7 @@
             },
             {
               "id": "non_neoplastic",
-              "label": "Non Neoplastic",
+              "label": "Non-Neoplastic",
               "leaf_count": 19,
               "leaves": [
                 {
@@ -78180,8 +78140,8 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "Heme",
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
               "leaf_count": 20,
               "leaves": [
                 {
@@ -79123,73 +79083,6 @@
               ]
             },
             {
-              "id": "heme",
-              "label": "HEME",
-              "leaf_count": 10,
-              "leaves": [
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-                  "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
-                  "provenance": "who",
-                  "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-                  "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-                  "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
-                  "provenance": "who",
-                  "query": "Intravascular Large B Cell Lymphoma of the Lung"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
-                  "label": "MALT_Lymphoma_of_the_Lung",
-                  "provenance": "who",
-                  "query": "MALT Lymphoma of the Lung"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
-                  "label": "MALT_Lymphoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "MALT Lymphoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
-                  "label": "Mediastinal_Grey_Zone_Lymphoma",
-                  "provenance": "who",
-                  "query": "Mediastinal Grey Zone Lymphoma"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
-                  "label": "Myeloid_Sarcoma_of_the_Mediastinum",
-                  "provenance": "who",
-                  "query": "Myeloid Sarcoma of the Mediastinum"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-                  "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
-                  "provenance": "who",
-                  "query": "Pulmonary Diffuse Large B Cell Lymphoma"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
-                  "label": "Pulmonary_Erdheim_Chester_Disease",
-                  "provenance": "both",
-                  "query": "Pulmonary Erdheim Chester Disease"
-                },
-                {
-                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
-                  "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
-                  "provenance": "both",
-                  "query": "Pulmonary Langerhans Cell Histiocytosis"
-                }
-              ]
-            },
-            {
               "id": "heart",
               "label": "Heart",
               "leaf_count": 14,
@@ -79277,6 +79170,73 @@
                   "label": "Lipomatous_Hamartoma_of_the_Atrioventricular_Valve",
                   "provenance": "who",
                   "query": "Lipomatous Hamartoma of the Atrioventricular Valve"
+                }
+              ]
+            },
+            {
+              "id": "hematolymphoid",
+              "label": "Hematolymphoid",
+              "leaf_count": 10,
+              "leaves": [
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+                  "label": "Diffuse_Large_B_Cell_Lymphoma_Associated_with_Chronic_Inflammation_of_the_Pleura",
+                  "provenance": "who",
+                  "query": "Diffuse Large B Cell Lymphoma Associated with Chronic Inflammation of the Pleura"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+                  "label": "Follicular_Dendritic_Cell_Sarcoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "Follicular Dendritic Cell Sarcoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+                  "label": "Intravascular_Large_B_Cell_Lymphoma_of_the_Lung",
+                  "provenance": "who",
+                  "query": "Intravascular Large B Cell Lymphoma of the Lung"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::MALT_Lymphoma_of_the_Lung",
+                  "label": "MALT_Lymphoma_of_the_Lung",
+                  "provenance": "who",
+                  "query": "MALT Lymphoma of the Lung"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::MALT_Lymphoma_of_the_Mediastinum",
+                  "label": "MALT_Lymphoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "MALT Lymphoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Mediastinal_Grey_Zone_Lymphoma",
+                  "label": "Mediastinal_Grey_Zone_Lymphoma",
+                  "provenance": "who",
+                  "query": "Mediastinal Grey Zone Lymphoma"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Sarcoma::Myeloid_Sarcoma_of_the_Mediastinum",
+                  "label": "Myeloid_Sarcoma_of_the_Mediastinum",
+                  "provenance": "who",
+                  "query": "Myeloid Sarcoma of the Mediastinum"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+                  "label": "Pulmonary_Diffuse_Large_B_Cell_Lymphoma",
+                  "provenance": "who",
+                  "query": "Pulmonary Diffuse Large B Cell Lymphoma"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Erdheim_Chester_Disease",
+                  "label": "Pulmonary_Erdheim_Chester_Disease",
+                  "provenance": "both",
+                  "query": "Pulmonary Erdheim Chester Disease"
+                },
+                {
+                  "tag": "Thorax_Mediastinum::HEME::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
+                  "label": "Pulmonary_Langerhans_Cell_Histiocytosis",
+                  "provenance": "both",
+                  "query": "Pulmonary Langerhans Cell Histiocytosis"
                 }
               ]
             },

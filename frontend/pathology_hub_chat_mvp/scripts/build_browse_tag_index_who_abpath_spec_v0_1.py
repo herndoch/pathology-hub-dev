@@ -77,7 +77,7 @@ MAJOR_TO_ROOT: dict[int, tuple[str, str]] = {
     12: ("cyto", "Cytopathology"),
     13: ("skin", "Dermatopathology"),
     14: ("forensic", "Forensic Pathology"),
-    16: ("heme", "Hematopathology / Lymph Nodes"),
+    16: ("heme", "Hematolymphoid"),
     17: ("neuro", "Neuropathology"),
     18: ("peds", "Pediatric Pathology"),
 }
@@ -264,11 +264,73 @@ SUBCATEGORY_ALIASES: dict[str, tuple[str, str]] = {
     "malformations": ("malformations", "Malformations"),
     "joint": ("joints", "Joints"),
     "joints": ("joints", "Joints"),
+    # Heme must always read as "Hematolymphoid" — root AND subcategory.
+    "heme": ("hematolymphoid", "Hematolymphoid"),
+    "hematolymphoid": ("hematolymphoid", "Hematolymphoid"),
+    "hematopathology": ("hematolymphoid", "Hematolymphoid"),
 }
+
+# Acronyms to re-uppercase after title-casing all-caps ABPath section headers
+# (e.g. "GROWTH FACTOR SIGNALING" -> "Growth Factor Signaling", not "DNA" -> "Dna").
+_SUBCATEGORY_ACRONYM_WHITELIST = {
+    "dna", "rna", "hla", "ebv", "hpv", "hhv", "hhv8", "kshv", "hiv", "hlh",
+    "mgus", "poems", "cll", "sll", "dlbcl", "gist", "ihc", "fish", "pcr",
+    "alk", "egfr", "kras", "braf", "idh", "idh1", "idh2", "who", "abpath",
+    "nos", "gu", "hn", "gyn", "gi", "bst", "hpv16", "hpv18",
+}
+
+
+def _smart_titlecase_subcategory(raw: str) -> str:
+    """Title-case ABPath section headers the PDF rendered in ALL CAPS (e.g.
+    Molecular pathway categories), while leaving normal mixed-case text and
+    short acronym labels (GU, HN, GI, GYN) untouched."""
+    text = (raw or "").strip()
+    if not text:
+        return text
+    if len(text) <= 4 and text.isupper():
+        return text
+    letters = [c for c in text if c.isalpha()]
+    if not letters:
+        return text
+    upper_ratio = sum(1 for c in letters if c.isupper()) / len(letters)
+    if upper_ratio < 0.7:
+        return text
+    words = []
+    for word in text.split(" "):
+        stripped = word.strip("()/,&")
+        if stripped.lower() in _SUBCATEGORY_ACRONYM_WHITELIST:
+            words.append(word.upper())
+        else:
+            words.append(word[:1].upper() + word[1:].lower() if word else word)
+    return " ".join(words)
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _singularize_token(tok: str) -> str:
+    if len(tok) > 4 and tok.endswith("ies"):
+        return tok[:-3] + "y"
+    if len(tok) > 4 and tok.endswith("ses"):
+        return tok[:-2]
+    if len(tok) > 3 and tok.endswith("s") and not tok.endswith("ss"):
+        return tok[:-1]
+    return tok
+
+
+def _generic_subcategory_key(label: str) -> str:
+    """Plural/word-order-insensitive key so e.g. "Bone" / "Bones",
+    "Malformation" / "Malformations" collapse into one Browse subcategory
+    without needing every organ system hand-listed in SUBCATEGORY_ALIASES."""
+    text = re.sub(r"[^a-z0-9]+", " ", (label or "").lower()).strip()
+    tokens = sorted(_singularize_token(t) for t in text.split() if t)
+    return " ".join(tokens)
+
+
+# Aggressive dedupe cache: first canonical (sub_id, label) seen per generic
+# key wins for the lifetime of one builder run (module-level, reset per run).
+_SUBCATEGORY_CANON_CACHE: dict[str, tuple[str, str]] = {}
 
 
 def normalize_subcategory(sub_label: str) -> tuple[str, str]:
@@ -278,16 +340,21 @@ def normalize_subcategory(sub_label: str) -> tuple[str, str]:
     # Repair glued WHO segments: Soft TissueAdipocytic → Soft Tissue
     raw = re.sub(r"(?i)\bSoft TissueAdipocytic\b", "Soft Tissue", raw)
     raw = re.sub(r"(?i)\bSoft_TissueAdipocytic\b", "Soft Tissue", raw)
+    # Strip OCR/PDF placeholder glyphs rendered as trailing "XXX".
+    raw = re.sub(r"(?i)\s+x{2,}\s*$", "", raw).strip() or raw
+    raw = _smart_titlecase_subcategory(raw)
     key = re.sub(r"[^a-z0-9]+", " ", raw.lower()).strip()
     if key in SUBCATEGORY_ALIASES:
-        return SUBCATEGORY_ALIASES[key]
-    # Singular/plural near-match against known aliases
-    singular = key[:-1] if key.endswith("s") and not key.endswith("ss") else key
-    for alias_key, canon in SUBCATEGORY_ALIASES.items():
-        a_sing = alias_key[:-1] if alias_key.endswith("s") and not alias_key.endswith("ss") else alias_key
-        if singular == a_sing or key == alias_key:
-            return canon
-    return slugify(raw) or "general", raw
+        canon = SUBCATEGORY_ALIASES[key]
+        _SUBCATEGORY_CANON_CACHE.setdefault(_generic_subcategory_key(raw), canon)
+        return canon
+    generic = _generic_subcategory_key(raw)
+    cached = _SUBCATEGORY_CANON_CACHE.get(generic)
+    if cached:
+        return cached
+    canon = (slugify(raw) or "general", raw)
+    _SUBCATEGORY_CANON_CACHE[generic] = canon
+    return canon
 
 
 def repair_who_tag(tag: str) -> str:
@@ -393,8 +460,13 @@ def major_number(major_section: str) -> Optional[int]:
 
 
 def normalize_label_key(text: str) -> str:
+    """Super-aggressive dedupe key: same diagnosis entity should collide
+    regardless of source formatting (WHO underscores vs ABPath prose,
+    "&" vs "and", "Not Otherwise Specified" vs "NOS", hyphenation, casing)."""
     text = (text or "").lower()
     text = re.sub(r"\([^)]*\)", " ", text)
+    text = text.replace("&", " and ")
+    text = re.sub(r"\bnot otherwise specified\b", "nos", text)
     text = re.sub(r"[^a-z0-9]+", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
@@ -414,6 +486,14 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
     organ = (row.get("organ_system") or "").strip()
     category = (row.get("category") or "").strip()
     subsection = (row.get("subsection") or "").strip()
+    # PDF line-wrap artifacts sometimes leave a parenthetical continuation
+    # fragment (e.g. "(e.g., sclerosing adenosis, tubular adenosis,") or a
+    # bare page-number token in category/organ_system/subsection — never use
+    # that as a subcategory.
+    organ, category, subsection = (
+        v if v and not v.startswith("(") and not v.isdigit() else ""
+        for v in (organ, category, subsection)
+    )
     path = " / ".join(
         [
             row.get("major_section") or "",

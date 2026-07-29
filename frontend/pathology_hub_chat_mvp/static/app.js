@@ -105,7 +105,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "breast",
     label: "Breast",
-    glyph: "BR",
+    glyph: "Breast",
     gradient: "linear-gradient(135deg, #d1477a, #6b2142)",
     subcategories: [
       { id: "benign", label: "Benign Changes", entities: ["Fibroadenoma", "Fibrocystic change", "Sclerosing adenosis", "Intraductal papilloma"] },
@@ -118,7 +118,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_cervix",
     label: "Gyn — Cervix, Vulva & Vagina",
-    glyph: "CX",
+    glyph: "Cervix",
     gradient: "linear-gradient(135deg, #b23a6b, #5c1f42)",
     subcategories: [
       { id: "squamous", label: "Squamous Lesions", entities: ["CIN1 / LSIL", "CIN2", "CIN3 / HSIL", "Squamous cell carcinoma of cervix"] },
@@ -130,7 +130,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_uterus",
     label: "Gyn — Uterus",
-    glyph: "UT",
+    glyph: "Uterus",
     gradient: "linear-gradient(135deg, #a84a9c, #4a2159)",
     subcategories: [
       { id: "hyperplasia", label: "Hyperplasia & Precursors", entities: ["Endometrial hyperplasia without atypia", "Atypical hyperplasia / EIN"] },
@@ -141,7 +141,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_ovary",
     label: "Gyn — Ovary",
-    glyph: "OV",
+    glyph: "Ovary",
     gradient: "linear-gradient(135deg, #8a4fc9, #3c2166)",
     subcategories: [
       { id: "epithelial", label: "Epithelial Tumors", entities: ["Serous borderline tumor", "High-grade serous carcinoma", "Mucinous cystadenoma", "Endometrioid carcinoma of ovary"] },
@@ -164,7 +164,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "hepatobiliary",
     label: "Hepatobiliary & Pancreatic",
-    glyph: "HP",
+    glyph: "Hepatobiliary",
     gradient: "linear-gradient(135deg, #b5722f, #5e3813)",
     subcategories: [
       { id: "liver", label: "Liver", entities: ["Hepatocellular carcinoma", "Focal nodular hyperplasia", "Hepatic adenoma"] },
@@ -174,7 +174,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gu_prostate_bladder",
     label: "GU — Prostate & Bladder",
-    glyph: "PB",
+    glyph: "Prostate",
     gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)",
     subcategories: [
       { id: "prostate", label: "Prostate", entities: ["Prostatic adenocarcinoma (Gleason grading)", "High-grade prostatic intraepithelial neoplasia (HGPIN)", "Atypical adenomatous hyperplasia (adenosis)", "Benign prostatic hyperplasia"] },
@@ -184,7 +184,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gu_kidney_testis",
     label: "GU — Kidney & Testis",
-    glyph: "KT",
+    glyph: "Kidney",
     gradient: "linear-gradient(135deg, #4aa3a3, #1f4d4d)",
     subcategories: [
       { id: "kidney", label: "Kidney", entities: ["Clear cell renal cell carcinoma", "Papillary renal cell carcinoma", "Chromophobe renal cell carcinoma", "Angiomyolipoma", "Oncocytoma"] },
@@ -194,7 +194,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "skin",
     label: "Skin / Dermatopathology",
-    glyph: "SK",
+    glyph: "Skin",
     gradient: "linear-gradient(135deg, #d9a066, #6e4a29)",
     subcategories: [
       { id: "melanocytic", label: "Melanocytic Lesions", entities: ["Melanoma", "Dysplastic nevus", "BAP1-inactivated melanocytoma", "Spitz nevus"] },
@@ -205,7 +205,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "head_neck",
     label: "Head & Neck",
-    glyph: "HN",
+    glyph: "Head & Neck",
     gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)",
     subcategories: [
       { id: "mucosal", label: "Mucosal / Squamous", entities: ["Squamous cell carcinoma of oral cavity", "Nasopharyngeal carcinoma", "Laryngeal squamous cell carcinoma"] },
@@ -215,7 +215,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "bone_soft_tissue",
     label: "Bone & Soft Tissue",
-    glyph: "BS",
+    glyph: "BST",
     gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)",
     subcategories: [
       { id: "bone", label: "Bone Tumors", entities: ["Osteosarcoma", "Giant cell tumor of bone", "Chondrosarcoma", "Ewing sarcoma", "Chordoma"] },
@@ -224,8 +224,8 @@ const BROWSE_TAXONOMY = [
   },
   {
     id: "heme",
-    label: "Hematopathology / Lymph Nodes",
-    glyph: "HM",
+    label: "Hematolymphoid",
+    glyph: "Heme",
     gradient: "linear-gradient(135deg, #c94f4f, #6b2323)",
     subcategories: [
       { id: "b_cell", label: "B-Cell Lymphomas", entities: ["Diffuse large B-cell lymphoma", "Follicular lymphoma", "Mantle cell lymphoma", "Chronic lymphocytic leukemia / SLL"] },
@@ -236,7 +236,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "endocrine",
     label: "Endocrine",
-    glyph: "EN",
+    glyph: "Endo",
     gradient: "linear-gradient(135deg, #5fb87d, #245c38)",
     subcategories: [
       { id: "thyroid", label: "Thyroid", entities: ["Papillary thyroid carcinoma", "Follicular adenoma of thyroid", "Medullary thyroid carcinoma", "Hashimoto thyroiditis"] },
@@ -246,7 +246,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "neuro",
     label: "Neuropathology",
-    glyph: "NP",
+    glyph: "Neuro",
     gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)",
     subcategories: [
       { id: "tumors", label: "CNS Tumors", entities: ["Glioblastoma", "Meningioma", "Pilocytic astrocytoma", "Schwannoma"] },
@@ -256,7 +256,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "thorax",
     label: "Thorax / Mediastinum",
-    glyph: "TX",
+    glyph: "Thorax",
     gradient: "linear-gradient(135deg, #4d79c9, #24356b)",
     subcategories: [
       { id: "lung", label: "Lung", entities: ["Lung adenocarcinoma", "Squamous cell carcinoma of lung", "Small cell lung carcinoma"] },
@@ -266,7 +266,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "cyto",
     label: "Cytopathology",
-    glyph: "CY",
+    glyph: "Cyto",
     gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)",
     subcategories: [
       { id: "cyto_topics", label: "Common FNA / Exfoliative Cytology", entities: ["Thyroid FNA (Bethesda system)", "Pap smear HSIL", "Pancreatic FNA, adenocarcinoma", "Effusion cytology, adenocarcinoma"] },
@@ -275,7 +275,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "peds",
     label: "Pediatric",
-    glyph: "PD",
+    glyph: "Peds",
     gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)",
     subcategories: [
       { id: "peds_tumors", label: "Pediatric Tumors", entities: ["Wilms tumor", "Neuroblastoma", "Hepatoblastoma", "Rhabdomyosarcoma"] },
@@ -448,38 +448,40 @@ function resolveBoardMappedLeaf(leafRef) {
   };
 }
 
-/** Known-root glyph/gradient styling, keyed by the generated index's root
- * `id`s (see build_browse_tag_index_v0_1.py). Any root not listed here
- * (e.g. small PathOut-only residual roots) gets a neutral default look —
- * never a hard failure. */
+/** Known-root tile styling, keyed by the generated index's root `id`s (see
+ * build_browse_tag_index_who_abpath_spec_v0_1.py). `glyph` is a short but
+ * legible root name (not a cryptic 2-letter code) shown large on the tile;
+ * the banner below shows the fuller descriptive root label. Any root not
+ * listed here (e.g. small PathOut-only residual roots) gets a neutral
+ * default look — never a hard failure. */
 const BROWSE_ROOT_STYLE = {
-  cyto: { glyph: "CY", gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)" },
-  breast: { glyph: "BR", gradient: "linear-gradient(135deg, #d1477a, #6b2142)" },
-  gyn: { glyph: "GY", gradient: "linear-gradient(135deg, #a84a9c, #4a2159)" },
+  cyto: { glyph: "Cyto", gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)" },
+  breast: { glyph: "Breast", gradient: "linear-gradient(135deg, #d1477a, #6b2142)" },
+  gyn: { glyph: "GYN", gradient: "linear-gradient(135deg, #a84a9c, #4a2159)" },
   gi: { glyph: "GI", gradient: "linear-gradient(135deg, #c98a3f, #6b4416)" },
   gu: { glyph: "GU", gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)" },
-  skin: { glyph: "SK", gradient: "linear-gradient(135deg, #d9a066, #6e4a29)" },
-  hn: { glyph: "HN", gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)" },
-  bst: { glyph: "BS", gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)" },
-  heme: { glyph: "HM", gradient: "linear-gradient(135deg, #c94f4f, #6b2323)" },
-  endo: { glyph: "EN", gradient: "linear-gradient(135deg, #5fb87d, #245c38)" },
-  neuro: { glyph: "NP", gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)" },
-  thorax_mediastinum: { glyph: "TX", gradient: "linear-gradient(135deg, #4d79c9, #24356b)" },
-  peds: { glyph: "PD", gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)" },
-  molecular: { glyph: "MO", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
-  eye_orbit: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
-  eye: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
-  cardio: { glyph: "CV", gradient: "linear-gradient(135deg, #c45c6a, #5c2430)" },
-  forensic: { glyph: "FP", gradient: "linear-gradient(135deg, #6a7a8a, #2e3844)" },
-  general_pathology: { glyph: "GP", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
+  skin: { glyph: "Skin", gradient: "linear-gradient(135deg, #d9a066, #6e4a29)" },
+  hn: { glyph: "Head & Neck", gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)" },
+  bst: { glyph: "BST", gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)" },
+  heme: { glyph: "Heme", gradient: "linear-gradient(135deg, #c94f4f, #6b2323)" },
+  endo: { glyph: "Endo", gradient: "linear-gradient(135deg, #5fb87d, #245c38)" },
+  neuro: { glyph: "Neuro", gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)" },
+  thorax_mediastinum: { glyph: "Thorax", gradient: "linear-gradient(135deg, #4d79c9, #24356b)" },
+  peds: { glyph: "Peds", gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)" },
+  molecular: { glyph: "Molecular", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
+  eye_orbit: { glyph: "Eye / Orbit", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  eye: { glyph: "Eye / Orbit", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  cardio: { glyph: "Cardio", gradient: "linear-gradient(135deg, #c45c6a, #5c2430)" },
+  forensic: { glyph: "Forensic", gradient: "linear-gradient(135deg, #6a7a8a, #2e3844)" },
+  general_pathology: { glyph: "General", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
 };
-const DEFAULT_ROOT_STYLE = { glyph: "PA", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
+const DEFAULT_ROOT_STYLE = { glyph: "Path", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
 
 function rootTileStyle(rootId, label) {
   const known = BROWSE_ROOT_STYLE[rootId];
   if (known) return known;
-  const glyph = String(label || rootId || "??").replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "PA";
-  return { glyph, gradient: DEFAULT_ROOT_STYLE.gradient };
+  const fallback = formatDisplayLabel(label || rootId || "Path").split(" ")[0] || "Path";
+  return { glyph: fallback, gradient: DEFAULT_ROOT_STYLE.gradient };
 }
 
 /** Converts the hand-curated BROWSE_TAXONOMY into the same {roots ->
@@ -509,9 +511,6 @@ function curatedFallbackRoots() {
 }
 
 const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2, pathout: 3 };
-/** v0_4: full=WHO+ABPath specs (default); who; who_pathout; starter sample. */
-const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_4";
-const BROWSE_NAV_MODES = new Set(["full", "who", "who_pathout", "starter"]);
 const BROWSE_LEAF_PREVIEW_CAP = 48;
 const BROWSE_NAV_THINNING = {
   abpath_primary: false,
@@ -519,70 +518,21 @@ const BROWSE_NAV_THINNING = {
   drop_cyto_pattern: true,
 };
 
-let browseNavMode = "full";
+/** Browse ships exactly one indexed tree: WHO + ABPath content-spec
+ * diagnoses, aggressively deduped. No mode toggle is shown to the user;
+ * the curated taxonomy below is only an automatic fallback when the
+ * generated index fails to load. */
 let browseFilterQuery = "";
 
-function readBrowseNavMode() {
-  try {
-    const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
-    if (BROWSE_NAV_MODES.has(stored)) return stored;
-    // Migrate prior v0_3 starter/full preference.
-    const legacy = localStorage.getItem("ph_browse_nav_mode_v0_3");
-    if (legacy === "starter") return "starter";
-    return "full";
-  } catch (_err) {
-    return "full";
-  }
-}
-
-function writeBrowseNavMode(mode) {
-  browseNavMode = BROWSE_NAV_MODES.has(mode) ? mode : "full";
-  try {
-    localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
-  } catch (_err) {
-    // ignore quota / private-mode failures
-  }
-}
-
-browseNavMode = readBrowseNavMode();
-
 function getBrowseNavRootsFull() {
-  return getBrowseNavRootsForMode("full");
-}
-
-function getBrowseNavRootsForMode(mode) {
-  if (!browseIndex) return null;
-  if (mode === "full") {
-    if (Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
-      return browseIndex.nav_roots_full;
-    }
-    return null;
-  }
-  if (mode === "who" || mode === "who_pathout") {
-    const packed = browseIndex.nav_roots_variants?.[mode];
-    if (Array.isArray(packed) && packed.length) return packed;
-    const raw = browseIndex.nav_variants?.[mode]?.roots;
-    if (Array.isArray(raw) && raw.length) return raw;
+  if (browseIndex && Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
+    return browseIndex.nav_roots_full;
   }
   return null;
 }
 
-function isIndexedBrowseMode(mode = browseNavMode) {
-  return mode === "full" || mode === "who" || mode === "who_pathout";
-}
-
 function activeBrowseRoots() {
-  if (isIndexedBrowseMode(browseNavMode)) {
-    return getBrowseNavRootsForMode(browseNavMode) || curatedFallbackRoots();
-  }
-  return curatedFallbackRoots();
-}
-
-function browseModeLeafTotal(mode) {
-  const roots = getBrowseNavRootsForMode(mode);
-  if (roots) return roots.reduce((sum, r) => sum + (r.leaf_count || 0), 0);
-  if (mode === "full") return browseIndex?.counts?.leaves_total ?? 0;
-  return browseIndex?.nav_variants?.[mode]?.counts?.leaves_total ?? 0;
+  return getBrowseNavRootsFull() || curatedFallbackRoots();
 }
 
 /** Collapse redundant nav leaves: one clickable topic per root + display label.
@@ -804,13 +754,6 @@ async function loadBrowseIndex() {
     browseIndex = data;
     const compact = compactBrowseRoots(browseIndex.roots);
     browseIndex.nav_roots_full = compact.roots;
-    browseIndex.nav_roots_variants = {};
-    for (const variantId of ["who", "who_pathout"]) {
-      const variantRoots = browseIndex.nav_variants?.[variantId]?.roots;
-      if (Array.isArray(variantRoots) && variantRoots.length) {
-        browseIndex.nav_roots_variants[variantId] = compactBrowseRoots(variantRoots).roots;
-      }
-    }
     browseIndex.counts = {
       ...(browseIndex.counts || {}),
       leaves_total_raw: browseIndex.counts?.leaves_total ?? compact.before,
@@ -3040,53 +2983,26 @@ function renderBrowseView() {
 
 function renderBrowseHome() {
   const usingIndex = Boolean(browseIndex);
-  const starterRoots = curatedFallbackRoots();
-  const activeRoots = isIndexedBrowseMode(browseNavMode) ? getBrowseNavRootsForMode(browseNavMode) : null;
-  const showingIndexed = usingIndex && isIndexedBrowseMode(browseNavMode) && activeRoots;
-  const roots = showingIndexed ? activeRoots : starterRoots;
-  const starterTotal = starterRoots.reduce((sum, r) => sum + r.leaf_count, 0);
-  const fullTotal = browseModeLeafTotal("full");
-  const whoTotal = browseModeLeafTotal("who");
-  const whoPathoutTotal = browseModeLeafTotal("who_pathout");
-  const activeTotal = showingIndexed
-    ? roots.reduce((sum, r) => sum + r.leaf_count, 0)
-    : starterTotal;
-  const leavesRaw = usingIndex && browseNavMode === "full" ? browseIndex.counts?.leaves_total_raw : null;
-  const leavesRemoved = usingIndex && browseNavMode === "full" ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
+  const fullRoots = getBrowseNavRootsFull();
+  const showingIndexed = usingIndex && Boolean(fullRoots);
+  const roots = activeBrowseRoots();
+  const activeTotal = roots.reduce((sum, r) => sum + r.leaf_count, 0);
+  const leavesRaw = showingIndexed ? browseIndex.counts?.leaves_total_raw : null;
+  const leavesRemoved = showingIndexed ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
 
   let html = "";
-  if (usingIndex) {
-    html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">WHO + ABPath specs (${fullTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "who" ? " active" : ""}" data-browse-mode="who">WHO only (${whoTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "who_pathout" ? " active" : ""}" data-browse-mode="who_pathout">WHO + PathOut (${whoPathoutTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter (${starterTotal})</button>`;
-    html += "</div>";
-  }
-
-  if (showingIndexed && browseNavMode === "full") {
+  if (showingIndexed) {
     const abpathCount = browseIndex.counts?.leaves_abpath_only;
     const whoOnlyCount = browseIndex.counts?.leaves_who_only;
     const bothCount = browseIndex.counts?.leaves_both;
-    const specRows = browseIndex.counts?.abpath_content_spec_terminal_rows;
-    const droppedNonDx = browseIndex.counts?.content_spec_rows_dropped_non_diagnosis;
     const provenanceNote =
       abpathCount != null && whoOnlyCount != null
-        ? ` Built from WHO + diagnosis entities in the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals` : ""}${droppedNonDx != null ? `, ${droppedNonDx} non-diagnosis rows dropped` : ""}${specRows != null ? ")" : ""} — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only.`
+        ? ` WHO + ABPath AP Content Specification diagnoses, deduped (${abpathCount} ABPath-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only). PathOut is citation-only here.`
         : "";
     const dedupeNote =
       leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${activeTotal} nav topics.` : "";
-    html += `<p class="hint"><strong>WHO + ABPath specs (default)</strong> — board content-spec diagnoses + WHO. PathOut is citation-only here.${provenanceNote}${dedupeNote}</p>`;
+    html += `<p class="hint"><strong>${activeTotal} topics</strong> —${provenanceNote}${dedupeNote}</p>`;
     html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
-  } else if (showingIndexed && browseNavMode === "who") {
-    html += `<p class="hint"><strong>WHO only</strong> — ${activeTotal} WHO classification entities. No ABPath content-spec rows, no PathOut nav leaves. Cleanest diagnosis catalog.</p>`;
-    html += browseSearchBarHtml("Filter WHO topics…", browseFilterQuery);
-  } else if (showingIndexed && browseNavMode === "who_pathout") {
-    const vCounts = browseIndex.nav_variants?.who_pathout?.counts || {};
-    html += `<p class="hint"><strong>WHO + PathOutlines</strong> — explore mode (~${activeTotal} topics; ${vCounts.leaves_who_only ?? "?"} WHO-only, ${vCounts.leaves_pathout_only ?? "?"} PathOut-only, ${vCounts.leaves_both ?? "?"} overlap). Diagnosis-filtered PathOut tags; Concept/staging/procedure rows excluded. Default board mode remains WHO + ABPath specs.</p>`;
-    html += browseSearchBarHtml("Filter WHO / PathOut topics…", browseFilterQuery);
-  } else if (usingIndex) {
-    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for smoke testing, not the full catalog.</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
@@ -3113,14 +3029,6 @@ function renderBrowseHome() {
       html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
     }
     browseContentEl.innerHTML = html;
-    browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
-      el.addEventListener("click", () => {
-        writeBrowseNavMode(el.dataset.browseMode);
-        browseFilterQuery = "";
-        browseState = { level: "home" };
-        renderBrowseView();
-      });
-    });
     bindBrowseSearchHandlers(() => renderBrowseHome());
     browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
       el.addEventListener("click", () => {
@@ -3144,9 +3052,7 @@ function renderBrowseHome() {
   html += '<div class="browse-tile-grid">';
   for (const root of roots) {
     const style = rootTileStyle(root.id, root.label);
-    const countLabel = usingIndex
-      ? (showingIndexed ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
-      : `${root.leaf_count} starter topics`;
+    const countLabel = `${root.leaf_count} topic${root.leaf_count === 1 ? "" : "s"}`;
     html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
     html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
     html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
@@ -3154,14 +3060,6 @@ function renderBrowseHome() {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
-  browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
-    el.addEventListener("click", () => {
-      writeBrowseNavMode(el.dataset.browseMode);
-      browseFilterQuery = "";
-      browseState = { level: "home" };
-      renderBrowseView();
-    });
-  });
   if (showingIndexed) {
     bindBrowseSearchHandlers(() => renderBrowseHome());
   }
@@ -3181,16 +3079,10 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
-  const showingIndexed = Boolean(browseIndex && isIndexedBrowseMode(browseNavMode));
-  const modeHint =
-    browseNavMode === "who"
-      ? "WHO classification tags for this root."
-      : browseNavMode === "who_pathout"
-        ? "WHO + PathOutlines tags for this root."
-        : "WHO + ABPath content-spec tags for this root.";
+  const showingIndexed = Boolean(browseIndex && getBrowseNavRootsFull());
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
   html += showingIndexed
-    ? `<p class="hint">${modeHint} Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>`
+    ? '<p class="hint">WHO + ABPath content-spec tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
     : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
   if (showingIndexed) {
     html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
@@ -3230,7 +3122,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
-  const showingIndexed = Boolean(browseIndex && isIndexedBrowseMode(browseNavMode));
+  const showingIndexed = Boolean(browseIndex && getBrowseNavRootsFull());
   const allLeaves = sub.leaves || [];
   const filteredLeaves = allLeaves.filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
   const hasFilter = Boolean(browseFilterQuery.trim());
