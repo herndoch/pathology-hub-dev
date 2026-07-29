@@ -296,11 +296,12 @@ let browseIndex = null;
 
 /** Locked browse-nav policy: accepted topic tags come from ABPath AP content
  * specifications and/or WHO only (PathOut is citation-only, not nav). */
-const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both"]);
+const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both", "pathout"]);
 const NAV_PROVENANCE_LABELS = {
   abpath: "ABPath content specifications",
   who: "WHO classification map",
-  both: "ABPath content spec + WHO",
+  both: "Shared board entity",
+  pathout: "PathologyOutlines",
   curated: "Curated starter (not board-mapped)",
 };
 
@@ -379,7 +380,7 @@ function resolveBoardMappedLeaf(leafRef) {
   );
   if (!keys.size) return leafRef;
 
-  const allRows = collectLeavesFromRoots(getBrowseNavRootsFull() || []);
+  const allRows = collectLeavesFromRoots(activeBrowseRoots() || []);
   const preferredRoot = normalizeBrowseRootId(leafRef.categoryId);
   const scopedRows = preferredRoot
     ? allRows.filter((row) => leafMatchesBrowseRoot(leafRef, row, row.leaf))
@@ -507,9 +508,10 @@ function curatedFallbackRoots() {
   }));
 }
 
-const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
-/** v0_3 defaults to Full WHO+ABPath (starters are only a ~149-topic sample). */
-const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_3";
+const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2, pathout: 3 };
+/** v0_4: full=WHO+ABPath specs (default); who; who_pathout; starter sample. */
+const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_4";
+const BROWSE_NAV_MODES = new Set(["full", "who", "who_pathout", "starter"]);
 const BROWSE_LEAF_PREVIEW_CAP = 48;
 const BROWSE_NAV_THINNING = {
   abpath_primary: false,
@@ -523,8 +525,10 @@ let browseFilterQuery = "";
 function readBrowseNavMode() {
   try {
     const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
-    // Explicit starter only when chosen; first visit / anything else → full.
-    if (stored === "starter") return "starter";
+    if (BROWSE_NAV_MODES.has(stored)) return stored;
+    // Migrate prior v0_3 starter/full preference.
+    const legacy = localStorage.getItem("ph_browse_nav_mode_v0_3");
+    if (legacy === "starter") return "starter";
     return "full";
   } catch (_err) {
     return "full";
@@ -532,7 +536,7 @@ function readBrowseNavMode() {
 }
 
 function writeBrowseNavMode(mode) {
-  browseNavMode = mode === "starter" ? "starter" : "full";
+  browseNavMode = BROWSE_NAV_MODES.has(mode) ? mode : "full";
   try {
     localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
   } catch (_err) {
@@ -543,10 +547,42 @@ function writeBrowseNavMode(mode) {
 browseNavMode = readBrowseNavMode();
 
 function getBrowseNavRootsFull() {
-  if (browseIndex && Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
-    return browseIndex.nav_roots_full;
+  return getBrowseNavRootsForMode("full");
+}
+
+function getBrowseNavRootsForMode(mode) {
+  if (!browseIndex) return null;
+  if (mode === "full") {
+    if (Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
+      return browseIndex.nav_roots_full;
+    }
+    return null;
+  }
+  if (mode === "who" || mode === "who_pathout") {
+    const packed = browseIndex.nav_roots_variants?.[mode];
+    if (Array.isArray(packed) && packed.length) return packed;
+    const raw = browseIndex.nav_variants?.[mode]?.roots;
+    if (Array.isArray(raw) && raw.length) return raw;
   }
   return null;
+}
+
+function isIndexedBrowseMode(mode = browseNavMode) {
+  return mode === "full" || mode === "who" || mode === "who_pathout";
+}
+
+function activeBrowseRoots() {
+  if (isIndexedBrowseMode(browseNavMode)) {
+    return getBrowseNavRootsForMode(browseNavMode) || curatedFallbackRoots();
+  }
+  return curatedFallbackRoots();
+}
+
+function browseModeLeafTotal(mode) {
+  const roots = getBrowseNavRootsForMode(mode);
+  if (roots) return roots.reduce((sum, r) => sum + (r.leaf_count || 0), 0);
+  if (mode === "full") return browseIndex?.counts?.leaves_total ?? 0;
+  return browseIndex?.nav_variants?.[mode]?.counts?.leaves_total ?? 0;
 }
 
 /** Collapse redundant nav leaves: one clickable topic per root + display label.
@@ -684,14 +720,7 @@ function compactBrowseRoots(roots, options = {}) {
 }
 
 function getBrowseRoots() {
-  if (browseNavMode === "full") {
-    const full = getBrowseNavRootsFull();
-    if (full) return full;
-  }
-  if (browseIndex) {
-    return curatedFallbackRoots();
-  }
-  return curatedFallbackRoots();
+  return activeBrowseRoots();
 }
 
 function normalizeBrowseFilterText(value) {
@@ -767,7 +796,7 @@ async function loadBrowseIndex() {
     const hasAbpathNav =
       navSources.includes("abpath_content_spec") || navSources.includes("abpath");
     if (!hasAbpathNav || !navSources.includes("who") || rules.pathout_nav !== false) {
-      throw new Error("Browse index nav_sources are not WHO + ABPath content-spec only");
+      throw new Error("Browse index default nav_sources are not WHO + ABPath content-spec only");
     }
     if (rules.bloated_abpath_ontology_excluded === false) {
       throw new Error("Browse index still claims bloated ABPath ontology nav");
@@ -775,6 +804,13 @@ async function loadBrowseIndex() {
     browseIndex = data;
     const compact = compactBrowseRoots(browseIndex.roots);
     browseIndex.nav_roots_full = compact.roots;
+    browseIndex.nav_roots_variants = {};
+    for (const variantId of ["who", "who_pathout"]) {
+      const variantRoots = browseIndex.nav_variants?.[variantId]?.roots;
+      if (Array.isArray(variantRoots) && variantRoots.length) {
+        browseIndex.nav_roots_variants[variantId] = compactBrowseRoots(variantRoots).roots;
+      }
+    }
     browseIndex.counts = {
       ...(browseIndex.counts || {}),
       leaves_total_raw: browseIndex.counts?.leaves_total ?? compact.before,
@@ -786,7 +822,7 @@ async function loadBrowseIndex() {
     };
     browseIndex.dedupe_rules = {
       ...(browseIndex.dedupe_rules || {}),
-      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who",
+      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who > pathout",
       nav_thinning: {
         abpath_primary: BROWSE_NAV_THINNING.abpath_primary,
         hide_cyto_surgical_dupes: BROWSE_NAV_THINNING.hide_cyto_surgical_dupes,
@@ -875,7 +911,7 @@ function normalizeEntityName(name) {
  * index finishes loading. */
 function buildLeafIndex() {
   const list = [];
-  const roots = getBrowseNavRootsFull() || getBrowseRoots();
+  const roots = activeBrowseRoots();
   for (const root of roots) {
     for (const sub of root.subcategories) {
       for (const leaf of sub.leaves) {
@@ -3005,25 +3041,30 @@ function renderBrowseView() {
 function renderBrowseHome() {
   const usingIndex = Boolean(browseIndex);
   const starterRoots = curatedFallbackRoots();
-  const fullRoots = getBrowseNavRootsFull();
-  const showingFull = usingIndex && browseNavMode === "full" && fullRoots;
-  const roots = showingFull ? fullRoots : starterRoots;
+  const activeRoots = isIndexedBrowseMode(browseNavMode) ? getBrowseNavRootsForMode(browseNavMode) : null;
+  const showingIndexed = usingIndex && isIndexedBrowseMode(browseNavMode) && activeRoots;
+  const roots = showingIndexed ? activeRoots : starterRoots;
   const starterTotal = starterRoots.reduce((sum, r) => sum + r.leaf_count, 0);
-  const fullTotal = fullRoots
-    ? fullRoots.reduce((sum, r) => sum + r.leaf_count, 0)
-    : browseIndex?.counts?.leaves_total ?? 0;
-  const leavesRaw = usingIndex ? browseIndex.counts?.leaves_total_raw : null;
-  const leavesRemoved = usingIndex ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
+  const fullTotal = browseModeLeafTotal("full");
+  const whoTotal = browseModeLeafTotal("who");
+  const whoPathoutTotal = browseModeLeafTotal("who_pathout");
+  const activeTotal = showingIndexed
+    ? roots.reduce((sum, r) => sum + r.leaf_count, 0)
+    : starterTotal;
+  const leavesRaw = usingIndex && browseNavMode === "full" ? browseIndex.counts?.leaves_total_raw : null;
+  const leavesRemoved = usingIndex && browseNavMode === "full" ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
 
   let html = "";
   if (usingIndex) {
     html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full WHO + ABPath specs (${fullTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter sample (${starterTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">WHO + ABPath specs (${fullTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "who" ? " active" : ""}" data-browse-mode="who">WHO only (${whoTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "who_pathout" ? " active" : ""}" data-browse-mode="who_pathout">WHO + PathOut (${whoPathoutTotal})</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter (${starterTotal})</button>`;
     html += "</div>";
   }
 
-  if (showingFull) {
+  if (showingIndexed && browseNavMode === "full") {
     const abpathCount = browseIndex.counts?.leaves_abpath_only;
     const whoOnlyCount = browseIndex.counts?.leaves_who_only;
     const bothCount = browseIndex.counts?.leaves_both;
@@ -3031,19 +3072,26 @@ function renderBrowseHome() {
     const droppedNonDx = browseIndex.counts?.content_spec_rows_dropped_non_diagnosis;
     const provenanceNote =
       abpathCount != null && whoOnlyCount != null
-        ? ` Built from WHO + diagnosis entities in the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals` : ""}${droppedNonDx != null ? `, ${droppedNonDx} non-diagnosis rows dropped` : ""}${specRows != null ? ")" : ""} — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only. Cell types, anatomy, techniques, and lab/QA rows are excluded.`
+        ? ` Built from WHO + diagnosis entities in the official ABPath AP Content Specifications${specRows != null ? ` (${specRows} C/AR/F terminals` : ""}${droppedNonDx != null ? `, ${droppedNonDx} non-diagnosis rows dropped` : ""}${specRows != null ? ")" : ""} — ${abpathCount} ABPath-spec-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only.`
         : "";
     const dedupeNote =
-      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; content-spec spelling wins on overlap).` : "";
-    html += `<p class="hint"><strong>Full index (default)</strong> — WHO entities plus real ABPath AP content-spec topics; PathOut is citation-only (not nav).${provenanceNote}${dedupeNote} Use search on long lists; first topic open builds live, then caches. “Starter sample” is only ~${starterTotal} hand-picked high-yield topics, not the WHO catalog.</p>`;
+      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${activeTotal} nav topics.` : "";
+    html += `<p class="hint"><strong>WHO + ABPath specs (default)</strong> — board content-spec diagnoses + WHO. PathOut is citation-only here.${provenanceNote}${dedupeNote}</p>`;
     html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
+  } else if (showingIndexed && browseNavMode === "who") {
+    html += `<p class="hint"><strong>WHO only</strong> — ${activeTotal} WHO classification entities. No ABPath content-spec rows, no PathOut nav leaves. Cleanest diagnosis catalog.</p>`;
+    html += browseSearchBarHtml("Filter WHO topics…", browseFilterQuery);
+  } else if (showingIndexed && browseNavMode === "who_pathout") {
+    const vCounts = browseIndex.nav_variants?.who_pathout?.counts || {};
+    html += `<p class="hint"><strong>WHO + PathOutlines</strong> — explore mode (~${activeTotal} topics; ${vCounts.leaves_who_only ?? "?"} WHO-only, ${vCounts.leaves_pathout_only ?? "?"} PathOut-only, ${vCounts.leaves_both ?? "?"} overlap). Diagnosis-filtered PathOut tags; Concept/staging/procedure rows excluded. Default board mode remains WHO + ABPath specs.</p>`;
+    html += browseSearchBarHtml("Filter WHO / PathOut topics…", browseFilterQuery);
   } else if (usingIndex) {
-    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for quick smoke testing. It does <em>not</em> list all WHO entities. Switch to <strong>Full WHO + ABPath specs</strong> (${fullTotal} topics) for the complete tree.</p>`;
+    html += `<p class="hint"><strong>Starter sample</strong> — ${starterTotal} hand-curated high-yield topics for smoke testing, not the full catalog.</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
 
-  if (showingFull && browseFilterQuery.trim()) {
+  if (showingIndexed && browseFilterQuery.trim()) {
     const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
     html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
     html += '<div class="chevron-list">';
@@ -3097,7 +3145,7 @@ function renderBrowseHome() {
   for (const root of roots) {
     const style = rootTileStyle(root.id, root.label);
     const countLabel = usingIndex
-      ? (showingFull ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
+      ? (showingIndexed ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
       : `${root.leaf_count} starter topics`;
     html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
     html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
@@ -3114,7 +3162,7 @@ function renderBrowseHome() {
       renderBrowseView();
     });
   });
-  if (showingFull) {
+  if (showingIndexed) {
     bindBrowseSearchHandlers(() => renderBrowseHome());
   }
   browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
@@ -3133,19 +3181,25 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
-  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const showingIndexed = Boolean(browseIndex && isIndexedBrowseMode(browseNavMode));
+  const modeHint =
+    browseNavMode === "who"
+      ? "WHO classification tags for this root."
+      : browseNavMode === "who_pathout"
+        ? "WHO + PathOutlines tags for this root."
+        : "WHO + ABPath content-spec tags for this root.";
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
-  html += showingFull
-    ? '<p class="hint">WHO + ABPath content-spec tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
+  html += showingIndexed
+    ? `<p class="hint">${modeHint} Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>`
     : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
-  if (showingFull) {
+  if (showingIndexed) {
     html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
   }
   const subs = (cat.subcategories || []).filter((sub) => {
     if (!browseFilterQuery.trim()) return true;
     return (sub.leaves || []).some((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
   });
-  if (showingFull && browseFilterQuery.trim()) {
+  if (showingIndexed && browseFilterQuery.trim()) {
     html += `<p class="hint">${subs.length} subcategor${subs.length === 1 ? "y" : "ies"} with matches.</p>`;
   }
   html += '<div class="chevron-list">';
@@ -3153,11 +3207,11 @@ function renderBrowseCategory(categoryId) {
     const matchCount = browseFilterQuery.trim()
       ? (sub.leaves || []).filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery)).length
       : sub.leaf_count;
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingFull ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingIndexed ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
-  if (showingFull) {
+  if (showingIndexed) {
     bindBrowseSearchHandlers(() => renderBrowseCategory(categoryId));
   }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
@@ -3176,7 +3230,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
-  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const showingIndexed = Boolean(browseIndex && isIndexedBrowseMode(browseNavMode));
   const allLeaves = sub.leaves || [];
   const filteredLeaves = allLeaves.filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
   const hasFilter = Boolean(browseFilterQuery.trim());
@@ -3184,10 +3238,10 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   const hiddenCount = hasFilter ? 0 : Math.max(0, filteredLeaves.length - visibleLeaves.length);
 
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))} — ${escapeHtml(formatSubcategoryLabel(sub.label))}</h2>`;
-  html += showingFull
+  html += showingIndexed
     ? '<p class="hint">Pick a topic to load a grounded topic page. Long lists are capped until you search.</p>'
     : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
-  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+  if (showingIndexed || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
     html += browseSearchBarHtml("Filter topics in this list…", browseFilterQuery);
   }
   if (hiddenCount > 0) {
@@ -3210,7 +3264,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
-  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+  if (showingIndexed || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
     bindBrowseSearchHandlers(() => renderBrowseSubcategory(categoryId, subcategoryId));
   }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {

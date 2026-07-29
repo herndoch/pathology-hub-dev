@@ -48,7 +48,7 @@ def smoke_offline() -> None:
         _fail("browse index", f"HTTP {idx.status_code}")
     data = idx.json()
     schema = data.get("schema_version")
-    if schema not in {"browse_tag_index_v0_2", "browse_tag_index_v0_3"}:
+    if schema not in {"browse_tag_index_v0_2", "browse_tag_index_v0_3", "browse_tag_index_v0_4"}:
         _fail("browse index schema", schema)
     counts = data.get("counts") or {}
     if counts.get("roots_total", 0) < 10:
@@ -61,9 +61,10 @@ def smoke_offline() -> None:
     )
     if not allowed_nav or rules.get("pathout_nav") is not False:
         _fail("browse nav sources", nav_sources)
-    if rules.get("provenance_values") != ["abpath", "who", "both"]:
-        _fail("browse provenance values", rules.get("provenance_values"))
-    if schema == "browse_tag_index_v0_3":
+    prov_vals = rules.get("provenance_values") or []
+    if not set(["abpath", "who", "both"]).issubset(set(prov_vals)):
+        _fail("browse provenance values", prov_vals)
+    if schema in {"browse_tag_index_v0_3", "browse_tag_index_v0_4"}:
         if rules.get("bloated_abpath_ontology_excluded") is not True:
             _fail("bloated ontology exclusion", rules.get("bloated_abpath_ontology_excluded"))
         if not counts.get("abpath_content_spec_terminal_rows"):
@@ -78,6 +79,26 @@ def smoke_offline() -> None:
                 "expected non-diagnosis content-spec drops",
                 str(counts.get("content_spec_rows_dropped_non_diagnosis")),
             )
+    if schema == "browse_tag_index_v0_4":
+        variants = data.get("nav_variants") or {}
+        if "who" not in variants or "who_pathout" not in variants:
+            _fail("nav variants missing", sorted(variants))
+        who_total = (variants.get("who") or {}).get("counts", {}).get("leaves_total") or 0
+        who_po_total = (variants.get("who_pathout") or {}).get("counts", {}).get("leaves_total") or 0
+        if who_total < 500:
+            _fail("who variant too small", str(who_total))
+        if who_po_total <= who_total:
+            _fail("who_pathout should exceed who-only", f"{who_po_total} vs {who_total}")
+        if rules.get("pathout_nav") is not False:
+            _fail("default pathout_nav should stay false", rules.get("pathout_nav"))
+        js = client.get("/static/app.js").text
+        for needle in (
+            'data-browse-mode="who"',
+            'data-browse-mode="who_pathout"',
+            "ph_browse_nav_mode_v0_4",
+        ):
+            if needle not in js:
+                _fail("browse mode UI missing", needle)
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text
@@ -90,7 +111,7 @@ def smoke_offline() -> None:
         "/api/flag",
         "/api/compare",
         "ACCEPTED_NAV_PROVENANCES",
-        "ABPath content spec + WHO",
+        "PathologyOutlines",
         "formatNavProvenanceLabel",
         "unwrapFencedMarkdownBlocks",
         "renderTopicVideos",

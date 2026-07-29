@@ -53,12 +53,13 @@ WHO_DIR = REPO_ROOT / "data/curriculum_map_v0_2/who_processed"
 PRIOR_INDEX = MVP_DIR / "static" / "browse_tag_index_v0_1.json"
 OUTPUT_DIR = REPO_ROOT / "outputs/chat_mvp_topic_prepop_v0_1"
 WHO_SNAPSHOT = OUTPUT_DIR / "who_nav_leaves_snapshot_v0_1.json"
+PATHOUT_TAG_CSV = REPO_ROOT / "audits/curriculum_map_readiness_v0/pathout_local_tag_review.csv"
 AUDIT_DIR = REPO_ROOT / "06_audits/abpath_content_specs/v0_1_pdf"
 INDEX_PATH = OUTPUT_DIR / "browse_tag_index_v0_1.json"
 AUDIT_PATH = OUTPUT_DIR / "browse_tag_index_v0_1.audit.json"
 STATIC_COPY = MVP_DIR / "static" / "browse_tag_index_v0_1.json"
 
-SCHEMA_VERSION = "browse_tag_index_v0_3"
+SCHEMA_VERSION = "browse_tag_index_v0_4"
 
 # Content-spec major section number → Browse root id / display label.
 MAJOR_TO_ROOT: dict[int, tuple[str, str]] = {
@@ -449,10 +450,140 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
     return leaves, f"{PRIOR_INDEX.relative_to(REPO_ROOT)}#who_harvest"
 
 
+PATHOUT_ROOT_MAP = {
+    "breast": "breast",
+    "gi": "gi",
+    "gu": "gu",
+    "gyn": "gyn",
+    "hn": "hn",
+    "skin": "skin",
+    "bst": "bst",
+    "endo": "endo",
+    "neuro": "neuro",
+    "molecular": "molecular",
+    "thorax_mediastinum": "thorax_mediastinum",
+    "eye_orbit": "eye_orbit",
+    "eye": "eye_orbit",
+    "heme": "heme",
+    "cyto": "cyto",
+    "peds": "peds",
+}
+
+PATHOUT_DROP_TAG_RE = re.compile(
+    r"(?i)(::Concept::|::Procedure_Specimen::|::Staging::|::Classification::|"
+    r"UNRESOLVED_ROOT|_UNMAPPED_|PathOut_Residual|::Technique::|::Normal::)",
+)
+
+PROVENANCE_RANK = {"abpath": 0, "both": 1, "who": 2, "pathout": 3}
+
+
+def pathout_root_and_sub(tag: str) -> tuple[Optional[str], str, str]:
+    parts = [p for p in tag.split("::") if p]
+    if len(parts) < 2:
+        return None, "", ""
+    head = parts[0]
+    if head.startswith("Cyto_"):
+        return "cyto", slugify(head) or "cyto", head
+    if head.lower() == "soft_tissue":
+        return "bst", "soft_tissue", "Soft Tissue"
+    if head.upper() == "HEME":
+        root_id = "heme"
+    else:
+        root_id = PATHOUT_ROOT_MAP.get(re.sub(r"[^a-z0-9]+", "_", head.lower()).strip("_"))
+    if not root_id:
+        return None, "", ""
+    sub_label = parts[1].replace("_", " ")
+    return root_id, slugify(sub_label) or "general", sub_label
+
+
+def is_diagnosis_pathout_tag(tag: str) -> bool:
+    if not tag or "::" not in tag:
+        return False
+    if PATHOUT_DROP_TAG_RE.search(tag):
+        return False
+    label = tag.split("::")[-1].replace("_", " ")
+    return looks_like_diagnosis(label)
+
+
+def load_pathout_leaves() -> tuple[list[dict[str, Any]], str, dict[str, int]]:
+    """Load diagnosis-like PathOut tags from the local curriculum review CSV."""
+    import csv
+
+    stats = {
+        "rows_read": 0,
+        "dropped_unresolved_or_concept": 0,
+        "dropped_non_diagnosis": 0,
+        "kept": 0,
+    }
+    if not PATHOUT_TAG_CSV.exists():
+        return [], "(missing pathout tag csv)", stats
+
+    leaves: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    with PATHOUT_TAG_CSV.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            stats["rows_read"] += 1
+            tag = (row.get("tag") or "").strip()
+            if not tag or tag in seen:
+                continue
+            if PATHOUT_DROP_TAG_RE.search(tag):
+                stats["dropped_unresolved_or_concept"] += 1
+                continue
+            if not is_diagnosis_pathout_tag(tag):
+                stats["dropped_non_diagnosis"] += 1
+                continue
+            root_id, sub_id, sub_label = pathout_root_and_sub(tag)
+            if not root_id:
+                stats["dropped_unresolved_or_concept"] += 1
+                continue
+            label = tag.split("::")[-1]
+            seen.add(tag)
+            leaves.append(
+                {
+                    "tag": tag,
+                    "label": label,
+                    "query": label.replace("_", " "),
+                    "provenance": "pathout",
+                    "root_id": root_id,
+                    "sub_id": sub_id,
+                    "sub_label": sub_label,
+                }
+            )
+            stats["kept"] += 1
+    return leaves, str(PATHOUT_TAG_CSV.relative_to(REPO_ROOT)), stats
+
+
+def merge_who_pathout_leaves(
+    who_leaves: list[dict[str, Any]],
+    pathout_leaves: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Union WHO + PathOut; on overlap keep WHO tag and mark provenance both."""
+    by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    for leaf in who_leaves:
+        key = (leaf["root_id"], normalize_label_key(leaf["label"]))
+        by_key[key] = dict(leaf)
+        by_key[key]["provenance"] = "who"
+    for leaf in pathout_leaves:
+        key = (leaf["root_id"], normalize_label_key(leaf["label"]))
+        existing = by_key.get(key)
+        if existing is None:
+            by_key[key] = dict(leaf)
+            continue
+        existing["provenance"] = "both"
+    return list(by_key.values())
+
+
 def build_roots(leaves: list[dict[str, Any]]) -> list[dict[str, Any]]:
     roots: dict[str, dict] = {}
     root_labels = {rid: label for rid, label in MAJOR_TO_ROOT.values()}
-    root_labels["cyto"] = "Cytopathology"
+    root_labels.update(
+        {
+            "cyto": "Cytopathology",
+            "eye_orbit": "Eye / Orbit",
+            "molecular": "Molecular",
+            "peds": "Pediatric Pathology",
+        }
+    )
 
     for leaf in leaves:
         root_id = leaf["root_id"]
@@ -471,8 +602,8 @@ def build_roots(leaves: list[dict[str, Any]]) -> list[dict[str, Any]]:
             sub_id,
             {"id": sub_id, "label": leaf["sub_label"], "leaf_count": 0, "leaves": []},
         )
-        # Dedupe within subcategory by normalized label; prefer abpath > both > who
-        rank = {"abpath": 0, "both": 1, "who": 2}.get(leaf["provenance"], 9)
+        # Dedupe within subcategory by normalized label; prefer abpath > both > who > pathout
+        rank = PROVENANCE_RANK.get(leaf["provenance"], 9)
         label_key = normalize_label_key(leaf["label"])
         existing_i = next(
             (i for i, e in enumerate(sub["leaves"]) if normalize_label_key(e["label"]) == label_key),
@@ -490,14 +621,21 @@ def build_roots(leaves: list[dict[str, Any]]) -> list[dict[str, Any]]:
             sub["leaves"].append(entry)
         else:
             prev = sub["leaves"][existing_i]
-            prev_rank = {"abpath": 0, "both": 1, "who": 2}.get(prev.get("provenance"), 9)
+            prev_rank = PROVENANCE_RANK.get(prev.get("provenance"), 9)
             if rank < prev_rank:
-                # Keep abpath tag/label; mark both if other was who
-                if prev.get("provenance") == "who" and leaf["provenance"] == "abpath":
+                if prev.get("provenance") in {"who", "pathout"} and leaf["provenance"] == "abpath":
+                    entry["provenance"] = "both"
+                elif prev.get("provenance") == "pathout" and leaf["provenance"] == "who":
                     entry["provenance"] = "both"
                 sub["leaves"][existing_i] = entry
-            elif prev.get("provenance") == "abpath" and leaf["provenance"] == "who":
+            elif prev.get("provenance") == "abpath" and leaf["provenance"] in {"who", "pathout"}:
                 prev["provenance"] = "both"
+            elif prev.get("provenance") == "who" and leaf["provenance"] == "pathout":
+                prev["provenance"] = "both"
+            elif prev.get("provenance") == "pathout" and leaf["provenance"] == "who":
+                # Prefer WHO tag identity on overlap.
+                entry["provenance"] = "both"
+                sub["leaves"][existing_i] = entry
 
     final = []
     for root in sorted(roots.values(), key=lambda r: r["label"]):
@@ -512,6 +650,29 @@ def build_roots(leaves: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if root["leaf_count"]:
             final.append(root)
     return final
+
+
+def variant_payload(name: str, label: str, roots: list[dict[str, Any]], **extra: Any) -> dict[str, Any]:
+    prov = Counter(
+        leaf.get("provenance")
+        for root in roots
+        for sub in root.get("subcategories") or []
+        for leaf in sub.get("leaves") or []
+    )
+    return {
+        "id": name,
+        "label": label,
+        "counts": {
+            "leaves_total": sum(r["leaf_count"] for r in roots),
+            "roots_total": len(roots),
+            "leaves_who_only": prov.get("who", 0),
+            "leaves_pathout_only": prov.get("pathout", 0),
+            "leaves_both": prov.get("both", 0),
+            "per_root_leaf_counts": {r["id"]: r["leaf_count"] for r in roots},
+        },
+        "roots": roots,
+        **extra,
+    }
 
 
 def main() -> int:
@@ -603,6 +764,29 @@ def main() -> int:
             leaf["provenance"] = "who"
     roots = build_roots(merged)
 
+    pathout_leaves, pathout_source, pathout_stats = load_pathout_leaves()
+    who_only_roots = build_roots(who_leaves)
+    who_pathout_merged = merge_who_pathout_leaves(who_leaves, pathout_leaves)
+    who_pathout_roots = build_roots(who_pathout_merged)
+    nav_variants = {
+        "who": variant_payload(
+            "who",
+            "WHO only",
+            who_only_roots,
+            nav_sources=["who"],
+            pathout_nav=False,
+        ),
+        "who_pathout": variant_payload(
+            "who_pathout",
+            "WHO + PathOutlines",
+            who_pathout_roots,
+            nav_sources=["who", "pathout"],
+            pathout_nav=True,
+            pathout_filter="diagnosis_entities_only",
+            pathout_stats=pathout_stats,
+        ),
+    }
+
     prov = Counter(leaf["provenance"] for leaf in merged)
     per_root = {r["id"]: r["leaf_count"] for r in roots}
     generated_at = utc_now()
@@ -614,12 +798,14 @@ def main() -> int:
             "abpath_content_spec": source_doc,
             "abpath_content_spec_rows": len(rows),
             "who_source": who_source,
+            "pathout_tag_csv": pathout_source,
             "prior_bloated_abpath_ontology": "excluded (abpath_source_tags.jsonl not used)",
         },
         "counts": {
             "abpath_content_spec_terminal_rows": len(rows),
             "abpath_nav_leaves": prov.get("abpath", 0) + prov.get("both", 0),
             "who_nav_leaves_input": len(who_leaves),
+            "pathout_nav_leaves_input": len(pathout_leaves),
             "leaves_total": sum(r["leaf_count"] for r in roots),
             "leaves_abpath_only": prov.get("abpath", 0),
             "leaves_who_only": prov.get("who", 0),
@@ -629,24 +815,35 @@ def main() -> int:
             "content_spec_rows_dropped_non_diagnosis": skipped_non_diagnosis,
             "parser_warnings": len(warnings),
             "per_root_leaf_counts": per_root,
+            "variant_who_leaves_total": nav_variants["who"]["counts"]["leaves_total"],
+            "variant_who_pathout_leaves_total": nav_variants["who_pathout"]["counts"]["leaves_total"],
         },
         "dedupe_rules": {
             "key": "root_id + normalize(label)",
             "canonical_preference": "abpath_content_spec_over_who",
             "nav_sources": ["abpath_content_spec", "who"],
-            "provenance_values": ["abpath", "who", "both"],
+            "provenance_values": ["abpath", "who", "both", "pathout"],
             "pathout_nav": False,
             "bloated_abpath_ontology_excluded": True,
             "default_nav_mode": "full",
             "abpath_means": "official_AP_content_specifications_diagnosis_entities_only",
             "abpath_topic_filter": "diagnosis_entities_only",
+            "nav_variants": ["who", "who_pathout"],
+            "nav_variant_notes": {
+                "full": "default — WHO + ABPath content-spec diagnoses; PathOut citation-only",
+                "who": "WHO classification entities only",
+                "who_pathout": "WHO + diagnosis-filtered PathOutlines tags (optional explore mode)",
+            },
         },
         "roots": roots,
+        "nav_variants": nav_variants,
         "known_limitations": [
-            "ABPath nav leaves come ONLY from diagnosis-like terminals in the official AP Content Specifications.",
+            "Default Browse nav = diagnosis-like ABPath AP Content Specifications + WHO.",
+            "Optional nav_variants.who and nav_variants.who_pathout are explore modes only.",
+            "PathOut is citation-only in the default full mode (pathout_nav=false).",
             "Cell types, normal anatomy/histology/cytology, lab methods, QA/billing, and generic headers are excluded from ABPath nav.",
+            "PathOut variant also drops Concept/Staging/Procedure and non-diagnosis-like tags.",
             "The expanded abpath_source_tags.jsonl curriculum ontology is intentionally excluded.",
-            "WHO leaves are overlaid; PathOut remains citation-only (not nav).",
             "Content-spec tags use ABPathSpec::<root>::… identity — retrieval still uses the query/label text.",
             "Index is a local snapshot; not proof of API/vector coverage.",
         ],
@@ -655,13 +852,18 @@ def main() -> int:
     audit = {
         "schema_version": "browse_tag_index_who_abpath_spec_audit_v0_1",
         "generated_at": generated_at,
-        "input_paths": [source_doc, who_source],
+        "input_paths": [source_doc, who_source, pathout_source],
         "output_paths": [
             str(INDEX_PATH.relative_to(REPO_ROOT)),
             str(STATIC_COPY.relative_to(REPO_ROOT)),
             str(AUDIT_PATH.relative_to(REPO_ROOT)),
         ],
         "counts": index["counts"],
+        "pathout_stats": pathout_stats,
+        "nav_variant_counts": {
+            "who": nav_variants["who"]["counts"],
+            "who_pathout": nav_variants["who_pathout"]["counts"],
+        },
         "dropped_non_diagnosis_samples": dropped_non_diagnosis_samples,
         "known_limitations": index["known_limitations"],
     }
@@ -675,6 +877,16 @@ def main() -> int:
     )
 
     print(json.dumps(index["counts"], indent=2))
+    print(
+        json.dumps(
+            {
+                "variant_who": nav_variants["who"]["counts"],
+                "variant_who_pathout": nav_variants["who_pathout"]["counts"],
+                "pathout_stats": pathout_stats,
+            },
+            indent=2,
+        )
+    )
     print(f"Wrote {STATIC_COPY}")
     return 0
 
