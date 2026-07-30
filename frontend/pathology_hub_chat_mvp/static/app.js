@@ -706,6 +706,265 @@ function collectLeavesFromRoots(roots) {
   return rows;
 }
 
+/** OncoTree-style collapsible tree view for Browse — clickable, connected
+ * dot-and-line hierarchy (root organ -> subcategory -> diagnosis leaf)
+ * instead of the tile-grid/list drill-down. Same underlying data
+ * (activeBrowseRoots()); this is purely an alternate visualization. */
+const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
+const ONCOTREE_ROW_HEIGHT = 30;
+const ONCOTREE_COL_WIDTH = 300;
+const ONCOTREE_LEAF_CAP_PER_SUB = 80;
+
+let browseViewMode = "tiles";
+let browseTreeExpanded = new Set();
+
+function readBrowseViewMode() {
+  try {
+    const stored = localStorage.getItem(BROWSE_VIEW_MODE_KEY);
+    return stored === "tree" ? "tree" : "tiles";
+  } catch (_err) {
+    return "tiles";
+  }
+}
+
+function writeBrowseViewMode(mode) {
+  browseViewMode = mode === "tree" ? "tree" : "tiles";
+  try {
+    localStorage.setItem(BROWSE_VIEW_MODE_KEY, browseViewMode);
+  } catch (_err) {
+    // ignore quota / private-mode failures
+  }
+}
+
+browseViewMode = readBrowseViewMode();
+
+/** Mechanically-derived short code from a label's capitalized/salient words
+ * — the same kind of abbreviation clinicians already use (DLBCL, LCIS,
+ * GIST), never an invented board designation. Purely a display aid. */
+function derivedEntityCode(label) {
+  const text = formatDisplayLabel(label || "");
+  const stop = new Set(["of", "the", "and", "or", "in", "with", "a", "an", "for", "to"]);
+  const words = text.split(/\s+/).filter(Boolean);
+  const letters = [];
+  for (const w of words) {
+    const clean = w.replace(/[^A-Za-z0-9]/g, "");
+    if (!clean) continue;
+    if (stop.has(clean.toLowerCase())) continue;
+    letters.push(clean[0].toUpperCase());
+    if (letters.length >= 6) break;
+  }
+  return letters.length >= 2 ? letters.join("") : null;
+}
+
+function oncotreeDotColor(rootId, rootLabel) {
+  const style = rootTileStyle(rootId, rootLabel);
+  const match = /#([0-9a-f]{6})/i.exec(style.gradient || "");
+  return match ? `#${match[1]}` : "#7a7a7a";
+}
+
+/** Build the OncoTree-style layout: nodes with computed {x,y}, and the
+ * bezier links between parent and child. Only expanded nodes recurse into
+ * their children; collapsed nodes occupy exactly one row. */
+function buildOncotreeLayout(roots) {
+  const nodes = [];
+  const links = [];
+  let rowCursor = 0;
+
+  function visit(kind, node, depth, color, parentXY, path) {
+    const isLeaf = kind === "leaf";
+    const expanded = !isLeaf && browseTreeExpanded.has(path);
+    let midRow;
+    let truncatedNote = null;
+    if (isLeaf || !expanded) {
+      midRow = rowCursor;
+      rowCursor += 1;
+    } else {
+      const children =
+        kind === "root"
+          ? node.subcategories || []
+          : (node.leaves || []).slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+      const hiddenCount = kind === "sub" ? Math.max(0, (node.leaves || []).length - children.length) : 0;
+      if (!children.length) {
+        midRow = rowCursor;
+        rowCursor += 1;
+      } else {
+        const childMids = [];
+        children.forEach((child, i) => {
+          const childKind = kind === "root" ? "sub" : "leaf";
+          const childPath = `${path}::${childKind === "sub" ? child.id : i}`;
+          const mid = visit(
+            childKind,
+            child,
+            depth + 1,
+            color,
+            null,
+            childPath,
+          );
+          childMids.push(mid);
+        });
+        if (hiddenCount > 0) {
+          truncatedNote = { row: rowCursor, count: hiddenCount };
+          rowCursor += 1;
+        }
+        midRow = (childMids[0] + childMids[childMids.length - 1]) / 2;
+      }
+    }
+    const x = depth * ONCOTREE_COL_WIDTH;
+    const y = midRow * ONCOTREE_ROW_HEIGHT;
+    const label = kind === "root" ? formatDisplayLabel(node.label) : formatDisplayLabel(node.label);
+    const code = isLeaf ? derivedEntityCode(node.label) : null;
+    nodes.push({
+      kind,
+      path,
+      depth,
+      x,
+      y,
+      color,
+      label,
+      code,
+      hasChildren: !isLeaf,
+      expanded,
+      leafCount: kind === "root" ? node.leaf_count : kind === "sub" ? node.leaf_count : null,
+      leaf: isLeaf ? node : null,
+      rootId: kind === "root" ? node.id : null,
+      subId: kind === "sub" ? node.id : null,
+    });
+    if (parentXY) {
+      links.push({ x1: parentXY.x, y1: parentXY.y, x2: x, y2: y, color });
+    }
+    if (truncatedNote) {
+      nodes.push({
+        kind: "more",
+        path: `${path}::more`,
+        depth: depth + 1,
+        x: (depth + 1) * ONCOTREE_COL_WIDTH,
+        y: truncatedNote.row * ONCOTREE_ROW_HEIGHT,
+        color,
+        label: `+${truncatedNote.count} more — use search`,
+        hasChildren: false,
+      });
+      links.push({
+        x1: x,
+        y1: y,
+        x2: (depth + 1) * ONCOTREE_COL_WIDTH,
+        y2: truncatedNote.row * ONCOTREE_ROW_HEIGHT,
+        color,
+      });
+    }
+    return midRow;
+  }
+
+  const rootMids = [];
+  const rootColors = [];
+  for (const root of roots) {
+    const color = oncotreeDotColor(root.id, root.label);
+    rootColors.push(color);
+    rootMids.push(visit("root", root, 1, color, null, root.id));
+  }
+  if (rootMids.length) {
+    const superMidRow = (rootMids[0] + rootMids[rootMids.length - 1]) / 2;
+    const superY = superMidRow * ONCOTREE_ROW_HEIGHT;
+    nodes.push({
+      kind: "super",
+      path: "__all__",
+      depth: 0,
+      x: 0,
+      y: superY,
+      color: "#4a4a4a",
+      label: "All Diagnoses",
+      hasChildren: false,
+    });
+    roots.forEach((root, i) => {
+      links.push({
+        x1: 0,
+        y1: superY,
+        x2: ONCOTREE_COL_WIDTH,
+        y2: rootMids[i] * ONCOTREE_ROW_HEIGHT,
+        color: rootColors[i],
+      });
+    });
+  }
+  return { nodes, links, totalRows: rowCursor };
+}
+
+function renderOncotreeHtml(roots) {
+  const { nodes, links, totalRows } = buildOncotreeLayout(roots);
+  const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
+  const width = (maxDepth + 1) * ONCOTREE_COL_WIDTH + 260;
+  const height = Math.max(totalRows * ONCOTREE_ROW_HEIGHT + 24, 200);
+
+  let svg = `<svg class="oncotree-links" width="${width}" height="${height}" aria-hidden="true">`;
+  for (const link of links) {
+    const midX = (link.x1 + link.x2) / 2;
+    svg += `<path d="M ${link.x1 + 14} ${link.y1 + 14} C ${midX} ${link.y1 + 14}, ${midX} ${link.y2 + 14}, ${link.x2 + 14} ${link.y2 + 14}" stroke="${link.color}" stroke-opacity="0.45" fill="none" stroke-width="1.5" />`;
+  }
+  svg += "</svg>";
+
+  let nodesHtml = "";
+  for (const n of nodes) {
+    const top = n.y;
+    const left = n.x;
+    if (n.kind === "more") {
+      nodesHtml += `<div class="oncotree-node oncotree-more" style="top:${top}px;left:${left}px;">${escapeHtml(n.label)}</div>`;
+      continue;
+    }
+    if (n.kind === "super") {
+      nodesHtml += `<div class="oncotree-node oncotree-super" style="top:${top}px;left:${left}px;"><span class="oncotree-dot" style="background:${n.color};border-color:${n.color};"></span><span class="oncotree-label">${escapeHtml(n.label)}</span></div>`;
+      continue;
+    }
+    const dotClass = n.hasChildren ? "oncotree-dot oncotree-dot-branch" : "oncotree-dot";
+    const caret = n.hasChildren ? `<span class="oncotree-caret">${n.expanded ? "\u25be" : "\u25b8"}</span>` : "";
+    const countBadge =
+      n.kind !== "leaf" && n.leafCount != null ? `<span class="oncotree-count">${n.leafCount}</span>` : "";
+    const codeSuffix = n.code ? ` <span class="oncotree-code">(${escapeHtml(n.code)})</span>` : "";
+    const payload = escapeAttr(
+      JSON.stringify({
+        kind: n.kind,
+        path: n.path,
+        rootId: n.rootId,
+        subId: n.subId,
+        leaf: n.leaf
+          ? { tag: n.leaf.tag, label: n.leaf.label, query: n.leaf.query, provenance: n.leaf.provenance || null }
+          : null,
+      }),
+    );
+    nodesHtml += `<button type="button" class="oncotree-node${n.kind === "leaf" ? " oncotree-leaf" : ""}" style="top:${top}px;left:${left}px;" data-node="${payload}" title="${escapeAttr(n.label)}">`;
+    nodesHtml += `<span class="${dotClass}" style="background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
+    nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}${codeSuffix}</span>${countBadge}${caret}`;
+    nodesHtml += "</button>";
+  }
+
+  return `<div class="oncotree-container"><div class="oncotree-canvas" style="width:${width}px;height:${height}px;">${svg}${nodesHtml}</div></div>`;
+}
+
+function bindOncotreeHandlers(roots, onRerender) {
+  browseContentEl.querySelectorAll(".oncotree-node[data-node]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const data = JSON.parse(el.dataset.node);
+      if (data.kind === "leaf") {
+        const leaf = data.leaf || {};
+        browseState = {
+          level: "leaf",
+          categoryId: data.rootId,
+          subcategoryId: data.subId,
+          tag: leaf.tag,
+          label: leaf.label,
+          query: leaf.query,
+          provenance: leaf.provenance || null,
+        };
+        renderBrowseView();
+        return;
+      }
+      if (browseTreeExpanded.has(data.path)) {
+        browseTreeExpanded.delete(data.path);
+      } else {
+        browseTreeExpanded.add(data.path);
+      }
+      onRerender();
+    });
+  });
+}
+
 function browseSearchBarHtml(placeholder, value = "") {
   return `<div class="browse-search-row">
     <input type="search" class="browse-search-input" id="browse-filter-input" placeholder="${escapeAttr(placeholder)}" value="${escapeAttr(value)}" autocomplete="off" />
@@ -3001,10 +3260,29 @@ function renderBrowseHome() {
         : "";
     const dedupeNote =
       leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${activeTotal} nav topics.` : "";
+    html += '<div class="oncotree-view-toggle" role="group" aria-label="Browse view mode">';
+    html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tiles" ? " active" : ""}" data-view-mode="tiles">Tile view</button>`;
+    html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tree" ? " active" : ""}" data-view-mode="tree">Tree view (OncoTree-style)</button>`;
+    html += "</div>";
     html += `<p class="hint"><strong>${activeTotal} topics</strong> —${provenanceNote}${dedupeNote}</p>`;
     html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+  }
+
+  if (showingIndexed && browseViewMode === "tree" && !browseFilterQuery.trim()) {
+    html += '<p class="hint">Click an organ or subcategory dot to expand it; click a diagnosis leaf to open its topic page. Codes in parens are mechanically derived initials (e.g. DLBCL), not official board designations.</p>';
+    html += renderOncotreeHtml(roots);
+    browseContentEl.innerHTML = html;
+    bindBrowseSearchHandlers(() => renderBrowseHome());
+    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
+      el.addEventListener("click", () => {
+        writeBrowseViewMode(el.dataset.viewMode);
+        renderBrowseView();
+      });
+    });
+    bindOncotreeHandlers(roots, () => renderBrowseView());
+    return;
   }
 
   if (showingIndexed && browseFilterQuery.trim()) {
@@ -3030,6 +3308,12 @@ function renderBrowseHome() {
     }
     browseContentEl.innerHTML = html;
     bindBrowseSearchHandlers(() => renderBrowseHome());
+    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
+      el.addEventListener("click", () => {
+        writeBrowseViewMode(el.dataset.viewMode);
+        renderBrowseView();
+      });
+    });
     browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
       el.addEventListener("click", () => {
         const leaf = JSON.parse(el.dataset.leaf);
@@ -3062,6 +3346,12 @@ function renderBrowseHome() {
   browseContentEl.innerHTML = html;
   if (showingIndexed) {
     bindBrowseSearchHandlers(() => renderBrowseHome());
+    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
+      el.addEventListener("click", () => {
+        writeBrowseViewMode(el.dataset.viewMode);
+        renderBrowseView();
+      });
+    });
   }
   browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
     el.addEventListener("click", () => {

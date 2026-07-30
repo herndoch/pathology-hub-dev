@@ -179,6 +179,30 @@ code {
   font-size: 0.8rem;
 }
 
+.oncotree-view-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+}
+
+.browse-nav-mode-btn {
+  border: 1px solid var(--panel-border);
+  background: #f8f9fa;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.browse-nav-mode-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .browse-tile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -241,6 +265,109 @@ code {
   flex-direction: column;
   gap: 0.4rem;
   margin-top: 0.5rem;
+}
+
+.oncotree-container {
+  overflow: auto;
+  max-height: 640px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: #fbfbfc;
+  margin-top: 0.5rem;
+}
+
+.oncotree-canvas {
+  position: relative;
+}
+
+.oncotree-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.oncotree-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 28px;
+  max-width: 280px;
+  padding: 0 0.4rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.oncotree-node:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.oncotree-node.oncotree-leaf {
+  font-weight: 500;
+}
+
+.oncotree-node.oncotree-super {
+  cursor: default;
+  font-weight: 700;
+}
+
+.oncotree-node.oncotree-super:hover {
+  background: transparent;
+}
+
+.oncotree-more {
+  position: absolute;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  font-size: 0.78rem;
+  color: var(--muted-text, #6b7280);
+  font-style: italic;
+}
+
+.oncotree-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+.oncotree-dot-branch {
+  background: #fff !important;
+}
+
+.oncotree-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oncotree-code {
+  color: var(--muted-text, #6b7280);
+  font-weight: 400;
+}
+
+.oncotree-count {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--muted-text, #6b7280);
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+}
+
+.oncotree-caret {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--muted-text, #6b7280);
 }
 
 .chevron-item {
