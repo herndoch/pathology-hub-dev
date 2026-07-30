@@ -682,18 +682,20 @@ def _literature_cards_from(merged: dict, cards: list[dict]) -> list[dict]:
 def _slim_literature_for_prompt(literature_cards: list[dict]) -> list[dict]:
     slim: list[dict] = []
     for card in literature_cards[:10]:
-        slim.append(
-            {
-                "title": card.get("title"),
-                "journal": card.get("journal"),
-                "year": card.get("year"),
-                "doi": card.get("doi"),
-                "source_url": card.get("source_url") or card.get("url"),
-                "abstract": (card.get("excerpt") or card.get("text") or "")[:900],
-                "retrieval_mode": card.get("retrieval_mode"),
-                "source": "literature",
-            }
-        )
+        entry = {
+            "title": card.get("title"),
+            "journal": card.get("journal"),
+            "year": card.get("year"),
+            "doi": card.get("doi"),
+            "source_url": card.get("source_url") or card.get("url"),
+            "abstract": (card.get("excerpt") or card.get("text") or "")[:900],
+            "retrieval_mode": card.get("retrieval_mode"),
+            "source": "literature",
+        }
+        # Unpaywall-resolved legal full-text link, when the DOI is open access.
+        if card.get("open_access_url"):
+            entry["open_access_url"] = card["open_access_url"]
+        slim.append(entry)
     return slim
 
 

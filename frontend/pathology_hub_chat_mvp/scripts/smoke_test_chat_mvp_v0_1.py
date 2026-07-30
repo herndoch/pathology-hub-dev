@@ -39,8 +39,38 @@ def _fail(name: str, detail: str) -> None:
     raise SystemExit(1)
 
 
+def smoke_unpaywall() -> None:
+    """Structural-only checks (no network) so a rename/removal is caught even
+    when Elsevier/NCBI keys aren't available locally."""
+    import literature_apis as lit
+
+    if lit.unpaywall_email() != "herndon.charlie@gmail.com" and not __import__("os").environ.get(
+        "UNPAYWALL_EMAIL"
+    ):
+        _fail("unpaywall default email", lit.unpaywall_email())
+    for needle in ("unpaywall_enabled", "enrich_cards_with_open_access", "_unpaywall_lookup"):
+        if not hasattr(lit, needle):
+            _fail("unpaywall function missing", needle)
+    card = lit._card(
+        title="t", journal="j", doi="10.1/x", abstract="a", year="2020",
+        retrieval_mode="test", source_name="Test",
+    )
+    for key in ("is_open_access", "open_access_url", "open_access_status"):
+        if key not in card:
+            _fail("literature card missing open-access field", key)
+    # No-DOI card must pass through unchanged with unpaywall disabled or on.
+    nodoi = lit._card(
+        title="t2", journal="j2", doi=None, abstract="", year=None,
+        retrieval_mode="test", source_name="Test",
+    )
+    if lit._enrich_card_open_access(dict(nodoi)) != nodoi:
+        _fail("no-doi card should pass through unpaywall enrichment unchanged", None)
+    _ok("unpaywall integration (structural, offline)")
+
+
 def smoke_offline() -> None:
     print("Offline smoke (TestClient)")
+    smoke_unpaywall()
     client = TestClient(app)
 
     idx = client.get("/static/browse_tag_index_v0_1.json")

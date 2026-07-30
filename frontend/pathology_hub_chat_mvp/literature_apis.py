@@ -2,12 +2,17 @@
 
 Fetches clean abstracts + DOI links from Elsevier Scopus and NCBI PubMed,
 plus optional OncoKB molecular annotations. Replaces the retired local
-journal FAISS corpus for topic-page evidence.
+journal FAISS corpus for topic-page evidence. Unpaywall then resolves a
+legal open-access full-text link for any card that has a DOI.
 
 Secrets (env first, then GCP Secret Manager names):
   ELSEVIER_API_KEY / Elsevier
   NCBI_API_KEY     / NCBI
   ONCOKB_API_TOKEN / OncoKB
+
+Unpaywall (https://unpaywall.org/products/api) is free and needs no API
+key — just a contact email per its terms of use:
+  UNPAYWALL_EMAIL (env, default herndon.charlie@gmail.com)
 
 Never logs secret values.
 """
@@ -48,6 +53,18 @@ _ONCOKB_GENE_RE = re.compile(
 )
 
 _USER_AGENT = "PathologyHubChatMVP/0.1 (literature; research; non-commercial)"
+
+# Unpaywall requires a contact email per its terms of use — no API key.
+UNPAYWALL_DEFAULT_EMAIL = "herndon.charlie@gmail.com"
+
+
+def unpaywall_email() -> str:
+    return os.environ.get("UNPAYWALL_EMAIL", "").strip() or UNPAYWALL_DEFAULT_EMAIL
+
+
+def unpaywall_enabled() -> bool:
+    raw = os.environ.get("TOPIC_PAGE_UNPAYWALL", "1")
+    return str(raw).strip().lower() not in {"0", "false", "off", "no"}
 
 
 def _http_get_json(url: str, headers: dict[str, str], timeout: float = 25.0) -> dict[str, Any]:
@@ -98,6 +115,9 @@ def _card(
         "year": year,
         "retrieval_mode": retrieval_mode,
         "rank": None,
+        "is_open_access": None,
+        "open_access_url": None,
+        "open_access_status": None,
     }
     if extra:
         card.update(extra)
@@ -261,6 +281,76 @@ def _europe_pmc_abstract(*, pmid: Optional[str] = None, doi: Optional[str] = Non
         return None
     text = (results[0].get("abstractText") or "").strip()
     return text or None
+
+
+def _unpaywall_lookup(doi: str) -> Optional[dict]:
+    """Open-access status + best full-text link for a DOI, via Unpaywall.
+
+    Free, no API key — https://unpaywall.org/products/api requires only a
+    contact email per its terms of use. Returns None on any failure (never
+    raises) so it can never break a topic-page render.
+    """
+    clean_doi = str(doi or "").strip()
+    if not clean_doi:
+        return None
+    if clean_doi.lower().startswith("http"):
+        # Accept a doi.org URL too — pull the bare DOI out of the path.
+        clean_doi = re.sub(r"^https?://(?:dx\.)?doi\.org/", "", clean_doi, flags=re.I)
+    params = urllib.parse.urlencode({"email": unpaywall_email()})
+    url = f"https://api.unpaywall.org/v2/{urllib.parse.quote(clean_doi, safe='')}?{params}"
+    try:
+        return _http_get_json(url, {"User-Agent": _USER_AGENT, "Accept": "application/json"}, timeout=12.0)
+    except Exception:
+        return None
+
+
+def _enrich_card_open_access(card: dict) -> dict:
+    """Attach an open-access full-text link (if one exists) via Unpaywall."""
+    if not isinstance(card, dict) or not unpaywall_enabled():
+        return card
+    doi = card.get("doi")
+    if not doi:
+        return card
+    data = _unpaywall_lookup(doi)
+    if not data:
+        return card
+    card = dict(card)
+    is_oa = bool(data.get("is_oa"))
+    card["is_open_access"] = is_oa
+    card["open_access_status"] = data.get("oa_status")
+    best = data.get("best_oa_location") or {}
+    oa_url = best.get("url_for_pdf") or best.get("url") if is_oa else None
+    if oa_url:
+        card["open_access_url"] = oa_url
+    return card
+
+
+def enrich_cards_with_open_access(cards: list[dict], max_lookups: int = 8) -> list[dict]:
+    """Parallel Unpaywall enrichment, bounded so it never dominates latency.
+
+    Only looks up cards that (a) have a DOI and (b) don't already carry an
+    open_access_url (e.g. from a cache/prebuild). Cards without a DOI, or
+    beyond `max_lookups`, pass through unchanged.
+    """
+    if not unpaywall_enabled() or not cards:
+        return cards
+    candidates = [
+        i
+        for i, c in enumerate(cards)
+        if isinstance(c, dict) and c.get("doi") and not c.get("open_access_url")
+    ][:max_lookups]
+    if not candidates:
+        return cards
+    out = list(cards)
+    with ThreadPoolExecutor(max_workers=min(len(candidates), 8)) as pool:
+        futures = {pool.submit(_enrich_card_open_access, out[i]): i for i in candidates}
+        for fut in as_completed(futures):
+            i = futures[fut]
+            try:
+                out[i] = fut.result()
+            except Exception:
+                continue
+    return out
 
 
 def _enrich_card_abstract(card: dict) -> dict:
@@ -722,6 +812,16 @@ def fetch_live_literature(
     if dropped:
         warnings.append(f"literature_filtered_offtopic_{len(dropped)}")
 
+    # Open-access full-text links (Unpaywall) — only for the final kept set,
+    # after off-topic filtering, so lookups aren't wasted on discarded cards.
+    kept = enrich_cards_with_open_access(kept)
+    oa_count = sum(1 for c in kept if c.get("open_access_url"))
+    providers["unpaywall"] = {
+        "provider": "unpaywall",
+        "ok": unpaywall_enabled(),
+        "open_access_links_found": oa_count,
+    }
+
     return {
         "enabled": True,
         "cards": kept,
@@ -731,4 +831,5 @@ def fetch_live_literature(
         "scoped_query": scoped_query,
         "filter": filt_stats,
         "dropped_offtopic": len(dropped),
+        "open_access_links_found": oa_count,
     }
