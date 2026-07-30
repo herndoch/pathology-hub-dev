@@ -873,6 +873,7 @@ def _answer_gpt_like(req: ChatRequest, merged: dict, cards: list[dict]) -> Synth
         prompts.gpt_like_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        model=get_topic_page_model(),
     )
 
 
@@ -884,6 +885,7 @@ def _answer_compare_sources(req: ChatRequest, merged: dict, cards: list[dict]) -
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
+        model=get_topic_page_model(),
     )
 
 
@@ -894,6 +896,7 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
+        model=get_topic_page_model(),
     )
 
 
@@ -951,6 +954,7 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
         prompts.html_teaching_system_prompt(),
         req.query,
         html_only,
+        model=get_topic_page_model(),
     )
 
 
@@ -1512,6 +1516,7 @@ def api_compare(req: CompareRequest):
             prompts.compare_diagnoses_system_prompt(),
             synth_query,
             compare_evidence,
+            model=get_topic_page_model(),
         )
         return {
             "ok": result.ok,

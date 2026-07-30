@@ -9,8 +9,12 @@ from typing import Optional
 
 from secrets_helper import get_openai_api_key
 
-DEFAULT_MODEL = "gpt-4o"
+# Both chat and topic-page synthesis use the same modern default so free-text
+# Ask/compare/visual answers don't silently fall back to the older, weaker
+# `gpt-4o` while only topic pages got upgraded. Override independently via
+# OPENAI_MODEL / OPENAI_TOPIC_PAGE_MODEL if you need to diverge on purpose.
 TOPIC_PAGE_DEFAULT_MODEL = "gpt-5.6-luna"
+DEFAULT_MODEL = TOPIC_PAGE_DEFAULT_MODEL
 
 
 def get_model() -> str:

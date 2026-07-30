@@ -183,7 +183,7 @@ OpenAI synthesis, not retrieval, is now the dominant cost for `topic_page` speci
 6-source ovarian-HGSC probe was ~52s total: ~17s retrieval, ~35s synthesis) because the
 comprehensive, structured, DDx-aware prompt is long.
 
-### Synthesis model A/B (G16, measured 2026-07-11)
+### Synthesis model A/B (G16, measured 2026-07-11; superseded 2026-07-30)
 
 Three fixed entities (Middle Ear SCC, GCT of Bone, Juvenile Granulosa Cell Tumor) were probed
 with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
@@ -193,11 +193,21 @@ with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
 |---|---|---|---|
 | `gpt-4.1-mini` | ~35s | yes | Longest answers (~5–6k chars); prior default |
 | `gpt-4o-mini` | ~30s | yes | Shorter answers (~2.1–2.4k chars); not faster than mini here |
-| **`gpt-4o`** | **~18s** | yes | **Default (2026-07-11)** — fastest in A/B; shorter but structurally complete |
+| `gpt-4o` | ~18s | yes | Fastest in this A/B; shorter but structurally complete — default 2026-07-11 through 2026-07-21 |
 
-**Default:** `gpt-4o` (`openai_synthesizer.DEFAULT_MODEL`). Override with
-`OPENAI_MODEL=gpt-4.1-mini ./scripts/run_local.sh` if you need longer answers on dense entities.
-Re-run `scripts/model_ab_topic_synthesis_v0_1.py` after prompt changes.
+**2026-07-21 → 2026-07-29 regression:** a separate `OPENAI_TOPIC_PAGE_MODEL`/`gpt-5.6-luna`
+default was introduced for `topic_page` synthesis only. `gpt_like` (free-text Ask), `compare_sources`,
+`visual`, `html_teaching`, and `/api/compare` were never updated to match, so they silently kept
+using `gpt-4o` — plus the Cloud Run deploy script hardcoded `OPENAI_MODEL=gpt-4o` as an env var,
+which would have overridden any Python-level default change anyway.
+
+**Current default (2026-07-30):** `gpt-5.6-luna` everywhere (`openai_synthesizer.DEFAULT_MODEL` ==
+`TOPIC_PAGE_DEFAULT_MODEL`), and every `synthesize()` call site in `app.py` passes
+`model=get_topic_page_model()` explicitly so chat/compare/visual/html_teaching can't drift back onto
+an old default even if `OPENAI_MODEL` and `OPENAI_TOPIC_PAGE_MODEL` are later set to different
+values. Override for a single local run with `OPENAI_MODEL=gpt-4.1-mini ./scripts/run_local.sh` (or
+`OPENAI_TOPIC_PAGE_MODEL=...` — both now feed the same code paths). Re-run
+`scripts/model_ab_topic_synthesis_v0_1.py` after prompt changes.
 
 ### Root-narrowed retrieval (B8)
 
