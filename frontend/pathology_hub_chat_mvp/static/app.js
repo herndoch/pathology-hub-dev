@@ -712,7 +712,7 @@ function collectLeavesFromRoots(roots) {
  * (activeBrowseRoots()); this is purely an alternate visualization. */
 const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
 const ONCOTREE_BASE_ROW_HEIGHT = 30;
-const ONCOTREE_BASE_COL_WIDTH = 300;
+const ONCOTREE_BASE_COL_WIDTH = 320;
 const ONCOTREE_LEAF_CAP_PER_SUB = 80;
 const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
 /** Above this many matches, an in-tree highlighted search would explode into
@@ -798,11 +798,23 @@ function buildOncotreeLayout(roots, options = {}) {
       midRow = rowCursor;
       rowCursor += 1;
     } else {
-      const children =
-        kind === "root"
-          ? node.subcategories || []
-          : (node.leaves || []).slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
-      const hiddenCount = kind === "sub" ? Math.max(0, (node.leaves || []).length - children.length) : 0;
+      // While an in-tree search is active, only show what's relevant to it
+      // — otherwise a single match inside a 19-leaf subcategory drags in
+      // every unrelated sibling as noise and stretches the connecting
+      // curves across most of the canvas for no reason.
+      let children;
+      if (kind === "root") {
+        children = node.subcategories || [];
+        if (isMatchFn && extraExpanded) {
+          children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
+        }
+      } else {
+        let leaves = node.leaves || [];
+        if (isMatchFn) leaves = leaves.filter((l) => isMatchFn(l));
+        children = leaves.slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+      }
+      const hiddenCount =
+        kind === "sub" && !isMatchFn ? Math.max(0, (node.leaves || []).length - children.length) : 0;
       if (!children.length) {
         midRow = rowCursor;
         rowCursor += 1;
@@ -825,7 +837,11 @@ function buildOncotreeLayout(roots, options = {}) {
           truncatedNote = { row: rowCursor, count: hiddenCount };
           rowCursor += 1;
         }
-        midRow = (childMids[0] + childMids[childMids.length - 1]) / 2;
+        // True average of ALL children (not just first/last) — keeps the
+        // parent near the actual "center of mass" of its children instead
+        // of producing a long, exaggerated S-curve when one child is heavily
+        // expanded (many rows) while its siblings sit collapsed nearby.
+        midRow = childMids.reduce((sum, m) => sum + m, 0) / childMids.length;
       }
     }
     const x = depth * colW;
@@ -882,7 +898,7 @@ function buildOncotreeLayout(roots, options = {}) {
     rootMids.push(visit("root", root, 1, color, null, root.id));
   }
   if (rootMids.length) {
-    const superMidRow = (rootMids[0] + rootMids[rootMids.length - 1]) / 2;
+    const superMidRow = rootMids.reduce((sum, m) => sum + m, 0) / rootMids.length;
     const superY = superMidRow * rowH;
     nodes.push({
       kind: "super",
@@ -910,7 +926,7 @@ function buildOncotreeLayout(roots, options = {}) {
 function renderOncotreeHtml(roots, options = {}) {
   const { nodes, links, totalRows, rowH, colW } = buildOncotreeLayout(roots, options);
   const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
-  const width = (maxDepth + 1) * colW + 260;
+  const width = (maxDepth + 1) * colW + 40;
   const height = Math.max(totalRows * rowH + 24, 200);
   const dotSize = Math.max(8, Math.round(10 * oncotreeZoom()));
 
