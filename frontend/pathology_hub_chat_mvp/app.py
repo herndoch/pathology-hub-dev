@@ -13,6 +13,7 @@ Run with: ./scripts/run_local.sh   (see README.md)
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -81,7 +82,7 @@ def _textbook_cite_label(source_id: object) -> str:
     return book_key.replace("_", " ").strip() or "Textbook"
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -199,6 +200,30 @@ def _git_sha_short() -> str:
 
 
 BUILD_GIT_SHA = _git_sha_short()
+
+
+def _static_asset_version() -> str:
+    """Content-hash cache-buster for app.js/style.css.
+
+    BUILD_GIT_SHA is "unknown" in every Cloud Run deploy because .git is
+    excluded via .dockerignore — index.html's old hand-written
+    `?v=cyto-who-figs-1` / `?v=full-index-default-1` query strings never
+    changed between deploys either, so browsers/proxies kept serving
+    stale cached app.js/style.css after every UI change. Hashing the
+    actual served file bytes at startup means the URL always changes
+    exactly when the content does, with nothing to remember to bump.
+    """
+    digest = hashlib.sha256()
+    for name in ("app.js", "style.css"):
+        try:
+            with open(os.path.join(STATIC_DIR, name), "rb") as handle:
+                digest.update(handle.read())
+        except OSError:
+            continue
+    return digest.hexdigest()[:12] or "unknown"
+
+
+STATIC_ASSET_VERSION = _static_asset_version()
 
 
 app = FastAPI(title=APP_TITLE)
@@ -786,7 +811,14 @@ def _ensure_key_literature_section(answer: str, literature_cards: list[dict]) ->
 
 @app.get("/")
 def index():
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+    """Serve index.html with a live content-hash cache-buster on the
+    app.js/style.css URLs so a deploy is never masked by a stale browser
+    or proxy cache (see _static_asset_version). The HTML itself is tiny and
+    marked no-cache so this substitution is always fresh."""
+    with open(os.path.join(STATIC_DIR, "index.html"), "r", encoding="utf-8") as handle:
+        html = handle.read()
+    html = html.replace("__ASSET_VERSION__", STATIC_ASSET_VERSION)
+    return HTMLResponse(content=html, headers={"Cache-Control": "no-cache"})
 
 
 def _slugify_prebuild_tag(tag: str) -> str:
@@ -833,6 +865,7 @@ def api_health():
         "secrets": secret_status,
         "openai_model": get_model(),
         "topic_page_model": get_topic_page_model(),
+        "static_asset_version": STATIC_ASSET_VERSION,
         # Full backend source vocabulary (includes retired `journals` for API compat).
         "supported_sources": SUPPORTED_SOURCES,
         # Checkbox list for the UI — journals retired; live papers are `literature`.

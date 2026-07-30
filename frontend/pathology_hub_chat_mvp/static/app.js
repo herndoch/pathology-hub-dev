@@ -711,12 +711,17 @@ function collectLeavesFromRoots(roots) {
  * instead of the tile-grid/list drill-down. Same underlying data
  * (activeBrowseRoots()); this is purely an alternate visualization. */
 const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
-const ONCOTREE_ROW_HEIGHT = 30;
-const ONCOTREE_COL_WIDTH = 300;
+const ONCOTREE_BASE_ROW_HEIGHT = 30;
+const ONCOTREE_BASE_COL_WIDTH = 300;
 const ONCOTREE_LEAF_CAP_PER_SUB = 80;
+const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
+/** Above this many matches, an in-tree highlighted search would explode into
+ * an unnavigable wall of expanded nodes — fall back to the flat list. */
+const ONCOTREE_SEARCH_INLINE_CAP = 40;
 
 let browseViewMode = "tiles";
 let browseTreeExpanded = new Set();
+let browseTreeZoomIdx = ONCOTREE_ZOOM_STEPS.indexOf(1);
 
 function readBrowseViewMode() {
   try {
@@ -762,17 +767,31 @@ function oncotreeDotColor(rootId, rootLabel) {
   return match ? `#${match[1]}` : "#7a7a7a";
 }
 
+function oncotreeZoom() {
+  return ONCOTREE_ZOOM_STEPS[browseTreeZoomIdx] ?? 1;
+}
+
 /** Build the OncoTree-style layout: nodes with computed {x,y}, and the
  * bezier links between parent and child. Only expanded nodes recurse into
- * their children; collapsed nodes occupy exactly one row. */
-function buildOncotreeLayout(roots) {
+ * their children; collapsed nodes occupy exactly one row.
+ *
+ * `extraExpanded` force-expands paths beyond the user's manual toggles (used
+ * to auto-reveal the ancestor chain down to an in-tree search match).
+ * `isMatch(leafNode)` flags a leaf for highlighting when searching. */
+function buildOncotreeLayout(roots, options = {}) {
+  const extraExpanded = options.extraExpanded || null;
+  const isMatchFn = options.isMatch || null;
+  const zoom = oncotreeZoom();
+  const rowH = ONCOTREE_BASE_ROW_HEIGHT * zoom;
+  const colW = ONCOTREE_BASE_COL_WIDTH * zoom;
   const nodes = [];
   const links = [];
   let rowCursor = 0;
 
   function visit(kind, node, depth, color, parentXY, path) {
     const isLeaf = kind === "leaf";
-    const expanded = !isLeaf && browseTreeExpanded.has(path);
+    const expanded = !isLeaf && (browseTreeExpanded.has(path) || Boolean(extraExpanded && extraExpanded.has(path)));
+    const isMatch = isLeaf && isMatchFn ? isMatchFn(node) : false;
     let midRow;
     let truncatedNote = null;
     if (isLeaf || !expanded) {
@@ -809,10 +828,10 @@ function buildOncotreeLayout(roots) {
         midRow = (childMids[0] + childMids[childMids.length - 1]) / 2;
       }
     }
-    const x = depth * ONCOTREE_COL_WIDTH;
-    const y = midRow * ONCOTREE_ROW_HEIGHT;
-    const label = kind === "root" ? formatDisplayLabel(node.label) : formatDisplayLabel(node.label);
-    const code = isLeaf ? derivedEntityCode(node.label) : null;
+    const x = depth * colW;
+    const y = midRow * rowH;
+    const label = formatDisplayLabel(node.label);
+    const code = kind === "leaf" || kind === "sub" ? derivedEntityCode(node.label) : null;
     nodes.push({
       kind,
       path,
@@ -822,6 +841,7 @@ function buildOncotreeLayout(roots) {
       color,
       label,
       code,
+      isMatch,
       hasChildren: !isLeaf,
       expanded,
       leafCount: kind === "root" ? node.leaf_count : kind === "sub" ? node.leaf_count : null,
@@ -837,8 +857,8 @@ function buildOncotreeLayout(roots) {
         kind: "more",
         path: `${path}::more`,
         depth: depth + 1,
-        x: (depth + 1) * ONCOTREE_COL_WIDTH,
-        y: truncatedNote.row * ONCOTREE_ROW_HEIGHT,
+        x: (depth + 1) * colW,
+        y: truncatedNote.row * rowH,
         color,
         label: `+${truncatedNote.count} more — use search`,
         hasChildren: false,
@@ -846,8 +866,8 @@ function buildOncotreeLayout(roots) {
       links.push({
         x1: x,
         y1: y,
-        x2: (depth + 1) * ONCOTREE_COL_WIDTH,
-        y2: truncatedNote.row * ONCOTREE_ROW_HEIGHT,
+        x2: (depth + 1) * colW,
+        y2: truncatedNote.row * rowH,
         color,
       });
     }
@@ -863,7 +883,7 @@ function buildOncotreeLayout(roots) {
   }
   if (rootMids.length) {
     const superMidRow = (rootMids[0] + rootMids[rootMids.length - 1]) / 2;
-    const superY = superMidRow * ONCOTREE_ROW_HEIGHT;
+    const superY = superMidRow * rowH;
     nodes.push({
       kind: "super",
       path: "__all__",
@@ -878,25 +898,27 @@ function buildOncotreeLayout(roots) {
       links.push({
         x1: 0,
         y1: superY,
-        x2: ONCOTREE_COL_WIDTH,
-        y2: rootMids[i] * ONCOTREE_ROW_HEIGHT,
+        x2: colW,
+        y2: rootMids[i] * rowH,
         color: rootColors[i],
       });
     });
   }
-  return { nodes, links, totalRows: rowCursor };
+  return { nodes, links, totalRows: rowCursor, rowH, colW };
 }
 
-function renderOncotreeHtml(roots) {
-  const { nodes, links, totalRows } = buildOncotreeLayout(roots);
+function renderOncotreeHtml(roots, options = {}) {
+  const { nodes, links, totalRows, rowH, colW } = buildOncotreeLayout(roots, options);
   const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
-  const width = (maxDepth + 1) * ONCOTREE_COL_WIDTH + 260;
-  const height = Math.max(totalRows * ONCOTREE_ROW_HEIGHT + 24, 200);
+  const width = (maxDepth + 1) * colW + 260;
+  const height = Math.max(totalRows * rowH + 24, 200);
+  const dotSize = Math.max(8, Math.round(10 * oncotreeZoom()));
 
   let svg = `<svg class="oncotree-links" width="${width}" height="${height}" aria-hidden="true">`;
   for (const link of links) {
     const midX = (link.x1 + link.x2) / 2;
-    svg += `<path d="M ${link.x1 + 14} ${link.y1 + 14} C ${midX} ${link.y1 + 14}, ${midX} ${link.y2 + 14}, ${link.x2 + 14} ${link.y2 + 14}" stroke="${link.color}" stroke-opacity="0.45" fill="none" stroke-width="1.5" />`;
+    const off = dotSize / 2 + 4;
+    svg += `<path d="M ${link.x1 + off} ${link.y1 + off} C ${midX} ${link.y1 + off}, ${midX} ${link.y2 + off}, ${link.x2 + off} ${link.y2 + off}" stroke="${link.color}" stroke-opacity="0.45" fill="none" stroke-width="1.5" />`;
   }
   svg += "</svg>";
 
@@ -909,7 +931,7 @@ function renderOncotreeHtml(roots) {
       continue;
     }
     if (n.kind === "super") {
-      nodesHtml += `<div class="oncotree-node oncotree-super" style="top:${top}px;left:${left}px;"><span class="oncotree-dot" style="background:${n.color};border-color:${n.color};"></span><span class="oncotree-label">${escapeHtml(n.label)}</span></div>`;
+      nodesHtml += `<div class="oncotree-node oncotree-super" style="top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;"><span class="oncotree-dot" style="width:${dotSize}px;height:${dotSize}px;background:${n.color};border-color:${n.color};"></span><span class="oncotree-label">${escapeHtml(n.label)}</span></div>`;
       continue;
     }
     const dotClass = n.hasChildren ? "oncotree-dot oncotree-dot-branch" : "oncotree-dot";
@@ -928,13 +950,50 @@ function renderOncotreeHtml(roots) {
           : null,
       }),
     );
-    nodesHtml += `<button type="button" class="oncotree-node${n.kind === "leaf" ? " oncotree-leaf" : ""}" style="top:${top}px;left:${left}px;" data-node="${payload}" title="${escapeAttr(n.label)}">`;
-    nodesHtml += `<span class="${dotClass}" style="background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
+    const classes = ["oncotree-node"];
+    if (n.kind === "leaf") classes.push("oncotree-leaf");
+    if (n.isMatch) classes.push("oncotree-match");
+    nodesHtml += `<button type="button" class="${classes.join(" ")}" style="top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;" data-node="${payload}" title="${escapeAttr(n.label)}">`;
+    nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
     nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}${codeSuffix}</span>${countBadge}${caret}`;
     nodesHtml += "</button>";
   }
 
   return `<div class="oncotree-container"><div class="oncotree-canvas" style="width:${width}px;height:${height}px;">${svg}${nodesHtml}</div></div>`;
+}
+
+function oncotreeToolbarHtml() {
+  const zoom = oncotreeZoom();
+  const canZoomOut = browseTreeZoomIdx > 0;
+  const canZoomIn = browseTreeZoomIdx < ONCOTREE_ZOOM_STEPS.length - 1;
+  return `<div class="oncotree-toolbar">
+    <button type="button" class="btn-secondary" id="oncotree-expand-organs" title="Expand every organ root to show its subcategories">Expand organs</button>
+    <button type="button" class="btn-secondary" id="oncotree-collapse-all" title="Collapse everything back to the 17 organ roots">Collapse all</button>
+    <span class="oncotree-zoom-group" role="group" aria-label="Zoom">
+      <button type="button" class="btn-secondary" id="oncotree-zoom-out" ${canZoomOut ? "" : "disabled"} title="Zoom out">\u2212</button>
+      <span class="oncotree-zoom-label">${Math.round(zoom * 100)}%</span>
+      <button type="button" class="btn-secondary" id="oncotree-zoom-in" ${canZoomIn ? "" : "disabled"} title="Zoom in">+</button>
+    </span>
+  </div>`;
+}
+
+function bindOncotreeToolbarHandlers(onRerender) {
+  document.getElementById("oncotree-expand-organs")?.addEventListener("click", () => {
+    for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
+    onRerender();
+  });
+  document.getElementById("oncotree-collapse-all")?.addEventListener("click", () => {
+    browseTreeExpanded.clear();
+    onRerender();
+  });
+  document.getElementById("oncotree-zoom-out")?.addEventListener("click", () => {
+    browseTreeZoomIdx = Math.max(0, browseTreeZoomIdx - 1);
+    onRerender();
+  });
+  document.getElementById("oncotree-zoom-in")?.addEventListener("click", () => {
+    browseTreeZoomIdx = Math.min(ONCOTREE_ZOOM_STEPS.length - 1, browseTreeZoomIdx + 1);
+    onRerender();
+  });
 }
 
 function bindOncotreeHandlers(roots, onRerender) {
@@ -3270,9 +3329,28 @@ function renderBrowseHome() {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
 
-  if (showingIndexed && browseViewMode === "tree" && !browseFilterQuery.trim()) {
+  const treeSearchActive = browseViewMode === "tree" && browseFilterQuery.trim();
+  let treeSearchMatches = null;
+  if (treeSearchActive) {
+    treeSearchMatches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
+  }
+  const useInlineTreeSearch = treeSearchActive && treeSearchMatches.length > 0 && treeSearchMatches.length <= ONCOTREE_SEARCH_INLINE_CAP;
+
+  if (showingIndexed && browseViewMode === "tree" && (!browseFilterQuery.trim() || useInlineTreeSearch)) {
     html += '<p class="hint">Click an organ or subcategory dot to expand it; click a diagnosis leaf to open its topic page. Codes in parens are mechanically derived initials (e.g. DLBCL), not official board designations.</p>';
-    html += renderOncotreeHtml(roots);
+    html += oncotreeToolbarHtml();
+    let treeOptions = {};
+    if (useInlineTreeSearch) {
+      const matchSet = new Set(treeSearchMatches.map((row) => row.leaf));
+      const extraExpanded = new Set();
+      for (const row of treeSearchMatches) {
+        extraExpanded.add(row.root.id);
+        extraExpanded.add(`${row.root.id}::${row.sub.id}`);
+      }
+      treeOptions = { extraExpanded, isMatch: (leafNode) => matchSet.has(leafNode) };
+      html += `<p class="hint">${treeSearchMatches.length} match${treeSearchMatches.length === 1 ? "" : "es"} for "${escapeHtml(browseFilterQuery.trim())}" — highlighted below, ancestors auto-expanded.</p>`;
+    }
+    html += renderOncotreeHtml(roots, treeOptions);
     browseContentEl.innerHTML = html;
     bindBrowseSearchHandlers(() => renderBrowseHome());
     browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
@@ -3281,12 +3359,20 @@ function renderBrowseHome() {
         renderBrowseView();
       });
     });
+    bindOncotreeToolbarHandlers(() => renderBrowseView());
     bindOncotreeHandlers(roots, () => renderBrowseView());
+    if (useInlineTreeSearch) {
+      const firstMatchEl = browseContentEl.querySelector(".oncotree-match");
+      firstMatchEl?.scrollIntoView({ block: "center" });
+    }
     return;
   }
 
   if (showingIndexed && browseFilterQuery.trim()) {
-    const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
+    if (treeSearchActive && treeSearchMatches.length > ONCOTREE_SEARCH_INLINE_CAP) {
+      html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
+    }
+    const matches = treeSearchActive ? treeSearchMatches : collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
     html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
     html += '<div class="chevron-list">';
     for (const row of matches.slice(0, 120)) {
