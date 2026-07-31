@@ -714,11 +714,17 @@ const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
 const ONCOTREE_BASE_ROW_HEIGHT = 30;
 const ONCOTREE_BASE_COL_WIDTH = 320;
 const ONCOTREE_LEAF_CAP_PER_SUB = 80;
-/** Subcategories bigger than this get chunked into alphabetical-range group
- * branches (A–D, E–H, …) instead of dumping every leaf into one column —
- * "too many leaves all at once" otherwise. */
+/** Subcategories bigger than this get chunked into branches — but by real
+ * pathology category (from the WHO tag's own hierarchy), not alphabet. */
 const ONCOTREE_GROUP_THRESHOLD = 16;
-const ONCOTREE_GROUP_TARGET_SIZE = 12;
+/** A leaf whose tag carries no categorical segment (bare ABPathSpec tags,
+ * or a WHO tag with no intermediate segment) can't be placed into a
+ * meaningful branch — it gets dropped from the tree with a disclosed count,
+ * findable via search/Tile view instead, rather than faked into an
+ * alphabetical or "Other" bucket. If fewer than this fraction of a
+ * subcategory's leaves carry a usable category, there isn't enough real
+ * structure to build a nice hierarchy at all — show it flat instead. */
+const ONCOTREE_MIN_CATEGORY_COVERAGE = 0.4;
 const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
 /** Above this many matches, an in-tree highlighted search would explode into
  * an unnavigable wall of expanded nodes — fall back to the flat list. */
@@ -776,27 +782,58 @@ function oncotreeZoom() {
   return ONCOTREE_ZOOM_STEPS[browseTreeZoomIdx] ?? 1;
 }
 
-/** Chunk an already-alphabetized leaf list into letter-range branch nodes
- * (A–D, E–H, …) so a 113-leaf subcategory becomes ~8 manageable branches
- * instead of one long wall of leaves. Leaves already arrive sorted by label
- * from the browse index build (see build_roots() sort by label.casefold). */
-function buildOncotreeAlphaGroups(leaves) {
-  const numGroups = Math.max(2, Math.ceil(leaves.length / ONCOTREE_GROUP_TARGET_SIZE));
-  const chunkSize = Math.ceil(leaves.length / numGroups);
-  const groups = [];
-  for (let i = 0; i < leaves.length; i += chunkSize) {
-    const chunk = leaves.slice(i, i + chunkSize);
-    if (!chunk.length) continue;
-    const firstLetter = (formatDisplayLabel(chunk[0].label)[0] || "#").toUpperCase();
-    const lastLetter = (formatDisplayLabel(chunk[chunk.length - 1].label)[0] || "#").toUpperCase();
-    groups.push({
-      id: `grp${groups.length}`,
-      label: firstLetter === lastLetter ? firstLetter : `${firstLetter}\u2013${lastLetter}`,
-      leaf_count: chunk.length,
-      leaves: chunk,
-    });
+/** Real pathology category for a leaf, read off its own tag hierarchy —
+ * never invented. WHO tags carry genuine categorical structure beyond
+ * root/subcategory (e.g. "BST::Soft_Tissue::Fibroblastic::Acral_Fibromyxoma"
+ * — "Fibroblastic" is WHO's own classification, the same grouping used in
+ * the WHO Blue Books). ABPathSpec tags (content-spec derived) and shallow
+ * 3-segment WHO tags carry no such segment and return null — those leaves
+ * have nothing to hang a "nice" branch off of. */
+function leafCategoryFromTag(tag) {
+  if (!tag || tag.startsWith("ABPathSpec::")) return null;
+  const parts = tag.split("::").filter(Boolean);
+  if (parts.length <= 3) return null;
+  return formatDisplayLabel(parts[2]);
+}
+
+/** Chunk leaves into branches by real pathology category (from the WHO tag
+ * hierarchy) instead of alphabet. Leaves with no usable category segment
+ * are dropped from the tree (findable via search / Tile view instead) —
+ * returns `null` when there isn't enough categorical structure to build a
+ * meaningful hierarchy at all (caller should fall back to a flat list
+ * rather than force a fake grouping). */
+function buildOncotreeCategoryGroups(leaves) {
+  const byCategory = new Map();
+  let droppedCount = 0;
+  for (const leaf of leaves) {
+    const cat = leafCategoryFromTag(leaf.tag);
+    if (!cat) {
+      droppedCount += 1;
+      continue;
+    }
+    if (!byCategory.has(cat)) byCategory.set(cat, []);
+    byCategory.get(cat).push(leaf);
   }
-  return groups;
+  const coverage = leaves.length ? (leaves.length - droppedCount) / leaves.length : 0;
+  if (coverage < ONCOTREE_MIN_CATEGORY_COVERAGE || byCategory.size < 2) {
+    return null;
+  }
+  const groups = [...byCategory.entries()]
+    .map(([label, catLeaves]) => ({
+      id: slugifyForTree(label),
+      label,
+      leaf_count: catLeaves.length,
+      leaves: catLeaves,
+    }))
+    .sort((a, b) => b.leaf_count - a.leaf_count || a.label.localeCompare(b.label));
+  return { groups, droppedCount };
+}
+
+function slugifyForTree(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "") || "cat";
 }
 
 /** Build the OncoTree-style layout: nodes with computed {x,y}, and the
@@ -838,6 +875,7 @@ function buildOncotreeLayout(roots, options = {}) {
       // curves across most of the canvas for no reason.
       let children;
       let childKind;
+      let categoryDroppedCount = 0;
       if (kind === "root") {
         childKind = "sub";
         children = node.subcategories || [];
@@ -847,10 +885,17 @@ function buildOncotreeLayout(roots, options = {}) {
       } else if (kind === "sub") {
         let leaves = node.leaves || [];
         if (isMatchFn) leaves = leaves.filter((l) => isMatchFn(l));
+        let categorized = null;
         if (!isMatchFn && leaves.length > ONCOTREE_GROUP_THRESHOLD) {
+          categorized = buildOncotreeCategoryGroups(leaves);
+        }
+        if (categorized) {
           childKind = "group";
-          children = buildOncotreeAlphaGroups(leaves);
+          children = categorized.groups;
+          categoryDroppedCount = categorized.droppedCount;
         } else {
+          // No usable categorical structure (e.g. a purely ABPath-sourced
+          // subcategory) — show flat rather than force a fake grouping.
           childKind = "leaf";
           children = leaves.slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
         }
@@ -862,7 +907,8 @@ function buildOncotreeLayout(roots, options = {}) {
       const hiddenCount =
         kind === "sub" && !isMatchFn && childKind === "leaf"
           ? Math.max(0, (node.leaves || []).length - children.length)
-          : 0;
+          : categoryDroppedCount;
+      const hiddenReason = categoryDroppedCount > 0 ? "no_category" : "cap";
       if (!children.length) {
         midRow = rowCursor;
         rowCursor += 1;
@@ -875,7 +921,7 @@ function buildOncotreeLayout(roots, options = {}) {
           childMids.push(mid);
         });
         if (hiddenCount > 0) {
-          truncatedNote = { row: rowCursor, count: hiddenCount };
+          truncatedNote = { row: rowCursor, count: hiddenCount, reason: hiddenReason };
           rowCursor += 1;
         }
         // True average of ALL children (not just first/last) — keeps the
@@ -907,6 +953,10 @@ function buildOncotreeLayout(roots, options = {}) {
       subId: kind === "sub" ? node.id : null,
     });
     if (truncatedNote) {
+      const noteLabel =
+        truncatedNote.reason === "no_category"
+          ? `${truncatedNote.count} without a clear category — hidden here, use search`
+          : `+${truncatedNote.count} more — use search`;
       nodes.push({
         kind: "more",
         path: `${path}::more`,
@@ -914,7 +964,7 @@ function buildOncotreeLayout(roots, options = {}) {
         x: (depth + 1) * colW,
         y: truncatedNote.row * rowH,
         color,
-        label: `+${truncatedNote.count} more — use search`,
+        label: noteLabel,
         hasChildren: false,
       });
       links.push({
@@ -3409,7 +3459,7 @@ function renderBrowseHome() {
   const useInlineTreeSearch = treeSearchActive && treeSearchMatches.length > 0 && treeSearchMatches.length <= ONCOTREE_SEARCH_INLINE_CAP;
 
   if (showingIndexed && browseViewMode === "tree" && (!browseFilterQuery.trim() || useInlineTreeSearch)) {
-    html += '<p class="hint">Click an organ or subcategory dot to expand it; click a diagnosis leaf to open its topic page. Codes in parens are mechanically derived initials (e.g. DLBCL), not official board designations.</p>';
+    html += '<p class="hint">Click an organ or subcategory dot to expand it; click a diagnosis leaf to open its topic page. Large subcategories branch by real pathology category (e.g. Fibroblastic, Vascular) from the WHO classification — not alphabetically. Entities with no clear category are left off the tree (search or Tile view still find them). Codes in parens are mechanically derived initials (e.g. DLBCL), not official board designations.</p>';
     html += oncotreeToolbarHtml();
     let treeOptions = {};
     if (useInlineTreeSearch) {
