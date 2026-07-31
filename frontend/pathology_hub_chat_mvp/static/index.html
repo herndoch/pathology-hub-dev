@@ -15,6 +15,21 @@
     <div class="status" id="health-status">Checking…</div>
   </header>
 
+  <form class="query-overlay" id="chat-form">
+    <input
+      id="query-input"
+      type="text"
+      placeholder="Ask anything, or type to filter the tree — e.g. what is LCIS, DLBCL, adenoid cystic…"
+      required
+      autocomplete="off"
+    />
+    <button type="submit" id="send-btn">Ask</button>
+    <label class="inline-check query-overlay-debug">
+      <input type="checkbox" id="debug-toggle" />
+      Debug
+    </label>
+  </form>
+
   <main class="layout">
     <section class="chat-panel">
       <div class="view-tabs">
@@ -35,57 +50,44 @@
       <div id="ask-view" class="view-panel hidden">
         <div class="messages" id="messages" aria-live="polite"></div>
       </div>
-
-      <form class="composer composer-bottom" id="chat-form">
-        <textarea
-          id="query-input"
-          rows="2"
-          placeholder="Ask anything — e.g. what is LCIS, LCIS vs DCIS, show LCIS histology…"
-          required
-        ></textarea>
-        <div class="composer-actions">
-          <button type="submit" id="send-btn">Send</button>
-          <label class="inline-check">
-            <input type="checkbox" id="debug-toggle" />
-            Show debug panel
-          </label>
-        </div>
-      </form>
     </section>
 
-    <div class="bottom-stack" id="bottom-stack">
-      <aside class="controls">
-        <details class="controls-details" id="controls-details">
-          <summary>
-            Advanced: evidence sources
-            <span class="hint controls-summary-hint">one Ask box — answer shape is inferred from your query · default WHO + Textbooks + Pathoutlines</span>
-          </summary>
+    <details class="bottom-stack-toggle">
+      <summary>Settings &amp; export</summary>
+      <div class="bottom-stack" id="bottom-stack">
+        <aside class="controls">
+          <details class="controls-details" id="controls-details">
+            <summary>
+              Advanced: evidence sources
+              <span class="hint controls-summary-hint">one Ask box — answer shape is inferred from your query · default WHO + Textbooks + Pathoutlines</span>
+            </summary>
 
-          <p class="hint mode-hint" id="mode-hint">
-            No mode picker. Entity / “what is…” → topic page · compare/vs → comparison · show figures → visual · “sources only” → raw cards · otherwise a short grounded answer.
-          </p>
-
-          <fieldset>
-            <legend>Evidence sources</legend>
-            <div id="source-checkboxes" class="source-grid"></div>
-            <p class="hint curriculum-hint">
-              <strong>Curriculum</strong> is a study-map navigator only — not diagnostic proof.
-              Live journal papers come from Elsevier / PubMed / OncoKB on topic pages (not the retired local journals index).
+            <p class="hint mode-hint" id="mode-hint">
+              No mode picker. Entity / “what is…” → topic page · compare/vs → comparison · show figures → visual · “sources only” → raw cards · otherwise a short grounded answer.
             </p>
-          </fieldset>
 
-          <label for="max-results">Max results per source</label>
-          <input type="number" id="max-results" min="1" max="10" value="5" />
-        </details>
-      </aside>
+            <fieldset>
+              <legend>Evidence sources</legend>
+              <div id="source-checkboxes" class="source-grid"></div>
+              <p class="hint curriculum-hint">
+                <strong>Curriculum</strong> is a study-map navigator only — not diagnostic proof.
+                Live journal papers come from Elsevier / PubMed / OncoKB on topic pages (not the retired local journals index).
+              </p>
+            </fieldset>
 
-      <aside class="notes-panel">
-        <h2 class="export-panel-title">Export</h2>
-        <p class="hint">Download the full raw response (answer, cards, figures, literature, debug) for whichever page or chat answer you last opened.</p>
-        <button type="button" id="export-page-btn" class="btn-secondary" disabled>Export current page as JSON</button>
-        <p class="hint export-status" id="export-status" aria-live="polite"></p>
-      </aside>
-    </div>
+            <label for="max-results">Max results per source</label>
+            <input type="number" id="max-results" min="1" max="10" value="5" />
+          </details>
+        </aside>
+
+        <aside class="notes-panel">
+          <h2 class="export-panel-title">Export</h2>
+          <p class="hint">Download the full raw response (answer, cards, figures, literature, debug) for whichever page or chat answer you last opened.</p>
+          <button type="button" id="export-page-btn" class="btn-secondary" disabled>Export current page as JSON</button>
+          <p class="hint export-status" id="export-status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </details>
   </main>
 
   <div id="media-modal" class="media-modal hidden" role="dialog" aria-modal="true" aria-labelledby="media-modal-caption">

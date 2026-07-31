@@ -714,6 +714,11 @@ const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
 const ONCOTREE_BASE_ROW_HEIGHT = 30;
 const ONCOTREE_BASE_COL_WIDTH = 320;
 const ONCOTREE_LEAF_CAP_PER_SUB = 80;
+/** Subcategories bigger than this get chunked into alphabetical-range group
+ * branches (A–D, E–H, …) instead of dumping every leaf into one column —
+ * "too many leaves all at once" otherwise. */
+const ONCOTREE_GROUP_THRESHOLD = 16;
+const ONCOTREE_GROUP_TARGET_SIZE = 12;
 const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
 /** Above this many matches, an in-tree highlighted search would explode into
  * an unnavigable wall of expanded nodes — fall back to the flat list. */
@@ -771,6 +776,29 @@ function oncotreeZoom() {
   return ONCOTREE_ZOOM_STEPS[browseTreeZoomIdx] ?? 1;
 }
 
+/** Chunk an already-alphabetized leaf list into letter-range branch nodes
+ * (A–D, E–H, …) so a 113-leaf subcategory becomes ~8 manageable branches
+ * instead of one long wall of leaves. Leaves already arrive sorted by label
+ * from the browse index build (see build_roots() sort by label.casefold). */
+function buildOncotreeAlphaGroups(leaves) {
+  const numGroups = Math.max(2, Math.ceil(leaves.length / ONCOTREE_GROUP_TARGET_SIZE));
+  const chunkSize = Math.ceil(leaves.length / numGroups);
+  const groups = [];
+  for (let i = 0; i < leaves.length; i += chunkSize) {
+    const chunk = leaves.slice(i, i + chunkSize);
+    if (!chunk.length) continue;
+    const firstLetter = (formatDisplayLabel(chunk[0].label)[0] || "#").toUpperCase();
+    const lastLetter = (formatDisplayLabel(chunk[chunk.length - 1].label)[0] || "#").toUpperCase();
+    groups.push({
+      id: `grp${groups.length}`,
+      label: firstLetter === lastLetter ? firstLetter : `${firstLetter}\u2013${lastLetter}`,
+      leaf_count: chunk.length,
+      leaves: chunk,
+    });
+  }
+  return groups;
+}
+
 /** Build the OncoTree-style layout: nodes with computed {x,y}, and the
  * bezier links between parent and child. Only expanded nodes recurse into
  * their children; collapsed nodes occupy exactly one row.
@@ -787,8 +815,14 @@ function buildOncotreeLayout(roots, options = {}) {
   const nodes = [];
   const links = [];
   let rowCursor = 0;
+  // A node's own (x,y) isn't known until AFTER all of its children have been
+  // visited (its row is the average of theirs) — so a parent->child link
+  // can't be drawn at the moment the child is visited. Record path pairs
+  // during the recursive pass instead, then resolve them to coordinates
+  // once every node's final position is known (see pathToNode below).
+  const linkPairs = [];
 
-  function visit(kind, node, depth, color, parentXY, path) {
+  function visit(kind, node, depth, color, path) {
     const isLeaf = kind === "leaf";
     const expanded = !isLeaf && (browseTreeExpanded.has(path) || Boolean(extraExpanded && extraExpanded.has(path)));
     const isMatch = isLeaf && isMatchFn ? isMatchFn(node) : false;
@@ -803,34 +837,41 @@ function buildOncotreeLayout(roots, options = {}) {
       // every unrelated sibling as noise and stretches the connecting
       // curves across most of the canvas for no reason.
       let children;
+      let childKind;
       if (kind === "root") {
+        childKind = "sub";
         children = node.subcategories || [];
         if (isMatchFn && extraExpanded) {
           children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
         }
-      } else {
+      } else if (kind === "sub") {
         let leaves = node.leaves || [];
         if (isMatchFn) leaves = leaves.filter((l) => isMatchFn(l));
-        children = leaves.slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+        if (!isMatchFn && leaves.length > ONCOTREE_GROUP_THRESHOLD) {
+          childKind = "group";
+          children = buildOncotreeAlphaGroups(leaves);
+        } else {
+          childKind = "leaf";
+          children = leaves.slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+        }
+      } else {
+        // kind === "group"
+        childKind = "leaf";
+        children = (node.leaves || []).slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
       }
       const hiddenCount =
-        kind === "sub" && !isMatchFn ? Math.max(0, (node.leaves || []).length - children.length) : 0;
+        kind === "sub" && !isMatchFn && childKind === "leaf"
+          ? Math.max(0, (node.leaves || []).length - children.length)
+          : 0;
       if (!children.length) {
         midRow = rowCursor;
         rowCursor += 1;
       } else {
         const childMids = [];
         children.forEach((child, i) => {
-          const childKind = kind === "root" ? "sub" : "leaf";
-          const childPath = `${path}::${childKind === "sub" ? child.id : i}`;
-          const mid = visit(
-            childKind,
-            child,
-            depth + 1,
-            color,
-            null,
-            childPath,
-          );
+          const childPath = `${path}::${childKind === "leaf" ? i : child.id}`;
+          linkPairs.push({ parentPath: path, childPath, color });
+          const mid = visit(childKind, child, depth + 1, color, childPath);
           childMids.push(mid);
         });
         if (hiddenCount > 0) {
@@ -860,14 +901,11 @@ function buildOncotreeLayout(roots, options = {}) {
       isMatch,
       hasChildren: !isLeaf,
       expanded,
-      leafCount: kind === "root" ? node.leaf_count : kind === "sub" ? node.leaf_count : null,
+      leafCount: kind === "root" || kind === "sub" || kind === "group" ? node.leaf_count : null,
       leaf: isLeaf ? node : null,
       rootId: kind === "root" ? node.id : null,
       subId: kind === "sub" ? node.id : null,
     });
-    if (parentXY) {
-      links.push({ x1: parentXY.x, y1: parentXY.y, x2: x, y2: y, color });
-    }
     if (truncatedNote) {
       nodes.push({
         kind: "more",
@@ -895,7 +933,7 @@ function buildOncotreeLayout(roots, options = {}) {
   for (const root of roots) {
     const color = oncotreeDotColor(root.id, root.label);
     rootColors.push(color);
-    rootMids.push(visit("root", root, 1, color, null, root.id));
+    rootMids.push(visit("root", root, 1, color, root.id));
   }
   if (rootMids.length) {
     const superMidRow = rootMids.reduce((sum, m) => sum + m, 0) / rootMids.length;
@@ -911,14 +949,22 @@ function buildOncotreeLayout(roots, options = {}) {
       hasChildren: false,
     });
     roots.forEach((root, i) => {
-      links.push({
-        x1: 0,
-        y1: superY,
-        x2: colW,
-        y2: rootMids[i] * rowH,
-        color: rootColors[i],
-      });
+      linkPairs.push({ parentPath: "__all__", childPath: root.id, color: rootColors[i] });
     });
+  }
+
+  // Every node's final (x,y) is now known (including the synthetic
+  // "All Diagnoses" super-root pushed just above) — resolve the recorded
+  // parent->child path pairs into actual drawable link coordinates. Missing
+  // endpoints (shouldn't happen, but a layout bug here should never crash
+  // the whole tree) are silently skipped.
+  const pathToNode = new Map();
+  for (const n of nodes) pathToNode.set(n.path, n);
+  for (const pair of linkPairs) {
+    const from = pathToNode.get(pair.parentPath);
+    const to = pathToNode.get(pair.childPath);
+    if (!from || !to) continue;
+    links.push({ x1: from.x, y1: from.y, x2: to.x, y2: to.y, color: pair.color });
   }
   return { nodes, links, totalRows: rowCursor, rowH, colW };
 }
@@ -968,6 +1014,7 @@ function renderOncotreeHtml(roots, options = {}) {
     );
     const classes = ["oncotree-node"];
     if (n.kind === "leaf") classes.push("oncotree-leaf");
+    if (n.kind === "group") classes.push("oncotree-group");
     if (n.isMatch) classes.push("oncotree-match");
     nodesHtml += `<button type="button" class="${classes.join(" ")}" style="top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;" data-node="${payload}" title="${escapeAttr(n.label)}">`;
     nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
@@ -3302,6 +3349,16 @@ async function loadCompareView() {
 
 function renderBrowseView() {
   renderBrowseBreadcrumbs();
+  // The Browse-home tree/tile filter is now driven by the single top query
+  // overlay input rather than its own in-page search box — keep it in sync
+  // regardless of which code path reset browseFilterQuery (breadcrumbs,
+  // tile clicks, leaf navigation, …). Only touch the box while Browse is
+  // actually the visible tab and the user isn't mid-keystroke in it, so a
+  // background re-render can never clobber an in-progress Ask question or
+  // move the caret while typing.
+  if (queryInput && askViewEl.classList.contains("hidden") && document.activeElement !== queryInput) {
+    queryInput.value = browseState.level === "home" ? browseFilterQuery : "";
+  }
   if (browseState.level === "compare") {
     loadCompareView();
   } else if (browseState.level === "category") {
@@ -3339,8 +3396,7 @@ function renderBrowseHome() {
     html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tiles" ? " active" : ""}" data-view-mode="tiles">Tile view</button>`;
     html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tree" ? " active" : ""}" data-view-mode="tree">Tree view (OncoTree-style)</button>`;
     html += "</div>";
-    html += `<p class="hint"><strong>${activeTotal} topics</strong> —${provenanceNote}${dedupeNote}</p>`;
-    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, DLBCL, GIST)…", browseFilterQuery);
+    html += `<p class="hint"><strong>${activeTotal} topics</strong> —${provenanceNote}${dedupeNote} Type in the search bar at the top of the screen to filter${browseViewMode === "tree" ? " the tree" : ""}.</p>`;
   } else {
     html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
   }
@@ -3368,7 +3424,6 @@ function renderBrowseHome() {
     }
     html += renderOncotreeHtml(roots, treeOptions);
     browseContentEl.innerHTML = html;
-    bindBrowseSearchHandlers(() => renderBrowseHome());
     browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
       el.addEventListener("click", () => {
         writeBrowseViewMode(el.dataset.viewMode);
@@ -3409,7 +3464,6 @@ function renderBrowseHome() {
       html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
     }
     browseContentEl.innerHTML = html;
-    bindBrowseSearchHandlers(() => renderBrowseHome());
     browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
       el.addEventListener("click", () => {
         writeBrowseViewMode(el.dataset.viewMode);
@@ -3447,7 +3501,6 @@ function renderBrowseHome() {
   html += "</div>";
   browseContentEl.innerHTML = html;
   if (showingIndexed) {
-    bindBrowseSearchHandlers(() => renderBrowseHome());
     browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
       el.addEventListener("click", () => {
         writeBrowseViewMode(el.dataset.viewMode);
@@ -5074,11 +5127,25 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   }
 }
 
+/** Dual function of the top query overlay: while the Browse tab is showing
+ * its home tree/tile grid, typing live-filters it (same box, no separate
+ * search input); pressing Enter still asks a full question via the submit
+ * handler below regardless of what's currently typed. */
+queryInput.addEventListener("input", () => {
+  if (!askViewEl.classList.contains("hidden")) return;
+  if (browseState.level !== "home") return;
+  browseFilterQuery = queryInput.value;
+  renderBrowseHome();
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const query = queryInput.value.trim();
   if (!query) return;
 
+  // Pressing Enter always answers the question, never just filters — and
+  // switching to the Ask tab hides the Browse tree/tiles behind it.
+  browseFilterQuery = "";
   setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";

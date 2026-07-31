@@ -19,11 +19,17 @@
 
 * { box-sizing: border-box; }
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 code {
@@ -35,12 +41,66 @@ code {
 }
 
 .topbar {
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--panel-border);
   background: var(--panel);
+}
+
+/** Semi-transparent overlay bar — dual function: press Enter to ask a
+ * question (routes exactly like the old bottom composer), or just type to
+ * live-filter the Browse tree/tiles while on the Browse tab. Sticky so it
+ * stays reachable at the top of the screen even if content scrolls. */
+.query-overlay {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  border-bottom: 1px solid var(--panel-border);
+  box-shadow: 0 2px 6px rgba(60, 64, 67, 0.08);
+}
+
+.query-overlay #query-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font: inherit;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+}
+
+.query-overlay #query-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+  background: #ffffff;
+}
+
+.query-overlay #send-btn {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+}
+
+.query-overlay-debug {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 .brand h1 {
@@ -65,24 +125,53 @@ code {
 .status.warn { color: var(--warn); }
 .status.error { color: var(--error); }
 
+/** Full-screen emphasis: the app fills the viewport edge-to-edge instead of
+ * sitting in a narrow centered "sandbox" card. .chat-panel (which holds
+ * Browse/Ask) takes all remaining height after the topbar + query overlay. */
 .layout {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  min-height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 0;
 }
 
 .chat-panel {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 5rem);
   background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  border: none;
+  border-radius: 0;
+}
+
+/** Advanced settings / export — collapsed by default so they never compete
+ * with the Browse tree for screen space; expand only on demand. */
+.bottom-stack-toggle {
+  flex-shrink: 0;
+  border-top: 1px solid var(--panel-border);
+  background: var(--panel);
+  padding: 0.5rem 1.25rem;
+}
+
+.bottom-stack-toggle summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+
+.bottom-stack-toggle[open] {
+  padding-bottom: 1rem;
+}
+
+.bottom-stack-toggle[open] .bottom-stack {
+  margin-top: 0.75rem;
 }
 
 .view-tabs {
@@ -111,7 +200,11 @@ code {
 }
 
 .view-panel.hidden {
-  display: none;
+  /* !important: #browse-view/#ask-view each also carry their own
+     `display: flex` rule (higher specificity via ID), which would
+     otherwise always win over this class rule and leave the "hidden"
+     panel visually stacked underneath the active one. */
+  display: none !important;
 }
 
 .view-panel#browse-view {
@@ -295,8 +388,8 @@ code {
 }
 
 .oncotree-container {
-  overflow: auto;
-  max-height: 640px;
+  overflow-x: auto;
+  overflow-y: visible;
   border: 1px solid var(--panel-border);
   border-radius: 10px;
   background: #fbfbfc;
@@ -338,6 +431,11 @@ code {
 
 .oncotree-node.oncotree-leaf {
   font-weight: 500;
+}
+
+.oncotree-node.oncotree-group .oncotree-label {
+  font-style: italic;
+  color: var(--muted-text, #6b7280);
 }
 
 .oncotree-node.oncotree-match {
@@ -1308,48 +1406,10 @@ body.modal-open {
   border-radius: 6px;
 }
 
-.composer {
-  border-top: 1px solid var(--panel-border);
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.composer-bottom {
-  flex-shrink: 0;
-  background: var(--panel);
-  border-top: 1px solid var(--panel-border);
-  padding: 0.75rem 1rem 1rem;
-}
-
-.composer-bottom textarea {
-  min-height: 2.75rem;
-}
-
-.composer textarea {
-  width: 100%;
-  resize: vertical;
-  min-height: 4rem;
-  background: #ffffff;
-  color: var(--text);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
-  padding: 0.65rem;
-  font: inherit;
-}
-
-.composer textarea:focus,
 .controls select:focus,
 .controls input[type="number"]:focus {
   outline: 2px solid var(--accent);
   outline-offset: -1px;
-}
-
-.composer-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 button {
@@ -1812,10 +1872,11 @@ fieldset {
 }
 
 @media (max-width: 900px) {
-  .layout {
-    padding: 0.65rem;
+  .query-overlay {
+    padding: 0.5rem 0.75rem;
+    flex-wrap: wrap;
   }
-  .chat-panel {
-    min-height: calc(100vh - 4.5rem);
+  .query-overlay-debug {
+    order: 3;
   }
 }
