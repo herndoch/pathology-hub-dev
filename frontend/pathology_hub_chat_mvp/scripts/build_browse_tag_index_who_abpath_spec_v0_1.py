@@ -725,9 +725,29 @@ def is_methodology_path(path: str) -> bool:
     return bool(NON_DIAGNOSIS_PATH_RE.search(path or ""))
 
 
+# Reported (2026-08-02): 215 leaves (mostly Dermatopathology, e.g. "a)
+# Seborrheic Keratosis", "b) Warty Dyskeratoma") kept a leading list-marker
+# in their label. Root cause: the DOCX parser's letter/roman hierarchy
+# regexes only recognize "a." / "iii." (period), not "a)" / "iii)"
+# (parenthesis) — some ABPath sections use the parenthesis style, so those
+# lines fell through as plain terminal item_text with the marker still
+# attached, rather than being classified as a subsection/category prefix.
+# Stripped here (label-level only — no change to row order or the abpath_
+# spec_id sequence the CYTO_*/CARDIO_* range tables above are keyed on).
+# Applied BEFORE the diagnosis filter below, not just at tag-construction
+# time — otherwise a masked "f) Other Variants of X" (starts with "f)",
+# not "other") slips past the bare "Other ..." catch-all rejection that
+# looks_like_diagnosis is supposed to enforce.
+_LEADING_LIST_MARKER_RE = re.compile(r"^(?:[a-zA-Z]|[ivxlcIVXLC]+|\d+)\)\s+")
+
+
+def _strip_leading_list_marker(text: str) -> str:
+    return _LEADING_LIST_MARKER_RE.sub("", text or "", count=1).strip() or text
+
+
 def is_diagnosis_content_spec_row(row: dict[str, Any]) -> bool:
     """Keep only diagnosis-like ABPath content-spec terminals for Browse nav."""
-    item = (row.get("item_text") or "").strip()
+    item = _strip_leading_list_marker((row.get("item_text") or "").strip())
     if not looks_like_diagnosis(item):
         return False
     path = " / ".join(
@@ -828,7 +848,7 @@ def _who_style_tag_token(text: str) -> str:
 
 
 def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
-    item = (row.get("item_text") or "").strip()
+    item = _strip_leading_list_marker((row.get("item_text") or "").strip())
     if not item or SKIP_ITEM_RE.match(item):
         return None
     if not row.get("abpath_level"):

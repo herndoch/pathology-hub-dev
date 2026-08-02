@@ -224,6 +224,18 @@ def smoke_offline() -> None:
                         bad_leaves.append(f"{root.get('id')}:{label}")
         if bad_leaves:
             _fail("non-prebuildable leaf topics remain", bad_leaves[:10])
+        # No leftover "a)"/"iii)"/"1)" list markers in leaf labels (2026-08-02
+        # — parser only recognized "a."/"iii." period-style markers, not the
+        # parenthesis style some ABPath sections use).
+        list_marker_re = re.compile(r"^(?:[a-zA-Z]|[ivxlcIVXLC]+|\d+)\)\s+")
+        marker_leaves = []
+        for root in data.get("roots") or []:
+            for sub in root.get("subcategories") or []:
+                for leaf in sub.get("leaves") or []:
+                    if list_marker_re.match(str(leaf.get("label") or "")):
+                        marker_leaves.append(f"{root.get('id')}:{leaf.get('label')}")
+        if marker_leaves:
+            _fail("leftover list-marker prefixes in leaf labels", marker_leaves[:10])
         # No "The X" / "X" or "X Gland(s)" / "X" near-duplicate subcategories.
         stop = {"the", "of", "gland"}
 

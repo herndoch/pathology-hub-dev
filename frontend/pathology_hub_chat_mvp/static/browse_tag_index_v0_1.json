@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_4",
-  "generated_at": "2026-08-02T04:06:21.735790+00:00",
+  "generated_at": "2026-08-02T23:20:40.131214+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -10,22 +10,22 @@
   },
   "counts": {
     "abpath_content_spec_terminal_rows": 4455,
-    "abpath_nav_leaves": 3618,
+    "abpath_nav_leaves": 3612,
     "who_nav_leaves_input": 1918,
     "pathout_nav_leaves_input": 2658,
-    "leaves_total": 5324,
-    "leaves_abpath_only": 3431,
-    "leaves_who_only": 1706,
-    "leaves_both": 187,
+    "leaves_total": 5288,
+    "leaves_abpath_only": 3395,
+    "leaves_who_only": 1676,
+    "leaves_both": 217,
     "roots_total": 16,
-    "content_spec_rows_skipped": 671,
-    "content_spec_rows_dropped_non_diagnosis": 670,
+    "content_spec_rows_skipped": 673,
+    "content_spec_rows_dropped_non_diagnosis": 672,
     "parser_warnings": 3,
     "per_root_leaf_counts": {
       "bst": 189,
       "breast": 93,
       "cyto": 500,
-      "skin": 1021,
+      "skin": 987,
       "endo": 91,
       "eye_orbit": 139,
       "forensic": 376,
@@ -36,7 +36,7 @@
       "heme": 204,
       "molecular": 57,
       "neuro": 617,
-      "peds": 795,
+      "peds": 793,
       "thorax_mediastinum": 203
     },
     "variant_who_leaves_total": 1916,
@@ -5411,32 +5411,18 @@
       "id": "skin",
       "label": "Dermatopathology",
       "kind": "root",
-      "leaf_count": 1021,
+      "leaf_count": 987,
       "subcategories": [
         {
           "id": "acanthomas",
           "label": "Acanthomas",
-          "leaf_count": 10,
+          "leaf_count": 9,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::acanthomas::a_seborrheic_keratosis",
-              "label": "a) Seborrheic Keratosis",
+              "tag": "ABPathSpec::skin::acanthomas::acantholytic_acanthoma",
+              "label": "Acantholytic Acanthoma",
               "provenance": "abpath",
-              "query": "a) Seborrheic Keratosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::acanthomas::b_warty_dyskeratoma",
-              "label": "b) Warty Dyskeratoma",
-              "provenance": "abpath",
-              "query": "b) Warty Dyskeratoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::acanthomas::c_epidermolytic_acanthoma",
-              "label": "c) Epidermolytic Acanthoma",
-              "provenance": "abpath",
-              "query": "c) Epidermolytic Acanthoma",
+              "query": "Acantholytic Acanthoma",
               "abpath_level": "F"
             },
             {
@@ -5447,17 +5433,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::acanthomas::d_acantholytic_acanthoma",
-              "label": "d) Acantholytic Acanthoma",
-              "provenance": "abpath",
-              "query": "d) Acantholytic Acanthoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::acanthomas::e_clear_cell_acanthoma",
-              "label": "e) Clear Cell Acanthoma",
-              "provenance": "abpath",
-              "query": "e) Clear Cell Acanthoma",
+              "tag": "ABPathSpec::skin::acanthomas::clear_cell_acanthoma",
+              "label": "Clear Cell Acanthoma",
+              "provenance": "both",
+              "query": "Clear Cell Acanthoma",
               "abpath_level": "F"
             },
             {
@@ -5468,10 +5447,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::acanthomas::f_large_cell_acanthoma",
-              "label": "f) Large Cell Acanthoma",
+              "tag": "ABPathSpec::skin::acanthomas::epidermolytic_acanthoma",
+              "label": "Epidermolytic Acanthoma",
               "provenance": "abpath",
-              "query": "f) Large Cell Acanthoma",
+              "query": "Epidermolytic Acanthoma",
               "abpath_level": "F"
             },
             {
@@ -5482,11 +5461,25 @@
               "abpath_level": "F"
             },
             {
+              "tag": "ABPathSpec::skin::acanthomas::large_cell_acanthoma",
+              "label": "Large Cell Acanthoma",
+              "provenance": "both",
+              "query": "Large Cell Acanthoma",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::acanthomas::nevus_comedonicus",
               "label": "Nevus Comedonicus",
               "provenance": "abpath",
               "query": "Nevus Comedonicus",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::acanthomas::warty_dyskeratoma",
+              "label": "Warty Dyskeratoma",
+              "provenance": "both",
+              "query": "Warty Dyskeratoma",
+              "abpath_level": "AR"
             }
           ]
         },
@@ -5566,24 +5559,24 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::amebae::a_amebiasis_cutis",
-              "label": "a) Amebiasis Cutis",
+              "tag": "ABPathSpec::skin::amebae::acanthamebiasis",
+              "label": "Acanthamebiasis",
               "provenance": "abpath",
-              "query": "a) Amebiasis Cutis",
+              "query": "Acanthamebiasis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::amebae::b_acanthamebiasis",
-              "label": "b) Acanthamebiasis",
+              "tag": "ABPathSpec::skin::amebae::amebiasis_cutis",
+              "label": "Amebiasis Cutis",
               "provenance": "abpath",
-              "query": "b) Acanthamebiasis",
+              "query": "Amebiasis Cutis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::amebae::c_balamuthia",
-              "label": "c) Balamuthia",
+              "tag": "ABPathSpec::skin::amebae::balamuthia",
+              "label": "Balamuthia",
               "provenance": "abpath",
-              "query": "c) Balamuthia",
+              "query": "Balamuthia",
               "abpath_level": "F"
             }
           ]
@@ -5594,13 +5587,6 @@
           "leaf_count": 13,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::angiofibromas::a_fibrous_papule_of_the_face",
-              "label": "a) Fibrous Papule of the Face",
-              "provenance": "abpath",
-              "query": "a) Fibrous Papule of the Face",
-              "abpath_level": "AR"
-            },
-            {
               "tag": "ABPathSpec::skin::angiofibromas::acral_fibrokeratoma_acquired_digital_fibrokeratoma",
               "label": "Acral Fibrokeratoma (Acquired Digital Fibrokeratoma)",
               "provenance": "abpath",
@@ -5608,32 +5594,11 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::angiofibromas::b_pearly_penile_papules",
-              "label": "b) Pearly Penile Papules",
-              "provenance": "abpath",
-              "query": "b) Pearly Penile Papules",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::angiofibromas::c_periungual_fibroma_koenen_tumor",
-              "label": "c) Periungual Fibroma/Koenen Tumor",
-              "provenance": "abpath",
-              "query": "c) Periungual Fibroma/Koenen Tumor",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::angiofibromas::calcifying_aponeurotic_fibroma",
               "label": "Calcifying Aponeurotic Fibroma",
               "provenance": "abpath",
               "query": "Calcifying Aponeurotic Fibroma",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::angiofibromas::d_fibrous_papule_variants",
-              "label": "d) Fibrous Papule Variants",
-              "provenance": "abpath",
-              "query": "d) Fibrous Papule Variants",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::angiofibromas::desmoid_tumors",
@@ -5671,11 +5636,39 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::angiofibromas::fibrous_papule_of_the_face",
+              "label": "Fibrous Papule of the Face",
+              "provenance": "abpath",
+              "query": "Fibrous Papule of the Face",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::angiofibromas::fibrous_papule_variants",
+              "label": "Fibrous Papule Variants",
+              "provenance": "abpath",
+              "query": "Fibrous Papule Variants",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::angiofibromas::giant_cell_tumor_of_tendon_sheath",
               "label": "Giant Cell Tumor of Tendon Sheath",
               "provenance": "abpath",
               "query": "Giant Cell Tumor of Tendon Sheath",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::angiofibromas::pearly_penile_papules",
+              "label": "Pearly Penile Papules",
+              "provenance": "abpath",
+              "query": "Pearly Penile Papules",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::angiofibromas::periungual_fibroma_koenen_tumor",
+              "label": "Periungual Fibroma/Koenen Tumor",
+              "provenance": "abpath",
+              "query": "Periungual Fibroma/Koenen Tumor",
+              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::angiofibromas::superficial_angiomyxoma_cutaneous_myxoma",
@@ -5815,7 +5808,7 @@
         {
           "id": "appendageal_neoplasm",
           "label": "Appendageal Neoplasm",
-          "leaf_count": 23,
+          "leaf_count": 15,
           "leaves": [
             {
               "tag": "Skin::Appendageal_Neoplasm::Apocrine_Carcinoma",
@@ -5836,18 +5829,6 @@
               "query": "Fibroadenoma And Phyllodes Tumor Of Anogenital Mammary Like Glands"
             },
             {
-              "tag": "Skin::Appendageal_Neoplasm::Fibrofolliculoma_Trichodiscoma",
-              "label": "Fibrofolliculoma_Trichodiscoma",
-              "provenance": "who",
-              "query": "Fibrofolliculoma Trichodiscoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Melanocytic_Matricoma",
-              "label": "Melanocytic_Matricoma",
-              "provenance": "who",
-              "query": "Melanocytic Matricoma"
-            },
-            {
               "tag": "Skin::Appendageal_Neoplasm::Microcystic_Adnexal_Adenocarcinoma",
               "label": "Microcystic_Adnexal_Adenocarcinoma",
               "provenance": "who",
@@ -5864,18 +5845,6 @@
               "label": "Nodular_Hidradenoma",
               "provenance": "who",
               "query": "Nodular Hidradenoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Pilar_Sheath_Acanthoma",
-              "label": "Pilar_Sheath_Acanthoma",
-              "provenance": "who",
-              "query": "Pilar Sheath Acanthoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Pilomatrical_Carcinoma",
-              "label": "Pilomatrical_Carcinoma",
-              "provenance": "who",
-              "query": "Pilomatrical Carcinoma"
             },
             {
               "tag": "Skin::Appendageal_Neoplasm::Pilomatricoma",
@@ -5920,34 +5889,10 @@
               "query": "Syringofibroadenoma of Mascaro"
             },
             {
-              "tag": "Skin::Appendageal_Neoplasm::Trichilemmal_Carcinoma",
-              "label": "Trichilemmal_Carcinoma",
-              "provenance": "who",
-              "query": "Trichilemmal Carcinoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Trichilemmoma",
-              "label": "Trichilemmoma",
-              "provenance": "who",
-              "query": "Trichilemmoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Trichoadenoma",
-              "label": "Trichoadenoma",
-              "provenance": "who",
-              "query": "Trichoadenoma"
-            },
-            {
               "tag": "Skin::Appendageal_Neoplasm::Trichoblastic_Carcinoma",
               "label": "Trichoblastic_Carcinoma",
               "provenance": "who",
               "query": "Trichoblastic Carcinoma"
-            },
-            {
-              "tag": "Skin::Appendageal_Neoplasm::Trichofolliculoma",
-              "label": "Trichofolliculoma",
-              "provenance": "who",
-              "query": "Trichofolliculoma"
             },
             {
               "tag": "Skin::Appendageal_Neoplasm::Tumor_Of_Follicular_Infundibulum",
@@ -6012,46 +5957,46 @@
           "leaf_count": 7,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::a_basal_cell_carcinoma_nodular",
-              "label": "a) Basal Cell Carcinoma, Nodular",
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::basal_cell_carcinoma_infiltrative_morpheaform",
+              "label": "Basal Cell Carcinoma, Infiltrative/Morpheaform",
               "provenance": "abpath",
-              "query": "a) Basal Cell Carcinoma, Nodular",
+              "query": "Basal Cell Carcinoma, Infiltrative/Morpheaform",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::basal_cell_carcinoma_micronodular",
+              "label": "Basal Cell Carcinoma, Micronodular",
+              "provenance": "abpath",
+              "query": "Basal Cell Carcinoma, Micronodular",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::basal_cell_carcinoma_nodular",
+              "label": "Basal Cell Carcinoma, Nodular",
+              "provenance": "abpath",
+              "query": "Basal Cell Carcinoma, Nodular",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::b_basal_cell_carcinoma_superficial",
-              "label": "b) Basal Cell Carcinoma, Superficial",
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::basal_cell_carcinoma_other_variants",
+              "label": "Basal Cell Carcinoma, Other Variants",
               "provenance": "abpath",
-              "query": "b) Basal Cell Carcinoma, Superficial",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::c_basal_cell_carcinoma_infiltrative_morpheaform",
-              "label": "c) Basal Cell Carcinoma, Infiltrative/Morpheaform",
-              "provenance": "abpath",
-              "query": "c) Basal Cell Carcinoma, Infiltrative/Morpheaform",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::d_basal_cell_carcinoma_micronodular",
-              "label": "d) Basal Cell Carcinoma, Micronodular",
-              "provenance": "abpath",
-              "query": "d) Basal Cell Carcinoma, Micronodular",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::e_fibroepithelioma_of_pinkus",
-              "label": "e) Fibroepithelioma of Pinkus",
-              "provenance": "abpath",
-              "query": "e) Fibroepithelioma of Pinkus",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::basal_cell_carcinoma::f_basal_cell_carcinoma_other_variants",
-              "label": "f) Basal Cell Carcinoma, Other Variants",
-              "provenance": "abpath",
-              "query": "f) Basal Cell Carcinoma, Other Variants",
+              "query": "Basal Cell Carcinoma, Other Variants",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::basal_cell_carcinoma_superficial",
+              "label": "Basal Cell Carcinoma, Superficial",
+              "provenance": "abpath",
+              "query": "Basal Cell Carcinoma, Superficial",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::skin::basal_cell_carcinoma::fibroepithelioma_of_pinkus",
+              "label": "Fibroepithelioma of Pinkus",
+              "provenance": "abpath",
+              "query": "Fibroepithelioma of Pinkus",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::basal_cell_carcinoma::nevoid_basal_cell_carcinoma_syndrome",
@@ -6068,27 +6013,6 @@
           "leaf_count": 58,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::benign::a_eccrine_angiomatous_hamartoma",
-              "label": "a) Eccrine Angiomatous Hamartoma",
-              "provenance": "abpath",
-              "query": "a) Eccrine Angiomatous Hamartoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::a_trichofolliculoma",
-              "label": "a) Trichofolliculoma",
-              "provenance": "abpath",
-              "query": "a) Trichofolliculoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::a_blue_rubber_bleb_nevus_syndrome",
-              "label": "a) “Blue Rubber Bleb” Nevus Syndrome",
-              "provenance": "abpath",
-              "query": "a) “Blue Rubber Bleb” Nevus Syndrome",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::benign::apocrine_nevus",
               "label": "Apocrine Nevus",
               "provenance": "abpath",
@@ -6096,45 +6020,24 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::b_capillary_malformations_nevus_flammeus",
-              "label": "b) Capillary Malformations (Nevus Flammeus)",
+              "tag": "ABPathSpec::skin::benign::basaloid_follicular_hamartoma",
+              "label": "Basaloid Follicular Hamartoma",
               "provenance": "abpath",
-              "query": "b) Capillary Malformations (Nevus Flammeus)",
+              "query": "Basaloid Follicular Hamartoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::b_fibrofolliculoma_trichodiscoma",
-              "label": "b) Fibrofolliculoma/Trichodiscoma",
+              "tag": "ABPathSpec::skin::benign::birt_hogg_dube_syndrome",
+              "label": "Birt-Hogg-Dube Syndrome",
               "provenance": "abpath",
-              "query": "b) Fibrofolliculoma/Trichodiscoma",
+              "query": "Birt-Hogg-Dube Syndrome",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::benign::b_maffucci_syndrome",
-              "label": "b) Maffucci Syndrome",
+              "tag": "ABPathSpec::skin::benign::capillary_malformations_nevus_flammeus",
+              "label": "Capillary Malformations (Nevus Flammeus)",
               "provenance": "abpath",
-              "query": "b) Maffucci Syndrome",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::c_birt_hogg_dube_syndrome",
-              "label": "c) Birt-Hogg-Dube Syndrome",
-              "provenance": "abpath",
-              "query": "c) Birt-Hogg-Dube Syndrome",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::c_cutis_marmorata_telangiectatica_congenita",
-              "label": "c) Cutis Marmorata Telangiectatica Congenita",
-              "provenance": "abpath",
-              "query": "c) Cutis Marmorata Telangiectatica Congenita",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::c_sturge_weber_syndrome",
-              "label": "c) Sturge-Weber Syndrome",
-              "provenance": "abpath",
-              "query": "c) Sturge-Weber Syndrome",
+              "query": "Capillary Malformations (Nevus Flammeus)",
               "abpath_level": "F"
             },
             {
@@ -6145,24 +6048,38 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::benign::cobb_syndrome",
+              "label": "Cobb Syndrome",
+              "provenance": "abpath",
+              "query": "Cobb Syndrome",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::cowden_disease",
+              "label": "Cowden Disease",
+              "provenance": "abpath",
+              "query": "Cowden Disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::cutaneous_lymphadenoma_trichoblastoma_variant",
+              "label": "Cutaneous Lymphadenoma (Trichoblastoma Variant)",
+              "provenance": "abpath",
+              "query": "Cutaneous Lymphadenoma (Trichoblastoma Variant)",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::cutis_marmorata_telangiectatica_congenita",
+              "label": "Cutis Marmorata Telangiectatica Congenita",
+              "provenance": "abpath",
+              "query": "Cutis Marmorata Telangiectatica Congenita",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::benign::cylindroma",
               "label": "Cylindroma",
               "provenance": "both",
               "query": "Cylindroma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::d_klippel_trenaunay_syndrome",
-              "label": "d) Klippel-Trenaunay Syndrome",
-              "provenance": "abpath",
-              "query": "d) Klippel-Trenaunay Syndrome",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::d_trichilemmoma",
-              "label": "d) Trichilemmoma",
-              "provenance": "abpath",
-              "query": "d) Trichilemmoma",
               "abpath_level": "AR"
             },
             {
@@ -6173,18 +6090,25 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::e_cobb_syndrome",
-              "label": "e) Cobb Syndrome",
+              "tag": "ABPathSpec::skin::benign::desmoplastic_trichoepithelioma",
+              "label": "Desmoplastic Trichoepithelioma",
               "provenance": "abpath",
-              "query": "e) Cobb Syndrome",
+              "query": "Desmoplastic Trichoepithelioma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::dilated_pore_of_winer",
+              "label": "Dilated Pore of Winer",
+              "provenance": "abpath",
+              "query": "Dilated Pore of Winer",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::e_cowden_disease",
-              "label": "e) Cowden Disease",
+              "tag": "ABPathSpec::skin::benign::eccrine_angiomatous_hamartoma",
+              "label": "Eccrine Angiomatous Hamartoma",
               "provenance": "abpath",
-              "query": "e) Cowden Disease",
-              "abpath_level": "AR"
+              "query": "Eccrine Angiomatous Hamartoma",
+              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::benign::eccrine_hamartomas",
@@ -6208,10 +6132,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::benign::f_trichoepithelioma",
-              "label": "f) Trichoepithelioma",
-              "provenance": "abpath",
-              "query": "f) Trichoepithelioma",
+              "tag": "ABPathSpec::skin::benign::fibrofolliculoma_trichodiscoma",
+              "label": "Fibrofolliculoma/Trichodiscoma",
+              "provenance": "both",
+              "query": "Fibrofolliculoma/Trichodiscoma",
               "abpath_level": "AR"
             },
             {
@@ -6229,18 +6153,11 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::g_desmoplastic_trichoepithelioma",
-              "label": "g) Desmoplastic Trichoepithelioma",
+              "tag": "ABPathSpec::skin::benign::hair_follicle_nevus",
+              "label": "Hair Follicle Nevus",
               "provenance": "abpath",
-              "query": "g) Desmoplastic Trichoepithelioma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::h_trichoblastoma",
-              "label": "h) Trichoblastoma",
-              "provenance": "abpath",
-              "query": "h) Trichoblastoma",
-              "abpath_level": "AR"
+              "query": "Hair Follicle Nevus",
+              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::benign::hamartomas_and_malformations_general",
@@ -6285,31 +6202,17 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::benign::i_pilomatrixoma",
-              "label": "i) Pilomatrixoma",
+              "tag": "ABPathSpec::skin::benign::inverted_follicular_keratosis",
+              "label": "Inverted Follicular Keratosis",
               "provenance": "abpath",
-              "query": "i) Pilomatrixoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::j_hair_follicle_nevus",
-              "label": "j) Hair Follicle Nevus",
-              "provenance": "abpath",
-              "query": "j) Hair Follicle Nevus",
+              "query": "Inverted Follicular Keratosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::k_trichoadenoma",
-              "label": "k) Trichoadenoma",
+              "tag": "ABPathSpec::skin::benign::klippel_trenaunay_syndrome",
+              "label": "Klippel-Trenaunay Syndrome",
               "provenance": "abpath",
-              "query": "k) Trichoadenoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::l_dilated_pore_of_winer",
-              "label": "l) Dilated Pore of Winer",
-              "provenance": "abpath",
-              "query": "l) Dilated Pore of Winer",
+              "query": "Klippel-Trenaunay Syndrome",
               "abpath_level": "F"
             },
             {
@@ -6327,10 +6230,17 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::m_pilar_sheath_acanthoma",
-              "label": "m) Pilar Sheath Acanthoma",
+              "tag": "ABPathSpec::skin::benign::maffucci_syndrome",
+              "label": "Maffucci Syndrome",
               "provenance": "abpath",
-              "query": "m) Pilar Sheath Acanthoma",
+              "query": "Maffucci Syndrome",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::melanocytic_matricoma",
+              "label": "Melanocytic Matricoma",
+              "provenance": "both",
+              "query": "Melanocytic Matricoma",
               "abpath_level": "F"
             },
             {
@@ -6341,13 +6251,6 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::benign::n_tumor_of_the_follicular_infundibulum",
-              "label": "n) Tumor of the Follicular Infundibulum",
-              "provenance": "abpath",
-              "query": "n) Tumor of the Follicular Infundibulum",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::benign::nevus_lipomatosus",
               "label": "Nevus Lipomatosus",
               "provenance": "abpath",
@@ -6355,25 +6258,11 @@
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::benign::o_basaloid_follicular_hamartoma",
-              "label": "o) Basaloid Follicular Hamartoma",
-              "provenance": "abpath",
-              "query": "o) Basaloid Follicular Hamartoma",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::benign::organoid_nevus_nevus_sebaceus",
               "label": "Organoid Nevus (Nevus Sebaceus)",
               "provenance": "abpath",
               "query": "Organoid Nevus (Nevus Sebaceus)",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::benign::p_cutaneous_lymphadenoma_trichoblastoma_variant",
-              "label": "p) Cutaneous Lymphadenoma (Trichoblastoma Variant)",
-              "provenance": "abpath",
-              "query": "p) Cutaneous Lymphadenoma (Trichoblastoma Variant)",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::benign::papillary_eccrine_adenoma",
@@ -6390,18 +6279,18 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::q_inverted_follicular_keratosis",
-              "label": "q) Inverted Follicular Keratosis",
-              "provenance": "abpath",
-              "query": "q) Inverted Follicular Keratosis",
+              "tag": "ABPathSpec::skin::benign::pilar_sheath_acanthoma",
+              "label": "Pilar Sheath Acanthoma",
+              "provenance": "both",
+              "query": "Pilar Sheath Acanthoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::benign::r_melanocytic_matricoma",
-              "label": "r) Melanocytic Matricoma",
+              "tag": "ABPathSpec::skin::benign::pilomatrixoma",
+              "label": "Pilomatrixoma",
               "provenance": "abpath",
-              "query": "r) Melanocytic Matricoma",
-              "abpath_level": "F"
+              "query": "Pilomatrixoma",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::benign::sebacaous_hyperplasia",
@@ -6439,6 +6328,13 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::benign::sturge_weber_syndrome",
+              "label": "Sturge-Weber Syndrome",
+              "provenance": "abpath",
+              "query": "Sturge-Weber Syndrome",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::benign::syringocystadenoma_papilliferum",
               "label": "Syringocystadenoma Papilliferum",
               "provenance": "both",
@@ -6460,10 +6356,52 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::benign::trichilemmoma",
+              "label": "Trichilemmoma",
+              "provenance": "both",
+              "query": "Trichilemmoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::trichoadenoma",
+              "label": "Trichoadenoma",
+              "provenance": "both",
+              "query": "Trichoadenoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::trichoblastoma",
+              "label": "Trichoblastoma",
+              "provenance": "abpath",
+              "query": "Trichoblastoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::trichoepithelioma",
+              "label": "Trichoepithelioma",
+              "provenance": "abpath",
+              "query": "Trichoepithelioma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::trichofolliculoma",
+              "label": "Trichofolliculoma",
+              "provenance": "both",
+              "query": "Trichofolliculoma",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "ABPathSpec::skin::benign::tubular_adenoma_apocrine_adenoma",
               "label": "Tubular Adenoma (Apocrine Adenoma)",
               "provenance": "both",
               "query": "Tubular Adenoma (Apocrine Adenoma)",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::tumor_of_the_follicular_infundibulum",
+              "label": "Tumor of the Follicular Infundibulum",
+              "provenance": "abpath",
+              "query": "Tumor of the Follicular Infundibulum",
               "abpath_level": "F"
             },
             {
@@ -6472,6 +6410,13 @@
               "provenance": "abpath",
               "query": "Venous Malformations (General)",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::benign::blue_rubber_bleb_nevus_syndrome",
+              "label": "“Blue Rubber Bleb” Nevus Syndrome",
+              "provenance": "abpath",
+              "query": "“Blue Rubber Bleb” Nevus Syndrome",
+              "abpath_level": "F"
             }
           ]
         },
@@ -6481,17 +6426,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::benign_fibrous_histiocytoma::a_dermatofibroma",
-              "label": "a) Dermatofibroma",
+              "tag": "ABPathSpec::skin::benign_fibrous_histiocytoma::dermatofibroma",
+              "label": "Dermatofibroma",
               "provenance": "abpath",
-              "query": "a) Dermatofibroma",
+              "query": "Dermatofibroma",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::benign_fibrous_histiocytoma::b_dermatofibroma_variants",
-              "label": "b) Dermatofibroma Variants",
+              "tag": "ABPathSpec::skin::benign_fibrous_histiocytoma::dermatofibroma_variants",
+              "label": "Dermatofibroma Variants",
               "provenance": "abpath",
-              "query": "b) Dermatofibroma Variants",
+              "query": "Dermatofibroma Variants",
               "abpath_level": "F"
             }
           ]
@@ -6539,19 +6484,6 @@
           ]
         },
         {
-          "id": "blister",
-          "label": "Blister",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "Skin::Blister::Warty_Dyskeratoma",
-              "label": "Warty_Dyskeratoma",
-              "provenance": "who",
-              "query": "Warty Dyskeratoma"
-            }
-          ]
-        },
-        {
           "id": "botryomycosis_and_filamentous_bacteria",
           "label": "Botryomycosis and Filamentous Bacteria",
           "leaf_count": 3,
@@ -6585,17 +6517,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::cestode_infections::a_cysticercosis",
-              "label": "a) Cysticercosis",
+              "tag": "ABPathSpec::skin::cestode_infections::cysticercosis",
+              "label": "Cysticercosis",
               "provenance": "abpath",
-              "query": "a) Cysticercosis",
+              "query": "Cysticercosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::cestode_infections::b_sparganosis",
-              "label": "b) Sparganosis",
+              "tag": "ABPathSpec::skin::cestode_infections::sparganosis",
+              "label": "Sparganosis",
               "provenance": "abpath",
-              "query": "b) Sparganosis",
+              "query": "Sparganosis",
               "abpath_level": "F"
             }
           ]
@@ -6998,24 +6930,10 @@
           "leaf_count": 13,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::a_primary_cutaneous_anaplastic_large_cell_lymphoma",
-              "label": "a) Primary Cutaneous Anaplastic Large Cell Lymphoma",
-              "provenance": "abpath",
-              "query": "a) Primary Cutaneous Anaplastic Large Cell Lymphoma",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::adult_t_cell_leukemia_lymphoma",
               "label": "Adult T-cell Leukemia/Lymphoma",
               "provenance": "abpath",
               "query": "Adult T-cell Leukemia/Lymphoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::b_lymphomatoid_papulosis",
-              "label": "b) Lymphomatoid Papulosis",
-              "provenance": "abpath",
-              "query": "b) Lymphomatoid Papulosis",
               "abpath_level": "F"
             },
             {
@@ -7047,6 +6965,13 @@
               "abpath_level": "F"
             },
             {
+              "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::lymphomatoid_papulosis",
+              "label": "Lymphomatoid Papulosis",
+              "provenance": "abpath",
+              "query": "Lymphomatoid Papulosis",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::mycosis_fungoides",
               "label": "Mycosis Fungoides",
               "provenance": "abpath",
@@ -7065,6 +6990,13 @@
               "label": "Pagetoid Reticulosis",
               "provenance": "abpath",
               "query": "Pagetoid Reticulosis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::cutaneous_t_cell_and_nk_cell_lymphomas::primary_cutaneous_anaplastic_large_cell_lymphoma",
+              "label": "Primary Cutaneous Anaplastic Large Cell Lymphoma",
+              "provenance": "abpath",
+              "query": "Primary Cutaneous Anaplastic Large Cell Lymphoma",
               "abpath_level": "F"
             },
             {
@@ -7228,17 +7160,10 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::dermal_melanocytic_lesions::a_dermal_melanocytosis",
-              "label": "a) Dermal Melanocytosis",
+              "tag": "ABPathSpec::skin::dermal_melanocytic_lesions::dermal_melanocytosis",
+              "label": "Dermal Melanocytosis",
               "provenance": "abpath",
-              "query": "a) Dermal Melanocytosis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::dermal_melanocytic_lesions::b_nevus_of_ota_and_nevus_of_ito",
-              "label": "b) Nevus of Ota and Nevus of Ito",
-              "provenance": "abpath",
-              "query": "b) Nevus of Ota and Nevus of Ito",
+              "query": "Dermal Melanocytosis",
               "abpath_level": "AR"
             },
             {
@@ -7247,6 +7172,13 @@
               "provenance": "abpath",
               "query": "Dysplastic (Atypical Nevus with Architectural Disorder)",
               "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::skin::dermal_melanocytic_lesions::nevus_of_ota_and_nevus_of_ito",
+              "label": "Nevus of Ota and Nevus of Ito",
+              "provenance": "abpath",
+              "query": "Nevus of Ota and Nevus of Ito",
+              "abpath_level": "AR"
             }
           ]
         },
@@ -7799,7 +7731,7 @@
         {
           "id": "epidermal_neoplasm",
           "label": "Epidermal Neoplasm",
-          "leaf_count": 19,
+          "leaf_count": 15,
           "leaves": [
             {
               "tag": "Skin::Epidermal_Neoplasm::Squamous_Cell_Carcinoma::Acantholytic_Squamous_Cell_Carcinoma",
@@ -7826,12 +7758,6 @@
               "query": "Basosquamous Carcinoma"
             },
             {
-              "tag": "Skin::Epidermal_Neoplasm::Clear_Cell_Acanthoma",
-              "label": "Clear_Cell_Acanthoma",
-              "provenance": "who",
-              "query": "Clear Cell Acanthoma"
-            },
-            {
               "tag": "Skin::Epidermal_Neoplasm::Basal_Cell_Carcinoma::Fibroepithelial_Basal_Cell_Carcinoma",
               "label": "Fibroepithelial_Basal_Cell_Carcinoma",
               "provenance": "who",
@@ -7842,12 +7768,6 @@
               "label": "Infiltrating_Basal_Cell_Carcinoma",
               "provenance": "who",
               "query": "Infiltrating Basal Cell Carcinoma"
-            },
-            {
-              "tag": "Skin::Epidermal_Neoplasm::Large_Cell_Acanthoma",
-              "label": "Large_Cell_Acanthoma",
-              "provenance": "who",
-              "query": "Large Cell Acanthoma"
             },
             {
               "tag": "Skin::Epidermal_Neoplasm::Squamous_Cell_Carcinoma::Lymphoepithelioma_Like_carcinoma",
@@ -7874,22 +7794,10 @@
               "query": "Sclerosing Morphoeic Basal Cell Carcinoma"
             },
             {
-              "tag": "Skin::Epidermal_Neoplasm::Solar_Lentigo",
-              "label": "Solar_Lentigo",
-              "provenance": "who",
-              "query": "Solar Lentigo"
-            },
-            {
               "tag": "Skin::Epidermal_Neoplasm::Squamous_Cell_Carcinoma::Spindle_Cell_Squamous_Cell_Carcinoma",
               "label": "Spindle_Cell_Squamous_Cell_Carcinoma",
               "provenance": "who",
               "query": "Spindle Cell Squamous Cell Carcinoma"
-            },
-            {
-              "tag": "Skin::Epidermal_Neoplasm::Squamous_Cell_Carcinoma::Squamous_Cell_Carcinoma_in_Situ_Bowen_Disease",
-              "label": "Squamous_Cell_Carcinoma_in_Situ_Bowen_Disease",
-              "provenance": "who",
-              "query": "Squamous Cell Carcinoma in Situ Bowen Disease"
             },
             {
               "tag": "Skin::Epidermal_Neoplasm::Squamous_Cell_Carcinoma::Squamous_Cell_Carcinoma_With_Sarcomatoid_Differentiation",
@@ -8000,17 +7908,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::flagellates::a_leishmaniasis",
-              "label": "a) Leishmaniasis",
+              "tag": "ABPathSpec::skin::flagellates::leishmaniasis",
+              "label": "Leishmaniasis",
               "provenance": "abpath",
-              "query": "a) Leishmaniasis",
+              "query": "Leishmaniasis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::flagellates::b_trypanosomiasis",
-              "label": "b) Trypanosomiasis",
+              "tag": "ABPathSpec::skin::flagellates::trypanosomiasis",
+              "label": "Trypanosomiasis",
               "provenance": "abpath",
-              "query": "b) Trypanosomiasis",
+              "query": "Trypanosomiasis",
               "abpath_level": "F"
             }
           ]
@@ -8272,17 +8180,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::herniations_and_ectopias::a_nasal_glioma_and_neural_heterotopias",
-              "label": "a) Nasal Glioma and Neural Heterotopias",
+              "tag": "ABPathSpec::skin::herniations_and_ectopias::cutaneous_meningioma",
+              "label": "Cutaneous Meningioma",
               "provenance": "abpath",
-              "query": "a) Nasal Glioma and Neural Heterotopias",
+              "query": "Cutaneous Meningioma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::herniations_and_ectopias::b_cutaneous_meningioma",
-              "label": "b) Cutaneous Meningioma",
+              "tag": "ABPathSpec::skin::herniations_and_ectopias::nasal_glioma_and_neural_heterotopias",
+              "label": "Nasal Glioma and Neural Heterotopias",
               "provenance": "abpath",
-              "query": "b) Cutaneous Meningioma",
+              "query": "Nasal Glioma and Neural Heterotopias",
               "abpath_level": "F"
             }
           ]
@@ -8412,32 +8320,11 @@
           "leaf_count": 8,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::hyaline_deposits::a_systemic_amyloidosis",
-              "label": "a) Systemic Amyloidosis",
-              "provenance": "abpath",
-              "query": "a) Systemic Amyloidosis",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::hyaline_deposits::amyloidosis",
               "label": "Amyloidosis",
               "provenance": "abpath",
               "query": "Amyloidosis",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::hyaline_deposits::b_lichen_macular",
-              "label": "b) Lichen, Macular",
-              "provenance": "abpath",
-              "query": "b) Lichen, Macular",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::hyaline_deposits::c_nodular_amyloidosis",
-              "label": "c) Nodular Amyloidosis",
-              "provenance": "abpath",
-              "query": "c) Nodular Amyloidosis",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::hyaline_deposits::colloid_milium_and_colloid_degeneration",
@@ -8454,10 +8341,31 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::hyaline_deposits::lichen_macular",
+              "label": "Lichen, Macular",
+              "provenance": "abpath",
+              "query": "Lichen, Macular",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::hyaline_deposits::lipoid_proteinosis",
               "label": "Lipoid Proteinosis",
               "provenance": "abpath",
               "query": "Lipoid Proteinosis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::hyaline_deposits::nodular_amyloidosis",
+              "label": "Nodular Amyloidosis",
+              "provenance": "abpath",
+              "query": "Nodular Amyloidosis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::hyaline_deposits::systemic_amyloidosis",
+              "label": "Systemic Amyloidosis",
+              "provenance": "abpath",
+              "query": "Systemic Amyloidosis",
               "abpath_level": "F"
             },
             {
@@ -8860,13 +8768,6 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::intermediate_malignancy_general_considerations::a_retiform_hemangioendothelioma",
-              "label": "a) Retiform Hemangioendothelioma",
-              "provenance": "abpath",
-              "query": "a) Retiform Hemangioendothelioma",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::intermediate_malignancy_general_considerations::hobnail_hemangioendothelioma",
               "label": "Hobnail Hemangioendothelioma",
               "provenance": "both",
@@ -8878,6 +8779,13 @@
               "label": "Kaposiform Hemangioendothelioma",
               "provenance": "abpath",
               "query": "Kaposiform Hemangioendothelioma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::intermediate_malignancy_general_considerations::retiform_hemangioendothelioma",
+              "label": "Retiform Hemangioendothelioma",
+              "provenance": "abpath",
+              "query": "Retiform Hemangioendothelioma",
               "abpath_level": "F"
             }
           ]
@@ -9000,39 +8908,11 @@
           "leaf_count": 6,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::a_labial_genial_and_other_melanotic_macules",
-              "label": "a) Labial, Genial, and Other Melanotic Macules",
+              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::labial_genial_and_other_melanotic_macules",
+              "label": "Labial, Genial, and Other Melanotic Macules",
               "provenance": "abpath",
-              "query": "a) Labial, Genial, and Other Melanotic Macules",
+              "query": "Labial, Genial, and Other Melanotic Macules",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::b_solar_senile_lentigo",
-              "label": "b) Solar (Senile) Lentigo",
-              "provenance": "abpath",
-              "query": "b) Solar (Senile) Lentigo",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::c_multiple_lentigines",
-              "label": "c) Multiple Lentigines",
-              "provenance": "abpath",
-              "query": "c) Multiple Lentigines",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::d_speckled_lentiginous_nevus_nevus_spilus",
-              "label": "d) Speckled Lentiginous Nevus (Nevus Spilus)",
-              "provenance": "abpath",
-              "query": "d) Speckled Lentiginous Nevus (Nevus Spilus)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::e_puva_lentigo",
-              "label": "e) PUVA Lentigo",
-              "provenance": "abpath",
-              "query": "e) PUVA Lentigo",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::melanocyte_proliferation",
@@ -9040,6 +8920,34 @@
               "provenance": "abpath",
               "query": "Melanocyte Proliferation",
               "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::multiple_lentigines",
+              "label": "Multiple Lentigines",
+              "provenance": "abpath",
+              "query": "Multiple Lentigines",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::puva_lentigo",
+              "label": "PUVA Lentigo",
+              "provenance": "abpath",
+              "query": "PUVA Lentigo",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::solar_senile_lentigo",
+              "label": "Solar (Senile) Lentigo",
+              "provenance": "both",
+              "query": "Solar (Senile) Lentigo",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::lesions_with_basal_hyperpigmentation_and_or::speckled_lentiginous_nevus_nevus_spilus",
+              "label": "Speckled Lentiginous Nevus (Nevus Spilus)",
+              "provenance": "abpath",
+              "query": "Speckled Lentiginous Nevus (Nevus Spilus)",
+              "abpath_level": "F"
             }
           ]
         },
@@ -9049,60 +8957,60 @@
           "leaf_count": 8,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::a_lipoma",
-              "label": "a) Lipoma",
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::adenolipoma",
+              "label": "Adenolipoma",
               "provenance": "abpath",
-              "query": "a) Lipoma",
+              "query": "Adenolipoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::angiolipoma",
+              "label": "Angiolipoma",
+              "provenance": "abpath",
+              "query": "Angiolipoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::chondroid_lipoma",
+              "label": "Chondroid Lipoma",
+              "provenance": "abpath",
+              "query": "Chondroid Lipoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::lipoma",
+              "label": "Lipoma",
+              "provenance": "both",
+              "query": "Lipoma",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::b_angiolipoma",
-              "label": "b) Angiolipoma",
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::ossifying_lipoma",
+              "label": "Ossifying Lipoma",
               "provenance": "abpath",
-              "query": "b) Angiolipoma",
+              "query": "Ossifying Lipoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::pleomorphic_lipoma",
+              "label": "Pleomorphic Lipoma",
+              "provenance": "abpath",
+              "query": "Pleomorphic Lipoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::c_spindle_cell_lipoma",
-              "label": "c) Spindle-Cell Lipoma",
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::sclerotic_fibroma_like_lipoma",
+              "label": "Sclerotic (Fibroma-Like) Lipoma",
               "provenance": "abpath",
-              "query": "c) Spindle-Cell Lipoma",
+              "query": "Sclerotic (Fibroma-Like) Lipoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::spindle_cell_lipoma",
+              "label": "Spindle-Cell Lipoma",
+              "provenance": "abpath",
+              "query": "Spindle-Cell Lipoma",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::d_pleomorphic_lipoma",
-              "label": "d) Pleomorphic Lipoma",
-              "provenance": "abpath",
-              "query": "d) Pleomorphic Lipoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::e_adenolipoma",
-              "label": "e) Adenolipoma",
-              "provenance": "abpath",
-              "query": "e) Adenolipoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::f_chondroid_lipoma",
-              "label": "f) Chondroid Lipoma",
-              "provenance": "abpath",
-              "query": "f) Chondroid Lipoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::g_ossifying_lipoma",
-              "label": "g) Ossifying Lipoma",
-              "provenance": "abpath",
-              "query": "g) Ossifying Lipoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lipoma_and_lipomatous_lesions::h_sclerotic_fibroma_like_lipoma",
-              "label": "h) Sclerotic (Fibroma-Like) Lipoma",
-              "provenance": "abpath",
-              "query": "h) Sclerotic (Fibroma-Like) Lipoma",
-              "abpath_level": "F"
             }
           ]
         },
@@ -9245,87 +9153,80 @@
           "leaf_count": 14,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::a_superficial_lymphangioma",
-              "label": "a) Superficial Lymphangioma",
-              "provenance": "abpath",
-              "query": "a) Superficial Lymphangioma",
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::angiokeratoma",
+              "label": "Angiokeratoma",
+              "provenance": "both",
+              "query": "Angiokeratoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::a_venous_lake",
-              "label": "a) Venous Lake",
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::ataxia_telangiectasia",
+              "label": "Ataxia-Telangiectasia",
               "provenance": "abpath",
-              "query": "a) Venous Lake",
+              "query": "Ataxia-Telangiectasia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::cutaneous_collagenous_vasculopathy",
+              "label": "Cutaneous Collagenous Vasculopathy",
+              "provenance": "abpath",
+              "query": "Cutaneous Collagenous Vasculopathy",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::deep_lymphangioma_cystic_hygroma",
+              "label": "Deep Lymphangioma/Cystic Hygroma",
+              "provenance": "abpath",
+              "query": "Deep Lymphangioma/Cystic Hygroma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::general_essential_telangiectasia",
+              "label": "General Essential Telangiectasia",
+              "provenance": "abpath",
+              "query": "General Essential Telangiectasia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::hereditary_benign_telangiectasia",
+              "label": "Hereditary Benign Telangiectasia",
+              "provenance": "abpath",
+              "query": "Hereditary Benign Telangiectasia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::hereditary_hemorrhagic_telangiectasia",
+              "label": "Hereditary Hemorrhagic Telangiectasia",
+              "provenance": "abpath",
+              "query": "Hereditary Hemorrhagic Telangiectasia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::lymphangiomatosis",
+              "label": "Lymphangiomatosis",
+              "provenance": "abpath",
+              "query": "Lymphangiomatosis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::spider_angioma",
+              "label": "Spider Angioma",
+              "provenance": "abpath",
+              "query": "Spider Angioma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::superficial_lymphangioma",
+              "label": "Superficial Lymphangioma",
+              "provenance": "abpath",
+              "query": "Superficial Lymphangioma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::b_angiokeratoma",
-              "label": "b) Angiokeratoma",
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::unilateral_nevoid_telangiectasia",
+              "label": "Unilateral Nevoid Telangiectasia",
               "provenance": "abpath",
-              "query": "b) Angiokeratoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::b_deep_lymphangioma_cystic_hygroma",
-              "label": "b) Deep Lymphangioma/Cystic Hygroma",
-              "provenance": "abpath",
-              "query": "b) Deep Lymphangioma/Cystic Hygroma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::c_hereditary_hemorrhagic_telangiectasia",
-              "label": "c) Hereditary Hemorrhagic Telangiectasia",
-              "provenance": "abpath",
-              "query": "c) Hereditary Hemorrhagic Telangiectasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::c_lymphangiomatosis",
-              "label": "c) Lymphangiomatosis",
-              "provenance": "abpath",
-              "query": "c) Lymphangiomatosis",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::d_general_essential_telangiectasia",
-              "label": "d) General Essential Telangiectasia",
-              "provenance": "abpath",
-              "query": "d) General Essential Telangiectasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::e_cutaneous_collagenous_vasculopathy",
-              "label": "e) Cutaneous Collagenous Vasculopathy",
-              "provenance": "abpath",
-              "query": "e) Cutaneous Collagenous Vasculopathy",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::f_hereditary_benign_telangiectasia",
-              "label": "f) Hereditary Benign Telangiectasia",
-              "provenance": "abpath",
-              "query": "f) Hereditary Benign Telangiectasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::g_unilateral_nevoid_telangiectasia",
-              "label": "g) Unilateral Nevoid Telangiectasia",
-              "provenance": "abpath",
-              "query": "g) Unilateral Nevoid Telangiectasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::h_ataxia_telangiectasia",
-              "label": "h) Ataxia-Telangiectasia",
-              "provenance": "abpath",
-              "query": "h) Ataxia-Telangiectasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::i_spider_angioma",
-              "label": "i) Spider Angioma",
-              "provenance": "abpath",
-              "query": "i) Spider Angioma",
+              "query": "Unilateral Nevoid Telangiectasia",
               "abpath_level": "F"
             },
             {
@@ -9333,6 +9234,13 @@
               "label": "Vascular Dilatations (Telangectatses) (General)",
               "provenance": "abpath",
               "query": "Vascular Dilatations (Telangectatses) (General)",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::lymphangioma_cystic_lymphatic_malformation::venous_lake",
+              "label": "Venous Lake",
+              "provenance": "abpath",
+              "query": "Venous Lake",
               "abpath_level": "AR"
             },
             {
@@ -9588,24 +9496,24 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::malignant_general_considerations::a_trichilemmal_carcinoma",
-              "label": "a) Trichilemmal Carcinoma",
-              "provenance": "abpath",
-              "query": "a) Trichilemmal Carcinoma",
+              "tag": "ABPathSpec::skin::malignant_general_considerations::pilomatrical_carcinoma",
+              "label": "Pilomatrical Carcinoma",
+              "provenance": "both",
+              "query": "Pilomatrical Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::malignant_general_considerations::b_trichoblastic_carcinoma_sarcoma_carcinosarcoma",
-              "label": "b) Trichoblastic Carcinoma/Sarcoma/Carcinosarcoma",
-              "provenance": "abpath",
-              "query": "b) Trichoblastic Carcinoma/Sarcoma/Carcinosarcoma",
+              "tag": "ABPathSpec::skin::malignant_general_considerations::trichilemmal_carcinoma",
+              "label": "Trichilemmal Carcinoma",
+              "provenance": "both",
+              "query": "Trichilemmal Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::malignant_general_considerations::c_pilomatrical_carcinoma",
-              "label": "c) Pilomatrical Carcinoma",
+              "tag": "ABPathSpec::skin::malignant_general_considerations::trichoblastic_carcinoma_sarcoma_carcinosarcoma",
+              "label": "Trichoblastic Carcinoma/Sarcoma/Carcinosarcoma",
               "provenance": "abpath",
-              "query": "c) Pilomatrical Carcinoma",
+              "query": "Trichoblastic Carcinoma/Sarcoma/Carcinosarcoma",
               "abpath_level": "F"
             }
           ]
@@ -9616,80 +9524,80 @@
           "leaf_count": 11,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::a_superficial_spreading",
-              "label": "a) Superficial Spreading",
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::acral_lentiginous",
+              "label": "Acral Lentiginous",
               "provenance": "abpath",
-              "query": "a) Superficial Spreading",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::b_lentigo_maligna",
-              "label": "b) Lentigo Maligna",
-              "provenance": "abpath",
-              "query": "b) Lentigo Maligna",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::c_desmoplastic",
-              "label": "c) Desmoplastic",
-              "provenance": "abpath",
-              "query": "c) Desmoplastic",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::d_nodular",
-              "label": "d) Nodular",
-              "provenance": "abpath",
-              "query": "d) Nodular",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::e_metastatic_melanoma",
-              "label": "e) Metastatic Melanoma",
-              "provenance": "abpath",
-              "query": "e) Metastatic Melanoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::f_acral_lentiginous",
-              "label": "f) Acral Lentiginous",
-              "provenance": "abpath",
-              "query": "f) Acral Lentiginous",
+              "query": "Acral Lentiginous",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::g_nevoid_melanoma",
-              "label": "g) Nevoid Melanoma",
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::blue_nevus_like_melanoma",
+              "label": "Blue Nevus-Like Melanoma",
               "provenance": "abpath",
-              "query": "g) Nevoid Melanoma",
+              "query": "Blue Nevus-Like Melanoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::h_spitzoid_melanoma",
-              "label": "h) Spitzoid Melanoma",
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::desmoplastic",
+              "label": "Desmoplastic",
               "provenance": "abpath",
-              "query": "h) Spitzoid Melanoma",
-              "abpath_level": "F"
+              "query": "Desmoplastic",
+              "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::i_blue_nevus_like_melanoma",
-              "label": "i) Blue Nevus-Like Melanoma",
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::lentigo_maligna",
+              "label": "Lentigo Maligna",
               "provenance": "abpath",
-              "query": "i) Blue Nevus-Like Melanoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::j_spindle_cell_melanoma",
-              "label": "j) Spindle Cell Melanoma",
-              "provenance": "abpath",
-              "query": "j) Spindle Cell Melanoma",
-              "abpath_level": "F"
+              "query": "Lentigo Maligna",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::malignant_melanoma",
               "label": "Malignant Melanoma",
               "provenance": "abpath",
               "query": "Malignant Melanoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::metastatic_melanoma",
+              "label": "Metastatic Melanoma",
+              "provenance": "abpath",
+              "query": "Metastatic Melanoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::nevoid_melanoma",
+              "label": "Nevoid Melanoma",
+              "provenance": "both",
+              "query": "Nevoid Melanoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::nodular",
+              "label": "Nodular",
+              "provenance": "abpath",
+              "query": "Nodular",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::spindle_cell_melanoma",
+              "label": "Spindle Cell Melanoma",
+              "provenance": "abpath",
+              "query": "Spindle Cell Melanoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::spitzoid_melanoma",
+              "label": "Spitzoid Melanoma",
+              "provenance": "abpath",
+              "query": "Spitzoid Melanoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::malignant_melanocytic_lesions::superficial_spreading",
+              "label": "Superficial Spreading",
+              "provenance": "abpath",
+              "query": "Superficial Spreading",
               "abpath_level": "AR"
             }
           ]
@@ -9718,7 +9626,7 @@
         {
           "id": "melanocytic",
           "label": "Melanocytic",
-          "leaf_count": 28,
+          "leaf_count": 23,
           "leaves": [
             {
               "tag": "Skin::Melanocytic::Acral_Nevus",
@@ -9731,12 +9639,6 @@
               "label": "BAPoma",
               "provenance": "who",
               "query": "BAPoma"
-            },
-            {
-              "tag": "Skin::Melanocytic::Combined_Nevus",
-              "label": "Combined_Nevus",
-              "provenance": "who",
-              "query": "Combined Nevus"
             },
             {
               "tag": "Skin::Melanocytic::Conjunctival_Melanoma",
@@ -9767,12 +9669,6 @@
               "label": "Genital_Nevus",
               "provenance": "who",
               "query": "Genital Nevus"
-            },
-            {
-              "tag": "Skin::Melanocytic::Halo_Nevus",
-              "label": "Halo_Nevus",
-              "provenance": "who",
-              "query": "Halo Nevus"
             },
             {
               "tag": "Skin::Melanocytic::Melanoma_Arising_In_Blue_Nevus",
@@ -9823,12 +9719,6 @@
               "query": "Mucosal Melanoma"
             },
             {
-              "tag": "Skin::Melanocytic::Nevoid_Melanoma",
-              "label": "Nevoid_Melanoma",
-              "provenance": "who",
-              "query": "Nevoid Melanoma"
-            },
-            {
               "tag": "Skin::Melanocytic::Nevus_Of_Ito_And_Nevus_Of_Ota",
               "label": "Nevus_Of_Ito_And_Nevus_Of_Ota",
               "provenance": "who",
@@ -9845,18 +9735,6 @@
               "label": "Nodular_Melanoma",
               "provenance": "who",
               "query": "Nodular Melanoma"
-            },
-            {
-              "tag": "Skin::Melanocytic::Spitz::Pigmented_Spindle_Cell_Nevus",
-              "label": "Pigmented_Spindle_Cell_Nevus",
-              "provenance": "who",
-              "query": "Pigmented Spindle Cell Nevus"
-            },
-            {
-              "tag": "Skin::Melanocytic::Recurrent_Nevus",
-              "label": "Recurrent_Nevus",
-              "provenance": "who",
-              "query": "Recurrent Nevus"
             },
             {
               "tag": "Skin::Melanocytic::Simple_Lentigo_And_Lentiginous_Melanocytic_Nevus",
@@ -9893,112 +9771,105 @@
         {
           "id": "melanocytic_nevi",
           "label": "Melanocytic Nevi",
-          "leaf_count": 15,
+          "leaf_count": 14,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::a_junctional_compound_and_intradermal_nevi",
-              "label": "a) Junctional, Compound, and Intradermal Nevi",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::ancient_change",
+              "label": "Ancient Change",
               "provenance": "abpath",
-              "query": "a) Junctional, Compound, and Intradermal Nevi",
+              "query": "Ancient Change",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::balloon_cell_nevus",
+              "label": "Balloon Cell Nevus",
+              "provenance": "abpath",
+              "query": "Balloon Cell Nevus",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::benign_nevus_variants",
+              "label": "Benign Nevus Variants",
+              "provenance": "abpath",
+              "query": "Benign Nevus Variants",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::blue_nevus",
+              "label": "Blue Nevus",
+              "provenance": "abpath",
+              "query": "Blue Nevus",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::b_congenital_nevus",
-              "label": "b) Congenital Nevus",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::blue_nevus_variants",
+              "label": "Blue Nevus Variants",
               "provenance": "abpath",
-              "query": "b) Congenital Nevus",
+              "query": "Blue Nevus Variants",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::combined_nevus",
+              "label": "Combined Nevus",
+              "provenance": "both",
+              "query": "Combined Nevus",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::desmoplastic_nevus",
+              "label": "Desmoplastic Nevus",
+              "provenance": "abpath",
+              "query": "Desmoplastic Nevus",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::halo_nevus",
+              "label": "Halo Nevus",
+              "provenance": "both",
+              "query": "Halo Nevus",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::melanocytic_nevi::junctional_compound_and_intradermal_nevi",
+              "label": "Junctional, Compound, and Intradermal Nevi",
+              "provenance": "abpath",
+              "query": "Junctional, Compound, and Intradermal Nevi",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::c_blue_nevus",
-              "label": "c) Blue Nevus",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::nevus_on_a_special_site",
+              "label": "Nevus on a Special Site",
               "provenance": "abpath",
-              "query": "c) Blue Nevus",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::d_recurrent_nevus",
-              "label": "d) Recurrent Nevus",
-              "provenance": "abpath",
-              "query": "d) Recurrent Nevus",
+              "query": "Nevus on a Special Site",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::e_nevus_on_a_special_site",
-              "label": "e) Nevus on a Special Site",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::nodal_nevus",
+              "label": "Nodal Nevus",
               "provenance": "abpath",
-              "query": "e) Nevus on a Special Site",
+              "query": "Nodal Nevus",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::f_ancient_change",
-              "label": "f) Ancient Change",
-              "provenance": "abpath",
-              "query": "f) Ancient Change",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::pigmented_spindle_cell_nevus",
+              "label": "Pigmented Spindle-Cell Nevus",
+              "provenance": "both",
+              "query": "Pigmented Spindle-Cell Nevus",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::g_halo_nevus",
-              "label": "g) Halo Nevus",
-              "provenance": "abpath",
-              "query": "g) Halo Nevus",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::recurrent_nevus",
+              "label": "Recurrent Nevus",
+              "provenance": "both",
+              "query": "Recurrent Nevus",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::h_spitz_nevus",
-              "label": "h) Spitz Nevus",
+              "tag": "ABPathSpec::skin::melanocytic_nevi::spitz_nevus",
+              "label": "Spitz Nevus",
               "provenance": "abpath",
-              "query": "h) Spitz Nevus",
+              "query": "Spitz Nevus",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::i_pigmented_spindle_cell_nevus",
-              "label": "i) Pigmented Spindle-Cell Nevus",
-              "provenance": "abpath",
-              "query": "i) Pigmented Spindle-Cell Nevus",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::j_nodal_nevus",
-              "label": "j) Nodal Nevus",
-              "provenance": "abpath",
-              "query": "j) Nodal Nevus",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::k_combined_nevus",
-              "label": "k) Combined Nevus",
-              "provenance": "abpath",
-              "query": "k) Combined Nevus",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::l_balloon_cell_nevus",
-              "label": "l) Balloon Cell Nevus",
-              "provenance": "abpath",
-              "query": "l) Balloon Cell Nevus",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::m_desmoplastic_nevus",
-              "label": "m) Desmoplastic Nevus",
-              "provenance": "abpath",
-              "query": "m) Desmoplastic Nevus",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::n_blue_nevus_variants",
-              "label": "n) Blue Nevus Variants",
-              "provenance": "abpath",
-              "query": "n) Blue Nevus Variants",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::melanocytic_nevi::o_benign_nevus_variants",
-              "label": "o) Benign Nevus Variants",
-              "provenance": "abpath",
-              "query": "o) Benign Nevus Variants",
-              "abpath_level": "F"
             }
           ]
         },
@@ -10008,17 +9879,17 @@
           "leaf_count": 4,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::melanocytoma::a_atypical_spitz_tumor",
-              "label": "a) Atypical Spitz Tumor",
+              "tag": "ABPathSpec::skin::melanocytoma::atypical_spitz_tumor",
+              "label": "Atypical Spitz Tumor",
               "provenance": "abpath",
-              "query": "a) Atypical Spitz Tumor",
+              "query": "Atypical Spitz Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::melanocytoma::b_bap_1_inactivated_melanocytic_tumor",
-              "label": "b) BAP-1 Inactivated Melanocytic Tumor",
+              "tag": "ABPathSpec::skin::melanocytoma::bap_1_inactivated_melanocytic_tumor",
+              "label": "BAP-1 Inactivated Melanocytic Tumor",
               "provenance": "abpath",
-              "query": "b) BAP-1 Inactivated Melanocytic Tumor",
+              "query": "BAP-1 Inactivated Melanocytic Tumor",
               "abpath_level": "F"
             },
             {
@@ -10106,17 +9977,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::miscellaneous_benign_tumors_of_the_epidermis::a_verrucous_keratosis_braf_inhibitor_induced",
-              "label": "a) Verrucous Keratosis (BRAF-Inhibitor Induced)",
+              "tag": "ABPathSpec::skin::miscellaneous_benign_tumors_of_the_epidermis::onychomatrixoma",
+              "label": "Onychomatrixoma",
               "provenance": "abpath",
-              "query": "a) Verrucous Keratosis (BRAF-Inhibitor Induced)",
+              "query": "Onychomatrixoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::miscellaneous_benign_tumors_of_the_epidermis::b_onychomatrixoma",
-              "label": "b) Onychomatrixoma",
+              "tag": "ABPathSpec::skin::miscellaneous_benign_tumors_of_the_epidermis::verrucous_keratosis_braf_inhibitor_induced",
+              "label": "Verrucous Keratosis (BRAF-Inhibitor Induced)",
               "provenance": "abpath",
-              "query": "b) Onychomatrixoma",
+              "query": "Verrucous Keratosis (BRAF-Inhibitor Induced)",
               "abpath_level": "F"
             }
           ]
@@ -10309,31 +10180,31 @@
           "leaf_count": 4,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::nematode_infections::a_onchocerciasis",
-              "label": "a) Onchocerciasis",
+              "tag": "ABPathSpec::skin::nematode_infections::dirofilariasis",
+              "label": "Dirofilariasis",
               "provenance": "abpath",
-              "query": "a) Onchocerciasis",
+              "query": "Dirofilariasis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::nematode_infections::b_gnathostomiasis",
-              "label": "b) Gnathostomiasis",
+              "tag": "ABPathSpec::skin::nematode_infections::gnathostomiasis",
+              "label": "Gnathostomiasis",
               "provenance": "abpath",
-              "query": "b) Gnathostomiasis",
+              "query": "Gnathostomiasis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::nematode_infections::c_dirofilariasis",
-              "label": "c) Dirofilariasis",
+              "tag": "ABPathSpec::skin::nematode_infections::larva_migrans",
+              "label": "Larva Migrans",
               "provenance": "abpath",
-              "query": "c) Dirofilariasis",
+              "query": "Larva Migrans",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::nematode_infections::d_larva_migrans",
-              "label": "d) Larva Migrans",
+              "tag": "ABPathSpec::skin::nematode_infections::onchocerciasis",
+              "label": "Onchocerciasis",
               "provenance": "abpath",
-              "query": "d) Larva Migrans",
+              "query": "Onchocerciasis",
               "abpath_level": "F"
             }
           ]
@@ -10386,32 +10257,32 @@
           "leaf_count": 4,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::a_neurofibroma",
-              "label": "a) Neurofibroma",
+              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::diffuse",
+              "label": "Diffuse",
               "provenance": "abpath",
-              "query": "a) Neurofibroma",
+              "query": "Diffuse",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::neurofibroma",
+              "label": "Neurofibroma",
+              "provenance": "both",
+              "query": "Neurofibroma",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::b_plexiform",
-              "label": "b) Plexiform",
+              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::pacinioma_and_pacinian_neurofibroma",
+              "label": "Pacinioma and Pacinian Neurofibroma",
               "provenance": "abpath",
-              "query": "b) Plexiform",
+              "query": "Pacinioma and Pacinian Neurofibroma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::plexiform",
+              "label": "Plexiform",
+              "provenance": "abpath",
+              "query": "Plexiform",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::c_diffuse",
-              "label": "c) Diffuse",
-              "provenance": "abpath",
-              "query": "c) Diffuse",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::neurofibroma_and_neurofibromatosis::d_pacinioma_and_pacinian_neurofibroma",
-              "label": "d) Pacinioma and Pacinian Neurofibroma",
-              "provenance": "abpath",
-              "query": "d) Pacinioma and Pacinian Neurofibroma",
-              "abpath_level": "F"
             }
           ]
         },
@@ -10421,34 +10292,6 @@
           "leaf_count": 10,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::neuromas::a_traumatic_neuroma",
-              "label": "a) Traumatic Neuroma",
-              "provenance": "abpath",
-              "query": "a) Traumatic Neuroma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::neuromas::b_rudimentary_polydactyly",
-              "label": "b) Rudimentary Polydactyly",
-              "provenance": "abpath",
-              "query": "b) Rudimentary Polydactyly",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::neuromas::c_solitary_circumscribed_neuroma_palisaded_encapsulated_neuroma",
-              "label": "c) Solitary Circumscribed Neuroma (Palisaded Encapsulated Neuroma)",
-              "provenance": "abpath",
-              "query": "c) Solitary Circumscribed Neuroma (Palisaded Encapsulated Neuroma)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::neuromas::d_neuromas_and_multiple_endocrine_neoplasia_syndromes",
-              "label": "d) Neuromas and Multiple Endocrine Neoplasia Syndromes",
-              "provenance": "abpath",
-              "query": "d) Neuromas and Multiple Endocrine Neoplasia Syndromes",
-              "abpath_level": "AR"
-            },
-            {
               "tag": "ABPathSpec::skin::neuromas::dermal_nerve_sheath_myxoma",
               "label": "Dermal Nerve Sheath Myxoma",
               "provenance": "both",
@@ -10456,10 +10299,10 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::neuromas::e_ganglioneuroma",
-              "label": "e) Ganglioneuroma",
+              "tag": "ABPathSpec::skin::neuromas::ganglioneuroma",
+              "label": "Ganglioneuroma",
               "provenance": "abpath",
-              "query": "e) Ganglioneuroma",
+              "query": "Ganglioneuroma",
               "abpath_level": "F"
             },
             {
@@ -10467,6 +10310,13 @@
               "label": "Granular Cell Tumor",
               "provenance": "abpath",
               "query": "Granular Cell Tumor",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::neuromas::neuromas_and_multiple_endocrine_neoplasia_syndromes",
+              "label": "Neuromas and Multiple Endocrine Neoplasia Syndromes",
+              "provenance": "abpath",
+              "query": "Neuromas and Multiple Endocrine Neoplasia Syndromes",
               "abpath_level": "AR"
             },
             {
@@ -10484,10 +10334,31 @@
               "abpath_level": "F"
             },
             {
+              "tag": "ABPathSpec::skin::neuromas::rudimentary_polydactyly",
+              "label": "Rudimentary Polydactyly",
+              "provenance": "abpath",
+              "query": "Rudimentary Polydactyly",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "ABPathSpec::skin::neuromas::schwannoma_neurilemmoma",
               "label": "Schwannoma (Neurilemmoma)",
               "provenance": "both",
               "query": "Schwannoma (Neurilemmoma)",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::neuromas::solitary_circumscribed_neuroma_palisaded_encapsulated_neuroma",
+              "label": "Solitary Circumscribed Neuroma (Palisaded Encapsulated Neuroma)",
+              "provenance": "both",
+              "query": "Solitary Circumscribed Neuroma (Palisaded Encapsulated Neuroma)",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::neuromas::traumatic_neuroma",
+              "label": "Traumatic Neuroma",
+              "provenance": "abpath",
+              "query": "Traumatic Neuroma",
               "abpath_level": "AR"
             }
           ]
@@ -11121,39 +10992,11 @@
           "leaf_count": 16,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::pericytic_tumors::a_epitheliod_fibrous_histiocytoma",
-              "label": "a) Epitheliod Fibrous Histiocytoma",
-              "provenance": "abpath",
-              "query": "a) Epitheliod Fibrous Histiocytoma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::pericytic_tumors::a_myofibroma",
-              "label": "a) Myofibroma",
-              "provenance": "abpath",
-              "query": "a) Myofibroma",
-              "abpath_level": "AR"
-            },
-            {
               "tag": "ABPathSpec::skin::pericytic_tumors::atypical_fibrous_histiocytoma",
               "label": "Atypical Fibrous Histiocytoma",
               "provenance": "abpath",
               "query": "Atypical Fibrous Histiocytoma",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::pericytic_tumors::b_glomus_tumor",
-              "label": "b) Glomus Tumor",
-              "provenance": "abpath",
-              "query": "b) Glomus Tumor",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::pericytic_tumors::c_glomuvenous_malformation_glomangiomyoma",
-              "label": "c) Glomuvenous Malformation (Glomangiomyoma)",
-              "provenance": "abpath",
-              "query": "c) Glomuvenous Malformation (Glomangiomyoma)",
-              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::pericytic_tumors::cellular_digital_fibroma",
@@ -11177,18 +11020,32 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::pericytic_tumors::d_myopericytoma",
-              "label": "d) Myopericytoma",
-              "provenance": "abpath",
-              "query": "d) Myopericytoma",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::pericytic_tumors::dermatomyofibroma",
               "label": "Dermatomyofibroma",
               "provenance": "both",
               "query": "Dermatomyofibroma",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::pericytic_tumors::epitheliod_fibrous_histiocytoma",
+              "label": "Epitheliod Fibrous Histiocytoma",
+              "provenance": "abpath",
+              "query": "Epitheliod Fibrous Histiocytoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::pericytic_tumors::glomus_tumor",
+              "label": "Glomus Tumor",
+              "provenance": "both",
+              "query": "Glomus Tumor",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::pericytic_tumors::glomuvenous_malformation_glomangiomyoma",
+              "label": "Glomuvenous Malformation (Glomangiomyoma)",
+              "provenance": "abpath",
+              "query": "Glomuvenous Malformation (Glomangiomyoma)",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::pericytic_tumors::inflammatory_myofibroblastic_tumor",
@@ -11202,6 +11059,20 @@
               "label": "Knuckle Pad",
               "provenance": "abpath",
               "query": "Knuckle Pad",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::pericytic_tumors::myofibroma",
+              "label": "Myofibroma",
+              "provenance": "both",
+              "query": "Myofibroma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::pericytic_tumors::myopericytoma",
+              "label": "Myopericytoma",
+              "provenance": "both",
+              "query": "Myopericytoma",
               "abpath_level": "F"
             },
             {
@@ -11839,19 +11710,13 @@
         {
           "id": "soft_tissue",
           "label": "Soft Tissue",
-          "leaf_count": 47,
+          "leaf_count": 35,
           "leaves": [
             {
               "tag": "Skin::Soft_Tissue::Vascular::Acquired_Elastotic_Hemangioma",
               "label": "Acquired_Elastotic_Hemangioma",
               "provenance": "who",
               "query": "Acquired Elastotic Hemangioma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Fibrous::Angiokeratoma",
-              "label": "Angiokeratoma",
-              "provenance": "who",
-              "query": "Angiokeratoma"
             },
             {
               "tag": "Skin::Soft_Tissue::Vascular::Arteriovenous_Malformation",
@@ -11926,18 +11791,6 @@
               "query": "EWSR1-SMAD3-Rearranged Fibroblastic Tumor"
             },
             {
-              "tag": "Skin::Soft_Tissue::Vascular::Glomeruloid_Hemangioma",
-              "label": "Glomeruloid_Hemangioma",
-              "provenance": "who",
-              "query": "Glomeruloid Hemangioma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Vascular::Glomus_Tumor",
-              "label": "Glomus_Tumor",
-              "provenance": "who",
-              "query": "Glomus Tumor"
-            },
-            {
               "tag": "Skin::Soft_Tissue::Vascular::Hobnail_Hemangioma",
               "label": "Hobnail_Hemangioma",
               "provenance": "who",
@@ -11956,46 +11809,16 @@
               "query": "Inclusion Body Fibromatosis"
             },
             {
-              "tag": "Skin::Soft_Tissue::Vascular::Infantile_Hemangioma",
-              "label": "Infantile_Hemangioma",
-              "provenance": "who",
-              "query": "Infantile Hemangioma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Adipocytic::Lipoma",
-              "label": "Lipoma",
-              "provenance": "who",
-              "query": "Lipoma"
-            },
-            {
               "tag": "Skin::Soft_Tissue::Vascular::Lobular_Capillary_Hemangioma",
               "label": "Lobular_Capillary_Hemangioma",
               "provenance": "who",
               "query": "Lobular Capillary Hemangioma"
             },
             {
-              "tag": "Skin::Soft_Tissue::Vascular::Microvenular_Hemangioma",
-              "label": "Microvenular_Hemangioma",
-              "provenance": "who",
-              "query": "Microvenular Hemangioma"
-            },
-            {
               "tag": "Skin::Soft_Tissue::Uncertain_Differentiation::Myoepithelioma__Myoepithelial_Carcinoma",
               "label": "Myoepithelioma__Myoepithelial_Carcinoma",
               "provenance": "who",
               "query": "Myoepithelioma Myoepithelial Carcinoma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Vascular::Myofibroma",
-              "label": "Myofibroma",
-              "provenance": "who",
-              "query": "Myofibroma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Vascular::Myopericytoma",
-              "label": "Myopericytoma",
-              "provenance": "who",
-              "query": "Myopericytoma"
             },
             {
               "tag": "Skin::Soft_Tissue::Fibrous::Myxofibrosarcoma",
@@ -12008,12 +11831,6 @@
               "label": "Myxoinflammatory_Fibroblastic_Sarcoma",
               "provenance": "who",
               "query": "Myxoinflammatory Fibroblastic Sarcoma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Neural::Neurofibroma",
-              "label": "Neurofibroma",
-              "provenance": "who",
-              "query": "Neurofibroma"
             },
             {
               "tag": "Skin::Soft_Tissue::Fibrous::Nodular_Fasciitis",
@@ -12046,12 +11863,6 @@
               "query": "Papillary Hemangioma"
             },
             {
-              "tag": "Skin::Soft_Tissue::Uncertain_Differentiation::PEComa",
-              "label": "PEComa",
-              "provenance": "who",
-              "query": "PEComa"
-            },
-            {
               "tag": "Skin::Soft_Tissue::Fibrous::Plaque-Like_CD34-Positive_Dermal_Fibroma",
               "label": "Plaque-Like_CD34-Positive_Dermal_Fibroma",
               "provenance": "who",
@@ -12080,18 +11891,6 @@
               "label": "Sinusoidal_Hemangioma",
               "provenance": "who",
               "query": "Sinusoidal Hemangioma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Neural::Solitary_Circumscribed_Neuroma",
-              "label": "Solitary_Circumscribed_Neuroma",
-              "provenance": "who",
-              "query": "Solitary Circumscribed Neuroma"
-            },
-            {
-              "tag": "Skin::Soft_Tissue::Vascular::Spindle_Cell_Hemangioma",
-              "label": "Spindle_Cell_Hemangioma",
-              "provenance": "who",
-              "query": "Spindle Cell Hemangioma"
             },
             {
               "tag": "Skin::Soft_Tissue::Adipocytic::Spindle_Cell_Pleomorphic_Lipoma",
@@ -12131,66 +11930,66 @@
           "leaf_count": 9,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::a_clear_cell_sarcoma",
-              "label": "a) Clear Cell Sarcoma",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::chordoma",
+              "label": "Chordoma",
               "provenance": "abpath",
-              "query": "a) Clear Cell Sarcoma",
+              "query": "Chordoma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::clear_cell_sarcoma",
+              "label": "Clear Cell Sarcoma",
+              "provenance": "abpath",
+              "query": "Clear Cell Sarcoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::b_epithelioid_sarcoma",
-              "label": "b) Epithelioid Sarcoma",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::epithelioid_sarcoma",
+              "label": "Epithelioid Sarcoma",
               "provenance": "abpath",
-              "query": "b) Epithelioid Sarcoma",
+              "query": "Epithelioid Sarcoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::c_pecoma",
-              "label": "c) PEComa",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::ewing_and_ewing_like_tumors",
+              "label": "Ewing and Ewing-Like Tumors",
               "provenance": "abpath",
-              "query": "c) PEComa",
+              "query": "Ewing and Ewing-Like Tumors",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::d_ossifying_fibromyxoid_tumor",
-              "label": "d) Ossifying Fibromyxoid Tumor",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::malignant_rhabdoid_tumor",
+              "label": "Malignant Rhabdoid Tumor",
               "provenance": "abpath",
-              "query": "d) Ossifying Fibromyxoid Tumor",
+              "query": "Malignant Rhabdoid Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::e_pleomorphic_hyalinizing_angiectatic_tumor_of_soft_parts",
-              "label": "e) Pleomorphic Hyalinizing Angiectatic Tumor of Soft Parts",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::ossifying_fibromyxoid_tumor",
+              "label": "Ossifying Fibromyxoid Tumor",
               "provenance": "abpath",
-              "query": "e) Pleomorphic Hyalinizing Angiectatic Tumor of Soft Parts",
+              "query": "Ossifying Fibromyxoid Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::f_synovial_sarcoma",
-              "label": "f) Synovial Sarcoma",
-              "provenance": "abpath",
-              "query": "f) Synovial Sarcoma",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::pecoma",
+              "label": "PEComa",
+              "provenance": "both",
+              "query": "PEComa",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::g_malignant_rhabdoid_tumor",
-              "label": "g) Malignant Rhabdoid Tumor",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::pleomorphic_hyalinizing_angiectatic_tumor_of_soft_parts",
+              "label": "Pleomorphic Hyalinizing Angiectatic Tumor of Soft Parts",
               "provenance": "abpath",
-              "query": "g) Malignant Rhabdoid Tumor",
+              "query": "Pleomorphic Hyalinizing Angiectatic Tumor of Soft Parts",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::h_ewing_and_ewing_like_tumors",
-              "label": "h) Ewing and Ewing-Like Tumors",
+              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::synovial_sarcoma",
+              "label": "Synovial Sarcoma",
               "provenance": "abpath",
-              "query": "h) Ewing and Ewing-Like Tumors",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::soft_tissue_of_uncertain_histogenesis::i_chordoma",
-              "label": "i) Chordoma",
-              "provenance": "abpath",
-              "query": "i) Chordoma",
+              "query": "Synovial Sarcoma",
               "abpath_level": "F"
             }
           ]
@@ -12359,29 +12158,8 @@
         {
           "id": "squamous_cell_carcinoma_scc",
           "label": "Squamous Cell Carcinoma (SCC)",
-          "leaf_count": 9,
+          "leaf_count": 8,
           "leaves": [
-            {
-              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::a_squamous_cell_carcinoma_in_situ_bowen_disease",
-              "label": "a) Squamous Cell Carcinoma in situ/Bowen Disease",
-              "provenance": "abpath",
-              "query": "a) Squamous Cell Carcinoma in situ/Bowen Disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::b_keratoacanthoma",
-              "label": "b) Keratoacanthoma",
-              "provenance": "abpath",
-              "query": "b) Keratoacanthoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::c_conventional",
-              "label": "c) Conventional",
-              "provenance": "abpath",
-              "query": "c) Conventional",
-              "abpath_level": "C"
-            },
             {
               "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::carcinosarcoma_metaplastic_carcinoma",
               "label": "Carcinosarcoma (Metaplastic Carcinoma)",
@@ -12390,18 +12168,18 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::d_spindle_cell_sarcomatoid_scc",
-              "label": "d) Spindle-Cell/Sarcomatoid SCC",
+              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::conventional",
+              "label": "Conventional",
               "provenance": "abpath",
-              "query": "d) Spindle-Cell/Sarcomatoid SCC",
-              "abpath_level": "AR"
+              "query": "Conventional",
+              "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::e_other_variants_of_squamous_cell_carcinoma",
-              "label": "e) Other Variants of Squamous Cell Carcinoma",
+              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::keratoacanthoma",
+              "label": "Keratoacanthoma",
               "provenance": "abpath",
-              "query": "e) Other Variants of Squamous Cell Carcinoma",
-              "abpath_level": "F"
+              "query": "Keratoacanthoma",
+              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::lymphoeptihelioma_like_carcinoma",
@@ -12416,6 +12194,20 @@
               "provenance": "abpath",
               "query": "Primary Mammary Paget Disease",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::spindle_cell_sarcomatoid_scc",
+              "label": "Spindle-Cell/Sarcomatoid SCC",
+              "provenance": "abpath",
+              "query": "Spindle-Cell/Sarcomatoid SCC",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::squamous_cell_carcinoma_in_situ_bowen_disease",
+              "label": "Squamous Cell Carcinoma in situ/Bowen Disease",
+              "provenance": "both",
+              "query": "Squamous Cell Carcinoma in situ/Bowen Disease",
+              "abpath_level": "C"
             },
             {
               "tag": "ABPathSpec::skin::squamous_cell_carcinoma_scc::verrucous_carcinoma",
@@ -12563,17 +12355,10 @@
           "leaf_count": 11,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::ticks::a_ixodes_gross_identification",
-              "label": "a) Ixodes, Gross Identification",
+              "tag": "ABPathSpec::skin::ticks::amblyomma_gross_identification",
+              "label": "Amblyomma, Gross Identification",
               "provenance": "abpath",
-              "query": "a) Ixodes, Gross Identification",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::ticks::b_dermacentor_gross_identification",
-              "label": "b) Dermacentor, Gross Identification",
-              "provenance": "abpath",
-              "query": "b) Dermacentor, Gross Identification",
+              "query": "Amblyomma, Gross Identification",
               "abpath_level": "AR"
             },
             {
@@ -12582,13 +12367,6 @@
               "provenance": "abpath",
               "query": "Bedbugs",
               "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::ticks::c_amblyomma_gross_identification",
-              "label": "c) Amblyomma, Gross Identification",
-              "provenance": "abpath",
-              "query": "c) Amblyomma, Gross Identification",
-              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::ticks::demodex_mites",
@@ -12605,11 +12383,25 @@
               "abpath_level": "F"
             },
             {
+              "tag": "ABPathSpec::skin::ticks::dermacentor_gross_identification",
+              "label": "Dermacentor, Gross Identification",
+              "provenance": "abpath",
+              "query": "Dermacentor, Gross Identification",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "ABPathSpec::skin::ticks::human_lice_pediculosis",
               "label": "Human Lice (Pediculosis)",
               "provenance": "abpath",
               "query": "Human Lice (Pediculosis)",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::ticks::ixodes_gross_identification",
+              "label": "Ixodes, Gross Identification",
+              "provenance": "abpath",
+              "query": "Ixodes, Gross Identification",
+              "abpath_level": "AR"
             },
             {
               "tag": "ABPathSpec::skin::ticks::myiasis",
@@ -12661,10 +12453,10 @@
           "leaf_count": 1,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::trematode_infections::a_schistosomiasis",
-              "label": "a) Schistosomiasis",
+              "tag": "ABPathSpec::skin::trematode_infections::schistosomiasis",
+              "label": "Schistosomiasis",
               "provenance": "abpath",
-              "query": "a) Schistosomiasis",
+              "query": "Schistosomiasis",
               "abpath_level": "F"
             }
           ]
@@ -12726,30 +12518,16 @@
           ]
         },
         {
-          "id": "undifferentiated_pleomorphic_sarcoma",
-          "label": "Undifferentiated Pleomorphic Sarcoma",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::skin::undifferentiated_pleomorphic_sarcoma::a_malignant_fibrous_histiocytoma",
-              "label": "a) (Malignant Fibrous Histiocytoma)",
-              "provenance": "abpath",
-              "query": "a) (Malignant Fibrous Histiocytoma)",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
           "id": "vascular_proliferations_benign_and_hyperplasia",
           "label": "Vascular Proliferations (Benign and Hyperplasia)",
           "leaf_count": 19,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::a_cherry_angioma",
-              "label": "a) “Cherry” Angioma",
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::acquired_tufted_angioma_angioblastoma",
+              "label": "Acquired Tufted Angioma (Angioblastoma)",
               "provenance": "abpath",
-              "query": "a) “Cherry” Angioma",
-              "abpath_level": "C"
+              "query": "Acquired Tufted Angioma (Angioblastoma)",
+              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::acroangiodermatitis",
@@ -12759,24 +12537,17 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::b_pyogenic_granuloma_and_variants",
-              "label": "b) Pyogenic Granuloma and Variants",
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::angiolymphoid_hyperplasia_with_eosinophilia_epithelioid_hemangioma",
+              "label": "Angiolymphoid Hyperplasia with Eosinophilia, (Epithelioid Hemangioma)",
               "provenance": "abpath",
-              "query": "b) Pyogenic Granuloma and Variants",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::c_infantile_hemangioma",
-              "label": "c) Infantile Hemangioma",
-              "provenance": "abpath",
-              "query": "c) Infantile Hemangioma",
+              "query": "Angiolymphoid Hyperplasia with Eosinophilia, (Epithelioid Hemangioma)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::d_arteriovenous_hemangioma",
-              "label": "d) Arteriovenous Hemangioma",
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::arteriovenous_hemangioma",
+              "label": "Arteriovenous Hemangioma",
               "provenance": "abpath",
-              "query": "d) Arteriovenous Hemangioma",
+              "query": "Arteriovenous Hemangioma",
               "abpath_level": "AR"
             },
             {
@@ -12787,39 +12558,25 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::e_angiolymphoid_hyperplasia_with_eosinophilia_epithelioid_hemangioma",
-              "label": "e) Angiolymphoid Hyperplasia with Eosinophilia, (Epithelioid Hemangioma)",
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::diffuse_neonatal_hemangiomatosis",
+              "label": "Diffuse Neonatal Hemangiomatosis",
               "provenance": "abpath",
-              "query": "e) Angiolymphoid Hyperplasia with Eosinophilia, (Epithelioid Hemangioma)",
+              "query": "Diffuse Neonatal Hemangiomatosis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::glomeruloid_hemangioma",
+              "label": "Glomeruloid Hemangioma",
+              "provenance": "both",
+              "query": "Glomeruloid Hemangioma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::infantile_hemangioma",
+              "label": "Infantile Hemangioma",
+              "provenance": "both",
+              "query": "Infantile Hemangioma",
               "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::f_rapidly_involuting_congenital_hemangioma",
-              "label": "f) Rapidly Involuting Congenital Hemangioma",
-              "provenance": "abpath",
-              "query": "f) Rapidly Involuting Congenital Hemangioma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::g_noninvoluting_congenital_hemangioma",
-              "label": "g) Noninvoluting Congenital Hemangioma",
-              "provenance": "abpath",
-              "query": "g) Noninvoluting Congenital Hemangioma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::h_diffuse_neonatal_hemangiomatosis",
-              "label": "h) Diffuse Neonatal Hemangiomatosis",
-              "provenance": "abpath",
-              "query": "h) Diffuse Neonatal Hemangiomatosis",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::i_glomeruloid_hemangioma",
-              "label": "i) Glomeruloid Hemangioma",
-              "provenance": "abpath",
-              "query": "i) Glomeruloid Hemangioma",
-              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::intravascular_papillary_endothelial_hyperplasia",
@@ -12829,31 +12586,10 @@
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::j_microvenular_hemangioma",
-              "label": "j) Microvenular Hemangioma",
-              "provenance": "abpath",
-              "query": "j) Microvenular Hemangioma",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::k_targetoid_hemosiderotic_hobnail_hemangioma",
-              "label": "k) Targetoid Hemosiderotic (Hobnail) “Hemangioma”",
-              "provenance": "abpath",
-              "query": "k) Targetoid Hemosiderotic (Hobnail) “Hemangioma”",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::l_spindle_cell_hemangioma_spindle_cell_hemangioendothelioma",
-              "label": "l) Spindle-Cell Hemangioma (Spindle Cell Hemangioendothelioma)",
-              "provenance": "abpath",
-              "query": "l) Spindle-Cell Hemangioma (Spindle Cell Hemangioendothelioma)",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::m_acquired_tufted_angioma_angioblastoma",
-              "label": "m) Acquired Tufted Angioma (Angioblastoma)",
-              "provenance": "abpath",
-              "query": "m) Acquired Tufted Angioma (Angioblastoma)",
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::microvenular_hemangioma",
+              "label": "Microvenular Hemangioma",
+              "provenance": "both",
+              "query": "Microvenular Hemangioma",
               "abpath_level": "F"
             },
             {
@@ -12864,6 +12600,20 @@
               "abpath_level": "F"
             },
             {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::noninvoluting_congenital_hemangioma",
+              "label": "Noninvoluting Congenital Hemangioma",
+              "provenance": "abpath",
+              "query": "Noninvoluting Congenital Hemangioma",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::pyogenic_granuloma_and_variants",
+              "label": "Pyogenic Granuloma and Variants",
+              "provenance": "abpath",
+              "query": "Pyogenic Granuloma and Variants",
+              "abpath_level": "C"
+            },
+            {
               "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::radiation_associated_atypical_vascular_lesion",
               "label": "Radiation Associated Atypical Vascular Lesion",
               "provenance": "abpath",
@@ -12871,11 +12621,39 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::rapidly_involuting_congenital_hemangioma",
+              "label": "Rapidly Involuting Congenital Hemangioma",
+              "provenance": "abpath",
+              "query": "Rapidly Involuting Congenital Hemangioma",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::reactive_angioendotheliomatosis",
               "label": "Reactive Angioendotheliomatosis",
               "provenance": "abpath",
               "query": "Reactive Angioendotheliomatosis",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::spindle_cell_hemangioma_spindle_cell_hemangioendothelioma",
+              "label": "Spindle-Cell Hemangioma (Spindle Cell Hemangioendothelioma)",
+              "provenance": "both",
+              "query": "Spindle-Cell Hemangioma (Spindle Cell Hemangioendothelioma)",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::targetoid_hemosiderotic_hobnail_hemangioma",
+              "label": "Targetoid Hemosiderotic (Hobnail) “Hemangioma”",
+              "provenance": "abpath",
+              "query": "Targetoid Hemosiderotic (Hobnail) “Hemangioma”",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vascular_proliferations_benign_and_hyperplasia::cherry_angioma",
+              "label": "“Cherry” Angioma",
+              "provenance": "abpath",
+              "query": "“Cherry” Angioma",
+              "abpath_level": "C"
             }
           ]
         },
@@ -13004,13 +12782,6 @@
           "leaf_count": 30,
           "leaves": [
             {
-              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::a_epidermolysis_bullosa_simplex",
-              "label": "a) Epidermolysis Bullosa Simplex",
-              "provenance": "abpath",
-              "query": "a) Epidermolysis Bullosa Simplex",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::acantholysis",
               "label": "Acantholysis",
               "provenance": "abpath",
@@ -13032,24 +12803,10 @@
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::b_junctional_epidermolysis_bullosa",
-              "label": "b) Junctional Epidermolysis Bullosa",
-              "provenance": "abpath",
-              "query": "b) Junctional Epidermolysis Bullosa",
-              "abpath_level": "F"
-            },
-            {
               "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::bullous_diabeticorum",
               "label": "Bullous Diabeticorum",
               "provenance": "abpath",
               "query": "Bullous Diabeticorum",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::c_dystrophic_epidermolysis_bullosa",
-              "label": "c) Dystrophic Epidermolysis Bullosa",
-              "provenance": "abpath",
-              "query": "c) Dystrophic Epidermolysis Bullosa",
               "abpath_level": "F"
             },
             {
@@ -13074,6 +12831,13 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::dystrophic_epidermolysis_bullosa",
+              "label": "Dystrophic Epidermolysis Bullosa",
+              "provenance": "abpath",
+              "query": "Dystrophic Epidermolysis Bullosa",
+              "abpath_level": "F"
+            },
+            {
               "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::epidermolysis_bullosa",
               "label": "Epidermolysis Bullosa",
               "provenance": "abpath",
@@ -13085,6 +12849,13 @@
               "label": "Epidermolysis Bullosa Acquistia",
               "provenance": "abpath",
               "query": "Epidermolysis Bullosa Acquistia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::epidermolysis_bullosa_simplex",
+              "label": "Epidermolysis Bullosa Simplex",
+              "provenance": "abpath",
+              "query": "Epidermolysis Bullosa Simplex",
               "abpath_level": "F"
             },
             {
@@ -13135,6 +12906,13 @@
               "provenance": "abpath",
               "query": "Intracorneal / Subcorneal Blisters & Pustules",
               "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::junctional_epidermolysis_bullosa",
+              "label": "Junctional Epidermolysis Bullosa",
+              "provenance": "abpath",
+              "query": "Junctional Epidermolysis Bullosa",
+              "abpath_level": "F"
             },
             {
               "tag": "ABPathSpec::skin::vesiculobullous_reaction_pattern::linear_iga_bullous_dermatosis",
@@ -32361,7 +32139,7 @@
       "id": "peds",
       "label": "Pediatric Pathology",
       "kind": "root",
-      "leaf_count": 795,
+      "leaf_count": 793,
       "subcategories": [
         {
           "id": "acquired_abnormalities",
@@ -32614,18 +32392,18 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::basal_plate_pathology::a_placental_abruption_retroplacental_hematoma",
-              "label": "a) Placental Abruption/Retroplacental Hematoma",
+              "tag": "ABPathSpec::peds::basal_plate_pathology::maternal_vasculopathy",
+              "label": "Maternal Vasculopathy",
               "provenance": "abpath",
-              "query": "a) Placental Abruption/Retroplacental Hematoma",
-              "abpath_level": "C"
+              "query": "Maternal Vasculopathy",
+              "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::basal_plate_pathology::b_maternal_vasculopathy",
-              "label": "b) Maternal Vasculopathy",
+              "tag": "ABPathSpec::peds::basal_plate_pathology::placental_abruption_retroplacental_hematoma",
+              "label": "Placental Abruption/Retroplacental Hematoma",
               "provenance": "abpath",
-              "query": "b) Maternal Vasculopathy",
-              "abpath_level": "AR"
+              "query": "Placental Abruption/Retroplacental Hematoma",
+              "abpath_level": "C"
             }
           ]
         },
@@ -33958,24 +33736,24 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::fetal_vessel_pathology::a_thrombi",
-              "label": "a) Thrombi",
+              "tag": "ABPathSpec::peds::fetal_vessel_pathology::avascular_villi",
+              "label": "Avascular Villi",
               "provenance": "abpath",
-              "query": "a) Thrombi",
+              "query": "Avascular Villi",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::fetal_vessel_pathology::b_avascular_villi",
-              "label": "b) Avascular Villi",
+              "tag": "ABPathSpec::peds::fetal_vessel_pathology::fetal_vascular_malperfusion",
+              "label": "Fetal Vascular Malperfusion",
               "provenance": "abpath",
-              "query": "b) Avascular Villi",
+              "query": "Fetal Vascular Malperfusion",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::fetal_vessel_pathology::c_fetal_vascular_malperfusion",
-              "label": "c) Fetal Vascular Malperfusion",
+              "tag": "ABPathSpec::peds::fetal_vessel_pathology::thrombi",
+              "label": "Thrombi",
               "provenance": "abpath",
-              "query": "c) Fetal Vascular Malperfusion",
+              "query": "Thrombi",
               "abpath_level": "AR"
             }
           ]
@@ -34614,17 +34392,17 @@
           "leaf_count": 2,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::gonadal_stromal_tumors::a_sertoli_leydig_and_sertoli_leydig_cell_tumors",
-              "label": "a) Sertoli, Leydig, and Sertoli-Leydig Cell Tumors",
+              "tag": "ABPathSpec::peds::gonadal_stromal_tumors::granulosa_cell_tumor",
+              "label": "Granulosa Cell Tumor",
               "provenance": "abpath",
-              "query": "a) Sertoli, Leydig, and Sertoli-Leydig Cell Tumors",
+              "query": "Granulosa Cell Tumor",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::gonadal_stromal_tumors::b_granulosa_cell_tumor",
-              "label": "b) Granulosa Cell Tumor",
+              "tag": "ABPathSpec::peds::gonadal_stromal_tumors::sertoli_leydig_and_sertoli_leydig_cell_tumors",
+              "label": "Sertoli, Leydig, and Sertoli-Leydig Cell Tumors",
               "provenance": "abpath",
-              "query": "b) Granulosa Cell Tumor",
+              "query": "Sertoli, Leydig, and Sertoli-Leydig Cell Tumors",
               "abpath_level": "AR"
             }
           ]
@@ -34711,15 +34489,8 @@
         {
           "id": "hematology_and_bone_marrow_tests",
           "label": "Hematology and Bone Marrow Tests",
-          "leaf_count": 11,
+          "leaf_count": 12,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::b_neoplastic_e_g_leukemia_lymphoma",
-              "label": "b) Neoplastic (e.g., Leukemia/Lymphoma)",
-              "provenance": "abpath",
-              "query": "b) Neoplastic (e.g., Leukemia/Lymphoma)",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::coagulation_tests_including_factor_assays",
               "label": "Coagulation Tests, including Factor Assays",
@@ -34746,6 +34517,20 @@
               "label": "Immunophenotyping (Flow Cytometry)",
               "provenance": "abpath",
               "query": "Immunophenotyping (Flow Cytometry)",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::neoplastic_e_g_leukemia_lymphoma",
+              "label": "Neoplastic (e.g., Leukemia/Lymphoma)",
+              "provenance": "abpath",
+              "query": "Neoplastic (e.g., Leukemia/Lymphoma)",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::hematology_and_bone_marrow_tests::non_neoplastic_e_g_lymphocyte_subsets",
+              "label": "Non-Neoplastic (e.g., Lymphocyte Subsets)",
+              "provenance": "abpath",
+              "query": "Non-Neoplastic (e.g., Lymphocyte Subsets)",
               "abpath_level": "AR"
             },
             {
@@ -35136,24 +34921,24 @@
           "leaf_count": 3,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::implantation_pathology::a_ectopic_pregnancy",
-              "label": "a) Ectopic Pregnancy",
+              "tag": "ABPathSpec::peds::implantation_pathology::ectopic_pregnancy",
+              "label": "Ectopic Pregnancy",
               "provenance": "abpath",
-              "query": "a) Ectopic Pregnancy",
+              "query": "Ectopic Pregnancy",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::peds::implantation_pathology::b_placenta_previa",
-              "label": "b) Placenta Previa",
+              "tag": "ABPathSpec::peds::implantation_pathology::placenta_accreta_spectrum",
+              "label": "Placenta Accreta Spectrum",
               "provenance": "abpath",
-              "query": "b) Placenta Previa",
+              "query": "Placenta Accreta Spectrum",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::peds::implantation_pathology::c_placenta_accreta_spectrum",
-              "label": "c) Placenta Accreta Spectrum",
+              "tag": "ABPathSpec::peds::implantation_pathology::placenta_previa",
+              "label": "Placenta Previa",
               "provenance": "abpath",
-              "query": "c) Placenta Accreta Spectrum",
+              "query": "Placenta Previa",
               "abpath_level": "C"
             }
           ]
@@ -35325,24 +35110,10 @@
           "leaf_count": 12,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::a_helicobacter_gastritis",
-              "label": "a) Helicobacter Gastritis",
-              "provenance": "abpath",
-              "query": "a) Helicobacter Gastritis",
-              "abpath_level": "C"
-            },
-            {
               "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::acute_appendicitis",
               "label": "Acute Appendicitis",
               "provenance": "abpath",
               "query": "Acute Appendicitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::b_clostridioides_difficile_colitis",
-              "label": "b) Clostridioides difficile colitis",
-              "provenance": "abpath",
-              "query": "b) Clostridioides difficile colitis",
               "abpath_level": "C"
             },
             {
@@ -35360,6 +35131,13 @@
               "abpath_level": "AR"
             },
             {
+              "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::clostridioides_difficile_colitis",
+              "label": "Clostridioides difficile colitis",
+              "provenance": "abpath",
+              "query": "Clostridioides difficile colitis",
+              "abpath_level": "C"
+            },
+            {
               "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::drug_caustic_injury",
               "label": "Drug/Caustic Injury",
               "provenance": "abpath",
@@ -35371,6 +35149,13 @@
               "label": "Fungal Gastroenteritis",
               "provenance": "abpath",
               "query": "Fungal Gastroenteritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::inflammatory_and_infectious_disorders::helicobacter_gastritis",
+              "label": "Helicobacter Gastritis",
+              "provenance": "abpath",
+              "query": "Helicobacter Gastritis",
               "abpath_level": "C"
             },
             {
@@ -36200,32 +35985,32 @@
           "leaf_count": 4,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::a_sickle_cell_disease",
-              "label": "a) Sickle Cell Disease",
+              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::intervillositis",
+              "label": "Intervillositis",
               "provenance": "abpath",
-              "query": "a) Sickle Cell Disease",
+              "query": "Intervillositis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::massive_perivillous_fibrin_deposition_maternal_floor_infarction",
+              "label": "Massive Perivillous Fibrin Deposition/Maternal Floor Infarction",
+              "provenance": "abpath",
+              "query": "Massive Perivillous Fibrin Deposition/Maternal Floor Infarction",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::massive_subchorionic_hematoma",
+              "label": "Massive Subchorionic Hematoma",
+              "provenance": "abpath",
+              "query": "Massive Subchorionic Hematoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::sickle_cell_disease",
+              "label": "Sickle Cell Disease",
+              "provenance": "abpath",
+              "query": "Sickle Cell Disease",
               "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::b_massive_subchorionic_hematoma",
-              "label": "b) Massive Subchorionic Hematoma",
-              "provenance": "abpath",
-              "query": "b) Massive Subchorionic Hematoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::c_massive_perivillous_fibrin_deposition_maternal_floor_infarction",
-              "label": "c) Massive Perivillous Fibrin Deposition/Maternal Floor Infarction",
-              "provenance": "abpath",
-              "query": "c) Massive Perivillous Fibrin Deposition/Maternal Floor Infarction",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::maternal_intervillous_space_pathology::d_intervillositis",
-              "label": "d) Intervillositis",
-              "provenance": "abpath",
-              "query": "d) Intervillositis",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -36281,49 +36066,42 @@
         {
           "id": "membrane_pathology",
           "label": "Membrane Pathology",
-          "leaf_count": 6,
+          "leaf_count": 5,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::membrane_pathology::a_meconium",
-              "label": "a) Meconium",
+              "tag": "ABPathSpec::peds::membrane_pathology::amnion_nodosum",
+              "label": "Amnion Nodosum",
               "provenance": "abpath",
-              "query": "a) Meconium",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::membrane_pathology::b_chorioamnionitis",
-              "label": "b) Chorioamnionitis",
-              "provenance": "abpath",
-              "query": "b) Chorioamnionitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::membrane_pathology::c_amnion_nodosum",
-              "label": "c) Amnion Nodosum",
-              "provenance": "abpath",
-              "query": "c) Amnion Nodosum",
+              "query": "Amnion Nodosum",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::membrane_pathology::d_squamous_metaplasia",
-              "label": "d) Squamous Metaplasia",
+              "tag": "ABPathSpec::peds::membrane_pathology::amniotic_bands",
+              "label": "Amniotic Bands",
               "provenance": "abpath",
-              "query": "d) Squamous Metaplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::membrane_pathology::e_maternal_vasculopathy",
-              "label": "e) Maternal Vasculopathy",
-              "provenance": "abpath",
-              "query": "e) Maternal Vasculopathy",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::membrane_pathology::f_amniotic_bands",
-              "label": "f) Amniotic Bands",
-              "provenance": "abpath",
-              "query": "f) Amniotic Bands",
+              "query": "Amniotic Bands",
               "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::peds::membrane_pathology::chorioamnionitis",
+              "label": "Chorioamnionitis",
+              "provenance": "abpath",
+              "query": "Chorioamnionitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::membrane_pathology::meconium",
+              "label": "Meconium",
+              "provenance": "abpath",
+              "query": "Meconium",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::membrane_pathology::squamous_metaplasia",
+              "label": "Squamous Metaplasia",
+              "provenance": "abpath",
+              "query": "Squamous Metaplasia",
+              "abpath_level": "AR"
             }
           ]
         },
@@ -37259,20 +37037,13 @@
         {
           "id": "placental_tumors",
           "label": "Placental Tumors",
-          "leaf_count": 2,
+          "leaf_count": 1,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::placental_tumors::a_chorangioma",
-              "label": "a) Chorangioma",
+              "tag": "ABPathSpec::peds::placental_tumors::chorangioma",
+              "label": "Chorangioma",
               "provenance": "abpath",
-              "query": "a) Chorangioma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::peds::placental_tumors::b_other_including_metastases",
-              "label": "b) Other Including Metastases",
-              "provenance": "abpath",
-              "query": "b) Other Including Metastases",
+              "query": "Chorangioma",
               "abpath_level": "AR"
             }
           ]
@@ -37588,15 +37359,8 @@
         {
           "id": "sex_cord_stromal_tumors",
           "label": "Sex Cord Stromal Tumors",
-          "leaf_count": 3,
+          "leaf_count": 2,
           "leaves": [
-            {
-              "tag": "ABPathSpec::peds::sex_cord_stromal_tumors::granulosa_cell_tumor",
-              "label": "Granulosa Cell Tumor",
-              "provenance": "abpath",
-              "query": "Granulosa Cell Tumor",
-              "abpath_level": "AR"
-            },
             {
               "tag": "ABPathSpec::peds::sex_cord_stromal_tumors::sertoli_leydig_and_sertoli_leydig_tumors",
               "label": "Sertoli, Leydig, and Sertoli-Leydig Tumors",
@@ -38468,67 +38232,67 @@
           "leaf_count": 9,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::a_coiling_abnormalities",
-              "label": "a) Coiling Abnormalities",
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::abnormal_length",
+              "label": "Abnormal Length",
               "provenance": "abpath",
-              "query": "a) Coiling Abnormalities",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::b_knots",
-              "label": "b) Knots",
-              "provenance": "abpath",
-              "query": "b) Knots",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::c_velamentous_insertion_furcate_insertion",
-              "label": "c) Velamentous Insertion/Furcate Insertion",
-              "provenance": "abpath",
-              "query": "c) Velamentous Insertion/Furcate Insertion",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::d_rupture",
-              "label": "d) Rupture",
-              "provenance": "abpath",
-              "query": "d) Rupture",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::e_funisitis",
-              "label": "e) Funisitis",
-              "provenance": "abpath",
-              "query": "e) Funisitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::f_single_umbilical_artery",
-              "label": "f) Single Umbilical Artery",
-              "provenance": "abpath",
-              "query": "f) Single Umbilical Artery",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::g_abnormal_length",
-              "label": "g) Abnormal Length",
-              "provenance": "abpath",
-              "query": "g) Abnormal Length",
+              "query": "Abnormal Length",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::h_vasa_previa",
-              "label": "h) Vasa Previa",
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::coiling_abnormalities",
+              "label": "Coiling Abnormalities",
               "provenance": "abpath",
-              "query": "h) Vasa Previa",
+              "query": "Coiling Abnormalities",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::funisitis",
+              "label": "Funisitis",
+              "provenance": "abpath",
+              "query": "Funisitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::knots",
+              "label": "Knots",
+              "provenance": "abpath",
+              "query": "Knots",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::meconium_injury",
+              "label": "Meconium Injury",
+              "provenance": "abpath",
+              "query": "Meconium Injury",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::peds::umbilical_cord_pathology::i_meconium_injury",
-              "label": "i) Meconium Injury",
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::rupture",
+              "label": "Rupture",
               "provenance": "abpath",
-              "query": "i) Meconium Injury",
+              "query": "Rupture",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::single_umbilical_artery",
+              "label": "Single Umbilical Artery",
+              "provenance": "abpath",
+              "query": "Single Umbilical Artery",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::vasa_previa",
+              "label": "Vasa Previa",
+              "provenance": "abpath",
+              "query": "Vasa Previa",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::peds::umbilical_cord_pathology::velamentous_insertion_furcate_insertion",
+              "label": "Velamentous Insertion/Furcate Insertion",
+              "provenance": "abpath",
+              "query": "Velamentous Insertion/Furcate Insertion",
+              "abpath_level": "C"
             }
           ]
         },
@@ -38748,52 +38512,52 @@
           "leaf_count": 7,
           "leaves": [
             {
-              "tag": "ABPathSpec::peds::villous_pathology::a_infarct",
-              "label": "a) Infarct",
+              "tag": "ABPathSpec::peds::villous_pathology::acute_villitis",
+              "label": "Acute Villitis",
               "provenance": "abpath",
-              "query": "a) Infarct",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::villous_pathology::b_infectious_villitis",
-              "label": "b) Infectious Villitis",
-              "provenance": "abpath",
-              "query": "b) Infectious Villitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::villous_pathology::c_chronic_villitis",
-              "label": "c) Chronic Villitis",
-              "provenance": "abpath",
-              "query": "c) Chronic Villitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::villous_pathology::d_hydrops",
-              "label": "d) Hydrops",
-              "provenance": "abpath",
-              "query": "d) Hydrops",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::peds::villous_pathology::e_villous_maturation_abnormalities_immature_hypermature_and_dysmature_f_chorangiosis",
-              "label": "e) Villous Maturation Abnormalities (Immature, Hypermature, and Dysmature) f) Chorangiosis",
-              "provenance": "abpath",
-              "query": "e) Villous Maturation Abnormalities (Immature, Hypermature, and Dysmature) f) Chorangiosis",
+              "query": "Acute Villitis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::peds::villous_pathology::g_acute_villitis",
-              "label": "g) Acute Villitis",
+              "tag": "ABPathSpec::peds::villous_pathology::chronic_villitis",
+              "label": "Chronic Villitis",
               "provenance": "abpath",
-              "query": "g) Acute Villitis",
+              "query": "Chronic Villitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::villous_pathology::hydrops",
+              "label": "Hydrops",
+              "provenance": "abpath",
+              "query": "Hydrops",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::villous_pathology::infarct",
+              "label": "Infarct",
+              "provenance": "abpath",
+              "query": "Infarct",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::villous_pathology::infectious_villitis",
+              "label": "Infectious Villitis",
+              "provenance": "abpath",
+              "query": "Infectious Villitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::peds::villous_pathology::placental_mesenchymal_dysplasia",
+              "label": "Placental Mesenchymal Dysplasia",
+              "provenance": "abpath",
+              "query": "Placental Mesenchymal Dysplasia",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::peds::villous_pathology::h_placental_mesenchymal_dysplasia",
-              "label": "h) Placental Mesenchymal Dysplasia",
+              "tag": "ABPathSpec::peds::villous_pathology::villous_maturation_abnormalities_immature_hypermature_and_dysmature_f_chorangiosis",
+              "label": "Villous Maturation Abnormalities (Immature, Hypermature, and Dysmature) f) Chorangiosis",
               "provenance": "abpath",
-              "query": "h) Placental Mesenchymal Dysplasia",
+              "query": "Villous Maturation Abnormalities (Immature, Hypermature, and Dysmature) f) Chorangiosis",
               "abpath_level": "F"
             }
           ]
