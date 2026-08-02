@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_4",
-  "generated_at": "2026-08-02T00:04:56.748418+00:00",
+  "generated_at": "2026-08-02T04:06:21.735790+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -10,22 +10,21 @@
   },
   "counts": {
     "abpath_content_spec_terminal_rows": 4455,
-    "abpath_nav_leaves": 3541,
+    "abpath_nav_leaves": 3618,
     "who_nav_leaves_input": 1918,
     "pathout_nav_leaves_input": 2658,
-    "leaves_total": 5247,
-    "leaves_abpath_only": 3354,
+    "leaves_total": 5324,
+    "leaves_abpath_only": 3431,
     "leaves_who_only": 1706,
     "leaves_both": 187,
-    "roots_total": 17,
+    "roots_total": 16,
     "content_spec_rows_skipped": 671,
     "content_spec_rows_dropped_non_diagnosis": 670,
     "parser_warnings": 3,
     "per_root_leaf_counts": {
       "bst": 189,
       "breast": 93,
-      "cardio": 47,
-      "cyto": 420,
+      "cyto": 500,
       "skin": 1021,
       "endo": 91,
       "eye_orbit": 139,
@@ -38,7 +37,7 @@
       "molecular": 57,
       "neuro": 617,
       "peds": 795,
-      "thorax_mediastinum": 159
+      "thorax_mediastinum": 203
     },
     "variant_who_leaves_total": 1916,
     "variant_who_pathout_leaves_total": 3998
@@ -2013,446 +2012,76 @@
       ]
     },
     {
-      "id": "cardio",
-      "label": "Cardiovascular",
-      "kind": "root",
-      "leaf_count": 47,
-      "subcategories": [
-        {
-          "id": "benign",
-          "label": "Benign",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::benign::cardiac_myxoma",
-              "label": "Cardiac myxoma",
-              "provenance": "abpath",
-              "query": "Cardiac myxoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::benign::rhabdomyoma",
-              "label": "Rhabdomyoma",
-              "provenance": "abpath",
-              "query": "Rhabdomyoma",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "cardiac_transplantation",
-          "label": "Cardiac Transplantation",
-          "leaf_count": 2,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::cardiac_transplantation::cardiac_allograft_rejection",
-              "label": "Cardiac allograft rejection",
-              "provenance": "abpath",
-              "query": "Cardiac allograft rejection",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::cardiac_transplantation::pericardial_diseases",
-              "label": "Pericardial diseases",
-              "provenance": "abpath",
-              "query": "Pericardial diseases",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "general",
-          "label": "General",
-          "leaf_count": 8,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::general::atherosclerosis",
-              "label": "Atherosclerosis",
-              "provenance": "abpath",
-              "query": "Atherosclerosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::fibromuscular_dysplasia",
-              "label": "Fibromuscular dysplasia",
-              "provenance": "abpath",
-              "query": "Fibromuscular dysplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::hypertensive_heart_disease",
-              "label": "Hypertensive heart disease",
-              "provenance": "abpath",
-              "query": "Hypertensive heart disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::ischemic_heart_disease",
-              "label": "Ischemic heart disease",
-              "provenance": "abpath",
-              "query": "Ischemic heart disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::medial_calcification_e_g_monckeberg",
-              "label": "Medial calcification (e.g., Monckeberg)",
-              "provenance": "abpath",
-              "query": "Medial calcification (e.g., Monckeberg)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::mycocardial_infarction",
-              "label": "Mycocardial infarction",
-              "provenance": "abpath",
-              "query": "Mycocardial infarction",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::peripheral_aneurysms_and_dissections",
-              "label": "Peripheral aneurysms and dissections",
-              "provenance": "abpath",
-              "query": "Peripheral aneurysms and dissections",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::general::vascular_thrombosis",
-              "label": "Vascular Thrombosis",
-              "provenance": "abpath",
-              "query": "Vascular Thrombosis",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "hereditary_diseases_of_blood_vessels",
-          "label": "Hereditary diseases of blood vessels",
-          "leaf_count": 3,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::hereditary_diseases_of_blood_vessels::ehlers_danlos_syndrome",
-              "label": "Ehlers-Danlos syndrome",
-              "provenance": "abpath",
-              "query": "Ehlers-Danlos syndrome",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::hereditary_diseases_of_blood_vessels::marfan_syndrome",
-              "label": "Marfan syndrome",
-              "provenance": "abpath",
-              "query": "Marfan syndrome",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::hereditary_diseases_of_blood_vessels::non_marfan_familial_aortic_dissection",
-              "label": "Non-Marfan familial aortic dissection",
-              "provenance": "abpath",
-              "query": "Non-Marfan familial aortic dissection",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "inflammatory_cardiomyopathy",
-          "label": "Inflammatory cardiomyopathy",
-          "leaf_count": 9,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::collagen_vascular_disease",
-              "label": "Collagen vascular disease",
-              "provenance": "abpath",
-              "query": "Collagen vascular disease",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::drug_related_myocarditis",
-              "label": "Drug-related myocarditis",
-              "provenance": "abpath",
-              "query": "Drug-related myocarditis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::giant_cell_myocarditis",
-              "label": "Giant cell myocarditis",
-              "provenance": "abpath",
-              "query": "Giant cell myocarditis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::infectious_myocarditis",
-              "label": "Infectious myocarditis",
-              "provenance": "abpath",
-              "query": "Infectious myocarditis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::lymphocytic_myocarditis",
-              "label": "Lymphocytic myocarditis",
-              "provenance": "abpath",
-              "query": "Lymphocytic myocarditis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::peripartum_myocarditis",
-              "label": "Peripartum myocarditis",
-              "provenance": "abpath",
-              "query": "Peripartum myocarditis",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::rheumatic_fever",
-              "label": "Rheumatic fever",
-              "provenance": "abpath",
-              "query": "Rheumatic fever",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::sarcoidosis",
-              "label": "Sarcoidosis",
-              "provenance": "abpath",
-              "query": "Sarcoidosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::inflammatory_cardiomyopathy::toxic_myocarditis",
-              "label": "Toxic myocarditis",
-              "provenance": "abpath",
-              "query": "Toxic myocarditis",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "premalignant_malignant_and_borderline",
-          "label": "Premalignant, Malignant, and Borderline",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::premalignant_malignant_and_borderline::angiosarcoma",
-              "label": "Angiosarcoma",
-              "provenance": "abpath",
-              "query": "Angiosarcoma",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "primary_cardiomyopathy",
-          "label": "Primary cardiomyopathy",
-          "leaf_count": 4,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::primary_cardiomyopathy::arrhythmogenic_right_ventricular_cardiomyopathy_dysplasia",
-              "label": "Arrhythmogenic right ventricular cardiomyopathy/dysplasia",
-              "provenance": "abpath",
-              "query": "Arrhythmogenic right ventricular cardiomyopathy/dysplasia",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::primary_cardiomyopathy::dilated_cardiomyopathy",
-              "label": "Dilated cardiomyopathy",
-              "provenance": "abpath",
-              "query": "Dilated cardiomyopathy",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::primary_cardiomyopathy::hypertrophic_cardiomyopathy",
-              "label": "Hypertrophic cardiomyopathy",
-              "provenance": "abpath",
-              "query": "Hypertrophic cardiomyopathy",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::primary_cardiomyopathy::restrictive_cardiomyopathy",
-              "label": "Restrictive cardiomyopathy",
-              "provenance": "abpath",
-              "query": "Restrictive cardiomyopathy",
-              "abpath_level": "AR"
-            }
-          ]
-        },
-        {
-          "id": "secondary_cardiomyopathy",
-          "label": "Secondary cardiomyopathy",
-          "leaf_count": 7,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::amyloidosis",
-              "label": "Amyloidosis",
-              "provenance": "abpath",
-              "query": "Amyloidosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::anthracycline_cardiotoxicity",
-              "label": "Anthracycline cardiotoxicity",
-              "provenance": "abpath",
-              "query": "Anthracycline cardiotoxicity",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::congenital_heart_disease",
-              "label": "Congenital heart disease",
-              "provenance": "abpath",
-              "query": "Congenital heart disease",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::fabry_disease",
-              "label": "Fabry disease",
-              "provenance": "abpath",
-              "query": "Fabry disease",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::glycogen_storage_disease",
-              "label": "Glycogen storage disease",
-              "provenance": "abpath",
-              "query": "Glycogen storage disease",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::hemochromatosis",
-              "label": "Hemochromatosis",
-              "provenance": "abpath",
-              "query": "Hemochromatosis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::secondary_cardiomyopathy::valve_anomalies",
-              "label": "Valve anomalies",
-              "provenance": "abpath",
-              "query": "Valve anomalies",
-              "abpath_level": "C"
-            }
-          ]
-        },
-        {
-          "id": "vasculitis",
-          "label": "Vasculitis",
-          "leaf_count": 11,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::buerger_disease",
-              "label": "Buerger disease",
-              "provenance": "abpath",
-              "query": "Buerger disease",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::churg_strauss_angiitis",
-              "label": "Churg-Strauss angiitis",
-              "provenance": "abpath",
-              "query": "Churg-Strauss angiitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::giant_cell_arteritis",
-              "label": "Giant cell arteritis",
-              "provenance": "abpath",
-              "query": "Giant cell arteritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::immune_complex_mediated_small_vessel_vasculitis",
-              "label": "Immune complex mediated small vessel vasculitis",
-              "provenance": "abpath",
-              "query": "Immune complex mediated small vessel vasculitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::infectious_endocarditis",
-              "label": "Infectious endocarditis",
-              "provenance": "abpath",
-              "query": "Infectious endocarditis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::kawasaki_disease",
-              "label": "Kawasaki disease",
-              "provenance": "abpath",
-              "query": "Kawasaki disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::microscopic_polyangiitis",
-              "label": "Microscopic polyangiitis",
-              "provenance": "abpath",
-              "query": "Microscopic polyangiitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::non_infectious_endocarditis",
-              "label": "Non-infectious endocarditis",
-              "provenance": "abpath",
-              "query": "Non-infectious endocarditis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::polyarteritis_nodosa",
-              "label": "Polyarteritis nodosa",
-              "provenance": "abpath",
-              "query": "Polyarteritis nodosa",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::takayasu_disease",
-              "label": "Takayasu disease",
-              "provenance": "abpath",
-              "query": "Takayasu disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::cardio::vasculitis::wegener_granulomatosis",
-              "label": "Wegener granulomatosis",
-              "provenance": "abpath",
-              "query": "Wegener granulomatosis",
-              "abpath_level": "AR"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "cyto",
       "label": "Cytopathology",
       "kind": "cyto_aggregate",
-      "leaf_count": 420,
+      "leaf_count": 500,
       "subcategories": [
         {
           "id": "adrenal_cytopathology",
           "label": "Adrenal Cytopathology",
-          "leaf_count": 5,
+          "leaf_count": 10,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::adrenal_cytopathology::general::adrenal_cortical_carcinoma",
+              "tag": "Cyto_Adrenal::Malignant::Adrenal_Cortical_Carcinoma",
               "label": "Adrenal Cortical Carcinoma",
               "provenance": "abpath",
               "query": "Adrenal Cortical Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::adrenal_cytopathology::adrenal_glands::metastatic_tumors_e_g_carcinomas_melanoma",
+              "tag": "Cyto_Adrenal::Category::Atypical",
+              "label": "Adrenal Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Adrenal Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Adrenal::Category::Benign",
+              "label": "Adrenal Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Adrenal Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Adrenal::Category::Malignant",
+              "label": "Adrenal Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Adrenal Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Adrenal::Category::Nondiagnostic",
+              "label": "Adrenal Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Adrenal Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Adrenal::Category::Suspicious_For_Malignancy",
+              "label": "Adrenal Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Adrenal Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Adrenal::Malignant::Metastatic_Tumors_E_G_Carcinomas_Melanoma",
               "label": "Metastatic Tumors (e.g., Carcinomas, Melanoma)",
               "provenance": "abpath",
               "query": "Metastatic Tumors (e.g., Carcinomas, Melanoma)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::adrenal_cytopathology::adrenal_glands::myelolipoma",
+              "tag": "Cyto_Adrenal::Benign::Myelolipoma",
               "label": "Myelolipoma",
               "provenance": "abpath",
               "query": "Myelolipoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::adrenal_cytopathology::tumors_of_the_adrenal_medulla::neuroblastoma",
+              "tag": "Cyto_Adrenal::Malignant::Neuroblastoma",
               "label": "Neuroblastoma",
               "provenance": "abpath",
               "query": "Neuroblastoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::adrenal_cytopathology::tumors_of_the_adrenal_medulla::pheochromocytoma",
+              "tag": "Cyto_Adrenal::Benign::Pheochromocytoma",
               "label": "Pheochromocytoma",
               "provenance": "abpath",
               "query": "Pheochromocytoma",
@@ -2463,10 +2092,10 @@
         {
           "id": "bone_soft_tissue_cytopathology",
           "label": "Bone / Soft Tissue Cytopathology",
-          "leaf_count": 97,
+          "leaf_count": 102,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::abscess",
+              "tag": "Cyto_Soft_Tissue::Benign::Abscess",
               "label": "Abscess",
               "provenance": "abpath",
               "query": "Abscess",
@@ -2485,14 +2114,14 @@
               "query": "Alveolar Soft Part Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::amyloidoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Amyloidoma",
               "label": "Amyloidoma",
               "provenance": "abpath",
               "query": "Amyloidoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::aneurysmal_bone_cyst",
+              "tag": "Cyto_Soft_Tissue::Benign::Aneurysmal_Bone_Cyst",
               "label": "Aneurysmal Bone Cyst",
               "provenance": "abpath",
               "query": "Aneurysmal Bone Cyst",
@@ -2505,21 +2134,51 @@
               "query": "Angiomatoid Fibrous Histiocytoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::infections::bacterial_and_mycobacterial",
+              "tag": "Cyto_Soft_Tissue::Benign::Bacterial_And_Mycobacterial",
               "label": "Bacterial and Mycobacterial",
               "provenance": "abpath",
               "query": "Bacterial and Mycobacterial",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_neoplasms::chondrosarcoma",
+              "tag": "Cyto_Soft_Tissue::Category::Atypical",
+              "label": "Bone / Soft Tissue Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Bone / Soft Tissue Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Soft_Tissue::Category::Benign",
+              "label": "Bone / Soft Tissue Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Bone / Soft Tissue Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Soft_Tissue::Category::Malignant",
+              "label": "Bone / Soft Tissue Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Bone / Soft Tissue Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Soft_Tissue::Category::Nondiagnostic",
+              "label": "Bone / Soft Tissue Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Bone / Soft Tissue Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Soft_Tissue::Category::Suspicious_For_Malignancy",
+              "label": "Bone / Soft Tissue Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Bone / Soft Tissue Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Soft_Tissue::Malignant::Chondrosarcoma",
               "label": "Chondrosarcoma",
               "provenance": "abpath",
               "query": "Chondrosarcoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_neoplasms::chordoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Chordoma",
               "label": "Chordoma",
               "provenance": "both",
               "query": "Chordoma",
@@ -2568,7 +2227,7 @@
               "query": "Embryonal Rhabdomyosarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::endometriosis",
+              "tag": "Cyto_Soft_Tissue::Benign::Endometriosis",
               "label": "Endometriosis",
               "provenance": "abpath",
               "query": "Endometriosis",
@@ -2581,7 +2240,7 @@
               "query": "Entity Not Found As Leaf cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::epidermal_inclusion_cysts",
+              "tag": "Cyto_Soft_Tissue::Benign::Epidermal_Inclusion_Cysts",
               "label": "Epidermal Inclusion Cysts",
               "provenance": "abpath",
               "query": "Epidermal Inclusion Cysts",
@@ -2606,14 +2265,14 @@
               "query": "Ewing Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_neoplasms::ewings_pnet",
+              "tag": "Cyto_Soft_Tissue::Benign::Ewings_PNET",
               "label": "Ewings/PNET",
               "provenance": "abpath",
               "query": "Ewings/PNET",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::extramedullary_hematopoiesis",
+              "tag": "Cyto_Soft_Tissue::Benign::Extramedullary_Hematopoiesis",
               "label": "Extramedullary Hematopoiesis",
               "provenance": "abpath",
               "query": "Extramedullary Hematopoiesis",
@@ -2626,14 +2285,14 @@
               "query": "Extrarenal Rhabdoid Tumour cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::extraskeletal_myxoid_chondrosarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Extraskeletal_Myxoid_Chondrosarcoma",
               "label": "Extraskeletal Myxoid Chondrosarcoma",
               "provenance": "both",
               "query": "Extraskeletal Myxoid Chondrosarcoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::fat_necrosis",
+              "tag": "Cyto_Soft_Tissue::Benign::Fat_Necrosis",
               "label": "Fat Necrosis",
               "provenance": "both",
               "query": "Fat Necrosis",
@@ -2646,28 +2305,28 @@
               "query": "Fibromatosis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::foreign_body_reaction",
+              "tag": "Cyto_Soft_Tissue::Benign::Foreign_Body_Reaction",
               "label": "Foreign-Body Reaction",
               "provenance": "abpath",
               "query": "Foreign-Body Reaction",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::infections::fungal",
+              "tag": "Cyto_Soft_Tissue::Benign::Fungal",
               "label": "Fungal",
               "provenance": "abpath",
               "query": "Fungal",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::ganglion_cyst",
+              "tag": "Cyto_Soft_Tissue::Benign::Ganglion_Cyst",
               "label": "Ganglion Cyst",
               "provenance": "both",
               "query": "Ganglion Cyst",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::ganglioneuroma",
+              "tag": "Cyto_Soft_Tissue::Benign::Ganglioneuroma",
               "label": "Ganglioneuroma",
               "provenance": "abpath",
               "query": "Ganglioneuroma",
@@ -2680,14 +2339,14 @@
               "query": "Gastrointestinal Stromal Tumour cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::giant_cell_tumor",
+              "tag": "Cyto_Soft_Tissue::Benign::Giant_Cell_Tumor",
               "label": "Giant Cell Tumor",
               "provenance": "abpath",
               "query": "Giant Cell Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::giant_cell_tumor_of_tendon_sheath",
+              "tag": "Cyto_Soft_Tissue::Benign::Giant_Cell_Tumor_Of_Tendon_Sheath",
               "label": "Giant Cell Tumor of Tendon Sheath",
               "provenance": "abpath",
               "query": "Giant Cell Tumor of Tendon Sheath",
@@ -2700,7 +2359,7 @@
               "query": "Glomus Tumour cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::granular_cell_tumor",
+              "tag": "Cyto_Soft_Tissue::Benign::Granular_Cell_Tumor",
               "label": "Granular Cell Tumor",
               "provenance": "abpath",
               "query": "Granular Cell Tumor",
@@ -2725,7 +2384,7 @@
               "query": "Haemangiomas cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::hematopoietic_neoplasms_and_lymphoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Hematopoietic_Neoplasms_And_Lymphoma",
               "label": "Hematopoietic Neoplasms and Lymphoma",
               "provenance": "abpath",
               "query": "Hematopoietic Neoplasms and Lymphoma",
@@ -2762,7 +2421,7 @@
               "query": "Intimal Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::intramuscular_myxoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Intramuscular_Myxoma",
               "label": "Intramuscular Myxoma",
               "provenance": "abpath",
               "query": "Intramuscular Myxoma",
@@ -2787,14 +2446,14 @@
               "query": "Kaposi Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::hematopoietic_neoplasms::langerhans_cell_histiocytosis_eosinophilic_granuloma",
+              "tag": "Cyto_Soft_Tissue::Benign::Langerhans_Cell_Histiocytosis_Eosinophilic_Granuloma",
               "label": "Langerhans Cell Histiocytosis / Eosinophilic Granuloma",
               "provenance": "abpath",
               "query": "Langerhans Cell Histiocytosis / Eosinophilic Granuloma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::leiomyoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Leiomyoma",
               "label": "Leiomyoma",
               "provenance": "both",
               "query": "Leiomyoma",
@@ -2813,7 +2472,7 @@
               "query": "Lipoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::lipomas",
+              "tag": "Cyto_Soft_Tissue::Benign::Lipomas",
               "label": "Lipomas",
               "provenance": "abpath",
               "query": "Lipomas",
@@ -2832,28 +2491,28 @@
               "query": "Malignant Melanotic Nerve Sheath Tumour cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_and_atypical_borderline_neoplasms::melanoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Melanoma",
               "label": "Melanoma",
               "provenance": "abpath",
               "query": "Melanoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_and_atypical_borderline_neoplasms::merkel_cell_carcinoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Merkel_Cell_Carcinoma",
               "label": "Merkel Cell Carcinoma",
               "provenance": "abpath",
               "query": "Merkel Cell Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::metastatic_carcinoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Metastatic_Carcinoma",
               "label": "Metastatic Carcinoma",
               "provenance": "abpath",
               "query": "Metastatic Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::hematopoietic_neoplasms::myeloid_neoplasms",
+              "tag": "Cyto_Soft_Tissue::Benign::Myeloid_Neoplasms",
               "label": "Myeloid Neoplasms",
               "provenance": "abpath",
               "query": "Myeloid Neoplasms",
@@ -2872,7 +2531,7 @@
               "query": "Myofibroblastoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::myositis_ossificans",
+              "tag": "Cyto_Soft_Tissue::Benign::Myositis_Ossificans",
               "label": "Myositis Ossificans",
               "provenance": "both",
               "query": "Myositis Ossificans",
@@ -2885,7 +2544,7 @@
               "query": "Myxofibrosarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::myxoid_liposarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Myxoid_Liposarcoma",
               "label": "Myxoid Liposarcoma",
               "provenance": "both",
               "query": "Myxoid Liposarcoma",
@@ -2904,35 +2563,35 @@
               "query": "Neuroblastic Tumours cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::neurofibroma",
+              "tag": "Cyto_Soft_Tissue::Benign::Neurofibroma",
               "label": "Neurofibroma",
               "provenance": "both",
               "query": "Neurofibroma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::neuroma",
+              "tag": "Cyto_Soft_Tissue::Benign::Neuroma",
               "label": "Neuroma",
               "provenance": "abpath",
               "query": "Neuroma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::nodular_fasciitis",
+              "tag": "Cyto_Soft_Tissue::Benign::Nodular_Fasciitis",
               "label": "Nodular Fasciitis",
               "provenance": "both",
               "query": "Nodular Fasciitis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::hematopoietic_neoplasms::non_hodgkin_lymphoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Non_Hodgkin_Lymphoma",
               "label": "Non-Hodgkin Lymphoma",
               "provenance": "abpath",
               "query": "Non-Hodgkin Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::malignant_neoplasms::osteosarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Osteosarcoma",
               "label": "Osteosarcoma",
               "provenance": "abpath",
               "query": "Osteosarcoma",
@@ -2951,21 +2610,21 @@
               "query": "Perineurioma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::pilomatrixoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Pilomatrixoma",
               "label": "Pilomatrixoma",
               "provenance": "abpath",
               "query": "Pilomatrixoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::hematopoietic_neoplasms::plasma_cell_neoplasm",
+              "tag": "Cyto_Soft_Tissue::Benign::Plasma_Cell_Neoplasm",
               "label": "Plasma Cell Neoplasm",
               "provenance": "abpath",
               "query": "Plasma Cell Neoplasm",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::pleomorphic_liposarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Pleomorphic_Liposarcoma",
               "label": "Pleomorphic Liposarcoma",
               "provenance": "both",
               "query": "Pleomorphic Liposarcoma",
@@ -2978,21 +2637,21 @@
               "query": "Pleomorphic Rhabdomyosarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::rhabdomyoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Rhabdomyoma",
               "label": "Rhabdomyoma",
               "provenance": "both",
               "query": "Rhabdomyoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::rhabdomyosarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Rhabdomyosarcoma",
               "label": "Rhabdomyosarcoma",
               "provenance": "abpath",
               "query": "Rhabdomyosarcoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::round_cell_liposarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Round_Cell_Liposarcoma",
               "label": "Round Cell Liposarcoma",
               "provenance": "abpath",
               "query": "Round Cell Liposarcoma",
@@ -3005,7 +2664,7 @@
               "query": "Sarcoma With BCOR Genetic Alterations cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::schwannoma",
+              "tag": "Cyto_Soft_Tissue::Benign::Schwannoma",
               "label": "Schwannoma",
               "provenance": "both",
               "query": "Schwannoma",
@@ -3024,7 +2683,7 @@
               "query": "Soft Tissue Metastases cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::benign_neoplasms::solitary_fibrous_tumor",
+              "tag": "Cyto_Soft_Tissue::Benign::Solitary_Fibrous_Tumor",
               "label": "Solitary Fibrous Tumor",
               "provenance": "abpath",
               "query": "Solitary Fibrous Tumor",
@@ -3055,7 +2714,7 @@
               "query": "STNUMP Category Definition And Criteria cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::synovial_sarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Synovial_Sarcoma",
               "label": "Synovial Sarcoma",
               "provenance": "both",
               "query": "Synovial Sarcoma",
@@ -3068,14 +2727,14 @@
               "query": "Tenosynovial Giant Cell Tumour cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::reactive_inflammatory_non_infectious::tumoral_calcinosis",
+              "tag": "Cyto_Soft_Tissue::Benign::Tumoral_Calcinosis",
               "label": "Tumoral Calcinosis",
               "provenance": "abpath",
               "query": "Tumoral Calcinosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::undifferentiated_sarcoma",
+              "tag": "Cyto_Soft_Tissue::Malignant::Undifferentiated_Sarcoma",
               "label": "Undifferentiated Sarcoma",
               "provenance": "abpath",
               "query": "Undifferentiated Sarcoma",
@@ -3088,7 +2747,7 @@
               "query": "Undifferentiated Pleomorphic Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::bone_soft_tissue_cytopathology::liposarcomas::well_differentiated_atypical_lipomatous_tumors",
+              "tag": "Cyto_Soft_Tissue::Atypical::Well_Differentiated_Atypical_Lipomatous_Tumors",
               "label": "Well-Differentiated / Atypical Lipomatous Tumors",
               "provenance": "abpath",
               "query": "Well-Differentiated / Atypical Lipomatous Tumors",
@@ -3099,94 +2758,124 @@
         {
           "id": "breast_cytopathology",
           "label": "Breast Cytopathology",
-          "leaf_count": 13,
+          "leaf_count": 18,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::inflammatory_and_reactive_changes::acute_mastitis_and_abscesses",
+              "tag": "Cyto_Breast::Benign::Acute_Mastitis_And_Abscesses",
               "label": "Acute Mastitis and Abscesses",
               "provenance": "abpath",
               "query": "Acute Mastitis and Abscesses",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::ductal_carcinoma",
+              "tag": "Cyto_Breast::Category::Atypical",
+              "label": "Breast Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Breast Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Breast::Category::Benign",
+              "label": "Breast Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Breast Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Breast::Category::Malignant",
+              "label": "Breast Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Breast Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Breast::Category::Nondiagnostic",
+              "label": "Breast Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Breast Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Breast::Category::Suspicious_For_Malignancy",
+              "label": "Breast Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Breast Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Breast::Malignant::Ductal_Carcinoma",
               "label": "Ductal Carcinoma",
               "provenance": "abpath",
               "query": "Ductal Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::fibroepithelial_lesions::fibroadenomas",
+              "tag": "Cyto_Breast::Benign::Fibroadenomas",
               "label": "Fibroadenomas",
               "provenance": "abpath",
               "query": "Fibroadenomas",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::fibrocystic_changes_cysts_and_adenomas",
+              "tag": "Cyto_Breast::Benign::Fibrocystic_Changes_Cysts_And_Adenomas",
               "label": "Fibrocystic Changes, Cysts and Adenomas",
               "provenance": "abpath",
               "query": "Fibrocystic Changes, Cysts and Adenomas",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::inflammatory_and_reactive_changes::granulomatous_inflammation",
+              "tag": "Cyto_Breast::Benign::Granulomatous_Inflammation",
               "label": "Granulomatous Inflammation",
               "provenance": "both",
               "query": "Granulomatous Inflammation",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::inflammatory_and_reactive_changes::gynecomastia",
+              "tag": "Cyto_Breast::Benign::Gynecomastia",
               "label": "Gynecomastia",
               "provenance": "abpath",
               "query": "Gynecomastia",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::lobular_carcinoma",
+              "tag": "Cyto_Breast::Malignant::Lobular_Carcinoma",
               "label": "Lobular Carcinoma",
               "provenance": "abpath",
               "query": "Lobular Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::mesenchymal_neoplasms",
+              "tag": "Cyto_Breast::Benign::Mesenchymal_Neoplasms",
               "label": "Mesenchymal Neoplasms",
               "provenance": "abpath",
               "query": "Mesenchymal Neoplasms",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::metastatic_neoplasms",
+              "tag": "Cyto_Breast::Malignant::Metastatic_Neoplasms",
               "label": "Metastatic Neoplasms",
               "provenance": "abpath",
               "query": "Metastatic Neoplasms",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::papillary_lesions",
+              "tag": "Cyto_Breast::Benign::Papillary_Lesions",
               "label": "Papillary Lesions",
               "provenance": "abpath",
               "query": "Papillary Lesions",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::fibroepithelial_lesions::phyllodes_tumors",
+              "tag": "Cyto_Breast::Benign::Phyllodes_Tumors",
               "label": "Phyllodes Tumors",
               "provenance": "abpath",
               "query": "Phyllodes Tumors",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::breast_and_nipple::pregnancy_and_lactational_changes",
+              "tag": "Cyto_Breast::Benign::Pregnancy_And_Lactational_Changes",
               "label": "Pregnancy and Lactational Changes",
               "provenance": "abpath",
               "query": "Pregnancy and Lactational Changes",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::breast_cytopathology::adenocarcinomas::reporting_and_management_guidelines",
+              "tag": "Cyto_Breast::Benign::Reporting_And_Management_Guidelines",
               "label": "Reporting and Management Guidelines",
               "provenance": "abpath",
               "query": "Reporting and Management Guidelines",
@@ -3197,108 +2886,138 @@
         {
           "id": "cns_eye_cytopathology",
           "label": "CNS / Eye Cytopathology",
-          "leaf_count": 15,
+          "leaf_count": 20,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::normal_constituents_and_contaminants::bone_marrow_contamination",
+              "tag": "Cyto_CNS_Eye::Benign::Bone_Marrow_Contamination",
               "label": "Bone Marrow Contamination",
               "provenance": "abpath",
               "query": "Bone Marrow Contamination",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::melanoma::cns",
+              "tag": "Cyto_CNS_Eye::Benign::CNS",
               "label": "CNS",
               "provenance": "abpath",
               "query": "CNS",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::hematopoietic_malignancies::cns_large_cell_lymphoma",
+              "tag": "Cyto_CNS_Eye::Category::Atypical",
+              "label": "CNS / Eye Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "CNS / Eye Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_CNS_Eye::Category::Benign",
+              "label": "CNS / Eye Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "CNS / Eye Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_CNS_Eye::Category::Malignant",
+              "label": "CNS / Eye Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "CNS / Eye Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_CNS_Eye::Category::Nondiagnostic",
+              "label": "CNS / Eye Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "CNS / Eye Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_CNS_Eye::Category::Suspicious_For_Malignancy",
+              "label": "CNS / Eye Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "CNS / Eye Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_CNS_Eye::Malignant::CNS_Large_Cell_Lymphoma",
               "label": "CNS Large Cell Lymphoma",
               "provenance": "abpath",
               "query": "CNS Large Cell Lymphoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::reactive_reparative::ependymoma",
+              "tag": "Cyto_CNS_Eye::Benign::Ependymoma",
               "label": "Ependymoma",
               "provenance": "abpath",
               "query": "Ependymoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::melanoma::eye",
+              "tag": "Cyto_CNS_Eye::Benign::Eye",
               "label": "Eye",
               "provenance": "abpath",
               "query": "Eye",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::cns_and_eye_i_e_other_than_csf::glioblastoma",
+              "tag": "Cyto_CNS_Eye::Malignant::Glioblastoma",
               "label": "Glioblastoma",
               "provenance": "abpath",
               "query": "Glioblastoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::hematopoietic_malignancies::large_cell_lymphoma",
+              "tag": "Cyto_CNS_Eye::Malignant::Large_Cell_Lymphoma",
               "label": "Large Cell Lymphoma",
               "provenance": "abpath",
               "query": "Large Cell Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::cns_and_eye_i_e_other_than_csf::meningioma_hemangiopericytoma",
+              "tag": "Cyto_CNS_Eye::Benign::Meningioma_Hemangiopericytoma",
               "label": "Meningioma & Hemangiopericytoma",
               "provenance": "abpath",
               "query": "Meningioma & Hemangiopericytoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::melanoma::metastatic_carcinomas",
+              "tag": "Cyto_CNS_Eye::Malignant::Metastatic_Carcinomas",
               "label": "Metastatic Carcinomas",
               "provenance": "abpath",
               "query": "Metastatic Carcinomas",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::normal_constituents_and_contaminants::neural_and_germinal_matrix_elements",
+              "tag": "Cyto_CNS_Eye::Benign::Neural_And_Germinal_Matrix_Elements",
               "label": "Neural and Germinal Matrix Elements",
               "provenance": "abpath",
               "query": "Neural and Germinal Matrix Elements",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::hematopoietic_malignancies::precursor_lymphoid_e_g_all_lymphoblastic",
+              "tag": "Cyto_CNS_Eye::Benign::Precursor_Lymphoid_E_G_ALL_Lymphoblastic",
               "label": "Precursor Lymphoid (e.g., ALL, Lymphoblastic)",
               "provenance": "abpath",
               "query": "Precursor Lymphoid (e.g., ALL, Lymphoblastic)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::general::prion_disease_handling",
+              "tag": "Cyto_CNS_Eye::Benign::Prion_Disease_Handling",
               "label": "Prion Disease Handling",
               "provenance": "abpath",
               "query": "Prion Disease Handling",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::reactive_reparative::reactive_pleocytosis_e_g_mollaret",
+              "tag": "Cyto_CNS_Eye::Benign::Reactive_Pleocytosis_E_G_Mollaret",
               "label": "Reactive Pleocytosis (e.g., Mollaret)",
               "provenance": "abpath",
               "query": "Reactive Pleocytosis (e.g., Mollaret)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::reactive_reparative::shunt_and_foreign_body_reactions",
+              "tag": "Cyto_CNS_Eye::Benign::Shunt_And_Foreign_Body_Reactions",
               "label": "Shunt and Foreign Body Reactions",
               "provenance": "abpath",
               "query": "Shunt and Foreign Body Reactions",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::cns_eye_cytopathology::hematopoietic_malignancies::vitreous_hematopoietic_neoplasms",
+              "tag": "Cyto_CNS_Eye::Benign::Vitreous_Hematopoietic_Neoplasms",
               "label": "Vitreous Hematopoietic Neoplasms",
               "provenance": "abpath",
               "query": "Vitreous Hematopoietic Neoplasms",
@@ -3309,150 +3028,180 @@
         {
           "id": "effusion_serous_synovial_fluid_cytopathology",
           "label": "Effusion / Serous & Synovial Fluid Cytopathology",
-          "leaf_count": 21,
+          "leaf_count": 26,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::reactive::autoimmune_e_g_rheumatoid_lupus",
+              "tag": "Cyto_Fluid::Benign::Autoimmune_E_G_Rheumatoid_Lupus",
               "label": "Autoimmune (e.g., Rheumatoid, Lupus)",
               "provenance": "abpath",
               "query": "Autoimmune (e.g., Rheumatoid, Lupus)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::breast_primary",
+              "tag": "Cyto_Fluid::Benign::Breast_Primary",
               "label": "Breast Primary",
               "provenance": "abpath",
               "query": "Breast Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::normal_cytology::collagen_balls",
+              "tag": "Cyto_Fluid::Benign::Collagen_Balls",
               "label": "Collagen Balls",
               "provenance": "abpath",
               "query": "Collagen Balls",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::reactive::effusions_e_g_metabolic_cirrhosis_and_renal_failure_associated",
+              "tag": "Cyto_Fluid::Category::Atypical",
+              "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Fluid::Category::Benign",
+              "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Fluid::Category::Malignant",
+              "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Fluid::Category::Nondiagnostic",
+              "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Fluid::Category::Suspicious_For_Malignancy",
+              "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Fluid::Benign::Effusions_E_G_Metabolic_Cirrhosis_And_Renal_Failure_Associated",
               "label": "Effusions (e.g., Metabolic: Cirrhosis and Renal Failure-Associated)",
               "provenance": "abpath",
               "query": "Effusions (e.g., Metabolic: Cirrhosis and Renal Failure-Associated)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::endometrial_primary",
+              "tag": "Cyto_Fluid::Benign::Endometrial_Primary",
               "label": "Endometrial Primary",
               "provenance": "abpath",
               "query": "Endometrial Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::reactive::endometriosis_and_endosalpingiosis",
+              "tag": "Cyto_Fluid::Benign::Endometriosis_And_Endosalpingiosis",
               "label": "Endometriosis and Endosalpingiosis",
               "provenance": "abpath",
               "query": "Endometriosis and Endosalpingiosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::reactive::endosalpingiosis",
+              "tag": "Cyto_Fluid::Benign::Endosalpingiosis",
               "label": "Endosalpingiosis",
               "provenance": "abpath",
               "query": "Endosalpingiosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::gi_primary",
+              "tag": "Cyto_Fluid::Benign::GI_Primary",
               "label": "GI Primary",
               "provenance": "abpath",
               "query": "GI Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::non_neoplastic_and_inflammatory_conditions::gout",
+              "tag": "Cyto_Fluid::Benign::Gout",
               "label": "Gout",
               "provenance": "abpath",
               "query": "Gout",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::gynecologic_primary",
+              "tag": "Cyto_Fluid::Benign::Gynecologic_Primary",
               "label": "Gynecologic Primary",
               "provenance": "abpath",
               "query": "Gynecologic Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::hematopoietic_including_primary_effusion_lymphoma",
+              "tag": "Cyto_Fluid::Malignant::Hematopoietic_Including_Primary_Effusion_Lymphoma",
               "label": "Hematopoietic including Primary Effusion Lymphoma",
               "provenance": "abpath",
               "query": "Hematopoietic including Primary Effusion Lymphoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::normal_cytology::leukocytes_and_macrophages",
+              "tag": "Cyto_Fluid::Benign::Leukocytes_And_Macrophages",
               "label": "Leukocytes and Macrophages",
               "provenance": "abpath",
               "query": "Leukocytes and Macrophages",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::lung_primary",
+              "tag": "Cyto_Fluid::Benign::Lung_Primary",
               "label": "Lung Primary",
               "provenance": "abpath",
               "query": "Lung Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::ovarian_m_llerian_tubal_primary",
+              "tag": "Cyto_Fluid::Benign::Ovarian_M_Llerian_Tubal_Primary",
               "label": "Ovarian / Müllerian/Tubal Primary",
               "provenance": "abpath",
               "query": "Ovarian / Müllerian/Tubal Primary",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::malignant::primary_pleural_e_g_mesothelioma",
+              "tag": "Cyto_Fluid::Benign::Primary_Pleural_E_G_Mesothelioma",
               "label": "Primary Pleural (e.g., Mesothelioma)",
               "provenance": "abpath",
               "query": "Primary Pleural (e.g., Mesothelioma)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::non_neoplastic_and_inflammatory_conditions::pseudogout",
+              "tag": "Cyto_Fluid::Benign::Pseudogout",
               "label": "Pseudogout",
               "provenance": "abpath",
               "query": "Pseudogout",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::pseudomyxoma_peritonei",
+              "tag": "Cyto_Fluid::Benign::Pseudomyxoma_Peritonei",
               "label": "Pseudomyxoma Peritonei",
               "provenance": "abpath",
               "query": "Pseudomyxoma Peritonei",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::metastatic_adenocarcinoma::reporting",
+              "tag": "Cyto_Fluid::Benign::Reporting",
               "label": "Reporting",
               "provenance": "abpath",
               "query": "Reporting",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::non_neoplastic_and_inflammatory_conditions::rheumatoid_arthritis",
+              "tag": "Cyto_Fluid::Benign::Rheumatoid_Arthritis",
               "label": "Rheumatoid Arthritis",
               "provenance": "abpath",
               "query": "Rheumatoid Arthritis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::non_neoplastic_and_inflammatory_conditions::trauma_associated",
+              "tag": "Cyto_Fluid::Benign::Trauma_Associated",
               "label": "Trauma Associated",
               "provenance": "abpath",
               "query": "Trauma Associated",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::effusion_serous_synovial_fluid_cytopathology::non_neoplastic_and_inflammatory_conditions::villonodular_synovitis",
+              "tag": "Cyto_Fluid::Benign::Villonodular_Synovitis",
               "label": "Villonodular Synovitis",
               "provenance": "abpath",
               "query": "Villonodular Synovitis",
@@ -3463,59 +3212,89 @@
         {
           "id": "gastrointestinal_cytopathology",
           "label": "Gastrointestinal Cytopathology",
-          "leaf_count": 8,
+          "leaf_count": 13,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::primary_neoplasms::diffuse_e_g_signet_ring_linitis_plastica",
+              "tag": "Cyto_GI::Benign::Diffuse_E_G_Signet_Ring_Linitis_Plastica",
               "label": "Diffuse (e.g., Signet Ring, Linitis Plastica)",
               "provenance": "abpath",
               "query": "Diffuse (e.g., Signet Ring, Linitis Plastica)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::gastric_cytopathology::endoscopic_fna",
+              "tag": "Cyto_GI::Benign::Endoscopic_FNA",
               "label": "Endoscopic -FNA",
               "provenance": "abpath",
               "query": "Endoscopic -FNA",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::primary_neoplasms::gastrointestinal_stromal_tumor",
+              "tag": "Cyto_GI::Category::Atypical",
+              "label": "Gastrointestinal Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Gastrointestinal Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_GI::Category::Benign",
+              "label": "Gastrointestinal Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Gastrointestinal Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_GI::Category::Malignant",
+              "label": "Gastrointestinal Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Gastrointestinal Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_GI::Category::Nondiagnostic",
+              "label": "Gastrointestinal Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Gastrointestinal Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_GI::Category::Suspicious_For_Malignancy",
+              "label": "Gastrointestinal Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Gastrointestinal Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_GI::Benign::Gastrointestinal_Stromal_Tumor",
               "label": "Gastrointestinal Stromal Tumor",
               "provenance": "abpath",
               "query": "Gastrointestinal Stromal Tumor",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::gastric_cytopathology::indications",
+              "tag": "Cyto_GI::Benign::Indications",
               "label": "Indications",
               "provenance": "abpath",
               "query": "Indications",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::primary_neoplasms::intestinal_type",
+              "tag": "Cyto_GI::Benign::Intestinal_Type",
               "label": "Intestinal Type",
               "provenance": "abpath",
               "query": "Intestinal Type",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::primary_neoplasms::metaplastic_and_preneoplastic_changes_e_g_dysplasia_barrett_esophagus",
+              "tag": "Cyto_GI::Benign::Metaplastic_And_Preneoplastic_Changes_E_G_Dysplasia_Barrett_Esophagus",
               "label": "Metaplastic and Preneoplastic Changes (e.g., Dysplasia, Barrett Esophagus)",
               "provenance": "abpath",
               "query": "Metaplastic and Preneoplastic Changes (e.g., Dysplasia, Barrett Esophagus)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::primary_neoplasms::smooth_muscle_tumors",
+              "tag": "Cyto_GI::Benign::Smooth_Muscle_Tumors",
               "label": "Smooth Muscle Tumors",
               "provenance": "abpath",
               "query": "Smooth Muscle Tumors",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gastrointestinal_cytopathology::infections::viral_e_g_herpes_cmv",
+              "tag": "Cyto_GI::Benign::Viral_E_G_Herpes_CMV",
               "label": "Viral (e.g., Herpes, CMV)",
               "provenance": "abpath",
               "query": "Viral (e.g., Herpes, CMV)",
@@ -3526,157 +3305,217 @@
         {
           "id": "general_cytopathology_techniques_qa",
           "label": "General Cytopathology Techniques & QA",
-          "leaf_count": 1,
+          "leaf_count": 6,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::general_cytopathology_techniques_qa::instrumentation_computers_capital_equipment::acquisition",
+              "tag": "Cyto_General::Benign::Acquisition",
               "label": "Acquisition",
               "provenance": "abpath",
               "query": "Acquisition",
               "abpath_level": "F"
+            },
+            {
+              "tag": "Cyto_General::Category::Atypical",
+              "label": "General Cytopathology Techniques & QA Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "General Cytopathology Techniques & QA Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_General::Category::Benign",
+              "label": "General Cytopathology Techniques & QA Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "General Cytopathology Techniques & QA Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_General::Category::Malignant",
+              "label": "General Cytopathology Techniques & QA Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "General Cytopathology Techniques & QA Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_General::Category::Nondiagnostic",
+              "label": "General Cytopathology Techniques & QA Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "General Cytopathology Techniques & QA Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_General::Category::Suspicious_For_Malignancy",
+              "label": "General Cytopathology Techniques & QA Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "General Cytopathology Techniques & QA Reporting Category: Suspicious For Malignancy"
             }
           ]
         },
         {
           "id": "genitourinary_urinary_tract_cytopathology",
           "label": "Genitourinary / Urinary Tract Cytopathology",
-          "leaf_count": 20,
+          "leaf_count": 25,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::benign_neoplasms::angiomyolipoma",
+              "tag": "Cyto_GU::Benign::Angiomyolipoma",
               "label": "Angiomyolipoma",
               "provenance": "abpath",
               "query": "Angiomyolipoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::primary_malignancy_of_the_urinary_tract_paris_system::atypical_urothelial_cells_auc",
+              "tag": "Cyto_GU::Atypical::Atypical_Urothelial_Cells_AUC",
               "label": "Atypical Urothelial Cells (AUC)",
               "provenance": "abpath",
               "query": "Atypical Urothelial Cells (AUC)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::infections::bacterial_e_g_renal_abscess_malakoplakia",
+              "tag": "Cyto_GU::Benign::Bacterial_E_G_Renal_Abscess_Malakoplakia",
               "label": "Bacterial (e.g., Renal Abscess, Malakoplakia)",
               "provenance": "abpath",
               "query": "Bacterial (e.g., Renal Abscess, Malakoplakia)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::infections::cast_and_crystals",
+              "tag": "Cyto_GU::Benign::Cast_And_Crystals",
               "label": "Cast and Crystals",
               "provenance": "abpath",
               "query": "Cast and Crystals",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::chromophobe_renal_cell_carcinoma",
+              "tag": "Cyto_GU::Malignant::Chromophobe_Renal_Cell_Carcinoma",
               "label": "Chromophobe Renal Cell Carcinoma",
               "provenance": "abpath",
               "query": "Chromophobe Renal Cell Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::clear_cell_renal_cell_carcinoma",
+              "tag": "Cyto_GU::Malignant::Clear_Cell_Renal_Cell_Carcinoma",
               "label": "Clear Cell Renal Cell Carcinoma",
               "provenance": "abpath",
               "query": "Clear Cell Renal Cell Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::infections::cystitis_cystica_and_metaplasia",
+              "tag": "Cyto_GU::Benign::Cystitis_Cystica_And_Metaplasia",
               "label": "Cystitis Cystica and Metaplasia",
               "provenance": "abpath",
               "query": "Cystitis Cystica and Metaplasia",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::infections::drug_and_therapy_changes",
+              "tag": "Cyto_GU::Benign::Drug_And_Therapy_Changes",
               "label": "Drug and Therapy Changes",
               "provenance": "abpath",
               "query": "Drug and Therapy Changes",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::hematopoietic_neoplasms",
+              "tag": "Cyto_GU::Category::Atypical",
+              "label": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_GU::Category::Benign",
+              "label": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_GU::Category::Malignant",
+              "label": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_GU::Category::Nondiagnostic",
+              "label": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_GU::Category::Suspicious_For_Malignancy",
+              "label": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Genitourinary / Urinary Tract Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_GU::Benign::Hematopoietic_Neoplasms",
               "label": "Hematopoietic Neoplasms",
               "provenance": "abpath",
               "query": "Hematopoietic Neoplasms",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::primary_malignancy_of_the_urinary_tract_paris_system::high_grade_urothelial_carcinoma",
+              "tag": "Cyto_GU::Malignant::High_Grade_Urothelial_Carcinoma",
               "label": "High Grade Urothelial Carcinoma",
               "provenance": "abpath",
               "query": "High Grade Urothelial Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::normal_cytology_contamination_elements::intestinal_epithelium_e_g_ileal_bladder",
+              "tag": "Cyto_GU::Benign::Intestinal_Epithelium_E_G_Ileal_Bladder",
               "label": "Intestinal Epithelium (e.g., Ileal Bladder)",
               "provenance": "abpath",
               "query": "Intestinal Epithelium (e.g., Ileal Bladder)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::primary_malignancy_of_the_urinary_tract_paris_system::low_grade_urothelial_neoplasm_lgun",
+              "tag": "Cyto_GU::Benign::Low_Grade_Urothelial_Neoplasm_LGUN",
               "label": "Low Grade Urothelial Neoplasm (LGUN)",
               "provenance": "abpath",
               "query": "Low Grade Urothelial Neoplasm (LGUN)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::malignant_pediatric_renal_tumors_e_g_wilms_tumor_nephroblastoma",
+              "tag": "Cyto_GU::Malignant::Malignant_Pediatric_Renal_Tumors_E_G_Wilms_Tumor_Nephroblastoma",
               "label": "Malignant Pediatric Renal Tumors (e.g., Wilms Tumor [Nephroblastoma])",
               "provenance": "abpath",
               "query": "Malignant Pediatric Renal Tumors (e.g., Wilms Tumor [Nephroblastoma])",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::medullary_carcinoma",
+              "tag": "Cyto_GU::Malignant::Medullary_Carcinoma",
               "label": "Medullary Carcinoma",
               "provenance": "abpath",
               "query": "Medullary Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::infections::mycobacterial",
+              "tag": "Cyto_GU::Benign::Mycobacterial",
               "label": "Mycobacterial",
               "provenance": "abpath",
               "query": "Mycobacterial",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::primary_malignancy_of_the_urinary_tract_paris_system::negative_for_high_grade_urothelial_carcinoma_nhguc",
+              "tag": "Cyto_GU::Malignant::Negative_For_High_Grade_Urothelial_Carcinoma_NHGUC",
               "label": "Negative for High Grade Urothelial Carcinoma (NHGUC)",
               "provenance": "abpath",
               "query": "Negative for High Grade Urothelial Carcinoma (NHGUC)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::benign_neoplasms::oncocytoma",
+              "tag": "Cyto_GU::Benign::Oncocytoma",
               "label": "Oncocytoma",
               "provenance": "abpath",
               "query": "Oncocytoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::papillary_renal_cell_carcinoma",
+              "tag": "Cyto_GU::Malignant::Papillary_Renal_Cell_Carcinoma",
               "label": "Papillary Renal Cell Carcinoma",
               "provenance": "abpath",
               "query": "Papillary Renal Cell Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::primary_malignancy_of_the_urinary_tract_paris_system::suspicious_for_high_grade_urothelial_carcinoma_shguc",
+              "tag": "Cyto_GU::Malignant::Suspicious_For_High_Grade_Urothelial_Carcinoma_SHGUC",
               "label": "Suspicious for High Grade Urothelial Carcinoma (SHGUC)",
               "provenance": "abpath",
               "query": "Suspicious for High Grade Urothelial Carcinoma (SHGUC)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::genitourinary_urinary_tract_cytopathology::malignant_tumors_of_the_renal_parenchyma::urothelial_carcinoma_of_the_renal_pelvis",
+              "tag": "Cyto_GU::Malignant::Urothelial_Carcinoma_Of_The_Renal_Pelvis",
               "label": "Urothelial Carcinoma of the Renal Pelvis",
               "provenance": "abpath",
               "query": "Urothelial Carcinoma of the Renal Pelvis",
@@ -3687,164 +3526,194 @@
         {
           "id": "gynecologic_cytopathology",
           "label": "Gynecologic Cytopathology",
-          "leaf_count": 23,
+          "leaf_count": 28,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::squamous_intraepithelial_lesions_sil::adenocarcinoma_endometrial_endocervical",
+              "tag": "Cyto_GYN::Malignant::Adenocarcinoma_Endometrial_Endocervical",
               "label": "Adenocarcinoma: Endometrial & Endocervical",
               "provenance": "abpath",
               "query": "Adenocarcinoma: Endometrial & Endocervical",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::atypical_squamous_cells::asc_h",
+              "tag": "Cyto_GYN::Benign::ASC_H",
               "label": "ASC-H",
               "provenance": "abpath",
               "query": "ASC-H",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::atypical_squamous_cells::asc_us",
+              "tag": "Cyto_GYN::Benign::ASC_US",
               "label": "ASC-US",
               "provenance": "abpath",
               "query": "ASC-US",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::atrophic_vaginitis_atrophy",
+              "tag": "Cyto_GYN::Benign::Atrophic_Vaginitis_Atrophy",
               "label": "Atrophic Vaginitis & Atrophy",
               "provenance": "abpath",
               "query": "Atrophic Vaginitis & Atrophy",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::squamous_intraepithelial_lesions_sil::atypical_glandular_cells",
+              "tag": "Cyto_GYN::Atypical::Atypical_Glandular_Cells",
               "label": "Atypical Glandular Cells",
               "provenance": "abpath",
               "query": "Atypical Glandular Cells",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::ovarian_cysts::benign_e_g_corpus_luteal_endometriotic",
+              "tag": "Cyto_GYN::Benign::Benign_E_G_Corpus_Luteal_Endometriotic",
               "label": "Benign (e.g., Corpus luteal, Endometriotic)",
               "provenance": "abpath",
               "query": "Benign (e.g., Corpus luteal, Endometriotic)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::endometrial_cells::directly_sampled_lower_uterine_segment",
+              "tag": "Cyto_GYN::Benign::Directly_Sampled_Lower_Uterine_Segment",
               "label": "Directly Sampled Lower Uterine Segment",
               "provenance": "abpath",
               "query": "Directly Sampled Lower Uterine Segment",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::squamous_intraepithelial_lesions_sil::endocervical_ais",
+              "tag": "Cyto_GYN::Benign::Endocervical_AIS",
               "label": "Endocervical AIS",
               "provenance": "abpath",
               "query": "Endocervical AIS",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::infections::fungi_e_g_candida",
+              "tag": "Cyto_GYN::Benign::Fungi_E_G_Candida",
               "label": "Fungi (e.g., Candida)",
               "provenance": "abpath",
               "query": "Fungi (e.g., Candida)",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::hpv_biology_and_cancer_pathogenesis::hpv_vaccine",
+              "tag": "Cyto_GYN::Category::Atypical",
+              "label": "Gynecologic Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Gynecologic Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_GYN::Category::Benign",
+              "label": "Gynecologic Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Gynecologic Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_GYN::Category::Malignant",
+              "label": "Gynecologic Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Gynecologic Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_GYN::Category::Nondiagnostic",
+              "label": "Gynecologic Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Gynecologic Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_GYN::Category::Suspicious_For_Malignancy",
+              "label": "Gynecologic Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Gynecologic Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_GYN::Benign::HPV_Vaccine",
               "label": "HPV Vaccine",
               "provenance": "abpath",
               "query": "HPV Vaccine",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::sil::hsil",
+              "tag": "Cyto_GYN::Benign::HSIL",
               "label": "HSIL",
               "provenance": "abpath",
               "query": "HSIL",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::iud_changes",
+              "tag": "Cyto_GYN::Benign::IUD_Changes",
               "label": "IUD Changes",
               "provenance": "abpath",
               "query": "IUD Changes",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::sil::lsil",
+              "tag": "Cyto_GYN::Benign::LSIL",
               "label": "LSIL",
               "provenance": "abpath",
               "query": "LSIL",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::lymphocytic_follicular_cervicitis",
+              "tag": "Cyto_GYN::Benign::Lymphocytic_Follicular_Cervicitis",
               "label": "Lymphocytic / Follicular Cervicitis",
               "provenance": "abpath",
               "query": "Lymphocytic / Follicular Cervicitis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::metaplastic_processes_transitional",
+              "tag": "Cyto_GYN::Benign::Metaplastic_Processes_Transitional",
               "label": "Metaplastic Processes (Transitional)",
               "provenance": "abpath",
               "query": "Metaplastic Processes (Transitional)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::squamous_intraepithelial_lesions_sil::metastatic_rare_malignancies",
+              "tag": "Cyto_GYN::Malignant::Metastatic_Rare_Malignancies",
               "label": "Metastatic & Rare Malignancies",
               "provenance": "abpath",
               "query": "Metastatic & Rare Malignancies",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::general::metastatic_and_other_malignancies_e_g_melanoma",
+              "tag": "Cyto_GYN::Malignant::Metastatic_And_Other_Malignancies_E_G_Melanoma",
               "label": "Metastatic and Other Malignancies (e.g., Melanoma)",
               "provenance": "abpath",
               "query": "Metastatic and Other Malignancies (e.g., Melanoma)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::squamous_intraepithelial_lesions_sil::patient_management_guidelines",
+              "tag": "Cyto_GYN::Benign::Patient_Management_Guidelines",
               "label": "Patient Management Guidelines",
               "provenance": "abpath",
               "query": "Patient Management Guidelines",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::radiation_and_chemotherapy_changes",
+              "tag": "Cyto_GYN::Benign::Radiation_And_Chemotherapy_Changes",
               "label": "Radiation and Chemotherapy Changes",
               "provenance": "abpath",
               "query": "Radiation and Chemotherapy Changes",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::reactive_glandular_processes",
+              "tag": "Cyto_GYN::Benign::Reactive_Glandular_Processes",
               "label": "Reactive Glandular Processes",
               "provenance": "abpath",
               "query": "Reactive Glandular Processes",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::other_lower_anogenital_tract_men_women_e_g_anal_vulvar::reactive_reparative",
+              "tag": "Cyto_GYN::Benign::Reactive_Reparative",
               "label": "Reactive/Reparative",
               "provenance": "abpath",
               "query": "Reactive/Reparative",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::sil::squamous_carcinoma",
+              "tag": "Cyto_GYN::Malignant::Squamous_Carcinoma",
               "label": "Squamous Carcinoma",
               "provenance": "abpath",
               "query": "Squamous Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::gynecologic_cytopathology::reactive_reparative::tubal_metaplasia",
+              "tag": "Cyto_GYN::Benign::Tubal_Metaplasia",
               "label": "Tubal Metaplasia",
               "provenance": "abpath",
               "query": "Tubal Metaplasia",
@@ -3855,66 +3724,96 @@
         {
           "id": "head_and_neck_cytopathology",
           "label": "Head and Neck Cytopathology",
-          "leaf_count": 9,
+          "leaf_count": 14,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::mesenchymal_tumors_also_see_soft_tissue_section::ameloblastoma",
+              "tag": "Cyto_HN::Malignant::Ameloblastoma",
               "label": "Ameloblastoma",
               "provenance": "abpath",
               "query": "Ameloblastoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::developmental_anomalies::branchial_cleft_cyst",
+              "tag": "Cyto_HN::Benign::Branchial_Cleft_Cyst",
               "label": "Branchial Cleft Cyst",
               "provenance": "abpath",
               "query": "Branchial Cleft Cyst",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::epithelial_tumors::hpv_related",
+              "tag": "Cyto_HN::Category::Atypical",
+              "label": "Head and Neck Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Head and Neck Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_HN::Category::Benign",
+              "label": "Head and Neck Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Head and Neck Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_HN::Category::Malignant",
+              "label": "Head and Neck Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Head and Neck Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_HN::Category::Nondiagnostic",
+              "label": "Head and Neck Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Head and Neck Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_HN::Category::Suspicious_For_Malignancy",
+              "label": "Head and Neck Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Head and Neck Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_HN::Benign::HPV_Related",
               "label": "HPV-Related",
               "provenance": "abpath",
               "query": "HPV-Related",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::mesenchymal_tumors_also_see_soft_tissue_section::meningioma",
+              "tag": "Cyto_HN::Benign::Meningioma",
               "label": "Meningioma",
               "provenance": "abpath",
               "query": "Meningioma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::epithelial_tumors::nasopharyngeal_carcinoma",
+              "tag": "Cyto_HN::Malignant::Nasopharyngeal_Carcinoma",
               "label": "Nasopharyngeal Carcinoma",
               "provenance": "abpath",
               "query": "Nasopharyngeal Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::mesenchymal_tumors_also_see_soft_tissue_section::nerve_sheath_tumor",
+              "tag": "Cyto_HN::Benign::Nerve_Sheath_Tumor",
               "label": "Nerve Sheath Tumor",
               "provenance": "abpath",
               "query": "Nerve Sheath Tumor",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::epithelial_tumors::non_hpv_related",
+              "tag": "Cyto_HN::Benign::Non_HPV_Related",
               "label": "Non-HPV Related",
               "provenance": "abpath",
               "query": "Non-HPV Related",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::epithelial_tumors::squamous_cell_carcinoma_and_variants",
+              "tag": "Cyto_HN::Malignant::Squamous_Cell_Carcinoma_And_Variants",
               "label": "Squamous Cell Carcinoma and Variants",
               "provenance": "abpath",
               "query": "Squamous Cell Carcinoma and Variants",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::head_and_neck_cytopathology::developmental_anomalies::thyroglossal_duct_cyst",
+              "tag": "Cyto_HN::Benign::Thyroglossal_Duct_Cyst",
               "label": "Thyroglossal Duct Cyst",
               "provenance": "abpath",
               "query": "Thyroglossal Duct Cyst",
@@ -3925,7 +3824,7 @@
         {
           "id": "hematolymphoid_cytopathology",
           "label": "Hematolymphoid Cytopathology",
-          "leaf_count": 50,
+          "leaf_count": 55,
           "leaves": [
             {
               "tag": "Cyto_Heme::Benign::Inflammatory::Acute_Inflammation",
@@ -3958,7 +3857,7 @@
               "query": "Breast Implant Associated ALCL cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::burkitt_lymphoma",
+              "tag": "Cyto_Heme::Malignant::Burkitt_Lymphoma",
               "label": "Burkitt Lymphoma",
               "provenance": "both",
               "query": "Burkitt Lymphoma",
@@ -3977,7 +3876,7 @@
               "query": "CLL SLL cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::follicular_lymphoma",
+              "tag": "Cyto_Heme::Malignant::Follicular_Lymphoma",
               "label": "Follicular Lymphoma",
               "provenance": "both",
               "query": "Follicular Lymphoma",
@@ -3990,11 +3889,41 @@
               "query": "Follicular Dendritic Cell Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::granulomatous",
+              "tag": "Cyto_Heme::Benign::Granulomatous",
               "label": "Granulomatous",
               "provenance": "abpath",
               "query": "Granulomatous",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "Cyto_Heme::Category::Atypical",
+              "label": "Hematolymphoid Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Hematolymphoid Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Heme::Category::Benign",
+              "label": "Hematolymphoid Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Hematolymphoid Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Heme::Category::Malignant",
+              "label": "Hematolymphoid Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Hematolymphoid Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Heme::Category::Nondiagnostic",
+              "label": "Hematolymphoid Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Hematolymphoid Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Heme::Category::Suspicious_For_Malignancy",
+              "label": "Hematolymphoid Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Hematolymphoid Cytopathology Reporting Category: Suspicious For Malignancy"
             },
             {
               "tag": "Cyto_Heme::Malignant::Splenic::Hepatosplenic_T_Cell_Lymphoma",
@@ -4003,7 +3932,7 @@
               "query": "Hepatosplenic T Cell Lymphoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::metastatic_neoplasms::histiocytic_and_dendritic_cells_e_g_rosai_dorfman_disease",
+              "tag": "Cyto_Heme::Benign::Histiocytic_And_Dendritic_Cells_E_G_Rosai_Dorfman_Disease",
               "label": "Histiocytic and Dendritic Cells (e.g., Rosai-Dorfman Disease)",
               "provenance": "abpath",
               "query": "Histiocytic and Dendritic Cells (e.g., Rosai-Dorfman Disease)",
@@ -4016,7 +3945,7 @@
               "query": "Histiocytic Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::hodgkin_lymphoma",
+              "tag": "Cyto_Heme::Malignant::Hodgkin_Lymphoma",
               "label": "Hodgkin Lymphoma",
               "provenance": "abpath",
               "query": "Hodgkin Lymphoma",
@@ -4041,7 +3970,7 @@
               "query": "Interdigitating Dendritic Cell Sarcoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::large_cell_i_e_diffuse_large_b_cell",
+              "tag": "Cyto_Heme::Benign::Large_Cell_I_E_Diffuse_Large_B_Cell",
               "label": "Large Cell (i.e., Diffuse Large B-Cell)",
               "provenance": "abpath",
               "query": "Large Cell (i.e., Diffuse Large B-Cell)",
@@ -4066,7 +3995,7 @@
               "query": "Lymphomatoid Granulomatosis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::lymphoplasmacytic",
+              "tag": "Cyto_Heme::Benign::Lymphoplasmacytic",
               "label": "Lymphoplasmacytic",
               "provenance": "abpath",
               "query": "Lymphoplasmacytic",
@@ -4085,14 +4014,14 @@
               "query": "Malignant Category Definition And Criteria cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::mantle_cell_lymphoma",
+              "tag": "Cyto_Heme::Malignant::Mantle_Cell_Lymphoma",
               "label": "Mantle Cell Lymphoma",
               "provenance": "both",
               "query": "Mantle Cell Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::marginal_zone_lymphoma",
+              "tag": "Cyto_Heme::Malignant::Marginal_Zone_Lymphoma",
               "label": "Marginal Zone Lymphoma",
               "provenance": "both",
               "query": "Marginal Zone Lymphoma",
@@ -4147,7 +4076,7 @@
               "query": "Peripheral T Cell Lymphoma NOS cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::precursor_lymphoid_i_e_lymphoblastic_both_t_and_b_cell",
+              "tag": "Cyto_Heme::Benign::Precursor_Lymphoid_I_E_Lymphoblastic_Both_T_And_B_Cell",
               "label": "Precursor Lymphoid (i.e., Lymphoblastic), Both T- and B-Cell",
               "provenance": "abpath",
               "query": "Precursor Lymphoid (i.e., Lymphoblastic), Both T- and B-Cell",
@@ -4172,7 +4101,7 @@
               "query": "Prominent Plasmacytosis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::small_lymphocytic_chronic_lymphocytic",
+              "tag": "Cyto_Heme::Benign::Small_Lymphocytic_Chronic_Lymphocytic",
               "label": "Small Lymphocytic/Chronic Lymphocytic",
               "provenance": "abpath",
               "query": "Small Lymphocytic/Chronic Lymphocytic",
@@ -4197,7 +4126,7 @@
               "query": "Suspicious Category Definition And Criteria cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::infections_reactive_changes_inflammatory::t_cell_and_nk_cell",
+              "tag": "Cyto_Heme::Benign::T_Cell_And_NK_Cell",
               "label": "T-Cell and NK Cell",
               "provenance": "abpath",
               "query": "T-Cell and NK Cell",
@@ -4228,7 +4157,7 @@
               "query": "Thymomas cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hematolymphoid_cytopathology::metastatic_neoplasms::vascular_neoplasms_e_g_kaposi_sarcoma",
+              "tag": "Cyto_Heme::Malignant::Vascular_Neoplasms_E_G_Kaposi_Sarcoma",
               "label": "Vascular Neoplasms (e.g., Kaposi Sarcoma)",
               "provenance": "abpath",
               "query": "Vascular Neoplasms (e.g., Kaposi Sarcoma)",
@@ -4245,31 +4174,31 @@
         {
           "id": "hepatobiliary_pancreatic_cytopathology",
           "label": "Hepatobiliary / Pancreatic Cytopathology",
-          "leaf_count": 53,
+          "leaf_count": 58,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::malignant_neoplasms::acinar_cell_carcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Acinar_Cell_Carcinoma",
               "label": "Acinar Cell Carcinoma",
               "provenance": "abpath",
               "query": "Acinar Cell Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::reactive_and_non_neoplastic_cysts::acute_pancreatitis",
+              "tag": "Cyto_Pancreatobiliary::Benign::Acute_Pancreatitis",
               "label": "Acute Pancreatitis",
               "provenance": "both",
               "query": "Acute Pancreatitis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::malignancies::adenocarcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Adenocarcinoma",
               "label": "Adenocarcinoma",
               "provenance": "abpath",
               "query": "Adenocarcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::angiosarcoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Angiosarcoma",
               "label": "Angiosarcoma",
               "provenance": "both",
               "query": "Angiosarcoma",
@@ -4306,7 +4235,7 @@
               "query": "Biliary IPN Low Grade cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::cholangiocarcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Cholangiocarcinoma",
               "label": "Cholangiocarcinoma",
               "provenance": "both",
               "query": "Cholangiocarcinoma",
@@ -4319,7 +4248,7 @@
               "query": "Cholangitis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::reactive_and_non_neoplastic_cysts::chronic_pancreatitis_including_autoimmune",
+              "tag": "Cyto_Pancreatobiliary::Benign::Chronic_Pancreatitis_Including_Autoimmune",
               "label": "Chronic Pancreatitis, including Autoimmune",
               "provenance": "abpath",
               "query": "Chronic Pancreatitis, including Autoimmune",
@@ -4332,28 +4261,28 @@
               "query": "Chronic Pancreatitis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::pancreatic_cytopathology::cyst_fluid_chemical_analysis",
+              "tag": "Cyto_Pancreatobiliary::Benign::Cyst_Fluid_Chemical_Analysis",
               "label": "Cyst Fluid Chemical Analysis",
               "provenance": "abpath",
               "query": "Cyst Fluid Chemical Analysis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::pancreatic_neuroendocrine_tumors_pannet_well_and_poorly::differentiated",
+              "tag": "Cyto_Pancreatobiliary::Benign::Differentiated",
               "label": "Differentiated",
               "provenance": "abpath",
               "query": "Differentiated",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::fibrolamellar_carcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Fibrolamellar_Carcinoma",
               "label": "Fibrolamellar Carcinoma",
               "provenance": "abpath",
               "query": "Fibrolamellar Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::liver_cytopathology::fungal_infections",
+              "tag": "Cyto_Pancreatobiliary::Benign::Fungal_Infections",
               "label": "Fungal Infections",
               "provenance": "abpath",
               "query": "Fungal Infections",
@@ -4366,28 +4295,58 @@
               "query": "Groove Paraduodenal Pancreatitis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::liver_neoplasms::hemangioma",
+              "tag": "Cyto_Pancreatobiliary::Benign::Hemangioma",
               "label": "Hemangioma",
               "provenance": "abpath",
               "query": "Hemangioma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::liver_neoplasms::hepatic_adenoma",
+              "tag": "Cyto_Pancreatobiliary::Benign::Hepatic_Adenoma",
               "label": "Hepatic Adenoma",
               "provenance": "abpath",
               "query": "Hepatic Adenoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::hepatoblastoma",
+              "tag": "Cyto_Pancreatobiliary::Category::Atypical",
+              "label": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Pancreatobiliary::Category::Benign",
+              "label": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Pancreatobiliary::Category::Malignant",
+              "label": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Pancreatobiliary::Category::Nondiagnostic",
+              "label": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Pancreatobiliary::Category::Suspicious_For_Malignancy",
+              "label": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Hepatobiliary / Pancreatic Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Pancreatobiliary::Malignant::Hepatoblastoma",
               "label": "Hepatoblastoma",
               "provenance": "abpath",
               "query": "Hepatoblastoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::hepatocellular_carcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Hepatocellular_Carcinoma",
               "label": "Hepatocellular Carcinoma",
               "provenance": "abpath",
               "query": "Hepatocellular Carcinoma",
@@ -4400,14 +4359,14 @@
               "query": "High Grade Neoplsm Category Definition And Criteria cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::biliary_cytopathology::infections_e_g_bacterial_fungal",
+              "tag": "Cyto_Pancreatobiliary::Benign::Infections_E_G_Bacterial_Fungal",
               "label": "Infections (e.g., Bacterial, Fungal)",
               "provenance": "abpath",
               "query": "Infections (e.g., Bacterial, Fungal)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::mucin_producing_neoplasms::intraductal_papillary_mucinous_neoplasm_ipmn",
+              "tag": "Cyto_Pancreatobiliary::Benign::Intraductal_Papillary_Mucinous_Neoplasm_IPMN",
               "label": "Intraductal Papillary Mucinous Neoplasm (IPMN)",
               "provenance": "abpath",
               "query": "Intraductal Papillary Mucinous Neoplasm (IPMN)",
@@ -4444,7 +4403,7 @@
               "query": "Metastases To Pancreas cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::mucin_producing_neoplasms::mucinous_cystic_neoplasm_mcn",
+              "tag": "Cyto_Pancreatobiliary::Benign::Mucinous_Cystic_Neoplasm_MCN",
               "label": "Mucinous Cystic Neoplasm (MCN)",
               "provenance": "abpath",
               "query": "Mucinous Cystic Neoplasm (MCN)",
@@ -4481,7 +4440,7 @@
               "query": "Normal Parenchyma And Contaminants cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::malignant_neoplasms::pancreatic_ductal_adenocarcinoma",
+              "tag": "Cyto_Pancreatobiliary::Malignant::Pancreatic_Ductal_Adenocarcinoma",
               "label": "Pancreatic Ductal Adenocarcinoma",
               "provenance": "both",
               "query": "Pancreatic Ductal Adenocarcinoma",
@@ -4530,14 +4489,14 @@
               "query": "Pancreatoblastoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::liver_cytopathology::parasitic_infections_e_g_amoeba_and_echinococcus",
+              "tag": "Cyto_Pancreatobiliary::Benign::Parasitic_Infections_E_G_Amoeba_And_Echinococcus",
               "label": "Parasitic Infections (e.g., Amoeba and Echinococcus)",
               "provenance": "abpath",
               "query": "Parasitic Infections (e.g., Amoeba and Echinococcus)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::reactive_and_non_neoplastic_cysts::pseudocyst",
+              "tag": "Cyto_Pancreatobiliary::Benign::Pseudocyst",
               "label": "Pseudocyst",
               "provenance": "abpath",
               "query": "Pseudocyst",
@@ -4550,28 +4509,28 @@
               "query": "Pseudocysts cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::primary_liver_carcinomas::reactive_and_non_neoplastic_disorders",
+              "tag": "Cyto_Pancreatobiliary::Benign::Reactive_And_Non_Neoplastic_Disorders",
               "label": "Reactive and Non-Neoplastic Disorders",
               "provenance": "abpath",
               "query": "Reactive and Non-Neoplastic Disorders",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::biliary_cytopathology::reactive_changes",
+              "tag": "Cyto_Pancreatobiliary::Benign::Reactive_Changes",
               "label": "Reactive Changes",
               "provenance": "abpath",
               "query": "Reactive Changes",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::mucin_producing_neoplasms::serous_cystadenoma",
+              "tag": "Cyto_Pancreatobiliary::Benign::Serous_Cystadenoma",
               "label": "Serous Cystadenoma",
               "provenance": "both",
               "query": "Serous Cystadenoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::pancreatic_neuroendocrine_tumors_pannet_well_and_poorly::solid_pseudopapillary_neoplasms",
+              "tag": "Cyto_Pancreatobiliary::Benign::Solid_Pseudopapillary_Neoplasms",
               "label": "Solid Pseudopapillary Neoplasms",
               "provenance": "abpath",
               "query": "Solid Pseudopapillary Neoplasms",
@@ -4584,7 +4543,7 @@
               "query": "Solid Pseudopapillary Neoplasm cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::hepatobiliary_pancreatic_cytopathology::reactive_and_non_neoplastic_cysts::splenule_accessory_spleen",
+              "tag": "Cyto_Pancreatobiliary::Benign::Splenule_Accessory_Spleen",
               "label": "Splenule / Accessory Spleen",
               "provenance": "both",
               "query": "Splenule / Accessory Spleen",
@@ -4595,101 +4554,131 @@
         {
           "id": "mediastinum_retroperitoneum_cytopathology",
           "label": "Mediastinum / Retroperitoneum Cytopathology",
-          "leaf_count": 14,
+          "leaf_count": 19,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::metastatic_tumors::carcinomas",
+              "tag": "Cyto_Mediastinum::Malignant::Carcinomas",
               "label": "Carcinomas",
               "provenance": "abpath",
               "query": "Carcinomas",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::cysts_including_developmental_cysts",
+              "tag": "Cyto_Mediastinum::Benign::Cysts_Including_Developmental_Cysts",
               "label": "Cysts, including Developmental Cysts",
               "provenance": "abpath",
               "query": "Cysts, including Developmental Cysts",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::mediastinum_and_retroperitoneum::ectopic_tissue_e_g_thyroid_thymus_ganglion_cells",
+              "tag": "Cyto_Mediastinum::Benign::Ectopic_Tissue_E_G_Thyroid_Thymus_Ganglion_Cells",
               "label": "Ectopic Tissue (e.g., Thyroid, Thymus, Ganglion Cells)",
               "provenance": "abpath",
               "query": "Ectopic Tissue (e.g., Thyroid, Thymus, Ganglion Cells)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::germ_cell_tumors::mixed_and_other_germ_cell_tumors",
+              "tag": "Cyto_Mediastinum::Category::Atypical",
+              "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Mediastinum::Category::Benign",
+              "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Mediastinum::Category::Malignant",
+              "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Mediastinum::Category::Nondiagnostic",
+              "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Mediastinum::Category::Suspicious_For_Malignancy",
+              "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Mediastinum::Benign::Mixed_And_Other_Germ_Cell_Tumors",
               "label": "Mixed and Other Germ Cell Tumors",
               "provenance": "abpath",
               "query": "Mixed and Other Germ Cell Tumors",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::nerve_sheath_tumors_e_g_schwannoma_neurofibroma",
+              "tag": "Cyto_Mediastinum::Benign::Nerve_Sheath_Tumors_E_G_Schwannoma_Neurofibroma",
               "label": "Nerve Sheath Tumors (e.g., Schwannoma, Neurofibroma)",
               "provenance": "abpath",
               "query": "Nerve Sheath Tumors (e.g., Schwannoma, Neurofibroma)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::neural_tumors",
+              "tag": "Cyto_Mediastinum::Benign::Neural_Tumors",
               "label": "Neural Tumors",
               "provenance": "abpath",
               "query": "Neural Tumors",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::neuroblastoma_and_ganglioneuroma",
+              "tag": "Cyto_Mediastinum::Malignant::Neuroblastoma_And_Ganglioneuroma",
               "label": "Neuroblastoma and Ganglioneuroma",
               "provenance": "abpath",
               "query": "Neuroblastoma and Ganglioneuroma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::paraganglioma",
+              "tag": "Cyto_Mediastinum::Benign::Paraganglioma",
               "label": "Paraganglioma",
               "provenance": "both",
               "query": "Paraganglioma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::metastatic_tumors::sarcomas",
+              "tag": "Cyto_Mediastinum::Malignant::Sarcomas",
               "label": "Sarcomas",
               "provenance": "abpath",
               "query": "Sarcomas",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::germ_cell_tumors::seminomas",
+              "tag": "Cyto_Mediastinum::Benign::Seminomas",
               "label": "Seminomas",
               "provenance": "abpath",
               "query": "Seminomas",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::germ_cell_tumors::teratomas",
+              "tag": "Cyto_Mediastinum::Benign::Teratomas",
               "label": "Teratomas",
               "provenance": "abpath",
               "query": "Teratomas",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::thymic_carcinoma",
+              "tag": "Cyto_Mediastinum::Malignant::Thymic_Carcinoma",
               "label": "Thymic Carcinoma",
               "provenance": "abpath",
               "query": "Thymic Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::thymic_neoplasms",
+              "tag": "Cyto_Mediastinum::Benign::Thymic_Neoplasms",
               "label": "Thymic Neoplasms",
               "provenance": "abpath",
               "query": "Thymic Neoplasms",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::mediastinum_retroperitoneum_cytopathology::infections::thymoma",
+              "tag": "Cyto_Mediastinum::Benign::Thymoma",
               "label": "Thymoma",
               "provenance": "abpath",
               "query": "Thymoma",
@@ -4700,150 +4689,180 @@
         {
           "id": "salivary_gland_cytopathology",
           "label": "Salivary Gland Cytopathology",
-          "leaf_count": 21,
+          "leaf_count": 26,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::acinic_cell_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Acinic_Cell_Carcinoma",
               "label": "Acinic Cell Carcinoma",
               "provenance": "abpath",
               "query": "Acinic Cell Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::reactive_and_or_inflammatory_diseases::acute_and_chronic_sialadenitis_sialolithiasis",
+              "tag": "Cyto_Salivary::Benign::Acute_And_Chronic_Sialadenitis_Sialolithiasis",
               "label": "Acute and Chronic Sialadenitis, Sialolithiasis",
               "provenance": "abpath",
               "query": "Acute and Chronic Sialadenitis, Sialolithiasis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::adenoid_cystic_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Adenoid_Cystic_Carcinoma",
               "label": "Adenoid Cystic Carcinoma",
               "provenance": "abpath",
               "query": "Adenoid Cystic Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::basal_cell_adenoma_basal_cell_adenocarcinoma",
+              "tag": "Cyto_Salivary::Malignant::Basal_Cell_Adenoma_Basal_Cell_Adenocarcinoma",
               "label": "Basal Cell Adenoma/ Basal Cell Adenocarcinoma",
               "provenance": "abpath",
               "query": "Basal Cell Adenoma/ Basal Cell Adenocarcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::carcinoma_ex_pleomorphic_adenoma",
+              "tag": "Cyto_Salivary::Malignant::Carcinoma_Ex_Pleomorphic_Adenoma",
               "label": "Carcinoma Ex Pleomorphic Adenoma",
               "provenance": "abpath",
               "query": "Carcinoma Ex Pleomorphic Adenoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::epithelial_myoepithelial_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Epithelial_Myoepithelial_Carcinoma",
               "label": "Epithelial Myoepithelial Carcinoma",
               "provenance": "abpath",
               "query": "Epithelial Myoepithelial Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::hematopoietic_diseases_and_lymphoma",
+              "tag": "Cyto_Salivary::Malignant::Hematopoietic_Diseases_And_Lymphoma",
               "label": "Hematopoietic Diseases and Lymphoma",
               "provenance": "abpath",
               "query": "Hematopoietic Diseases and Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::non_neoplastic_tumor_like_conditions::intraparotid_lymph_node",
+              "tag": "Cyto_Salivary::Benign::Intraparotid_Lymph_Node",
               "label": "Intraparotid Lymph Node",
               "provenance": "abpath",
               "query": "Intraparotid Lymph Node",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::non_neoplastic_tumor_like_conditions::lymphoepithelial_cyst",
+              "tag": "Cyto_Salivary::Benign::Lymphoepithelial_Cyst",
               "label": "Lymphoepithelial Cyst",
               "provenance": "both",
               "query": "Lymphoepithelial Cyst",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::management",
+              "tag": "Cyto_Salivary::Benign::Management",
               "label": "Management",
               "provenance": "abpath",
               "query": "Management",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::mesenchymal_tumors_e_g_angiosarcoma_nerve_sheath_tumors",
+              "tag": "Cyto_Salivary::Malignant::Mesenchymal_Tumors_E_G_Angiosarcoma_Nerve_Sheath_Tumors",
               "label": "Mesenchymal Tumors (e.g., Angiosarcoma, Nerve Sheath Tumors)",
               "provenance": "abpath",
               "query": "Mesenchymal Tumors (e.g., Angiosarcoma, Nerve Sheath Tumors)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::mucoepidermoid_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Mucoepidermoid_Carcinoma",
               "label": "Mucoepidermoid Carcinoma",
               "provenance": "abpath",
               "query": "Mucoepidermoid Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::myoepithelioma_myoepithelial_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Myoepithelioma_Myoepithelial_Carcinoma",
               "label": "Myoepithelioma/ Myoepithelial Carcinoma",
               "provenance": "abpath",
               "query": "Myoepithelioma/ Myoepithelial Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::onchocytoma_onchocytosis",
+              "tag": "Cyto_Salivary::Benign::Onchocytoma_Onchocytosis",
               "label": "Onchocytoma / Onchocytosis",
               "provenance": "abpath",
               "query": "Onchocytoma / Onchocytosis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::pleomorphic_adenoma",
+              "tag": "Cyto_Salivary::Benign::Pleomorphic_Adenoma",
               "label": "Pleomorphic Adenoma",
               "provenance": "abpath",
               "query": "Pleomorphic Adenoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::reporting_guidelines",
+              "tag": "Cyto_Salivary::Benign::Reporting_Guidelines",
               "label": "Reporting Guidelines",
               "provenance": "abpath",
               "query": "Reporting Guidelines",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::salivary_duct_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Salivary_Duct_Carcinoma",
               "label": "Salivary Duct Carcinoma",
               "provenance": "abpath",
               "query": "Salivary Duct Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::secretory_carcinoma",
+              "tag": "Cyto_Salivary::Category::Atypical",
+              "label": "Salivary Gland Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Salivary Gland Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Salivary::Category::Benign",
+              "label": "Salivary Gland Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Salivary Gland Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Salivary::Category::Malignant",
+              "label": "Salivary Gland Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Salivary Gland Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Salivary::Category::Nondiagnostic",
+              "label": "Salivary Gland Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Salivary Gland Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Salivary::Category::Suspicious_For_Malignancy",
+              "label": "Salivary Gland Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Salivary Gland Cytopathology Reporting Category: Suspicious For Malignancy"
+            },
+            {
+              "tag": "Cyto_Salivary::Malignant::Secretory_Carcinoma",
               "label": "Secretory Carcinoma",
               "provenance": "abpath",
               "query": "Secretory Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::reactive_and_or_inflammatory_diseases::sialadenosis",
+              "tag": "Cyto_Salivary::Benign::Sialadenosis",
               "label": "Sialadenosis",
               "provenance": "abpath",
               "query": "Sialadenosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::squamous_cell_carcinoma",
+              "tag": "Cyto_Salivary::Malignant::Squamous_Cell_Carcinoma",
               "label": "Squamous Cell Carcinoma",
               "provenance": "both",
               "query": "Squamous Cell Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::salivary_gland_cytopathology::primary_epithelial_myoepithelial_tumors::warthin_tumor",
+              "tag": "Cyto_Salivary::Benign::Warthin_Tumor",
               "label": "Warthin Tumor",
               "provenance": "abpath",
               "query": "Warthin Tumor",
@@ -4854,7 +4873,7 @@
         {
           "id": "thoracic_pulmonary_cytopathology",
           "label": "Thoracic / Pulmonary Cytopathology",
-          "leaf_count": 54,
+          "leaf_count": 59,
           "leaves": [
             {
               "tag": "Cyto_Thoracic::Benign::Inflammatory::Acute_Inflammation_And_Suppuration",
@@ -4875,35 +4894,35 @@
               "query": "Adenosquamous Carcinoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_lung_diseases_reactive_reparative_inflammatory::amyloidosis",
+              "tag": "Cyto_Thoracic::Benign::Amyloidosis",
               "label": "Amyloidosis",
               "provenance": "abpath",
               "query": "Amyloidosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_pulmonary_disease::asthma_changes_e_g_creola_bodies",
+              "tag": "Cyto_Thoracic::Benign::Asthma_Changes_E_G_Creola_Bodies",
               "label": "Asthma Changes (e.g., Creola Bodies)",
               "provenance": "abpath",
               "query": "Asthma Changes (e.g., Creola Bodies)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::infections::bacterial_mycobacterial",
+              "tag": "Cyto_Thoracic::Benign::Bacterial_Mycobacterial",
               "label": "Bacterial / Mycobacterial",
               "provenance": "abpath",
               "query": "Bacterial / Mycobacterial",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_neoplasms::benign_mixed_tumor",
+              "tag": "Cyto_Thoracic::Benign::Benign_Mixed_Tumor",
               "label": "Benign Mixed Tumor",
               "provenance": "abpath",
               "query": "Benign Mixed Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::epithelial::carcinoid_tumor",
+              "tag": "Cyto_Thoracic::Benign::Carcinoid_Tumor",
               "label": "Carcinoid Tumor",
               "provenance": "abpath",
               "query": "Carcinoid Tumor",
@@ -4934,7 +4953,7 @@
               "query": "Ectopic Thyroid Parathyroid cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::sarcomas::epithelioid_hemangioendothelioma",
+              "tag": "Cyto_Thoracic::Benign::Epithelioid_Hemangioendothelioma",
               "label": "Epithelioid Hemangioendothelioma",
               "provenance": "abpath",
               "query": "Epithelioid Hemangioendothelioma",
@@ -4947,7 +4966,7 @@
               "query": "Erdheim Chester Disease cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_lung_diseases_reactive_reparative_inflammatory::granulomas_e_g_sarcoid",
+              "tag": "Cyto_Thoracic::Benign::Granulomas_E_G_Sarcoid",
               "label": "Granulomas (e.g., Sarcoid)",
               "provenance": "abpath",
               "query": "Granulomas (e.g., Sarcoid)",
@@ -4960,7 +4979,7 @@
               "query": "Granulomatous Disorders cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_neoplasms::hamartoma",
+              "tag": "Cyto_Thoracic::Benign::Hamartoma",
               "label": "Hamartoma",
               "provenance": "abpath",
               "query": "Hamartoma",
@@ -4973,28 +4992,28 @@
               "query": "Histiocytic Lymphocytic Eosinophilic Patterns cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_neoplasms::inflammatory_pseudotumor",
+              "tag": "Cyto_Thoracic::Benign::Inflammatory_Pseudotumor",
               "label": "Inflammatory Pseudotumor",
               "provenance": "abpath",
               "query": "Inflammatory Pseudotumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::hematopoietic::langerhans_cell_histiocytosis",
+              "tag": "Cyto_Thoracic::Benign::Langerhans_Cell_Histiocytosis",
               "label": "Langerhans Cell Histiocytosis",
               "provenance": "both",
               "query": "Langerhans Cell Histiocytosis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::epithelial::large_cell_neuroendocrine_carcinoma",
+              "tag": "Cyto_Thoracic::Malignant::Large_Cell_Neuroendocrine_Carcinoma",
               "label": "Large Cell Neuroendocrine Carcinoma",
               "provenance": "both",
               "query": "Large Cell Neuroendocrine Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_pulmonary_disease::lipoid_pneumonia",
+              "tag": "Cyto_Thoracic::Benign::Lipoid_Pneumonia",
               "label": "Lipoid Pneumonia",
               "provenance": "abpath",
               "query": "Lipoid Pneumonia",
@@ -5013,21 +5032,21 @@
               "query": "Meningiomas cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::metastatic::mesothelioma",
+              "tag": "Cyto_Thoracic::Benign::Mesothelioma",
               "label": "Mesothelioma",
               "provenance": "abpath",
               "query": "Mesothelioma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::specific_sampling_techniques_e_g_transthoracic_transbronchial_ebus_enb::microorganism_stains",
+              "tag": "Cyto_Thoracic::Benign::Microorganism_Stains",
               "label": "Microorganism Stains",
               "provenance": "abpath",
               "query": "Microorganism Stains",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::epithelial::mixed_carcinomas",
+              "tag": "Cyto_Thoracic::Malignant::Mixed_Carcinomas",
               "label": "Mixed Carcinomas",
               "provenance": "abpath",
               "query": "Mixed Carcinomas",
@@ -5046,14 +5065,14 @@
               "query": "NUT Carcinoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::infections::parasitic",
+              "tag": "Cyto_Thoracic::Benign::Parasitic",
               "label": "Parasitic",
               "provenance": "abpath",
               "query": "Parasitic",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::hematopoietic::plasma_cell_neoplasms",
+              "tag": "Cyto_Thoracic::Benign::Plasma_Cell_Neoplasms",
               "label": "Plasma Cell Neoplasms",
               "provenance": "both",
               "query": "Plasma Cell Neoplasms",
@@ -5066,14 +5085,14 @@
               "query": "Pleomorphic Carcinoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_pulmonary_disease::pneumoconioses_e_g_asbestosis",
+              "tag": "Cyto_Thoracic::Benign::Pneumoconioses_E_G_Asbestosis",
               "label": "Pneumoconioses (e.g., Asbestosis)",
               "provenance": "abpath",
               "query": "Pneumoconioses (e.g., Asbestosis)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_lung_diseases_reactive_reparative_inflammatory::pneumoconiosis",
+              "tag": "Cyto_Thoracic::Benign::Pneumoconiosis",
               "label": "Pneumoconiosis",
               "provenance": "abpath",
               "query": "Pneumoconiosis",
@@ -5086,7 +5105,7 @@
               "query": "Primary Germ Cell Tumours Mediastinum cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_pulmonary_disease::pulmonary_alveolar_proteinosis",
+              "tag": "Cyto_Thoracic::Benign::Pulmonary_Alveolar_Proteinosis",
               "label": "Pulmonary Alveolar Proteinosis",
               "provenance": "abpath",
               "query": "Pulmonary Alveolar Proteinosis",
@@ -5117,7 +5136,7 @@
               "query": "Pulmonary Langerhans Cell Histiocytosis cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_lung_diseases_reactive_reparative_inflammatory::radiation_and_chemotherapy_effects",
+              "tag": "Cyto_Thoracic::Benign::Radiation_And_Chemotherapy_Effects",
               "label": "Radiation and Chemotherapy Effects",
               "provenance": "abpath",
               "query": "Radiation and Chemotherapy Effects",
@@ -5130,7 +5149,7 @@
               "query": "Reactive Changes Glandular Squamous cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::reactive_reparative::reserve_cell_hyperplasia",
+              "tag": "Cyto_Thoracic::Benign::Reserve_Cell_Hyperplasia",
               "label": "Reserve Cell Hyperplasia",
               "provenance": "abpath",
               "query": "Reserve Cell Hyperplasia",
@@ -5155,7 +5174,7 @@
               "query": "Sclerosing Pneumocytoma cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::epithelial::small_cell_carcinoma",
+              "tag": "Cyto_Thoracic::Malignant::Small_Cell_Carcinoma",
               "label": "Small Cell Carcinoma",
               "provenance": "abpath",
               "query": "Small Cell Carcinoma",
@@ -5186,18 +5205,48 @@
               "query": "Spindle Cell Tumours Malignant cytology"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::reactive_reparative::squamous_metaplasia",
+              "tag": "Cyto_Thoracic::Benign::Squamous_Metaplasia",
               "label": "Squamous Metaplasia",
               "provenance": "abpath",
               "query": "Squamous Metaplasia",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thoracic_pulmonary_cytopathology::benign_pulmonary_disease::storage_diseases_e_g_gaucher",
+              "tag": "Cyto_Thoracic::Benign::Storage_Diseases_E_G_Gaucher",
               "label": "Storage Diseases (e.g., Gaucher)",
               "provenance": "abpath",
               "query": "Storage Diseases (e.g., Gaucher)",
               "abpath_level": "F"
+            },
+            {
+              "tag": "Cyto_Thoracic::Category::Atypical",
+              "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Thoracic / Pulmonary Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Thoracic::Category::Benign",
+              "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Thoracic / Pulmonary Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Thoracic::Category::Malignant",
+              "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Thoracic / Pulmonary Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Thoracic::Category::Nondiagnostic",
+              "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Thoracic / Pulmonary Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Thoracic::Category::Suspicious_For_Malignancy",
+              "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Thoracic / Pulmonary Cytopathology Reporting Category: Suspicious For Malignancy"
             },
             {
               "tag": "Cyto_Thoracic::Malignant::Carcinoma::Thoracic_SMARCA4_Deficient_Undifferentiated_Tumour",
@@ -5210,119 +5259,149 @@
         {
           "id": "thyroid_parathyroid_cytopathology",
           "label": "Thyroid / Parathyroid Cytopathology",
-          "leaf_count": 16,
+          "leaf_count": 21,
           "leaves": [
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::anaplastic_undifferentiated_carcinoma",
+              "tag": "Cyto_Thyroid::Malignant::Anaplastic_Undifferentiated_Carcinoma",
               "label": "Anaplastic / Undifferentiated Carcinoma",
               "provenance": "abpath",
               "query": "Anaplastic / Undifferentiated Carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::black_pigmented_thyroid",
+              "tag": "Cyto_Thyroid::Benign::Black_Pigmented_Thyroid",
               "label": "Black/Pigmented Thyroid",
               "provenance": "abpath",
               "query": "Black/Pigmented Thyroid",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::chronic_lymphocytic_thyroiditis_hashimoto_thyroiditis",
+              "tag": "Cyto_Thyroid::Benign::Chronic_Lymphocytic_Thyroiditis_Hashimoto_Thyroiditis",
               "label": "Chronic Lymphocytic Thyroiditis/Hashimoto Thyroiditis",
               "provenance": "abpath",
               "query": "Chronic Lymphocytic Thyroiditis/Hashimoto Thyroiditis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::general::developmental_anomaly_e_g_thyroglossal_duct_cyst",
+              "tag": "Cyto_Thyroid::Benign::Developmental_Anomaly_E_G_Thyroglossal_Duct_Cyst",
               "label": "Developmental Anomaly (e.g., Thyroglossal Duct Cyst)",
               "provenance": "abpath",
               "query": "Developmental Anomaly (e.g., Thyroglossal Duct Cyst)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::follicular_neoplasm",
+              "tag": "Cyto_Thyroid::Benign::Follicular_Neoplasm",
               "label": "Follicular Neoplasm",
               "provenance": "abpath",
               "query": "Follicular Neoplasm",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::follicular_nodular_disease",
+              "tag": "Cyto_Thyroid::Benign::Follicular_Nodular_Disease",
               "label": "Follicular Nodular Disease",
               "provenance": "abpath",
               "query": "Follicular Nodular Disease",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::hematopoietic_and_lymphoma",
+              "tag": "Cyto_Thyroid::Malignant::Hematopoietic_And_Lymphoma",
               "label": "Hematopoietic and Lymphoma",
               "provenance": "abpath",
               "query": "Hematopoietic and Lymphoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::hyalinizing_trabecular_tumor",
+              "tag": "Cyto_Thyroid::Benign::Hyalinizing_Trabecular_Tumor",
               "label": "Hyalinizing Trabecular Tumor",
               "provenance": "abpath",
               "query": "Hyalinizing Trabecular Tumor",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::oncocytic_neoplasm",
+              "tag": "Cyto_Thyroid::Benign::Oncocytic_Neoplasm",
               "label": "Oncocytic Neoplasm",
               "provenance": "abpath",
               "query": "Oncocytic Neoplasm",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::papillary_thyroid_carcinoma_and_variants",
+              "tag": "Cyto_Thyroid::Malignant::Papillary_Thyroid_Carcinoma_And_Variants",
               "label": "Papillary Thyroid Carcinoma and Variants",
               "provenance": "abpath",
               "query": "Papillary Thyroid Carcinoma and Variants",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::parathyroid_lesions",
+              "tag": "Cyto_Thyroid::Benign::Parathyroid_Lesions",
               "label": "Parathyroid Lesions",
               "provenance": "abpath",
               "query": "Parathyroid Lesions",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::parathyroid_neoplasm",
+              "tag": "Cyto_Thyroid::Benign::Parathyroid_Neoplasm",
               "label": "Parathyroid Neoplasm",
               "provenance": "abpath",
               "query": "Parathyroid Neoplasm",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::primary_epithelial_tumors::poorly_differentiated_thyroid_carcinoma",
+              "tag": "Cyto_Thyroid::Malignant::Poorly_Differentiated_Thyroid_Carcinoma",
               "label": "Poorly Differentiated Thyroid Carcinoma",
               "provenance": "abpath",
               "query": "Poorly Differentiated Thyroid Carcinoma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::riedel_thyroiditis",
+              "tag": "Cyto_Thyroid::Benign::Riedel_Thyroiditis",
               "label": "Riedel Thyroiditis",
               "provenance": "abpath",
               "query": "Riedel Thyroiditis",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::reactive_and_non_neoplastic::subacute_granulomatous_thyroiditis_de_quervain",
+              "tag": "Cyto_Thyroid::Benign::Subacute_Granulomatous_Thyroiditis_De_Quervain",
               "label": "Subacute Granulomatous Thyroiditis (de Quervain)",
               "provenance": "abpath",
               "query": "Subacute Granulomatous Thyroiditis (de Quervain)",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::cyto::thyroid_parathyroid_cytopathology::metastatic_neoplasms::the_bethesda_system_reporting_and_management_guidelines",
+              "tag": "Cyto_Thyroid::Benign::The_Bethesda_System_Reporting_And_Management_Guidelines",
               "label": "The Bethesda System Reporting and Management Guidelines",
               "provenance": "abpath",
               "query": "The Bethesda System Reporting and Management Guidelines",
               "abpath_level": "AR"
+            },
+            {
+              "tag": "Cyto_Thyroid::Category::Atypical",
+              "label": "Thyroid / Parathyroid Cytopathology Reporting Category: Atypical",
+              "provenance": "abpath",
+              "query": "Thyroid / Parathyroid Cytopathology Reporting Category: Atypical"
+            },
+            {
+              "tag": "Cyto_Thyroid::Category::Benign",
+              "label": "Thyroid / Parathyroid Cytopathology Reporting Category: Benign",
+              "provenance": "abpath",
+              "query": "Thyroid / Parathyroid Cytopathology Reporting Category: Benign"
+            },
+            {
+              "tag": "Cyto_Thyroid::Category::Malignant",
+              "label": "Thyroid / Parathyroid Cytopathology Reporting Category: Malignant",
+              "provenance": "abpath",
+              "query": "Thyroid / Parathyroid Cytopathology Reporting Category: Malignant"
+            },
+            {
+              "tag": "Cyto_Thyroid::Category::Nondiagnostic",
+              "label": "Thyroid / Parathyroid Cytopathology Reporting Category: Nondiagnostic",
+              "provenance": "abpath",
+              "query": "Thyroid / Parathyroid Cytopathology Reporting Category: Nondiagnostic"
+            },
+            {
+              "tag": "Cyto_Thyroid::Category::Suspicious_For_Malignancy",
+              "label": "Thyroid / Parathyroid Cytopathology Reporting Category: Suspicious For Malignancy",
+              "provenance": "abpath",
+              "query": "Thyroid / Parathyroid Cytopathology Reporting Category: Suspicious For Malignancy"
             }
           ]
         }
@@ -38725,7 +38804,7 @@
       "id": "thorax_mediastinum",
       "label": "Thorax / Mediastinum",
       "kind": "root",
-      "leaf_count": 159,
+      "leaf_count": 203,
       "subcategories": [
         {
           "id": "benign",
@@ -38755,6 +38834,132 @@
               "label": "Papillary_Adenoma_of_the_Lung",
               "provenance": "who",
               "query": "Papillary Adenoma of the Lung"
+            }
+          ]
+        },
+        {
+          "id": "blood_vessels",
+          "label": "Blood Vessels",
+          "leaf_count": 17,
+          "leaves": [
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::General::Atherosclerosis",
+              "label": "Atherosclerosis",
+              "provenance": "abpath",
+              "query": "Atherosclerosis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Buerger_Disease",
+              "label": "Buerger disease",
+              "provenance": "abpath",
+              "query": "Buerger disease",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Churg_Strauss_Angiitis",
+              "label": "Churg-Strauss angiitis",
+              "provenance": "abpath",
+              "query": "Churg-Strauss angiitis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Hereditary_Diseases_Of_Blood_Vessels::Ehlers_Danlos_Syndrome",
+              "label": "Ehlers-Danlos syndrome",
+              "provenance": "abpath",
+              "query": "Ehlers-Danlos syndrome",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::General::Fibromuscular_Dysplasia",
+              "label": "Fibromuscular dysplasia",
+              "provenance": "abpath",
+              "query": "Fibromuscular dysplasia",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Giant_Cell_Arteritis",
+              "label": "Giant cell arteritis",
+              "provenance": "abpath",
+              "query": "Giant cell arteritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Immune_Complex_Mediated_Small_Vessel_Vasculitis",
+              "label": "Immune complex mediated small vessel vasculitis",
+              "provenance": "abpath",
+              "query": "Immune complex mediated small vessel vasculitis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Infectious_Endocarditis",
+              "label": "Infectious endocarditis",
+              "provenance": "abpath",
+              "query": "Infectious endocarditis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Kawasaki_Disease",
+              "label": "Kawasaki disease",
+              "provenance": "abpath",
+              "query": "Kawasaki disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Hereditary_Diseases_Of_Blood_Vessels::Marfan_Syndrome",
+              "label": "Marfan syndrome",
+              "provenance": "abpath",
+              "query": "Marfan syndrome",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::General::Medial_Calcification_E_G_Monckeberg",
+              "label": "Medial calcification (e.g., Monckeberg)",
+              "provenance": "abpath",
+              "query": "Medial calcification (e.g., Monckeberg)",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Microscopic_Polyangiitis",
+              "label": "Microscopic polyangiitis",
+              "provenance": "abpath",
+              "query": "Microscopic polyangiitis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Non_Infectious_Endocarditis",
+              "label": "Non-infectious endocarditis",
+              "provenance": "abpath",
+              "query": "Non-infectious endocarditis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Hereditary_Diseases_Of_Blood_Vessels::Non_Marfan_Familial_Aortic_Dissection",
+              "label": "Non-Marfan familial aortic dissection",
+              "provenance": "abpath",
+              "query": "Non-Marfan familial aortic dissection",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::General::Peripheral_Aneurysms_And_Dissections",
+              "label": "Peripheral aneurysms and dissections",
+              "provenance": "abpath",
+              "query": "Peripheral aneurysms and dissections",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Takayasu_Disease",
+              "label": "Takayasu disease",
+              "provenance": "abpath",
+              "query": "Takayasu disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Blood_Vessels::General::Vascular_Thrombosis",
+              "label": "Vascular Thrombosis",
+              "provenance": "abpath",
+              "query": "Vascular Thrombosis",
+              "abpath_level": "C"
             }
           ]
         },
@@ -38933,13 +39138,55 @@
         {
           "id": "heart",
           "label": "Heart",
-          "leaf_count": 14,
+          "leaf_count": 41,
           "leaves": [
             {
               "tag": "Thorax_Mediastinum::Heart::Benign::Adult_Cellular_Rhabdomyoma",
               "label": "Adult_Cellular_Rhabdomyoma",
               "provenance": "who",
               "query": "Adult Cellular Rhabdomyoma"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Amyloidosis",
+              "label": "Amyloidosis",
+              "provenance": "abpath",
+              "query": "Amyloidosis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Premalignant_Malignant_And_Borderline::Angiosarcoma",
+              "label": "Angiosarcoma",
+              "provenance": "abpath",
+              "query": "Angiosarcoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Anthracycline_Cardiotoxicity",
+              "label": "Anthracycline cardiotoxicity",
+              "provenance": "abpath",
+              "query": "Anthracycline cardiotoxicity",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Primary_Cardiomyopathy::Arrhythmogenic_Right_Ventricular_Cardiomyopathy_Dysplasia",
+              "label": "Arrhythmogenic right ventricular cardiomyopathy/dysplasia",
+              "provenance": "abpath",
+              "query": "Arrhythmogenic right ventricular cardiomyopathy/dysplasia",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Cardiac_Transplantation::Cardiac_Allograft_Rejection",
+              "label": "Cardiac allograft rejection",
+              "provenance": "abpath",
+              "query": "Cardiac allograft rejection",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Benign::Cardiac_Myxoma",
+              "label": "Cardiac myxoma",
+              "provenance": "abpath",
+              "query": "Cardiac myxoma",
+              "abpath_level": "C"
             },
             {
               "tag": "Thorax_Mediastinum::Heart::Malignant::Cardiac_Angiosarcoma",
@@ -38996,10 +39243,24 @@
               "query": "Cardiac Undifferentiated Pleomorphic Sarcoma"
             },
             {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Collagen_Vascular_Disease",
+              "label": "Collagen vascular disease",
+              "provenance": "abpath",
+              "query": "Collagen vascular disease",
+              "abpath_level": "F"
+            },
+            {
               "tag": "Thorax_Mediastinum::Heart::Benign::Conduction_System_Hamartoma",
               "label": "Conduction_System_Hamartoma",
               "provenance": "who",
               "query": "Conduction System Hamartoma"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Congenital_Heart_Disease",
+              "label": "Congenital heart disease",
+              "provenance": "abpath",
+              "query": "Congenital heart disease",
+              "abpath_level": "F"
             },
             {
               "tag": "Thorax_Mediastinum::Heart::Benign::Cystic_Tumor_of_the_Atrioventricular_Node",
@@ -39008,16 +39269,149 @@
               "query": "Cystic Tumor of the Atrioventricular Node"
             },
             {
+              "tag": "Thorax_Mediastinum::Heart::Primary_Cardiomyopathy::Dilated_Cardiomyopathy",
+              "label": "Dilated cardiomyopathy",
+              "provenance": "abpath",
+              "query": "Dilated cardiomyopathy",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Drug_Related_Myocarditis",
+              "label": "Drug-related myocarditis",
+              "provenance": "abpath",
+              "query": "Drug-related myocarditis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Fabry_Disease",
+              "label": "Fabry disease",
+              "provenance": "abpath",
+              "query": "Fabry disease",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Giant_Cell_Myocarditis",
+              "label": "Giant cell myocarditis",
+              "provenance": "abpath",
+              "query": "Giant cell myocarditis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Glycogen_Storage_Disease",
+              "label": "Glycogen storage disease",
+              "provenance": "abpath",
+              "query": "Glycogen storage disease",
+              "abpath_level": "F"
+            },
+            {
               "tag": "Thorax_Mediastinum::Heart::Benign::Hamartoma_of_Mature_Cardiac_Myocytes",
               "label": "Hamartoma_of_Mature_Cardiac_Myocytes",
               "provenance": "who",
               "query": "Hamartoma of Mature Cardiac Myocytes"
             },
             {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Hemochromatosis",
+              "label": "Hemochromatosis",
+              "provenance": "abpath",
+              "query": "Hemochromatosis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::General::Hypertensive_Heart_Disease",
+              "label": "Hypertensive heart disease",
+              "provenance": "abpath",
+              "query": "Hypertensive heart disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Primary_Cardiomyopathy::Hypertrophic_Cardiomyopathy",
+              "label": "Hypertrophic cardiomyopathy",
+              "provenance": "abpath",
+              "query": "Hypertrophic cardiomyopathy",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Infectious_Myocarditis",
+              "label": "Infectious myocarditis",
+              "provenance": "abpath",
+              "query": "Infectious myocarditis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::General::Ischemic_Heart_Disease",
+              "label": "Ischemic heart disease",
+              "provenance": "abpath",
+              "query": "Ischemic heart disease",
+              "abpath_level": "C"
+            },
+            {
               "tag": "Thorax_Mediastinum::Heart::Benign::Lipomatous_Hamartoma_of_the_Atrioventricular_Valve",
               "label": "Lipomatous_Hamartoma_of_the_Atrioventricular_Valve",
               "provenance": "who",
               "query": "Lipomatous Hamartoma of the Atrioventricular Valve"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Lymphocytic_Myocarditis",
+              "label": "Lymphocytic myocarditis",
+              "provenance": "abpath",
+              "query": "Lymphocytic myocarditis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::General::Mycocardial_Infarction",
+              "label": "Mycocardial infarction",
+              "provenance": "abpath",
+              "query": "Mycocardial infarction",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Cardiac_Transplantation::Pericardial_Diseases",
+              "label": "Pericardial diseases",
+              "provenance": "abpath",
+              "query": "Pericardial diseases",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Peripartum_Myocarditis",
+              "label": "Peripartum myocarditis",
+              "provenance": "abpath",
+              "query": "Peripartum myocarditis",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Primary_Cardiomyopathy::Restrictive_Cardiomyopathy",
+              "label": "Restrictive cardiomyopathy",
+              "provenance": "abpath",
+              "query": "Restrictive cardiomyopathy",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Benign::Rhabdomyoma",
+              "label": "Rhabdomyoma",
+              "provenance": "abpath",
+              "query": "Rhabdomyoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Rheumatic_Fever",
+              "label": "Rheumatic fever",
+              "provenance": "abpath",
+              "query": "Rheumatic fever",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Toxic_Myocarditis",
+              "label": "Toxic myocarditis",
+              "provenance": "abpath",
+              "query": "Toxic myocarditis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Valve_Anomalies",
+              "label": "Valve anomalies",
+              "provenance": "abpath",
+              "query": "Valve anomalies",
+              "abpath_level": "C"
             }
           ]
         },
@@ -78318,6 +78712,9 @@
     "Index is a local snapshot; not proof of API/vector coverage.",
     "Cytopathology (cyto root) subcategories are organ system first (e.g. 'Hematolymphoid Cytopathology'), not the raw ABPath content-spec header — see CYTO_SYSTEM_* constants and CYTO_ABPATH_SPEC_RANGES.",
     "ABPath major-section-12 organ-system boundaries were hand-reconstructed from the ordered row dump (the DOCX/PDF parser only recovers ~11% of section 12's own organ headers) and keyed on abpath_spec_id sequence ranges; re-verify ranges if the source PDF/DOCX content changes.",
-    "A handful of ABPath cytopathology rows (e.g. anogenital squamous lesions) were merged into the closest matching organ system by clinical judgment, not an explicit ABPath organ label."
+    "A handful of ABPath cytopathology rows (e.g. anogenital squamous lesions) were merged into the closest matching organ system by clinical judgment, not an explicit ABPath organ label.",
+    "ABPath-derived cyto leaves carry a native 'Cyto_<System>::<Category>::<Leaf>' tag (matching the real WHO/PathOut Cyto_<Suffix> convention) instead of the generic ABPathSpec:: wrapper; <Category> is a heuristic Bethesda-tier classification (cyto_bethesda_category) off the leaf's own label, not a WHO-authoritative call — expect some borderline entities (e.g. pheochromocytoma) to sit in an arguable tier.",
+    "Each cyto system also carries 5 synthetic 'Cyto_<System>::Category::<Tier>' leaves (Nondiagnostic/Benign/Atypical/Suspicious_For_Malignancy/Malignant) — standardized reporting-scheme labels for navigation, not sourced diagnosis content; never counted toward WHO/ABPath entity totals.",
+    "Cardiovascular (ABPath major 4) has no standalone Browse root — its content is folded into Thorax_Mediastinum::Heart / Thorax_Mediastinum::Blood_Vessels (WHO's own Thoracic Tumours volume classifies heart tumors there; real WHO Thorax_Mediastinum::Heart::… tags already existed in this index). Heart vs Blood_Vessels boundaries were hand-reconstructed from the ordered row dump (CARDIO_ABPATH_SPEC_RANGES), same caveat as the cyto ranges above."
   ]
 }

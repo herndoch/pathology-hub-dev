@@ -763,13 +763,15 @@ function oncotreeZoom() {
  * ABPath's own content-spec heading) sits one segment sooner too. */
 function leafCategoryFromTag(tag) {
   if (!tag) return null;
+  // Cyto_<System>::<Category>::<Leaf> is only 3 segments (the system IS
+  // the root+subcategory already) — category is one segment earlier than
+  // every other root's Root::Sub::Category::Leaf shape. Covers both real
+  // WHO/PathOut Cyto_ tags and native ABPath-derived ones (2026-08-02: cyto
+  // ABPath leaves now carry this same native shape, no more separate
+  // "ABPathSpec::cyto::…" wrapper to special-case here).
   if (tag.startsWith("Cyto_")) {
     const parts = tag.split("::").filter(Boolean);
     return parts.length > 2 ? formatDisplayLabel(parts[1]) : null;
-  }
-  if (tag.startsWith("ABPathSpec::cyto::")) {
-    const parts = tag.split("::").filter(Boolean);
-    return parts.length > 4 ? formatDisplayLabel(parts[2]) : null;
   }
   if (tag.startsWith("ABPathSpec::")) return null;
   const parts = tag.split("::").filter(Boolean);

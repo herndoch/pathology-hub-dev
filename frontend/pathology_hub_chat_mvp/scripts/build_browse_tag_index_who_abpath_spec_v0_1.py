@@ -62,11 +62,20 @@ STATIC_COPY = MVP_DIR / "static" / "browse_tag_index_v0_1.json"
 SCHEMA_VERSION = "browse_tag_index_v0_4"
 
 # Content-spec major section number → Browse root id / display label.
+#
+# Major 4 ("Cardiovascular") deliberately maps into thorax_mediastinum, not
+# its own "cardio" root (2026-08-02 feedback: WHO's own Thoracic Tumours
+# volume classifies heart tumors under Thorax_Mediastinum::Heart — real WHO
+# tags for this already exist in our data, e.g.
+# "Thorax_Mediastinum::Heart::Benign::Cardiac_Rhabdomyoma" — and a separate
+# flat "cardio" root with no organ segment ("ABPathSpec::cardio::benign::
+# cardiac_myxoma") was both non-WHO-aligned and structurally shallower than
+# every other root. See CARDIO_ABPATH_SPEC_RANGES / cardio_abpath_organ_and_category.
 MAJOR_TO_ROOT: dict[int, tuple[str, str]] = {
     1: ("breast", "Breast"),
     2: ("gu", "Genitourinary"),
     3: ("gu", "Genitourinary"),
-    4: ("cardio", "Cardiovascular"),
+    4: ("thorax_mediastinum", "Thorax / Mediastinum"),
     5: ("hn", "Head and Neck"),
     6: ("gi", "Gastrointestinal"),
     7: ("endo", "Endocrine"),
@@ -121,6 +130,76 @@ CYTO_SYSTEM_MEDIASTINUM = "Mediastinum / Retroperitoneum Cytopathology"
 CYTO_SYSTEM_ADRENAL = "Adrenal Cytopathology"
 CYTO_SYSTEM_BONE_SOFT_TISSUE = "Bone / Soft Tissue Cytopathology"
 CYTO_SYSTEM_GENERAL = "General Cytopathology Techniques & QA"
+
+# Canonical system label -> native "Cyto_<Suffix>" tag prefix, matching the
+# real WHO/PathOut `Cyto_<Suffix>` convention already present in source data
+# (Cyto_Heme, Cyto_Pancreatobiliary, Cyto_Soft_Tissue, Cyto_Thoracic) so
+# ABPath-derived leaves land under the exact same tag prefix as real WHO
+# ones for that system and merge naturally, rather than a separate
+# "ABPathSpec::cyto::…" synthetic wrapper (2026-08-02 feedback: "get rid of
+# the abpath part and use current logic of things"). Systems with no real
+# WHO Cyto_<Suffix> precedent yet (Adrenal, GU, GI, HN, Salivary, Thyroid,
+# Breast, Mediastinum, CNS/Eye, Fluid, General) get a same-style native
+# prefix invented from the organ name, consistent with the ones that do.
+CYTO_SYSTEM_TO_NATIVE_PREFIX: dict[str, str] = {
+    CYTO_SYSTEM_GYN: "Cyto_GYN",
+    CYTO_SYSTEM_FLUID: "Cyto_Fluid",
+    CYTO_SYSTEM_CNS_EYE: "Cyto_CNS_Eye",
+    CYTO_SYSTEM_GU: "Cyto_GU",
+    CYTO_SYSTEM_THORACIC: "Cyto_Thoracic",
+    CYTO_SYSTEM_GI: "Cyto_GI",
+    CYTO_SYSTEM_HEPATOBILIARY: "Cyto_Pancreatobiliary",
+    CYTO_SYSTEM_SALIVARY: "Cyto_Salivary",
+    CYTO_SYSTEM_THYROID: "Cyto_Thyroid",
+    CYTO_SYSTEM_HEME: "Cyto_Heme",
+    CYTO_SYSTEM_HN: "Cyto_HN",
+    CYTO_SYSTEM_BREAST: "Cyto_Breast",
+    CYTO_SYSTEM_MEDIASTINUM: "Cyto_Mediastinum",
+    CYTO_SYSTEM_ADRENAL: "Cyto_Adrenal",
+    CYTO_SYSTEM_BONE_SOFT_TISSUE: "Cyto_Soft_Tissue",
+    CYTO_SYSTEM_GENERAL: "Cyto_General",
+}
+
+# The 5-tier Bethesda-style reporting scheme used across essentially every
+# FNA/cytology reporting system (WHO's own International System for
+# Reporting). Used two ways: (1) classify each ABPath-derived cyto leaf
+# into one of the diagnostic tiers via keyword heuristics on its own label
+# (never fabricated — every leaf here is a real content-spec/WHO entity,
+# just re-bucketed); (2) emit one lightweight "Category" definition leaf
+# per tier per system as a structural/navigational aid (2026-08-02
+# feedback's Cyto_Adrenal::Category::* example) — these are standardized
+# reporting-scheme labels, not sourced diagnosis content, and are disclosed
+# as such in known_limitations.
+CYTO_BETHESDA_TIERS = ["Nondiagnostic", "Benign", "Atypical", "Suspicious_For_Malignancy", "Malignant"]
+
+_CYTO_BETHESDA_RULES: list[tuple[str, "re.Pattern"]] = [
+    (
+        "Malignant",
+        re.compile(
+            r"(?i)malignant|carcinoma|adenocarcinoma|sarcoma|lymphoma|leuk[ae]mia|"
+            r"metasta|blastoma|malignancy"
+        ),
+    ),
+    ("Suspicious_For_Malignancy", re.compile(r"(?i)suspicious")),
+    ("Atypical", re.compile(r"(?i)atypia|atypical")),
+    (
+        "Nondiagnostic",
+        re.compile(r"(?i)insufficient|inadequate|non-?diagnostic|unsatisfactory|contaminant"),
+    ),
+]
+
+
+def cyto_bethesda_category(label: str) -> str:
+    """Heuristic reporting-tier bucket for a real cyto diagnosis leaf's own
+    label — never invented content, just a coarser grouping. Necessarily
+    imperfect for genuinely borderline entities (e.g. pheochromocytoma);
+    disclosed as a heuristic, not a WHO-authoritative call, in
+    known_limitations. Defaults to "Benign" (the modal category) absent a
+    stronger signal."""
+    for tier, rx in _CYTO_BETHESDA_RULES:
+        if rx.search(label or ""):
+            return tier
+    return "Benign"
 
 # WHO/PathOut `Cyto_<Suffix>` tag prefixes only carry a per-organ suffix
 # (e.g. "Cyto_GYN", "Cyto_Heme") — map each real suffix seen in source data
@@ -247,6 +326,45 @@ def cyto_abpath_system_for_spec_id(abpath_spec_id: str) -> Optional[str]:
         if start <= n <= end:
             return label
     return None
+
+
+# --- Cardiovascular (major 4) -> Thorax_Mediastinum::<Organ> reclassification
+#
+# Same problem/technique as Cytopathology above: ABPath's own major-4 rows
+# never label an organ_system (parser gap), and the content itself
+# alternates between genuinely cardiac topics (cardiomyopathy, myocarditis,
+# cardiac tumors, transplant) and general vascular disease (vasculitis,
+# aneurysms, hereditary vessel disease, atherosclerosis) with no other
+# structural marker than raw row order. Reconstructed by hand from the
+# ordered row dump, same as CYTO_ABPATH_SPEC_RANGES.
+CARDIO_ORGAN_HEART = "Heart"
+CARDIO_ORGAN_VESSELS = "Blood_Vessels"
+
+CARDIO_ABPATH_SPEC_RANGES: list[tuple[int, int, str]] = [
+    (1, 2, CARDIO_ORGAN_HEART),
+    (3, 5, CARDIO_ORGAN_HEART),
+    (6, 10, CARDIO_ORGAN_VESSELS),
+    (11, 17, CARDIO_ORGAN_HEART),
+    (18, 21, CARDIO_ORGAN_VESSELS),
+    (22, 27, CARDIO_ORGAN_HEART),
+    (28, 38, CARDIO_ORGAN_VESSELS),
+    (39, 53, CARDIO_ORGAN_HEART),
+]
+
+
+def cardio_organ_for_spec_id(abpath_spec_id: str) -> str:
+    """Heart vs Blood_Vessels for an ABPath major-4 row, from its spec-id
+    sequence number — see CARDIO_ABPATH_SPEC_RANGES. Defaults to Heart
+    (the majority organ for this major) if the id is unparseable."""
+    match = re.search(r"_(\d+)$", abpath_spec_id or "")
+    if not match:
+        return CARDIO_ORGAN_HEART
+    n = int(match.group(1))
+    for start, end, organ in CARDIO_ABPATH_SPEC_RANGES:
+        if start <= n <= end:
+            return organ
+    return CARDIO_ORGAN_HEART
+
 
 # Browse topics must be actual diagnoses / disease entities — not cell types,
 # normal anatomy, lab methods, QA, or generic curriculum headers.
@@ -692,6 +810,23 @@ def normalize_label_key(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def _who_style_tag_token(text: str) -> str:
+    """Title_Case_With_Underscores tag token, matching the real WHO/PathOut
+    tag convention (e.g. "Cardiac myxoma" -> "Cardiac_Myxoma") — distinct
+    from slugify() (all-lowercase). Used only when constructing a tag that
+    must be indistinguishable in format from a genuine WHO-sourced one
+    (Cyto_<System>::…, Thorax_Mediastinum::<Organ>::…), never for the
+    generic "ABPathSpec::<root>::…" wrapper used everywhere else."""
+    cleaned = re.sub(r"[^A-Za-z0-9]+", "_", (text or "").strip())
+    cleaned = re.sub(r"_+", "_", cleaned).strip("_")
+    words = []
+    for w in cleaned.split("_"):
+        if not w:
+            continue
+        words.append(w if (w.isupper() and len(w) <= 5) else w[:1].upper() + w[1:])
+    return "_".join(words)[:160] or "Item"
+
+
 def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
     item = (row.get("item_text") or "").strip()
     if not item or SKIP_ITEM_RE.match(item):
@@ -734,16 +869,29 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
         fine_label = category or subsection or "General"
     fine_id, fine_label = normalize_subcategory(fine_label)
     label = item
-    # Cytopathology (major 12): the content-spec's own headers name a
-    # histologic category ("SIL", "Adenocarcinomas", …), not an organ — see
-    # `CYTO_ABPATH_SPEC_RANGES`. Browse buckets on organ system instead; the
-    # histologic category is kept as an extra tag segment so the Browse tree
-    # can still branch by it underneath the organ (see app.js
-    # `leafCategoryFromTag`).
+    # Cytopathology (major 12) and Cardiovascular (major 4) get a NATIVE
+    # WHO-style tag (Cyto_<System>::<Category>::<Leaf> /
+    # Thorax_Mediastinum::<Organ>::<Category>::<Leaf>) instead of the
+    # generic "ABPathSpec::<root>::…" wrapper every other major uses — see
+    # CYTO_SYSTEM_TO_NATIVE_PREFIX / cardio_organ_for_spec_id. Both majors'
+    # own content-spec headers name a histologic category ("SIL",
+    # "Adenocarcinomas", "Vasculitis", …), not an organ (parser gap — see
+    # CYTO_ABPATH_SPEC_RANGES/CARDIO_ABPATH_SPEC_RANGES), and both already
+    # have real WHO-tagged leaves under this exact native prefix
+    # (Cyto_Heme::…, Thorax_Mediastinum::Heart::…) that these should merge
+    # alongside rather than sit next to as a separately-formatted synthetic
+    # tag (2026-08-02 feedback: "get rid of the abpath part and use current
+    # logic of things").
     if maj == 12:
         sub_label = cyto_abpath_system_for_spec_id(row.get("abpath_spec_id") or "") or CYTO_SYSTEM_GENERAL
         sub_id, sub_label = normalize_subcategory(sub_label)
-        tag = "::".join(["ABPathSpec", root_id, sub_id, fine_id, slugify(label) or "item"])
+        native_prefix = CYTO_SYSTEM_TO_NATIVE_PREFIX.get(sub_label, f"Cyto_{_who_style_tag_token(sub_label)}")
+        category = cyto_bethesda_category(label)
+        tag = "::".join([native_prefix, category, _who_style_tag_token(label)])
+    elif maj == 4:
+        organ = cardio_organ_for_spec_id(row.get("abpath_spec_id") or "")
+        sub_id, sub_label = normalize_subcategory(organ)
+        tag = "::".join(["Thorax_Mediastinum", organ, _who_style_tag_token(fine_label), _who_style_tag_token(label)])
     else:
         sub_id, sub_label = fine_id, fine_label
         tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
@@ -1163,6 +1311,36 @@ def main() -> int:
             continue
         abpath_leaves.append(leaf)
 
+    # One lightweight "Category" definition leaf per Bethesda-style
+    # reporting tier per cyto system (2026-08-02 feedback's
+    # Cyto_Adrenal::Category::Nondiagnostic/.../Malignant example) — a
+    # navigational/structural aid mirroring the tier-definition leaves WHO's
+    # own data already carries for a few systems (e.g.
+    # Cyto_Heme::Malignant::Malignant_Category_Definition_And_Criteria).
+    # Standardized reporting-scheme labels, not sourced diagnosis content —
+    # disclosed in known_limitations, never counted as a WHO/ABPath entity.
+    cyto_systems_present = {leaf["sub_label"] for leaf in abpath_leaves if leaf["root_id"] == "cyto"}
+    for system_label in sorted(cyto_systems_present):
+        native_prefix = CYTO_SYSTEM_TO_NATIVE_PREFIX.get(system_label, f"Cyto_{_who_style_tag_token(system_label)}")
+        sub_id, sub_label = normalize_subcategory(system_label)
+        for tier in CYTO_BETHESDA_TIERS:
+            tier_readable = tier.replace("_", " ")
+            label = f"{system_label} Reporting Category: {tier_readable}"
+            abpath_leaves.append(
+                {
+                    "tag": "::".join([native_prefix, "Category", tier]),
+                    "label": label,
+                    "query": label,
+                    "provenance": "abpath",
+                    "root_id": "cyto",
+                    "sub_id": sub_id,
+                    "sub_label": sub_label,
+                    "abpath_level": None,
+                    "abpath_spec_id": None,
+                    "raw_path": None,
+                }
+            )
+
     who_leaves, who_source = load_who_leaves()
 
     # Persist WHO snapshot so rebuilds do not depend on a bloated prior index.
@@ -1201,10 +1379,27 @@ def main() -> int:
             existing["provenance"] = "both"
 
     merged = list(by_root_label.values())
-    # Sanitize: abpath/both provenance is reserved for content-spec tags.
+    # Sanitize: abpath/both provenance is reserved for content-spec tags —
+    # either the generic "ABPathSpec::<root>::…" wrapper, or one of the two
+    # majors (Cytopathology, Cardiovascular) that deliberately use a native
+    # WHO-style tag instead (2026-08-02: "get rid of the abpath part and use
+    # current logic of things" — see CYTO_SYSTEM_TO_NATIVE_PREFIX /
+    # cardio_organ_for_spec_id). Provenance itself is still set correctly by
+    # source-list membership above; this only guards against a leaf whose
+    # tag looks like neither pattern falsely claiming abpath/both.
+    def _is_recognized_abpath_tag(tag: str) -> bool:
+        if tag.startswith("ABPathSpec::"):
+            return True
+        if tag.startswith("Thorax_Mediastinum::") and (
+            tag.startswith(f"Thorax_Mediastinum::{CARDIO_ORGAN_HEART}::")
+            or tag.startswith(f"Thorax_Mediastinum::{CARDIO_ORGAN_VESSELS}::")
+        ):
+            return True
+        return any(tag.startswith(f"{prefix}::") for prefix in CYTO_SYSTEM_TO_NATIVE_PREFIX.values())
+
     for leaf in merged:
         tag = str(leaf.get("tag") or "")
-        if leaf.get("provenance") in {"abpath", "both"} and not tag.startswith("ABPathSpec::"):
+        if leaf.get("provenance") in {"abpath", "both"} and not _is_recognized_abpath_tag(tag):
             leaf["provenance"] = "who"
     roots = build_roots(merged)
 
@@ -1293,6 +1488,9 @@ def main() -> int:
             "Cytopathology (cyto root) subcategories are organ system first (e.g. 'Hematolymphoid Cytopathology'), not the raw ABPath content-spec header — see CYTO_SYSTEM_* constants and CYTO_ABPATH_SPEC_RANGES.",
             "ABPath major-section-12 organ-system boundaries were hand-reconstructed from the ordered row dump (the DOCX/PDF parser only recovers ~11% of section 12's own organ headers) and keyed on abpath_spec_id sequence ranges; re-verify ranges if the source PDF/DOCX content changes.",
             "A handful of ABPath cytopathology rows (e.g. anogenital squamous lesions) were merged into the closest matching organ system by clinical judgment, not an explicit ABPath organ label.",
+            "ABPath-derived cyto leaves carry a native 'Cyto_<System>::<Category>::<Leaf>' tag (matching the real WHO/PathOut Cyto_<Suffix> convention) instead of the generic ABPathSpec:: wrapper; <Category> is a heuristic Bethesda-tier classification (cyto_bethesda_category) off the leaf's own label, not a WHO-authoritative call — expect some borderline entities (e.g. pheochromocytoma) to sit in an arguable tier.",
+            "Each cyto system also carries 5 synthetic 'Cyto_<System>::Category::<Tier>' leaves (Nondiagnostic/Benign/Atypical/Suspicious_For_Malignancy/Malignant) — standardized reporting-scheme labels for navigation, not sourced diagnosis content; never counted toward WHO/ABPath entity totals.",
+            "Cardiovascular (ABPath major 4) has no standalone Browse root — its content is folded into Thorax_Mediastinum::Heart / Thorax_Mediastinum::Blood_Vessels (WHO's own Thoracic Tumours volume classifies heart tumors there; real WHO Thorax_Mediastinum::Heart::… tags already existed in this index). Heart vs Blood_Vessels boundaries were hand-reconstructed from the ordered row dump (CARDIO_ABPATH_SPEC_RANGES), same caveat as the cyto ranges above.",
         ],
     }
 

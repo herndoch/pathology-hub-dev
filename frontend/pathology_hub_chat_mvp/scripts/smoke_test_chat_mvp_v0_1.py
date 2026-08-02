@@ -276,6 +276,42 @@ def smoke_offline() -> None:
                     _fail("cyto still has a non-organ-system subcategory", bad)
             if len(cyto_sub_labels) > 25:
                 _fail("cyto subcategories still fragmented (expected ~16 organ systems)", len(cyto_sub_labels))
+            cyto_tags = [
+                l.get("tag", "")
+                for s in cyto_root.get("subcategories") or []
+                for l in s.get("leaves") or []
+            ]
+            if any(t.startswith("ABPathSpec::cyto::") for t in cyto_tags):
+                _fail("cyto still has synthetic ABPathSpec:: tags (expected native Cyto_<System>::…)", None)
+            if "Cyto_Adrenal::Malignant::Adrenal_Cortical_Carcinoma" not in cyto_tags:
+                _fail("expected native Cyto_Adrenal tag not found", None)
+            category_tags = [t for t in cyto_tags if "::Category::" in t]
+            if len(category_tags) < 5 * 10:
+                _fail("expected >=5 Bethesda-tier Category leaves per cyto system", len(category_tags))
+        # Cardio (2026-08-02): merged into Thorax_Mediastinum::Heart /
+        # ::Blood_Vessels per WHO's own Thoracic Tumours volume — no
+        # standalone "cardio" root, no synthetic ABPathSpec:: tags for it.
+        if any(r.get("id") == "cardio" for r in data.get("roots") or []):
+            _fail("cardio root should no longer exist (merged into thorax_mediastinum)", None)
+        thorax_root = next((r for r in data.get("roots") or [] if r.get("id") == "thorax_mediastinum"), None)
+        if not thorax_root:
+            _fail("missing thorax_mediastinum root", None)
+        else:
+            thorax_subs = {s.get("id") for s in thorax_root.get("subcategories") or []}
+            for expected in ("heart", "blood_vessels"):
+                if expected not in thorax_subs:
+                    _fail(f"thorax_mediastinum missing '{expected}' subcategory", sorted(thorax_subs))
+            heart_leaves = next(
+                (s.get("leaves") or [] for s in thorax_root.get("subcategories") or [] if s.get("id") == "heart"),
+                [],
+            )
+            myxoma = next((l for l in heart_leaves if "Myxoma" in l.get("tag", "")), None)
+            if not myxoma:
+                _fail("Cardiac Myxoma not found under thorax_mediastinum::heart", None)
+            elif myxoma.get("tag") != "Thorax_Mediastinum::Heart::Benign::Cardiac_Myxoma":
+                _fail("Cardiac Myxoma has unexpected tag shape", myxoma.get("tag"))
+            elif myxoma.get("provenance") != "abpath":
+                _fail("Cardiac Myxoma provenance should be 'abpath', not sanitized to 'who'", myxoma.get("provenance"))
         # Roots with huge subcategory fan-out (Peds/Neuro/Skin/Heme/Forensic)
         # must actually exceed the frontend's grouping threshold — otherwise
         # a future data change could silently regress back to a flat wall.
