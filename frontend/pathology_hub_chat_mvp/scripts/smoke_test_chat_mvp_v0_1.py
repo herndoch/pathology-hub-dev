@@ -313,6 +313,14 @@ def smoke_offline() -> None:
         ):
             if needle not in js:
                 _fail("rich citation hover-card feature missing", needle)
+        for needle in ("ONCOTREE_TALL_LABEL_CHARS", "oncotree-node-wrap-tall", "isTall"):
+            if needle not in js:
+                _fail("tall-label tree wrap feature missing", needle)
+        if "Backend unreachable" in js and "This chat app is fine" not in js:
+            _fail("Backend-unreachable status missing its explanatory tooltip", None)
+        for needle in ("export-info-btn", "export-info-modal"):
+            if needle not in js:
+                _fail("export info button wiring missing from app.js", needle)
         index_html = client.get("/").text
         for needle in ("model-select", "gpt-5.6-terra", "gpt-5.6-luna"):
             if needle not in index_html:
@@ -351,6 +359,9 @@ def smoke_offline() -> None:
     index_html2 = client.get("/").text
     if "cite-hover-card" not in index_html2:
         _fail("cite hover card markup missing from index.html", None)
+    for needle in ("export-info-btn", "export-info-modal", "What can I do with this JSON"):
+        if needle not in index_html2:
+            _fail("export info modal markup missing from index.html", needle)
 
     health = client.get("/api/health").json()
     if "topic_page_root_narrow" not in health:

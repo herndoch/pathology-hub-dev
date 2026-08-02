@@ -827,6 +827,11 @@ function slugifyForTree(text) {
  * long lists of things like in peds path and neuro path". */
 const ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD = 20;
 
+/** A leaf label this long (chars) reliably overflows one row's ~300px
+ * width at 100% zoom — wrap it onto a second line (see ONCOTREE_TALL_*
+ * CSS) instead of truncating to an identical-looking prefix. */
+const ONCOTREE_TALL_LABEL_CHARS = 34;
+
 /** Heuristic disease-process bucket for a *subcategory* label (not a single
  * diagnosis) — inserts one extra branch level (root -> process -> existing
  * subcategory -> leaf) purely to cut down an unmanageable root fan-out; it
@@ -938,11 +943,19 @@ function buildOncotreeLayout(roots, options = {}) {
     const subIdForNode = kind === "sub" ? node.id : ancestorSubId;
     const expanded = !isLeaf && (browseTreeExpanded.has(path) || Boolean(extraExpanded && extraExpanded.has(path)));
     const isMatch = isLeaf && isMatchFn ? isMatchFn(node) : false;
+    // Long WHO subtype names (e.g. "B lymphoblastic leukaemia/lymphoma with
+    // recurrent genetic abnormality, <gene>") used to all truncate to the
+    // same identical prefix on one fixed-height row, making distinct
+    // entities indistinguishable at a glance. Wrap onto a second line
+    // instead — same column width, twice the row height — rather than
+    // widening the column (2026-08-02 feedback: "instead of 300 max gets
+    // 300x2 max").
+    const isTall = isLeaf && formatDisplayLabel(node.label).length > ONCOTREE_TALL_LABEL_CHARS;
     let midRow;
     let truncatedNote = null;
     if (isLeaf || !expanded) {
       midRow = rowCursor;
-      rowCursor += 1;
+      rowCursor += isTall ? 2 : 1;
     } else {
       // While an in-tree search is active, only show what's relevant to it
       // — otherwise a single match inside a 19-leaf subcategory drags in
@@ -1031,6 +1044,7 @@ function buildOncotreeLayout(roots, options = {}) {
       color,
       label,
       isMatch,
+      isTall,
       hasChildren: !isLeaf,
       expanded,
       leafCount:
@@ -1153,13 +1167,19 @@ function renderOncotreeHtml(roots, options = {}) {
     if (n.kind === "group") classes.push("oncotree-group");
     if (n.kind === "supergroup") classes.push("oncotree-supergroup");
     if (n.isMatch) classes.push("oncotree-match");
+    if (n.isTall) classes.push("oncotree-tall");
     // Leaves get a small sibling VS button next to the label button — a
     // button can't nest inside another button (invalid HTML, and clicks
     // would double-fire), so wrap both in a plain positioned div instead.
     const isLeafNode = n.kind === "leaf";
-    const wrapOpen = isLeafNode
-      ? `<div class="oncotree-node-wrap" style="top:${top}px;left:${left}px;">`
-      : "";
+    // A tall (long-label) leaf wraps onto a 2nd line within the same
+    // column width instead of truncating — needs 2 rows' worth of height
+    // (see ONCOTREE_TALL_LABEL_CHARS).
+    const wrapStyle = n.isTall
+      ? `top:${top}px;left:${left}px;height:${2 * rowH}px;`
+      : `top:${top}px;left:${left}px;`;
+    const wrapClass = n.isTall ? "oncotree-node-wrap oncotree-node-wrap-tall" : "oncotree-node-wrap";
+    const wrapOpen = isLeafNode ? `<div class="${wrapClass}" style="${wrapStyle}">` : "";
     const wrapClose = isLeafNode ? "</div>" : "";
     const btnStyle = isLeafNode
       ? `font-size:${13 * oncotreeZoom()}px;`
@@ -1632,6 +1652,8 @@ const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
 const exportPageBtn = document.getElementById("export-page-btn");
 const exportStatus = document.getElementById("export-status");
+const exportInfoBtn = document.getElementById("export-info-btn");
+const exportInfoModal = document.getElementById("export-info-modal");
 const citeHoverCard = document.getElementById("cite-hover-card");
 const citeHoverImg = document.getElementById("cite-hover-img");
 const citeHoverTitleEl = document.getElementById("cite-hover-title");
@@ -3387,9 +3409,21 @@ async function refreshHealth() {
     } else if (!hubKey) {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "API key missing";
+      healthStatus.title = "PATHOLOGY_HUB_API_KEY is not configured for this app instance.";
     } else {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "Backend unreachable";
+      // Distinct from this chat app itself, which just answered this health
+      // check fine — "backend" is the separate upstream pathology-hub-v04
+      // Cloud Run service (textbooks/WHO/Pathoutlines/video search) this
+      // app calls into. A cold start after scale-to-zero or a transient
+      // 5xx there is the usual cause; it's normally transient.
+      const backendUrl = data.backend?.url || "the pathology-hub-v04 API";
+      const backendStatus = data.backend?.status_code;
+      healthStatus.title =
+        `This chat app is fine — the separate evidence backend it depends on (${backendUrl}) ` +
+        `did not respond${backendStatus ? ` (HTTP ${backendStatus})` : ""}. Usually a transient ` +
+        "cold start after scale-to-zero; try again in a few seconds or refresh.";
     }
   } catch (err) {
     healthStatus.className = "status error";
@@ -5669,6 +5703,13 @@ flagSendBtn?.addEventListener("click", submitFlag);
 
 infoModal?.querySelectorAll("[data-info-close]").forEach((el) => {
   el.addEventListener("click", () => infoModal.classList.add("hidden"));
+});
+
+exportInfoBtn?.addEventListener("click", () => {
+  exportInfoModal?.classList.remove("hidden");
+});
+exportInfoModal?.querySelectorAll("[data-export-info-close]").forEach((el) => {
+  el.addEventListener("click", () => exportInfoModal.classList.add("hidden"));
 });
 
 homeBtn?.addEventListener("click", () => {

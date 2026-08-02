@@ -489,6 +489,37 @@ code {
   max-width: 260px;
 }
 
+/* Long WHO subtype names wrap onto a 2nd line instead of truncating to an
+ * identical-looking prefix (2026-08-02: "instead of 300 max gets 300x2
+ * max") — same column width, double the row height. align-items:
+ * flex-start keeps the dot/VS button pinned to the first line (where the
+ * connecting curve from the parent arrives), not re-centered in the taller
+ * box, so the line still visually meets the dot. */
+.oncotree-node-wrap-tall {
+  align-items: flex-start;
+  height: auto;
+}
+
+.oncotree-node-wrap-tall .oncotree-node {
+  height: auto;
+  min-height: 28px;
+  align-items: flex-start;
+  white-space: normal;
+  overflow: visible;
+  word-break: break-word;
+  line-height: 1.2;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.oncotree-node-wrap-tall .oncotree-node .oncotree-dot {
+  margin-top: 0.15rem;
+}
+
+.oncotree-node-wrap-tall .oncotree-vs-btn {
+  margin-top: 0.2rem;
+}
+
 .oncotree-vs-btn {
   flex-shrink: 0;
   padding: 0.08rem 0.35rem;
@@ -1571,6 +1602,16 @@ button:disabled {
 
 #export-page-btn {
   width: 100%;
+}
+
+.export-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.export-btn-row #export-page-btn {
+  flex: 1;
 }
 
 .btn-secondary {
