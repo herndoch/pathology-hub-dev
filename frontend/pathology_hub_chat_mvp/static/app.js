@@ -706,11 +706,11 @@ function collectLeavesFromRoots(roots) {
   return rows;
 }
 
-/** OncoTree-style collapsible tree view for Browse — clickable, connected
- * dot-and-line hierarchy (root organ -> subcategory -> diagnosis leaf)
- * instead of the tile-grid/list drill-down. Same underlying data
- * (activeBrowseRoots()); this is purely an alternate visualization. */
-const BROWSE_VIEW_MODE_KEY = "ph_browse_view_mode_v0_1";
+/** Collapsible tree view for Browse — clickable, connected dot-and-line
+ * hierarchy (root organ -> subcategory -> diagnosis leaf). This is the one
+ * and only Browse-home visualization; the old tile-grid/mode-toggle only
+ * remains as a degraded fallback for when the tag index itself fails to
+ * load (see renderBrowseHome). */
 const ONCOTREE_BASE_ROW_HEIGHT = 30;
 const ONCOTREE_BASE_COL_WIDTH = 320;
 const ONCOTREE_LEAF_CAP_PER_SUB = 80;
@@ -727,50 +727,15 @@ const ONCOTREE_GROUP_THRESHOLD = 16;
 const ONCOTREE_MIN_CATEGORY_COVERAGE = 0.4;
 const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
 /** Above this many matches, an in-tree highlighted search would explode into
- * an unnavigable wall of expanded nodes — fall back to the flat list. */
-const ONCOTREE_SEARCH_INLINE_CAP = 40;
+ * an unnavigable wall of expanded nodes — fall back to the flat list. Set
+ * high enough to cover realistic partial-word searches (e.g. "adeno" ~270
+ * matches, "carcinoma" ~440) so the tree actively fills in live as the user
+ * types instead of bailing to a flat list; only near-single-letter queries
+ * (thousands of matches) still fall back. */
+const ONCOTREE_SEARCH_INLINE_CAP = 600;
 
-let browseViewMode = "tiles";
 let browseTreeExpanded = new Set();
 let browseTreeZoomIdx = ONCOTREE_ZOOM_STEPS.indexOf(1);
-
-function readBrowseViewMode() {
-  try {
-    const stored = localStorage.getItem(BROWSE_VIEW_MODE_KEY);
-    return stored === "tree" ? "tree" : "tiles";
-  } catch (_err) {
-    return "tiles";
-  }
-}
-
-function writeBrowseViewMode(mode) {
-  browseViewMode = mode === "tree" ? "tree" : "tiles";
-  try {
-    localStorage.setItem(BROWSE_VIEW_MODE_KEY, browseViewMode);
-  } catch (_err) {
-    // ignore quota / private-mode failures
-  }
-}
-
-browseViewMode = readBrowseViewMode();
-
-/** Mechanically-derived short code from a label's capitalized/salient words
- * — the same kind of abbreviation clinicians already use (DLBCL, LCIS,
- * GIST), never an invented board designation. Purely a display aid. */
-function derivedEntityCode(label) {
-  const text = formatDisplayLabel(label || "");
-  const stop = new Set(["of", "the", "and", "or", "in", "with", "a", "an", "for", "to"]);
-  const words = text.split(/\s+/).filter(Boolean);
-  const letters = [];
-  for (const w of words) {
-    const clean = w.replace(/[^A-Za-z0-9]/g, "");
-    if (!clean) continue;
-    if (stop.has(clean.toLowerCase())) continue;
-    letters.push(clean[0].toUpperCase());
-    if (letters.length >= 6) break;
-  }
-  return letters.length >= 2 ? letters.join("") : null;
-}
 
 function oncotreeDotColor(rootId, rootLabel) {
   const style = rootTileStyle(rootId, rootLabel);
@@ -788,9 +753,25 @@ function oncotreeZoom() {
  * — "Fibroblastic" is WHO's own classification, the same grouping used in
  * the WHO Blue Books). ABPathSpec tags (content-spec derived) and shallow
  * 3-segment WHO tags carry no such segment and return null — those leaves
- * have nothing to hang a "nice" branch off of. */
+ * have nothing to hang a "nice" branch off of.
+ *
+ * Cytopathology is a partial exception: `Cyto_<System>::…` WHO/PathOut tags
+ * and `ABPathSpec::cyto::…` tags both bucket the Browse *subcategory* on
+ * organ system (see build_browse_tag_index_who_abpath_spec_v0_1.py
+ * CYTO_SYSTEM_* constants), one segment earlier than every other root — so
+ * the real histologic category (WHO's own "Benign"/"Malignant"/"SIL", or
+ * ABPath's own content-spec heading) sits one segment sooner too. */
 function leafCategoryFromTag(tag) {
-  if (!tag || tag.startsWith("ABPathSpec::")) return null;
+  if (!tag) return null;
+  if (tag.startsWith("Cyto_")) {
+    const parts = tag.split("::").filter(Boolean);
+    return parts.length > 2 ? formatDisplayLabel(parts[1]) : null;
+  }
+  if (tag.startsWith("ABPathSpec::cyto::")) {
+    const parts = tag.split("::").filter(Boolean);
+    return parts.length > 4 ? formatDisplayLabel(parts[2]) : null;
+  }
+  if (tag.startsWith("ABPathSpec::")) return null;
   const parts = tag.split("::").filter(Boolean);
   if (parts.length <= 3) return null;
   return formatDisplayLabel(parts[2]);
@@ -859,8 +840,10 @@ function buildOncotreeLayout(roots, options = {}) {
   // once every node's final position is known (see pathToNode below).
   const linkPairs = [];
 
-  function visit(kind, node, depth, color, path) {
+  function visit(kind, node, depth, color, path, ancestorRootId, ancestorSubId) {
     const isLeaf = kind === "leaf";
+    const rootIdForNode = kind === "root" ? node.id : ancestorRootId;
+    const subIdForNode = kind === "sub" ? node.id : ancestorSubId;
     const expanded = !isLeaf && (browseTreeExpanded.has(path) || Boolean(extraExpanded && extraExpanded.has(path)));
     const isMatch = isLeaf && isMatchFn ? isMatchFn(node) : false;
     let midRow;
@@ -917,7 +900,7 @@ function buildOncotreeLayout(roots, options = {}) {
         children.forEach((child, i) => {
           const childPath = `${path}::${childKind === "leaf" ? i : child.id}`;
           linkPairs.push({ parentPath: path, childPath, color });
-          const mid = visit(childKind, child, depth + 1, color, childPath);
+          const mid = visit(childKind, child, depth + 1, color, childPath, rootIdForNode, subIdForNode);
           childMids.push(mid);
         });
         if (hiddenCount > 0) {
@@ -934,7 +917,6 @@ function buildOncotreeLayout(roots, options = {}) {
     const x = depth * colW;
     const y = midRow * rowH;
     const label = formatDisplayLabel(node.label);
-    const code = kind === "leaf" || kind === "sub" ? derivedEntityCode(node.label) : null;
     nodes.push({
       kind,
       path,
@@ -943,14 +925,13 @@ function buildOncotreeLayout(roots, options = {}) {
       y,
       color,
       label,
-      code,
       isMatch,
       hasChildren: !isLeaf,
       expanded,
       leafCount: kind === "root" || kind === "sub" || kind === "group" ? node.leaf_count : null,
       leaf: isLeaf ? node : null,
-      rootId: kind === "root" ? node.id : null,
-      subId: kind === "sub" ? node.id : null,
+      rootId: rootIdForNode,
+      subId: subIdForNode,
     });
     if (truncatedNote) {
       const noteLabel =
@@ -1050,7 +1031,6 @@ function renderOncotreeHtml(roots, options = {}) {
     const caret = n.hasChildren ? `<span class="oncotree-caret">${n.expanded ? "\u25be" : "\u25b8"}</span>` : "";
     const countBadge =
       n.kind !== "leaf" && n.leafCount != null ? `<span class="oncotree-count">${n.leafCount}</span>` : "";
-    const codeSuffix = n.code ? ` <span class="oncotree-code">(${escapeHtml(n.code)})</span>` : "";
     const payload = escapeAttr(
       JSON.stringify({
         kind: n.kind,
@@ -1066,10 +1046,27 @@ function renderOncotreeHtml(roots, options = {}) {
     if (n.kind === "leaf") classes.push("oncotree-leaf");
     if (n.kind === "group") classes.push("oncotree-group");
     if (n.isMatch) classes.push("oncotree-match");
-    nodesHtml += `<button type="button" class="${classes.join(" ")}" style="top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;" data-node="${payload}" title="${escapeAttr(n.label)}">`;
+    // Leaves get a small sibling VS button next to the label button — a
+    // button can't nest inside another button (invalid HTML, and clicks
+    // would double-fire), so wrap both in a plain positioned div instead.
+    const isLeafNode = n.kind === "leaf";
+    const wrapOpen = isLeafNode
+      ? `<div class="oncotree-node-wrap" style="top:${top}px;left:${left}px;">`
+      : "";
+    const wrapClose = isLeafNode ? "</div>" : "";
+    const btnStyle = isLeafNode
+      ? `font-size:${13 * oncotreeZoom()}px;`
+      : `top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;`;
+    nodesHtml += wrapOpen;
+    nodesHtml += `<button type="button" class="${classes.join(" ")}" style="${btnStyle}" data-node="${payload}" title="${escapeAttr(n.label)}">`;
     nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
-    nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}${codeSuffix}</span>${countBadge}${caret}`;
+    nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}</span>${countBadge}${caret}`;
     nodesHtml += "</button>";
+    if (isLeafNode) {
+      const compareEntity = comparePayloadFromLeaf(n.rootId, n.subId, n.leaf);
+      nodesHtml += renderVsButton(compareEntity, " oncotree-vs-btn");
+    }
+    nodesHtml += wrapClose;
   }
 
   return `<div class="oncotree-container"><div class="oncotree-canvas" style="width:${width}px;height:${height}px;">${svg}${nodesHtml}</div></div>`;
@@ -1134,6 +1131,18 @@ function bindOncotreeHandlers(roots, onRerender) {
       }
       onRerender();
     });
+  });
+}
+
+/** Small (?) affordance that opens the "How to use Browse" modal instead of
+ * permanently-visible instructional paragraphs cluttering the tree. */
+function infoButtonHtml() {
+  return `<button type="button" id="browse-info-btn" class="oncotree-info-btn" title="How to use Browse" aria-label="How to use Browse">?</button>`;
+}
+
+function bindInfoButtonHandler() {
+  document.getElementById("browse-info-btn")?.addEventListener("click", () => {
+    infoModal?.classList.remove("hidden");
   });
 }
 
@@ -1509,6 +1518,8 @@ const flagModal = document.getElementById("flag-modal");
 const flagCommentEl = document.getElementById("flag-comment");
 const flagSendBtn = document.getElementById("flag-send-btn");
 const flagStatusEl = document.getElementById("flag-status");
+const infoModal = document.getElementById("info-modal");
+const homeBtn = document.getElementById("home-btn");
 
 /** Active lightbox gallery — ordered preview payloads + current index (C10). */
 let currentGallery = { items: [], index: 0 };
@@ -1711,11 +1722,25 @@ function filterVideoCardsByRelevance(query, cards, { maxShown = 6 } = {}) {
         : "";
     return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
   }
-  if (conflicts.length) {
+  if (conflicts.length && conflicts.length === videos.length) {
     return {
       shown: [],
       hidden: videos,
       note: `${conflicts.length} lecture segment${conflicts.length === 1 ? "" : "s"} matched the wrong topic.`,
+    };
+  }
+  // Nothing named the exact entity verbatim (common for narrow/rare
+  // diagnoses — transcripts rarely say a specific rare-tumor name in full),
+  // but at least one segment isn't flagged as wrong-topic — showing the
+  // closest topic-area lecture segments is more useful to a resident than
+  // an empty section with a phantom "Videos: N" badge above it (reported
+  // 2026-08-01: BPOP page showed "Videos 8" but zero links anywhere).
+  if (irrelevant.length) {
+    const shown = irrelevant.slice(0, maxShown).map((row) => row.item);
+    return {
+      shown,
+      hidden: conflicts.map((row) => row.item),
+      note: "No lecture segment names this exact entity verbatim — showing the closest topic-area lecture segments instead.",
     };
   }
   return { shown: [], hidden: videos, note: "No lecture segments matched this topic closely." };
@@ -1856,6 +1881,40 @@ function cardPresentation(card) {
 }
 
 let activeCiteBySource = new Map();
+/** URL -> {title, meta, excerpt} for every live-literature card on the
+ * current page, keyed by every resolvable URL variant (source_url, doi.org
+ * link) — lets an inline "(DOI)" citation show, on hover, the exact same
+ * title/journal/year/excerpt already printed for it in the Live Literature
+ * strip below, instead of a bare unlabeled link. */
+let activeLiteratureByUrl = new Map();
+
+function buildLiteratureByUrl(literatureCards) {
+  const map = new Map();
+  for (const card of literatureCards || []) {
+    if (!card || typeof card !== "object") continue;
+    const title = card.title || "Untitled";
+    const journal = card.journal || card.source_name || "";
+    const year = card.year || "";
+    const mode = card.retrieval_mode || "";
+    const excerpt = (card.excerpt || card.text || "").replace(/\s+/g, " ").trim().slice(0, 320);
+    const doi = String(card.doi || "").trim();
+    const doiUrl = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : "";
+    const entry = { title, meta: [journal, year, mode].filter(Boolean).join(" \u00b7 "), excerpt };
+    for (const url of [pickHttp(card.source_url), pickHttp(card.url), pickHttp(doiUrl)]) {
+      if (url && !map.has(url)) map.set(url, entry);
+    }
+  }
+  return map;
+}
+
+function literatureHoverTitle(url) {
+  const entry = activeLiteratureByUrl.get(url);
+  if (!entry) return "";
+  const lines = [entry.title];
+  if (entry.meta) lines.push(entry.meta);
+  if (entry.excerpt) lines.push(`\u201c${entry.excerpt}${entry.excerpt.length >= 320 ? "\u2026" : ""}\u201d`);
+  return lines.join("\n");
+}
 /** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
 let activeTextbookLabelByUrl = new Map();
 
@@ -2481,11 +2540,17 @@ function renderInlineLink(label, url, previewIndex) {
   const bare = String(label || "").replace(/^\(+|\)+$/g, "");
   const display = /^DOI$/i.test(bare) ? "(DOI)" : bare;
   const safeLabel = escapeHtml(display);
+  // Rich hover: a "(DOI)" citation shows the exact title/journal/year/excerpt
+  // already printed for it in the Live Literature strip, verbatim, instead
+  // of a bare unlabeled link with no context until you click through.
+  const hoverText = literatureHoverTitle(url);
+  const titleAttr = hoverText ? ` title="${escapeAttr(hoverText)}"` : "";
+  const hoverClass = hoverText ? " inline-cite-link-lit" : "";
   if (preview?.previewUrl) {
     const payload = escapeAttr(JSON.stringify(preview));
-    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link" data-preview="${payload}">${safeLabel}</a>`;
+    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}" data-preview="${payload}"${titleAttr}>${safeLabel}</a>`;
   }
-  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link">${safeLabel}</a>`;
+  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}"${titleAttr}>${safeLabel}</a>`;
 }
 
 function renderInlineImage(alt, url, previewIndex) {
@@ -3427,40 +3492,48 @@ function renderBrowseHome() {
   const fullRoots = getBrowseNavRootsFull();
   const showingIndexed = usingIndex && Boolean(fullRoots);
   const roots = activeBrowseRoots();
-  const activeTotal = roots.reduce((sum, r) => sum + r.leaf_count, 0);
-  const leavesRaw = showingIndexed ? browseIndex.counts?.leaves_total_raw : null;
-  const leavesRemoved = showingIndexed ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
 
-  let html = "";
-  if (showingIndexed) {
-    const abpathCount = browseIndex.counts?.leaves_abpath_only;
-    const whoOnlyCount = browseIndex.counts?.leaves_who_only;
-    const bothCount = browseIndex.counts?.leaves_both;
-    const provenanceNote =
-      abpathCount != null && whoOnlyCount != null
-        ? ` WHO + ABPath AP Content Specification diagnoses, deduped (${abpathCount} ABPath-only, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only). PathOut is citation-only here.`
-        : "";
-    const dedupeNote =
-      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${activeTotal} nav topics.` : "";
-    html += '<div class="oncotree-view-toggle" role="group" aria-label="Browse view mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tiles" ? " active" : ""}" data-view-mode="tiles">Tile view</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseViewMode === "tree" ? " active" : ""}" data-view-mode="tree">Tree view (OncoTree-style)</button>`;
+  // Browse is tree-only now — the tile grid only ever appears as a
+  // degraded fallback when the tag index itself failed to load (its
+  // curated taxonomy uses a different, string-only shape the tree can't
+  // render). No mode toggle, no "OncoTree" branding — see infoButtonHtml()
+  // for the one small (?) affordance that explains how to use it.
+  if (!showingIndexed) {
+    let html = '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+    html += '<div class="browse-tile-grid">';
+    for (const root of roots) {
+      const style = rootTileStyle(root.id, root.label);
+      const countLabel = `${root.leaf_count} topic${root.leaf_count === 1 ? "" : "s"}`;
+      html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
+      html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
+      html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
+      html += "</button>";
+    }
     html += "</div>";
-    html += `<p class="hint"><strong>${activeTotal} topics</strong> —${provenanceNote}${dedupeNote} Type in the search bar at the top of the screen to filter${browseViewMode === "tree" ? " the tree" : ""}.</p>`;
-  } else {
-    html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+    browseContentEl.innerHTML = html;
+    browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
+      el.addEventListener("click", () => {
+        browseFilterQuery = "";
+        browseState = { level: "category", categoryId: el.dataset.categoryId };
+        renderBrowseView();
+      });
+    });
+    return;
   }
 
-  const treeSearchActive = browseViewMode === "tree" && browseFilterQuery.trim();
+  const treeSearchQuery = browseFilterQuery.trim();
   let treeSearchMatches = null;
-  if (treeSearchActive) {
+  if (treeSearchQuery) {
     treeSearchMatches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
   }
-  const useInlineTreeSearch = treeSearchActive && treeSearchMatches.length > 0 && treeSearchMatches.length <= ONCOTREE_SEARCH_INLINE_CAP;
+  const useInlineTreeSearch = treeSearchQuery && treeSearchMatches.length > 0 && treeSearchMatches.length <= ONCOTREE_SEARCH_INLINE_CAP;
 
-  if (showingIndexed && browseViewMode === "tree" && (!browseFilterQuery.trim() || useInlineTreeSearch)) {
-    html += '<p class="hint">Click an organ or subcategory dot to expand it; click a diagnosis leaf to open its topic page. Large subcategories branch by real pathology category (e.g. Fibroblastic, Vascular) from the WHO classification — not alphabetically. Entities with no clear category are left off the tree (search or Tile view still find them). Codes in parens are mechanically derived initials (e.g. DLBCL), not official board designations.</p>';
-    html += oncotreeToolbarHtml();
+  let html = '<div class="oncotree-topbar">';
+  html += oncotreeToolbarHtml();
+  html += infoButtonHtml();
+  html += "</div>";
+
+  if (!treeSearchQuery || useInlineTreeSearch) {
     let treeOptions = {};
     if (useInlineTreeSearch) {
       const matchSet = new Set(treeSearchMatches.map((row) => row.leaf));
@@ -3470,18 +3543,14 @@ function renderBrowseHome() {
         extraExpanded.add(`${row.root.id}::${row.sub.id}`);
       }
       treeOptions = { extraExpanded, isMatch: (leafNode) => matchSet.has(leafNode) };
-      html += `<p class="hint">${treeSearchMatches.length} match${treeSearchMatches.length === 1 ? "" : "es"} for "${escapeHtml(browseFilterQuery.trim())}" — highlighted below, ancestors auto-expanded.</p>`;
+      html += `<p class="hint">${treeSearchMatches.length} match${treeSearchMatches.length === 1 ? "" : "es"} for "${escapeHtml(treeSearchQuery)}" — highlighted below, ancestors auto-expanded.</p>`;
     }
     html += renderOncotreeHtml(roots, treeOptions);
     browseContentEl.innerHTML = html;
-    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
-      el.addEventListener("click", () => {
-        writeBrowseViewMode(el.dataset.viewMode);
-        renderBrowseView();
-      });
-    });
     bindOncotreeToolbarHandlers(() => renderBrowseView());
+    bindInfoButtonHandler();
     bindOncotreeHandlers(roots, () => renderBrowseView());
+    bindVsButtons(browseContentEl);
     if (useInlineTreeSearch) {
       const firstMatchEl = browseContentEl.querySelector(".oncotree-match");
       firstMatchEl?.scrollIntoView({ block: "center" });
@@ -3489,79 +3558,47 @@ function renderBrowseHome() {
     return;
   }
 
-  if (showingIndexed && browseFilterQuery.trim()) {
-    if (treeSearchActive && treeSearchMatches.length > ONCOTREE_SEARCH_INLINE_CAP) {
-      html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
-    }
-    const matches = treeSearchActive ? treeSearchMatches : collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
-    html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
-    html += '<div class="chevron-list">';
-    for (const row of matches.slice(0, 120)) {
-      const leafPayload = escapeAttr(
-        JSON.stringify({
-          tag: row.leaf.tag,
-          label: row.leaf.label,
-          query: row.leaf.query,
-          provenance: row.leaf.provenance || null,
-          categoryId: row.root.id,
-          subcategoryId: row.sub.id,
-        }),
-      );
-      html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
-    }
+  // Degenerate query (near-every-leaf match, e.g. a single letter) — flat
+  // list instead of an unnavigable wall of expanded tree nodes.
+  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
+  html += '<div class="chevron-list">';
+  for (const row of treeSearchMatches.slice(0, 120)) {
+    const compareEntity = comparePayloadFromLeaf(row.root.id, row.sub.id, row.leaf);
+    const leafPayload = escapeAttr(
+      JSON.stringify({
+        tag: row.leaf.tag,
+        label: row.leaf.label,
+        query: row.leaf.query,
+        provenance: row.leaf.provenance || null,
+        categoryId: row.root.id,
+        subcategoryId: row.sub.id,
+      }),
+    );
+    html += '<div class="browse-leaf-row">';
+    html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
+    html += renderVsButton(compareEntity);
     html += "</div>";
-    if (matches.length > 120) {
-      html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
-    }
-    browseContentEl.innerHTML = html;
-    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
-      el.addEventListener("click", () => {
-        writeBrowseViewMode(el.dataset.viewMode);
-        renderBrowseView();
-      });
-    });
-    browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
-      el.addEventListener("click", () => {
-        const leaf = JSON.parse(el.dataset.leaf);
-        browseFilterQuery = "";
-        browseState = {
-          level: "leaf",
-          categoryId: leaf.categoryId,
-          subcategoryId: leaf.subcategoryId,
-          tag: leaf.tag,
-          label: leaf.label,
-          query: leaf.query,
-          provenance: leaf.provenance || null,
-        };
-        renderBrowseView();
-      });
-    });
-    return;
-  }
-
-  html += '<div class="browse-tile-grid">';
-  for (const root of roots) {
-    const style = rootTileStyle(root.id, root.label);
-    const countLabel = `${root.leaf_count} topic${root.leaf_count === 1 ? "" : "s"}`;
-    html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
-    html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
-    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
-    html += "</button>";
   }
   html += "</div>";
-  browseContentEl.innerHTML = html;
-  if (showingIndexed) {
-    browseContentEl.querySelectorAll("[data-view-mode]").forEach((el) => {
-      el.addEventListener("click", () => {
-        writeBrowseViewMode(el.dataset.viewMode);
-        renderBrowseView();
-      });
-    });
+  if (treeSearchMatches.length > 120) {
+    html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
   }
-  browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
+  browseContentEl.innerHTML = html;
+  bindInfoButtonHandler();
+  bindVsButtons(browseContentEl);
+  browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
     el.addEventListener("click", () => {
+      const leaf = JSON.parse(el.dataset.leaf);
       browseFilterQuery = "";
-      browseState = { level: "category", categoryId: el.dataset.categoryId };
+      browseState = {
+        level: "leaf",
+        categoryId: leaf.categoryId,
+        subcategoryId: leaf.subcategoryId,
+        tag: leaf.tag,
+        label: leaf.label,
+        query: leaf.query,
+        provenance: leaf.provenance || null,
+      };
       renderBrowseView();
     });
   });
@@ -4431,7 +4468,7 @@ function formatSourceCountLabel(sourceKey, count) {
 }
 
 /** Compact source chips under the board map so missing textbooks are obvious. */
-function renderEvidenceSourceBar(data) {
+function renderEvidenceSourceBar(data, shownOverrides = {}) {
   const cards = data?.cards || [];
   const order = ["textbooks", "who", "pathout", "videos", "literature"];
   const counts = countItemsBySource(cards);
@@ -4440,10 +4477,17 @@ function renderEvidenceSourceBar(data) {
   }
   const chips = [];
   for (const src of order) {
-    const n = counts[src] || 0;
+    const retrieved = counts[src] || 0;
+    const shown = shownOverrides[src];
+    // When a query-relevance filter hid some/all retrieved cards of this
+    // source (e.g. lecture segments that don't name a rare diagnosis
+    // verbatim — see filterVideoCardsByRelevance), the chip must say so
+    // instead of a bare "N" that implies N are visible below when 0 are.
+    const n = shown != null ? shown : retrieved;
     const label = SOURCE_LABELS[src] || src;
     const cls = n > 0 ? "source-chip ok" : "source-chip missing";
-    chips.push(`<span class="${cls}">${escapeHtml(label)} <strong>${n}</strong></span>`);
+    const countText = shown != null && shown !== retrieved ? `${shown}/${retrieved} shown` : String(n);
+    chips.push(`<span class="${cls}">${escapeHtml(label)} <strong>${countText}</strong></span>`);
   }
   const tb = counts.textbooks || 0;
   let note = "";
@@ -4731,38 +4775,6 @@ async function streamChat(payload, { onProgress } = {}) {
   return resultPayload;
 }
 
-/** Splits a raw "Root::Sub::Leaf" tag into human-readable breadcrumb
- * segments, resolving the root segment against the loaded Browse taxonomy's
- * display label when possible (e.g. tag root "HN" -> taxonomy root label)
- * so the page shows where this sits in the curriculum, not just a raw tag
- * string with literal "::" separators. */
-function tagBreadcrumbSegments(tag) {
-  let parts = String(tag || "")
-    .split("::")
-    .map((p) => p.trim())
-    .filter(Boolean);
-  if (!parts.length) return [];
-  // Content-spec tags: ABPathSpec::<root>::<sub>::<entity>
-  let contentSpecPrefix = null;
-  if (normalizeBrowseRootId(parts[0]) === "abpathspec") {
-    contentSpecPrefix = "ABPath content spec";
-    parts = parts.slice(1);
-  }
-  if (!parts.length) return contentSpecPrefix ? [contentSpecPrefix] : [];
-  const rootSlug = parts[0]
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "");
-  const matchedRoot = (getBrowseRoots() || []).find((r) => r.id === rootSlug);
-  const segments = parts.map((part, i) => {
-    if (i === 0) return matchedRoot ? formatDisplayLabel(matchedRoot.label) : formatDisplayLabel(part);
-    if (i === parts.length - 1) return formatDisplayLabel(part);
-    return formatSubcategoryLabel(part);
-  });
-  if (contentSpecPrefix) segments.unshift(contentSpecPrefix);
-  return segments;
-}
-
 function browsePathSegments(entryMeta) {
   const segments = [];
   const category = entryMeta?.categoryId ? findCategory(entryMeta.categoryId) : null;
@@ -4774,39 +4786,24 @@ function browsePathSegments(entryMeta) {
   return segments;
 }
 
-/** Board / hierarchical curriculum panel — always shown on topic pages when
- * we have either a formal ABPath/WHO tag or a Browse path. */
+/** Single compact "Tag: <tag path>" line on a built topic page — the full
+ * board/curriculum breadcrumb prose (root > subcategory > category > leaf)
+ * is redundant with the machine tag path itself and with the breadcrumbs
+ * already shown above the page (see renderBrowseBreadcrumbs), so it isn't
+ * repeated here. Falls back to the human Browse path only when there is no
+ * formal ABPath/WHO tag at all. */
 function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
-  const tagSegments = tag ? tagBreadcrumbSegments(tag) : [];
-  const pathSegments = browsePathSegments(entryMeta || {});
-  const segments = tagSegments.length ? tagSegments : pathSegments;
-  if (!segments.length && !tag && !provenance) return "";
-
-  const provenanceLabel =
-    formatNavProvenanceLabel(provenance) ||
-    (tag ? null : "Browse path only — open from Full index for ABPath board tags");
-
-  let html = '<div class="topic-tags-header curriculum-board-panel">';
-  html += '<div class="curriculum-board-title">Board / curriculum map</div>';
-  html += '<div class="curriculum-board-row">';
-  html += '<span class="topic-tags-label">Hierarchy:</span>';
-  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag || segments.join(" › "))}">`;
-  html += segments
-    .map((seg) => escapeHtml(seg))
-    .join(' <span class="tag-breadcrumb-sep">\u203a</span> ');
-  html += "</span>";
-  if (provenanceLabel) {
-    html += `<span class="source-badge provenance-badge">${escapeHtml(provenanceLabel)}</span>`;
-  }
-  html += "</div>";
   if (tag) {
-    html += `<div class="curriculum-board-tagline"><span class="topic-tags-label">Tag path:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
-  } else {
-    html +=
-      '<p class="hint curriculum-board-hint">No ABPath/WHO tag on this leaf yet — switch Browse to <strong>Full index</strong> (or Rebuild after pull) to attach board curricular tags like <code>Breast::Neoplastic::…::Lobular_Carcinoma_In_Situ_LCIS</code>.</p>';
+    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
   }
-  html += "</div>";
-  return html;
+  const pathSegments = browsePathSegments(entryMeta || {});
+  if (!pathSegments.length && !provenance) return "";
+  const provenanceLabel =
+    formatNavProvenanceLabel(provenance) || "Browse path only — open from Full index for ABPath board tags";
+  if (!pathSegments.length) {
+    return `<div class="topic-tags-header curriculum-tagline"><span class="hint">${escapeHtml(provenanceLabel)}</span></div>`;
+  }
+  return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(pathSegments.join(" › "))}</code></div>`;
 }
 
 function literatureProviderLabel(key) {
@@ -4916,6 +4913,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   }
   // Enables bare (WHO)/(Pathoutlines)/(Atlas) → real links, and journal labels → (DOI).
   activeCiteBySource = buildCiteBySource(data.cards || [], literatureCards);
+  activeLiteratureByUrl = buildLiteratureByUrl(literatureCards);
   indexTextbookLabelsFromCards(data.cards || [], shownFigures);
   const pageContext = pageContextFromEntryMeta(entryMeta);
   const tag = entryMeta?.tag || null;
@@ -4923,7 +4921,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
 
   // Board/curriculum hierarchy at the top (ABPath/WHO tag path when known).
   let html = renderEntryTagsHeader(tag, provenance, entryMeta);
-  html += renderEvidenceSourceBar(data);
+  html += renderEvidenceSourceBar(data, { videos: lectureCards.length, literature: literatureCards.length });
   html += renderTopicPage(
     sections,
     previewIndex,
@@ -5272,6 +5270,7 @@ form.addEventListener("submit", async (event) => {
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
       const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
       activeCiteBySource = buildCiteBySource(data.cards || [], []);
+      activeLiteratureByUrl = new Map();
       indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
@@ -5403,6 +5402,17 @@ flagModal?.querySelectorAll("[data-flag-close]").forEach((el) => {
   el.addEventListener("click", closeFlagModal);
 });
 flagSendBtn?.addEventListener("click", submitFlag);
+
+infoModal?.querySelectorAll("[data-info-close]").forEach((el) => {
+  el.addEventListener("click", () => infoModal.classList.add("hidden"));
+});
+
+homeBtn?.addEventListener("click", () => {
+  browseFilterQuery = "";
+  browseState = { level: "home" };
+  setActiveView("browse");
+  renderBrowseView();
+});
 
 updateModeHint();
 setActiveView("browse");

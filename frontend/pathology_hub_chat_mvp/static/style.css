@@ -103,6 +103,36 @@ code {
   white-space: nowrap;
 }
 
+.query-overlay-home {
+  flex-shrink: 0;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.query-overlay-home:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.info-modal-list {
+  margin: 0.5rem 0 0.9rem;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
 .brand h1 {
   margin: 0;
   font-size: 1.25rem;
@@ -272,30 +302,6 @@ code {
   font-size: 0.8rem;
 }
 
-.oncotree-view-toggle {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-bottom: 0.5rem;
-}
-
-.browse-nav-mode-btn {
-  border: 1px solid var(--panel-border);
-  background: #f8f9fa;
-  color: var(--text);
-  border-radius: 999px;
-  padding: 0.35rem 0.8rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.browse-nav-mode-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
 .browse-tile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -360,12 +366,42 @@ code {
   margin-top: 0.5rem;
 }
 
+.oncotree-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .oncotree-toolbar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin: 0.4rem 0;
   flex-wrap: wrap;
+}
+
+.oncotree-info-btn {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--panel-border);
+  background: #f8f9fa;
+  color: var(--muted-text, #6b7280);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oncotree-info-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .oncotree-toolbar .btn-secondary {
@@ -423,6 +459,29 @@ code {
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
+}
+
+/* Leaves render as a sibling label-button + VS-button pair (a button can't
+ * validly nest inside another button) — this wrapper positions both as one
+ * unit at the node's computed {top,left}, matching plain .oncotree-node. */
+.oncotree-node-wrap {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  height: 28px;
+  max-width: 340px;
+}
+
+.oncotree-node-wrap .oncotree-node {
+  position: static;
+  max-width: 260px;
+}
+
+.oncotree-vs-btn {
+  flex-shrink: 0;
+  padding: 0.08rem 0.35rem;
+  font-size: 0.65rem;
 }
 
 .oncotree-node:hover {
@@ -483,11 +542,6 @@ code {
 .oncotree-label {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.oncotree-code {
-  color: var(--muted-text, #6b7280);
-  font-weight: 400;
 }
 
 .oncotree-count {
@@ -956,6 +1010,14 @@ code {
   text-decoration: none;
 }
 
+/* Carries a rich native tooltip (title attribute) with the literature
+ * card's title/journal/year/excerpt — a slightly heavier underline hints
+ * that hovering shows more than a bare link. */
+.inline-cite-link-lit {
+  border-bottom: 1px dotted var(--accent);
+  cursor: help;
+}
+
 .inline-figure-row {
   display: flex !important;
   flex-direction: row !important;
@@ -1084,36 +1146,17 @@ code {
 }
 
 .topic-tags-header,
-.curriculum-board-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  margin-bottom: 1rem;
-  padding: 0.85rem 1rem;
-  border: 1px solid #c5d8f5;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
-}
-
-.curriculum-board-title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.curriculum-board-row {
+.curriculum-tagline {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.4rem 0.55rem;
-}
-
-.curriculum-board-tagline {
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #c5d8f5;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
   font-size: 0.82rem;
-  color: var(--text);
-  line-height: 1.4;
 }
 
 .curriculum-tag-path {
@@ -1122,10 +1165,6 @@ code {
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   word-break: break-all;
-}
-
-.curriculum-board-hint {
-  margin: 0;
 }
 
 .topic-tags-label {

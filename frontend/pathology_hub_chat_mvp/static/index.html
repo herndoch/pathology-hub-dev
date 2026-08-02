@@ -16,6 +16,7 @@
   </header>
 
   <form class="query-overlay" id="chat-form">
+    <button type="button" id="home-btn" class="query-overlay-home" title="Back to Browse home">&#8962; Home</button>
     <input
       id="query-input"
       type="text"
@@ -104,6 +105,26 @@
         <a id="media-modal-source" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Source</a>
         <a id="media-modal-timestamp" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Open timestamp</a>
         <a id="media-modal-reference" class="media-modal-action" href="#" target="_blank" rel="noopener" hidden>Reference page</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="info-modal" class="flag-modal hidden" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <div class="media-modal-backdrop" data-info-close></div>
+    <div class="flag-modal-panel">
+      <button type="button" class="media-modal-close" data-info-close aria-label="Close">&times;</button>
+      <h2 id="info-modal-title" class="flag-modal-title">How to use Browse</h2>
+      <ul class="info-modal-list">
+        <li>Click an organ or subcategory dot to expand its branches; click a leaf to open its topic page.</li>
+        <li>Large subcategories branch by real pathology category (e.g. Fibroblastic, Vascular), read from the WHO classification itself — never alphabetically.</li>
+        <li>Type in the search bar above to live-filter the tree, even on a partial word (e.g. "adeno", "sarc") — matches and their ancestors expand automatically.</li>
+        <li>Press Enter in the search bar to ask a full question instead of filtering.</li>
+        <li>Click <strong>VS</strong> next to any diagnosis to add it to the comparison tray at the bottom, then hit <strong>Compare</strong>.</li>
+        <li>Click <strong>&#8962; Home</strong> at any time to return to the Browse tree.</li>
+        <li>A few entities with no clear category are left off the tree — search still finds them.</li>
+      </ul>
+      <div class="flag-modal-actions">
+        <button type="button" class="btn-secondary" data-info-close>Close</button>
       </div>
     </div>
   </div>
