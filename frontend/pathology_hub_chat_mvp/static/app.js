@@ -1632,6 +1632,11 @@ const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
 const exportPageBtn = document.getElementById("export-page-btn");
 const exportStatus = document.getElementById("export-status");
+const citeHoverCard = document.getElementById("cite-hover-card");
+const citeHoverImg = document.getElementById("cite-hover-img");
+const citeHoverTitleEl = document.getElementById("cite-hover-title");
+const citeHoverMetaEl = document.getElementById("cite-hover-meta");
+const citeHoverExcerptEl = document.getElementById("cite-hover-excerpt");
 const mediaModal = document.getElementById("media-modal");
 const mediaModalImg = document.getElementById("media-modal-img");
 const mediaModalCaption = document.getElementById("media-modal-caption");
@@ -2013,12 +2018,16 @@ function cardPresentation(card) {
 }
 
 let activeCiteBySource = new Map();
-/** URL -> {title, meta, excerpt} for every live-literature card on the
- * current page, keyed by every resolvable URL variant (source_url, doi.org
- * link) — lets an inline "(DOI)" citation show, on hover, the exact same
- * title/journal/year/excerpt already printed for it in the Live Literature
- * strip below, instead of a bare unlabeled link. */
+
+/** URL -> {image, title, meta, excerpt} rich hover-card payload for every
+ * live-literature/DOI citation on the current page (title/journal/year/
+ * excerpt, never an image — see buildLiteratureByUrl()). */
 let activeLiteratureByUrl = new Map();
+
+/** Same shape, for every hub source (WHO/Pathoutlines/textbook/video) —
+ * see buildCiteHoverIndex(). citeHoverPayload()/showCiteHoverCard() below
+ * check both maps together for the actual hover-card UI. */
+let activeCiteHoverByUrl = new Map();
 
 function buildLiteratureByUrl(literatureCards) {
   const map = new Map();
@@ -2031,7 +2040,12 @@ function buildLiteratureByUrl(literatureCards) {
     const excerpt = (card.excerpt || card.text || "").replace(/\s+/g, " ").trim().slice(0, 320);
     const doi = String(card.doi || "").trim();
     const doiUrl = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : "";
-    const entry = { title, meta: [journal, year, mode].filter(Boolean).join(" \u00b7 "), excerpt };
+    const entry = {
+      image: null,
+      title,
+      meta: [journal, year, mode].filter(Boolean).join(" \u00b7 "),
+      excerpt: excerpt || null,
+    };
     for (const url of [pickHttp(card.source_url), pickHttp(card.url), pickHttp(doiUrl)]) {
       if (url && !map.has(url)) map.set(url, entry);
     }
@@ -2039,13 +2053,59 @@ function buildLiteratureByUrl(literatureCards) {
   return map;
 }
 
-function literatureHoverTitle(url) {
-  const entry = activeLiteratureByUrl.get(url);
-  if (!entry) return "";
-  const lines = [entry.title];
-  if (entry.meta) lines.push(entry.meta);
-  if (entry.excerpt) lines.push(`\u201c${entry.excerpt}${entry.excerpt.length >= 320 ? "\u2026" : ""}\u201d`);
-  return lines.join("\n");
+/** Every non-literature evidence card (WHO/Pathoutlines/textbook/video) ->
+ * a rich hover-card payload, keyed by every resolvable URL variant so an
+ * inline citation link's own href finds it directly. Textbook/video cards
+ * that have a real page image or a generated timestamped-frame thumbnail
+ * carry it as `image` — per feedback (2026-08-02), when an image is
+ * available the source name alone is enough context, so `excerpt` is left
+ * null rather than also cramming in extracted page text; pure-text sources
+ * (Pathoutlines, WHO entries with no page scan) fall back to a short
+ * excerpt so hovering still shows something informative. */
+function buildCiteHoverIndex(cards) {
+  const map = new Map();
+  const addUrl = (url, payload) => {
+    if (typeof url === "string" && url.startsWith("http") && !map.has(url)) map.set(url, payload);
+  };
+  for (const card of cards || []) {
+    if (!card || typeof card !== "object") continue;
+    const src = String(card.source || "").toLowerCase();
+    if (src === "literature") continue; // handled by buildLiteratureByUrl above
+    const isVideo = src === "videos" || src === "lectures" || Boolean(card.video_id);
+    const presentation = isVideo ? lectureCardPresentation(card) : cardPresentation(card);
+    const hasImage = Boolean(presentation.previewUrl);
+    const excerpt = cleanCardExcerptForHover(card.excerpt || card.text || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 240);
+    const payload = {
+      image: hasImage ? presentation.previewUrl : null,
+      title: cardTitle(card),
+      meta: [citationSourceLabel(card), isVideo ? formatVideoTimestamp(card) : null].filter(Boolean).join(" \u00b7 "),
+      excerpt: hasImage ? null : excerpt || null,
+    };
+    const urlFields = isVideo
+      ? ["video_time_url", "video_url", "source_url"]
+      : ["source_url", "source_page_url", "source_pdf_url", "page_image_url", "figure_url", "image_url"];
+    for (const field of urlFields) addUrl(card[field], payload);
+  }
+  return map;
+}
+
+function citeHoverPayload(url) {
+  return activeCiteHoverByUrl.get(url) || activeLiteratureByUrl.get(url) || null;
+}
+
+/** Many hub-source chunks (Pathoutlines especially) carry a retrieval
+ * metadata preamble ahead of their actual content — "Source: Pathology
+ * Outlines Subject: ... Title: ... Header: ... URL: ... Primary tag:
+ * X::Y::Z Clean text: <actual content>" — useful for retrieval, not for a
+ * human-facing hover card. Strip it so the excerpt starts at real prose. */
+function cleanCardExcerptForHover(text) {
+  let s = String(text || "");
+  s = s.replace(/^Source:.*?Primary tag:\s*\S+\s*/i, "");
+  s = s.replace(/^(Clean text|Top headings):\s*/i, "");
+  return s.trim();
 }
 /** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
 let activeTextbookLabelByUrl = new Map();
@@ -2672,17 +2732,19 @@ function renderInlineLink(label, url, previewIndex) {
   const bare = String(label || "").replace(/^\(+|\)+$/g, "");
   const display = /^DOI$/i.test(bare) ? "(DOI)" : bare;
   const safeLabel = escapeHtml(display);
-  // Rich hover: a "(DOI)" citation shows the exact title/journal/year/excerpt
-  // already printed for it in the Live Literature strip, verbatim, instead
-  // of a bare unlabeled link with no context until you click through.
-  const hoverText = literatureHoverTitle(url);
-  const titleAttr = hoverText ? ` title="${escapeAttr(hoverText)}"` : "";
-  const hoverClass = hoverText ? " inline-cite-link-lit" : "";
+  // Rich hover card (image when one exists — textbook page scan, generated
+  // timestamped video frame — plus title/source/excerpt) for every citation
+  // type: DOI/literature, WHO, Pathoutlines, textbooks, videos. See
+  // citeHoverPayload()/showCiteHoverCard(); bindPreviewHandlers() wires the
+  // actual mouseenter/mouseleave listeners once this markup is in the DOM.
+  const hoverPayload = citeHoverPayload(url);
+  const hoverAttr = hoverPayload ? ` data-cite-hover="${escapeAttr(JSON.stringify(hoverPayload))}"` : "";
+  const hoverClass = hoverPayload ? " inline-cite-link-hover" : "";
   if (preview?.previewUrl) {
     const payload = escapeAttr(JSON.stringify(preview));
-    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}" data-preview="${payload}"${titleAttr}>${safeLabel}</a>`;
+    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}" data-preview="${payload}"${hoverAttr}>${safeLabel}</a>`;
   }
-  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}"${titleAttr}>${safeLabel}</a>`;
+  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}"${hoverAttr}>${safeLabel}</a>`;
 }
 
 function renderInlineImage(alt, url, previewIndex) {
@@ -3025,6 +3087,7 @@ function openMediaPreview(itemsOrPayload, startIndex = 0) {
   showGalleryAt(startIndex);
   mediaModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
+  hideCiteHoverCard();
 }
 
 function closeMediaPreview() {
@@ -3166,8 +3229,69 @@ function scrubDefectiveImages(root) {
   });
 }
 
+/** Fixed-position rich hover card (image + title/source/excerpt) for any
+ * inline citation with a data-cite-hover payload — see citeHoverPayload().
+ * Positioned near the anchor's own bounding box, flipped above/left when it
+ * would otherwise overflow the viewport. */
+function showCiteHoverCard(anchorEl, payload) {
+  if (!citeHoverCard || !payload) return;
+  if (payload.image) {
+    citeHoverImg.src = payload.image;
+    citeHoverImg.alt = payload.title || "";
+    citeHoverImg.hidden = false;
+  } else {
+    citeHoverImg.hidden = true;
+    citeHoverImg.removeAttribute("src");
+  }
+  citeHoverTitleEl.textContent = payload.title || "";
+  citeHoverMetaEl.textContent = payload.meta || "";
+  citeHoverExcerptEl.textContent = payload.excerpt ? `\u201c${payload.excerpt}\u201d` : "";
+  citeHoverCard.classList.remove("hidden");
+  citeHoverCard.setAttribute("aria-hidden", "false");
+
+  const rect = anchorEl.getBoundingClientRect();
+  const cardRect = citeHoverCard.getBoundingClientRect();
+  const margin = 8;
+  let top = rect.bottom + margin;
+  let left = rect.left;
+  if (top + cardRect.height > window.innerHeight - margin) {
+    top = Math.max(margin, rect.top - cardRect.height - margin);
+  }
+  if (left + cardRect.width > window.innerWidth - margin) {
+    left = Math.max(margin, window.innerWidth - cardRect.width - margin);
+  }
+  citeHoverCard.style.top = `${top}px`;
+  citeHoverCard.style.left = `${left}px`;
+}
+
+function hideCiteHoverCard() {
+  if (!citeHoverCard) return;
+  citeHoverCard.classList.add("hidden");
+  citeHoverCard.setAttribute("aria-hidden", "true");
+}
+
+/** Wires hover listeners for every citation link with a rich hover payload
+ * (data-cite-hover, attached in renderInlineLink) within `root`. Re-run on
+ * every render since content is replaced wholesale (innerHTML), same as
+ * bindVsButtons/bindPreviewHandlers elsewhere in this file. */
+function bindCiteHoverHandlers(root) {
+  root.querySelectorAll("[data-cite-hover]").forEach((el) => {
+    let payload = null;
+    try {
+      payload = JSON.parse(el.dataset.citeHover);
+    } catch (_err) {
+      return;
+    }
+    el.addEventListener("mouseenter", () => showCiteHoverCard(el, payload));
+    el.addEventListener("mouseleave", hideCiteHoverCard);
+    el.addEventListener("focus", () => showCiteHoverCard(el, payload));
+    el.addEventListener("blur", hideCiteHoverCard);
+  });
+}
+
 function bindPreviewHandlers(root) {
   scrubDefectiveImages(root);
+  bindCiteHoverHandlers(root);
   root.querySelectorAll("[data-preview]").forEach((el) => {
     el.addEventListener("click", (event) => {
       // Preview-aware <a> tags keep their href so ctrl/cmd/middle-click still
@@ -3600,6 +3724,7 @@ async function loadCompareView() {
 }
 
 function renderBrowseView() {
+  hideCiteHoverCard();
   renderBrowseBreadcrumbs();
   // The Browse-home tree/tile filter is now driven by the single top query
   // overlay input rather than its own in-page search box — keep it in sync
@@ -5051,6 +5176,7 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   // Enables bare (WHO)/(Pathoutlines)/(Atlas) → real links, and journal labels → (DOI).
   activeCiteBySource = buildCiteBySource(data.cards || [], literatureCards);
   activeLiteratureByUrl = buildLiteratureByUrl(literatureCards);
+  activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
   indexTextbookLabelsFromCards(data.cards || [], shownFigures);
   const pageContext = pageContextFromEntryMeta(entryMeta);
   const tag = entryMeta?.tag || null;
@@ -5408,6 +5534,7 @@ form.addEventListener("submit", async (event) => {
       const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
       activeCiteBySource = buildCiteBySource(data.cards || [], []);
       activeLiteratureByUrl = new Map();
+      activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
       indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);

@@ -1030,12 +1030,67 @@ code {
   text-decoration: none;
 }
 
-/* Carries a rich native tooltip (title attribute) with the literature
- * card's title/journal/year/excerpt — a slightly heavier underline hints
- * that hovering shows more than a bare link. */
-.inline-cite-link-lit {
+/* Any inline citation with a rich hover card available (DOI/literature,
+ * textbook page image, video timestamped frame, WHO/Pathoutlines excerpt)
+ * gets a slightly heavier underline hinting that hovering shows more than
+ * a bare link — see #cite-hover-card / showCiteHoverCard(). */
+.inline-cite-link-hover {
   border-bottom: 1px dotted var(--accent);
   cursor: help;
+}
+
+.cite-hover-card {
+  position: fixed;
+  z-index: 200;
+  max-width: 320px;
+  background: #1a1a1d;
+  color: #f1f1f3;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.cite-hover-card.hidden {
+  display: none;
+}
+
+.cite-hover-img {
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  background: #0e0e10;
+}
+
+.cite-hover-body {
+  padding: 0.55rem 0.7rem;
+}
+
+.cite-hover-title {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.cite-hover-meta {
+  color: #b6bcc6;
+  font-size: 0.74rem;
+  margin-bottom: 0.3rem;
+}
+
+.cite-hover-meta:empty,
+.cite-hover-excerpt:empty {
+  display: none;
+}
+
+.cite-hover-excerpt {
+  color: #d7dae0;
+  font-size: 0.76rem;
+  font-style: italic;
 }
 
 .inline-figure-row {

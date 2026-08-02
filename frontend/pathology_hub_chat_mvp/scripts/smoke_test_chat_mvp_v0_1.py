@@ -303,6 +303,16 @@ def smoke_offline() -> None:
         for needle in ("model-select", "selectedSynthesisModel"):
             if needle not in js:
                 _fail("model selector UI missing", needle)
+        for needle in (
+            "buildCiteHoverIndex",
+            "citeHoverPayload",
+            "showCiteHoverCard",
+            "bindCiteHoverHandlers",
+            "data-cite-hover",
+            "lectureCardPresentation(card)",
+        ):
+            if needle not in js:
+                _fail("rich citation hover-card feature missing", needle)
         index_html = client.get("/").text
         for needle in ("model-select", "gpt-5.6-terra", "gpt-5.6-luna"):
             if needle not in index_html:
@@ -333,10 +343,14 @@ def smoke_offline() -> None:
     _ok("app.js UX features")
 
     css = client.get("/static/style.css").text
-    for needle in (".compare-tray", ".compare-column", ".vs-btn", ".topic-videos"):
+    for needle in (".compare-tray", ".compare-column", ".vs-btn", ".topic-videos", ".cite-hover-card"):
         if needle not in css:
             _fail("style.css", f"missing {needle!r}")
     _ok("style.css compare/VS styles")
+
+    index_html2 = client.get("/").text
+    if "cite-hover-card" not in index_html2:
+        _fail("cite hover card markup missing from index.html", None)
 
     health = client.get("/api/health").json()
     if "topic_page_root_narrow" not in health:
