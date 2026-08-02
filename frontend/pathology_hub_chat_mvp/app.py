@@ -81,8 +81,8 @@ def _textbook_cite_label(source_id: object) -> str:
         return "Gnepp"
     return book_key.replace("_", " ").strip() or "Textbook"
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -230,6 +230,22 @@ STATIC_ASSET_VERSION = _static_asset_version()
 
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.exception_handler(Exception)
+async def _json_error_handler(request: Request, exc: Exception) -> JSONResponse:
+    """Last-resort safety net: every JSON POST endpoint here always returns
+    `{"ok": false, "error": ...}` on the wire, never a bare stack trace or
+    (worse) a non-JSON body a client's `resp.json()` chokes on. Reported
+    2026-08-02: an unhandled exception on /api/compare with the upstream
+    backend down let Cloud Run's own proxy return a plain-text "upstream
+    request timeout" past this app entirely — this only guards requests
+    that reach this app's own code; see the compare-specific preflight
+    health check for the slow-hang half of that fix."""
+    return JSONResponse(
+        status_code=200,
+        content={"ok": False, "error": f"{type(exc).__name__}: {exc}"},
+    )
 
 
 @app.on_event("startup")
@@ -1514,7 +1530,30 @@ def api_topic_review(req: TopicReviewRequest):
 
 @app.post("/api/compare")
 def api_compare(req: CompareRequest):
-    """Compare 2–4 diagnoses: per-entity retrieval + one grounded synthesis."""
+    """Compare 2–4 diagnoses: per-entity retrieval + one grounded synthesis.
+
+    Reported (2026-08-02): with the upstream pathology-hub-v04 backend down,
+    comparing 3-4 entities fanned out into enough sequential per-entity,
+    multi-query-variant retrieval calls (each up to DEFAULT_TIMEOUT_SECONDS)
+    to exceed Cloud Run's own request timeout before this endpoint ever got
+    a chance to return its own error — Cloud Run's proxy layer then returned
+    a plain-text "upstream request timeout" body, which the frontend's
+    `resp.json()` choked on (surfaced as a raw SyntaxError, not a real
+    error message). A single fast preflight health check fails this
+    immediately with a real JSON error instead of silently trying (and
+    eventually exceeding the outer timeout on) every entity.
+    """
+    backend_health = _backend_client.health()
+    if not backend_health.get("ok"):
+        status_code = backend_health.get("status_code")
+        reason = backend_health.get("error") or (f"HTTP {status_code}" if status_code else "no response")
+        return {
+            "ok": False,
+            "error": (
+                f"The evidence backend (pathology-hub-v04) is unreachable right now — {reason}. "
+                "This is usually a transient Cloud Run cold start; try again in a few seconds."
+            ),
+        }
     try:
         columns: list[dict] = []
         compare_evidence: dict = {"entities": []}
@@ -1571,6 +1610,8 @@ def api_compare(req: CompareRequest):
         }
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
+    except Exception as exc:  # noqa: BLE001 — never let a raw exception surface as a non-JSON response
+        return {"ok": False, "error": f"Compare failed: {type(exc).__name__}: {exc}"}
 
 
 @app.get("/api/openai_ping")

@@ -3703,6 +3703,30 @@ function bindCompareColumnTabs(root) {
   });
 }
 
+/** Parses a fetch Response as JSON, but never throws a raw SyntaxError up
+ * to the caller — if the body isn't valid JSON (e.g. a proxy/infrastructure
+ * layer in front of this app returning a plain-text "upstream request
+ * timeout" instead of the app's own JSON error, reported 2026-08-02 on
+ * /api/compare when the evidence backend was down), returns a normalized
+ * `{ok: false, error: <readable message>}` instead so callers always get
+ * a real, displayable error string rather than "SyntaxError: Unexpected
+ * token…". */
+async function parseJsonResponseSafely(resp) {
+  const rawText = await resp.text();
+  try {
+    return JSON.parse(rawText);
+  } catch (_err) {
+    const looksLikeInfra = /upstream|gateway|timeout|bad gateway|<html/i.test(rawText);
+    const detail = rawText.trim().slice(0, 200) || `HTTP ${resp.status}`;
+    return {
+      ok: false,
+      error: looksLikeInfra
+        ? "The server didn't respond in time (likely a transient Cloud Run cold start or the evidence backend being unreachable). Try again in a few seconds."
+        : `Unexpected non-JSON response: ${detail}`,
+    };
+  }
+}
+
 async function loadCompareView() {
   if (compareSet.length < 2) return;
   browseContentEl.innerHTML = '<p class="hint">Generating comparison — retrieving evidence for each diagnosis…</p>';
@@ -3720,7 +3744,7 @@ async function loadCompareView() {
         model: selectedSynthesisModel(),
       }),
     });
-    const data = await resp.json();
+    const data = await parseJsonResponseSafely(resp);
     if (!data.ok) {
       browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.comparison_error || "Compare failed")}</p>`;
       return;
@@ -5019,7 +5043,7 @@ async function streamChat(payload, { onProgress } = {}) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    return fallback.json();
+    return parseJsonResponseSafely(fallback);
   }
 
   const reader = resp.body.getReader();
