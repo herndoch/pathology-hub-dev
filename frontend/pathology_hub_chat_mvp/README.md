@@ -237,6 +237,28 @@ every sampled live response, so this mainly affects WHO; non-cyto pages are comp
 (same behavior as before). Live literature (`journals`, fetched separately via Elsevier/PubMed/
 OncoKB) is unscoped either way — it never carries repo-tag metadata to filter on.
 
+**Cyto strictness fix (2026-08-01):** B9 as originally written silently dropped *every* WHO/
+textbook/pathout/video card on any Browse-nav-derived `Cyto_*` content-spec page (`ABPathSpec::
+cyto::…` tags — the Browse nav's own root id for these is always the bare generic `"cyto"`, never
+a specific organ, since content-spec entities aren't individually mapped to a `Cyto_<Organ>`
+identifier the way WHO/PathOut source tags are — see `CYTO_SYSTEM_*` in
+`build_browse_tag_index_who_abpath_spec_v0_1.py`, which only reorganizes Browse *navigation*
+bucketing, not the tag itself). Strict-cyto root matching required an *exact* organ-token match,
+and the bare `"cyto"` target never exactly matches any organ-specific card root (`"cytogyn"`,
+`"cytothyroid"`, …) — so every card was dropped, which is strictly worse than no filtering at all.
+Fixed two ways in `pathology_backend.py`: (1) `is_cyto_root_token` now returns `False` for the bare
+`"cyto"` token — WHO stays in the ordinary (non-root-filterable) B8 policy on these pages, since B9
+strictness with no organ to scope to has no useful signal; (2) `_root_matches_page` now treats any
+organ-specific `"cyto*"` root as on-topic when the *target* itself is bare `"cyto"` — so
+textbook/pathout/video content across the whole cyto family is shown (not narrowed to one organ,
+but no longer empty, and never leaking in non-cyto surgical-pathology content of the same
+diagnosis name, which was B9's original goal). **Known limitation:** content-spec-derived cyto
+pages still cannot be narrowed to one specific organ system (e.g. a GYN cytology content-spec page
+may still show Breast/Thyroid cyto textbook content) — true organ-level precision on these pages
+would require mapping each content-spec entity to a `Cyto_<Organ>` identifier, which content-spec
+data does not carry. Pages opened from a real WHO/PathOut `Cyto_<Organ>` tag (e.g.
+`Cyto_GYN::Squamous::…`) were already organ-scoped correctly before this fix and are unaffected.
+
 **Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
 says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe
 shows this note is stale: `source_status.journals == "ok"` and real article metadata (titles,

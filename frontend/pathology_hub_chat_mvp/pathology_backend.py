@@ -765,8 +765,22 @@ def is_cyto_root_token(root_token: Optional[str]) -> bool:
     """True when a normalized root token (see `normalize_root_token`) came from
     a `Cyto_*` ABPath tag root (e.g. "Cyto_Thyroid" -> "cytothyroid"). Used to
     apply stricter B9 cyto scoping only to genuinely cyto-rooted pages, never
-    to unrelated roots."""
-    return bool(root_token) and root_token.startswith("cyto")
+    to unrelated roots.
+
+    Deliberately False for the *bare* "cyto" token (no organ suffix) — that
+    is what content-spec-derived `ABPathSpec::cyto::<organ-system>::…` pages
+    resolve to (their tag's second segment is always the generic root id
+    "cyto", never a specific organ; see build_browse_tag_index's
+    CYTO_SYSTEM_* organ-system reclassification, which only touches Browse
+    nav bucketing, not the tag itself). Real WHO/PathOut `Cyto_<Organ>` tags
+    always normalize to a *specific* token (e.g. "cytogyn", "cytothyroid"),
+    never bare "cyto", so B9's original motivating case is unaffected.
+    Without this guard, strict-cyto scoping with no resolvable organ target
+    matched nothing (every retrieved card's root token is organ-specific),
+    silently dropping every WHO/textbook/pathout/video card on the page —
+    strictly worse than the ordinary B8 "keep unless proven off-root" this
+    falls back to instead."""
+    return bool(root_token) and root_token.startswith("cyto") and root_token != "cyto"
 
 
 # Cyto textbooks/atlases (e.g. "Cyto_Comprehensive", "Cyto_Cibas") span every
@@ -783,7 +797,15 @@ def _root_matches_page(item_root: Optional[str], target: str, strict_cyto: bool)
     strict-cyto scoping, the generic source_id-only "cyto" bucket (see
     `_GENERIC_CYTO_SOURCE_TOKEN`) counts as a match for any `Cyto_*` target,
     since it cannot be resolved to a more specific organ without a
-    `primary_tag`."""
+    `primary_tag`.
+
+    When `target` itself is the bare generic "cyto" token (a content-spec
+    page with no resolvable organ — see `is_cyto_root_token`), any
+    organ-specific "cyto*" item root is on-topic too: we have no organ to
+    narrow to, so matching the whole cyto family is the best available
+    signal, not a reason to drop every cyto-tagged card on the page."""
+    if target == _GENERIC_CYTO_SOURCE_TOKEN and bool(item_root) and item_root.startswith(_GENERIC_CYTO_SOURCE_TOKEN):
+        return True
     if item_root == target:
         return True
     if strict_cyto and item_root == _GENERIC_CYTO_SOURCE_TOKEN:
