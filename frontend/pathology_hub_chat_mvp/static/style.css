@@ -497,6 +497,15 @@ code {
   color: var(--muted-text, #6b7280);
 }
 
+/* A root-level disease-process bucket (Neoplastic, Infectious, ...) inserted
+ * purely to cut down an unmanageable root fan-out (Peds/Neuro/Skin/Heme/
+ * Forensic) — heuristic prose-matching over section headers, not WHO
+ * taxonomy, so it reads visually distinct from a real subcategory. */
+.oncotree-node.oncotree-supergroup .oncotree-label {
+  font-weight: 700;
+  color: var(--accent);
+}
+
 .oncotree-node.oncotree-match {
   background: rgba(255, 214, 0, 0.28);
   font-weight: 700;

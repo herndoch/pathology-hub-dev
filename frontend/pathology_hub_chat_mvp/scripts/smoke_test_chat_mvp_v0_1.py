@@ -258,12 +258,30 @@ def smoke_offline() -> None:
                     _fail("cyto still has a non-organ-system subcategory", bad)
             if len(cyto_sub_labels) > 25:
                 _fail("cyto subcategories still fragmented (expected ~16 organ systems)", len(cyto_sub_labels))
+        # Roots with huge subcategory fan-out (Peds/Neuro/Skin/Heme/Forensic)
+        # must actually exceed the frontend's grouping threshold — otherwise
+        # a future data change could silently regress back to a flat wall.
+        for rid, min_subs in (("peds", 100), ("neuro", 100), ("skin", 100), ("heme", 30), ("forensic", 30)):
+            root = next((r for r in data.get("roots") or [] if r.get("id") == rid), None)
+            if not root or len(root.get("subcategories") or []) < min_subs:
+                _fail(
+                    f"{rid} root subcategory fan-out unexpectedly small",
+                    len(root.get("subcategories") or []) if root else None,
+                )
         js = client.get("/static/app.js").text
         if 'data-browse-mode=' in js:
             _fail("browse mode toggle should be removed", "found data-browse-mode in app.js")
         for needle in ('"Hematolymphoid"', "browse-tile-glyph"):
             if needle not in js:
                 _fail("browse UI missing", needle)
+        for needle in (
+            "ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD",
+            "subcategoryProcessCategory",
+            "buildOncotreeSubcategoryGroups",
+            "oncotree-supergroup",
+        ):
+            if needle not in js:
+                _fail("subcategory disease-process grouping missing", needle)
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text

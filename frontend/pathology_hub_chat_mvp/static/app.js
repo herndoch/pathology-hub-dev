@@ -817,6 +817,98 @@ function slugifyForTree(text) {
     .replace(/^_+|_+$/g, "") || "cat";
 }
 
+/** Above this many direct subcategories, a root's own fan-out is the
+ * unmanageable part of the tree — not any one subcategory's leaf list. WHO
+ * roots (BST, GYN, GU, GI, ...) stay under this because WHO's own hierarchy
+ * already nests by organ before diagnosis; the mostly-ABPath-content-spec
+ * roots (Peds, Neuro, Skin, Heme, Forensic) blow past it because ABPath
+ * flattens every disease-process header straight under the root. Reported
+ * 2026-08-02: "prob also need to make another level of category to manage
+ * long lists of things like in peds path and neuro path". */
+const ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD = 20;
+
+/** Heuristic disease-process bucket for a *subcategory* label (not a single
+ * diagnosis) — inserts one extra branch level (root -> process -> existing
+ * subcategory -> leaf) purely to cut down an unmanageable root fan-out; it
+ * never changes which subcategory a leaf lives in, and every subcategory
+ * still appears somewhere (the catch-all "General / Other" bucket, not a
+ * drop). Order matters: more specific/rare patterns are checked first so a
+ * label naming several processes lands on the most useful one (e.g.
+ * "Familial Tumor Predisposition Syndromes" -> Genetic, not Neoplastic).
+ * Necessarily imperfect prose-matching over ABPath's own section headers —
+ * disclosed via the (?) info panel, never claimed to be WHO taxonomy. */
+const SUBCATEGORY_PROCESS_RULES = [
+  ["Vascular", /vascular|vasculopath|infarct|ischemi|hemorrhag|thrombo|embol|aneurysm|vasculitis|angiopathy/i],
+  [
+    "Traumatic / Mechanical",
+    /trauma|injur|wound|fracture|blunt|firearm|gunshot|sharp injur|cutting|stabbing|\bburn|thermal|asphyxia|electrical|lightning|\bbomb\b|explosion|\babuse\b/i,
+  ],
+  [
+    "Postmortem / Forensic Investigation",
+    /postmortem|forensic|jurisprudence|criminalistic|identification of human|toxicology|anthropology|deaths?\b|mortality|certification/i,
+  ],
+  [
+    "Infectious / Inflammatory",
+    /infect|bacteria|viral|fungal|parasitic|mycobacter|inflamm|autoimmune|granulomatous|reactive|reaction pattern|panniculitis|\babscess|arthropod|\btick\b|infestation|demyelinat|multiple sclerosis|leukoencephalopathy/i,
+  ],
+  [
+    "Congenital / Developmental / Genetic",
+    /congenital|developmental|malformation|migration defect|induction|anomal|genetic|hereditary|inherited|familial|syndrome|chromosomal|neural tube|gene defect|trinucleotide repeat/i,
+  ],
+  [
+    "Metabolic / Degenerative / Toxic",
+    /metabolic|metabolism|storage disease|toxicity|\btoxic\b|degenerat|dystroph|deficienc|lysosomal|leukodystroph|tauopath|\bprion\b|acidopathy|cholestatic|alzheimer|dementia|parkinson|amyotrophic|motor neuron disease|huntington|\binclusion|deposit|mucinos|alcoholism|substance abuse|peroxisomal|mitochondrial|\belectrolyte|\blewy\b/i,
+  ],
+  [
+    "Hematologic / Coagulation",
+    /anemia|anaemia|hemoglobinopath|coagulation|thrombophilic|platelet|hemolytic|erythrocyte|von willebrand/i,
+  ],
+  [
+    "Neoplastic",
+    /neoplas|tumou?rs?\b|carcinoma|lymphoma|leuk[ae]mia|sarcoma|adenoma|blastoma|gliom|melanocytic|nevus|nevi\b|\bcyst|malignan|\bbenign\b|angioma|fibroma|papilloma|hamartoma|schwannoma|meningioma|chordoma|paraganglioma|hemangioma|myoma|lipoma|metasta|histiocyt/i,
+  ],
+  ["Laboratory / Testing", /\btest(?:s|ing)?\b|\bassay\b|molecular pathology/i],
+  ["Organ System (unclassified by process)", /\bsystem\b|\btract\b/i],
+];
+
+function subcategoryProcessCategory(label) {
+  const text = String(label || "");
+  for (const [name, rx] of SUBCATEGORY_PROCESS_RULES) {
+    if (rx.test(text)) return name;
+  }
+  return "General / Other";
+}
+
+/** Group a root's own direct subcategories by disease-process bucket — see
+ * ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD. Unlike buildOncotreeCategoryGroups
+ * (leaf-level), nothing is ever dropped: every subcategory lands in some
+ * group, worst case "General / Other". Returns null when grouping wouldn't
+ * actually simplify anything (everything landed in one bucket). */
+function buildOncotreeSubcategoryGroups(subcategories) {
+  const byProcess = new Map();
+  for (const sub of subcategories) {
+    const cat = subcategoryProcessCategory(sub.label);
+    if (!byProcess.has(cat)) byProcess.set(cat, []);
+    byProcess.get(cat).push(sub);
+  }
+  if (byProcess.size < 2) return null;
+  const groups = [...byProcess.entries()]
+    .map(([label, subs]) => ({
+      id: slugifyForTree(label),
+      label,
+      leaf_count: subs.reduce((sum, s) => sum + (s.leaf_count || 0), 0),
+      subcategories: subs,
+    }))
+    // "General / Other" always last regardless of size — it's the leftover
+    // bucket, not a first-class category to lead with.
+    .sort((a, b) => {
+      if (a.label === "General / Other") return 1;
+      if (b.label === "General / Other") return -1;
+      return b.leaf_count - a.leaf_count || a.label.localeCompare(b.label);
+    });
+  return groups;
+}
+
 /** Build the OncoTree-style layout: nodes with computed {x,y}, and the
  * bezier links between parent and child. Only expanded nodes recurse into
  * their children; collapsed nodes occupy exactly one row.
@@ -860,11 +952,24 @@ function buildOncotreeLayout(roots, options = {}) {
       let childKind;
       let categoryDroppedCount = 0;
       if (kind === "root") {
+        const allSubs = node.subcategories || [];
+        let processGroups = null;
+        if (!isMatchFn && allSubs.length > ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD) {
+          processGroups = buildOncotreeSubcategoryGroups(allSubs);
+        }
+        if (processGroups) {
+          childKind = "supergroup";
+          children = processGroups;
+        } else {
+          childKind = "sub";
+          children = allSubs;
+          if (isMatchFn && extraExpanded) {
+            children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
+          }
+        }
+      } else if (kind === "supergroup") {
         childKind = "sub";
         children = node.subcategories || [];
-        if (isMatchFn && extraExpanded) {
-          children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
-        }
       } else if (kind === "sub") {
         let leaves = node.leaves || [];
         if (isMatchFn) leaves = leaves.filter((l) => isMatchFn(l));
@@ -928,7 +1033,8 @@ function buildOncotreeLayout(roots, options = {}) {
       isMatch,
       hasChildren: !isLeaf,
       expanded,
-      leafCount: kind === "root" || kind === "sub" || kind === "group" ? node.leaf_count : null,
+      leafCount:
+        kind === "root" || kind === "sub" || kind === "group" || kind === "supergroup" ? node.leaf_count : null,
       leaf: isLeaf ? node : null,
       rootId: rootIdForNode,
       subId: subIdForNode,
@@ -1045,6 +1151,7 @@ function renderOncotreeHtml(roots, options = {}) {
     const classes = ["oncotree-node"];
     if (n.kind === "leaf") classes.push("oncotree-leaf");
     if (n.kind === "group") classes.push("oncotree-group");
+    if (n.kind === "supergroup") classes.push("oncotree-supergroup");
     if (n.isMatch) classes.push("oncotree-match");
     // Leaves get a small sibling VS button next to the label button — a
     // button can't nest inside another button (invalid HTML, and clicks
