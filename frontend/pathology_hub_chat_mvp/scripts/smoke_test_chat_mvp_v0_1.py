@@ -68,9 +68,48 @@ def smoke_unpaywall() -> None:
     _ok("unpaywall integration (structural, offline)")
 
 
+def smoke_cyto_root_narrow() -> None:
+    """Structural (offline) checks for the B9 cyto-strictness fix (2026-08-01):
+    a bare "cyto" root target (content-spec `ABPathSpec::cyto::…` pages have
+    no resolvable organ) must fall back to non-strict matching instead of
+    silently dropping every WHO/textbook/pathout/video card — see
+    is_cyto_root_token / _root_matches_page in pathology_backend.py."""
+    import pathology_backend as backend
+
+    if backend.is_cyto_root_token("cyto"):
+        _fail("bare 'cyto' token should not be strict-cyto", "is_cyto_root_token('cyto') is True")
+    if not backend.is_cyto_root_token("cytogyn"):
+        _fail("organ-specific cyto token should still be strict-cyto", "is_cyto_root_token('cytogyn') is False")
+    if backend.is_cyto_root_token("breast"):
+        _fail("non-cyto token misclassified as cyto", "is_cyto_root_token('breast') is True")
+
+    # Bare-cyto target: an organ-specific card root must still be kept (cyto
+    # family match), not dropped for failing to equal the bare target exactly.
+    if not backend._root_matches_page("cytogyn", "cyto", False):
+        _fail("organ-specific card should match bare 'cyto' target", None)
+    if backend._root_matches_page("breast", "cyto", False):
+        _fail("non-cyto card should not match bare 'cyto' target", None)
+
+    cards = [
+        {"source": "textbooks", "primary_tag": "Cyto_GYN::Squamous::LSIL"},
+        {"source": "textbooks", "primary_tag": "Breast::Neoplastic::Invasive_Ductal_Carcinoma"},
+        {"source": "who", "primary_tag": None},
+    ]
+    kept = backend.filter_cards_by_page_root(cards, "cyto")
+    kept_sources = [(c.get("source"), c.get("primary_tag")) for c in kept]
+    if ("textbooks", "Cyto_GYN::Squamous::LSIL") not in kept_sources:
+        _fail("cyto-family textbook card wrongly dropped for bare 'cyto' target", kept_sources)
+    if ("textbooks", "Breast::Neoplastic::Invasive_Ductal_Carcinoma") in kept_sources:
+        _fail("non-cyto textbook card wrongly kept for bare 'cyto' target", kept_sources)
+    if ("who", None) not in kept_sources:
+        _fail("WHO card wrongly dropped for bare 'cyto' target (non-strict policy)", kept_sources)
+    _ok("cyto root-narrow bare-token fallback (structural, offline)")
+
+
 def smoke_offline() -> None:
     print("Offline smoke (TestClient)")
     smoke_unpaywall()
+    smoke_cyto_root_narrow()
     client = TestClient(app)
 
     idx = client.get("/static/browse_tag_index_v0_1.json")
@@ -203,6 +242,22 @@ def smoke_offline() -> None:
         heme_root = next((r for r in data.get("roots") or [] if r.get("id") == "heme"), None)
         if not heme_root or heme_root.get("label") != "Hematolymphoid":
             _fail("heme root label", heme_root.get("label") if heme_root else None)
+        # Cytopathology must branch by organ system first (Cyto_Heme ->
+        # "Hematolymphoid Cytopathology", not the raw "Cyto Heme"/"SIL"/
+        # "Adenocarcinomas" generic-header buckets from before).
+        cyto_root = next((r for r in data.get("roots") or [] if r.get("id") == "cyto"), None)
+        if not cyto_root:
+            _fail("missing cyto root", None)
+        else:
+            cyto_sub_labels = {s.get("label") for s in cyto_root.get("subcategories") or []}
+            for expected in ("Hematolymphoid Cytopathology", "Gynecologic Cytopathology", "Thyroid / Parathyroid Cytopathology"):
+                if expected not in cyto_sub_labels:
+                    _fail("cyto organ-system subcategory missing", f"{expected!r} not in {sorted(cyto_sub_labels)}")
+            for bad in ("Cyto Heme", "Cyto Gyn", "SIL", "Adenocarcinomas", "Malignant Neoplasms"):
+                if bad in cyto_sub_labels:
+                    _fail("cyto still has a non-organ-system subcategory", bad)
+            if len(cyto_sub_labels) > 25:
+                _fail("cyto subcategories still fragmented (expected ~16 organ systems)", len(cyto_sub_labels))
         js = client.get("/static/app.js").text
         if 'data-browse-mode=' in js:
             _fail("browse mode toggle should be removed", "found data-browse-mode in app.js")

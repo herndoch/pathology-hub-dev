@@ -88,6 +88,166 @@ SKIP_ITEM_RE = re.compile(
     re.I,
 )
 
+# --- Cytopathology organ-system reclassification -----------------------
+#
+# Reported problem (2026-08-01): every Cytopathology entity — WHO Cyto_*
+# tags AND ABPath's major-section-12 content-spec rows — landed in ONE flat
+# "Cytopathology" root with ~70 first-level Browse subcategories, most of
+# them ABPath's own generic content-spec section headers ("Adenocarcinomas",
+# "Malignant Neoplasms", "SIL", "Reactive/Reparative", …) that name a
+# histologic category, not an organ. The user wants organ system to be the
+# FIRST branch (e.g. Cyto_GYN -> "Gynecologic Cytopathology", Cyto_Heme ->
+# "Hematolymphoid Cytopathology"), matching how every other Browse root
+# already branches (breast, GU, GI, …), with the finer histologic category
+# preserved as a second-level branch underneath.
+#
+# One canonical label per organ system, shared by WHO Cyto_<suffix> tags,
+# PathOut Cyto_<suffix> tags, and ABPath content-spec major-section-12 rows,
+# so all three provenances land in the SAME Browse subcategory bucket
+# (bucket identity is the label string, see normalize_subcategory).
+CYTO_SYSTEM_GYN = "Gynecologic Cytopathology"
+CYTO_SYSTEM_FLUID = "Effusion / Serous & Synovial Fluid Cytopathology"
+CYTO_SYSTEM_CNS_EYE = "CNS / Eye Cytopathology"
+CYTO_SYSTEM_GU = "Genitourinary / Urinary Tract Cytopathology"
+CYTO_SYSTEM_THORACIC = "Thoracic / Pulmonary Cytopathology"
+CYTO_SYSTEM_GI = "Gastrointestinal Cytopathology"
+CYTO_SYSTEM_HEPATOBILIARY = "Hepatobiliary / Pancreatic Cytopathology"
+CYTO_SYSTEM_SALIVARY = "Salivary Gland Cytopathology"
+CYTO_SYSTEM_THYROID = "Thyroid / Parathyroid Cytopathology"
+CYTO_SYSTEM_HEME = "Hematolymphoid Cytopathology"
+CYTO_SYSTEM_HN = "Head and Neck Cytopathology"
+CYTO_SYSTEM_BREAST = "Breast Cytopathology"
+CYTO_SYSTEM_MEDIASTINUM = "Mediastinum / Retroperitoneum Cytopathology"
+CYTO_SYSTEM_ADRENAL = "Adrenal Cytopathology"
+CYTO_SYSTEM_BONE_SOFT_TISSUE = "Bone / Soft Tissue Cytopathology"
+CYTO_SYSTEM_GENERAL = "General Cytopathology Techniques & QA"
+
+# WHO/PathOut `Cyto_<Suffix>` tag prefixes only carry a per-organ suffix
+# (e.g. "Cyto_GYN", "Cyto_Heme") — map each real suffix seen in source data
+# to the same canonical system label used by the ABPath range table below.
+# Unrecognized suffixes fall back to "<Suffix> Cytopathology" (own bucket,
+# never dropped — see `cyto_who_system_label`).
+CYTO_WHO_SUFFIX_LABELS: dict[str, str] = {
+    "gyn": CYTO_SYSTEM_GYN,
+    "gynecologic": CYTO_SYSTEM_GYN,
+    "vulva": CYTO_SYSTEM_GYN,
+    "vagina": CYTO_SYSTEM_GYN,
+    "cervix": CYTO_SYSTEM_GYN,
+    "fluid": CYTO_SYSTEM_FLUID,
+    "fluids": CYTO_SYSTEM_FLUID,
+    "effusion": CYTO_SYSTEM_FLUID,
+    "effusions": CYTO_SYSTEM_FLUID,
+    "serous": CYTO_SYSTEM_FLUID,
+    "synovial": CYTO_SYSTEM_FLUID,
+    "cns": CYTO_SYSTEM_CNS_EYE,
+    "csf": CYTO_SYSTEM_CNS_EYE,
+    "eye": CYTO_SYSTEM_CNS_EYE,
+    "neuro": CYTO_SYSTEM_CNS_EYE,
+    "gu": CYTO_SYSTEM_GU,
+    "urinary": CYTO_SYSTEM_GU,
+    "urine": CYTO_SYSTEM_GU,
+    "bladder": CYTO_SYSTEM_GU,
+    "kidney": CYTO_SYSTEM_GU,
+    "kidneys": CYTO_SYSTEM_GU,
+    "renal": CYTO_SYSTEM_GU,
+    "prostate": CYTO_SYSTEM_GU,
+    "thoracic": CYTO_SYSTEM_THORACIC,
+    "thorax": CYTO_SYSTEM_THORACIC,
+    "lung": CYTO_SYSTEM_THORACIC,
+    "pulmonary": CYTO_SYSTEM_THORACIC,
+    "respiratory": CYTO_SYSTEM_THORACIC,
+    "gi": CYTO_SYSTEM_GI,
+    "gi_tract": CYTO_SYSTEM_GI,
+    "gastric": CYTO_SYSTEM_GI,
+    "gastrointestinal": CYTO_SYSTEM_GI,
+    "esophagus": CYTO_SYSTEM_GI,
+    "pancreatobiliary": CYTO_SYSTEM_HEPATOBILIARY,
+    "pancreas": CYTO_SYSTEM_HEPATOBILIARY,
+    "pancreatic": CYTO_SYSTEM_HEPATOBILIARY,
+    "biliary": CYTO_SYSTEM_HEPATOBILIARY,
+    "liver": CYTO_SYSTEM_HEPATOBILIARY,
+    "hepatobiliary": CYTO_SYSTEM_HEPATOBILIARY,
+    "salivary": CYTO_SYSTEM_SALIVARY,
+    "salivary_gland": CYTO_SYSTEM_SALIVARY,
+    "thyroid": CYTO_SYSTEM_THYROID,
+    "parathyroid": CYTO_SYSTEM_THYROID,
+    "heme": CYTO_SYSTEM_HEME,
+    "hematolymphoid": CYTO_SYSTEM_HEME,
+    "lymphnode": CYTO_SYSTEM_HEME,
+    "lymph_node": CYTO_SYSTEM_HEME,
+    "hn": CYTO_SYSTEM_HN,
+    "headandneck": CYTO_SYSTEM_HN,
+    "head_and_neck": CYTO_SYSTEM_HN,
+    "intraoral": CYTO_SYSTEM_HN,
+    "breast": CYTO_SYSTEM_BREAST,
+    "mediastinum": CYTO_SYSTEM_MEDIASTINUM,
+    "retroperitoneum": CYTO_SYSTEM_MEDIASTINUM,
+    "adrenal": CYTO_SYSTEM_ADRENAL,
+    "soft_tissue": CYTO_SYSTEM_BONE_SOFT_TISSUE,
+    "softtissue": CYTO_SYSTEM_BONE_SOFT_TISSUE,
+    "bone": CYTO_SYSTEM_BONE_SOFT_TISSUE,
+    "skin": CYTO_SYSTEM_BONE_SOFT_TISSUE,
+    "general": CYTO_SYSTEM_GENERAL,
+    "management": CYTO_SYSTEM_GENERAL,
+}
+
+
+def cyto_who_system_label(cyto_suffix: str) -> str:
+    """Canonical organ-system Browse label for a WHO/PathOut `Cyto_<suffix>`
+    tag prefix — never drops the leaf, falls back to "<Suffix> Cytopathology"
+    for a suffix not in the curated map above (disclosed as a limitation)."""
+    key = re.sub(r"[^a-z0-9]+", "_", (cyto_suffix or "").strip().lower()).strip("_")
+    if key in CYTO_WHO_SUFFIX_LABELS:
+        return CYTO_WHO_SUFFIX_LABELS[key]
+    pretty = re.sub(r"[_\-]+", " ", (cyto_suffix or "").strip()).strip() or "General"
+    return f"{pretty.title()} Cytopathology"
+
+
+# ABPath's Anatomic Pathology Content Specifications major section 12
+# ("Cytopathology Topics for Anatomic Pathology Residents") only labels
+# ~11% of its own rows with a recoverable organ-system heading (DOCX
+# paragraph-text parsing lost the rest — see `organ_system` always being
+# empty in the parsed registry). Row order is stable (deterministic re-parse
+# of a static source PDF/DOCX), so the true organ-system boundaries were
+# reconstructed by hand once from the full ordered row dump — each range is
+# a contiguous, content-verified organ block (e.g. rows 1-53 progress
+# Pap/cervical screening -> SIL -> anogenital squamous lesions -> ovarian
+# cysts, all Gynecologic). Ranges are inclusive of `abpath_spec_id`'s
+# trailing sequence number *within major section 12 only*.
+CYTO_ABPATH_SPEC_RANGES: list[tuple[int, int, str]] = [
+    (1, 53, CYTO_SYSTEM_GYN),
+    (54, 118, CYTO_SYSTEM_FLUID),
+    (119, 150, CYTO_SYSTEM_CNS_EYE),
+    (151, 178, CYTO_SYSTEM_GU),
+    (179, 243, CYTO_SYSTEM_THORACIC),
+    (244, 261, CYTO_SYSTEM_GI),
+    (262, 312, CYTO_SYSTEM_HEPATOBILIARY),
+    (313, 341, CYTO_SYSTEM_SALIVARY),
+    (342, 366, CYTO_SYSTEM_THYROID),
+    (367, 389, CYTO_SYSTEM_HEME),
+    (390, 408, CYTO_SYSTEM_HN),
+    (409, 429, CYTO_SYSTEM_BREAST),
+    (430, 450, CYTO_SYSTEM_MEDIASTINUM),
+    (451, 467, CYTO_SYSTEM_GU),
+    (468, 477, CYTO_SYSTEM_ADRENAL),
+    (478, 531, CYTO_SYSTEM_BONE_SOFT_TISSUE),
+    (532, 561, CYTO_SYSTEM_GENERAL),
+]
+
+
+def cyto_abpath_system_for_spec_id(abpath_spec_id: str) -> Optional[str]:
+    """Organ-system Browse label for an ABPath major-12 row, from its
+    spec-id sequence number — see `CYTO_ABPATH_SPEC_RANGES`. None if the
+    id is missing/unparseable (caller falls back to General)."""
+    match = re.search(r"_(\d+)$", abpath_spec_id or "")
+    if not match:
+        return None
+    n = int(match.group(1))
+    for start, end, label in CYTO_ABPATH_SPEC_RANGES:
+        if start <= n <= end:
+            return label
+    return None
+
 # Browse topics must be actual diagnoses / disease entities — not cell types,
 # normal anatomy, lab methods, QA, or generic curriculum headers.
 DIAGNOSIS_HINT_RE = re.compile(
@@ -567,21 +727,26 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
     # methodology/QA folder, re-home diagnosis leaves under General so they
     # do not create Ancillary/Techniques nav buckets.
     if organ:
-        sub_label = organ
+        fine_label = organ
     elif is_methodology_path(path):
-        sub_label = "General"
+        fine_label = "General"
     else:
-        sub_label = category or subsection or "General"
-    sub_id, sub_label = normalize_subcategory(sub_label)
+        fine_label = category or subsection or "General"
+    fine_id, fine_label = normalize_subcategory(fine_label)
     label = item
-    tag = "::".join(
-        [
-            "ABPathSpec",
-            root_id,
-            sub_id,
-            slugify(label) or "item",
-        ]
-    )
+    # Cytopathology (major 12): the content-spec's own headers name a
+    # histologic category ("SIL", "Adenocarcinomas", …), not an organ — see
+    # `CYTO_ABPATH_SPEC_RANGES`. Browse buckets on organ system instead; the
+    # histologic category is kept as an extra tag segment so the Browse tree
+    # can still branch by it underneath the organ (see app.js
+    # `leafCategoryFromTag`).
+    if maj == 12:
+        sub_label = cyto_abpath_system_for_spec_id(row.get("abpath_spec_id") or "") or CYTO_SYSTEM_GENERAL
+        sub_id, sub_label = normalize_subcategory(sub_label)
+        tag = "::".join(["ABPathSpec", root_id, sub_id, fine_id, slugify(label) or "item"])
+    else:
+        sub_id, sub_label = fine_id, fine_label
+        tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
     return {
         "tag": tag,
         "label": label,
@@ -611,6 +776,14 @@ def _who_leaf_from_parts(
     if not looks_like_diagnosis(label.replace("_", " ")):
         return None
     tag = repair_who_tag(tag)
+    # Cyto_<Suffix> tags (any caller — fresh who_processed/, WHO snapshot, or
+    # harvested from a prior index whose own sub_label may already be a
+    # stale/ungrouped "Cyto Heme"-style label) always re-derive the Browse
+    # subcategory from the tag's own root segment, never from the caller's
+    # sub_label, so every provenance path lands in the same organ-system
+    # bucket (see `cyto_who_system_label`).
+    if tag.startswith("Cyto_"):
+        sub_label = cyto_who_system_label(tag.split("::", 1)[0][len("Cyto_") :])
     sub_id, sub_label = normalize_subcategory(sub_label)
     # If tag path implies Soft_Tissue after repair, keep subcategory Soft Tissue.
     if tag.startswith("BST::Soft_Tissue::"):
@@ -674,7 +847,7 @@ def load_who_leaves() -> tuple[list[dict[str, Any]], str]:
                     root_seg = segments[0]
                     if root_seg.startswith("Cyto_"):
                         root_id = "cyto"
-                        sub_label = root_seg
+                        sub_label = cyto_who_system_label(root_seg[len("Cyto_") :])
                     else:
                         root_id = re.sub(r"[^a-z0-9]+", "", root_seg.lower()) or slugify(root_seg)
                         sub_label = segments[1] if len(segments) > 2 else "General"
@@ -753,7 +926,7 @@ def pathout_root_and_sub(tag: str) -> tuple[Optional[str], str, str]:
         return None, "", ""
     head = parts[0]
     if head.startswith("Cyto_"):
-        sub_id, sub_label = normalize_subcategory(head)
+        sub_id, sub_label = normalize_subcategory(cyto_who_system_label(head[len("Cyto_") :]))
         return "cyto", sub_id, sub_label
     if head.lower() == "soft_tissue":
         return "bst", "soft_tissue", "Soft Tissue"
@@ -1117,6 +1290,9 @@ def main() -> int:
             "The expanded abpath_source_tags.jsonl curriculum ontology is intentionally excluded.",
             "Content-spec tags use ABPathSpec::<root>::… identity — retrieval still uses the query/label text.",
             "Index is a local snapshot; not proof of API/vector coverage.",
+            "Cytopathology (cyto root) subcategories are organ system first (e.g. 'Hematolymphoid Cytopathology'), not the raw ABPath content-spec header — see CYTO_SYSTEM_* constants and CYTO_ABPATH_SPEC_RANGES.",
+            "ABPath major-section-12 organ-system boundaries were hand-reconstructed from the ordered row dump (the DOCX/PDF parser only recovers ~11% of section 12's own organ headers) and keyed on abpath_spec_id sequence ranges; re-verify ranges if the source PDF/DOCX content changes.",
+            "A handful of ABPath cytopathology rows (e.g. anogenital squamous lesions) were merged into the closest matching organ system by clinical judgment, not an explicit ABPath organ label.",
         ],
     }
 
