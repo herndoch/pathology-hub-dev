@@ -1603,6 +1603,31 @@ const sendBtn = document.getElementById("send-btn");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
 const debugToggle = document.getElementById("debug-toggle");
+const modelSelect = document.getElementById("model-select");
+const SYNTHESIS_MODEL_KEY = "ph_synthesis_model_v0_1";
+
+function selectedSynthesisModel() {
+  return modelSelect?.value || null;
+}
+
+(function restoreSynthesisModelSelection() {
+  if (!modelSelect) return;
+  try {
+    const stored = localStorage.getItem(SYNTHESIS_MODEL_KEY);
+    if (stored && [...modelSelect.options].some((o) => o.value === stored)) {
+      modelSelect.value = stored;
+    }
+  } catch (_err) {
+    // ignore private-mode/quota failures — falls back to the default option
+  }
+  modelSelect.addEventListener("change", () => {
+    try {
+      localStorage.setItem(SYNTHESIS_MODEL_KEY, modelSelect.value);
+    } catch (_err) {
+      // ignore
+    }
+  });
+})();
 const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
 const exportPageBtn = document.getElementById("export-page-btn");
@@ -2818,6 +2843,10 @@ function buildPayload(query, modeOverride, options = {}) {
   if (options.rebuild) {
     payload.rebuild = true;
   }
+  const chosenModel = selectedSynthesisModel();
+  if (chosenModel && chosenModel !== "gpt-5.6-luna") {
+    payload.model = chosenModel;
+  }
   return payload;
 }
 
@@ -3528,6 +3557,7 @@ async function loadCompareView() {
           query: e.query || e.label,
           category_context: e.categoryContext || null,
         })),
+        model: selectedSynthesisModel(),
       }),
     });
     const data = await resp.json();

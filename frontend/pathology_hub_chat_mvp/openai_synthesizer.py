@@ -16,6 +16,16 @@ from secrets_helper import get_openai_api_key
 TOPIC_PAGE_DEFAULT_MODEL = "gpt-5.6-luna"
 DEFAULT_MODEL = TOPIC_PAGE_DEFAULT_MODEL
 
+# Per-request model override allowlist (2026-08-02: "would like option to be
+# able to select model" — user wants to A/B luna vs terra for prebuild
+# synthesis quality/latency without redeploying). Live-probed against
+# GET https://api.openai.com/v1/models with this project's key — all three
+# gpt-5.6-<codename> variants are present and callable via responses.create.
+# Deliberately an allowlist, not "accept any string the client sends" — an
+# unrecognized model name fails the OpenAI call with an opaque 400 far away
+# from where the mistake was made.
+SUPPORTED_SYNTHESIS_MODELS: tuple[str, ...] = ("gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol")
+
 
 def get_model() -> str:
     return os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)
@@ -23,6 +33,15 @@ def get_model() -> str:
 
 def get_topic_page_model() -> str:
     return os.environ.get("OPENAI_TOPIC_PAGE_MODEL", TOPIC_PAGE_DEFAULT_MODEL)
+
+
+def resolve_synthesis_model(requested: Optional[str]) -> str:
+    """Per-request model override, validated against SUPPORTED_SYNTHESIS_MODELS
+    — an unrecognized/empty value silently falls back to the configured
+    topic-page default rather than erroring the whole request."""
+    if requested and requested in SUPPORTED_SYNTHESIS_MODELS:
+        return requested
+    return get_topic_page_model()
 
 
 def _get_client():

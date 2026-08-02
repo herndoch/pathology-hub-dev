@@ -68,6 +68,23 @@ def smoke_unpaywall() -> None:
     _ok("unpaywall integration (structural, offline)")
 
 
+def smoke_model_selector() -> None:
+    """Structural (offline) checks for the per-request synthesis model
+    override (2026-08-02: "would like option to be able to select model" —
+    luna default, terra/sol selectable)."""
+    import openai_synthesizer as synth
+
+    if synth.get_topic_page_model() not in synth.SUPPORTED_SYNTHESIS_MODELS:
+        _fail("default topic-page model not in its own allowlist", synth.get_topic_page_model())
+    if synth.resolve_synthesis_model("gpt-5.6-terra") != "gpt-5.6-terra":
+        _fail("resolve_synthesis_model should honor an allowlisted override", None)
+    if synth.resolve_synthesis_model("not-a-real-model") != synth.get_topic_page_model():
+        _fail("resolve_synthesis_model should ignore an unrecognized model", None)
+    if synth.resolve_synthesis_model(None) != synth.get_topic_page_model():
+        _fail("resolve_synthesis_model should default when no override given", None)
+    _ok("model selector allowlist/fallback (structural, offline)")
+
+
 def smoke_cyto_root_narrow() -> None:
     """Structural (offline) checks for the B9 cyto-strictness fix (2026-08-01):
     a bare "cyto" root target (content-spec `ABPathSpec::cyto::…` pages have
@@ -109,6 +126,7 @@ def smoke_cyto_root_narrow() -> None:
 def smoke_offline() -> None:
     print("Offline smoke (TestClient)")
     smoke_unpaywall()
+    smoke_model_selector()
     smoke_cyto_root_narrow()
     client = TestClient(app)
 
@@ -282,6 +300,13 @@ def smoke_offline() -> None:
         ):
             if needle not in js:
                 _fail("subcategory disease-process grouping missing", needle)
+        for needle in ("model-select", "selectedSynthesisModel"):
+            if needle not in js:
+                _fail("model selector UI missing", needle)
+        index_html = client.get("/").text
+        for needle in ("model-select", "gpt-5.6-terra", "gpt-5.6-luna"):
+            if needle not in index_html:
+                _fail("model selector markup missing from index.html", needle)
     _ok("browse index", f"{counts.get('leaves_total')} leaves, {counts.get('roots_total')} roots")
 
     js = client.get("/static/app.js").text

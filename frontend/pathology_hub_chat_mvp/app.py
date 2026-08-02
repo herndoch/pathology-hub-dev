@@ -89,10 +89,12 @@ from pydantic import BaseModel, Field
 import prompts
 import secrets_helper
 from openai_synthesizer import (
+    SUPPORTED_SYNTHESIS_MODELS,
     SynthesisResult,
     get_model,
     get_topic_page_model,
     ping as openai_ping,
+    resolve_synthesis_model,
     synthesize,
 )
 from figure_quality_filter import (
@@ -284,6 +286,11 @@ class ChatRequest(SearchRequest):
     # Browse category id the user opened (e.g. "heme"). When set, root-narrow
     # prefers this over an extranodal page_tag root (Breast::…::DLBCL).
     browse_root: Optional[str] = None
+    # Optional per-request synthesis model override (e.g. "gpt-5.6-terra" for
+    # A/B against the "gpt-5.6-luna" default) — validated against
+    # SUPPORTED_SYNTHESIS_MODELS by resolve_synthesis_model(); an
+    # unrecognized/empty value silently falls back to the configured default.
+    model: Optional[str] = None
 
 
 class FlagRequest(BaseModel):
@@ -314,6 +321,7 @@ class CompareEntity(BaseModel):
 
 class CompareRequest(BaseModel):
     entities: list[CompareEntity] = Field(..., min_length=2, max_length=4)
+    model: Optional[str] = None
 
 
 def _validate_sources(sources: list[str]) -> list[str]:
@@ -865,6 +873,7 @@ def api_health():
         "secrets": secret_status,
         "openai_model": get_model(),
         "topic_page_model": get_topic_page_model(),
+        "supported_synthesis_models": list(SUPPORTED_SYNTHESIS_MODELS),
         "static_asset_version": STATIC_ASSET_VERSION,
         # Full backend source vocabulary (includes retired `journals` for API compat).
         "supported_sources": SUPPORTED_SOURCES,
@@ -908,7 +917,7 @@ def _answer_gpt_like(req: ChatRequest, merged: dict, cards: list[dict]) -> Synth
         prompts.gpt_like_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
-        model=get_topic_page_model(),
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -920,7 +929,7 @@ def _answer_compare_sources(req: ChatRequest, merged: dict, cards: list[dict]) -
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
-        model=get_topic_page_model(),
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -931,7 +940,7 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
-        model=get_topic_page_model(),
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -968,7 +977,7 @@ def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> Syn
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
-        model=get_topic_page_model(),
+        model=resolve_synthesis_model(req.model),
     )
     if result.ok and literature:
         ensured = _ensure_key_literature_section(result.text, literature)
@@ -989,7 +998,7 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
         prompts.html_teaching_system_prompt(),
         req.query,
         html_only,
-        model=get_topic_page_model(),
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -1323,7 +1332,7 @@ def api_chat_stream(req: ChatRequest):
                     "phase": "synthesize",
                     "status": "running",
                     "label": "Writing answer from evidence…",
-                    "detail": get_topic_page_model() if mode == "topic_page" else get_model(),
+                    "detail": resolve_synthesis_model(req.model) if mode == "topic_page" else get_model(),
                 },
             )
 
@@ -1551,7 +1560,7 @@ def api_compare(req: CompareRequest):
             prompts.compare_diagnoses_system_prompt(),
             synth_query,
             compare_evidence,
-            model=get_topic_page_model(),
+            model=resolve_synthesis_model(req.model),
         )
         return {
             "ok": result.ok,
