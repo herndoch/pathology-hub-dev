@@ -351,6 +351,9 @@ def smoke_offline() -> None:
         for needle in ("model-select", "selectedSynthesisModel"):
             if needle not in js:
                 _fail("model selector UI missing", needle)
+        for needle in ("SUBCATEGORY_TRUNK_MAP", "applyTrunkGrouping", "oncotree-trunk"):
+            if needle not in js:
+                _fail("subcategory trunk-grouping feature missing", needle)
         for needle in (
             "buildCiteHoverIndex",
             "citeHoverPayload",

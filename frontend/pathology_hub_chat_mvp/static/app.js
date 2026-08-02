@@ -916,6 +916,127 @@ function buildOncotreeSubcategoryGroups(subcategories) {
   return groups;
 }
 
+/** Hand-curated "trunk" clusters — several genuinely-distinct ABPath
+ * subcategories that are all facets of one diagnostic family and read as
+ * confusing near-duplicate siblings when they fan out flat at the same
+ * level (2026-08-02 feedback: "many permutations of a melanocytic type
+ * branch... these should all be a layer of branches within a melanocytic
+ * trunk"). Deliberately a short, audited list (exact subcategory label
+ * match) rather than a generic auto-clusterer — a keyword-frequency sweep
+ * of every root surfaced far more coincidental word overlaps (e.g. every
+ * "X Reaction Pattern"/"X System"/"X Tumors" sharing one word) than
+ * genuine families; only clusters that were unambiguously one family on
+ * inspection are listed. Never touches subcategory identity/leaves —
+ * purely one extra branch level at render time, like the disease-process
+ * supergroups above. */
+const SUBCATEGORY_TRUNK_MAP = {
+  skin: [
+    {
+      trunk: "Melanocytic",
+      labels: ["Melanocytic", "Melanocytic Nevi", "Malignant Melanocytic Lesions", "Melanocytoma", "Dermal Melanocytic Lesions"],
+    },
+    {
+      trunk: "Reaction Patterns",
+      labels: [
+        "Granulomatous Reaction Pattern, Non-Infectious",
+        "Interface Dermatitis (Lichenoid Reaction Pattern)",
+        "Psoriasiform Reaction Pattern",
+        "Spongiotic Reaction Pattern",
+        "Vasculopathic Reaction Pattern",
+        "Vesiculobullous Reaction Pattern",
+      ],
+    },
+    {
+      trunk: "Infiltrates",
+      labels: [
+        "Eosinophilic Infiltrates",
+        "Histiocytic Infiltrates (Non-Langerhans Cell)",
+        "Plasma Cell Infiltrates",
+        "Xanthomatous Infiltrates",
+      ],
+    },
+    {
+      trunk: "Deposits",
+      labels: [
+        "Cutaneous Deposits",
+        "Drug Deposits and Pigmentation",
+        "Hyaline Deposits",
+        "Miscellaneous Deposits",
+        "Pigment and Related Deposits",
+      ],
+    },
+  ],
+  neuro: [
+    {
+      trunk: "Inclusions",
+      labels: [
+        "Cytoskeleton and Filamentous Inclusions",
+        "Cytosolic Inclusions",
+        "Membrane Bound Inclusions",
+        "Neuronal Nuclear Inclusions",
+      ],
+    },
+    {
+      trunk: "Malformations",
+      labels: ["Chiari Malformations", "Malformations of the Cerebellum", "Malformations of the Spinal Cord"],
+    },
+  ],
+  heme: [
+    {
+      trunk: "Erythrocyte Disorders",
+      labels: ["Erythrocyte & Plasma Infections", "Erythrocyte Enzyme Disorders", "Erythrocyte Membrane Disorders"],
+    },
+    {
+      trunk: "Histiocytic / Dendritic Cell Disorders",
+      labels: ["Histiocytic Dendritic", "Histiocytic Disorders", "Histiocytic/Dendritic Cell Neoplasms"],
+    },
+  ],
+  forensic: [
+    {
+      trunk: "Toxicology",
+      labels: [
+        "Environmental and Industrial Toxicology",
+        "Forensic Toxicology and Postmortem Chemistry",
+        "Interpretive Toxicology",
+      ],
+    },
+  ],
+};
+
+/** Applies SUBCATEGORY_TRUNK_MAP to a subcategory list, returning a mixed
+ * array (trunk nodes tagged `_treeKind: "trunk"`, everything else left as
+ * plain subcategory objects) in the SAME shape buildOncotreeLayout's
+ * `visit()` already iterates for a "sub"-kind children list — trunk
+ * members render one level deeper (visit() treats a "trunk" node's own
+ * children as plain "sub"), everything not covered by a trunk passes
+ * through completely unchanged. A no-op (returns `subcategories` as-is)
+ * when this root has no curated trunks or none matched (>= 2 members
+ * present). */
+function applyTrunkGrouping(rootId, subcategories) {
+  const trunkDefs = SUBCATEGORY_TRUNK_MAP[rootId];
+  if (!trunkDefs || !subcategories.length) return subcategories;
+  const byLabel = new Map(subcategories.map((s) => [s.label, s]));
+  const claimed = new Set();
+  const trunkNodes = [];
+  for (const { trunk, labels } of trunkDefs) {
+    const members = labels.map((l) => byLabel.get(l)).filter(Boolean);
+    if (members.length < 2) continue;
+    members.forEach((m) => claimed.add(m.id));
+    trunkNodes.push({
+      id: slugifyForTree(trunk),
+      label: trunk,
+      leaf_count: members.reduce((sum, m) => sum + (m.leaf_count || 0), 0),
+      subcategories: members,
+      _treeKind: "trunk",
+    });
+  }
+  if (!trunkNodes.length) return subcategories;
+  const ungrouped = subcategories.filter((s) => !claimed.has(s.id));
+  // Trunks first (they're the "headline" groupings), then whatever wasn't
+  // claimed, in its original order.
+  return [...trunkNodes, ...ungrouped];
+}
+
 /** Build the OncoTree-style layout: nodes with computed {x,y}, and the
  * bezier links between parent and child. Only expanded nodes recurse into
  * their children; collapsed nodes occupy exactly one row.
@@ -978,11 +1099,16 @@ function buildOncotreeLayout(roots, options = {}) {
         } else {
           childKind = "sub";
           children = allSubs;
+          if (!isMatchFn) children = applyTrunkGrouping(rootIdForNode, children);
           if (isMatchFn && extraExpanded) {
             children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
           }
         }
       } else if (kind === "supergroup") {
+        childKind = "sub";
+        children = node.subcategories || [];
+        if (!isMatchFn) children = applyTrunkGrouping(rootIdForNode, children);
+      } else if (kind === "trunk") {
         childKind = "sub";
         children = node.subcategories || [];
       } else if (kind === "sub") {
@@ -1018,9 +1144,13 @@ function buildOncotreeLayout(roots, options = {}) {
       } else {
         const childMids = [];
         children.forEach((child, i) => {
-          const childPath = `${path}::${childKind === "leaf" ? i : child.id}`;
+          // A trunk-grouped child (see applyTrunkGrouping) overrides the
+          // otherwise-uniform childKind for this one item; everything else
+          // in the list still uses childKind as before.
+          const kindForChild = child._treeKind || childKind;
+          const childPath = `${path}::${kindForChild === "leaf" ? i : child.id}`;
           linkPairs.push({ parentPath: path, childPath, color });
-          const mid = visit(childKind, child, depth + 1, color, childPath, rootIdForNode, subIdForNode);
+          const mid = visit(kindForChild, child, depth + 1, color, childPath, rootIdForNode, subIdForNode);
           childMids.push(mid);
         });
         if (hiddenCount > 0) {
@@ -1050,7 +1180,9 @@ function buildOncotreeLayout(roots, options = {}) {
       hasChildren: !isLeaf,
       expanded,
       leafCount:
-        kind === "root" || kind === "sub" || kind === "group" || kind === "supergroup" ? node.leaf_count : null,
+        kind === "root" || kind === "sub" || kind === "group" || kind === "supergroup" || kind === "trunk"
+          ? node.leaf_count
+          : null,
       leaf: isLeaf ? node : null,
       rootId: rootIdForNode,
       subId: subIdForNode,
@@ -1168,6 +1300,7 @@ function renderOncotreeHtml(roots, options = {}) {
     if (n.kind === "leaf") classes.push("oncotree-leaf");
     if (n.kind === "group") classes.push("oncotree-group");
     if (n.kind === "supergroup") classes.push("oncotree-supergroup");
+    if (n.kind === "trunk") classes.push("oncotree-trunk");
     if (n.isMatch) classes.push("oncotree-match");
     if (n.isTall) classes.push("oncotree-tall");
     // Leaves get a small sibling VS button next to the label button — a

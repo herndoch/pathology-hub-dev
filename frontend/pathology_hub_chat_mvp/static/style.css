@@ -548,6 +548,17 @@ code {
   color: var(--accent);
 }
 
+/* A hand-curated "trunk" (e.g. Melanocytic) grouping several genuinely
+ * distinct-but-related subcategories that used to fan out as confusing
+ * near-duplicate siblings (2026-08-02) — see SUBCATEGORY_TRUNK_MAP.
+ * Distinct styling from a supergroup (bold, not accent-colored) since it
+ * sits one level deeper and groups real subcategories, not a synthesized
+ * disease-process bucket. */
+.oncotree-node.oncotree-trunk .oncotree-label {
+  font-weight: 700;
+  font-style: italic;
+}
+
 .oncotree-node.oncotree-match {
   background: rgba(255, 214, 0, 0.28);
   font-weight: 700;
