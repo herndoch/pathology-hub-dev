@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py prompts.py pathology_backend.py openai_synthesizer.py \
      figure_quality_filter.py secrets_helper.py who_section_mentions.py \
-     literature_apis.py iterative_topic_retrieval.py ./
+     literature_apis.py iterative_topic_retrieval.py gcs_topic_cache.py ./
 COPY static ./static
 
 EXPOSE 8080
