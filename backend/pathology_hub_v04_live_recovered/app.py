@@ -723,7 +723,7 @@ def search_evidence(req: EvidenceSearchRequest, request: Request, x_api_key: Opt
     base_url = f"{proto}://{host}".rstrip("/")
 
     sources = [s.lower() for s in (req.sources or ["textbooks"])]
-    allowed = {"who", "journals", "pathout", "textbooks"}
+    allowed = {"who", "pathout", "textbooks"}
     bad = [s for s in sources if s not in allowed]
     if bad:
         raise HTTPException(status_code=400, detail=f"Unsupported source(s): {bad}")
@@ -796,7 +796,18 @@ def search_evidence(req: EvidenceSearchRequest, request: Request, x_api_key: Opt
 # ============================================================
 # v04.5 JOURNAL HYBRID VECTOR PATCH
 # Appended patch: journals = upstream FTS + local FAISS vector + RRF
+# Retired 2026-07-26: corpus moved to gs://pathology_hub/_archive/retired_journals_20260726/
 # ============================================================
+
+def _env_bool_journal(name: str, default: bool) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return str(raw).strip().lower() in {"1", "true", "yes", "on"}
+
+
+# Default retired — local journal FAISS/FTS corpus archived; use live literature APIs instead.
+JOURNALS_RETIRED = _env_bool_journal("JOURNALS_RETIRED", True)
 
 JOURNAL_FAISS_GCS = os.environ.get("JOURNAL_FAISS_GCS")
 JOURNAL_DOCSTORE_GCS = os.environ.get("JOURNAL_DOCSTORE_GCS")
@@ -816,6 +827,8 @@ _JOURNAL_INDEX = None
 _JOURNAL_DOCSTORE = None
 
 def ensure_journal_artifacts():
+    if JOURNALS_RETIRED:
+        return
     required = [
         (JOURNAL_FAISS_GCS, JOURNAL_FAISS_PATH),
         (JOURNAL_DOCSTORE_GCS, JOURNAL_DOCSTORE_PATH),
@@ -949,6 +962,17 @@ def row_to_journal_result(d, query, limit, rank=None, retrieval_mode="journal_ft
     return result
 
 def hybrid_journal_search(query: str, max_results: int, excerpt_char_limit: int, x_api_key: Optional[str], req: EvidenceSearchRequest):
+    if JOURNALS_RETIRED:
+        return (
+            [],
+            [],
+            [
+                "journals_retired: local journal corpus archived to "
+                "gs://pathology_hub/_archive/retired_journals_20260726/ — "
+                "use live Elsevier/PubMed literature APIs instead."
+            ],
+            "retired",
+        )
     warnings = [
         "Journal retrieval uses upstream journal FTS plus local FAISS vector search with reciprocal-rank fusion.",
         "Hybrid journal vector search is semantic; judge article relevance, especially for broad entities."
@@ -1068,7 +1092,15 @@ def health_v045():
     except Exception:
         web_map_count = -1
 
-    journal_manifest = manifest_summary(JOURNAL_VECTOR_MANIFEST_PATH)
+    if JOURNALS_RETIRED:
+        journal_manifest = {
+            "status": "retired",
+            "archive_base": "gs://pathology_hub/_archive/retired_journals_20260726/",
+            "vectorized": False,
+            "record_count": 0,
+        }
+    else:
+        journal_manifest = manifest_summary(JOURNAL_VECTOR_MANIFEST_PATH)
 
     return {
         "schema_version": "pathology_hub_health.v1.5.5",
@@ -1107,7 +1139,7 @@ def search_evidence_v045(req: EvidenceSearchRequest, request: Request, x_api_key
     base_url = f"{proto}://{host}".rstrip("/")
 
     sources = [s.lower() for s in (req.sources or ["textbooks"])]
-    allowed = {"who", "journals", "pathout", "textbooks"}
+    allowed = {"who", "pathout", "textbooks"}
     bad = [s for s in sources if s not in allowed]
     if bad:
         raise HTTPException(status_code=400, detail=f"Unsupported source(s): {bad}")
@@ -2187,7 +2219,7 @@ def search_evidence_v048(req: EvidenceSearchRequest, request: Request, x_api_key
         "pathology_outlines": "pathout",
     }
     normalized = [alias_to_source.get(s, s) for s in requested]
-    allowed = {"who", "journals", "pathout", "textbooks", "lectures"}
+    allowed = {"who", "pathout", "textbooks", "lectures"}
     bad = [s for s in normalized if s not in allowed]
     if bad:
         raise HTTPException(status_code=400, detail=f"Unsupported source(s): {bad}")
@@ -2642,7 +2674,7 @@ def search_evidence_v159(req: EvidenceSearchRequest, request: Request, x_api_key
         "pathology_outlines": "pathout",
     }
     normalized = [alias_to_source.get(s, s) for s in requested]
-    allowed = {"who", "journals", "pathout", "textbooks", "lectures", "curriculum"}
+    allowed = {"who", "pathout", "textbooks", "lectures", "curriculum"}
     bad = [s for s in normalized if s not in allowed]
     if bad:
         raise HTTPException(status_code=400, detail=f"Unsupported source(s): {bad}")

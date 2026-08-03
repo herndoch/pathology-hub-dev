@@ -259,18 +259,16 @@ would require mapping each content-spec entity to a `Cyto_<Organ>` identifier, w
 data does not carry. Pages opened from a real WHO/PathOut `Cyto_<Organ>` tag (e.g.
 `Cyto_GYN::Squamous::…`) were already organ-scoped correctly before this fix and are unaffected.
 
-**Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
-says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe
-shows this note is stale: `source_status.journals == "ok"` and real article metadata (titles,
-DOIs) come back today. However, roughly half of returned journal cards carry no `source_url` at
-all (nothing to cite), and the ones that do point to Elsevier/`modernpathology.org`, which sit
-behind Cloudflare bot-protection that returned 403 to every automated request we tried from this
-dev sandbox — including a control request to `pathologyoutlines.com`, which is known-good in this
-app, so we could not distinguish "dead link" from "bot-blocked sandbox" with any live check. We
-deliberately did **not** add a server-side HEAD-check filter for this: the same check running from
-Cloud Run's egress IP could just as easily get bot-challenged and incorrectly hide valid citations.
-Journals stay in the default `topic_page` source set since retrieval itself is proven live; link
-resolution for end users is unverified either way, not disproven.
+**Known limitation — journals (retired 2026-07-26):** The local journal FAISS/FTS corpus
+(~129,000 rows, ~9.8 GB) was archived to `gs://pathology_hub/_archive/retired_journals_20260726/`
+after live probes found a systematic text-corruption bug in the ingested AJSP/Modern
+Pathology/Virchows Archiv corpus (nearly every "t" character dropped — "tested" → "es ed") and
+roughly half of returned journal cards carried no `source_url` at all. See
+`docs/JOURNALS_RETIRED_ARCHIVE.md` and `audits/journals_retired_20260726/RETIRE_AUDIT.json` for
+the move audit; `scripts/retire_journals_corpus_gcs_v0_1.py` is the archival script (already run;
+kept for reproducibility). `journals` is excluded from `UI_SOURCES`/`TOPIC_PAGE_SOURCES` — live
+literature (Elsevier Scopus, PubMed, OncoKB — see `literature_apis.py`) replaces it, with
+Unpaywall open-access link enrichment on top.
 
 **Textbook retrieval degrades under concurrent prebuild load (found 2026-08-03):** BST prebuilds
 run at `--parallel 3` came back with `source_status.textbooks == "not_requested"` on ~93% of the
