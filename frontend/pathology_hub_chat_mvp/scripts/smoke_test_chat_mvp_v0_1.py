@@ -417,7 +417,19 @@ def smoke_offline() -> None:
     health = client.get("/api/health").json()
     if "topic_page_root_narrow" not in health:
         _fail("health", "missing topic_page_root_narrow")
+    if "topic_page_cache_gcs_configured" not in health:
+        _fail("health", "missing topic_page_cache_gcs_configured")
     _ok("health", f"root_narrow={health.get('topic_page_root_narrow')}")
+
+    # 2026-08-02 prebuild-serving fix: a cached/prebuilt page must load
+    # instantly even when the server is iterative/SSE-capable — the whole
+    # point of prebuilding is defeated if the client only ever trusts the
+    # cache on "older, non-iterative" servers.
+    if "!healthFlags.iterative && Boolean(leafRef.tag)" in js:
+        _fail("cache gating still skips prebuilt pages when iterative is on", None)
+    if "const allowCache = !rebuild && Boolean(leafRef.tag);" not in js:
+        _fail("expected cache-first allowCache gating not found", None)
+    _ok("prebuilt-cache-first gating (structural, offline)")
 
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:

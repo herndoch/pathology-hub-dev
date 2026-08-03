@@ -5438,19 +5438,34 @@ async function fetchCachedTopicPage(tag) {
 function topicPageCacheHint(data, cachedMeta) {
   if (data?.cache_hit || cachedMeta) {
     const when = data?.cached_at || cachedMeta?.generated_at || "";
-    const src = data?.cache_source || cachedMeta?.cache_source || "cache";
     const model = data?.model || cachedMeta?.model || "";
-    const parts = ["Cached topic page — instant reuse from a prior open."];
-    if (when) parts.push(`Saved ${when}.`);
+    const parts = ["Prebuilt page — loaded instantly from cache."];
+    if (when) parts.push(`Built ${formatCachedTimestamp(when)}.`);
     if (model) parts.push(`Model: ${model}.`);
-    if (src === "pilot_prebuild") parts.push("(legacy pilot prebuild)");
-    parts.push("Use Rebuild for a fresh live query.");
+    parts.push("Click Rebuild for a fresh live query with up-to-date evidence.");
     return `<p class="hint topic-cache-hint">${escapeHtml(parts.join(" "))}</p>`;
   }
   if (data?.cache_saved) {
     return `<p class="hint topic-cache-hint">Saved this page for the next visitor.</p>`;
   }
   return "";
+}
+
+function formatCachedTimestamp(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  } catch (err) {
+    return iso;
+  }
 }
 
 function bindTopicPageChrome(root, leafRef, displayLabel, query) {
@@ -5524,10 +5539,11 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   const query = leafRef.query || displayLabel;
 
   try {
-    // Silent cache skips thinking entirely — only use it when iterative/SSE
-    // is off (older server) and the user did not ask to Rebuild.
+    // Prebuilt/cached pages should load instantly — that is the entire point
+    // of prebuilding. Always check the cache first (unless the user asked to
+    // Rebuild); only fall through to a live SSE build on a cache miss.
     let cachedMeta = null;
-    const allowCache = !rebuild && !healthFlags.iterative && Boolean(leafRef.tag);
+    const allowCache = !rebuild && Boolean(leafRef.tag);
     if (allowCache) {
       cachedMeta = await fetchCachedTopicPage(leafRef.tag);
     }

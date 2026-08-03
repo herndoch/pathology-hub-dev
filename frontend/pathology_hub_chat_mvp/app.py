@@ -86,6 +86,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+import gcs_topic_cache
 import prompts
 import secrets_helper
 from openai_synthesizer import (
@@ -852,28 +853,105 @@ def _slugify_prebuild_tag(tag: str) -> str:
     return slug
 
 
+TOPIC_PAGE_CACHE_SCHEMA_VERSION = "topic_page_prebuild_v0_1"
+
+
+def _read_local_prebuild(slug: str) -> Optional[dict]:
+    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+    if not os.path.isfile(json_path):
+        return None
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def _write_local_prebuild(slug: str, page: dict) -> None:
+    """Best-effort local write-through so the *next* request on this same
+    instance is instant even before any GCS round trip. Never raises —
+    a failed cache write must not break the live chat response."""
+    try:
+        os.makedirs(TOPIC_PREBUILD_PAGES_DIR, exist_ok=True)
+        json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(page, f, indent=2, ensure_ascii=False)
+    except OSError:
+        pass
+
+
+def _lookup_prebuild_page(tag: Optional[str]) -> Optional[dict]:
+    """Read-through: local pilot/write-through cache first, then GCS
+    (frontend/pathology_hub_chat_mvp/gcs_topic_cache.py) as a fallback for
+    Cloud Run instances that never built this page locally. A GCS hit is
+    mirrored to local disk so this instance stops round-tripping for it."""
+    if not tag or not tag.strip():
+        return None
+    slug = _slugify_prebuild_tag(tag.strip())
+    page = _read_local_prebuild(slug)
+    if page is not None:
+        return page
+    page = gcs_topic_cache.read_page(slug)
+    if page is not None:
+        page.setdefault("cache_source", "gcs")
+        _write_local_prebuild(slug, page)
+        return page
+    return None
+
+
+def _save_topic_page_to_cache(req: "ChatRequest", result: "SynthesisResult", cards: list, figures: list, who_cross_mentions: list) -> bool:
+    """Write-through: persist any successfully-synthesized topic_page (pilot
+    prebuild OR ordinary live visit) so the next visitor for the same tag —
+    on this instance or, via GCS, any instance — gets it instantly. Best
+    effort only; never raises into the request path."""
+    tag = (req.page_tag or "").strip()
+    if not tag or not result.ok or not result.text:
+        return False
+    try:
+        slug = _slugify_prebuild_tag(tag)
+        page = {
+            "schema_version": TOPIC_PAGE_CACHE_SCHEMA_VERSION,
+            "tag": tag,
+            "label": req.category_context or tag,
+            "provenance": "unknown",
+            "query": req.query,
+            "category_context": req.category_context,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "ok": True,
+            "model": result.model,
+            "answer_markdown": result.text,
+            "cards": cards or [],
+            "figures": figures or [],
+            "who_cross_mentions": who_cross_mentions or [],
+            "retrieval_debug_summary": {},
+            "known_limitations": [
+                "Cached from a live topic_page build; may be superseded by later corpus/backend changes.",
+            ],
+            "cache_source": "live_write_through",
+        }
+        _write_local_prebuild(slug, page)
+        gcs_topic_cache.write_page_async(slug, page)
+        return True
+    except Exception:  # noqa: BLE001 - caching must never break the response
+        return False
+
+
 @app.get("/api/topic_prebuild")
 def api_topic_prebuild(tag: str):
-    """Read-only lookup of a pilot-prebuilt topic_page sidecar by tag, if one exists.
+    """Read-only lookup of a cached topic_page sidecar by tag, if one exists
+    (local pilot/write-through cache, then GCS — see _lookup_prebuild_page).
 
-    Only ever reads from TOPIC_PREBUILD_PAGES_DIR (local pilot cache written by
-    prebuild_topic_pages_pilot_v0_1.py) — never mutates anything, never touches the
-    figure quality-flags sidecar or curriculum SQLite. Returns
-    {"ok": False, "found": False} (HTTP 200, not an error) when nothing is
-    prebuilt yet for `tag`, so the client falls back to the live
+    Never mutates the figure quality-flags sidecar or curriculum SQLite.
+    Returns {"ok": False, "found": False} (HTTP 200, not an error) when
+    nothing is cached yet for `tag`, so the client falls back to the live
     POST /api/chat topic_page path unchanged.
     """
     if not tag or not tag.strip():
         return {"ok": False, "found": False, "error": "Missing 'tag' query param."}
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
-    if not os.path.isfile(json_path):
+    page = _lookup_prebuild_page(tag.strip())
+    if page is None:
         return {"ok": False, "found": False, "tag": tag}
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            page = json.load(f)
-    except (OSError, ValueError) as exc:
-        return {"ok": False, "found": False, "tag": tag, "error": str(exc)}
+    page = dict(page)
     page["found"] = True
     return page
 
@@ -890,6 +968,7 @@ def api_health():
         "openai_model": get_model(),
         "topic_page_model": get_topic_page_model(),
         "supported_synthesis_models": list(SUPPORTED_SYNTHESIS_MODELS),
+        "topic_page_cache_gcs_configured": gcs_topic_cache.is_configured(),
         "static_asset_version": STATIC_ASSET_VERSION,
         # Full backend source vocabulary (includes retired `journals` for API compat).
         "supported_sources": SUPPORTED_SOURCES,
@@ -1190,7 +1269,7 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
-        return _chat_response_payload(
+        payload = _chat_response_payload(
             mode=mode,
             result=result,
             merged=merged,
@@ -1200,6 +1279,9 @@ def api_chat(req: ChatRequest):
             outcomes=outcomes,
             retrieval_meta=retrieval_meta,
         )
+        if mode == "topic_page":
+            payload["cache_saved"] = _save_topic_page_to_cache(req, result, cards, figures, who_cross_mentions)
+        return payload
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
 
@@ -1375,6 +1457,8 @@ def api_chat_stream(req: ChatRequest):
                 outcomes=outcomes,
                 retrieval_meta=retrieval_meta,
             )
+            if mode == "topic_page":
+                payload["cache_saved"] = _save_topic_page_to_cache(req, result, cards, figures, who_cross_mentions)
             yield _sse_frame(
                 "progress",
                 {
@@ -1400,19 +1484,9 @@ def api_chat_stream(req: ChatRequest):
 
 
 def _load_prebuilt_page(tag: Optional[str]) -> Optional[dict]:
-    if not tag or not tag.strip():
-        return None
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
-    if not os.path.isfile(json_path):
-        return None
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            page = json.load(f)
-        if page.get("ok") and page.get("answer_markdown"):
-            return page
-    except (OSError, ValueError):
-        return None
+    page = _lookup_prebuild_page(tag)
+    if page and page.get("ok") and page.get("answer_markdown"):
+        return page
     return None
 
 
