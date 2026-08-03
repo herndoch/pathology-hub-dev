@@ -339,6 +339,10 @@ def main() -> None:
         "known_limitations": [
             "Prebuilt sidecars are a point-in-time cache; live corpus/backend changes can make them stale.",
             "Parallel workers increase load on local app + OpenAI; tune --parallel conservatively.",
+            "--parallel 3+ measurably degrades the backend's textbook/pathout hybrid search under "
+            "load (source_status reports 'not_requested' though WHO/literature still succeed) — "
+            "see README.md 'Textbook retrieval degrades under concurrent prebuild load'. Prefer "
+            "--parallel 2 for large batches and check per-source source_status, not just n_ok.",
         ],
         "figure_quality_note": (
             "Phase 1 suppress_render figure quality filters applied via the same "

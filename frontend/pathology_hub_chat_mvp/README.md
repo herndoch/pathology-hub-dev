@@ -272,6 +272,25 @@ Cloud Run's egress IP could just as easily get bot-challenged and incorrectly hi
 Journals stay in the default `topic_page` source set since retrieval itself is proven live; link
 resolution for end users is unverified either way, not disproven.
 
+**Textbook retrieval degrades under concurrent prebuild load (found 2026-08-03):** BST prebuilds
+run at `--parallel 3` came back with `source_status.textbooks == "not_requested"` on ~93% of the
+189 leaves (only WHO/literature populated), even though `Enzinger and Weiss's Soft Tissue Tumors`
+(`softtissue_enzinger`), `Dorfman and Czerniak's Bone Tumors` (`bone_dorfman`), and the AFIP-style
+`Horvai` BST atlas (`bst_horvai`) — plus `bone_atlas`, `bone_pattern`, `softtissue_pattern` — are
+all indexed in the same `textbooks_lean` corpus as every other specialty (confirmed against the
+backend's own manifest and source PDFs; not a missing-corpus issue). `source_status` is set purely
+by the pathology-hub-v04 backend's own `/evidence/search` response body — this repo's code
+(`merge_outcomes` in `pathology_backend.py`) only reads it through, never sets it — so this is a
+backend-side effect of concurrent load, not a client bug. Confirmed by re-running the same BST
+leaves at `--parallel 2` immediately after the `--parallel 3` batch finished (backend otherwise
+idle): `textbooks`/`pathout` came back `"ok"` on 189/189 pages, per-page latency dropped from
+~150-200s to ~25-45s, and card counts nearly doubled (4,401 → 6,367 total cards across the BST
+set). **Mitigation:** keep `prebuild_topic_pages_pilot_v0_1.py --parallel` at 2 or lower for any
+future large batch prebuild run against this backend; higher concurrency silently degrades the
+expensive textbook/pathout hybrid search while cheap WHO lookups keep returning `"ok"`, so a
+skimmed audit that only checks `n_ok`/`n_failed` (both look fine) won't catch it — check
+`retrieval_debug_summary.source_status` per source, not just overall success.
+
 ## Citation tags
 
 Citation cards (`renderCitations` in `app.js`, used by both the normal chat citation list and the
