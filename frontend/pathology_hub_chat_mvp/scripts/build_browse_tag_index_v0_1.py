@@ -1,23 +1,17 @@
 #!/usr/bin/env python3
-"""Build the WHO + ABPath Browse tag index (v0_2 schema in v0_1 artifact paths).
+"""DEPRECATED — builds Browse nav from the expanded abpath_source_tags.jsonl ontology.
 
-Read-only inputs:
+Do not use for Chat MVP Browse. The canonical builder is:
+
+    frontend/pathology_hub_chat_mvp/scripts/build_browse_tag_index_who_abpath_spec_v0_1.py
+
+which uses WHO + official ABPath AP Content Specifications only.
+
+Legacy inputs (kept for archaeology):
     data/curriculum_map_v0_2/abpath_source_tags.jsonl
     data/curriculum_map_v0_2/who_processed/*.json
     outputs/chat_mvp_topic_prepop_v0_1/who_root_map_v0_1.json
     outputs/chat_mvp_topic_prepop_v0_1/cyto_lumping_map_v0_1.json
-
-Outputs:
-    outputs/chat_mvp_topic_prepop_v0_1/browse_tag_index_v0_1.json
-    outputs/chat_mvp_topic_prepop_v0_1/browse_tag_index_v0_1.audit.json
-    frontend/pathology_hub_chat_mvp/static/browse_tag_index_v0_1.json  (static UI copy)
-
-Phase 2 rules (docs/PLAN_CHAT_MVP_BROWSE_UX_OVERHAUL_v0_1.md):
-    A1 — Browse nav = WHO + ABPath only (no PathOut leaves).
-    A2 — Ingest WHO tags via approved who_root_map tag_root_remap.
-    A3 — Cyto lump/dedupe/drop via approved cyto_lumping_map.
-    A4 — EYE / Eye → Eye_Orbit root merge.
-    A5 — Drop leaves whose 2nd segment casefolds to "concept".
 """
 
 from __future__ import annotations
@@ -509,6 +503,14 @@ def build_index() -> tuple[dict, dict]:
 
 
 def main() -> None:
+    raise SystemExit(
+        "DEPRECATED: refusing to rebuild Browse from abpath_source_tags.jsonl. "
+        "Use build_browse_tag_index_who_abpath_spec_v0_1.py (WHO + ABPath AP "
+        "Content Specifications only). Pass --force-legacy to override."
+    )
+
+
+def _legacy_main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     if not CYTO_MAP_PATH.is_file():
         raise SystemExit(f"Missing approved cyto map: {CYTO_MAP_PATH}")
@@ -529,4 +531,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if "--force-legacy" in sys.argv:
+        _legacy_main()
+    else:
+        main()

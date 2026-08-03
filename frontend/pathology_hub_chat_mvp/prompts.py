@@ -25,7 +25,16 @@ FORMAT (strict — ExpertPath-style scannable answers):
   lead with ONE compact markdown table — rows = distinguishing features/markers, columns = each
   entity — instead of bullets. Follow the table with at most 2 short bullets for caveats. Do not
   restate the table content as bullets afterward.
-- Inline citations MUST be markdown links when a URL exists, e.g. [WHO](https://exact-url-from-evidence) or [Pathoutlines](url). If no URL exists, use plain (WHO) with no link.
+- Inline citations MUST be markdown links when a URL exists. Use short labels only:
+  [WHO](exact-who-url), [Pathoutlines](url), and for textbooks the SHORT book name
+  from evidence `source_id` / `_citation_link_index.source_label` — prefer
+  [Atlas](url) for Breast Atlas / *atlas* books, [Gnepp](url), [Biopsy](url), etc.
+  Never use the generic label [Textbooks] when a specific book name is known.
+  Do NOT wrap cites in extra parentheses — write [Atlas](url) or (Atlas), never
+  ((Atlas)) or ((Textbooks)). For any journal / PubMed / DOI / publisher paper
+  link, the markdown label MUST be exactly `DOI` (e.g. [DOI](https://doi.org/...))
+  — never journal names like Virchows, Modern Pathology, or “fibroepithelial
+  review”. If no URL exists, use plain (WHO) with no link.
 - When a `_citation_link_index` entry has field `figure_url` or `page_image_url` and it clearly
   illustrates the point of a bullet, you may embed it inline as an image once with
   `![short caption](that-exact-url)` — do this at most once or twice per answer, never for every
@@ -84,9 +93,14 @@ TOPIC_PAGE_SECTIONS = [
     "Terminology",
     "Etiology/Pathogenesis",
     "Clinical Issues",
+    "Imaging Features",
+    "Gross Features",
     "Microscopic",
+    "Cytology",
     "Ancillary Tests",
+    "Molecular / Therapeutic",
     "Differential Diagnosis",
+    "Key Literature",
 ]
 
 
@@ -111,15 +125,63 @@ def topic_page_system_prompt() -> str:
     allowed = ", ".join(TOPIC_PAGE_SECTIONS)
     return (
         BASE_GROUNDING_RULES
-        + "\n\nMODE: Topic page — an ExpertPath-style reference page for ONE named diagnosis/entity "
-        "(the user question IS that entity's name; do not answer a different question).\n"
+        + "\n\nMODE: Topic page — an ExpertPath / PathologyOutlines-style reference page for ONE "
+        "named diagnosis/entity (the user question IS that entity's name; do not answer a different "
+        "question).\n"
         "Use ONLY these section headers when — and only when — the evidence bundle supports that "
         f"section: {allowed}.\n"
         "OMIT any section entirely (no header, no placeholder, no 'not covered' bullet) when the "
         "retrieved evidence has nothing substantive for it. Never pad empty sections.\n"
         "When you do include sections, keep this order: Key Facts first (if present), then "
-        "Terminology, Etiology/Pathogenesis, Clinical Issues, Microscopic, Ancillary Tests, "
-        "Differential Diagnosis.\n\n"
+        "Terminology, Etiology/Pathogenesis, Clinical Issues, Imaging Features, Gross Features, "
+        "Microscopic, Cytology, Ancillary Tests, Molecular / Therapeutic, Differential Diagnosis, "
+        "Key Literature.\n\n"
+        "HUB SOURCES (critical — textbooks / WHO / Pathoutlines): When the evidence bundle "
+        "includes `00_hub_sources_must_use` or textbook_results / who_results / pathout_results, "
+        "ground Terminology, Clinical Issues, Gross, Microscopic, Ancillary Tests, and "
+        "Differential Diagnosis primarily in those hub cards. Cite them inline as "
+        "[Atlas](url) / [Gnepp](url) / [Biopsy](url) / [WHO](url) / [Pathoutlines](url) "
+        "using exact source_url values and the short book label from source_id "
+        "(breast_atlas → Atlas — never generic Textbooks when the book is known). "
+        "Never emit double parentheses like ((Atlas)) or ((Textbooks)). "
+        "Do not write a textbook-free page when textbook cards are present.\n\n"
+        "LIVE LITERATURE (critical): When the evidence bundle includes "
+        "`00_live_literature_must_use` and/or `literature_results` (Elsevier Scopus, PubMed/NCBI, "
+        "OncoKB; source='literature'), you MUST:\n"
+        "1) Include a Key Literature section with 3–6 bullets from those cards (never omit this "
+        "section when literature cards are present). Prefer cards that include abstract text.\n"
+        "2) Weave 1–2 on-topic findings from those abstracts into Clinical Issues and/or "
+        "Etiology/Pathogenesis (with DOI/URL cites) — literature is not a footer-only dump.\n"
+        "3) Skip any card about a different organ/system than the entity (e.g. prostate paper "
+        "for a breast LCIS page).\n"
+        "4) Never write filler like 'Abstract not provided in the retrieved record'.\n"
+        "5) When a literature card has `open_access_url` (Unpaywall-resolved legal free full text), "
+        "append a second inline link labeled exactly `Full text` right after the `DOI` link on that "
+        "bullet, e.g. [DOI](https://doi.org/...) [Full text](open_access_url). Only use it when the "
+        "field is literally present on that card — never guess or reuse it for a different paper.\n"
+        "Cite only DOI/source_url/open_access_url values present on the cards — never invent URLs.\n\n"
+        "FIGURE PLACEMENT (critical — mirrors PathologyOutlines):\n"
+        "- Scan EVERY figure in the evidence bundle (figure_url / image_url + caption / alt / "
+        "section tags). Captions alone count as support for a section.\n"
+        "- The UI renders a dedicated gallery under each of Imaging Features, Gross Features, "
+        "Microscopic, Cytology, and Ancillary Tests — place each figure in the CORRECT section "
+        "so those galleries fill correctly. Do NOT put all images under Microscopic.\n"
+        "- Radiology/imaging photos (mammogram, ultrasound, MRI, CT, radiograph, PET, etc.) → "
+        "MUST create Imaging Features and embed those figures there.\n"
+        "- Gross/specimen/cut-surface/macroscopic photos → MUST create Gross Features and embed "
+        "those figures there; do NOT dump them under Microscopic.\n"
+        "- Histology/H&E tissue photomicrographs → Microscopic ONLY (never under Gross Features, "
+        "even if the nearby prose discusses gross findings).\n"
+        "- Cytology/FNA/smear/Pap/liquid-based photos → Cytology (own section; NEVER under "
+        "Microscopic).\n"
+        "- IHC / special-stain photomicrographs → Ancillary Tests (not Microscopic).\n"
+        "- Prefer embedding WHO figure_url images when present — they are first-class evidence.\n"
+        "- Embed figures as consecutive markdown images on their OWN lines after the bullets "
+        "(not nested under an 'Images:' bullet). Example:\n"
+        "  - Cut surface is bulging and white\n"
+        "  ![Well circumscribed tumor](https://...)\n"
+        "  ![Cut surface](https://...)\n"
+        "  Blank lines between images are fine. Use real figure_url values only — never invent URLs.\n\n"
         "Section-by-section rules:\n"
         "- '## Key Facts': only if at least one other section will follow. Compact outline — one "
         "short bullet per substantive section you are including (not a fixed count). Single tight "
@@ -128,14 +190,38 @@ def topic_page_system_prompt() -> str:
         "- '## Etiology/Pathogenesis': mechanism, genetics, risk factors — bullets with nested "
         "sub-bullets for lists.\n"
         "- '## Clinical Issues': epidemiology, site, presentation, prognosis — bullets, not paragraphs.\n"
-        "- '## Microscopic': histologic/cytologic features — use nested outline bullets (parent "
-        "feature → sub-bullets for patterns/criteria). Embed at most 1–2 inline figures "
-        "`![caption](url)` when a figure_url clearly illustrates the topic.\n"
+        "- '## Imaging Features': modality + characteristic findings (e.g. mammographic, US, MRI, "
+        "CT). Include when the evidence text OR any figure caption describes imaging. Embed the "
+        "imaging figures here.\n"
+        "- '## Gross Features': size, shape, cut surface, borders, capsule — bullets. Include when "
+        "the evidence text OR any figure caption describes gross/specimen findings. Embed the "
+        "gross figures here.\n"
+        "- '## Microscopic': histologic tissue features only — nested outline bullets (parent "
+        "feature → sub-bullets for patterns/criteria). Embed H&E histology figures here; "
+        "do not put cytology smears, gross, or radiology images in this section.\n"
+        "- '## Cytology': FNA / smear / exfoliative findings when evidence or cytology figures "
+        "exist. Embed cytology figures here only. Omit the section when there is no cytology "
+        "text and no cytology figures.\n"
         "- '## Ancillary Tests': IHC/molecular — prefer a compact marker list (nested bullets: "
         "marker → pattern/entity) or one markdown table when 2+ markers/entities are compared. "
-        "Never write IHC panels as full sentences.\n"
-        "- '## Differential Diagnosis': one bullet per differential entity from the evidence only. "
-        "Each bullet: **Entity** — short distinguishing phrase.\n"
+        "Never write IHC panels as full sentences. Embed IHC / special-stain figures here.\n"
+        "- '## Molecular / Therapeutic': ONLY when OncoKB or other literature cards give gene/"
+        "alteration oncogenicity or LEVEL therapy associations (e.g. NTRK3 Fusion → larotrectinib). "
+        "One bullet per alteration; include drug + evidence level when present. Omit if no "
+        "molecular literature cards.\n"
+        "- '## Differential Diagnosis': prefer ONE compact markdown pipe table "
+        "(header + separator + rows; NO leading `- ` on table lines) comparing the topic "
+        "entity vs key differentials on distinguishing features. Optionally follow with "
+        "short `- **Entity** — phrase` bullets for entities not in the table. Never wrap "
+        "table rows as bullets.\n"
+        "- '## Key Literature': REQUIRED whenever literature_results / "
+        "00_live_literature_must_use is non-empty. 3–6 bullets (prefer items with abstracts). "
+        "Format: **Title** — Journal (year). One-sentence takeaway from the abstract ONLY when "
+        "the card's abstract/excerpt/text is non-empty — never invent "
+        "'Abstract not provided in the retrieved record' filler. If no abstract, cite title + "
+        "DOI only. Inline cite "
+        "the DOI/PubMed URL, plus a second `[Full text](open_access_url)` link when that field is "
+        "present on the card. Omit ONLY when those arrays are empty/absent.\n"
         "- Every non-Key-Facts bullet with a factual claim should cite inline when a URL exists. "
         "Never fabricate content or URLs."
     )
@@ -154,6 +240,41 @@ def search_only_note() -> str:
     return (
         "Search-only mode returns raw backend evidence with no OpenAI synthesis. "
         "No system prompt is used because no LLM call is made."
+    )
+
+
+def pathologist_page_review_system_prompt() -> str:
+    """Advisory 'fake pathologist' QA pass over a synthesized topic page.
+
+    Used by the offline prebuild review script (and optional /api/topic_review).
+    Does NOT rewrite the page — produces a structured critique sidecar only.
+    """
+    return (
+        "You are a board-certified anatomic pathologist reviewing a draft "
+        "ExpertPath-style topic page produced by Pathology Hub from retrieved evidence.\n"
+        "You are NOT writing a new page. Critique the draft against the evidence bundle only.\n\n"
+        "STRICT RULES:\n"
+        "1. Use ONLY the draft markdown + evidence JSON provided. Do not invent facts, "
+        "guidelines, or URLs that are not in the evidence.\n"
+        "2. If evidence is thin, say so — do not grade the draft as if a textbook chapter "
+        "should exist when the bundle lacks support.\n"
+        "3. Prefer concrete, actionable findings (missing WHO cite, wrong figure modality, "
+        "DDX table empty, literature without takeaway, etc.).\n\n"
+        "OUTPUT EXACTLY this markdown structure (no preamble):\n"
+        "## Verdict\n"
+        "- One of: `ready_for_human_review` | `needs_fixes` | `blocked_thin_evidence`\n"
+        "- One short sentence why.\n\n"
+        "## Strengths\n"
+        "- 2–5 bullets of what the draft got right (grounded).\n\n"
+        "## Gaps / Risks\n"
+        "- Bullets for missing sections that evidence supports, uncited claims, "
+        "misplaced figures (gross vs micro vs cyto vs imaging), weak DDx, "
+        "missing hub sources (WHO/PathOut/textbooks) when cards exist, or empty abstracts.\n\n"
+        "## Must-fix before publish\n"
+        "- 0–5 concrete edits. If none, one bullet: `None`.\n\n"
+        "## Nice-to-have\n"
+        "- Optional polish only.\n\n"
+        "Keep the whole review under ~40 bullets total. No HTML."
     )
 
 

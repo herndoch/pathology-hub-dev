@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -25,6 +26,8 @@ from pathology_backend import (  # noqa: E402
     extract_evidence_cards,
     extract_figures,
     filter_cards_by_page_root,
+    filter_figures_by_page_root,
+    is_cyto_root_token,
     merge_outcomes,
     normalize_root_token,
     page_root_from_tag,
@@ -208,7 +211,48 @@ class TestTopicPageQueryVariants(unittest.TestCase):
             "HGSC",
             category_context="GYN — Ovary > Carcinomas",
         )
-        self.assertTrue(variants[0].startswith("HGSC GYN — Ovary > Carcinomas"))
+        # Bare entity first, then organ token — never the full breadcrumb.
+        self.assertEqual(variants[0], "HGSC")
+        self.assertIn("HGSC Ovary", variants)
+        self.assertTrue(all(">" not in v for v in variants))
+
+    def test_fibroadenoma_gets_organ_not_breadcrumb(self):
+        variants = topic_page_query_variants(
+            "Fibroadenoma",
+            category_context="Breast > Benign Changes",
+        )
+        # Bare entity first, then organ-enriched — never full breadcrumb.
+        self.assertEqual(variants[0], "Fibroadenoma")
+        self.assertIn("Fibroadenoma Breast", variants)
+        self.assertTrue(all("Benign Changes" not in v for v in variants)
+        )
+        self.assertTrue(all("Fibroadenoma" in v for v in variants))
+
+    def test_hub_sources_pinned_for_synthesis(self):
+        from app import _evidence_for_synthesis, _slim_hub_for_prompt  # noqa: E402
+
+        cards = [
+            {
+                "source": "textbooks",
+                "source_id": "breast_atlas",
+                "title": "Fibroadenoma",
+                "source_url": "https://example.com/tb",
+                "excerpt": "Benign biphasic tumor",
+            },
+            {
+                "source": "who",
+                "title": "Fibroadenoma",
+                "source_url": "https://example.com/who",
+                "excerpt": "WHO entity",
+            },
+        ]
+        slim = _slim_hub_for_prompt(cards)
+        self.assertTrue(any(c.get("source") == "textbooks" for c in slim))
+        bundle = _evidence_for_synthesis({"query": "Fibroadenoma"}, cards)
+        self.assertIn("00_hub_sources_must_use", bundle)
+        self.assertTrue(
+            any(c.get("source") == "textbooks" for c in bundle["00_hub_sources_must_use"])
+        )
 
     def test_category_context_skipped_for_descriptive_entity_names(self):
         variants = topic_page_query_variants(
@@ -328,11 +372,14 @@ class TestAppContract(unittest.TestCase):
         self.assertTrue(req.include_figures)
         self.assertEqual(req.max_figures, 8)
 
-    def test_topic_page_sources_excludes_curriculum_includes_journals(self):
+    def test_topic_page_sources_excludes_curriculum_and_retired_journal_corpus(self):
         from app import TOPIC_PAGE_SOURCES  # noqa: E402
 
         self.assertNotIn("curriculum", TOPIC_PAGE_SOURCES)
-        self.assertIn("journals", TOPIC_PAGE_SOURCES)
+        # `journals` (local journal FAISS corpus) was retired and replaced by
+        # live Elsevier Scopus + PubMed + OncoKB via literature_apis.py —
+        # see TOPIC_PAGE_SOURCES comment in app.py.
+        self.assertNotIn("journals", TOPIC_PAGE_SOURCES)
         self.assertIn("textbooks", TOPIC_PAGE_SOURCES)
         self.assertIn("videos", TOPIC_PAGE_SOURCES)
         # `lectures` deliberately excluded: live-probed this session and
@@ -365,10 +412,21 @@ class TestAppContract(unittest.TestCase):
                 for _ in sources
             ]
 
-        with patch("app.staged_retrieve", side_effect=_fake_staged_retrieve), patch(
-            "app.synthesize"
-        ) as mock_synthesize:
-            mock_synthesize.return_value = MagicMock(ok=True, text="- fake answer", model="test-model")
+        # Use legacy single-pass path so this test stays focused on source override;
+        # iterative multi-round coverage lives in test_iterative_topic_retrieval.py.
+        with patch.dict(os.environ, {"TOPIC_PAGE_ITERATIVE": "0"}), patch(
+            "app.staged_retrieve", side_effect=_fake_staged_retrieve
+        ), patch(
+            "app.fetch_live_literature",
+            return_value={"cards": [], "providers": {}, "warnings": []},
+        ), patch("app.synthesize") as mock_synthesize:
+            mock_synthesize.return_value = MagicMock(
+                ok=True,
+                text="- fake answer",
+                model="test-model",
+                evidence_truncated=False,
+                evidence_char_len=10,
+            )
             client = TestClient(app)
             resp = client.post(
                 "/api/chat",
@@ -477,6 +535,195 @@ class TestTopicPagePrompt(unittest.TestCase):
 
         text = prompts.topic_page_system_prompt()
         self.assertIn("NEVER invent, guess, autocomplete, or reconstruct a URL", text)
+
+    def test_topic_page_prompt_requires_section_scoped_figure_placement(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("dedicated gallery under each of Imaging Features", text)
+        self.assertIn("Cytology", prompts.TOPIC_PAGE_SECTIONS)
+        self.assertIn("Cytology/FNA/smear", text)
+        self.assertIn("IHC / special-stain photomicrographs → Ancillary Tests", text)
+        self.assertIn("Embed IHC / special-stain figures here", text)
+        self.assertIn("Prefer embedding WHO figure_url", text)
+
+    def test_app_js_separates_cytology_from_microscopic_figures(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('cytology: "Cytology"', js)
+        self.assertIn('"Cytology"', js)
+        self.assertIn("diversifyFiguresBySource", js)
+        # Cytology cues must be classified before generic histology fallback.
+        cyto_idx = js.find("return \"cytology\"")
+        micro_idx = js.find("return \"microscopic\"")
+        self.assertGreater(cyto_idx, 0)
+        self.assertGreater(micro_idx, cyto_idx)
+
+    def test_topic_page_prompt_requires_key_literature_when_present(self):
+        import prompts  # noqa: E402
+
+        text = prompts.topic_page_system_prompt()
+        self.assertIn("00_live_literature_must_use", text)
+        self.assertIn("REQUIRED whenever literature_results", text)
+        self.assertIn("not a footer-only dump", text)
+
+    def test_ensure_key_literature_section_appends_when_missing(self):
+        from app import _ensure_key_literature_section  # noqa: E402
+
+        cards = [
+            {
+                "title": "Lobular Carcinoma In Situ",
+                "journal": "Surg Pathol Clin",
+                "year": "2018",
+                "excerpt": "Classic LCIS features and management.",
+                "source_url": "https://doi.org/10.1/test",
+            }
+        ]
+        out = _ensure_key_literature_section("## Clinical Issues\n- Risk lesion\n", cards)
+        self.assertIn("## Key Literature", out)
+        self.assertIn("Lobular Carcinoma In Situ", out)
+        # Idempotent when already present.
+        again = _ensure_key_literature_section(out, cards)
+        self.assertEqual(again.count("## Key Literature"), 1)
+
+    def test_what_is_lcis_ask_routes_to_topic_page(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="what is lcis", mode="auto", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
+        self.assertIsNotNone(note)
+        self.assertEqual(req.mode, "topic_page")
+        self.assertEqual(req.query.lower(), "lobular carcinoma in situ")
+
+    def test_compare_ask_routes_to_compare_sources(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="LCIS vs DCIS", mode="auto", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "compare_sources")
+        self.assertIn("compare", note or "")
+
+    def test_search_only_phrase_routes(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="LCIS sources only", mode="auto", sources=["textbooks"])
+        _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "search_only")
+
+    def test_explicit_topic_page_mode_not_overridden(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="what is lcis", mode="topic_page", sources=["textbooks"])
+        note = _resolve_ask_mode(req)
+        self.assertIsNone(note)
+        self.assertEqual(req.mode, "topic_page")
+
+    def test_app_js_has_single_ask_auto_router(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        html = (MVP_DIR / "static" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("function planAskRequest", js)
+        self.assertIn("function extractEntityFromAskQuery", js)
+        self.assertIn("Inferred topic page", js)
+        self.assertNotIn('id="mode-select"', html)
+        self.assertNotIn("modeSelect", js)
+
+    def test_app_js_prefers_classic_lcis_over_florid_subtype(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("ENTITY_SUBTYPE_MODIFIERS", js)
+        self.assertIn("leafHasUnrequestedSubtype", js)
+        self.assertIn("words.every((w) => tokenSet.has(w))", js)
+
+    def test_app_js_renders_bullet_wrapped_ddx_tables_and_hides_gallery_titles(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function coerceBulletWrappedMarkdownTable", js)
+        self.assertIn("function splitDdxTablesAndProse", js)
+        self.assertIn("function buildCiteBySource", js)
+        self.assertIn("citeDisplayLabel", js)
+        self.assertIn('return "DOI"', js)
+        # Section gallery should not emit "X gallery" subtitle headers.
+        self.assertNotIn("${sectionName} gallery", js)
+        self.assertNotIn("section-gallery-title", js)
+        # Key Facts side gallery restored alongside section galleries.
+        self.assertIn('topic-panel-title">Selected Images', js)
+
+    def test_app_js_atlas_cites_and_double_paren_normalize(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function textbookLabelFromUrl", js)
+        self.assertIn("function indexTextbookLabelsFromCards", js)
+        self.assertIn("function normalizeSourceParenLayers", js)
+        self.assertIn("function sectionForFigureModality", js)
+        self.assertIn(r"/\(+Textbooks?\)+/gi", js)
+        self.assertIn('return "Atlas"', js)
+        # Generic Textbooks cites resolve to Atlas when URL/source_id says so.
+        self.assertIn('textbookLabelFromUrl(url) || "Textbook"', js)
+
+    def test_textbook_cite_label_prefers_atlas(self):
+        from app import _build_citation_link_index, _textbook_cite_label  # noqa: E402
+
+        self.assertEqual(_textbook_cite_label("breast_atlas"), "Atlas")
+        self.assertEqual(_textbook_cite_label("hn_gnepp"), "Gnepp")
+        self.assertEqual(_textbook_cite_label("breast_biopsy"), "Biopsy")
+        idx = _build_citation_link_index(
+            [
+                {
+                    "source": "textbooks",
+                    "source_id": "breast_atlas",
+                    "title": "Intraductal papilloma",
+                    "source_url": "https://example.com/atlas/papilloma",
+                }
+            ]
+        )
+        self.assertEqual(idx[0]["source_label"], "Atlas")
+
+    def test_browse_root_wins_over_extranodal_page_tag(self):
+        from pathology_backend import effective_page_root, filter_cards_by_page_root  # noqa: E402
+
+        breast_dlbcl = (
+            "Breast::Neoplastic::Hematolymphoid::Malignant::Diffuse_Large_B_Cell_Lymphoma"
+        )
+        self.assertEqual(effective_page_root(breast_dlbcl, "heme"), "heme")
+        cards = [
+            {
+                "source": "pathout",
+                "primary_tag": "Heme::Mature_B_Cell::Large_B_Cell::Diffuse_Large_B_Cell_Lymphoma_NOS",
+            },
+            {"source": "videos", "source_id": "heme_lymphoma_intro"},
+            {"source": "who", "title": "DLBCL"},
+        ]
+        kept = filter_cards_by_page_root(cards, effective_page_root(breast_dlbcl, "heme"))
+        self.assertEqual({c["source"] for c in kept}, {"pathout", "videos", "who"})
+        # Without browse_root, breast narrow drops heme pathout/videos.
+        kept_wrong = filter_cards_by_page_root(cards, effective_page_root(breast_dlbcl, None))
+        self.assertEqual({c["source"] for c in kept_wrong}, {"who"})
+
+    def test_app_js_board_map_prefers_browse_root(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        lit = (MVP_DIR / "literature_apis.py").read_text(encoding="utf-8")
+        self.assertIn("function leafMatchesBrowseRoot", js)
+        self.assertIn("function stripNosMatchKey", js)
+        self.assertIn("browse_root", js)
+        self.assertIn("def search_europe_pmc", lit)
+        self.assertIn("HAS_ABSTRACT:Y", lit)
+
+    def test_browse_defaults_to_full_who_abpath_index(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn('ph_browse_nav_mode_v0_3', js)
+        self.assertIn('if (stored === "starter") return "starter"', js)
+        self.assertIn("Full WHO + ABPath", js)
+        self.assertIn("Starter sample", js)
+        self.assertIn("not the WHO catalog", js)
+
+    def test_pathologist_review_prompt_and_script_exist(self):
+        import prompts  # noqa: E402
+
+        text = prompts.pathologist_page_review_system_prompt()
+        self.assertIn("ready_for_human_review", text)
+        self.assertIn("needs_fixes", text)
+        self.assertIn("blocked_thin_evidence", text)
+        script = MVP_DIR / "scripts" / "pathologist_review_topic_pages_v0_1.py"
+        self.assertTrue(script.is_file())
+        body = script.read_text(encoding="utf-8")
+        self.assertIn("topic_page_pathologist_review_v0_1", body)
+        self.assertIn(".review.json", body)
 
 
 class TestWhoSectionMentions(unittest.TestCase):
@@ -719,6 +966,118 @@ class TestRootNarrowFilter(unittest.TestCase):
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "hn_lecture"]), 1)
         self.assertEqual(len([c for c in filtered if c.get("source_id") == "breast_lecture"]), 0)
 
+    def test_is_cyto_root_token(self):
+        self.assertTrue(is_cyto_root_token(page_root_from_tag("Cyto_Thyroid::Malignant::X")))
+        self.assertTrue(is_cyto_root_token("cytobreast"))
+        self.assertFalse(is_cyto_root_token(page_root_from_tag("Thyroid::Malignant::X")))
+        self.assertFalse(is_cyto_root_token(None))
+        self.assertFalse(is_cyto_root_token(""))
+
+    def test_cyto_page_drops_generic_who_card_for_same_diagnosis(self):
+        """Regression for user report (2026-07-26): a Cyto_* topic page must not
+        show the generic/histologic WHO write-up just because it shares a
+        diagnosis label with the underlying entity — WHO cards never carry a
+        primary_tag, so they must be dropped (not kept-by-default) on cyto
+        pages, unlike on ordinary (non-cyto) pages where WHO is always kept."""
+        cards = [
+            {"source": "who", "title": "Papillary thyroid carcinoma (WHO)"},
+            {
+                "source": "textbooks",
+                "source_id": "thyroid_rosai",
+                "primary_tag": "Thyroid::Malignant::Papillary_Thyroid_Carcinoma",
+                "title": "Surgical pathology of PTC",
+            },
+            {
+                "source": "textbooks",
+                "source_id": "cyto_cibas",
+                "primary_tag": "Cyto_Thyroid::Malignant::Papillary::Papillary_Thyroid_Carcinoma_Classic",
+                "title": "Cytology of PTC",
+            },
+            {
+                "source": "pathout",
+                "source_id": "cyto_pattern",
+                "primary_tag": "Cyto_Thyroid::Pattern::Papillary_Fragments",
+                "title": "Cyto pattern reference",
+            },
+            {"source": "journals", "title": "PubMed: PTC review"},
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag(
+            "Cyto_Thyroid::Malignant::Papillary::Papillary_Thyroid_Carcinoma_Classic"
+        ))
+        titles = {c["title"] for c in filtered}
+        self.assertNotIn("Papillary thyroid carcinoma (WHO)", titles)
+        self.assertNotIn("Surgical pathology of PTC", titles)
+        self.assertIn("Cytology of PTC", titles)
+        self.assertIn("Cyto pattern reference", titles)
+        # Live literature is fetched/scoped separately — untouched by this filter.
+        self.assertIn("PubMed: PTC review", titles)
+
+    def test_non_cyto_page_still_keeps_who_regardless_of_root(self):
+        """Non-cyto pages must see zero behavior change from the B9 fix."""
+        cards = [
+            {"source": "who", "title": "Generic WHO entity"},
+            {
+                "source": "textbooks",
+                "source_id": "breast_wolf",
+                "primary_tag": "Breast::Neoplastic::DCIS",
+                "title": "On-root textbook",
+            },
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Breast::Neoplastic::DCIS"))
+        self.assertEqual({c["title"] for c in filtered}, {"Generic WHO entity", "On-root textbook"})
+
+    def test_cyto_page_drops_unresolvable_root_textbook_pathout_cards(self):
+        """B9: on cyto pages, even textbooks/pathout with no resolvable tag/source_id
+        prefix are dropped (stricter than the B8 'keep unless proven off-root')."""
+        cards = [
+            {"source": "textbooks", "title": "No tag at all"},
+            {
+                "source": "textbooks",
+                "source_id": "cyto_milan",
+                "primary_tag": "Cyto_Salivary::Category::Milan_III",
+                "title": "On-root cyto textbook",
+            },
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Cyto_Salivary::Category::Milan_III"))
+        self.assertEqual({c["title"] for c in filtered}, {"On-root cyto textbook"})
+
+    def test_cyto_page_keeps_generic_cyto_sourced_card_missing_primary_tag(self):
+        """Cyto textbooks/atlases (e.g. 'cyto_cibas') span every cyto organ in
+        one source_id-named book — only the per-chunk primary_tag carries the
+        specific Cyto_<Organ> root. A card that (unusually) has a cyto-book
+        source_id but no primary_tag should still be kept on any Cyto_* page
+        rather than dropped for not matching the specific organ exactly."""
+        cards = [
+            {"source": "textbooks", "source_id": "cyto_cibas", "title": "Generic cyto book, no primary_tag"},
+            {"source": "textbooks", "source_id": "thyroid_rosai", "title": "Generic surgical book, no primary_tag"},
+        ]
+        filtered = filter_cards_by_page_root(cards, page_root_from_tag("Cyto_Thyroid::Malignant::X"))
+        self.assertEqual({c["title"] for c in filtered}, {"Generic cyto book, no primary_tag"})
+
+    def test_filter_figures_by_page_root_drops_off_root_keeps_generic_cyto_on_cyto_pages(self):
+        """Figures never carry primary_tag (confirmed live — see README B9 note),
+        only source_id. Real cyto book source_ids (e.g. 'cyto_cibas_fig12') are
+        organ-agnostic, so any Cyto_* page must keep them; a non-cyto figure
+        (e.g. 'thyroid_rosai_fig3') and one with no source_id at all must not."""
+        figures = [
+            {"source_id": "cyto_cibas_fig12", "caption": "Cyto figure"},
+            {"source_id": "thyroid_rosai_fig3", "caption": "Off-root surgical figure"},
+            {"caption": "No source_id at all"},
+        ]
+        filtered = filter_figures_by_page_root(figures, page_root_from_tag("Cyto_Thyroid::Malignant::X"))
+        captions = {f["caption"] for f in filtered}
+        self.assertEqual(captions, {"Cyto figure"})
+
+    def test_filter_figures_by_page_root_keeps_unresolvable_on_non_cyto_pages(self):
+        """Non-cyto pages must see zero behavior change from the B9 fix."""
+        figures = [
+            {"source_id": "breast_wolf_fig1", "caption": "On-root figure"},
+            {"caption": "No source_id at all"},
+        ]
+        filtered = filter_figures_by_page_root(figures, page_root_from_tag("Breast::Neoplastic::DCIS"))
+        captions = {f["caption"] for f in filtered}
+        self.assertEqual(captions, {"On-root figure", "No source_id at all"})
+
 
 class TestVideoDedupe(unittest.TestCase):
     def test_dedupe_video_cards_by_video_id(self):
@@ -770,6 +1129,108 @@ class TestVideoDedupe(unittest.TestCase):
             "Benign Cystic Neck Mass (Case 01)",
             "Other Lecture Title",
         })
+
+
+class TestBestVideoCardPerLecture(unittest.TestCase):
+    """Parity check for `videoLectureKey` / `bestVideoCardPerLecture` in app.js.
+
+    Those two helpers collapse the "LECTURE SEGMENTS" gallery and "VIDEOS"
+    list down to one best segment per distinct lecture (e.g. the screenshot
+    bug: 5 timestamped chunks of one "BST Lecture 3 SoftTissue2" video all
+    rendered as if they were 5 separate lectures). This file's tests hit
+    app.js mostly via string assertions rather than a JS runtime, so this
+    reimplements the same identity/tiebreak logic in Python and exercises it
+    directly against the exact multi-segment-one-lecture shape from the bug
+    report, plus a genuinely-multi-lecture case that must NOT collapse.
+    """
+
+    @staticmethod
+    def _video_lecture_key(card):
+        video_id = str(card.get("video_id") or "").strip()
+        looks_like_path_blob = (
+            not video_id
+            or video_id.lower().startswith("gcs_gs_")
+            or video_id.lower().endswith("lecture_chunks")
+            or "/" in video_id
+        )
+        if not looks_like_path_blob:
+            return video_id
+        title = str(card.get("title") or "").strip()
+        if title:
+            return f"title:{title}"
+        return video_id or str(card.get("chunk_id") or "").strip() or None
+
+    @classmethod
+    def _duration(cls, card):
+        start = card.get("start_sec", card.get("start_time_sec"))
+        end = card.get("end_sec", card.get("end_time_sec"))
+        if isinstance(start, (int, float)) and isinstance(end, (int, float)) and end > start:
+            return end - start
+        return 0
+
+    @classmethod
+    def _best_per_lecture(cls, rows):
+        """rows: list of (card, score), already sorted by score descending."""
+        winners = {}
+        order = []
+        for card, score in rows:
+            key = cls._video_lecture_key(card) or f"chunk:{card.get('chunk_id')}"
+            current = winners.get(key)
+            if current is None:
+                winners[key] = (card, score)
+                order.append(key)
+                continue
+            current_card, current_score = current
+            if score > current_score or (
+                score == current_score and cls._duration(card) > cls._duration(current_card)
+            ):
+                winners[key] = (card, score)
+        return [winners[key][0] for key in order]
+
+    def test_five_segments_of_one_lecture_collapse_to_single_best(self):
+        # Mirrors the screenshot: 5 timestamped segments, same lecture title,
+        # path-blob-style video_id (so identity must fall back to title).
+        rows = [
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c1", "start_sec": 1846, "end_sec": 1959}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c2", "start_sec": 1382, "end_sec": 1492}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c3", "start_sec": 1624, "end_sec": 1717}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c4", "start_sec": 1718, "end_sec": 1846}, 1.0),
+            ({"title": "BST Lecture 3 SoftTissue2", "video_id": "gcs_gs_pathology_hub_lecture_chunks",
+              "chunk_id": "c5", "start_sec": 2202, "end_sec": 2311}, 1.0),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 1)
+        # Equal scores -> longest segment wins (c4: 128s is the longest here).
+        self.assertEqual(best[0]["chunk_id"], "c4")
+
+    def test_higher_score_wins_over_longer_duration(self):
+        rows = [
+            ({"title": "Same Lecture", "video_id": "vid-x", "chunk_id": "short", "start_sec": 0, "end_sec": 10}, 1.0),
+            ({"title": "Same Lecture", "video_id": "vid-x", "chunk_id": "long", "start_sec": 0, "end_sec": 500}, 0.5),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 1)
+        self.assertEqual(best[0]["chunk_id"], "short")
+
+    def test_genuinely_distinct_lectures_are_not_collapsed(self):
+        rows = [
+            ({"title": "Lecture A", "video_id": "vid-a", "chunk_id": "a1"}, 1.0),
+            ({"title": "Lecture A", "video_id": "vid-a", "chunk_id": "a2"}, 0.8),
+            ({"title": "Lecture B", "video_id": "vid-b", "chunk_id": "b1"}, 0.9),
+        ]
+        best = self._best_per_lecture(rows)
+        self.assertEqual(len(best), 2)
+        self.assertEqual({c["chunk_id"] for c in best}, {"a1", "b1"})
+
+    def test_app_js_has_lecture_collapse_helpers(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function videoLectureKey", js)
+        self.assertIn("function bestVideoCardPerLecture", js)
+        self.assertIn("function videoSegmentDurationSec", js)
 
 
 class TestDdxRootPreference(unittest.TestCase):
@@ -852,6 +1313,28 @@ class TestMarkdownFenceHelpers(unittest.TestCase):
         self.assertIn("function normalizeInlineLinkLabel", js)
         self.assertIn("function renderTopicVideos", js)
         self.assertIn("function renderTopicLectureGallery", js)
+
+    def test_app_js_has_section_scoped_figure_galleries(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function classifyFigureModality", js)
+        self.assertIn("function bucketFiguresBySection", js)
+        self.assertIn("function renderSectionGallery", js)
+        self.assertIn("section-gallery", js)
+        # Modality overrides wrong inline section (micro under Gross).
+        self.assertIn("sectionForFigureModality", js)
+        self.assertIn("strongGross", js)
+        # Global dump beside Key Facts should be gone from topic pages.
+        self.assertNotIn(
+            'topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}',
+            js,
+        )
+
+    def test_app_js_has_board_curriculum_panel_and_tag_resolver(self):
+        js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("function resolveBoardMappedLeaf", js)
+        self.assertIn("Board / curriculum map", js)
+        self.assertIn("curriculum-board-panel", js)
+        self.assertIn("ABPath board curriculum", js)
         self.assertIn("function sectionHasContent", js)
         self.assertIn("function compactBrowseRoots", js)
         self.assertIn("compare-gallery-grid", js)

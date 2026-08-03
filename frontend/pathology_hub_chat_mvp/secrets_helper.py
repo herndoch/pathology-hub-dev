@@ -24,10 +24,16 @@ GCP_PROJECT = "830130787988"
 
 OPENAI_SECRET_NAME = "OPENAI"
 PATHOLOGY_HUB_SECRET_NAME = "PATHOLOGY_HUB_API_KEY"
+ELSEVIER_SECRET_NAME = "Elsevier"
+NCBI_SECRET_NAME = "NCBI"
+ONCOKB_SECRET_NAME = "OncoKB"
 
 OPENAI_ENV_VAR = "OPENAI_API_KEY"
 PATHOLOGY_HUB_ENV_VAR = "PATHOLOGY_HUB_API_KEY"
 PATHOLOGY_HUB_ALT_ENV_VARS = ("PATHOLOGY_HUB_API_KEY", "HUB_API")
+ELSEVIER_ENV_VAR = "ELSEVIER_API_KEY"
+NCBI_ENV_VAR = "NCBI_API_KEY"
+ONCOKB_ENV_VAR = "ONCOKB_API_TOKEN"
 
 
 @dataclass
@@ -117,6 +123,21 @@ def get_pathology_hub_api_key() -> Optional[str]:
     return value
 
 
+def get_elsevier_api_key() -> Optional[str]:
+    value, _source = load_secret(ELSEVIER_ENV_VAR, ELSEVIER_SECRET_NAME)
+    return value
+
+
+def get_ncbi_api_key() -> Optional[str]:
+    value, _source = load_secret(NCBI_ENV_VAR, NCBI_SECRET_NAME)
+    return value
+
+
+def get_oncokb_api_token() -> Optional[str]:
+    value, _source = load_secret(ONCOKB_ENV_VAR, ONCOKB_SECRET_NAME)
+    return value
+
+
 def status_for(
     env_var: str,
     secret_id: str,
@@ -133,10 +154,13 @@ def status_for(
 
 
 def all_secret_status() -> dict:
-    """Return a diagnostic-only summary of both secrets. Safe to log/print/return."""
+    """Return a diagnostic-only summary of secrets. Safe to log/print/return."""
     return {
         "openai": status_for(OPENAI_ENV_VAR, OPENAI_SECRET_NAME).to_dict(),
         "pathology_hub": status_for(PATHOLOGY_HUB_ENV_VAR, PATHOLOGY_HUB_SECRET_NAME).to_dict(),
+        "elsevier": status_for(ELSEVIER_ENV_VAR, ELSEVIER_SECRET_NAME).to_dict(),
+        "ncbi": status_for(NCBI_ENV_VAR, NCBI_SECRET_NAME).to_dict(),
+        "oncokb": status_for(ONCOKB_ENV_VAR, ONCOKB_SECRET_NAME).to_dict(),
     }
 
 

@@ -10,7 +10,20 @@ This workstream is separate from the curriculum provenance browser and from GPT 
 - Calls live Cloud Run `pathology-hub-v04` `/evidence/search` (via `pathology_backend.py`)
 - Shows per-source result links (`source_url`, `figure_url`, `video_time_url`, etc.) when returned by the API
 - Optional debug panel: request payloads, `source_status`, warnings (never API keys)
-- Modes: `gpt_like` (default), `search_only`, `compare_sources`, `visual`, `html_teaching`, `topic_page` (see Browse tab section below)
+- **One Ask box** — no mode picker. The query is auto-routed to an internal shape: `topic_page` (entity / “what is…”), `compare_sources` (vs / difference), `visual` (show figures), `search_only` (“sources only”), or short `gpt_like`. Browse leaves still force `topic_page`.
+
+## Keep local WSL in sync with cloud-agent edits
+
+Cloud agents push to a feature branch; your WSL checkout does **not** auto-update. After an agent says it pushed:
+
+```bash
+cd /home/charlie/pathology-hub-dev
+./frontend/pathology_hub_chat_mvp/scripts/sync_and_run_local.sh
+# equivalent: pull cursor/topic-iterative-sse-layout-9231, kill old uvicorn, restart
+```
+
+Then hard-refresh the browser (Ctrl+Shift+R). Confirm the terminal shows
+`BUILD=topic-iterative-sse-layout-9231 sha=<new>` matching the agent’s latest commit.
 
 ## Prerequisites
 
@@ -22,8 +35,16 @@ Optional overrides:
 
 - `PATHOLOGY_HUB_API_URL` — backend base URL (default: live Cloud Run v04)
 - `OPENAI_MODEL` — default **`gpt-4o`** (see **Synthesis model A/B** below); override e.g. `OPENAI_MODEL=gpt-4.1-mini`
-- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO + journals always kept)
+- `TOPIC_PAGE_ROOT_NARROW` — **on by default**; set to `0`/`false`/`off` to disable same-root filtering of textbooks/pathout/videos (WHO always kept, **except** on `Cyto_*` pages — see B9 below)
+- `TOPIC_PAGE_LIVE_LITERATURE` — **on by default**; set to `0` to skip live Elsevier Scopus / PubMed / OncoKB on topic pages
+- `TOPIC_PAGE_ITERATIVE` — **on by default**; multi-round retrieval (broad → gap-fill → literature deepen) with SSE progress via `POST /api/chat/stream`
+- `TOPIC_PAGE_ITERATIVE_ROUNDS` — max rounds 1–3 (default `3`)
+- `ELSEVIER_API_KEY`, `NCBI_API_KEY`, `ONCOKB_API_TOKEN` — optional env overrides; otherwise loaded from Secret Manager secrets `Elsevier`, `NCBI`, `OncoKB`
 - `PORT` — local server port (default `8000`)
+
+### Live literature (topic pages)
+
+Topic pages call Elsevier Scopus + NCBI PubMed (+ OncoKB when gene symbols appear in the query) in parallel with hub RAG. Results become `literature` cards with DOI/PubMed links and feed **Key Literature** / **Molecular / Therapeutic** sections. This replaces the retired local journal FAISS index.
 
 ## Run locally
 
@@ -60,8 +81,9 @@ See `docs/DEPLOY_CHAT_MVP_HTTPS_CLOUD_RUN_v0_1.md`.
 | Route | Purpose |
 |-------|---------|
 | `GET /` | Chat UI |
-| `GET /api/health` | App + backend health, secret presence (no values) |
-| `POST /api/chat` | Retrieve evidence + optional OpenAI answer |
+| `GET /api/health` | App + backend health, secret presence (no values); includes `ui_sources`, iterative/literature flags |
+| `POST /api/chat` | Retrieve evidence + optional OpenAI answer (blocking) |
+| `POST /api/chat/stream` | Same as `/api/chat` but SSE: `progress` events per retrieval round, then `result` |
 | `POST /api/search` | Raw evidence only |
 | `GET /api/openai_ping` | OpenAI connectivity smoke test |
 
@@ -70,7 +92,10 @@ See `docs/DEPLOY_CHAT_MVP_HTTPS_CLOUD_RUN_v0_1.md`.
 From repo root (no live API key required):
 
 ```bash
-frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest tests.test_pathology_hub_chat_mvp -v
+frontend/pathology_hub_chat_mvp/.venv/bin/python -m unittest \
+  tests.test_pathology_hub_chat_mvp \
+  tests.test_iterative_topic_retrieval \
+  tests.test_literature_apis -v
 ```
 
 Offline + optional live smoke:
@@ -112,7 +137,7 @@ sections above). Audits land under `outputs/chat_mvp_topic_prepop_v0_1/` (gitign
 
 ## Teaching session notes
 
-The right sidebar includes a collapsible **Teaching session notes** panel for capturing teaching points or session follow-ups. Content auto-saves to browser `localStorage` (`pathology_hub_teaching_session_notes`; migrates from legacy `pathology_hub_experiment_notes`) and survives refresh. Use **Copy notes** or **Export markdown** to share.
+Advanced (evidence sources) and **Export current page as JSON** live in a bottom stack under the chat panel so Browse topics are full-width. Topic pages also show an export button at the bottom of the page. Live journal papers come from Elsevier / PubMed / OncoKB (`literature`); the retired local `journals` FAISS corpus is not offered in the source checkboxes.
 
 ## UI features
 
@@ -135,8 +160,8 @@ entity's own fresh topic page when confident; unmatched entries stay plain text 
 link). The taxonomy (`BROWSE_TAXONOMY` in `app.js`) is a self-contained, editorially curated static
 structure — not read from the curriculum provenance browser's SQLite (different workstream) — and
 every navigation still goes through the single supported `POST /evidence/search` operation. The
-**Ask** tab keeps the original free-text chat flow (mode dropdown includes `topic_page` too, for
-typing an entity name directly).
+**Ask** is a single free-text box: entity names and “what is…” questions become topic pages
+automatically; compare/visual/search-only phrasing selects those shapes without a dropdown.
 
 `topic_page` requests always use the **full source set** (`textbooks`, `who`, `pathout`,
 `journals`, `lectures`, `videos` — never `curriculum`, which is navigation-only), enforced
@@ -158,7 +183,7 @@ OpenAI synthesis, not retrieval, is now the dominant cost for `topic_page` speci
 6-source ovarian-HGSC probe was ~52s total: ~17s retrieval, ~35s synthesis) because the
 comprehensive, structured, DDx-aware prompt is long.
 
-### Synthesis model A/B (G16, measured 2026-07-11)
+### Synthesis model A/B (G16, measured 2026-07-11; superseded 2026-07-30)
 
 Three fixed entities (Middle Ear SCC, GCT of Bone, Juvenile Granulosa Cell Tumor) were probed
 with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
@@ -168,11 +193,21 @@ with `scripts/model_ab_topic_synthesis_v0_1.py` (audit:
 |---|---|---|---|
 | `gpt-4.1-mini` | ~35s | yes | Longest answers (~5–6k chars); prior default |
 | `gpt-4o-mini` | ~30s | yes | Shorter answers (~2.1–2.4k chars); not faster than mini here |
-| **`gpt-4o`** | **~18s** | yes | **Default (2026-07-11)** — fastest in A/B; shorter but structurally complete |
+| `gpt-4o` | ~18s | yes | Fastest in this A/B; shorter but structurally complete — default 2026-07-11 through 2026-07-21 |
 
-**Default:** `gpt-4o` (`openai_synthesizer.DEFAULT_MODEL`). Override with
-`OPENAI_MODEL=gpt-4.1-mini ./scripts/run_local.sh` if you need longer answers on dense entities.
-Re-run `scripts/model_ab_topic_synthesis_v0_1.py` after prompt changes.
+**2026-07-21 → 2026-07-29 regression:** a separate `OPENAI_TOPIC_PAGE_MODEL`/`gpt-5.6-luna`
+default was introduced for `topic_page` synthesis only. `gpt_like` (free-text Ask), `compare_sources`,
+`visual`, `html_teaching`, and `/api/compare` were never updated to match, so they silently kept
+using `gpt-4o` — plus the Cloud Run deploy script hardcoded `OPENAI_MODEL=gpt-4o` as an env var,
+which would have overridden any Python-level default change anyway.
+
+**Current default (2026-07-30):** `gpt-5.6-luna` everywhere (`openai_synthesizer.DEFAULT_MODEL` ==
+`TOPIC_PAGE_DEFAULT_MODEL`), and every `synthesize()` call site in `app.py` passes
+`model=get_topic_page_model()` explicitly so chat/compare/visual/html_teaching can't drift back onto
+an old default even if `OPENAI_MODEL` and `OPENAI_TOPIC_PAGE_MODEL` are later set to different
+values. Override for a single local run with `OPENAI_MODEL=gpt-4.1-mini ./scripts/run_local.sh` (or
+`OPENAI_TOPIC_PAGE_MODEL=...` — both now feed the same code paths). Re-run
+`scripts/model_ab_topic_synthesis_v0_1.py` after prompt changes.
 
 ### Root-narrowed retrieval (B8)
 
@@ -187,6 +222,43 @@ starves results. Measured A/B (`scripts/root_narrow_ab_v0_1.py`):
 Use root narrow when off-root textbook/video noise dominates; disable (`TOPIC_PAGE_ROOT_NARROW=0`)
 for thin roots (e.g. some Eye pages dropped 53→24 cards) or when breadth matters.
 
+**Cyto strictness (B9, added 2026-07-26):** `Cyto_*` pages (e.g. `Cyto_Thyroid`) apply a stricter
+variant of the same filter — see `is_cyto_root_token`/`filter_cards_by_page_root` in
+`pathology_backend.py`. Root cause: WHO entity cards never carry a `primary_tag` (confirmed across
+every captured WHO response in `audits/**/*.json` — always `None`), so the ordinary B8 policy of
+"keep WHO regardless of root" showed the generic/histologic WHO write-up for a diagnosis on its
+`Cyto_*` page too, purely because the diagnosis text/entity is shared with the non-cyto surgical
+entity of the same name — reported by the user as cyto pages "covering non cyto things ... cuz of
+using the same diagnosis". For `Cyto_*` pages only: WHO is added to the root-filterable source set,
+and cards/figures with no resolvable root (previously kept by default) are now dropped instead of
+kept, since only content with a confirmed matching `Cyto_*` root can be shown. Textbook/pathout/
+video content was already reliably tagged with a resolvable `Cyto_*` vs non-cyto `primary_tag` in
+every sampled live response, so this mainly affects WHO; non-cyto pages are completely unaffected
+(same behavior as before). Live literature (`journals`, fetched separately via Elsevier/PubMed/
+OncoKB) is unscoped either way — it never carries repo-tag metadata to filter on.
+
+**Cyto strictness fix (2026-08-01):** B9 as originally written silently dropped *every* WHO/
+textbook/pathout/video card on any Browse-nav-derived `Cyto_*` content-spec page (`ABPathSpec::
+cyto::…` tags — the Browse nav's own root id for these is always the bare generic `"cyto"`, never
+a specific organ, since content-spec entities aren't individually mapped to a `Cyto_<Organ>`
+identifier the way WHO/PathOut source tags are — see `CYTO_SYSTEM_*` in
+`build_browse_tag_index_who_abpath_spec_v0_1.py`, which only reorganizes Browse *navigation*
+bucketing, not the tag itself). Strict-cyto root matching required an *exact* organ-token match,
+and the bare `"cyto"` target never exactly matches any organ-specific card root (`"cytogyn"`,
+`"cytothyroid"`, …) — so every card was dropped, which is strictly worse than no filtering at all.
+Fixed two ways in `pathology_backend.py`: (1) `is_cyto_root_token` now returns `False` for the bare
+`"cyto"` token — WHO stays in the ordinary (non-root-filterable) B8 policy on these pages, since B9
+strictness with no organ to scope to has no useful signal; (2) `_root_matches_page` now treats any
+organ-specific `"cyto*"` root as on-topic when the *target* itself is bare `"cyto"` — so
+textbook/pathout/video content across the whole cyto family is shown (not narrowed to one organ,
+but no longer empty, and never leaking in non-cyto surgical-pathology content of the same
+diagnosis name, which was B9's original goal). **Known limitation:** content-spec-derived cyto
+pages still cannot be narrowed to one specific organ system (e.g. a GYN cytology content-spec page
+may still show Breast/Thyroid cyto textbook content) — true organ-level precision on these pages
+would require mapping each content-spec entity to a `Cyto_<Organ>` identifier, which content-spec
+data does not carry. Pages opened from a real WHO/PathOut `Cyto_<Organ>` tag (e.g.
+`Cyto_GYN::Squamous::…`) were already organ-scoped correctly before this fix and are unaffected.
+
 **Known limitation — journals:** `/api/health`'s `journal_vector_manifest_summary.api_exposed_note`
 says journal vector retrieval "requires a v04.5 patch" and isn't exposed yet — but a live probe
 shows this note is stale: `source_status.journals == "ok"` and real article metadata (titles,
@@ -199,6 +271,25 @@ deliberately did **not** add a server-side HEAD-check filter for this: the same 
 Cloud Run's egress IP could just as easily get bot-challenged and incorrectly hide valid citations.
 Journals stay in the default `topic_page` source set since retrieval itself is proven live; link
 resolution for end users is unverified either way, not disproven.
+
+**Textbook retrieval degrades under concurrent prebuild load (found 2026-08-03):** BST prebuilds
+run at `--parallel 3` came back with `source_status.textbooks == "not_requested"` on ~93% of the
+189 leaves (only WHO/literature populated), even though `Enzinger and Weiss's Soft Tissue Tumors`
+(`softtissue_enzinger`), `Dorfman and Czerniak's Bone Tumors` (`bone_dorfman`), and the AFIP-style
+`Horvai` BST atlas (`bst_horvai`) — plus `bone_atlas`, `bone_pattern`, `softtissue_pattern` — are
+all indexed in the same `textbooks_lean` corpus as every other specialty (confirmed against the
+backend's own manifest and source PDFs; not a missing-corpus issue). `source_status` is set purely
+by the pathology-hub-v04 backend's own `/evidence/search` response body — this repo's code
+(`merge_outcomes` in `pathology_backend.py`) only reads it through, never sets it — so this is a
+backend-side effect of concurrent load, not a client bug. Confirmed by re-running the same BST
+leaves at `--parallel 2` immediately after the `--parallel 3` batch finished (backend otherwise
+idle): `textbooks`/`pathout` came back `"ok"` on 189/189 pages, per-page latency dropped from
+~150-200s to ~25-45s, and card counts nearly doubled (4,401 → 6,367 total cards across the BST
+set). **Mitigation:** keep `prebuild_topic_pages_pilot_v0_1.py --parallel` at 2 or lower for any
+future large batch prebuild run against this backend; higher concurrency silently degrades the
+expensive textbook/pathout hybrid search while cheap WHO lookups keep returning `"ok"`, so a
+skimmed audit that only checks `n_ok`/`n_failed` (both look fine) won't catch it — check
+`retrieval_debug_summary.source_status` per source, not just overall success.
 
 ## Citation tags
 

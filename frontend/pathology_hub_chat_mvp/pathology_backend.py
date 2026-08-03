@@ -303,6 +303,26 @@ def staged_retrieve(
         return list(executor.map(_search_one, sources))
 
 
+def _organ_enrichment_from_category_context(category_context: Optional[str]) -> str:
+    """Turn browse breadcrumb context into a short organ token for search.
+
+    Browse sends strings like ``Breast > Benign Changes``. Appending the full
+    breadcrumb pollutes retrieval (``Fibroadenoma Breast > Benign Changes``).
+    Keep only the organ/root segment before ``>``.
+    """
+    context = (category_context or "").strip()
+    if not context:
+        return ""
+    head = re.split(r"\s*>\s*", context, maxsplit=1)[0].strip()
+    if not head:
+        return ""
+    # "GYN — Ovary" / "GU - Prostate" → prefer the trailing organ word.
+    parts = re.split(r"\s*[—–\-]\s*", head)
+    label = (parts[-1] if parts else head).strip()
+    label = re.sub(r"\s+", " ", label)
+    return label
+
+
 def topic_page_query_variants(
     entity_name: str,
     category_context: Optional[str] = None,
@@ -311,22 +331,27 @@ def topic_page_query_variants(
 
     Variants are programmatic (not per-disease hardcoded): base entity name,
     then aspect-specific suffixes for histology, ancillary/IHC, and DDx.
-    Optional browse category context enriches short entity names.
+    Optional browse category context enriches short entity names with a short
+    organ token (never the full ``Parent > Child`` breadcrumb).
     """
     base = (entity_name or "").strip()
     if not base:
         return [base]
 
     enriched = base
-    context = (category_context or "").strip()
+    organ = _organ_enrichment_from_category_context(category_context)
     # Only enrich abbreviated/short entity labels — skip when the name is
     # already descriptive (e.g. "ovarian high-grade serous carcinoma").
-    if context and len(base.split()) <= 3:
-        enriched = f"{base} {context}"
+    if organ and len(base.split()) <= 3 and organ.lower() not in base.lower():
+        enriched = f"{base} {organ}"
 
     variants: list[str] = []
     seen: set[str] = set()
-    for candidate in (enriched, *(f"{enriched} {aspect}" for aspect in TOPIC_PAGE_QUERY_ASPECTS)):
+    # Always try the bare entity first, then the organ-enriched form, then
+    # aspect probes. Bare-first matters when enrichment is noisy and when we
+    # need a reliable Round-1 hub hit for textbooks/WHO/pathout.
+    seed = (base, enriched) if enriched != base else (enriched,)
+    for candidate in (*seed, *(f"{enriched} {aspect}" for aspect in TOPIC_PAGE_QUERY_ASPECTS)):
         normalized = candidate.strip().lower()
         if not normalized or normalized in seen:
             continue
@@ -700,52 +725,157 @@ def card_root_token(card: dict) -> Optional[str]:
 
 
 def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
+    """Organ/root token from a board tag.
+
+    Content-spec tags are ``ABPathSpec::<root>::…`` — the real browse root is
+    the second segment, not the literal ``ABPathSpec`` prefix.
+    """
     if not isinstance(tag, str) or "::" not in tag:
         return None
-    return normalize_root_token(tag.split("::", 1)[0])
+    parts = [p for p in tag.split("::") if p]
+    if not parts:
+        return None
+    head = normalize_root_token(parts[0])
+    if head == "abpathspec" and len(parts) >= 2:
+        return normalize_root_token(parts[1])
+    return head
+
+
+def effective_page_root(
+    page_tag: Optional[str] = None,
+    browse_root: Optional[str] = None,
+) -> Optional[str]:
+    """Root used for B8 narrow: Browse category wins over extranodal page_tag.
+
+    Example: user opens Hematopathology → DLBCL starter, but board map attaches
+    ``Breast::…::Diffuse_Large_B_Cell_Lymphoma``. Tag root is breast; browse
+    root is heme. Prefer heme so pathout/videos/textbooks are not wiped.
+    """
+    tag_root = page_root_from_tag(page_tag)
+    browse = normalize_root_token(browse_root or "")
+    if browse:
+        # Browse "cyto" is a family; keep cyto-* tag roots when present.
+        if browse == "cyto" and tag_root and tag_root.startswith("cyto"):
+            return tag_root
+        return browse
+    return tag_root
+
+
+def is_cyto_root_token(root_token: Optional[str]) -> bool:
+    """True when a normalized root token (see `normalize_root_token`) came from
+    a `Cyto_*` ABPath tag root (e.g. "Cyto_Thyroid" -> "cytothyroid"). Used to
+    apply stricter B9 cyto scoping only to genuinely cyto-rooted pages, never
+    to unrelated roots.
+
+    Deliberately False for the *bare* "cyto" token (no organ suffix) — that
+    is what content-spec-derived `ABPathSpec::cyto::<organ-system>::…` pages
+    resolve to (their tag's second segment is always the generic root id
+    "cyto", never a specific organ; see build_browse_tag_index's
+    CYTO_SYSTEM_* organ-system reclassification, which only touches Browse
+    nav bucketing, not the tag itself). Real WHO/PathOut `Cyto_<Organ>` tags
+    always normalize to a *specific* token (e.g. "cytogyn", "cytothyroid"),
+    never bare "cyto", so B9's original motivating case is unaffected.
+    Without this guard, strict-cyto scoping with no resolvable organ target
+    matched nothing (every retrieved card's root token is organ-specific),
+    silently dropping every WHO/textbook/pathout/video card on the page —
+    strictly worse than the ordinary B8 "keep unless proven off-root" this
+    falls back to instead."""
+    return bool(root_token) and root_token.startswith("cyto") and root_token != "cyto"
+
+
+# Cyto textbooks/atlases (e.g. "Cyto_Comprehensive", "Cyto_Cibas") span every
+# cyto organ in one source_id-named book; only the per-chunk `primary_tag`
+# (never present on figures, and only sometimes present on cards) carries the
+# specific `Cyto_<Organ>` root. So the `source_id`-prefix fallback in
+# `card_root_token`/`filter_figures_by_page_root` can only ever resolve to
+# this generic bucket for cyto content, never to a specific organ.
+_GENERIC_CYTO_SOURCE_TOKEN = "cyto"
+
+
+def _root_matches_page(item_root: Optional[str], target: str, strict_cyto: bool) -> bool:
+    """True if a card/figure root token is on-topic for `target`. Under B9
+    strict-cyto scoping, the generic source_id-only "cyto" bucket (see
+    `_GENERIC_CYTO_SOURCE_TOKEN`) counts as a match for any `Cyto_*` target,
+    since it cannot be resolved to a more specific organ without a
+    `primary_tag`.
+
+    When `target` itself is the bare generic "cyto" token (a content-spec
+    page with no resolvable organ — see `is_cyto_root_token`), any
+    organ-specific "cyto*" item root is on-topic too: we have no organ to
+    narrow to, so matching the whole cyto family is the best available
+    signal, not a reason to drop every cyto-tagged card on the page."""
+    if target == _GENERIC_CYTO_SOURCE_TOKEN and bool(item_root) and item_root.startswith(_GENERIC_CYTO_SOURCE_TOKEN):
+        return True
+    if item_root == target:
+        return True
+    if strict_cyto and item_root == _GENERIC_CYTO_SOURCE_TOKEN:
+        return True
+    return False
 
 
 def filter_cards_by_page_root(cards: list[dict], page_root: Optional[str]) -> list[dict]:
-    """Post-retrieval root filter (B8): keep WHO/journals; narrow textbooks/pathout/videos."""
+    """Post-retrieval root filter (B8): keep WHO/journals; narrow textbooks/pathout/videos.
+
+    B9 cyto scoping: `Cyto_*` pages additionally require WHO cards (and any
+    textbook/pathout/video card) to carry a *confirmed* matching root instead
+    of being kept by default when no root can be resolved. WHO entities never
+    carry a `primary_tag` (see `card_root_token`), so under the ordinary B8
+    "keep unless proven off-root" policy every WHO card for the underlying
+    diagnosis is shown regardless of root — that diagnosis-name text is
+    shared with the equivalent non-cyto surgical/histologic entity, so this
+    was the main channel of non-cyto content leaking onto cyto topic pages
+    (reported by user 2026-07-26: cyto pages "covering non cyto things ...
+    cuz of using the same diagnosis"). Non-cyto pages are unaffected — this
+    only tightens behavior when `page_root` itself is cyto-rooted.
+    """
     if not page_root:
         return cards
     target = normalize_root_token(page_root)
     if not target:
         return cards
+    strict_cyto = is_cyto_root_token(target)
+    filterable_sources = _ROOT_FILTERABLE_SOURCES | {"who"} if strict_cyto else _ROOT_FILTERABLE_SOURCES
 
     kept: list[dict] = []
     for card in cards:
         if not isinstance(card, dict):
             continue
         src = str(card.get("source") or "")
-        if src not in _ROOT_FILTERABLE_SOURCES:
+        if src not in filterable_sources:
             kept.append(card)
             continue
         card_root = card_root_token(card)
         if card_root is None:
-            if src == "videos":
+            if src == "videos" or strict_cyto:
                 continue
             kept.append(card)
             continue
-        if card_root == target:
+        if _root_matches_page(card_root, target, strict_cyto):
             kept.append(card)
     return kept
 
 
 def filter_figures_by_page_root(figures: list[dict], page_root: Optional[str]) -> list[dict]:
+    """Post-retrieval root filter for figures — see `filter_cards_by_page_root`
+    docstring for the B8/B9 policy this mirrors (figures only ever carry a
+    `source_id`, never a `primary_tag`)."""
     if not page_root:
         return figures
     target = normalize_root_token(page_root)
     if not target:
         return figures
+    strict_cyto = is_cyto_root_token(target)
     kept: list[dict] = []
     for fig in figures:
         if not isinstance(fig, dict):
             continue
         sid = fig.get("source_id")
         if isinstance(sid, str) and "_" in sid:
-            if normalize_root_token(sid.split("_", 1)[0]) == target:
+            fig_root = normalize_root_token(sid.split("_", 1)[0])
+            if _root_matches_page(fig_root, target, strict_cyto):
                 kept.append(fig)
+            continue
+        if strict_cyto:
             continue
         kept.append(fig)
     return kept

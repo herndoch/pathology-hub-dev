@@ -13,9 +13,11 @@ Run with: ./scripts/run_local.sh   (see README.md)
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
+import subprocess
 import time
 import uuid
 from datetime import datetime, timezone
@@ -41,14 +43,61 @@ _SOURCE_LABELS = {
     "curriculum": "Curriculum",
 }
 
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+# Short cite labels for textbook source_id tails (breast_atlas → Atlas).
+_TEXTBOOK_ALIASES = {
+    "gnepp": "Gnepp",
+    "atlas": "Atlas",
+    "cardesa": "Cardesa",
+    "vasef": "Vasef",
+    "faq": "FAQ",
+    "biopsy": "Biopsy",
+    "biopsy_interpretation": "Biopsy",
+    "biopsy_interpretation_neoplastic": "Biopsy",
+    "biopsy_interpretation_non_neoplastic": "Biopsy",
+}
+
+
+def _textbook_cite_label(source_id: object) -> str:
+    """Map textbook source_id → short cite label (Atlas preferred over Textbooks)."""
+    if not isinstance(source_id, str) or not source_id.strip():
+        return "Textbook"
+    parts = [p for p in source_id.split("_") if p]
+    if len(parts) < 2:
+        key = source_id.lower()
+        if key in _TEXTBOOK_ALIASES:
+            return _TEXTBOOK_ALIASES[key]
+        if "atlas" in key:
+            return "Atlas"
+        return source_id.replace("_", " ").strip() or "Textbook"
+    book_key = "_".join(parts[1:]).lower()
+    if book_key in _TEXTBOOK_ALIASES:
+        return _TEXTBOOK_ALIASES[book_key]
+    for token in book_key.split("_"):
+        if token in _TEXTBOOK_ALIASES:
+            return _TEXTBOOK_ALIASES[token]
+    if "atlas" in book_key:
+        return "Atlas"
+    if "gnepp" in book_key:
+        return "Gnepp"
+    return book_key.replace("_", " ").strip() or "Textbook"
+
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+import gcs_topic_cache
 import prompts
 import secrets_helper
-from openai_synthesizer import SynthesisResult, get_model, ping as openai_ping, synthesize
+from openai_synthesizer import (
+    SUPPORTED_SYNTHESIS_MODELS,
+    SynthesisResult,
+    get_model,
+    get_topic_page_model,
+    ping as openai_ping,
+    resolve_synthesis_model,
+    synthesize,
+)
 from figure_quality_filter import (
     filter_suppress_render_figures,
     strip_suppress_render_image_urls,
@@ -69,12 +118,23 @@ from pathology_backend import (
     extract_evidence_cards,
     extract_figures,
     merge_outcomes,
+    effective_page_root,
     page_root_from_tag,
     slim_merged_from_cards,
     staged_retrieve,
     topic_page_query_variants,
 )
 from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
+from literature_apis import fetch_live_literature, live_literature_enabled
+from iterative_topic_retrieval import (
+    iterative_enabled,
+    max_rounds as iterative_max_rounds,
+    run_iterative_topic_retrieval,
+)
+
+# Local journal FAISS corpus is retired — do not offer it in the UI checkbox list.
+# Live papers come from Elsevier/PubMed/OncoKB (`source: literature`), not `journals`.
+UI_SOURCES = [s for s in SUPPORTED_SOURCES if s != "journals"]
 
 # Full source set for topic_page (ExpertPath-style reference) requests —
 # always comprehensive regardless of the sidebar checkbox state, since a
@@ -89,7 +149,11 @@ from who_section_mentions import load_taxonomy_leaf_names, who_section_mentions
 # then has to filter back out; requesting only `videos` gets the identical
 # evidence for half the cost. `lectures` remains a valid standalone choice in
 # `SUPPORTED_SOURCES` for the sidebar/non-topic-page modes.
-TOPIC_PAGE_SOURCES = [s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures")]
+# `journals` excluded: local journal FAISS corpus retired (AJSP corruption);
+# topic pages use live Elsevier Scopus + PubMed + OncoKB instead.
+TOPIC_PAGE_SOURCES = [
+    s for s in SUPPORTED_SOURCES if s not in ("curriculum", "lectures", "journals")
+]
 
 APP_TITLE = "Pathology Hub Chat MVP"
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
@@ -117,14 +181,100 @@ def _env_bool(name: str, *, default: bool) -> bool:
 
 TOPIC_PAGE_ROOT_NARROW = _env_bool("TOPIC_PAGE_ROOT_NARROW", default=True)
 
+# Fingerprint so a wrong local checkout is obvious in /api/health + startup logs.
+# The Elsevier "(LCIS)" HTTP 400 fix lives only on builds that advertise
+# scopus_paren_sanitize=true — older processes log unsanitized queries instead.
+BUILD_MARKER = "topic-iterative-sse-layout-9231"
+SCOPUS_PAREN_SANITIZE = True
+
+
+def _git_sha_short() -> str:
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=os.path.dirname(__file__),
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=2,
+        )
+        return (out or "").strip() or "unknown"
+    except Exception:
+        return "unknown"
+
+
+BUILD_GIT_SHA = _git_sha_short()
+
+
+def _static_asset_version() -> str:
+    """Content-hash cache-buster for app.js/style.css.
+
+    BUILD_GIT_SHA is "unknown" in every Cloud Run deploy because .git is
+    excluded via .dockerignore — index.html's old hand-written
+    `?v=cyto-who-figs-1` / `?v=full-index-default-1` query strings never
+    changed between deploys either, so browsers/proxies kept serving
+    stale cached app.js/style.css after every UI change. Hashing the
+    actual served file bytes at startup means the URL always changes
+    exactly when the content does, with nothing to remember to bump.
+    """
+    digest = hashlib.sha256()
+    for name in ("app.js", "style.css"):
+        try:
+            with open(os.path.join(STATIC_DIR, name), "rb") as handle:
+                digest.update(handle.read())
+        except OSError:
+            continue
+    return digest.hexdigest()[:12] or "unknown"
+
+
+STATIC_ASSET_VERSION = _static_asset_version()
+
+
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+
+@app.exception_handler(Exception)
+async def _json_error_handler(request: Request, exc: Exception) -> JSONResponse:
+    """Last-resort safety net: every JSON POST endpoint here always returns
+    `{"ok": false, "error": ...}` on the wire, never a bare stack trace or
+    (worse) a non-JSON body a client's `resp.json()` chokes on. Reported
+    2026-08-02: an unhandled exception on /api/compare with the upstream
+    backend down let Cloud Run's own proxy return a plain-text "upstream
+    request timeout" past this app entirely — this only guards requests
+    that reach this app's own code; see the compare-specific preflight
+    health check for the slow-hang half of that fix."""
+    return JSONResponse(
+        status_code=200,
+        content={"ok": False, "error": f"{type(exc).__name__}: {exc}"},
+    )
+
+
+@app.on_event("startup")
+def _log_build_fingerprint() -> None:
+    print(
+        f"[chat-mvp] BUILD={BUILD_MARKER} sha={BUILD_GIT_SHA} "
+        f"scopus_paren_sanitize={SCOPUS_PAREN_SANITIZE} "
+        f"iterative={iterative_enabled()} live_literature={live_literature_enabled()}",
+        flush=True,
+    )
+
+
 _backend_client = PathologyHubClient(api_url=os.environ.get("PATHOLOGY_HUB_API_URL"))
 
+# Internal response shapes. User-facing Ask is a single box; `auto` (and bare
+# `gpt_like` posts) are resolved from the query in `_resolve_ask_mode`.
 VALID_MODES = frozenset(
-    {"gpt_like", "compare_sources", "visual", "search_only", "html_teaching", "topic_page"}
+    {
+        "auto",
+        "gpt_like",
+        "compare_sources",
+        "visual",
+        "search_only",
+        "html_teaching",
+        "topic_page",
+    }
 )
+RESOLVED_MODES = frozenset(VALID_MODES - {"auto"})
 
 
 class SearchRequest(BaseModel):
@@ -146,9 +296,18 @@ class SearchRequest(BaseModel):
 
 
 class ChatRequest(SearchRequest):
-    mode: str = "gpt_like"
+    # Default is auto — server infers topic_page / compare / visual / etc.
+    mode: str = "auto"
     category_context: Optional[str] = None
     page_tag: Optional[str] = None
+    # Browse category id the user opened (e.g. "heme"). When set, root-narrow
+    # prefers this over an extranodal page_tag root (Breast::…::DLBCL).
+    browse_root: Optional[str] = None
+    # Optional per-request synthesis model override (e.g. "gpt-5.6-terra" for
+    # A/B against the "gpt-5.6-luna" default) — validated against
+    # SUPPORTED_SYNTHESIS_MODELS by resolve_synthesis_model(); an
+    # unrecognized/empty value silently falls back to the configured default.
+    model: Optional[str] = None
 
 
 class FlagRequest(BaseModel):
@@ -157,6 +316,17 @@ class FlagRequest(BaseModel):
     query: str = ""
     comment: str = ""
     page_kind: str = "topic_page"
+
+
+class TopicReviewRequest(BaseModel):
+    """Advisory pathologist-style critique of an already-built topic page."""
+
+    label: str = ""
+    query: str = ""
+    tag: Optional[str] = None
+    answer_markdown: str
+    cards: list[dict] = Field(default_factory=list)
+    figures: list[dict] = Field(default_factory=list)
 
 
 class CompareEntity(BaseModel):
@@ -168,6 +338,7 @@ class CompareEntity(BaseModel):
 
 class CompareRequest(BaseModel):
     entities: list[CompareEntity] = Field(..., min_length=2, max_length=4)
+    model: Optional[str] = None
 
 
 def _validate_sources(sources: list[str]) -> list[str]:
@@ -238,9 +409,66 @@ def _run_retrieval(req: SearchRequest) -> tuple[list, dict]:
     return outcomes, merged
 
 
-def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict], dict]:
-    """Multi-query fan-out for topic pages: 3–4 query variants × full source set,
-    merged/deduped/diversified, then capped before synthesis."""
+def _tumor_type_hint(req: ChatRequest) -> Optional[str]:
+    """Best-effort tumorType for OncoKB from page tag / category context."""
+    # Prefer browse root (heme) over a wrong extranodal page_tag prefix.
+    browse = (req.browse_root or "").strip()
+    if browse and browse.lower() not in {"cyto"}:
+        return browse.replace("_", " ")[:80]
+    tag = (req.page_tag or req.category_context or "").replace("_", " ")
+    parts = [p for p in re.split(r"::|>|/", tag) if p.strip()]
+    if not parts:
+        return None
+    # Prefer leaf-ish / organ-ish tokens; OncoKB accepts free-text tumor types.
+    return parts[-1].strip()[:80] or None
+
+
+def _drain_iterative_topic_retrieval(req: ChatRequest, on_progress=None) -> tuple:
+    """Run multi-round iterative retrieval; optionally emit progress callbacks.
+
+    Returns the same 5-tuple shape as the legacy single-pass path:
+    (outcomes, slim_merged, cards, retrieval_meta, who_cross_mentions).
+    """
+    sources = _validate_sources(req.sources)
+    gen = run_iterative_topic_retrieval(
+        _backend_client,
+        query=req.query,
+        sources=sources,
+        max_results=req.max_results,
+        include_figures=req.include_figures,
+        max_figures=req.max_figures,
+        compact=req.compact,
+        excerpt_char_limit=req.excerpt_char_limit,
+        page_tag=req.page_tag,
+        browse_root=req.browse_root,
+        category_context=req.category_context,
+        root_narrow=TOPIC_PAGE_ROOT_NARROW,
+        apply_figure_quality=_apply_figure_quality_filters,
+        extract_who_mentions=_extract_who_cross_mentions,
+        tumor_type=_tumor_type_hint(req),
+    )
+    final = None
+    try:
+        while True:
+            ev = next(gen)
+            if on_progress:
+                on_progress(ev)
+    except StopIteration as stop:
+        final = stop.value or {}
+    if not final:
+        raise RuntimeError("Iterative topic retrieval produced no result bundle.")
+    outcomes = final.get("outcomes") or []
+    merged = final.get("merged") or {}
+    cards = final.get("cards") or []
+    if isinstance(merged, dict):
+        _diversify_merged_results(merged)
+    meta = dict(final.get("retrieval_meta") or {})
+    meta.setdefault("multi_query", True)
+    return outcomes, merged, cards, meta, final.get("who_cross_mentions") or []
+
+
+def _run_topic_page_retrieval_legacy(req: ChatRequest) -> tuple:
+    """Single-pass multi-query fan-out (pre-iterative). Used when TOPIC_PAGE_ITERATIVE=0."""
     sources = _validate_sources(req.sources)
     variants = topic_page_query_variants(req.query, req.category_context)
 
@@ -289,7 +517,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         deduped_cards, TOPIC_PAGE_MAX_CARDS, min_per_source=TOPIC_PAGE_MIN_CARDS_PER_SOURCE
     )
 
-    page_root = page_root_from_tag(req.page_tag)
+    page_root = effective_page_root(req.page_tag, req.browse_root)
     cards_before_root = len(capped_cards)
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         capped_cards = filter_cards_by_page_root(capped_cards, page_root)
@@ -298,8 +526,19 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
     if TOPIC_PAGE_ROOT_NARROW and page_root:
         figures = filter_figures_by_page_root(figures, page_root)
 
-    slim_merged = slim_merged_from_cards(merged, capped_cards)
+    literature_bundle = fetch_live_literature(
+        req.query,
+        max_per_provider=4,
+        tumor_type=_tumor_type_hint(req),
+        include_oncokb=True,
+    )
+    literature_cards = literature_bundle.get("cards") or []
+    literature_cards = literature_cards[:10]
+    capped_cards = list(capped_cards) + literature_cards
+
+    slim_merged = slim_merged_from_cards(merged, [c for c in capped_cards if c.get("source") != "literature"])
     slim_merged["figures"] = figures
+    slim_merged["literature_results"] = literature_cards
 
     counts_before = {}
     counts_after = {}
@@ -312,6 +551,7 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
 
     retrieval_meta = {
         "multi_query": True,
+        "iterative": False,
         "query_variants": variants,
         "variant_timing": variant_timing,
         "cards_raw": len(raw_cards),
@@ -324,9 +564,94 @@ def _run_topic_page_retrieval(req: ChatRequest) -> tuple[list, dict, list[dict],
         "root_narrow_enabled": TOPIC_PAGE_ROOT_NARROW,
         "page_root": page_root,
         "cards_before_root_filter": cards_before_root,
-        "cards_after_root_filter": len(capped_cards),
+        "cards_after_root_filter": cards_before_root if not (TOPIC_PAGE_ROOT_NARROW and page_root) else len(
+            [c for c in capped_cards if c.get("source") != "literature"]
+        ),
+        "live_literature_enabled": live_literature_enabled(),
+        "literature_count": len(literature_cards),
+        "literature_providers": literature_bundle.get("providers") or {},
+        "literature_warnings": literature_bundle.get("warnings") or [],
+        "literature_filter": literature_bundle.get("filter") or {},
+        "literature_scoped_query": literature_bundle.get("scoped_query"),
     }
     return all_outcomes, slim_merged, capped_cards, retrieval_meta, who_cross_mentions
+
+
+def _run_topic_page_retrieval(req: ChatRequest, on_progress=None) -> tuple:
+    """Topic-page retrieval: iterative multi-round by default (TOPIC_PAGE_ITERATIVE=1).
+
+    When iterative is on, rounds refine hub queries + deepen Elsevier/PubMed/OncoKB.
+    Progress events are forwarded via on_progress for SSE streaming.
+    """
+    if iterative_enabled():
+        return _drain_iterative_topic_retrieval(req, on_progress=on_progress)
+    if on_progress:
+        on_progress(
+            {
+                "phase": "round",
+                "round": 1,
+                "status": "running",
+                "label": "Single-pass hub + literature retrieval",
+                "detail": "TOPIC_PAGE_ITERATIVE is off",
+            }
+        )
+    result = _run_topic_page_retrieval_legacy(req)
+    if on_progress:
+        on_progress(
+            {
+                "phase": "assemble",
+                "status": "done",
+                "label": "Assembled evidence bundle",
+                "detail": f"{len(result[2])} cards for synthesis",
+            }
+        )
+    return result
+
+
+def _sse_frame(event: str, data: dict) -> str:
+    """Build one SSE event.
+
+    Appends a padded comment line so common proxies / browsers flush the
+    chunk immediately instead of buffering until the generator finishes
+    (which would make the UI look like it had no live thinking).
+    """
+    payload = json.dumps(data, default=str)
+    # ~2KB pad: forces flush past typical proxy/browser buffer thresholds.
+    pad = ": " + (" " * 2048) + "\n"
+    return f"event: {event}\ndata: {payload}\n{pad}\n"
+
+
+def _chat_response_payload(
+    *,
+    mode: str,
+    result: SynthesisResult,
+    merged: dict,
+    cards: list,
+    figures: list,
+    who_cross_mentions: list,
+    outcomes: list,
+    retrieval_meta: Optional[dict],
+) -> dict:
+    literature_cards = [
+        c for c in cards if (c.get("source") or "").lower() == "literature"
+    ]
+    debug_payload = _debug_payload(outcomes, retrieval_meta)
+    if mode != "html_teaching":
+        debug_payload["evidence_truncated_for_synthesis"] = result.evidence_truncated
+        debug_payload["evidence_char_len_before_cap"] = result.evidence_char_len
+    return {
+        "ok": result.ok,
+        "mode": mode,
+        "answer": result.text if result.ok else None,
+        "answer_error": None if result.ok else result.error,
+        "model": result.model,
+        "evidence": merged,
+        "cards": cards,
+        "figures": figures,
+        "literature": literature_cards,
+        "who_cross_mentions": who_cross_mentions,
+        "debug": debug_payload,
+    }
 
 
 def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dict:
@@ -340,16 +665,23 @@ def _debug_payload(outcomes: list, retrieval_meta: Optional[dict] = None) -> dic
 
 
 def _apply_figure_defaults(req: ChatRequest, mode: str) -> None:
-    """Enable figure retrieval for visual mode, topic pages, or show-me-style queries."""
+    """Figures default ON for every evidence-producing mode. Previously
+    `gpt_like`/`compare_sources` only fetched figures when the query text
+    matched a "show me a picture"-style regex — meaning a plain factual
+    question got zero figures even when the sources it pulled from had
+    plenty. Now every mode gets a modest figure budget by default; an
+    explicitly visual-sounding query (or `mode=visual`/`topic_page`) just
+    raises that budget."""
+    visual_query = bool(_VISUAL_QUERY.search(req.query or ""))
     if mode in {"visual", "topic_page"}:
         req.include_figures = True
         if req.max_figures <= 0:
             req.max_figures = 5 if mode == "visual" else 8
         return
-    if mode in {"gpt_like", "compare_sources"} and _VISUAL_QUERY.search(req.query or ""):
+    if mode in {"gpt_like", "compare_sources", "search_only"}:
         req.include_figures = True
         if req.max_figures <= 0:
-            req.max_figures = 5
+            req.max_figures = 8 if visual_query else 4
 
 
 def _build_citation_link_index(cards: list[dict]) -> list[dict]:
@@ -360,7 +692,11 @@ def _build_citation_link_index(cards: list[dict]) -> list[dict]:
         if not isinstance(card, dict):
             continue
         src = card.get("source") or "unknown"
-        source_label = _SOURCE_LABELS.get(src, src)
+        src_l = str(src).lower()
+        if src_l == "textbooks":
+            source_label = _textbook_cite_label(card.get("source_id"))
+        else:
+            source_label = _SOURCE_LABELS.get(src_l, src)
         title = (card.get("title") or card.get("name") or card.get("heading") or "")[:120]
         for field in (
             "source_url",
@@ -386,15 +722,128 @@ def _build_citation_link_index(cards: list[dict]) -> list[dict]:
     return index[:48]
 
 
+def _literature_cards_from(merged: dict, cards: list[dict]) -> list[dict]:
+    lit = [c for c in (cards or []) if (c.get("source") or "").lower() == "literature"]
+    if lit:
+        return lit
+    return [c for c in (merged.get("literature_results") or []) if isinstance(c, dict)]
+
+
+def _slim_literature_for_prompt(literature_cards: list[dict]) -> list[dict]:
+    slim: list[dict] = []
+    for card in literature_cards[:10]:
+        entry = {
+            "title": card.get("title"),
+            "journal": card.get("journal"),
+            "year": card.get("year"),
+            "doi": card.get("doi"),
+            "source_url": card.get("source_url") or card.get("url"),
+            "abstract": (card.get("excerpt") or card.get("text") or "")[:900],
+            "retrieval_mode": card.get("retrieval_mode"),
+            "source": "literature",
+        }
+        # Unpaywall-resolved legal full-text link, when the DOI is open access.
+        if card.get("open_access_url"):
+            entry["open_access_url"] = card["open_access_url"]
+        slim.append(entry)
+    return slim
+
+
+def _slim_hub_for_prompt(cards: list[dict]) -> list[dict]:
+    """Compact WHO/textbook/pathout cards that must survive evidence truncation.
+
+    json.dumps(..., sort_keys=True) + a char cap historically dropped late keys
+    like textbook_results while keeping literature. Pin hub sources under an
+    early `00_` key so Fibroadenoma-style pages still see Breast Atlas / WHO.
+    """
+    prefer = ("textbooks", "who", "pathout")
+    by_src: dict[str, list[dict]] = {s: [] for s in prefer}
+    for card in cards or []:
+        if not isinstance(card, dict):
+            continue
+        src = str(card.get("source") or "").lower()
+        if src in by_src and len(by_src[src]) < 8:
+            cite_label = (
+                _textbook_cite_label(card.get("source_id")) if src == "textbooks" else _SOURCE_LABELS.get(src, src)
+            )
+            by_src[src].append(
+                {
+                    "source": src,
+                    "source_id": card.get("source_id"),
+                    "cite_label": cite_label,
+                    "title": card.get("title") or card.get("name") or card.get("heading"),
+                    "section": card.get("section"),
+                    "source_url": card.get("source_url") or card.get("source_page_url"),
+                    "excerpt": (card.get("excerpt") or card.get("text") or card.get("text_excerpt") or "")[:700],
+                }
+            )
+    slim: list[dict] = []
+    for src in prefer:
+        slim.extend(by_src[src])
+    return slim
+
+
 def _evidence_for_synthesis(merged: dict, cards: list[dict]) -> dict:
     bundle = dict(merged)
+    hub_must = _slim_hub_for_prompt(cards)
+    if hub_must:
+        # Sorts before literature alphabetically (00_hub < 00_live).
+        bundle["00_hub_sources_must_use"] = hub_must
+    literature = _literature_cards_from(merged, cards)
+    if literature:
+        # Key sorts first under json.dumps(..., sort_keys=True) so literature
+        # cannot be truncated away, and the model sees it before hub RAG noise.
+        bundle["00_live_literature_must_use"] = _slim_literature_for_prompt(literature)
+        bundle["literature_results"] = literature
     bundle["_citation_link_index"] = _build_citation_link_index(cards)
     return bundle
 
 
+def _format_key_literature_section(literature_cards: list[dict]) -> str:
+    lines = ["## Key Literature"]
+    for card in literature_cards[:6]:
+        title = (card.get("title") or "Untitled").strip()
+        journal = (card.get("journal") or "").strip()
+        year = str(card.get("year") or "").strip()
+        url = (card.get("source_url") or card.get("url") or "").strip()
+        takeaway = re.sub(r"\s+", " ", (card.get("excerpt") or card.get("text") or "")).strip()[:220]
+        meta = " — ".join(p for p in (journal, f"({year})" if year else "") if p)
+        bullet = f"- **{title}**"
+        if meta:
+            bullet += f" {meta}."
+        if takeaway:
+            bullet += f" {takeaway}"
+            if len((card.get("excerpt") or "")) > 220:
+                bullet += "…"
+        if url.startswith("http"):
+            bullet += f" ([source]({url}))"
+        lines.append(bullet)
+    return "\n".join(lines)
+
+
+def _ensure_key_literature_section(answer: str, literature_cards: list[dict]) -> str:
+    """If the model omitted Key Literature despite live cards, append a grounded section."""
+    if not literature_cards:
+        return answer or ""
+    text = answer or ""
+    if re.search(r"^##\s*Key Literature\b", text, flags=re.IGNORECASE | re.MULTILINE):
+        return text
+    block = _format_key_literature_section(literature_cards)
+    if not text.strip():
+        return block + "\n"
+    return text.rstrip() + "\n\n" + block + "\n"
+
+
 @app.get("/")
 def index():
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+    """Serve index.html with a live content-hash cache-buster on the
+    app.js/style.css URLs so a deploy is never masked by a stale browser
+    or proxy cache (see _static_asset_version). The HTML itself is tiny and
+    marked no-cache so this substitution is always fresh."""
+    with open(os.path.join(STATIC_DIR, "index.html"), "r", encoding="utf-8") as handle:
+        html = handle.read()
+    html = html.replace("__ASSET_VERSION__", STATIC_ASSET_VERSION)
+    return HTMLResponse(content=html, headers={"Cache-Control": "no-cache"})
 
 
 def _slugify_prebuild_tag(tag: str) -> str:
@@ -404,28 +853,105 @@ def _slugify_prebuild_tag(tag: str) -> str:
     return slug
 
 
+TOPIC_PAGE_CACHE_SCHEMA_VERSION = "topic_page_prebuild_v0_1"
+
+
+def _read_local_prebuild(slug: str) -> Optional[dict]:
+    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+    if not os.path.isfile(json_path):
+        return None
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def _write_local_prebuild(slug: str, page: dict) -> None:
+    """Best-effort local write-through so the *next* request on this same
+    instance is instant even before any GCS round trip. Never raises —
+    a failed cache write must not break the live chat response."""
+    try:
+        os.makedirs(TOPIC_PREBUILD_PAGES_DIR, exist_ok=True)
+        json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(page, f, indent=2, ensure_ascii=False)
+    except OSError:
+        pass
+
+
+def _lookup_prebuild_page(tag: Optional[str]) -> Optional[dict]:
+    """Read-through: local pilot/write-through cache first, then GCS
+    (frontend/pathology_hub_chat_mvp/gcs_topic_cache.py) as a fallback for
+    Cloud Run instances that never built this page locally. A GCS hit is
+    mirrored to local disk so this instance stops round-tripping for it."""
+    if not tag or not tag.strip():
+        return None
+    slug = _slugify_prebuild_tag(tag.strip())
+    page = _read_local_prebuild(slug)
+    if page is not None:
+        return page
+    page = gcs_topic_cache.read_page(slug)
+    if page is not None:
+        page.setdefault("cache_source", "gcs")
+        _write_local_prebuild(slug, page)
+        return page
+    return None
+
+
+def _save_topic_page_to_cache(req: "ChatRequest", result: "SynthesisResult", cards: list, figures: list, who_cross_mentions: list) -> bool:
+    """Write-through: persist any successfully-synthesized topic_page (pilot
+    prebuild OR ordinary live visit) so the next visitor for the same tag —
+    on this instance or, via GCS, any instance — gets it instantly. Best
+    effort only; never raises into the request path."""
+    tag = (req.page_tag or "").strip()
+    if not tag or not result.ok or not result.text:
+        return False
+    try:
+        slug = _slugify_prebuild_tag(tag)
+        page = {
+            "schema_version": TOPIC_PAGE_CACHE_SCHEMA_VERSION,
+            "tag": tag,
+            "label": req.category_context or tag,
+            "provenance": "unknown",
+            "query": req.query,
+            "category_context": req.category_context,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "ok": True,
+            "model": result.model,
+            "answer_markdown": result.text,
+            "cards": cards or [],
+            "figures": figures or [],
+            "who_cross_mentions": who_cross_mentions or [],
+            "retrieval_debug_summary": {},
+            "known_limitations": [
+                "Cached from a live topic_page build; may be superseded by later corpus/backend changes.",
+            ],
+            "cache_source": "live_write_through",
+        }
+        _write_local_prebuild(slug, page)
+        gcs_topic_cache.write_page_async(slug, page)
+        return True
+    except Exception:  # noqa: BLE001 - caching must never break the response
+        return False
+
+
 @app.get("/api/topic_prebuild")
 def api_topic_prebuild(tag: str):
-    """Read-only lookup of a pilot-prebuilt topic_page sidecar by tag, if one exists.
+    """Read-only lookup of a cached topic_page sidecar by tag, if one exists
+    (local pilot/write-through cache, then GCS — see _lookup_prebuild_page).
 
-    Only ever reads from TOPIC_PREBUILD_PAGES_DIR (local pilot cache written by
-    prebuild_topic_pages_pilot_v0_1.py) — never mutates anything, never touches the
-    figure quality-flags sidecar or curriculum SQLite. Returns
-    {"ok": False, "found": False} (HTTP 200, not an error) when nothing is
-    prebuilt yet for `tag`, so the client falls back to the live
+    Never mutates the figure quality-flags sidecar or curriculum SQLite.
+    Returns {"ok": False, "found": False} (HTTP 200, not an error) when
+    nothing is cached yet for `tag`, so the client falls back to the live
     POST /api/chat topic_page path unchanged.
     """
     if not tag or not tag.strip():
         return {"ok": False, "found": False, "error": "Missing 'tag' query param."}
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
-    if not os.path.isfile(json_path):
+    page = _lookup_prebuild_page(tag.strip())
+    if page is None:
         return {"ok": False, "found": False, "tag": tag}
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            page = json.load(f)
-    except (OSError, ValueError) as exc:
-        return {"ok": False, "found": False, "tag": tag, "error": str(exc)}
+    page = dict(page)
     page["found"] = True
     return page
 
@@ -440,9 +966,25 @@ def api_health():
         "backend": backend_health,
         "secrets": secret_status,
         "openai_model": get_model(),
+        "topic_page_model": get_topic_page_model(),
+        "supported_synthesis_models": list(SUPPORTED_SYNTHESIS_MODELS),
+        "topic_page_cache_gcs_configured": gcs_topic_cache.is_configured(),
+        "static_asset_version": STATIC_ASSET_VERSION,
+        # Full backend source vocabulary (includes retired `journals` for API compat).
         "supported_sources": SUPPORTED_SOURCES,
+        # Checkbox list for the UI — journals retired; live papers are `literature`.
+        "ui_sources": UI_SOURCES,
         "supported_modes": sorted(VALID_MODES),
         "topic_page_root_narrow": TOPIC_PAGE_ROOT_NARROW,
+        "topic_page_live_literature": live_literature_enabled(),
+        "topic_page_iterative": iterative_enabled(),
+        "topic_page_iterative_rounds": iterative_max_rounds() if iterative_enabled() else 1,
+        # Build fingerprint — UI treats missing/false scopus_paren_sanitize as outdated.
+        "build_marker": BUILD_MARKER,
+        "build_git_sha": BUILD_GIT_SHA,
+        "scopus_paren_sanitize": SCOPUS_PAREN_SANITIZE,
+        # Single Ask box — modes listed here are internal/resolved shapes.
+        "ask_auto_route": True,
     }
 
 
@@ -470,6 +1012,7 @@ def _answer_gpt_like(req: ChatRequest, merged: dict, cards: list[dict]) -> Synth
         prompts.gpt_like_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -481,6 +1024,7 @@ def _answer_compare_sources(req: ChatRequest, merged: dict, cards: list[dict]) -
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
+        model=resolve_synthesis_model(req.model),
     )
 
 
@@ -491,15 +1035,50 @@ def _answer_visual(req: ChatRequest, merged: dict, cards: list[dict]) -> Synthes
         req.query,
         _evidence_for_synthesis(merged, cards),
         extra_instructions=extra,
+        model=resolve_synthesis_model(req.model),
     )
 
 
 def _answer_topic_page(req: ChatRequest, merged: dict, cards: list[dict]) -> SynthesisResult:
-    return synthesize(
+    literature = _literature_cards_from(merged, cards)
+    hub_counts: dict[str, int] = {}
+    for card in cards or []:
+        src = str((card or {}).get("source") or "").lower()
+        if src in {"textbooks", "who", "pathout"}:
+            hub_counts[src] = hub_counts.get(src, 0) + 1
+    extra_bits: list[str] = []
+    if hub_counts:
+        bits = ", ".join(f"{k}={v}" for k, v in sorted(hub_counts.items()))
+        extra_bits.append(
+            f"HUB SOURCES PRESENT ({bits}) in `00_hub_sources_must_use`. Core diagnostic "
+            "facts (Terminology, Clinical Issues, Gross, Microscopic, Ancillary, DDx) MUST "
+            "cite short book names from cite_label/source_id (Atlas for breast_atlas, Gnepp, "
+            "Biopsy) / WHO / Pathoutlines via markdown links from those cards — not "
+            "literature alone. Prefer textbook/WHO/pathout URLs for routine histology facts. "
+            "Never emit ((Textbooks)) or generic Textbooks when cite_label is Atlas."
+        )
+    if literature:
+        extra_bits.append(
+            f"LIVE LITERATURE IS PRESENT ({len(literature)} cards in "
+            "`00_live_literature_must_use` / `literature_results`). You MUST include "
+            "`## Key Literature` with 3–6 bullets drawn from those cards (title, journal, "
+            "year, one-sentence abstract takeaway, DOI/URL cite). Also weave 1–2 on-topic "
+            "findings into Clinical Issues and/or Etiology/Pathogenesis when the abstracts "
+            "support them. Ignore any literature card about a different organ/system."
+        )
+    extra = "\n".join(extra_bits) if extra_bits else None
+    result = synthesize(
         prompts.topic_page_system_prompt(),
         req.query,
         _evidence_for_synthesis(merged, cards),
+        extra_instructions=extra,
+        model=resolve_synthesis_model(req.model),
     )
+    if result.ok and literature:
+        ensured = _ensure_key_literature_section(result.text, literature)
+        if ensured != (result.text or ""):
+            result.text = ensured
+    return result
 
 
 def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
@@ -514,31 +1093,140 @@ def _answer_html_teaching(req: ChatRequest, merged: dict) -> SynthesisResult:
         prompts.html_teaching_system_prompt(),
         req.query,
         html_only,
+        model=resolve_synthesis_model(req.model),
     )
+
+
+_ENTITY_ASK_RE = re.compile(
+    r"^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe|"
+    r"features?\s+of|pathology\s+of|histology\s+of|criteria\s+for|workup\s+of)\s+(.+?)\??$",
+    re.IGNORECASE,
+)
+_COMPARE_ASK_RE = re.compile(
+    r"\b(difference|differ|vs\.?|versus|compare|comparison|between)\b",
+    re.IGNORECASE,
+)
+_SEARCH_ONLY_ASK_RE = re.compile(
+    r"\b(sources?\s+only|search\s+only|raw\s+evidence|no\s+synthesis|"
+    r"just\s+(the\s+)?(sources|cards|evidence))\b",
+    re.IGNORECASE,
+)
+_HTML_TEACHING_ASK_RE = re.compile(
+    r"\b(html\s+teaching|teaching\s+page|lecture\s+handout)\b",
+    re.IGNORECASE,
+)
+_TOPIC_FEATURE_ASK_RE = re.compile(
+    r"\b(diagnostic\s+criteria|differential\s+diagnosis|molecular\s+features|"
+    r"gross\s+(pathology|findings)|microscopic\s+features|"
+    r"ancillary\s+(studies|tests)|clinical\s+features)\b",
+    re.IGNORECASE,
+)
+_ENTITY_ABBREV = {
+    "lcis": "lobular carcinoma in situ",
+    "dcis": "ductal carcinoma in situ",
+    "plcis": "pleomorphic lobular carcinoma in situ",
+    "alh": "atypical lobular hyperplasia",
+    "adh": "atypical ductal hyperplasia",
+    "hsil": "high grade squamous intraepithelial lesion",
+    "lsil": "low grade squamous intraepithelial lesion",
+    "gist": "gastrointestinal stromal tumor",
+}
+
+
+def _extract_ask_entity(raw: str) -> Optional[str]:
+    text = (raw or "").strip()
+    if not text:
+        return None
+    match = _ENTITY_ASK_RE.match(text)
+    if match:
+        return match.group(1).strip().rstrip("?.!")
+    if _VISUAL_QUERY.search(text) or _COMPARE_ASK_RE.search(text):
+        return None
+    if re.fullmatch(r"[A-Za-z][A-Za-z0-9\- ]{0,40}", text) and len(text.split()) <= 6:
+        return text
+    return None
+
+
+def _resolve_ask_mode(req: ChatRequest) -> Optional[str]:
+    """Infer internal response shape from the query when Ask is in auto/gpt_like.
+
+    Returns a short route note for debug, or None when unchanged.
+    Explicit modes from Browse / API (topic_page, compare_sources, …) are kept.
+    """
+    mode = (req.mode or "auto").strip() or "auto"
+    if mode not in {"auto", "gpt_like"}:
+        return None
+    raw = (req.query or "").strip()
+    if not raw:
+        req.mode = "gpt_like"
+        return None
+
+    if _SEARCH_ONLY_ASK_RE.search(raw):
+        req.mode = "search_only"
+        return "inferred:search_only"
+
+    if _HTML_TEACHING_ASK_RE.search(raw):
+        req.mode = "html_teaching"
+        return "inferred:html_teaching"
+
+    if _COMPARE_ASK_RE.search(raw):
+        req.mode = "compare_sources"
+        return "inferred:compare_sources"
+
+    entity = _extract_ask_entity(raw)
+    looks_topic = bool(entity) or bool(_TOPIC_FEATURE_ASK_RE.search(raw))
+    if looks_topic and entity and not _COMPARE_ASK_RE.search(entity):
+        key = re.sub(r"[^a-z0-9]+", "", entity.lower())
+        expanded = _ENTITY_ABBREV.get(key) or entity
+        req.query = expanded
+        req.mode = "topic_page"
+        return f"inferred:topic_page:{raw}→{expanded}"
+
+    if looks_topic and not entity:
+        req.mode = "topic_page"
+        return "inferred:topic_page"
+
+    if _VISUAL_QUERY.search(raw):
+        req.mode = "visual"
+        return "inferred:visual"
+
+    req.mode = "gpt_like"
+    return None
+
+
+# Back-compat name used by tests / older call sites.
+def _maybe_route_entity_ask_to_topic_page(req: ChatRequest) -> Optional[str]:
+    return _resolve_ask_mode(req)
+
+
+def _prepare_chat_request(req: ChatRequest) -> str:
+    """Validate mode/sources and apply topic-page / figure defaults. Returns mode."""
+    route_note = _resolve_ask_mode(req)
+    mode = (req.mode or "gpt_like").strip()
+    if mode == "auto":
+        # Resolver should have replaced auto; fall back defensively.
+        mode = "gpt_like"
+        req.mode = mode
+    if mode not in RESOLVED_MODES:
+        raise ValueError(f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}")
+    sources = _validate_sources(req.sources)
+    req.sources = sources
+    if mode == "topic_page":
+        # Comprehensive source set regardless of sidebar checkboxes.
+        req.sources = TOPIC_PAGE_SOURCES
+    if mode == "html_teaching":
+        req.render_html = True
+    _apply_figure_defaults(req, mode)
+    if route_note:
+        # Stash on the request object for debug payloads (not part of the schema).
+        setattr(req, "_route_note", route_note)
+    return mode
 
 
 @app.post("/api/chat")
 def api_chat(req: ChatRequest):
-    mode = (req.mode or "gpt_like").strip()
-    if mode not in VALID_MODES:
-        return {
-            "ok": False,
-            "error": f"Unknown mode '{mode}'. Valid modes: {sorted(VALID_MODES)}",
-        }
-
     try:
-        sources = _validate_sources(req.sources)
-        req.sources = sources
-
-        if mode == "topic_page":
-            # A topic page is meant to be comprehensive — always request the
-            # full source set, regardless of sidebar checkbox state (server
-            # enforced so it holds for any caller, not just this frontend).
-            req.sources = TOPIC_PAGE_SOURCES
-
-        if mode == "html_teaching":
-            req.render_html = True
-        _apply_figure_defaults(req, mode)
+        mode = _prepare_chat_request(req)
 
         retrieval_meta: Optional[dict] = None
         who_cross_mentions: list[dict] = []
@@ -581,36 +1269,224 @@ def api_chat(req: ChatRequest):
         else:
             result = handler(req, merged, cards)
 
-        return {
-            "ok": result.ok,
-            "mode": mode,
-            "answer": result.text if result.ok else None,
-            "answer_error": None if result.ok else result.error,
-            "model": result.model,
-            "evidence": merged,
-            "cards": cards,
-            "figures": figures,
-            "who_cross_mentions": who_cross_mentions,
-            "debug": _debug_payload(outcomes, retrieval_meta),
-        }
+        payload = _chat_response_payload(
+            mode=mode,
+            result=result,
+            merged=merged,
+            cards=cards,
+            figures=figures,
+            who_cross_mentions=who_cross_mentions,
+            outcomes=outcomes,
+            retrieval_meta=retrieval_meta,
+        )
+        if mode == "topic_page":
+            payload["cache_saved"] = _save_topic_page_to_cache(req, result, cards, figures, who_cross_mentions)
+        return payload
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
 
 
+@app.post("/api/chat/stream")
+def api_chat_stream(req: ChatRequest):
+    """SSE stream of topic-page (or any mode) progress + final result.
+
+    Real round-by-round progress for iterative topic retrieval:
+      event: progress  — plan / round / literature / synthesize status
+      event: result    — same JSON shape as POST /api/chat
+      event: error     — {ok:false, error:...}
+
+    Non-topic modes still stream a short progress line then a single result
+    so the client can use one code path.
+    """
+
+    def event_gen():
+        try:
+            mode = _prepare_chat_request(req)
+        except ValueError as exc:
+            yield _sse_frame("error", {"ok": False, "error": str(exc)})
+            return
+
+        try:
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "start",
+                    "status": "running",
+                    "label": "Starting request",
+                    "detail": f"mode={mode}",
+                    "mode": mode,
+                    "iterative": iterative_enabled() if mode == "topic_page" else False,
+                },
+            )
+
+            retrieval_meta: Optional[dict] = None
+            who_cross_mentions: list[dict] = []
+            if mode == "topic_page":
+                # Drain iterative generator, flushing progress as it arrives.
+                # We cannot yield from inside on_progress easily with a sync
+                # generator that also calls a nested generator — so run a
+                # dedicated streaming drain here.
+                sources = _validate_sources(req.sources)
+                if iterative_enabled():
+                    gen = run_iterative_topic_retrieval(
+                        _backend_client,
+                        query=req.query,
+                        sources=sources,
+                        max_results=req.max_results,
+                        include_figures=req.include_figures,
+                        max_figures=req.max_figures,
+                        compact=req.compact,
+                        excerpt_char_limit=req.excerpt_char_limit,
+                        page_tag=req.page_tag,
+                        browse_root=req.browse_root,
+                        category_context=req.category_context,
+                        root_narrow=TOPIC_PAGE_ROOT_NARROW,
+                        apply_figure_quality=_apply_figure_quality_filters,
+                        extract_who_mentions=_extract_who_cross_mentions,
+                        tumor_type=_tumor_type_hint(req),
+                    )
+                    final = None
+                    try:
+                        while True:
+                            ev = next(gen)
+                            yield _sse_frame("progress", ev)
+                    except StopIteration as stop:
+                        final = stop.value or {}
+                    if not final:
+                        yield _sse_frame("error", {"ok": False, "error": "Empty iterative retrieval."})
+                        return
+                    outcomes = final.get("outcomes") or []
+                    merged = final.get("merged") or {}
+                    cards = final.get("cards") or []
+                    if isinstance(merged, dict):
+                        _diversify_merged_results(merged)
+                    retrieval_meta = dict(final.get("retrieval_meta") or {})
+                    retrieval_meta.setdefault("multi_query", True)
+                    who_cross_mentions = final.get("who_cross_mentions") or []
+                    figures = final.get("figures") or extract_figures(merged)
+                else:
+                    outcomes, merged, cards, retrieval_meta, who_cross_mentions = (
+                        _run_topic_page_retrieval_legacy(req)
+                    )
+                    yield _sse_frame(
+                        "progress",
+                        {
+                            "phase": "assemble",
+                            "status": "done",
+                            "label": "Assembled evidence bundle",
+                            "detail": f"{len(cards)} cards",
+                        },
+                    )
+                    figures = extract_figures(merged)
+            else:
+                yield _sse_frame(
+                    "progress",
+                    {
+                        "phase": "round",
+                        "round": 1,
+                        "status": "running",
+                        "label": "Retrieving evidence",
+                        "detail": f"sources: {', '.join(req.sources)}",
+                    },
+                )
+                outcomes, merged = _run_retrieval(req)
+                cards = dedupe_cards(extract_evidence_cards(merged))
+                figures = dedupe_figures(extract_figures(merged))
+                cards, figures = _apply_figure_quality_filters(cards, figures)
+                yield _sse_frame(
+                    "progress",
+                    {
+                        "phase": "round",
+                        "round": 1,
+                        "status": "done",
+                        "label": "Retrieving evidence",
+                        "detail": f"{len(cards)} cards · {len(figures)} figures",
+                        "cards": len(cards),
+                        "figures": len(figures),
+                    },
+                )
+
+            if mode == "search_only":
+                payload = {
+                    "ok": True,
+                    "mode": mode,
+                    "answer": None,
+                    "answer_note": prompts.search_only_note(),
+                    "evidence": merged,
+                    "cards": cards,
+                    "figures": figures,
+                    "literature": [
+                        c for c in cards if (c.get("source") or "").lower() == "literature"
+                    ],
+                    "who_cross_mentions": who_cross_mentions,
+                    "debug": _debug_payload(outcomes, retrieval_meta),
+                }
+                yield _sse_frame("result", payload)
+                return
+
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "synthesize",
+                    "status": "running",
+                    "label": "Writing answer from evidence…",
+                    "detail": resolve_synthesis_model(req.model) if mode == "topic_page" else get_model(),
+                },
+            )
+
+            handlers = {
+                "gpt_like": _answer_gpt_like,
+                "compare_sources": _answer_compare_sources,
+                "visual": _answer_visual,
+                "html_teaching": _answer_html_teaching,
+                "topic_page": _answer_topic_page,
+            }
+            handler = handlers[mode]
+            if mode == "html_teaching":
+                result = handler(req, merged)
+            else:
+                result = handler(req, merged, cards)
+
+            payload = _chat_response_payload(
+                mode=mode,
+                result=result,
+                merged=merged,
+                cards=cards,
+                figures=figures,
+                who_cross_mentions=who_cross_mentions,
+                outcomes=outcomes,
+                retrieval_meta=retrieval_meta,
+            )
+            if mode == "topic_page":
+                payload["cache_saved"] = _save_topic_page_to_cache(req, result, cards, figures, who_cross_mentions)
+            yield _sse_frame(
+                "progress",
+                {
+                    "phase": "synthesize",
+                    "status": "done",
+                    "label": "Answer ready",
+                    "detail": "ok" if payload.get("ok") else (payload.get("answer_error") or "error"),
+                },
+            )
+            yield _sse_frame("result", payload)
+        except Exception as exc:  # noqa: BLE001 — surface to client as SSE error
+            yield _sse_frame("error", {"ok": False, "error": str(exc)})
+
+    return StreamingResponse(
+        event_gen(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
 def _load_prebuilt_page(tag: Optional[str]) -> Optional[dict]:
-    if not tag or not tag.strip():
-        return None
-    slug = _slugify_prebuild_tag(tag.strip())
-    json_path = os.path.join(TOPIC_PREBUILD_PAGES_DIR, f"{slug}.json")
-    if not os.path.isfile(json_path):
-        return None
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            page = json.load(f)
-        if page.get("ok") and page.get("answer_markdown"):
-            return page
-    except (OSError, ValueError):
-        return None
+    page = _lookup_prebuild_page(tag)
+    if page and page.get("ok") and page.get("answer_markdown"):
+        return page
     return None
 
 
@@ -655,9 +1531,103 @@ def api_flag(req: FlagRequest):
     return {"ok": True, "flag_id": record["flag_id"]}
 
 
+@app.post("/api/topic_review")
+def api_topic_review(req: TopicReviewRequest):
+    """Advisory 'fake pathologist' critique — does not rewrite the page.
+
+    Used for prebuild QA / optional live review. Verdict is not a publish gate.
+    """
+    draft = (req.answer_markdown or "").strip()
+    if not draft:
+        return {"ok": False, "error": "answer_markdown is required."}
+    label = (req.label or req.query or req.tag or "topic").strip()
+    slim_cards = []
+    for card in (req.cards or [])[:40]:
+        if not isinstance(card, dict):
+            continue
+        slim_cards.append(
+            {
+                "source": card.get("source"),
+                "source_id": card.get("source_id"),
+                "title": card.get("title") or card.get("name") or card.get("heading"),
+                "section": card.get("section"),
+                "source_url": card.get("source_url") or card.get("source_page_url"),
+                "doi": card.get("doi"),
+                "excerpt": (card.get("excerpt") or card.get("text") or "")[:400],
+            }
+        )
+    slim_figs = []
+    for fig in (req.figures or [])[:24]:
+        if not isinstance(fig, dict):
+            continue
+        slim_figs.append(
+            {
+                "caption": fig.get("caption") or fig.get("title") or fig.get("alt"),
+                "source": fig.get("source"),
+                "source_id": fig.get("source_id"),
+                "figure_url": fig.get("figure_url") or fig.get("image_url") or fig.get("url"),
+            }
+        )
+    bundle = {
+        "tag": req.tag,
+        "label": label,
+        "draft_answer_markdown": draft,
+        "cards": slim_cards,
+        "figures": slim_figs,
+    }
+    result = synthesize(
+        prompts.pathologist_page_review_system_prompt(),
+        f"Review the draft topic page for: {label}",
+        bundle,
+        model=get_topic_page_model(),
+    )
+    if not result.ok:
+        return {"ok": False, "error": result.error, "model": result.model}
+    low = (result.text or "").lower()
+    verdict = "needs_fixes"
+    for key in ("blocked_thin_evidence", "needs_fixes", "ready_for_human_review"):
+        if key in low:
+            verdict = key
+            break
+    return {
+        "ok": True,
+        "verdict": verdict,
+        "review_markdown": result.text,
+        "model": result.model,
+        "advisory_only": True,
+        "known_limitations": [
+            "LLM advisory only — not a human pathologist sign-off.",
+            "Does not mutate the topic page.",
+        ],
+    }
+
+
 @app.post("/api/compare")
 def api_compare(req: CompareRequest):
-    """Compare 2–4 diagnoses: per-entity retrieval + one grounded synthesis."""
+    """Compare 2–4 diagnoses: per-entity retrieval + one grounded synthesis.
+
+    Reported (2026-08-02): with the upstream pathology-hub-v04 backend down,
+    comparing 3-4 entities fanned out into enough sequential per-entity,
+    multi-query-variant retrieval calls (each up to DEFAULT_TIMEOUT_SECONDS)
+    to exceed Cloud Run's own request timeout before this endpoint ever got
+    a chance to return its own error — Cloud Run's proxy layer then returned
+    a plain-text "upstream request timeout" body, which the frontend's
+    `resp.json()` choked on (surfaced as a raw SyntaxError, not a real
+    error message). A single fast preflight health check fails this
+    immediately with a real JSON error instead of silently trying (and
+    eventually exceeding the outer timeout on) every entity.
+    """
+    backend_health = _backend_client.health()
+    if not backend_health.get("ok"):
+        status_code = backend_health.get("status_code")
+        reason = backend_health.get("error") or (f"HTTP {status_code}" if status_code else "no response")
+        return {
+            "ok": False,
+            "error": (
+                f"The evidence backend (pathology-hub-v04) is unreachable right now — {reason}. "
+                "This is usually a transient Cloud Run cold start; try again in a few seconds."
+            ),
+        }
     try:
         columns: list[dict] = []
         compare_evidence: dict = {"entities": []}
@@ -703,6 +1673,7 @@ def api_compare(req: CompareRequest):
             prompts.compare_diagnoses_system_prompt(),
             synth_query,
             compare_evidence,
+            model=resolve_synthesis_model(req.model),
         )
         return {
             "ok": result.ok,
@@ -713,6 +1684,8 @@ def api_compare(req: CompareRequest):
         }
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
+    except Exception as exc:  # noqa: BLE001 — never let a raw exception surface as a non-JSON response
+        return {"ok": False, "error": f"Compare failed: {type(exc).__name__}: {exc}"}
 
 
 @app.get("/api/openai_ping")

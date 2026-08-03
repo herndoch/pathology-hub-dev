@@ -1,19 +1,30 @@
 const DEFAULT_SOURCES = ["textbooks", "pathout", "who"];
+/** Most-recently-rendered chat/topic-page result, for the "Export current
+ * page as JSON" button — replaces the old teaching-session-notes panel. */
+let lastExportableResult = null;
+/** From /api/health — drives cache skip + status badge. */
+let healthFlags = {
+  iterative: true,
+  liveLiterature: true,
+  streamEndpoint: true,
+  scopusSanitize: true,
+  buildMarker: "",
+  buildSha: "",
+};
 /** Topic pages are meant to be comprehensive, so they always request every
  * supported source regardless of the sidebar checkbox state — this mirrors
  * (and is redundant with) the server-side enforcement in app.py, kept here
  * too so the debug panel shows the sources that are actually used, not a
  * misleadingly narrow sidebar selection. Excludes `curriculum`, which is
  * navigation-only and never treated as citable evidence. */
-const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "journals", "videos"];
-const NOTES_STORAGE_KEY = "pathology_hub_teaching_session_notes";
-const LEGACY_NOTES_STORAGE_KEY = "pathology_hub_experiment_notes";
+const TOPIC_PAGE_SOURCES = ["textbooks", "who", "pathout", "videos"];
 
 const SOURCE_LABELS = {
   who: "WHO Classification",
   textbooks: "Textbooks",
   pathout: "Pathoutlines",
-  journals: "Journals",
+  journals: "Journals (retired)",
+  literature: "Live literature",
   lectures: "Lectures",
   videos: "Videos",
   curriculum: "Curriculum map",
@@ -26,6 +37,10 @@ const TEXTBOOK_ALIASES = {
   cardesa: "Cardesa",
   vasef: "Vasef",
   faq: "FAQ",
+  biopsy: "Biopsy",
+  biopsy_interpretation: "Biopsy",
+  biopsy_interpretation_neoplastic: "Biopsy",
+  biopsy_interpretation_non_neoplastic: "Biopsy",
 };
 
 /** Normalize inline markdown link labels baked into prebuild/synthesis text. */
@@ -37,14 +52,9 @@ const INLINE_LINK_LABEL_ALIASES = {
   "hn gnepp": "Gnepp",
 };
 
-const MODE_HINTS = {
-  gpt_like: "Bullet summary with inline source links. Figures auto-included when you ask to show something.",
-  search_only: "Raw evidence cards only — no OpenAI synthesis.",
-  compare_sources: "Markdown table comparing sources, plus brief agreement bullets.",
-  visual: "Figures retrieved and shown above the answer.",
-  html_teaching: "Hosted HTML teaching page — link appears above citations.",
-  topic_page: "ExpertPath-style reference page: Key Facts box, section headers, figure gallery, and multi-query retrieval (3–4 parallel aspect variants × all sources) for broader coverage. Also reachable via the Browse tab.",
-};
+/** Internal response shapes — not user-facing. Ask always auto-routes. */
+const AUTO_MODE_HINT =
+  "One Ask box: entity / “what is…” → topic page · compare/vs → comparison · show figures → visual · “sources only” → raw cards · otherwise a short grounded answer.";
 
 const VISUAL_QUERY_RE =
   /\b(show\s+me|show|picture|pictures|photo|photos|image|images|figure|figures|histology|histologic|microscopic|microscopy|gross|what\s+does|look\s+like|demonstrate|illustrate|visual)\b/i;
@@ -95,7 +105,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "breast",
     label: "Breast",
-    glyph: "BR",
+    glyph: "Breast",
     gradient: "linear-gradient(135deg, #d1477a, #6b2142)",
     subcategories: [
       { id: "benign", label: "Benign Changes", entities: ["Fibroadenoma", "Fibrocystic change", "Sclerosing adenosis", "Intraductal papilloma"] },
@@ -108,7 +118,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_cervix",
     label: "Gyn — Cervix, Vulva & Vagina",
-    glyph: "CX",
+    glyph: "Cervix",
     gradient: "linear-gradient(135deg, #b23a6b, #5c1f42)",
     subcategories: [
       { id: "squamous", label: "Squamous Lesions", entities: ["CIN1 / LSIL", "CIN2", "CIN3 / HSIL", "Squamous cell carcinoma of cervix"] },
@@ -120,7 +130,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_uterus",
     label: "Gyn — Uterus",
-    glyph: "UT",
+    glyph: "Uterus",
     gradient: "linear-gradient(135deg, #a84a9c, #4a2159)",
     subcategories: [
       { id: "hyperplasia", label: "Hyperplasia & Precursors", entities: ["Endometrial hyperplasia without atypia", "Atypical hyperplasia / EIN"] },
@@ -131,7 +141,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gyn_ovary",
     label: "Gyn — Ovary",
-    glyph: "OV",
+    glyph: "Ovary",
     gradient: "linear-gradient(135deg, #8a4fc9, #3c2166)",
     subcategories: [
       { id: "epithelial", label: "Epithelial Tumors", entities: ["Serous borderline tumor", "High-grade serous carcinoma", "Mucinous cystadenoma", "Endometrioid carcinoma of ovary"] },
@@ -154,7 +164,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "hepatobiliary",
     label: "Hepatobiliary & Pancreatic",
-    glyph: "HP",
+    glyph: "Hepatobiliary",
     gradient: "linear-gradient(135deg, #b5722f, #5e3813)",
     subcategories: [
       { id: "liver", label: "Liver", entities: ["Hepatocellular carcinoma", "Focal nodular hyperplasia", "Hepatic adenoma"] },
@@ -164,7 +174,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gu_prostate_bladder",
     label: "GU — Prostate & Bladder",
-    glyph: "PB",
+    glyph: "Prostate",
     gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)",
     subcategories: [
       { id: "prostate", label: "Prostate", entities: ["Prostatic adenocarcinoma (Gleason grading)", "High-grade prostatic intraepithelial neoplasia (HGPIN)", "Atypical adenomatous hyperplasia (adenosis)", "Benign prostatic hyperplasia"] },
@@ -174,7 +184,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "gu_kidney_testis",
     label: "GU — Kidney & Testis",
-    glyph: "KT",
+    glyph: "Kidney",
     gradient: "linear-gradient(135deg, #4aa3a3, #1f4d4d)",
     subcategories: [
       { id: "kidney", label: "Kidney", entities: ["Clear cell renal cell carcinoma", "Papillary renal cell carcinoma", "Chromophobe renal cell carcinoma", "Angiomyolipoma", "Oncocytoma"] },
@@ -184,7 +194,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "skin",
     label: "Skin / Dermatopathology",
-    glyph: "SK",
+    glyph: "Skin",
     gradient: "linear-gradient(135deg, #d9a066, #6e4a29)",
     subcategories: [
       { id: "melanocytic", label: "Melanocytic Lesions", entities: ["Melanoma", "Dysplastic nevus", "BAP1-inactivated melanocytoma", "Spitz nevus"] },
@@ -195,7 +205,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "head_neck",
     label: "Head & Neck",
-    glyph: "HN",
+    glyph: "Head & Neck",
     gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)",
     subcategories: [
       { id: "mucosal", label: "Mucosal / Squamous", entities: ["Squamous cell carcinoma of oral cavity", "Nasopharyngeal carcinoma", "Laryngeal squamous cell carcinoma"] },
@@ -205,7 +215,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "bone_soft_tissue",
     label: "Bone & Soft Tissue",
-    glyph: "BS",
+    glyph: "BST",
     gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)",
     subcategories: [
       { id: "bone", label: "Bone Tumors", entities: ["Osteosarcoma", "Giant cell tumor of bone", "Chondrosarcoma", "Ewing sarcoma", "Chordoma"] },
@@ -214,8 +224,8 @@ const BROWSE_TAXONOMY = [
   },
   {
     id: "heme",
-    label: "Hematopathology / Lymph Nodes",
-    glyph: "HM",
+    label: "Hematolymphoid",
+    glyph: "Heme",
     gradient: "linear-gradient(135deg, #c94f4f, #6b2323)",
     subcategories: [
       { id: "b_cell", label: "B-Cell Lymphomas", entities: ["Diffuse large B-cell lymphoma", "Follicular lymphoma", "Mantle cell lymphoma", "Chronic lymphocytic leukemia / SLL"] },
@@ -226,7 +236,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "endocrine",
     label: "Endocrine",
-    glyph: "EN",
+    glyph: "Endo",
     gradient: "linear-gradient(135deg, #5fb87d, #245c38)",
     subcategories: [
       { id: "thyroid", label: "Thyroid", entities: ["Papillary thyroid carcinoma", "Follicular adenoma of thyroid", "Medullary thyroid carcinoma", "Hashimoto thyroiditis"] },
@@ -236,7 +246,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "neuro",
     label: "Neuropathology",
-    glyph: "NP",
+    glyph: "Neuro",
     gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)",
     subcategories: [
       { id: "tumors", label: "CNS Tumors", entities: ["Glioblastoma", "Meningioma", "Pilocytic astrocytoma", "Schwannoma"] },
@@ -246,7 +256,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "thorax",
     label: "Thorax / Mediastinum",
-    glyph: "TX",
+    glyph: "Thorax",
     gradient: "linear-gradient(135deg, #4d79c9, #24356b)",
     subcategories: [
       { id: "lung", label: "Lung", entities: ["Lung adenocarcinoma", "Squamous cell carcinoma of lung", "Small cell lung carcinoma"] },
@@ -256,7 +266,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "cyto",
     label: "Cytopathology",
-    glyph: "CY",
+    glyph: "Cyto",
     gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)",
     subcategories: [
       { id: "cyto_topics", label: "Common FNA / Exfoliative Cytology", entities: ["Thyroid FNA (Bethesda system)", "Pap smear HSIL", "Pancreatic FNA, adenocarcinoma", "Effusion cytology, adenocarcinoma"] },
@@ -265,7 +275,7 @@ const BROWSE_TAXONOMY = [
   {
     id: "peds",
     label: "Pediatric",
-    glyph: "PD",
+    glyph: "Peds",
     gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)",
     subcategories: [
       { id: "peds_tumors", label: "Pediatric Tumors", entities: ["Wilms tumor", "Neuroblastoma", "Hepatoblastoma", "Rhabdomyosarcoma"] },
@@ -284,14 +294,15 @@ function countLeaves(category) {
  * BROWSE_TAXONOMY above so the tree is never blank. */
 let browseIndex = null;
 
-/** Locked browse-nav policy: accepted topic tags come from ABPath and/or WHO
- * only (PathOut is a citation source, not a nav tag source). Mirrors
- * `dedupe_rules` in browse_tag_index_v0_2. */
-const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both"]);
+/** Locked browse-nav policy: accepted topic tags come from ABPath AP content
+ * specifications and/or WHO only (PathOut is citation-only, not nav). */
+const ACCEPTED_NAV_PROVENANCES = new Set(["abpath", "who", "both", "pathout"]);
 const NAV_PROVENANCE_LABELS = {
-  abpath: "ABPath",
-  who: "WHO",
-  both: "ABPath + WHO",
+  abpath: "ABPath content specifications",
+  who: "WHO classification map",
+  both: "Shared board entity",
+  pathout: "PathologyOutlines",
+  curated: "Curated starter (not board-mapped)",
 };
 
 function formatNavProvenanceLabel(provenance) {
@@ -299,36 +310,178 @@ function formatNavProvenanceLabel(provenance) {
   return NAV_PROVENANCE_LABELS[key] || null;
 }
 
-/** Known-root glyph/gradient styling, keyed by the generated index's root
- * `id`s (see build_browse_tag_index_v0_1.py). Any root not listed here
- * (e.g. small PathOut-only residual roots) gets a neutral default look —
- * never a hard failure. */
+/** Normalize label/query text for matching starter leaves → full ABPath/WHO tags. */
+function normalizeTopicMatchKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/** Strip trailing / standalone NOS so "DLBCL" matches "Diffuse_Large_B_Cell_Lymphoma_NOS". */
+function stripNosMatchKey(value) {
+  return normalizeTopicMatchKey(value)
+    .replace(/\bnos\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Normalize browse/index root ids for comparison (Heme ≈ heme, Cyto_Fluids ≈ cyto). */
+function normalizeBrowseRootId(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+/** Browse root id encoded in a tag (`Heme::…` or `ABPathSpec::heme::…`). */
+function tagBrowseRootId(tag) {
+  const parts = String(tag || "")
+    .split("::")
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (!parts.length) return "";
+  const head = normalizeBrowseRootId(parts[0]);
+  if (head === "abpathspec" && parts[1]) return normalizeBrowseRootId(parts[1]);
+  return head;
+}
+
+/** True when a board-index leaf belongs under the Browse category the user opened. */
+function leafMatchesBrowseRoot(leafRef, row, leaf) {
+  const preferred = normalizeBrowseRootId(leafRef?.categoryId);
+  if (!preferred) return true;
+  const indexRoot = normalizeBrowseRootId(row?.root?.id);
+  const tagRoot = tagBrowseRootId(leaf?.tag);
+  if (preferred === indexRoot || preferred === tagRoot) return true;
+  // Browse "cyto" covers every Cyto_* organ root in the index.
+  if (preferred === "cyto" && (indexRoot.startsWith("cyto") || tagRoot.startsWith("cyto"))) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * When Browse opens a curated starter leaf (`tag: null`), try to attach the
+ * real ABPath/WHO hierarchical tag from the full browse index so the topic
+ * page can show board/curricular location instead of a blank tag header.
+ *
+ * Critical: when the user is under Hematopathology / Breast / etc., only map
+ * to tags in that same root — otherwise extranodal organ-site clones
+ * (Breast::…::Diffuse_Large_B_Cell_Lymphoma) steal the match and root-narrow
+ * drops real heme pathout/videos/textbooks.
+ */
+function resolveBoardMappedLeaf(leafRef) {
+  if (!leafRef) return leafRef;
+  if (leafRef.tag) return leafRef;
+  if (!browseIndex) return leafRef;
+  const keys = new Set(
+    [leafRef.label, leafRef.query]
+      .map(normalizeTopicMatchKey)
+      .filter(Boolean),
+  );
+  if (!keys.size) return leafRef;
+
+  const allRows = collectLeavesFromRoots(activeBrowseRoots() || []);
+  const preferredRoot = normalizeBrowseRootId(leafRef.categoryId);
+  const scopedRows = preferredRoot
+    ? allRows.filter((row) => leafMatchesBrowseRoot(leafRef, row, row.leaf))
+    : allRows;
+  // Prefer same-root candidates; fall back only if that pool has no usable match.
+  const pools = scopedRows.length ? [scopedRows, allRows] : [allRows];
+
+  let best = null;
+  let bestScore = -1;
+  for (const pool of pools) {
+    best = null;
+    bestScore = -1;
+    for (const row of pool) {
+      const leaf = row.leaf;
+      if (!leaf?.tag) continue;
+      const leafKeys = [leaf.label, leaf.query, leaf.tag?.split("::").pop()].map(normalizeTopicMatchKey);
+      let score = 0;
+      for (const k of keys) {
+        const kNos = stripNosMatchKey(k);
+        for (const lk of leafKeys) {
+          if (!lk) continue;
+          const lkNos = stripNosMatchKey(lk);
+          if (lk === k) score = Math.max(score, 100);
+          else if (kNos && lkNos && lkNos === kNos) score = Math.max(score, 98);
+          else if (lk.includes(k) || k.includes(lk)) score = Math.max(score, 60);
+          else if (kNos && lkNos && (lkNos.includes(kNos) || kNos.includes(lkNos))) {
+            score = Math.max(score, 58);
+          }
+        }
+      }
+      // Bare starter "LCIS" / classic labels must not map to Florid /
+      // Pleomorphic / EBV+ / leg-type board tags unless the starter names them.
+      const starterBlob = [...keys].join(" ");
+      const leafBlob = leafKeys.join(" ");
+      for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
+        if (leafBlob.includes(mod) && !starterBlob.includes(mod)) score -= 40;
+      }
+      const prov = String(leaf.provenance || "").toLowerCase();
+      if (prov === "abpath" || prov === "both") score += 5;
+      if (leafMatchesBrowseRoot(leafRef, row, leaf)) score += 25;
+      // Prefer canonical NOS / shorter tag over long extranodal site clones.
+      const tagDepth = String(leaf.tag || "").split("::").length;
+      if (tagDepth <= 4) score += 2;
+      if (/\bnos\b/i.test(leafBlob) && !/ebv|kshv|cutaneous|inflammation|myc/i.test(leafBlob)) {
+        score += 3;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        best = { row, leaf };
+      }
+    }
+    if (best && bestScore >= 58) break;
+  }
+  if (!best || bestScore < 58) return leafRef;
+  return {
+    ...leafRef,
+    tag: best.leaf.tag,
+    provenance: best.leaf.provenance || leafRef.provenance || null,
+    label: leafRef.label || best.leaf.label,
+    query: leafRef.query || best.leaf.query || best.leaf.label,
+    // Keep the Browse root the user opened (heme), not the mapped tag's root.
+    categoryId: leafRef.categoryId || best.row.root?.id || null,
+    subcategoryId: leafRef.subcategoryId || best.row.sub?.id || null,
+    boardResolvedFrom: "browse_tag_index",
+  };
+}
+
+/** Known-root tile styling, keyed by the generated index's root `id`s (see
+ * build_browse_tag_index_who_abpath_spec_v0_1.py). `glyph` is a short but
+ * legible root name (not a cryptic 2-letter code) shown large on the tile;
+ * the banner below shows the fuller descriptive root label. Any root not
+ * listed here (e.g. small PathOut-only residual roots) gets a neutral
+ * default look — never a hard failure. */
 const BROWSE_ROOT_STYLE = {
-  cyto: { glyph: "CY", gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)" },
-  breast: { glyph: "BR", gradient: "linear-gradient(135deg, #d1477a, #6b2142)" },
-  gyn: { glyph: "GY", gradient: "linear-gradient(135deg, #a84a9c, #4a2159)" },
+  cyto: { glyph: "Cyto", gradient: "linear-gradient(135deg, #4fc9b8, #1f6b5f)" },
+  breast: { glyph: "Breast", gradient: "linear-gradient(135deg, #d1477a, #6b2142)" },
+  gyn: { glyph: "GYN", gradient: "linear-gradient(135deg, #a84a9c, #4a2159)" },
   gi: { glyph: "GI", gradient: "linear-gradient(135deg, #c98a3f, #6b4416)" },
   gu: { glyph: "GU", gradient: "linear-gradient(135deg, #3f8fc9, #1c3f66)" },
-  skin: { glyph: "SK", gradient: "linear-gradient(135deg, #d9a066, #6e4a29)" },
-  hn: { glyph: "HN", gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)" },
-  bst: { glyph: "BS", gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)" },
-  heme: { glyph: "HM", gradient: "linear-gradient(135deg, #c94f4f, #6b2323)" },
-  endo: { glyph: "EN", gradient: "linear-gradient(135deg, #5fb87d, #245c38)" },
-  neuro: { glyph: "NP", gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)" },
-  thorax_mediastinum: { glyph: "TX", gradient: "linear-gradient(135deg, #4d79c9, #24356b)" },
-  peds: { glyph: "PD", gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)" },
-  molecular: { glyph: "MO", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
-  eye_orbit: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
-  eye: { glyph: "EY", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
-  general_pathology: { glyph: "GP", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
+  skin: { glyph: "Skin", gradient: "linear-gradient(135deg, #d9a066, #6e4a29)" },
+  hn: { glyph: "Head & Neck", gradient: "linear-gradient(135deg, #5f9ea0, #2b4a4b)" },
+  bst: { glyph: "BST", gradient: "linear-gradient(135deg, #9a9a9a, #4a4a4a)" },
+  heme: { glyph: "Heme", gradient: "linear-gradient(135deg, #c94f4f, #6b2323)" },
+  endo: { glyph: "Endo", gradient: "linear-gradient(135deg, #5fb87d, #245c38)" },
+  neuro: { glyph: "Neuro", gradient: "linear-gradient(135deg, #7a5fc9, #382a6b)" },
+  thorax_mediastinum: { glyph: "Thorax", gradient: "linear-gradient(135deg, #4d79c9, #24356b)" },
+  peds: { glyph: "Peds", gradient: "linear-gradient(135deg, #e0b84f, #7a5f1f)" },
+  molecular: { glyph: "Molecular", gradient: "linear-gradient(135deg, #6b8fb8, #2e4a66)" },
+  eye_orbit: { glyph: "Eye / Orbit", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  eye: { glyph: "Eye / Orbit", gradient: "linear-gradient(135deg, #8fae5f, #3f4f24)" },
+  cardio: { glyph: "Cardio", gradient: "linear-gradient(135deg, #c45c6a, #5c2430)" },
+  forensic: { glyph: "Forensic", gradient: "linear-gradient(135deg, #6a7a8a, #2e3844)" },
+  general_pathology: { glyph: "General", gradient: "linear-gradient(135deg, #8a8a8a, #3a3a3a)" },
 };
-const DEFAULT_ROOT_STYLE = { glyph: "PA", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
+const DEFAULT_ROOT_STYLE = { glyph: "Path", gradient: "linear-gradient(135deg, #7a7a7a, #3a3a3a)" };
 
 function rootTileStyle(rootId, label) {
   const known = BROWSE_ROOT_STYLE[rootId];
   if (known) return known;
-  const glyph = String(label || rootId || "??").replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "PA";
-  return { glyph, gradient: DEFAULT_ROOT_STYLE.gradient };
+  const fallback = formatDisplayLabel(label || rootId || "Path").split(" ")[0] || "Path";
+  return { glyph: fallback, gradient: DEFAULT_ROOT_STYLE.gradient };
 }
 
 /** Converts the hand-curated BROWSE_TAXONOMY into the same {roots ->
@@ -357,8 +510,7 @@ function curatedFallbackRoots() {
   }));
 }
 
-const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2 };
-const BROWSE_NAV_MODE_KEY = "ph_browse_nav_mode_v0_2";
+const BROWSE_PROVENANCE_RANK = { abpath: 0, both: 1, who: 2, pathout: 3 };
 const BROWSE_LEAF_PREVIEW_CAP = 48;
 const BROWSE_NAV_THINNING = {
   abpath_primary: false,
@@ -366,34 +518,21 @@ const BROWSE_NAV_THINNING = {
   drop_cyto_pattern: true,
 };
 
-let browseNavMode = "full";
+/** Browse ships exactly one indexed tree: WHO + ABPath content-spec
+ * diagnoses, aggressively deduped. No mode toggle is shown to the user;
+ * the curated taxonomy below is only an automatic fallback when the
+ * generated index fails to load. */
 let browseFilterQuery = "";
-
-function readBrowseNavMode() {
-  try {
-    const stored = localStorage.getItem(BROWSE_NAV_MODE_KEY);
-    return stored === "full" ? "full" : "starter";
-  } catch (_err) {
-    return "starter";
-  }
-}
-
-function writeBrowseNavMode(mode) {
-  browseNavMode = mode === "full" ? "full" : "starter";
-  try {
-    localStorage.setItem(BROWSE_NAV_MODE_KEY, browseNavMode);
-  } catch (_err) {
-    // ignore quota / private-mode failures
-  }
-}
-
-browseNavMode = readBrowseNavMode();
 
 function getBrowseNavRootsFull() {
   if (browseIndex && Array.isArray(browseIndex.nav_roots_full) && browseIndex.nav_roots_full.length) {
     return browseIndex.nav_roots_full;
   }
   return null;
+}
+
+function activeBrowseRoots() {
+  return getBrowseNavRootsFull() || curatedFallbackRoots();
 }
 
 /** Collapse redundant nav leaves: one clickable topic per root + display label.
@@ -531,14 +670,7 @@ function compactBrowseRoots(roots, options = {}) {
 }
 
 function getBrowseRoots() {
-  if (browseNavMode === "full") {
-    const full = getBrowseNavRootsFull();
-    if (full) return full;
-  }
-  if (browseIndex) {
-    return curatedFallbackRoots();
-  }
-  return curatedFallbackRoots();
+  return activeBrowseRoots();
 }
 
 function normalizeBrowseFilterText(value) {
@@ -572,6 +704,708 @@ function collectLeavesFromRoots(roots) {
     }
   }
   return rows;
+}
+
+/** Collapsible tree view for Browse — clickable, connected dot-and-line
+ * hierarchy (root organ -> subcategory -> diagnosis leaf). This is the one
+ * and only Browse-home visualization; the old tile-grid/mode-toggle only
+ * remains as a degraded fallback for when the tag index itself fails to
+ * load (see renderBrowseHome). */
+const ONCOTREE_BASE_ROW_HEIGHT = 30;
+const ONCOTREE_BASE_COL_WIDTH = 320;
+const ONCOTREE_LEAF_CAP_PER_SUB = 80;
+/** Subcategories bigger than this get chunked into branches — but by real
+ * pathology category (from the WHO tag's own hierarchy), not alphabet. */
+const ONCOTREE_GROUP_THRESHOLD = 16;
+/** A leaf whose tag carries no categorical segment (bare ABPathSpec tags,
+ * or a WHO tag with no intermediate segment) can't be placed into a
+ * meaningful branch — it gets dropped from the tree with a disclosed count,
+ * findable via search/Tile view instead, rather than faked into an
+ * alphabetical or "Other" bucket. If fewer than this fraction of a
+ * subcategory's leaves carry a usable category, there isn't enough real
+ * structure to build a nice hierarchy at all — show it flat instead. */
+const ONCOTREE_MIN_CATEGORY_COVERAGE = 0.4;
+const ONCOTREE_ZOOM_STEPS = [0.6, 0.8, 1, 1.2, 1.5];
+/** Above this many matches, an in-tree highlighted search would explode into
+ * an unnavigable wall of expanded nodes — fall back to the flat list. Set
+ * high enough to cover realistic partial-word searches (e.g. "adeno" ~270
+ * matches, "carcinoma" ~440) so the tree actively fills in live as the user
+ * types instead of bailing to a flat list; only near-single-letter queries
+ * (thousands of matches) still fall back. */
+const ONCOTREE_SEARCH_INLINE_CAP = 600;
+
+let browseTreeExpanded = new Set();
+let browseTreeZoomIdx = ONCOTREE_ZOOM_STEPS.indexOf(1);
+
+function oncotreeDotColor(rootId, rootLabel) {
+  const style = rootTileStyle(rootId, rootLabel);
+  const match = /#([0-9a-f]{6})/i.exec(style.gradient || "");
+  return match ? `#${match[1]}` : "#7a7a7a";
+}
+
+function oncotreeZoom() {
+  return ONCOTREE_ZOOM_STEPS[browseTreeZoomIdx] ?? 1;
+}
+
+/** Real pathology category for a leaf, read off its own tag hierarchy —
+ * never invented. WHO tags carry genuine categorical structure beyond
+ * root/subcategory (e.g. "BST::Soft_Tissue::Fibroblastic::Acral_Fibromyxoma"
+ * — "Fibroblastic" is WHO's own classification, the same grouping used in
+ * the WHO Blue Books). ABPathSpec tags (content-spec derived) and shallow
+ * 3-segment WHO tags carry no such segment and return null — those leaves
+ * have nothing to hang a "nice" branch off of.
+ *
+ * Cytopathology is a partial exception: `Cyto_<System>::…` WHO/PathOut tags
+ * and `ABPathSpec::cyto::…` tags both bucket the Browse *subcategory* on
+ * organ system (see build_browse_tag_index_who_abpath_spec_v0_1.py
+ * CYTO_SYSTEM_* constants), one segment earlier than every other root — so
+ * the real histologic category (WHO's own "Benign"/"Malignant"/"SIL", or
+ * ABPath's own content-spec heading) sits one segment sooner too. */
+function leafCategoryFromTag(tag) {
+  if (!tag) return null;
+  // Cyto_<System>::<Category>::<Leaf> is only 3 segments (the system IS
+  // the root+subcategory already) — category is one segment earlier than
+  // every other root's Root::Sub::Category::Leaf shape. Covers both real
+  // WHO/PathOut Cyto_ tags and native ABPath-derived ones (2026-08-02: cyto
+  // ABPath leaves now carry this same native shape, no more separate
+  // "ABPathSpec::cyto::…" wrapper to special-case here).
+  if (tag.startsWith("Cyto_")) {
+    const parts = tag.split("::").filter(Boolean);
+    return parts.length > 2 ? formatDisplayLabel(parts[1]) : null;
+  }
+  if (tag.startsWith("ABPathSpec::")) return null;
+  const parts = tag.split("::").filter(Boolean);
+  if (parts.length <= 3) return null;
+  return formatDisplayLabel(parts[2]);
+}
+
+/** Chunk leaves into branches by real pathology category (from the WHO tag
+ * hierarchy) instead of alphabet. Leaves with no usable category segment
+ * are dropped from the tree (findable via search / Tile view instead) —
+ * returns `null` when there isn't enough categorical structure to build a
+ * meaningful hierarchy at all (caller should fall back to a flat list
+ * rather than force a fake grouping). */
+function buildOncotreeCategoryGroups(leaves) {
+  const byCategory = new Map();
+  let droppedCount = 0;
+  for (const leaf of leaves) {
+    const cat = leafCategoryFromTag(leaf.tag);
+    if (!cat) {
+      droppedCount += 1;
+      continue;
+    }
+    if (!byCategory.has(cat)) byCategory.set(cat, []);
+    byCategory.get(cat).push(leaf);
+  }
+  const coverage = leaves.length ? (leaves.length - droppedCount) / leaves.length : 0;
+  if (coverage < ONCOTREE_MIN_CATEGORY_COVERAGE || byCategory.size < 2) {
+    return null;
+  }
+  const groups = [...byCategory.entries()]
+    .map(([label, catLeaves]) => ({
+      id: slugifyForTree(label),
+      label,
+      leaf_count: catLeaves.length,
+      leaves: catLeaves,
+    }))
+    .sort((a, b) => b.leaf_count - a.leaf_count || a.label.localeCompare(b.label));
+  return { groups, droppedCount };
+}
+
+function slugifyForTree(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "") || "cat";
+}
+
+/** Above this many direct subcategories, a root's own fan-out is the
+ * unmanageable part of the tree — not any one subcategory's leaf list. WHO
+ * roots (BST, GYN, GU, GI, ...) stay under this because WHO's own hierarchy
+ * already nests by organ before diagnosis; the mostly-ABPath-content-spec
+ * roots (Peds, Neuro, Skin, Heme, Forensic) blow past it because ABPath
+ * flattens every disease-process header straight under the root. Reported
+ * 2026-08-02: "prob also need to make another level of category to manage
+ * long lists of things like in peds path and neuro path". */
+const ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD = 20;
+
+/** A leaf label this long (chars) reliably overflows one row's ~300px
+ * width at 100% zoom — wrap it onto a second line (see ONCOTREE_TALL_*
+ * CSS) instead of truncating to an identical-looking prefix. */
+const ONCOTREE_TALL_LABEL_CHARS = 34;
+
+/** Heuristic disease-process bucket for a *subcategory* label (not a single
+ * diagnosis) — inserts one extra branch level (root -> process -> existing
+ * subcategory -> leaf) purely to cut down an unmanageable root fan-out; it
+ * never changes which subcategory a leaf lives in, and every subcategory
+ * still appears somewhere (the catch-all "General / Other" bucket, not a
+ * drop). Order matters: more specific/rare patterns are checked first so a
+ * label naming several processes lands on the most useful one (e.g.
+ * "Familial Tumor Predisposition Syndromes" -> Genetic, not Neoplastic).
+ * Necessarily imperfect prose-matching over ABPath's own section headers —
+ * disclosed via the (?) info panel, never claimed to be WHO taxonomy. */
+const SUBCATEGORY_PROCESS_RULES = [
+  ["Vascular", /vascular|vasculopath|infarct|ischemi|hemorrhag|thrombo|embol|aneurysm|vasculitis|angiopathy/i],
+  [
+    "Traumatic / Mechanical",
+    /trauma|injur|wound|fracture|blunt|firearm|gunshot|sharp injur|cutting|stabbing|\bburn|thermal|asphyxia|electrical|lightning|\bbomb\b|explosion|\babuse\b/i,
+  ],
+  [
+    "Postmortem / Forensic Investigation",
+    /postmortem|forensic|jurisprudence|criminalistic|identification of human|toxicology|anthropology|deaths?\b|mortality|certification/i,
+  ],
+  [
+    "Infectious / Inflammatory",
+    /infect|bacteria|viral|fungal|parasitic|mycobacter|inflamm|autoimmune|granulomatous|reactive|reaction pattern|panniculitis|\babscess|arthropod|\btick\b|infestation|demyelinat|multiple sclerosis|leukoencephalopathy/i,
+  ],
+  [
+    "Congenital / Developmental / Genetic",
+    /congenital|developmental|malformation|migration defect|induction|anomal|genetic|hereditary|inherited|familial|syndrome|chromosomal|neural tube|gene defect|trinucleotide repeat/i,
+  ],
+  [
+    "Metabolic / Degenerative / Toxic",
+    /metabolic|metabolism|storage disease|toxicity|\btoxic\b|degenerat|dystroph|deficienc|lysosomal|leukodystroph|tauopath|\bprion\b|acidopathy|cholestatic|alzheimer|dementia|parkinson|amyotrophic|motor neuron disease|huntington|\binclusion|deposit|mucinos|alcoholism|substance abuse|peroxisomal|mitochondrial|\belectrolyte|\blewy\b/i,
+  ],
+  [
+    "Hematologic / Coagulation",
+    /anemia|anaemia|hemoglobinopath|coagulation|thrombophilic|platelet|hemolytic|erythrocyte|von willebrand/i,
+  ],
+  [
+    "Neoplastic",
+    /neoplas|tumou?rs?\b|carcinoma|lymphoma|leuk[ae]mia|sarcoma|adenoma|blastoma|gliom|melanocytic|nevus|nevi\b|\bcyst|malignan|\bbenign\b|angioma|fibroma|papilloma|hamartoma|schwannoma|meningioma|chordoma|paraganglioma|hemangioma|myoma|lipoma|metasta|histiocyt/i,
+  ],
+  ["Laboratory / Testing", /\btest(?:s|ing)?\b|\bassay\b|molecular pathology/i],
+  ["Organ System (unclassified by process)", /\bsystem\b|\btract\b/i],
+];
+
+function subcategoryProcessCategory(label) {
+  const text = String(label || "");
+  for (const [name, rx] of SUBCATEGORY_PROCESS_RULES) {
+    if (rx.test(text)) return name;
+  }
+  return "General / Other";
+}
+
+/** Group a root's own direct subcategories by disease-process bucket — see
+ * ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD. Unlike buildOncotreeCategoryGroups
+ * (leaf-level), nothing is ever dropped: every subcategory lands in some
+ * group, worst case "General / Other". Returns null when grouping wouldn't
+ * actually simplify anything (everything landed in one bucket). */
+function buildOncotreeSubcategoryGroups(subcategories) {
+  const byProcess = new Map();
+  for (const sub of subcategories) {
+    const cat = subcategoryProcessCategory(sub.label);
+    if (!byProcess.has(cat)) byProcess.set(cat, []);
+    byProcess.get(cat).push(sub);
+  }
+  if (byProcess.size < 2) return null;
+  const groups = [...byProcess.entries()]
+    .map(([label, subs]) => ({
+      id: slugifyForTree(label),
+      label,
+      leaf_count: subs.reduce((sum, s) => sum + (s.leaf_count || 0), 0),
+      subcategories: subs,
+    }))
+    // "General / Other" always last regardless of size — it's the leftover
+    // bucket, not a first-class category to lead with.
+    .sort((a, b) => {
+      if (a.label === "General / Other") return 1;
+      if (b.label === "General / Other") return -1;
+      return b.leaf_count - a.leaf_count || a.label.localeCompare(b.label);
+    });
+  return groups;
+}
+
+/** Hand-curated "trunk" clusters — several genuinely-distinct ABPath
+ * subcategories that are all facets of one diagnostic family and read as
+ * confusing near-duplicate siblings when they fan out flat at the same
+ * level (2026-08-02 feedback: "many permutations of a melanocytic type
+ * branch... these should all be a layer of branches within a melanocytic
+ * trunk"). Deliberately a short, audited list (exact subcategory label
+ * match) rather than a generic auto-clusterer — a keyword-frequency sweep
+ * of every root surfaced far more coincidental word overlaps (e.g. every
+ * "X Reaction Pattern"/"X System"/"X Tumors" sharing one word) than
+ * genuine families; only clusters that were unambiguously one family on
+ * inspection are listed. Never touches subcategory identity/leaves —
+ * purely one extra branch level at render time, like the disease-process
+ * supergroups above. */
+const SUBCATEGORY_TRUNK_MAP = {
+  skin: [
+    {
+      trunk: "Melanocytic",
+      labels: ["Melanocytic", "Melanocytic Nevi", "Malignant Melanocytic Lesions", "Melanocytoma", "Dermal Melanocytic Lesions"],
+    },
+    {
+      trunk: "Reaction Patterns",
+      labels: [
+        "Granulomatous Reaction Pattern, Non-Infectious",
+        "Interface Dermatitis (Lichenoid Reaction Pattern)",
+        "Psoriasiform Reaction Pattern",
+        "Spongiotic Reaction Pattern",
+        "Vasculopathic Reaction Pattern",
+        "Vesiculobullous Reaction Pattern",
+      ],
+    },
+    {
+      trunk: "Infiltrates",
+      labels: [
+        "Eosinophilic Infiltrates",
+        "Histiocytic Infiltrates (Non-Langerhans Cell)",
+        "Plasma Cell Infiltrates",
+        "Xanthomatous Infiltrates",
+      ],
+    },
+    {
+      trunk: "Deposits",
+      labels: [
+        "Cutaneous Deposits",
+        "Drug Deposits and Pigmentation",
+        "Hyaline Deposits",
+        "Miscellaneous Deposits",
+        "Pigment and Related Deposits",
+      ],
+    },
+  ],
+  neuro: [
+    {
+      trunk: "Inclusions",
+      labels: [
+        "Cytoskeleton and Filamentous Inclusions",
+        "Cytosolic Inclusions",
+        "Membrane Bound Inclusions",
+        "Neuronal Nuclear Inclusions",
+      ],
+    },
+    {
+      trunk: "Malformations",
+      labels: ["Chiari Malformations", "Malformations of the Cerebellum", "Malformations of the Spinal Cord"],
+    },
+  ],
+  heme: [
+    {
+      trunk: "Erythrocyte Disorders",
+      labels: ["Erythrocyte & Plasma Infections", "Erythrocyte Enzyme Disorders", "Erythrocyte Membrane Disorders"],
+    },
+    {
+      trunk: "Histiocytic / Dendritic Cell Disorders",
+      labels: ["Histiocytic Dendritic", "Histiocytic Disorders", "Histiocytic/Dendritic Cell Neoplasms"],
+    },
+  ],
+  forensic: [
+    {
+      trunk: "Toxicology",
+      labels: [
+        "Environmental and Industrial Toxicology",
+        "Forensic Toxicology and Postmortem Chemistry",
+        "Interpretive Toxicology",
+      ],
+    },
+  ],
+};
+
+/** Applies SUBCATEGORY_TRUNK_MAP to a subcategory list, returning a mixed
+ * array (trunk nodes tagged `_treeKind: "trunk"`, everything else left as
+ * plain subcategory objects) in the SAME shape buildOncotreeLayout's
+ * `visit()` already iterates for a "sub"-kind children list — trunk
+ * members render one level deeper (visit() treats a "trunk" node's own
+ * children as plain "sub"), everything not covered by a trunk passes
+ * through completely unchanged. A no-op (returns `subcategories` as-is)
+ * when this root has no curated trunks or none matched (>= 2 members
+ * present). */
+function applyTrunkGrouping(rootId, subcategories) {
+  const trunkDefs = SUBCATEGORY_TRUNK_MAP[rootId];
+  if (!trunkDefs || !subcategories.length) return subcategories;
+  const byLabel = new Map(subcategories.map((s) => [s.label, s]));
+  const claimed = new Set();
+  const trunkNodes = [];
+  for (const { trunk, labels } of trunkDefs) {
+    const members = labels.map((l) => byLabel.get(l)).filter(Boolean);
+    if (members.length < 2) continue;
+    members.forEach((m) => claimed.add(m.id));
+    trunkNodes.push({
+      id: slugifyForTree(trunk),
+      label: trunk,
+      leaf_count: members.reduce((sum, m) => sum + (m.leaf_count || 0), 0),
+      subcategories: members,
+      _treeKind: "trunk",
+    });
+  }
+  if (!trunkNodes.length) return subcategories;
+  const ungrouped = subcategories.filter((s) => !claimed.has(s.id));
+  // Trunks first (they're the "headline" groupings), then whatever wasn't
+  // claimed, in its original order.
+  return [...trunkNodes, ...ungrouped];
+}
+
+/** Build the OncoTree-style layout: nodes with computed {x,y}, and the
+ * bezier links between parent and child. Only expanded nodes recurse into
+ * their children; collapsed nodes occupy exactly one row.
+ *
+ * `extraExpanded` force-expands paths beyond the user's manual toggles (used
+ * to auto-reveal the ancestor chain down to an in-tree search match).
+ * `isMatch(leafNode)` flags a leaf for highlighting when searching. */
+function buildOncotreeLayout(roots, options = {}) {
+  const extraExpanded = options.extraExpanded || null;
+  const isMatchFn = options.isMatch || null;
+  const zoom = oncotreeZoom();
+  const rowH = ONCOTREE_BASE_ROW_HEIGHT * zoom;
+  const colW = ONCOTREE_BASE_COL_WIDTH * zoom;
+  const nodes = [];
+  const links = [];
+  let rowCursor = 0;
+  // A node's own (x,y) isn't known until AFTER all of its children have been
+  // visited (its row is the average of theirs) — so a parent->child link
+  // can't be drawn at the moment the child is visited. Record path pairs
+  // during the recursive pass instead, then resolve them to coordinates
+  // once every node's final position is known (see pathToNode below).
+  const linkPairs = [];
+
+  function visit(kind, node, depth, color, path, ancestorRootId, ancestorSubId) {
+    const isLeaf = kind === "leaf";
+    const rootIdForNode = kind === "root" ? node.id : ancestorRootId;
+    const subIdForNode = kind === "sub" ? node.id : ancestorSubId;
+    const expanded = !isLeaf && (browseTreeExpanded.has(path) || Boolean(extraExpanded && extraExpanded.has(path)));
+    const isMatch = isLeaf && isMatchFn ? isMatchFn(node) : false;
+    // Long WHO subtype names (e.g. "B lymphoblastic leukaemia/lymphoma with
+    // recurrent genetic abnormality, <gene>") used to all truncate to the
+    // same identical prefix on one fixed-height row, making distinct
+    // entities indistinguishable at a glance. Wrap onto a second line
+    // instead — same column width, twice the row height — rather than
+    // widening the column (2026-08-02 feedback: "instead of 300 max gets
+    // 300x2 max").
+    const isTall = isLeaf && formatDisplayLabel(node.label).length > ONCOTREE_TALL_LABEL_CHARS;
+    let midRow;
+    let truncatedNote = null;
+    if (isLeaf || !expanded) {
+      midRow = rowCursor;
+      rowCursor += isTall ? 2 : 1;
+    } else {
+      // While an in-tree search is active, only show what's relevant to it
+      // — otherwise a single match inside a 19-leaf subcategory drags in
+      // every unrelated sibling as noise and stretches the connecting
+      // curves across most of the canvas for no reason.
+      let children;
+      let childKind;
+      let categoryDroppedCount = 0;
+      if (kind === "root") {
+        const allSubs = node.subcategories || [];
+        let processGroups = null;
+        if (!isMatchFn && allSubs.length > ONCOTREE_SUBCATEGORY_GROUP_THRESHOLD) {
+          processGroups = buildOncotreeSubcategoryGroups(allSubs);
+        }
+        if (processGroups) {
+          childKind = "supergroup";
+          children = processGroups;
+        } else {
+          childKind = "sub";
+          children = allSubs;
+          if (!isMatchFn) children = applyTrunkGrouping(rootIdForNode, children);
+          if (isMatchFn && extraExpanded) {
+            children = children.filter((c) => extraExpanded.has(`${path}::${c.id}`));
+          }
+        }
+      } else if (kind === "supergroup") {
+        childKind = "sub";
+        children = node.subcategories || [];
+        if (!isMatchFn) children = applyTrunkGrouping(rootIdForNode, children);
+      } else if (kind === "trunk") {
+        childKind = "sub";
+        children = node.subcategories || [];
+      } else if (kind === "sub") {
+        let leaves = node.leaves || [];
+        if (isMatchFn) leaves = leaves.filter((l) => isMatchFn(l));
+        let categorized = null;
+        if (!isMatchFn && leaves.length > ONCOTREE_GROUP_THRESHOLD) {
+          categorized = buildOncotreeCategoryGroups(leaves);
+        }
+        if (categorized) {
+          childKind = "group";
+          children = categorized.groups;
+          categoryDroppedCount = categorized.droppedCount;
+        } else {
+          // No usable categorical structure (e.g. a purely ABPath-sourced
+          // subcategory) — show flat rather than force a fake grouping.
+          childKind = "leaf";
+          children = leaves.slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+        }
+      } else {
+        // kind === "group"
+        childKind = "leaf";
+        children = (node.leaves || []).slice(0, ONCOTREE_LEAF_CAP_PER_SUB);
+      }
+      const hiddenCount =
+        kind === "sub" && !isMatchFn && childKind === "leaf"
+          ? Math.max(0, (node.leaves || []).length - children.length)
+          : categoryDroppedCount;
+      const hiddenReason = categoryDroppedCount > 0 ? "no_category" : "cap";
+      if (!children.length) {
+        midRow = rowCursor;
+        rowCursor += 1;
+      } else {
+        const childMids = [];
+        children.forEach((child, i) => {
+          // A trunk-grouped child (see applyTrunkGrouping) overrides the
+          // otherwise-uniform childKind for this one item; everything else
+          // in the list still uses childKind as before.
+          const kindForChild = child._treeKind || childKind;
+          const childPath = `${path}::${kindForChild === "leaf" ? i : child.id}`;
+          linkPairs.push({ parentPath: path, childPath, color });
+          const mid = visit(kindForChild, child, depth + 1, color, childPath, rootIdForNode, subIdForNode);
+          childMids.push(mid);
+        });
+        if (hiddenCount > 0) {
+          truncatedNote = { row: rowCursor, count: hiddenCount, reason: hiddenReason };
+          rowCursor += 1;
+        }
+        // True average of ALL children (not just first/last) — keeps the
+        // parent near the actual "center of mass" of its children instead
+        // of producing a long, exaggerated S-curve when one child is heavily
+        // expanded (many rows) while its siblings sit collapsed nearby.
+        midRow = childMids.reduce((sum, m) => sum + m, 0) / childMids.length;
+      }
+    }
+    const x = depth * colW;
+    const y = midRow * rowH;
+    const label = formatDisplayLabel(node.label);
+    nodes.push({
+      kind,
+      path,
+      depth,
+      x,
+      y,
+      color,
+      label,
+      isMatch,
+      isTall,
+      hasChildren: !isLeaf,
+      expanded,
+      leafCount:
+        kind === "root" || kind === "sub" || kind === "group" || kind === "supergroup" || kind === "trunk"
+          ? node.leaf_count
+          : null,
+      leaf: isLeaf ? node : null,
+      rootId: rootIdForNode,
+      subId: subIdForNode,
+    });
+    if (truncatedNote) {
+      const noteLabel =
+        truncatedNote.reason === "no_category"
+          ? `${truncatedNote.count} without a clear category — hidden here, use search`
+          : `+${truncatedNote.count} more — use search`;
+      nodes.push({
+        kind: "more",
+        path: `${path}::more`,
+        depth: depth + 1,
+        x: (depth + 1) * colW,
+        y: truncatedNote.row * rowH,
+        color,
+        label: noteLabel,
+        hasChildren: false,
+      });
+      links.push({
+        x1: x,
+        y1: y,
+        x2: (depth + 1) * colW,
+        y2: truncatedNote.row * rowH,
+        color,
+      });
+    }
+    return midRow;
+  }
+
+  const rootMids = [];
+  const rootColors = [];
+  for (const root of roots) {
+    const color = oncotreeDotColor(root.id, root.label);
+    rootColors.push(color);
+    rootMids.push(visit("root", root, 1, color, root.id));
+  }
+  if (rootMids.length) {
+    const superMidRow = rootMids.reduce((sum, m) => sum + m, 0) / rootMids.length;
+    const superY = superMidRow * rowH;
+    nodes.push({
+      kind: "super",
+      path: "__all__",
+      depth: 0,
+      x: 0,
+      y: superY,
+      color: "#4a4a4a",
+      label: "All Diagnoses",
+      hasChildren: false,
+    });
+    roots.forEach((root, i) => {
+      linkPairs.push({ parentPath: "__all__", childPath: root.id, color: rootColors[i] });
+    });
+  }
+
+  // Every node's final (x,y) is now known (including the synthetic
+  // "All Diagnoses" super-root pushed just above) — resolve the recorded
+  // parent->child path pairs into actual drawable link coordinates. Missing
+  // endpoints (shouldn't happen, but a layout bug here should never crash
+  // the whole tree) are silently skipped.
+  const pathToNode = new Map();
+  for (const n of nodes) pathToNode.set(n.path, n);
+  for (const pair of linkPairs) {
+    const from = pathToNode.get(pair.parentPath);
+    const to = pathToNode.get(pair.childPath);
+    if (!from || !to) continue;
+    links.push({ x1: from.x, y1: from.y, x2: to.x, y2: to.y, color: pair.color });
+  }
+  return { nodes, links, totalRows: rowCursor, rowH, colW };
+}
+
+function renderOncotreeHtml(roots, options = {}) {
+  const { nodes, links, totalRows, rowH, colW } = buildOncotreeLayout(roots, options);
+  const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
+  const width = (maxDepth + 1) * colW + 40;
+  const height = Math.max(totalRows * rowH + 24, 200);
+  const dotSize = Math.max(8, Math.round(10 * oncotreeZoom()));
+
+  let svg = `<svg class="oncotree-links" width="${width}" height="${height}" aria-hidden="true">`;
+  for (const link of links) {
+    const midX = (link.x1 + link.x2) / 2;
+    const off = dotSize / 2 + 4;
+    svg += `<path d="M ${link.x1 + off} ${link.y1 + off} C ${midX} ${link.y1 + off}, ${midX} ${link.y2 + off}, ${link.x2 + off} ${link.y2 + off}" stroke="${link.color}" stroke-opacity="0.45" fill="none" stroke-width="1.5" />`;
+  }
+  svg += "</svg>";
+
+  let nodesHtml = "";
+  for (const n of nodes) {
+    const top = n.y;
+    const left = n.x;
+    if (n.kind === "more") {
+      nodesHtml += `<div class="oncotree-node oncotree-more" style="top:${top}px;left:${left}px;">${escapeHtml(n.label)}</div>`;
+      continue;
+    }
+    if (n.kind === "super") {
+      nodesHtml += `<div class="oncotree-node oncotree-super" style="top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;"><span class="oncotree-dot" style="width:${dotSize}px;height:${dotSize}px;background:${n.color};border-color:${n.color};"></span><span class="oncotree-label">${escapeHtml(n.label)}</span></div>`;
+      continue;
+    }
+    const dotClass = n.hasChildren ? "oncotree-dot oncotree-dot-branch" : "oncotree-dot";
+    const caret = n.hasChildren ? `<span class="oncotree-caret">${n.expanded ? "\u25be" : "\u25b8"}</span>` : "";
+    const countBadge =
+      n.kind !== "leaf" && n.leafCount != null ? `<span class="oncotree-count">${n.leafCount}</span>` : "";
+    const payload = escapeAttr(
+      JSON.stringify({
+        kind: n.kind,
+        path: n.path,
+        rootId: n.rootId,
+        subId: n.subId,
+        leaf: n.leaf
+          ? { tag: n.leaf.tag, label: n.leaf.label, query: n.leaf.query, provenance: n.leaf.provenance || null }
+          : null,
+      }),
+    );
+    const classes = ["oncotree-node"];
+    if (n.kind === "leaf") classes.push("oncotree-leaf");
+    if (n.kind === "group") classes.push("oncotree-group");
+    if (n.kind === "supergroup") classes.push("oncotree-supergroup");
+    if (n.kind === "trunk") classes.push("oncotree-trunk");
+    if (n.isMatch) classes.push("oncotree-match");
+    if (n.isTall) classes.push("oncotree-tall");
+    // Leaves get a small sibling VS button next to the label button — a
+    // button can't nest inside another button (invalid HTML, and clicks
+    // would double-fire), so wrap both in a plain positioned div instead.
+    const isLeafNode = n.kind === "leaf";
+    // A tall (long-label) leaf wraps onto a 2nd line within the same
+    // column width instead of truncating — needs 2 rows' worth of height
+    // (see ONCOTREE_TALL_LABEL_CHARS).
+    const wrapStyle = n.isTall
+      ? `top:${top}px;left:${left}px;height:${2 * rowH}px;`
+      : `top:${top}px;left:${left}px;`;
+    const wrapClass = n.isTall ? "oncotree-node-wrap oncotree-node-wrap-tall" : "oncotree-node-wrap";
+    const wrapOpen = isLeafNode ? `<div class="${wrapClass}" style="${wrapStyle}">` : "";
+    const wrapClose = isLeafNode ? "</div>" : "";
+    const btnStyle = isLeafNode
+      ? `font-size:${13 * oncotreeZoom()}px;`
+      : `top:${top}px;left:${left}px;font-size:${13 * oncotreeZoom()}px;`;
+    nodesHtml += wrapOpen;
+    nodesHtml += `<button type="button" class="${classes.join(" ")}" style="${btnStyle}" data-node="${payload}" title="${escapeAttr(n.label)}">`;
+    nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
+    nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}</span>${countBadge}${caret}`;
+    nodesHtml += "</button>";
+    if (isLeafNode) {
+      const compareEntity = comparePayloadFromLeaf(n.rootId, n.subId, n.leaf);
+      nodesHtml += renderVsButton(compareEntity, " oncotree-vs-btn");
+    }
+    nodesHtml += wrapClose;
+  }
+
+  return `<div class="oncotree-container"><div class="oncotree-canvas" style="width:${width}px;height:${height}px;">${svg}${nodesHtml}</div></div>`;
+}
+
+function oncotreeToolbarHtml() {
+  const zoom = oncotreeZoom();
+  const canZoomOut = browseTreeZoomIdx > 0;
+  const canZoomIn = browseTreeZoomIdx < ONCOTREE_ZOOM_STEPS.length - 1;
+  return `<div class="oncotree-toolbar">
+    <button type="button" class="btn-secondary" id="oncotree-expand-organs" title="Expand every organ root to show its subcategories">Expand organs</button>
+    <button type="button" class="btn-secondary" id="oncotree-collapse-all" title="Collapse everything back to the 17 organ roots">Collapse all</button>
+    <span class="oncotree-zoom-group" role="group" aria-label="Zoom">
+      <button type="button" class="btn-secondary" id="oncotree-zoom-out" ${canZoomOut ? "" : "disabled"} title="Zoom out">\u2212</button>
+      <span class="oncotree-zoom-label">${Math.round(zoom * 100)}%</span>
+      <button type="button" class="btn-secondary" id="oncotree-zoom-in" ${canZoomIn ? "" : "disabled"} title="Zoom in">+</button>
+    </span>
+  </div>`;
+}
+
+function bindOncotreeToolbarHandlers(onRerender) {
+  document.getElementById("oncotree-expand-organs")?.addEventListener("click", () => {
+    for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
+    onRerender();
+  });
+  document.getElementById("oncotree-collapse-all")?.addEventListener("click", () => {
+    browseTreeExpanded.clear();
+    onRerender();
+  });
+  document.getElementById("oncotree-zoom-out")?.addEventListener("click", () => {
+    browseTreeZoomIdx = Math.max(0, browseTreeZoomIdx - 1);
+    onRerender();
+  });
+  document.getElementById("oncotree-zoom-in")?.addEventListener("click", () => {
+    browseTreeZoomIdx = Math.min(ONCOTREE_ZOOM_STEPS.length - 1, browseTreeZoomIdx + 1);
+    onRerender();
+  });
+}
+
+function bindOncotreeHandlers(roots, onRerender) {
+  browseContentEl.querySelectorAll(".oncotree-node[data-node]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const data = JSON.parse(el.dataset.node);
+      if (data.kind === "leaf") {
+        const leaf = data.leaf || {};
+        browseState = {
+          level: "leaf",
+          categoryId: data.rootId,
+          subcategoryId: data.subId,
+          tag: leaf.tag,
+          label: leaf.label,
+          query: leaf.query,
+          provenance: leaf.provenance || null,
+        };
+        renderBrowseView();
+        return;
+      }
+      if (browseTreeExpanded.has(data.path)) {
+        browseTreeExpanded.delete(data.path);
+      } else {
+        browseTreeExpanded.add(data.path);
+      }
+      onRerender();
+    });
+  });
+}
+
+/** Small (?) affordance that opens the "How to use Browse" modal instead of
+ * permanently-visible instructional paragraphs cluttering the tree. */
+function infoButtonHtml() {
+  return `<button type="button" id="browse-info-btn" class="oncotree-info-btn" title="How to use Browse" aria-label="How to use Browse">?</button>`;
+}
+
+function bindInfoButtonHandler() {
+  document.getElementById("browse-info-btn")?.addEventListener("click", () => {
+    infoModal?.classList.remove("hidden");
+  });
 }
 
 function browseSearchBarHtml(placeholder, value = "") {
@@ -611,12 +1445,13 @@ async function loadBrowseIndex() {
     }
     const rules = data.dedupe_rules || {};
     const navSources = Array.isArray(rules.nav_sources) ? rules.nav_sources : [];
-    if (
-      !navSources.includes("abpath")
-      || !navSources.includes("who")
-      || rules.pathout_nav !== false
-    ) {
-      throw new Error("Browse index nav_sources are not WHO + ABPath only");
+    const hasAbpathNav =
+      navSources.includes("abpath_content_spec") || navSources.includes("abpath");
+    if (!hasAbpathNav || !navSources.includes("who") || rules.pathout_nav !== false) {
+      throw new Error("Browse index default nav_sources are not WHO + ABPath content-spec only");
+    }
+    if (rules.bloated_abpath_ontology_excluded === false) {
+      throw new Error("Browse index still claims bloated ABPath ontology nav");
     }
     browseIndex = data;
     const compact = compactBrowseRoots(browseIndex.roots);
@@ -632,7 +1467,7 @@ async function loadBrowseIndex() {
     };
     browseIndex.dedupe_rules = {
       ...(browseIndex.dedupe_rules || {}),
-      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who",
+      label_dedupe_within_root: "one leaf per root+display_label; prefer abpath > both > who > pathout",
       nav_thinning: {
         abpath_primary: BROWSE_NAV_THINNING.abpath_primary,
         hide_cyto_surgical_dupes: BROWSE_NAV_THINNING.hide_cyto_surgical_dupes,
@@ -670,6 +1505,23 @@ const ENTITY_ABBREVIATION_EXPANSIONS = {
   cll: "chronic lymphocytic leukemia",
 };
 
+/** Subtype adjectives that must be queried explicitly — bare "LCIS" should
+ * resolve to classic lobular carcinoma in situ, not Florid/Pleomorphic.
+ * Trailing "NOS" is handled separately (equivalence, not a penalty). */
+const ENTITY_SUBTYPE_MODIFIERS = new Set([
+  "florid",
+  "pleomorphic",
+  "classic",
+  "atypical",
+  "ebv",
+  "kshv",
+  "hhv8",
+  "primary cutaneous",
+  "leg type",
+  "associated with chronic inflammation",
+  "high grade with myc",
+]);
+
 function normalizeEntityName(name) {
   const base = String(name || "")
     .toLowerCase()
@@ -677,10 +1529,25 @@ function normalizeEntityName(name) {
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  return base
-    .split(" ")
-    .map((token) => ENTITY_ABBREVIATION_EXPANSIONS[token] || token)
-    .join(" ");
+  if (!base) return "";
+  const tokens = base.split(" ").filter(Boolean);
+  const tokenSet = new Set(tokens);
+  // Expand abbrev tokens only when the expanded words are not already present.
+  // Otherwise "Lobular Carcinoma In Situ LCIS" becomes the phrase twice and
+  // loses the exact match against query "LCIS" → "lobular carcinoma in situ",
+  // letting subtype leaves like Florid LCIS win on substring score.
+  const expanded = [];
+  for (const token of tokens) {
+    const phrase = ENTITY_ABBREVIATION_EXPANSIONS[token];
+    if (!phrase) {
+      expanded.push(token);
+      continue;
+    }
+    const words = phrase.split(" ").filter(Boolean);
+    if (words.every((w) => tokenSet.has(w))) continue;
+    expanded.push(...words);
+  }
+  return expanded.join(" ").replace(/\s+/g, " ").trim();
 }
 
 /** Built from the thinned full index when available (curated fallback until
@@ -689,7 +1556,7 @@ function normalizeEntityName(name) {
  * index finishes loading. */
 function buildLeafIndex() {
   const list = [];
-  const roots = getBrowseNavRootsFull() || getBrowseRoots();
+  const roots = activeBrowseRoots();
   for (const root of roots) {
     for (const sub of root.subcategories) {
       for (const leaf of sub.leaves) {
@@ -794,13 +1661,26 @@ function scoreLeafForPageContext(leaf, pageContext) {
   return score;
 }
 
-function pickBestLeaf(candidates, pageContext) {
+function leafHasUnrequestedSubtype(leaf, queryNorm) {
+  const leafTokens = new Set(String(leaf?.normalized || "").split(" ").filter(Boolean));
+  const queryTokens = new Set(String(queryNorm || "").split(" ").filter(Boolean));
+  for (const mod of ENTITY_SUBTYPE_MODIFIERS) {
+    if (leafTokens.has(mod) && !queryTokens.has(mod)) return true;
+  }
+  return false;
+}
+
+function pickBestLeaf(candidates, pageContext, queryNorm = "") {
   if (!candidates?.length) return null;
-  let best = candidates[0];
-  let bestScore = scoreLeafForPageContext(best, pageContext);
-  for (let i = 1; i < candidates.length; i += 1) {
-    const leaf = candidates[i];
-    const score = scoreLeafForPageContext(leaf, pageContext);
+  let best = null;
+  let bestScore = -Infinity;
+  for (const leaf of candidates) {
+    let score = scoreLeafForPageContext(leaf, pageContext);
+    // Prefer classic entity over Florid/Pleomorphic when the user didn't ask
+    // for that subtype (bare "LCIS" / "what is LCIS").
+    if (leafHasUnrequestedSubtype(leaf, queryNorm)) score -= 50;
+    // Prefer shorter/more exact labels when scores tie.
+    score -= Math.min(String(leaf.normalized || "").length, 80) / 1000;
     if (score > bestScore) {
       best = leaf;
       bestScore = score;
@@ -850,13 +1730,22 @@ function findTaxonomyMatch(rawName, pageContext = null) {
   }
 
   if (exactMatches.length) {
-    return leafRefFrom(pickBestLeaf(exactMatches, ctx));
+    return leafRefFrom(pickBestLeaf(exactMatches, ctx, norm));
   }
 
   if (fuzzyByScore.size) {
-    const topScore = Math.max(...fuzzyByScore.keys());
-    if (topScore >= 0.5) {
-      return leafRefFrom(pickBestLeaf(fuzzyByScore.get(topScore), ctx));
+    // Re-rank all fuzzy hits with subtype penalty so bare "LCIS" does not
+    // prefer Florid/Pleomorphic just because those labels contain the phrase.
+    const allFuzzy = [];
+    for (const leaves of fuzzyByScore.values()) allFuzzy.push(...leaves);
+    const ranked = pickBestLeaf(allFuzzy, ctx, norm);
+    if (ranked) {
+      const rawScore =
+        [...fuzzyByScore.entries()].find(([, leaves]) => leaves.includes(ranked))?.[0] || 0;
+      const adj = leafHasUnrequestedSubtype(ranked, norm) ? rawScore - 0.3 : rawScore;
+      if (adj >= 0.5 || ranked.normalized === norm) {
+        return leafRefFrom(ranked);
+      }
     }
   }
   return null;
@@ -866,16 +1755,45 @@ const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
 const sendBtn = document.getElementById("send-btn");
-const modeSelect = document.getElementById("mode-select");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
 const debugToggle = document.getElementById("debug-toggle");
+const modelSelect = document.getElementById("model-select");
+const SYNTHESIS_MODEL_KEY = "ph_synthesis_model_v0_1";
+
+function selectedSynthesisModel() {
+  return modelSelect?.value || null;
+}
+
+(function restoreSynthesisModelSelection() {
+  if (!modelSelect) return;
+  try {
+    const stored = localStorage.getItem(SYNTHESIS_MODEL_KEY);
+    if (stored && [...modelSelect.options].some((o) => o.value === stored)) {
+      modelSelect.value = stored;
+    }
+  } catch (_err) {
+    // ignore private-mode/quota failures — falls back to the default option
+  }
+  modelSelect.addEventListener("change", () => {
+    try {
+      localStorage.setItem(SYNTHESIS_MODEL_KEY, modelSelect.value);
+    } catch (_err) {
+      // ignore
+    }
+  });
+})();
 const healthStatus = document.getElementById("health-status");
 const sourceCheckboxes = document.getElementById("source-checkboxes");
-const sessionNotes = document.getElementById("session-notes");
-const copyNotesBtn = document.getElementById("copy-notes-btn");
-const exportNotesBtn = document.getElementById("export-notes-btn");
-const notesStatus = document.getElementById("notes-status");
+const exportPageBtn = document.getElementById("export-page-btn");
+const exportStatus = document.getElementById("export-status");
+const exportInfoBtn = document.getElementById("export-info-btn");
+const exportInfoModal = document.getElementById("export-info-modal");
+const citeHoverCard = document.getElementById("cite-hover-card");
+const citeHoverImg = document.getElementById("cite-hover-img");
+const citeHoverTitleEl = document.getElementById("cite-hover-title");
+const citeHoverMetaEl = document.getElementById("cite-hover-meta");
+const citeHoverExcerptEl = document.getElementById("cite-hover-excerpt");
 const mediaModal = document.getElementById("media-modal");
 const mediaModalImg = document.getElementById("media-modal-img");
 const mediaModalCaption = document.getElementById("media-modal-caption");
@@ -894,6 +1812,8 @@ const flagModal = document.getElementById("flag-modal");
 const flagCommentEl = document.getElementById("flag-comment");
 const flagSendBtn = document.getElementById("flag-send-btn");
 const flagStatusEl = document.getElementById("flag-status");
+const infoModal = document.getElementById("info-modal");
+const homeBtn = document.getElementById("home-btn");
 
 /** Active lightbox gallery — ordered preview payloads + current index (C10). */
 let currentGallery = { items: [], index: 0 };
@@ -908,7 +1828,6 @@ const browseBreadcrumbsEl = document.getElementById("browse-breadcrumbs");
 const browseContentEl = document.getElementById("browse-content");
 
 let supportedSources = [];
-let notesSaveTimer = null;
 let browseState = { level: "home" };
 let browseRequestSeq = 0;
 
@@ -916,15 +1835,26 @@ function sourceLabel(source) {
   return SOURCE_LABELS[source] || source;
 }
 
-/** Strip the organ-root prefix from textbook source_id (e.g. hn_gnepp → Gnepp). */
+/** Strip the organ-root prefix from textbook source_id (e.g. hn_gnepp → Gnepp,
+ * breast_atlas → Atlas). Prefer short book aliases over generic "Textbook(s)". */
 function textbookLabel(sourceId) {
   if (!sourceId) return "Textbook";
-  const parts = String(sourceId).split("_");
-  if (parts.length < 2) return formatDisplayLabel(sourceId);
+  const parts = String(sourceId).split("_").filter(Boolean);
+  if (parts.length < 2) {
+    const one = String(sourceId).toLowerCase();
+    if (TEXTBOOK_ALIASES[one]) return TEXTBOOK_ALIASES[one];
+    if (one.includes("atlas")) return "Atlas";
+    return formatDisplayLabel(sourceId);
+  }
   parts.shift();
-  const bookKey = parts.join("_");
-  const alias = TEXTBOOK_ALIASES[bookKey.toLowerCase()];
-  if (alias) return alias;
+  const bookKey = parts.join("_").toLowerCase();
+  if (TEXTBOOK_ALIASES[bookKey]) return TEXTBOOK_ALIASES[bookKey];
+  // Token fallback: breast_diagnostic_atlas → Atlas, hn_gnepp_5e → Gnepp.
+  for (const token of bookKey.split("_")) {
+    if (TEXTBOOK_ALIASES[token]) return TEXTBOOK_ALIASES[token];
+  }
+  if (bookKey.includes("atlas")) return "Atlas";
+  if (bookKey.includes("gnepp")) return "Gnepp";
   return formatDisplayLabel(bookKey);
 }
 
@@ -1073,19 +2003,38 @@ function filterVideoCardsByRelevance(query, cards, { maxShown = 6 } = {}) {
   const conflicts = scored.filter((row) => row.score < 0);
   const irrelevant = scored.filter((row) => row.score === 0);
   if (relevant.length) {
-    const shown = dedupeVideoCards(relevant.slice(0, maxShown).map((row) => row.item));
-    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
+    // Collapse to one best segment per distinct LECTURE (not per raw chunk)
+    // before applying `maxShown`, so e.g. 5 timestamped segments of the same
+    // lecture never eat up the display cap as if they were 5 different
+    // lectures — see bestVideoCardPerLecture for identity/tiebreak rules.
+    const collapsed = bestVideoCardPerLecture(relevant);
+    const shown = collapsed.slice(0, maxShown);
+    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, collapsed.length - maxShown);
     const note =
       hiddenCount > 0
         ? `${hiddenCount} off-topic lecture segment${hiddenCount === 1 ? "" : "s"} hidden for this query.`
         : "";
     return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
   }
-  if (conflicts.length) {
+  if (conflicts.length && conflicts.length === videos.length) {
     return {
       shown: [],
       hidden: videos,
       note: `${conflicts.length} lecture segment${conflicts.length === 1 ? "" : "s"} matched the wrong topic.`,
+    };
+  }
+  // Nothing named the exact entity verbatim (common for narrow/rare
+  // diagnoses — transcripts rarely say a specific rare-tumor name in full),
+  // but at least one segment isn't flagged as wrong-topic — showing the
+  // closest topic-area lecture segments is more useful to a resident than
+  // an empty section with a phantom "Videos: N" badge above it (reported
+  // 2026-08-01: BPOP page showed "Videos 8" but zero links anywhere).
+  if (irrelevant.length) {
+    const shown = irrelevant.slice(0, maxShown).map((row) => row.item);
+    return {
+      shown,
+      hidden: conflicts.map((row) => row.item),
+      note: "No lecture segment names this exact entity verbatim — showing the closest topic-area lecture segments instead.",
     };
   }
   return { shown: [], hidden: videos, note: "No lecture segments matched this topic closely." };
@@ -1104,12 +2053,22 @@ function filterByQueryRelevance(query, items, { maxShown = 8 } = {}) {
 
   if (relevant.length) {
     const shown = relevant.slice(0, maxShown).map((row) => row.item);
-    const hiddenCount = conflicts.length + irrelevant.length + Math.max(0, relevant.length - maxShown);
-    const note =
-      hiddenCount > 0
-        ? `${hiddenCount} off-topic hit${hiddenCount === 1 ? "" : "s"} hidden for this query.`
-        : "";
-    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note };
+    // Split "actually off-topic" from "relevant but past the display cap" —
+    // lumping both under one "off-topic" note made it look like retrieval
+    // found little of value, when often most of it was on-topic and simply
+    // not rendered.
+    const offTopicCount = conflicts.length + irrelevant.length;
+    const overflowCount = Math.max(0, relevant.length - maxShown);
+    const notes = [];
+    if (offTopicCount > 0) {
+      notes.push(`${offTopicCount} off-topic hit${offTopicCount === 1 ? "" : "s"} hidden for this query.`);
+    }
+    if (overflowCount > 0) {
+      notes.push(
+        `${overflowCount} more relevant result${overflowCount === 1 ? "" : "s"} retrieved but not shown here (display cap).`,
+      );
+    }
+    return { shown, hidden: [...conflicts, ...irrelevant].map((row) => row.item), note: notes.join(" ") };
   }
 
   if (conflicts.length) {
@@ -1215,6 +2174,287 @@ function cardPresentation(card) {
   };
 }
 
+let activeCiteBySource = new Map();
+
+/** URL -> {image, title, meta, excerpt} rich hover-card payload for every
+ * live-literature/DOI citation on the current page (title/journal/year/
+ * excerpt, never an image — see buildLiteratureByUrl()). */
+let activeLiteratureByUrl = new Map();
+
+/** Same shape, for every hub source (WHO/Pathoutlines/textbook/video) —
+ * see buildCiteHoverIndex(). citeHoverPayload()/showCiteHoverCard() below
+ * check both maps together for the actual hover-card UI. */
+let activeCiteHoverByUrl = new Map();
+
+function buildLiteratureByUrl(literatureCards) {
+  const map = new Map();
+  for (const card of literatureCards || []) {
+    if (!card || typeof card !== "object") continue;
+    const title = card.title || "Untitled";
+    const journal = card.journal || card.source_name || "";
+    const year = card.year || "";
+    const mode = card.retrieval_mode || "";
+    const excerpt = (card.excerpt || card.text || "").replace(/\s+/g, " ").trim().slice(0, 320);
+    const doi = String(card.doi || "").trim();
+    const doiUrl = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : "";
+    const entry = {
+      image: null,
+      title,
+      meta: [journal, year, mode].filter(Boolean).join(" \u00b7 "),
+      excerpt: excerpt || null,
+    };
+    for (const url of [pickHttp(card.source_url), pickHttp(card.url), pickHttp(doiUrl)]) {
+      if (url && !map.has(url)) map.set(url, entry);
+    }
+  }
+  return map;
+}
+
+/** Every non-literature evidence card (WHO/Pathoutlines/textbook/video) ->
+ * a rich hover-card payload, keyed by every resolvable URL variant so an
+ * inline citation link's own href finds it directly. Textbook/video cards
+ * that have a real page image or a generated timestamped-frame thumbnail
+ * carry it as `image` — per feedback (2026-08-02), when an image is
+ * available the source name alone is enough context, so `excerpt` is left
+ * null rather than also cramming in extracted page text; pure-text sources
+ * (Pathoutlines, WHO entries with no page scan) fall back to a short
+ * excerpt so hovering still shows something informative. */
+function buildCiteHoverIndex(cards) {
+  const map = new Map();
+  const addUrl = (url, payload) => {
+    if (typeof url === "string" && url.startsWith("http") && !map.has(url)) map.set(url, payload);
+  };
+  for (const card of cards || []) {
+    if (!card || typeof card !== "object") continue;
+    const src = String(card.source || "").toLowerCase();
+    if (src === "literature") continue; // handled by buildLiteratureByUrl above
+    const isVideo = src === "videos" || src === "lectures" || Boolean(card.video_id);
+    const presentation = isVideo ? lectureCardPresentation(card) : cardPresentation(card);
+    const hasImage = Boolean(presentation.previewUrl);
+    const excerpt = cleanCardExcerptForHover(card.excerpt || card.text || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 240);
+    const payload = {
+      image: hasImage ? presentation.previewUrl : null,
+      title: cardTitle(card),
+      meta: [citationSourceLabel(card), isVideo ? formatVideoTimestamp(card) : null].filter(Boolean).join(" \u00b7 "),
+      excerpt: hasImage ? null : excerpt || null,
+    };
+    const urlFields = isVideo
+      ? ["video_time_url", "video_url", "source_url"]
+      : ["source_url", "source_page_url", "source_pdf_url", "page_image_url", "figure_url", "image_url"];
+    for (const field of urlFields) addUrl(card[field], payload);
+  }
+  return map;
+}
+
+function citeHoverPayload(url) {
+  return activeCiteHoverByUrl.get(url) || activeLiteratureByUrl.get(url) || null;
+}
+
+/** Many hub-source chunks (Pathoutlines especially) carry a retrieval
+ * metadata preamble ahead of their actual content — "Source: Pathology
+ * Outlines Subject: ... Title: ... Header: ... URL: ... Primary tag:
+ * X::Y::Z Clean text: <actual content>" — useful for retrieval, not for a
+ * human-facing hover card. Strip it so the excerpt starts at real prose. */
+function cleanCardExcerptForHover(text) {
+  let s = String(text || "");
+  s = s.replace(/^Source:.*?Primary tag:\s*\S+\s*/i, "");
+  s = s.replace(/^(Clean text|Top headings):\s*/i, "");
+  return s.trim();
+}
+/** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
+let activeTextbookLabelByUrl = new Map();
+
+function rememberTextbookUrlLabel(url, label) {
+  const u = pickHttp(url);
+  const book = String(label || "").trim();
+  if (!u || !book || /^textbooks?$/i.test(book)) return;
+  if (!activeTextbookLabelByUrl.has(u)) activeTextbookLabelByUrl.set(u, book);
+}
+
+function indexTextbookLabelsFromCards(cards, figures) {
+  activeTextbookLabelByUrl = new Map();
+  for (const card of cards || []) {
+    if (!card || typeof card !== "object") continue;
+    if (String(card.source || "").toLowerCase() !== "textbooks") continue;
+    const book = textbookLabel(card.source_id);
+    for (const field of [
+      "source_url",
+      "source_page_url",
+      "source_pdf_url",
+      "figure_url",
+      "page_image_url",
+      "image_url",
+    ]) {
+      rememberTextbookUrlLabel(card[field], book);
+    }
+    for (const fig of card.figures || []) {
+      if (!fig || typeof fig !== "object") continue;
+      rememberTextbookUrlLabel(fig.figure_url || fig.image_url || fig.url, book);
+      rememberTextbookUrlLabel(fig.source_url || fig.source_page_url, book);
+    }
+  }
+  for (const fig of figures || []) {
+    if (!fig || typeof fig !== "object") continue;
+    const src = String(fig.source || fig.source_kind || "").toLowerCase();
+    const sid = String(fig.source_id || "");
+    if (src !== "textbooks" && !sid) continue;
+    if (src && src !== "textbooks" && src !== "inline_markdown") continue;
+    if (!sid) continue;
+    const book = textbookLabel(sid);
+    rememberTextbookUrlLabel(fig.figure_url || fig.image_url || fig.url, book);
+    rememberTextbookUrlLabel(fig.source_url || fig.source_page_url, book);
+  }
+}
+
+/** Resolve Atlas/Gnepp/… from a cite URL when the model said generic Textbooks. */
+function textbookLabelFromUrl(url) {
+  const u = pickHttp(url);
+  if (!u) return "";
+  if (activeTextbookLabelByUrl.has(u)) return activeTextbookLabelByUrl.get(u);
+  const lower = u.toLowerCase();
+  if (lower.includes("atlas")) return "Atlas";
+  if (lower.includes("gnepp")) return "Gnepp";
+  if (lower.includes("cardesa")) return "Cardesa";
+  if (lower.includes("vasef")) return "Vasef";
+  if (lower.includes("biopsy")) return "Biopsy";
+  return "";
+}
+
+function buildCiteBySource(cards, literatureCards) {
+  const map = new Map();
+  const setFirst = (key, url) => {
+    if (!key || !url || map.has(key)) return;
+    map.set(key, url);
+  };
+  const consider = (card) => {
+    if (!card || typeof card !== "object") return;
+    const src = String(card.source || "").toLowerCase();
+    const doi = String(card.doi || "").trim();
+    const doiUrl = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : "";
+    const url =
+      pickHttp(card.source_url) ||
+      pickHttp(card.source_page_url) ||
+      pickHttp(doiUrl) ||
+      pickHttp(card.video_time_url);
+    if (!url) return;
+    if (src === "who" || /who/i.test(String(card.source_name || ""))) setFirst("who", url);
+    if (src === "pathout") setFirst("pathout", url);
+    if (src === "textbooks") {
+      setFirst("textbooks", url);
+      const book = textbookLabel(card.source_id);
+      if (book && !/^textbooks?$/i.test(book)) setFirst(book.toLowerCase(), url);
+    }
+    if (src === "videos") setFirst("videos", url);
+    if (src === "lectures") setFirst("lectures", url);
+    if (src === "literature" || doiUrl || /doi\.org/i.test(url)) setFirst("doi", url);
+  };
+  for (const card of cards || []) consider(card);
+  for (const card of literatureCards || []) consider(card);
+  return map;
+}
+
+function isDoiOrJournalUrl(url) {
+  const u = String(url || "").toLowerCase();
+  return (
+    u.includes("doi.org") ||
+    u.includes("pubmed.ncbi.nlm.nih.gov") ||
+    u.includes("ncbi.nlm.nih.gov/pubmed") ||
+    u.includes("ncbi.nlm.nih.gov/pmc") ||
+    /\/doi\//.test(u)
+  );
+}
+
+function citeDisplayLabel(label, url) {
+  const raw = String(label || "").trim().replace(/^\(+|\)+$/g, "");
+  const normalized = normalizeInlineLinkLabel(raw);
+  // Generic "Textbooks" → specific book when the URL maps to breast_atlas etc.
+  if (/^textbooks?$/i.test(normalized)) {
+    return textbookLabelFromUrl(url) || "Textbook";
+  }
+  // Keep hub / book badges as-is (Atlas preferred over Breast Atlas).
+  if (/^(WHO|Pathoutlines|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ)$/i.test(normalized)) {
+    return normalized;
+  }
+  if (/^breast\s*atlas$/i.test(normalized)) return "Atlas";
+  if (isDoiOrJournalUrl(url)) return "DOI";
+  // Publisher / paper titles ("Virchows Archiv review", "fibroepithelial tumor review").
+  if (/\b(review|archiv|virchow|modern\s*pathol|histopathol|journal|pubmed|doi)\b/i.test(raw)) {
+    return "DOI";
+  }
+  if (
+    cardSourceFromUrl(url) === "literature" ||
+    String(url || "").includes("elsevier") ||
+    String(url || "").includes("springer")
+  ) {
+    return "DOI";
+  }
+  // Textbook URL with a long model label → prefer short book name.
+  const fromUrl = textbookLabelFromUrl(url);
+  if (fromUrl && /textbook|atlas|gnepp|biopsy|cardesa|vasef/i.test(normalized)) {
+    return fromUrl;
+  }
+  return normalized;
+}
+
+function cardSourceFromUrl(url) {
+  const u = String(url || "").toLowerCase();
+  if (!u) return "";
+  if (u.includes("who") && u.includes("storage.googleapis.com")) return "who";
+  if (u.includes("pathologyoutlines") || u.includes("pathout")) return "pathout";
+  if (isDoiOrJournalUrl(u)) return "literature";
+  return "";
+}
+
+/** Collapse ((WHO)) / (((Textbooks))) → (WHO) / (Textbooks) before linkify. */
+function normalizeSourceParenLayers(text) {
+  let s = String(text || "");
+  s = s.replace(
+    /\(+(\s*(?:WHO(?:\s+Blue\s+Books?)?|Pathoutlines?|PathOut(?:lines)?|Textbooks?|Textbook|Lectures?|Videos?|DOI|Atlas|Gnepp|Cardesa|Vasef|Biopsy)\s*)\)+/gi,
+    "($1)",
+  );
+  // (([WHO](url))) → ([WHO](url)) — later unwrapped to [WHO](url).
+  s = s.replace(/\(+(\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*)\)+/g, "($1)");
+  return s;
+}
+
+/** Turn bare (WHO)/(Pathoutlines)/(Atlas) into markdown links when we have a URL. */
+function linkifyBareSourceParens(text) {
+  let s = normalizeSourceParenLayers(text);
+  const rules = [
+    { re: /\(+WHO(?:\s+Blue\s+Books?)?\)+/gi, key: "who", label: "WHO" },
+    { re: /\(+Pathoutlines?\)+/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(+PathOut(?:lines)?\)+/gi, key: "pathout", label: "Pathoutlines" },
+    { re: /\(+Textbooks?\)+/gi, key: "textbooks", label: "Textbook" },
+    { re: /\(+Atlas\)+/gi, key: "atlas", label: "Atlas" },
+    { re: /\(+Gnepp\)+/gi, key: "gnepp", label: "Gnepp" },
+    { re: /\(+Biopsy\)+/gi, key: "biopsy", label: "Biopsy" },
+    { re: /\(+Lectures?\)+/gi, key: "lectures", label: "Lectures" },
+    { re: /\(+Videos?\)+/gi, key: "videos", label: "Videos" },
+  ];
+  for (const rule of rules) {
+    let url = activeCiteBySource.get(rule.key);
+    if (!url && rule.key === "atlas") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "gnepp") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "biopsy") url = activeCiteBySource.get("textbooks");
+    if (!url && rule.key === "textbooks") {
+      // Prefer a concrete book URL when rewriting generic (Textbook).
+      url =
+        activeCiteBySource.get("atlas") ||
+        activeCiteBySource.get("gnepp") ||
+        activeCiteBySource.get("biopsy") ||
+        activeCiteBySource.get("textbooks");
+    }
+    if (!url) continue;
+    const label =
+      rule.key === "textbooks" ? textbookLabelFromUrl(url) || rule.label : rule.label;
+    s = s.replace(rule.re, `[${label}](${url})`);
+  }
+  return s;
+}
+
 function normalizeAnswerText(text) {
   return String(text || "")
     .replace(/<br\s*\/?>/gi, "\n")
@@ -1308,17 +2548,70 @@ function stripTrailingLinkDump(text) {
   return blocks.join("\n\n");
 }
 
+function isMarkdownImageOnlyLine(line) {
+  return /^\s*!\[[^\]]*\]\(https?:[^)\s]+\)\s*$/.test(line || "");
+}
+
+function isMarkdownImageOnlyBlock(block) {
+  const lines = String(block || "")
+    .split("\n")
+    .filter((line) => line.trim());
+  return lines.length > 0 && lines.every(isMarkdownImageOnlyLine);
+}
+
+function renderImageRowFromBlock(block, previewIndex) {
+  const imgs = String(block || "")
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => {
+      const match = line.trim().match(/^!\[([^\]]*)\]\((https?:[^)\s]+)\)/);
+      return match ? renderInlineImage(match[1], match[2], previewIndex) : "";
+    })
+    .join("");
+  return `<div class="inline-figure-row">${imgs}</div>`;
+}
+
 function renderMarkdown(text, previewIndex) {
   const normalized = stripTrailingLinkDump(normalizeAnswerText(unwrapFencedMarkdownBlocks(text)));
   if (!normalized.trim()) return "";
 
   const blocks = normalized.split(/\n{2,}/);
-  const htmlBlocks = blocks.map((block) => {
+  const htmlBlocks = [];
+  let imageBuffer = [];
+
+  const flushImages = () => {
+    if (!imageBuffer.length) return;
+    htmlBlocks.push(renderImageRowFromBlock(imageBuffer.join("\n"), previewIndex));
+    imageBuffer = [];
+  };
+
+  for (const block of blocks) {
     const trimmed = block.replace(/^\n+|\n+$/g, "");
-    if (!trimmed.trim()) return "";
+    if (!trimmed.trim()) continue;
+
+    // Coalesce consecutive image-only blocks (common model output with blank
+    // lines between figures) into one horizontal row instead of a column of <p>s.
+    if (isMarkdownImageOnlyBlock(trimmed)) {
+      imageBuffer.push(
+        ...trimmed
+          .split("\n")
+          .filter((line) => line.trim()),
+      );
+      continue;
+    }
+    flushImages();
 
     if (isMarkdownTable(trimmed)) {
-      return renderMarkdownTable(trimmed);
+      htmlBlocks.push(renderMarkdownTable(trimmed));
+      continue;
+    }
+
+    // Models often wrap each table row in a markdown bullet ("- | a | b |").
+    // Detect that before the generic list renderer turns pipes into <li> text.
+    const tableFromBullets = coerceBulletWrappedMarkdownTable(trimmed);
+    if (tableFromBullets) {
+      htmlBlocks.push(renderMarkdownTable(tableFromBullets));
+      continue;
     }
 
     const lines = trimmed.split("\n");
@@ -1332,29 +2625,81 @@ function renderMarkdown(text, previewIndex) {
       const headingContent = lines[0].replace(/^#{1,3}\s+/, "");
       const headingHtml = `<${tag} class="answer-heading">${inlineMarkdown(headingContent, previewIndex)}</${tag}>`;
       const restLines = lines.slice(1).filter((line) => line.trim());
-      if (!restLines.length) return headingHtml;
-      if (restLines.every((line) => /^\s*[-*]\s+/.test(line))) {
-        return headingHtml + renderNestedList(restLines, previewIndex);
+      if (!restLines.length) {
+        htmlBlocks.push(headingHtml);
+        continue;
       }
-      return (
+      if (restLines.every(isMarkdownImageOnlyLine)) {
+        htmlBlocks.push(headingHtml + renderImageRowFromBlock(restLines.join("\n"), previewIndex));
+        continue;
+      }
+      if (restLines.every((line) => /^\s*[-*]\s+/.test(line))) {
+        htmlBlocks.push(headingHtml + renderNestedList(restLines, previewIndex));
+        continue;
+      }
+      htmlBlocks.push(
         headingHtml +
-        restLines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("")
+          restLines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join(""),
       );
+      continue;
     }
 
     const isList = lines.every((line) => /^\s*[-*]\s+/.test(line) || line.trim() === "");
     if (isList && lines.some((line) => /^\s*[-*]\s+/.test(line))) {
-      return renderNestedList(lines.filter((line) => line.trim()), previewIndex);
+      htmlBlocks.push(renderNestedList(lines.filter((line) => line.trim()), previewIndex));
+      continue;
     }
 
     if (lines.length > 1 && lines.every((line) => line.trim())) {
-      return lines.map((line) => `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`).join("");
+      // Mixed block: keep prose as paragraphs, but group consecutive image-only
+      // lines into a horizontal row.
+      let chunk = "";
+      const imgChunk = [];
+      const flushImgChunk = () => {
+        if (!imgChunk.length) return;
+        chunk += renderImageRowFromBlock(imgChunk.join("\n"), previewIndex);
+        imgChunk.length = 0;
+      };
+      for (const line of lines) {
+        if (isMarkdownImageOnlyLine(line)) {
+          imgChunk.push(line);
+        } else {
+          flushImgChunk();
+          chunk += `<p class="answer-line">${inlineMarkdown(line, previewIndex)}</p>`;
+        }
+      }
+      flushImgChunk();
+      htmlBlocks.push(chunk);
+      continue;
     }
 
-    return `<p class="answer-line">${inlineMarkdown(trimmed, previewIndex)}</p>`;
-  });
+    htmlBlocks.push(`<p class="answer-line">${inlineMarkdown(trimmed, previewIndex)}</p>`);
+  }
+  flushImages();
 
-  return `<div class="answer-md">${htmlBlocks.join("")}</div>`;
+  return `<div class="answer-md">${groupAdjacentFigureButtons(htmlBlocks.join(""))}</div>`;
+}
+
+/** Wrap runs of figure-only paragraphs / bare figure buttons into a horizontal
+ * `.inline-figure-row`. Catches model output that puts each `![...](url)` in its
+ * own blank-line block (rendered as `<p class="answer-line">`) — the common case
+ * that still looked like a vertical column. */
+function groupAdjacentFigureButtons(html) {
+  if (!html || !html.includes("inline-figure-btn")) return html;
+  const figureOnlyP =
+    /(?:<p class="answer-line">\s*)?(<button\b[^>]*class="[^"]*\binline-figure-btn\b[^"]*"[^>]*>[\s\S]*?<\/button>)\s*(?:<\/p>)?/g;
+  // Collapse consecutive figure-only units into one row.
+  return html.replace(
+    /(?:(?:<p class="answer-line">\s*)?<button\b[^>]*class="[^"]*\binline-figure-btn\b[^"]*"[^>]*>[\s\S]*?<\/button>\s*(?:<\/p>)?\s*){2,}/g,
+    (run) => {
+      const buttons = [];
+      let m;
+      const re = new RegExp(figureOnlyP.source, "g");
+      while ((m = re.exec(run)) !== null) buttons.push(m[1]);
+      if (buttons.length < 2) return run;
+      return `<div class="inline-figure-row">${buttons.join("")}</div>`;
+    },
+  );
 }
 
 /** Indentation-aware bullet list renderer. Every 2 (or 1-4) leading spaces
@@ -1400,11 +2745,78 @@ function renderNestedList(lines, previewIndex) {
 function isMarkdownTable(block) {
   const lines = block.split("\n").filter((line) => line.trim());
   if (lines.length < 2) return false;
-  return lines.every((line) => line.includes("|"));
+  if (!lines.every((line) => line.includes("|"))) return false;
+  // Require a real multi-column shape (avoids "see A | B" prose).
+  return lines.some((line) => line.replace(/^\s*[-*]\s+/, "").split("|").filter((c) => c.trim()).length >= 2);
+}
+
+/** If every non-empty line is a bullet + pipe row, return cleaned table text. */
+function coerceBulletWrappedMarkdownTable(block) {
+  const lines = String(block || "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length < 2) return null;
+  if (!lines.every((line) => /^[-*]\s+/.test(line) && line.includes("|"))) return null;
+  const stripped = lines.map((line) => line.replace(/^\s*[-*]\s+/, "")).join("\n");
+  return isMarkdownTable(stripped) ? stripped : null;
+}
+
+/** Split mixed DDX content into table runs + leftover prose/bullets.
+ * Models often emit "- | a | b |" rows then trailing lecture/DOI links. */
+function splitDdxTablesAndProse(text) {
+  const lines = String(text || "").split("\n");
+  const parts = [];
+  let proseBuf = [];
+  const flushProse = () => {
+    const blob = proseBuf.join("\n").trim();
+    proseBuf = [];
+    if (blob) parts.push({ type: "prose", text: blob });
+  };
+  let i = 0;
+  while (i < lines.length) {
+    const raw = lines[i];
+    const trimmed = raw.trim();
+    if (!trimmed) {
+      proseBuf.push(raw);
+      i += 1;
+      continue;
+    }
+    const stripped = trimmed.replace(/^[-*]\s+/, "");
+    const looksTableRow = stripped.includes("|") && stripped.split("|").filter((c) => c.trim()).length >= 2;
+    if (looksTableRow) {
+      flushProse();
+      const tableLines = [];
+      while (i < lines.length) {
+        const t = lines[i].trim();
+        if (!t) {
+          i += 1;
+          continue;
+        }
+        const s = t.replace(/^[-*]\s+/, "");
+        if (!(s.includes("|") && s.split("|").filter((c) => c.trim()).length >= 2)) break;
+        tableLines.push(s);
+        i += 1;
+      }
+      if (tableLines.length >= 2 && isMarkdownTable(tableLines.join("\n"))) {
+        parts.push({ type: "table", text: tableLines.join("\n") });
+      } else {
+        proseBuf.push(...tableLines.map((l) => `- ${l}`));
+      }
+      continue;
+    }
+    proseBuf.push(raw);
+    i += 1;
+  }
+  flushProse();
+  return parts;
 }
 
 function renderMarkdownTable(block) {
-  const lines = block.split("\n").filter((line) => line.trim() && !/^\|[\s\-:|]+\|$/.test(line.trim()));
+  const lines = block
+    .split("\n")
+    .map((line) => line.replace(/^\s*[-*]\s+/, "").trim())
+    .filter((line) => line && !/^\|?[\s\-:|]+\|?$/.test(line));
   if (!lines.length) return "";
 
   const rows = lines.map((line) =>
@@ -1434,7 +2846,7 @@ function renderMarkdownTable(block) {
 }
 
 function inlineMarkdown(text, previewIndex) {
-  text = stripFigureReferences(text);
+  text = stripFigureReferences(linkifyBareSourceParens(text));
   const tokens = [];
   const stash = (html) => {
     const token = `__MDTOK${tokens.length}__`;
@@ -1447,10 +2859,14 @@ function inlineMarkdown(text, previewIndex) {
     return stash(renderInlineImage(alt, url, previewIndex));
   });
 
+  // Unwrap "([WHO](url))" / "((DOI))" / "(([Atlas](url)))" so we never render ((WHO)).
+  scratch = scratch.replace(/\(+(\s*\[([^\]]+)\]\((https?:[^)\s]+)\)\s*)\)+/g, "[$2]($3)");
+  scratch = scratch.replace(/\(\s*\[([^\]]+)\]\((https?:[^)\s]+)\)\s*\)/g, "[$1]($2)");
+
   // Plain links: [label](url) -> preview-aware link when we recognize the URL,
-  // otherwise a normal external link.
+  // otherwise a normal external link. Journal/DOI targets always show as (DOI).
   scratch = scratch.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (_, label, url) => {
-    return stash(renderInlineLink(normalizeInlineLinkLabel(label), url, previewIndex));
+    return stash(renderInlineLink(citeDisplayLabel(label, url), url, previewIndex));
   });
 
   let html = escapeHtml(scratch);
@@ -1468,12 +2884,24 @@ function inlineMarkdown(text, previewIndex) {
 function renderInlineLink(label, url, previewIndex) {
   const preview = previewIndex?.get(url);
   const safeHref = escapeAttr(url);
-  const safeLabel = escapeHtml(label);
+  // Journal/DOI → "(DOI)". Hub sources stay bare "WHO"/"Textbooks" so surrounding
+  // prose parentheses from the model do not become ((WHO)).
+  const bare = String(label || "").replace(/^\(+|\)+$/g, "");
+  const display = /^DOI$/i.test(bare) ? "(DOI)" : bare;
+  const safeLabel = escapeHtml(display);
+  // Rich hover card (image when one exists — textbook page scan, generated
+  // timestamped video frame — plus title/source/excerpt) for every citation
+  // type: DOI/literature, WHO, Pathoutlines, textbooks, videos. See
+  // citeHoverPayload()/showCiteHoverCard(); bindPreviewHandlers() wires the
+  // actual mouseenter/mouseleave listeners once this markup is in the DOM.
+  const hoverPayload = citeHoverPayload(url);
+  const hoverAttr = hoverPayload ? ` data-cite-hover="${escapeAttr(JSON.stringify(hoverPayload))}"` : "";
+  const hoverClass = hoverPayload ? " inline-cite-link-hover" : "";
   if (preview?.previewUrl) {
     const payload = escapeAttr(JSON.stringify(preview));
-    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link" data-preview="${payload}">${safeLabel}</a>`;
+    return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}" data-preview="${payload}"${hoverAttr}>${safeLabel}</a>`;
   }
-  return `<a href="${safeHref}" target="_blank" rel="noopener">${safeLabel}</a>`;
+  return `<a href="${safeHref}" target="_blank" rel="noopener" class="inline-cite-link${hoverClass}"${hoverAttr}>${safeLabel}</a>`;
 }
 
 function renderInlineImage(alt, url, previewIndex) {
@@ -1601,7 +3029,8 @@ function selectedSources() {
 }
 
 function buildPayload(query, modeOverride, options = {}) {
-  const mode = modeOverride || modeSelect.value;
+  // Ask always passes an explicit resolved mode; Browse hardcodes topic_page.
+  const mode = modeOverride || "auto";
   const visual = wantsVisual(query, mode) || mode === "topic_page";
   const sources = mode === "topic_page" ? TOPIC_PAGE_SOURCES : selectedSources();
   const payload = {
@@ -1609,8 +3038,12 @@ function buildPayload(query, modeOverride, options = {}) {
     mode,
     sources: sources.length ? sources : DEFAULT_SOURCES,
     max_results: Number(maxResultsInput.value) || 5,
-    include_figures: visual,
-    max_figures: mode === "topic_page" ? 8 : visual ? 5 : 0,
+    // Figures default ON regardless of query wording — a plain factual
+    // question shouldn't need "show me a picture" phrasing to surface pics
+    // that the pulled sources actually have. Explicitly visual queries and
+    // topic pages just get a bigger figure budget.
+    include_figures: true,
+    max_figures: mode === "topic_page" ? 8 : visual ? 8 : 4,
     compact: true,
     excerpt_char_limit: 900,
     render_html: mode === "html_teaching",
@@ -1621,10 +3054,138 @@ function buildPayload(query, modeOverride, options = {}) {
   if (mode === "topic_page" && options.pageTag) {
     payload.page_tag = options.pageTag;
   }
+  // Browse category the user opened (heme/breast/…) — used as root-narrow
+  // authority so a wrong extranodal board tag cannot drop on-root pathout/videos.
+  if (mode === "topic_page" && options.browseRoot) {
+    payload.browse_root = options.browseRoot;
+  }
   if (options.rebuild) {
     payload.rebuild = true;
   }
+  const chosenModel = selectedSynthesisModel();
+  if (chosenModel && chosenModel !== "gpt-5.6-luna") {
+    payload.model = chosenModel;
+  }
   return payload;
+}
+
+/** Pull an entity name out of Ask phrasing like "what is LCIS?". */
+function extractEntityFromAskQuery(query) {
+  const q = String(query || "").trim();
+  if (!q) return null;
+  const m = q.match(
+    /^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe|features?\s+of|pathology\s+of|histology\s+of|criteria\s+for|workup\s+of)\s+(.+?)\??$/i,
+  );
+  if (m) return m[1].replace(/[?.!]+$/g, "").trim();
+  // Visual / compare phrasing is not a bare entity label.
+  if (VISUAL_QUERY_RE.test(q) || /\b(difference|differ|vs\.?|versus|compare|between)\b/i.test(q)) {
+    return null;
+  }
+  // Bare short entity / abbreviation ("LCIS", "florid LCIS").
+  if (/^[A-Za-z][A-Za-z0-9\- ]{0,40}$/.test(q) && q.split(/\s+/).length <= 6) {
+    return q;
+  }
+  return null;
+}
+
+function expandAskEntity(entity) {
+  const key = String(entity || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+  return ENTITY_ABBREVIATION_EXPANSIONS[key] || ENTITY_ABBREVIATION_EXPANSIONS[String(entity || "").toLowerCase()] || entity;
+}
+
+/**
+ * Single Ask entry: infer the internal response shape from the query.
+ * No user-facing mode picker — Browse still forces topic_page separately.
+ */
+function planAskRequest(rawQuery) {
+  const q = String(rawQuery || "").trim();
+  if (!q) {
+    return { query: q, mode: "gpt_like", leaf: null, routed: false, routeNote: "" };
+  }
+
+  if (/\b(sources?\s+only|search\s+only|raw\s+evidence|no\s+synthesis|just\s+(the\s+)?(sources|cards|evidence))\b/i.test(q)) {
+    return {
+      query: q,
+      mode: "search_only",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: raw evidence cards only (no synthesis).",
+    };
+  }
+
+  if (/\b(html\s+teaching|teaching\s+page|lecture\s+handout)\b/i.test(q)) {
+    return {
+      query: q,
+      mode: "html_teaching",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: HTML teaching page.",
+    };
+  }
+
+  if (/\b(difference|differ|vs\.?|versus|compare|comparison|between)\b/i.test(q)) {
+    return {
+      query: q,
+      mode: "compare_sources",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: comparison answer across sources.",
+    };
+  }
+
+  const entity = extractEntityFromAskQuery(q);
+  const looksTopic =
+    Boolean(entity) ||
+    /\b(diagnostic\s+criteria|differential\s+diagnosis|molecular\s+features|gross\s+(pathology|findings)|microscopic\s+features|ancillary\s+(studies|tests)|clinical\s+features)\b/i.test(
+      q,
+    );
+
+  if (looksTopic && entity && !/\b(difference|differ|vs\.?|versus|compare|between)\b/i.test(entity)) {
+    let leaf = findTaxonomyMatch(entity, null);
+    if (leaf) leaf = resolveBoardMappedLeaf(leaf) || leaf;
+    if (leaf) {
+      const label = leaf.label || entity;
+      return {
+        query: leaf.query || leaf.label || entity,
+        mode: "topic_page",
+        leaf,
+        routed: true,
+        routeNote: `Inferred topic page for ${formatDisplayLabel(label)}.`,
+      };
+    }
+    const expanded = expandAskEntity(entity);
+    return {
+      query: expanded,
+      mode: "topic_page",
+      leaf: null,
+      routed: true,
+      routeNote: `Inferred topic page for “${entity}”.`,
+    };
+  }
+
+  if (looksTopic && !entity) {
+    return {
+      query: q,
+      mode: "topic_page",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred topic-page reference from the query.",
+    };
+  }
+
+  if (VISUAL_QUERY_RE.test(q)) {
+    return {
+      query: q,
+      mode: "visual",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: figure-focused answer.",
+    };
+  }
+
+  return { query: q, mode: "gpt_like", leaf: null, routed: false, routeNote: "" };
 }
 
 function setModalAction(el, url, label) {
@@ -1683,6 +3244,7 @@ function openMediaPreview(itemsOrPayload, startIndex = 0) {
   showGalleryAt(startIndex);
   mediaModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
+  hideCiteHoverCard();
 }
 
 function closeMediaPreview() {
@@ -1824,8 +3386,69 @@ function scrubDefectiveImages(root) {
   });
 }
 
+/** Fixed-position rich hover card (image + title/source/excerpt) for any
+ * inline citation with a data-cite-hover payload — see citeHoverPayload().
+ * Positioned near the anchor's own bounding box, flipped above/left when it
+ * would otherwise overflow the viewport. */
+function showCiteHoverCard(anchorEl, payload) {
+  if (!citeHoverCard || !payload) return;
+  if (payload.image) {
+    citeHoverImg.src = payload.image;
+    citeHoverImg.alt = payload.title || "";
+    citeHoverImg.hidden = false;
+  } else {
+    citeHoverImg.hidden = true;
+    citeHoverImg.removeAttribute("src");
+  }
+  citeHoverTitleEl.textContent = payload.title || "";
+  citeHoverMetaEl.textContent = payload.meta || "";
+  citeHoverExcerptEl.textContent = payload.excerpt ? `\u201c${payload.excerpt}\u201d` : "";
+  citeHoverCard.classList.remove("hidden");
+  citeHoverCard.setAttribute("aria-hidden", "false");
+
+  const rect = anchorEl.getBoundingClientRect();
+  const cardRect = citeHoverCard.getBoundingClientRect();
+  const margin = 8;
+  let top = rect.bottom + margin;
+  let left = rect.left;
+  if (top + cardRect.height > window.innerHeight - margin) {
+    top = Math.max(margin, rect.top - cardRect.height - margin);
+  }
+  if (left + cardRect.width > window.innerWidth - margin) {
+    left = Math.max(margin, window.innerWidth - cardRect.width - margin);
+  }
+  citeHoverCard.style.top = `${top}px`;
+  citeHoverCard.style.left = `${left}px`;
+}
+
+function hideCiteHoverCard() {
+  if (!citeHoverCard) return;
+  citeHoverCard.classList.add("hidden");
+  citeHoverCard.setAttribute("aria-hidden", "true");
+}
+
+/** Wires hover listeners for every citation link with a rich hover payload
+ * (data-cite-hover, attached in renderInlineLink) within `root`. Re-run on
+ * every render since content is replaced wholesale (innerHTML), same as
+ * bindVsButtons/bindPreviewHandlers elsewhere in this file. */
+function bindCiteHoverHandlers(root) {
+  root.querySelectorAll("[data-cite-hover]").forEach((el) => {
+    let payload = null;
+    try {
+      payload = JSON.parse(el.dataset.citeHover);
+    } catch (_err) {
+      return;
+    }
+    el.addEventListener("mouseenter", () => showCiteHoverCard(el, payload));
+    el.addEventListener("mouseleave", hideCiteHoverCard);
+    el.addEventListener("focus", () => showCiteHoverCard(el, payload));
+    el.addEventListener("blur", hideCiteHoverCard);
+  });
+}
+
 function bindPreviewHandlers(root) {
   scrubDefectiveImages(root);
+  bindCiteHoverHandlers(root);
   root.querySelectorAll("[data-preview]").forEach((el) => {
     el.addEventListener("click", (event) => {
       // Preview-aware <a> tags keep their href so ctrl/cmd/middle-click still
@@ -1839,9 +3462,16 @@ function bindPreviewHandlers(root) {
         if (el.tagName === "A") event.preventDefault();
         const payload = JSON.parse(el.dataset.preview);
         const compareCol = el.closest(".compare-column");
+        // `.topic-section-body`/`.topic-key-facts` come before the narrower
+        // `.topic-gallery-grid` etc. here so inline figures embedded in a
+        // topic-page section (Microscopic, Gross Features, ...) become a
+        // scrollable (arrow-key) gallery of every image in that section,
+        // not just the ones in the same consecutive image row.
         const gallery = compareCol
           ? compareCol.querySelector(".compare-gallery-grid, .topic-gallery-grid")
-          : el.closest(".topic-gallery-grid, .figures-grid, .figures-grid-prominent");
+          : el.closest(
+              ".topic-section-body, .topic-key-facts, .topic-gallery-grid, .figures-grid, .figures-grid-prominent",
+            );
         let items = [payload];
         let index = 0;
         if (gallery) {
@@ -1872,22 +3502,63 @@ async function refreshHealth() {
   try {
     const resp = await fetch("/api/health");
     const data = await resp.json();
-    supportedSources = data.supported_sources || [];
+    // Prefer ui_sources (journals retired from checkboxes). Fall back to
+    // supported_sources filtered client-side for older servers.
+    const raw = data.ui_sources || data.supported_sources || [];
+    supportedSources = raw.filter((s) => s !== "journals");
     renderSourceCheckboxes();
+
+    healthFlags.iterative = data.topic_page_iterative !== false;
+    healthFlags.liveLiterature = data.topic_page_live_literature !== false;
+    // Older servers lack these fields — treat missing iterative flag as "not this build".
+    healthFlags.streamEndpoint = typeof data.topic_page_iterative === "boolean";
+    healthFlags.scopusSanitize = data.scopus_paren_sanitize === true;
+    healthFlags.buildMarker = data.build_marker || "";
+    healthFlags.buildSha = data.build_git_sha || "";
 
     const hubKey = data.secrets?.pathology_hub?.present;
     const openaiKey = data.secrets?.openai?.present;
     const backendOk = data.backend?.ok;
+    const outdatedBuild = !healthFlags.streamEndpoint || !healthFlags.scopusSanitize;
     healthStatus.className = "status";
-    if (backendOk && hubKey) {
+    if (outdatedBuild) {
+      healthStatus.classList.add("error");
+      healthStatus.textContent = "Outdated server — pull iterative branch";
+      healthStatus.title =
+        "This process is NOT cursor/topic-iterative-sse-layout-9231 (missing " +
+        "topic_page_iterative / scopus_paren_sanitize). Elsevier LCIS 400s and " +
+        "missing thinking panel mean the wrong checkout is still running. " +
+        "git fetch && git checkout cursor/topic-iterative-sse-layout-9231 && " +
+        "restart ./scripts/run_local.sh — look for startup log " +
+        "[chat-mvp] BUILD=topic-iterative-sse-layout-9231";
+    } else if (backendOk && hubKey) {
       healthStatus.classList.add("ok");
-      healthStatus.textContent = openaiKey ? "Ready" : "Ready (search-only)";
+      const bits = [openaiKey ? "Ready" : "Ready (search-only)"];
+      if (healthFlags.streamEndpoint && healthFlags.iterative) bits.push("live thinking");
+      if (healthFlags.liveLiterature) bits.push("literature");
+      if (healthFlags.buildSha) bits.push(healthFlags.buildSha);
+      healthStatus.textContent = bits.join(" · ");
+      healthStatus.title =
+        `Build ${healthFlags.buildMarker || "ok"} @ ${healthFlags.buildSha || "?"} — ` +
+        "iterative SSE + Scopus parenthesis sanitize active.";
     } else if (!hubKey) {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "API key missing";
+      healthStatus.title = "PATHOLOGY_HUB_API_KEY is not configured for this app instance.";
     } else {
       healthStatus.classList.add("warn");
       healthStatus.textContent = "Backend unreachable";
+      // Distinct from this chat app itself, which just answered this health
+      // check fine — "backend" is the separate upstream pathology-hub-v04
+      // Cloud Run service (textbooks/WHO/Pathoutlines/video search) this
+      // app calls into. A cold start after scale-to-zero or a transient
+      // 5xx there is the usual cause; it's normally transient.
+      const backendUrl = data.backend?.url || "the pathology-hub-v04 API";
+      const backendStatus = data.backend?.status_code;
+      healthStatus.title =
+        `This chat app is fine — the separate evidence backend it depends on (${backendUrl}) ` +
+        `did not respond${backendStatus ? ` (HTTP ${backendStatus})` : ""}. Usually a transient ` +
+        "cold start after scale-to-zero; try again in a few seconds or refresh.";
     }
   } catch (err) {
     healthStatus.className = "status error";
@@ -1898,6 +3569,7 @@ async function refreshHealth() {
 function renderSourceCheckboxes() {
   if (!supportedSources.length || sourceCheckboxes.childElementCount) return;
   for (const src of supportedSources) {
+    if (src === "journals") continue; // retired local FAISS corpus — live literature is separate
     const label = document.createElement("label");
     const input = document.createElement("input");
     input.type = "checkbox";
@@ -1910,7 +3582,7 @@ function renderSourceCheckboxes() {
 }
 
 function updateModeHint() {
-  modeHint.textContent = MODE_HINTS[modeSelect.value] || "";
+  if (modeHint) modeHint.textContent = AUTO_MODE_HINT;
 }
 
 function setActiveView(view) {
@@ -2164,6 +3836,30 @@ function bindCompareColumnTabs(root) {
   });
 }
 
+/** Parses a fetch Response as JSON, but never throws a raw SyntaxError up
+ * to the caller — if the body isn't valid JSON (e.g. a proxy/infrastructure
+ * layer in front of this app returning a plain-text "upstream request
+ * timeout" instead of the app's own JSON error, reported 2026-08-02 on
+ * /api/compare when the evidence backend was down), returns a normalized
+ * `{ok: false, error: <readable message>}` instead so callers always get
+ * a real, displayable error string rather than "SyntaxError: Unexpected
+ * token…". */
+async function parseJsonResponseSafely(resp) {
+  const rawText = await resp.text();
+  try {
+    return JSON.parse(rawText);
+  } catch (_err) {
+    const looksLikeInfra = /upstream|gateway|timeout|bad gateway|<html/i.test(rawText);
+    const detail = rawText.trim().slice(0, 200) || `HTTP ${resp.status}`;
+    return {
+      ok: false,
+      error: looksLikeInfra
+        ? "The server didn't respond in time (likely a transient Cloud Run cold start or the evidence backend being unreachable). Try again in a few seconds."
+        : `Unexpected non-JSON response: ${detail}`,
+    };
+  }
+}
+
 async function loadCompareView() {
   if (compareSet.length < 2) return;
   browseContentEl.innerHTML = '<p class="hint">Generating comparison — retrieving evidence for each diagnosis…</p>';
@@ -2178,9 +3874,10 @@ async function loadCompareView() {
           query: e.query || e.label,
           category_context: e.categoryContext || null,
         })),
+        model: selectedSynthesisModel(),
       }),
     });
-    const data = await resp.json();
+    const data = await parseJsonResponseSafely(resp);
     if (!data.ok) {
       browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.comparison_error || "Compare failed")}</p>`;
       return;
@@ -2220,7 +3917,18 @@ async function loadCompareView() {
 }
 
 function renderBrowseView() {
+  hideCiteHoverCard();
   renderBrowseBreadcrumbs();
+  // The Browse-home tree/tile filter is now driven by the single top query
+  // overlay input rather than its own in-page search box — keep it in sync
+  // regardless of which code path reset browseFilterQuery (breadcrumbs,
+  // tile clicks, leaf navigation, …). Only touch the box while Browse is
+  // actually the visible tab and the user isn't mid-keystroke in it, so a
+  // background re-render can never clobber an in-progress Ask question or
+  // move the caret while typing.
+  if (queryInput && askViewEl.classList.contains("hidden") && document.activeElement !== queryInput) {
+    queryInput.value = browseState.level === "home" ? browseFilterQuery : "";
+  }
   if (browseState.level === "compare") {
     loadCompareView();
   } else if (browseState.level === "category") {
@@ -2236,121 +3944,116 @@ function renderBrowseView() {
 
 function renderBrowseHome() {
   const usingIndex = Boolean(browseIndex);
-  const starterRoots = curatedFallbackRoots();
   const fullRoots = getBrowseNavRootsFull();
-  const showingFull = usingIndex && browseNavMode === "full" && fullRoots;
-  const roots = showingFull ? fullRoots : starterRoots;
-  const starterTotal = starterRoots.reduce((sum, r) => sum + r.leaf_count, 0);
-  const fullTotal = fullRoots
-    ? fullRoots.reduce((sum, r) => sum + r.leaf_count, 0)
-    : browseIndex?.counts?.leaves_total ?? 0;
-  const leavesRaw = usingIndex ? browseIndex.counts?.leaves_total_raw : null;
-  const leavesRemoved = usingIndex ? browseIndex.counts?.leaves_removed_label_dedupe : 0;
+  const showingIndexed = usingIndex && Boolean(fullRoots);
+  const roots = activeBrowseRoots();
 
-  let html = "";
-  if (usingIndex) {
-    html += '<div class="browse-nav-toggle" role="group" aria-label="Browse navigation mode">';
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "starter" ? " active" : ""}" data-browse-mode="starter">Starter topics (${starterTotal})</button>`;
-    html += `<button type="button" class="browse-nav-mode-btn${browseNavMode === "full" ? " active" : ""}" data-browse-mode="full">Full index (${fullTotal})</button>`;
-    html += "</div>";
-  }
-
-  if (showingFull) {
-    const abpathCount = browseIndex.counts?.leaves_abpath_only;
-    const whoOnlyCount = browseIndex.counts?.leaves_who_only;
-    const bothCount = browseIndex.counts?.leaves_both;
-    const provenanceNote =
-      abpathCount != null && whoOnlyCount != null
-        ? ` Built from ABPath curriculum tags (${abpathCount} ABPath, ${bothCount ?? 0} overlap, ${whoOnlyCount} WHO-only additions).`
-        : "";
-    const dedupeNote =
-      leavesRemoved > 0 ? ` ${leavesRaw} raw tag paths collapsed to ${fullTotal} nav topics (duplicate labels per organ merged; ABPath spelling wins on overlap).` : "";
-    html += `<p class="hint">WHO + ABPath browse index only — no PathOut nav tags.${provenanceNote}${dedupeNote} Cyto cytology-only entries stay when no surgical twin exists. Use search on long lists; first topic open builds live, then caches.</p>`;
-    html += browseSearchBarHtml("Filter topics (e.g. adenoid cystic, LCIS, GIST)…", browseFilterQuery);
-  } else if (usingIndex) {
-    html += `<p class="hint">Starter browse — ${starterTotal} high-yield topics. Switch to <strong>Full index</strong> for the complete WHO + ABPath tree (${fullTotal} topics).</p>`;
-  } else {
-    html += '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
-  }
-
-  if (showingFull && browseFilterQuery.trim()) {
-    const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
-    html += `<p class="hint">${matches.length} topic${matches.length === 1 ? "" : "s"} matching "${escapeHtml(browseFilterQuery.trim())}".</p>`;
-    html += '<div class="chevron-list">';
-    for (const row of matches.slice(0, 120)) {
-      const leafPayload = escapeAttr(
-        JSON.stringify({
-          tag: row.leaf.tag,
-          label: row.leaf.label,
-          query: row.leaf.query,
-          provenance: row.leaf.provenance || null,
-          categoryId: row.root.id,
-          subcategoryId: row.sub.id,
-        }),
-      );
-      html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
+  // Browse is tree-only now — the tile grid only ever appears as a
+  // degraded fallback when the tag index itself failed to load (its
+  // curated taxonomy uses a different, string-only shape the tree can't
+  // render). No mode toggle, no "OncoTree" branding — see infoButtonHtml()
+  // for the one small (?) affordance that explains how to use it.
+  if (!showingIndexed) {
+    let html = '<p class="hint">Browse tag index unavailable — showing the curated starter taxonomy fallback instead. Not a claim about what is indexed.</p>';
+    html += '<div class="browse-tile-grid">';
+    for (const root of roots) {
+      const style = rootTileStyle(root.id, root.label);
+      const countLabel = `${root.leaf_count} topic${root.leaf_count === 1 ? "" : "s"}`;
+      html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
+      html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
+      html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
+      html += "</button>";
     }
     html += "</div>";
-    if (matches.length > 120) {
-      html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
-    }
     browseContentEl.innerHTML = html;
-    browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
+    browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
       el.addEventListener("click", () => {
-        writeBrowseNavMode(el.dataset.browseMode);
         browseFilterQuery = "";
-        browseState = { level: "home" };
-        renderBrowseView();
-      });
-    });
-    bindBrowseSearchHandlers(() => renderBrowseHome());
-    browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
-      el.addEventListener("click", () => {
-        const leaf = JSON.parse(el.dataset.leaf);
-        browseFilterQuery = "";
-        browseState = {
-          level: "leaf",
-          categoryId: leaf.categoryId,
-          subcategoryId: leaf.subcategoryId,
-          tag: leaf.tag,
-          label: leaf.label,
-          query: leaf.query,
-          provenance: leaf.provenance || null,
-        };
+        browseState = { level: "category", categoryId: el.dataset.categoryId };
         renderBrowseView();
       });
     });
     return;
   }
 
-  html += '<div class="browse-tile-grid">';
-  for (const root of roots) {
-    const style = rootTileStyle(root.id, root.label);
-    const countLabel = usingIndex
-      ? (showingFull ? `${root.leaf_count} topic tags` : `${root.leaf_count} starter topics`)
-      : `${root.leaf_count} starter topics`;
-    html += `<button type="button" class="browse-tile" data-category-id="${escapeAttr(root.id)}" style="background:${style.gradient}">`;
-    html += `<span class="browse-tile-glyph">${escapeHtml(style.glyph)}</span>`;
-    html += `<span class="browse-tile-banner"><span class="browse-tile-label">${escapeHtml(formatDisplayLabel(root.label))}</span><span class="browse-tile-count">${countLabel}</span></span>`;
-    html += "</button>";
+  const treeSearchQuery = browseFilterQuery.trim();
+  let treeSearchMatches = null;
+  if (treeSearchQuery) {
+    treeSearchMatches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, browseFilterQuery));
+  }
+  const useInlineTreeSearch = treeSearchQuery && treeSearchMatches.length > 0 && treeSearchMatches.length <= ONCOTREE_SEARCH_INLINE_CAP;
+
+  let html = '<div class="oncotree-topbar">';
+  html += oncotreeToolbarHtml();
+  html += infoButtonHtml();
+  html += "</div>";
+
+  if (!treeSearchQuery || useInlineTreeSearch) {
+    let treeOptions = {};
+    if (useInlineTreeSearch) {
+      const matchSet = new Set(treeSearchMatches.map((row) => row.leaf));
+      const extraExpanded = new Set();
+      for (const row of treeSearchMatches) {
+        extraExpanded.add(row.root.id);
+        extraExpanded.add(`${row.root.id}::${row.sub.id}`);
+      }
+      treeOptions = { extraExpanded, isMatch: (leafNode) => matchSet.has(leafNode) };
+      html += `<p class="hint">${treeSearchMatches.length} match${treeSearchMatches.length === 1 ? "" : "es"} for "${escapeHtml(treeSearchQuery)}" — highlighted below, ancestors auto-expanded.</p>`;
+    }
+    html += renderOncotreeHtml(roots, treeOptions);
+    browseContentEl.innerHTML = html;
+    bindOncotreeToolbarHandlers(() => renderBrowseView());
+    bindInfoButtonHandler();
+    bindOncotreeHandlers(roots, () => renderBrowseView());
+    bindVsButtons(browseContentEl);
+    if (useInlineTreeSearch) {
+      const firstMatchEl = browseContentEl.querySelector(".oncotree-match");
+      firstMatchEl?.scrollIntoView({ block: "center" });
+    }
+    return;
+  }
+
+  // Degenerate query (near-every-leaf match, e.g. a single letter) — flat
+  // list instead of an unnavigable wall of expanded tree nodes.
+  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
+  html += '<div class="chevron-list">';
+  for (const row of treeSearchMatches.slice(0, 120)) {
+    const compareEntity = comparePayloadFromLeaf(row.root.id, row.sub.id, row.leaf);
+    const leafPayload = escapeAttr(
+      JSON.stringify({
+        tag: row.leaf.tag,
+        label: row.leaf.label,
+        query: row.leaf.query,
+        provenance: row.leaf.provenance || null,
+        categoryId: row.root.id,
+        subcategoryId: row.sub.id,
+      }),
+    );
+    html += '<div class="browse-leaf-row">';
+    html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
+    html += renderVsButton(compareEntity);
+    html += "</div>";
   }
   html += "</div>";
-  browseContentEl.innerHTML = html;
-  browseContentEl.querySelectorAll("[data-browse-mode]").forEach((el) => {
-    el.addEventListener("click", () => {
-      writeBrowseNavMode(el.dataset.browseMode);
-      browseFilterQuery = "";
-      browseState = { level: "home" };
-      renderBrowseView();
-    });
-  });
-  if (showingFull) {
-    bindBrowseSearchHandlers(() => renderBrowseHome());
+  if (treeSearchMatches.length > 120) {
+    html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
   }
-  browseContentEl.querySelectorAll(".browse-tile").forEach((el) => {
+  browseContentEl.innerHTML = html;
+  bindInfoButtonHandler();
+  bindVsButtons(browseContentEl);
+  browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
     el.addEventListener("click", () => {
+      const leaf = JSON.parse(el.dataset.leaf);
       browseFilterQuery = "";
-      browseState = { level: "category", categoryId: el.dataset.categoryId };
+      browseState = {
+        level: "leaf",
+        categoryId: leaf.categoryId,
+        subcategoryId: leaf.subcategoryId,
+        tag: leaf.tag,
+        label: leaf.label,
+        query: leaf.query,
+        provenance: leaf.provenance || null,
+      };
       renderBrowseView();
     });
   });
@@ -2363,19 +4066,19 @@ function renderBrowseCategory(categoryId) {
     renderBrowseView();
     return;
   }
-  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const showingIndexed = Boolean(browseIndex && getBrowseNavRootsFull());
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))}</h2>`;
-  html += showingFull
-    ? '<p class="hint">WHO + ABPath tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
+  html += showingIndexed
+    ? '<p class="hint">WHO + ABPath content-spec tags for this root. Pick a subcategory, then a topic — or filter on the next screen when lists are long.</p>'
     : '<p class="hint">Starter topic list for navigation — not a claim about what is indexed. Pick a subcategory, then a specific diagnosis.</p>';
-  if (showingFull) {
+  if (showingIndexed) {
     html += browseSearchBarHtml(`Search within ${formatDisplayLabel(cat.label)}…`, browseFilterQuery);
   }
   const subs = (cat.subcategories || []).filter((sub) => {
     if (!browseFilterQuery.trim()) return true;
     return (sub.leaves || []).some((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
   });
-  if (showingFull && browseFilterQuery.trim()) {
+  if (showingIndexed && browseFilterQuery.trim()) {
     html += `<p class="hint">${subs.length} subcategor${subs.length === 1 ? "y" : "ies"} with matches.</p>`;
   }
   html += '<div class="chevron-list">';
@@ -2383,11 +4086,11 @@ function renderBrowseCategory(categoryId) {
     const matchCount = browseFilterQuery.trim()
       ? (sub.leaves || []).filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery)).length
       : sub.leaf_count;
-    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingFull ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
+    html += `<button type="button" class="chevron-item" data-sub-id="${escapeAttr(sub.id)}"><span>${escapeHtml(formatSubcategoryLabel(sub.label))}${showingIndexed ? ` <span class="chevron-count">(${matchCount})</span>` : ""}</span><span class="chevron">\u203a</span></button>`;
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
-  if (showingFull) {
+  if (showingIndexed) {
     bindBrowseSearchHandlers(() => renderBrowseCategory(categoryId));
   }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
@@ -2406,7 +4109,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
     renderBrowseView();
     return;
   }
-  const showingFull = Boolean(browseIndex && browseNavMode === "full");
+  const showingIndexed = Boolean(browseIndex && getBrowseNavRootsFull());
   const allLeaves = sub.leaves || [];
   const filteredLeaves = allLeaves.filter((leaf) => leafMatchesBrowseFilter(leaf, browseFilterQuery));
   const hasFilter = Boolean(browseFilterQuery.trim());
@@ -2414,10 +4117,10 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   const hiddenCount = hasFilter ? 0 : Math.max(0, filteredLeaves.length - visibleLeaves.length);
 
   let html = `<h2 class="browse-heading">${escapeHtml(formatDisplayLabel(cat.label))} — ${escapeHtml(formatSubcategoryLabel(sub.label))}</h2>`;
-  html += showingFull
+  html += showingIndexed
     ? '<p class="hint">Pick a topic to load a grounded topic page. Long lists are capped until you search.</p>'
     : '<p class="hint">Pick a diagnosis to load a live, grounded topic page from current evidence.</p>';
-  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+  if (showingIndexed || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
     html += browseSearchBarHtml("Filter topics in this list…", browseFilterQuery);
   }
   if (hiddenCount > 0) {
@@ -2440,7 +4143,7 @@ function renderBrowseSubcategory(categoryId, subcategoryId) {
   }
   html += "</div>";
   browseContentEl.innerHTML = html;
-  if (showingFull || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
+  if (showingIndexed || allLeaves.length > BROWSE_LEAF_PREVIEW_CAP) {
     bindBrowseSearchHandlers(() => renderBrowseSubcategory(categoryId, subcategoryId));
   }
   browseContentEl.querySelectorAll(".chevron-item").forEach((el) => {
@@ -2466,9 +4169,14 @@ const TOPIC_PAGE_SECTION_ORDER = [
   "Terminology",
   "Etiology/Pathogenesis",
   "Clinical Issues",
+  "Imaging Features",
+  "Gross Features",
   "Microscopic",
+  "Cytology",
   "Ancillary Tests",
+  "Molecular / Therapeutic",
   "Differential Diagnosis",
+  "Key Literature",
 ];
 
 function normalizeHeaderKey(value) {
@@ -2553,6 +4261,38 @@ function figureGalleryUrl(fig) {
   return pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
 }
 
+function diversifyFiguresBySource(figures) {
+  const groups = new Map();
+  const order = [];
+  for (const fig of figures || []) {
+    const src = String(fig?.source || fig?.source_kind || "unknown").toLowerCase();
+    if (!groups.has(src)) {
+      groups.set(src, []);
+      order.push(src);
+    }
+    groups.get(src).push(fig);
+  }
+  // Prefer WHO / textbooks / pathout early so WHO photos are not crowded out.
+  const prefer = ["who", "textbooks", "pathout", "videos", "lectures", "literature", "inline_markdown", "unknown"];
+  const ranked = [
+    ...prefer.filter((s) => order.includes(s)),
+    ...order.filter((s) => !prefer.includes(s)),
+  ];
+  const out = [];
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (const src of ranked) {
+      const bucket = groups.get(src);
+      if (bucket?.length) {
+        out.push(bucket.shift());
+        progress = true;
+      }
+    }
+  }
+  return out;
+}
+
 function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems, { maxShown = 16 } = {}) {
   const merged = [];
   const seen = new Set();
@@ -2573,7 +4313,168 @@ function mergeTopicGalleryFigures(retrievedFigures, inlineFigures, lectureItems,
       source_kind: "lecture_frame",
     });
   }
-  return merged.slice(0, maxShown);
+  return diversifyFiguresBySource(merged).slice(0, maxShown);
+}
+
+/** Map figure modality → topic-page section that should own its gallery. */
+const FIGURE_MODALITY_SECTION = {
+  imaging: "Imaging Features",
+  gross: "Gross Features",
+  microscopic: "Microscopic",
+  cytology: "Cytology",
+  ihc: "Ancillary Tests",
+};
+
+/** Classify a retrieved/inline figure into imaging / gross / cytology / microscopic / ihc / other. */
+function classifyFigureModality(fig) {
+  const blob = [
+    fig?.caption,
+    fig?.title,
+    fig?.alt,
+    fig?.section,
+    fig?.section_heading,
+    fig?.chunk_type,
+    fig?.figure_id,
+    fig?.source_id,
+    fig?.primary_tag,
+    fig?.figure_url,
+    fig?.image_url,
+    fig?.url,
+    fig?.excerpt,
+  ]
+    .map((x) => String(x || "").toLowerCase())
+    .join(" ");
+  const src = String(fig?.source || "").toLowerCase();
+  const sid = String(fig?.source_id || "").toLowerCase();
+  const explicit = String(fig?.modality || fig?.figure_kind || fig?.image_type || "").toLowerCase();
+
+  if (explicit) {
+    if (/\b(gross|macro)/.test(explicit)) return "gross";
+    if (/\b(cyto)/.test(explicit)) return "cytology";
+    if (/\b(imag|radio|mammo|ultrasound|mri|ct)\b/.test(explicit)) return "imaging";
+    if (/\b(ihc|immuno)/.test(explicit)) return "ihc";
+    if (/\b(histo|micro)/.test(explicit)) return "microscopic";
+  }
+
+  const imaging = /\b(mammograms?|mammog\w*|ultrasound|sonograph|\bmri\b|magnetic resonance|\bct\b|radiographs?|x-?rays?|pet[- ]?ct|fluoroscop\w*|radiolog\w*)\b/.test(
+    blob,
+  );
+  const strongGross = /\b(gross\s+(photo|photograph|image|appearance|findings?|features?)|macroscopic|cut[- ]surface|external\s+surface)\b/.test(
+    blob,
+  );
+  // "specimen" alone is too weak — micro captions often say "resection specimen, H&E".
+  const weakGross = /\b(gross|fresh tissue|resection specimen|excised mass|operative specimen)\b/.test(blob);
+  const ihc = /\b(ihc|immuno[- ]?histochem|immunostain|immuno stain|her2|er\/pr|ki-?67|cd\d{1,3}|cytokeratin|stain for)\b/.test(
+    blob,
+  );
+  const cytology =
+    sid.startsWith("cyto_") ||
+    /\bcyto[_-]/.test(sid) ||
+    /\b(cytolog|cytopath|\bfna\b|fine[- ]needle|smear|diff[- ]?quik|pap stain|liquid[- ]based|exfoliativ|bethesda|yokohama|imprint cytolog|cytospin|papanicolaou)\b/.test(
+      blob,
+    );
+  const histology = /\b(h&amp;e|h&e|h\/e|histolog|histopath|photomicro|tissue section|low[- ]power|high[- ]power|microscop|papillary\s+fronds?|fibrovascular|ductal\s+hyperplasia)\b/.test(
+    blob,
+  ) || /\b(nuclear|cytoplasm|architecture|ductal|lobular|acin|stroma|epithelial)\b/.test(blob);
+
+  // Imaging before weak gross; mammograms must not sit under Microscopic.
+  if (imaging && !histology && !cytology) return "imaging";
+  if (cytology && !strongGross) return "cytology";
+  if (ihc && !strongGross) return "ihc";
+  // Histology beats weak "specimen/gross" wording so micro photos leave Gross Features.
+  if (histology && !strongGross) return "microscopic";
+  if (strongGross) return "gross";
+  if (weakGross && !histology && !imaging && !cytology) return "gross";
+  if (imaging) return "imaging";
+  if (histology) return "microscopic";
+  // WHO / PathOut / textbook figures without a cue are usually histology tissue photos.
+  // (Cytology books are caught above via cyto_ source_id.)
+  if (src === "pathout" || src === "textbooks" || src === "who") return "microscopic";
+  return "other";
+}
+
+/** When the model inlined a figure under the wrong section, prefer modality. */
+function sectionForFigureModality(claimedSection, modality) {
+  const modalitySection = FIGURE_MODALITY_SECTION[modality];
+  if (!modalitySection || modality === "other") return claimedSection || "other";
+  if (!claimedSection || claimedSection === "other") return modalitySection;
+  if (claimedSection !== modalitySection) return modalitySection;
+  return claimedSection;
+}
+
+/**
+ * Bucket figures into section galleries. Inline placement is a hint only —
+ * caption/URL modality wins when it conflicts (micro under Gross, etc.).
+ */
+function bucketFiguresBySection(retrievedFigures, sections) {
+  const buckets = {
+    "Imaging Features": [],
+    "Gross Features": [],
+    Microscopic: [],
+    Cytology: [],
+    "Ancillary Tests": [],
+    other: [],
+  };
+  const used = new Set();
+  const push = (sectionKey, fig) => {
+    const url = figureGalleryUrl(fig);
+    const key = sectionKey && buckets[sectionKey] ? sectionKey : "other";
+    if (!url || used.has(url)) return;
+    used.add(url);
+    buckets[key].push(fig);
+  };
+
+  const richByUrl = new Map();
+  for (const fig of retrievedFigures || []) {
+    const url = figureGalleryUrl(fig);
+    if (url && !richByUrl.has(url)) richByUrl.set(url, fig);
+  }
+
+  for (const name of Object.keys(buckets)) {
+    if (name === "other") continue;
+    for (const fig of extractInlineFiguresFromMarkdown(findSectionContent(sections, name))) {
+      const rich = richByUrl.get(fig.figure_url) || {};
+      const merged = {
+        ...rich,
+        ...fig,
+        caption: fig.caption || rich.caption || rich.title,
+        source: fig.source || rich.source,
+        source_id: fig.source_id || rich.source_id,
+        excerpt: rich.excerpt || rich.text || fig.excerpt,
+      };
+      const modality = classifyFigureModality(merged);
+      const target = sectionForFigureModality(name, modality);
+      push(target, { ...merged, _modality: modality });
+    }
+  }
+
+  for (const fig of retrievedFigures || []) {
+    const url = figureGalleryUrl(fig);
+    if (!url || used.has(url)) continue;
+    const modality = classifyFigureModality(fig);
+    const section = FIGURE_MODALITY_SECTION[modality] || "other";
+    push(section, { ...fig, _modality: modality });
+  }
+  return buckets;
+}
+
+function renderSectionGallery(sectionName, figures, { maxItems = 24 } = {}) {
+  if (!figures || !figures.length) return "";
+  // No "Microscopic gallery" / "____ gallery" subtitle — the section header
+  // already names the modality; keep the thumbs only.
+  return (
+    `<div class="section-gallery" data-section-gallery="${escapeAttr(sectionName)}">` +
+    renderTopicGallery(figures, { maxItems }) +
+    "</div>"
+  );
+}
+
+/** Drop markdown images from prose when a dedicated section gallery will show them. */
+function stripMarkdownImages(text) {
+  return String(text || "")
+    .replace(/!\[[^\]]*\]\(https?:[^)\s]+\)\s*/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function lectureFramePlaceholderDataUrl(card) {
@@ -2633,7 +4534,7 @@ function renderTopicGallery(figures, options = {}) {
       ? ` class="${gridClass}" data-compare-col="${options.compareCol}"`
       : ` class="${gridClass}"`;
   let html = `<div${gridAttrs}>`;
-  const maxItems = options.maxItems ?? 16;
+  const maxItems = options.maxItems ?? 40;
   for (const fig of figures.slice(0, maxItems)) {
     const url = pickHttp(fig.figure_url) || pickHttp(fig.image_url) || pickHttp(fig.url);
     if (!url) continue;
@@ -2665,17 +4566,32 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
   if (!text) return '<p class="hint">Not covered in retrieved evidence.</p>';
   const ctx = pageContext || pageContextFromBrowseState();
 
+  const parts = splitDdxTablesAndProse(text);
+  if (parts.some((p) => p.type === "table")) {
+    let html = "";
+    for (const part of parts) {
+      if (part.type === "table") {
+        html += renderMarkdownTable(part.text);
+      } else {
+        html += renderDifferentialBulletList(part.text, previewIndex, ctx);
+      }
+    }
+    return html || '<p class="hint">Not covered in retrieved evidence.</p>';
+  }
+
+  return renderDifferentialBulletList(text, previewIndex, ctx);
+}
+
+function renderDifferentialBulletList(text, previewIndex, pageContext = null) {
+  const ctx = pageContext || pageContextFromBrowseState();
   const items = [];
-  for (const rawLine of text.split("\n")) {
+  for (const rawLine of String(text || "").split("\n")) {
     const line = rawLine.trim();
     if (!line) continue;
     const match = line.match(/^[-*]\s*\*\*(.+?)\*\*\s*[-\u2014:]*\s*(.*)$/);
     if (!match) {
-      // A stray bare citation link (no bullet, no bold entity name) is a trailing
-      // reference the model shouldn't have added here — drop it rather than
-      // rendering a phantom Differential Diagnosis entry.
-      const isBareLink = /^[-*]?\s*\[[^\]]+\]\(https?:[^)\s]+\)\s*$/.test(line);
-      if (isBareLink) continue;
+      // Trailing markdown cites (often journal/DOI) — keep them; display label
+      // is normalized to (DOI) / WHO / etc. inside inlineMarkdown.
       items.push(`<li>${inlineMarkdown(line.replace(/^[-*]\s*/, ""), previewIndex)}</li>`);
       continue;
     }
@@ -2766,6 +4682,73 @@ function dedupeVideoCards(cards) {
   return result;
 }
 
+/**
+ * LECTURE-level identity for a video/lecture card — same video_id/title
+ * fallback rules as backend `video_card_key` (pathology_backend.py), but
+ * deliberately WITHOUT the chunk_id shortcut that `videoCardKey` above uses
+ * first. `videoCardKey` is chunk/segment-level (each timestamped segment of
+ * a lecture has its own chunk_id, so it never collapses segments of the
+ * same lecture — that's intentional for `dedupeVideoCards`, which only
+ * exists to drop literal duplicate chunks). Here we want the coarser
+ * "which single underlying lecture is this from" identity, so that e.g. 5
+ * timestamped segments of one "BST Lecture 3 SoftTissue2" video are
+ * recognized as ONE lecture instead of 5. `source_id` is not usable for
+ * this (documented corpus-wide-constant limitation), so identity is
+ * video_id when it isn't a path-blob placeholder, else the lecture title.
+ */
+function videoLectureKey(card) {
+  const videoId = String(card?.video_id || "").trim();
+  const looksLikePathBlob =
+    !videoId ||
+    /^gcs_gs_/i.test(videoId) ||
+    /lecture_chunks$/i.test(videoId) ||
+    videoId.includes("/");
+  if (!looksLikePathBlob) return videoId;
+  const title = String(card?.title || "").trim();
+  if (title) return `title:${title}`;
+  const chunk = String(card?.chunk_id || "").trim();
+  return videoId || chunk || null;
+}
+
+function videoSegmentDurationSec(card) {
+  const start = card?.start_sec ?? card?.start_time_sec;
+  const end = card?.end_sec ?? card?.end_time_sec;
+  if (typeof start === "number" && typeof end === "number" && end > start) {
+    return end - start;
+  }
+  return 0;
+}
+
+/**
+ * Collapse a list of already-relevance-sorted `{ item, score }` rows down to
+ * one row per distinct lecture (via `videoLectureKey`), keeping the single
+ * "best" row per lecture. Per the user's own "best/longest match" wording:
+ * relevance score is the primary tiebreak (it already governs display order
+ * everywhere else on the topic page), and segment duration (end - start) is
+ * the secondary tiebreak when scores are equal. Distinct lectures are never
+ * dropped here — only redundant same-lecture segments are — so a topic with
+ * N genuinely different lectures still surfaces up to N entries.
+ */
+function bestVideoCardPerLecture(rows) {
+  const winners = new Map();
+  const order = [];
+  for (const row of rows || []) {
+    const key = videoLectureKey(row.item) || `chunk:${row.item?.chunk_id || order.length}`;
+    const current = winners.get(key);
+    if (!current) {
+      winners.set(key, row);
+      order.push(key);
+      continue;
+    }
+    const currentDuration = videoSegmentDurationSec(current.item);
+    const candidateDuration = videoSegmentDurationSec(row.item);
+    if (row.score > current.score || (row.score === current.score && candidateDuration > currentDuration)) {
+      winners.set(key, row);
+    }
+  }
+  return order.map((key) => winners.get(key).item);
+}
+
 function collapseVideoCardsForCitations(cards) {
   const videoSeen = new Set();
   return (cards || []).filter((card) => {
@@ -2842,14 +4825,31 @@ function renderTopicVideos(cards) {
 function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, videoCards, pageContext = null) {
   const keyFacts = findSectionContent(sections, "Key Facts");
   const ctx = pageContext || pageContextFromBrowseState();
+  // figures = retrieved pool; show ALL beside Key Facts, and also bucket into
+  // Imaging / Gross / Micro / IHC section galleries below.
+  const allFigures = figures || [];
+  const buckets = bucketFiguresBySection(allFigures, sections);
+  const gallerySections = new Set([
+    "Imaging Features",
+    "Gross Features",
+    "Microscopic",
+    "Cytology",
+    "Ancillary Tests",
+  ]);
 
   let html = '<div class="topic-page">';
-  html += '<div class="topic-page-top">';
-  if (sectionHasContent(keyFacts)) {
-    html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+  if (sectionHasContent(keyFacts) || allFigures.length) {
+    html += '<div class="topic-page-top">';
+    if (sectionHasContent(keyFacts)) {
+      html += `<div class="topic-key-facts"><div class="topic-panel-title">Key Facts</div>${renderMarkdown(keyFacts, previewIndex)}</div>`;
+    }
+    if (allFigures.length) {
+      html += '<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>';
+      html += renderTopicGallery(allFigures, { maxItems: 16 });
+      html += "</div>";
+    }
+    html += "</div>";
   }
-  html += `<div class="topic-gallery"><div class="topic-panel-title">Selected Images</div>${renderTopicGallery(figures)}</div>`;
-  html += "</div>";
 
   // Frame thumbs when available; always keep the honest link/unavailable list.
   html += renderTopicLectureGallery(videoCards);
@@ -2861,15 +4861,38 @@ function renderTopicPage(sections, previewIndex, figures, whoCrossMentions, vide
   for (const name of TOPIC_PAGE_SECTION_ORDER) {
     if (name === "Key Facts") continue;
     const content = findSectionContent(sections, name);
-    if (!sectionHasContent(content)) continue;
-    html += '<div class="topic-section">';
+    const sectionFigs = gallerySections.has(name) ? buckets[name] || [] : [];
+    if (!sectionHasContent(content) && !sectionFigs.length) continue;
+    html += `<div class="topic-section" data-topic-section="${escapeAttr(name)}">`;
     html += `<div class="topic-section-header">${escapeHtml(name.toUpperCase())}</div>`;
     html += '<div class="topic-section-body">';
-    if (name === "Differential Diagnosis") {
-      html += renderDifferentialSection(content, previewIndex, ctx);
-    } else {
-      html += renderMarkdown(content, previewIndex);
+    if (sectionHasContent(content)) {
+      if (name === "Differential Diagnosis") {
+        html += renderDifferentialSection(content, previewIndex, ctx);
+      } else {
+        // Prefer one gallery under the section over duplicating the same
+        // images as both inline markdown thumbs and a gallery grid.
+        const prose = sectionFigs.length ? stripMarkdownImages(content) : content;
+        if (sectionHasContent(prose)) {
+          html += renderMarkdown(prose, previewIndex);
+        }
+      }
+    } else if (sectionFigs.length) {
+      html +=
+        '<p class="hint">No prose for this section in the synthesized page — showing figures matched from retrieved evidence.</p>';
     }
+    if (sectionFigs.length) {
+      html += renderSectionGallery(name, sectionFigs);
+    }
+    html += "</div></div>";
+  }
+  if (buckets.other.length) {
+    html += '<div class="topic-section" data-topic-section="Additional Images">';
+    html += '<div class="topic-section-header">ADDITIONAL IMAGES</div>';
+    html += '<div class="topic-section-body">';
+    html +=
+      '<p class="hint">Figures that could not be confidently placed under Imaging, Gross, Microscopic, Cytology, or Ancillary Tests.</p>';
+    html += renderSectionGallery("Additional images", buckets.other);
     html += "</div></div>";
   }
   html += "</div></div>";
@@ -2899,6 +4922,37 @@ function formatSourceCountLabel(sourceKey, count) {
   return `${label} ${count}`;
 }
 
+/** Compact source chips under the board map so missing textbooks are obvious. */
+function renderEvidenceSourceBar(data, shownOverrides = {}) {
+  const cards = data?.cards || [];
+  const order = ["textbooks", "who", "pathout", "videos", "literature"];
+  const counts = countItemsBySource(cards);
+  if ((data.literature || []).length && !counts.literature) {
+    counts.literature = data.literature.length;
+  }
+  const chips = [];
+  for (const src of order) {
+    const retrieved = counts[src] || 0;
+    const shown = shownOverrides[src];
+    // When a query-relevance filter hid some/all retrieved cards of this
+    // source (e.g. lecture segments that don't name a rare diagnosis
+    // verbatim — see filterVideoCardsByRelevance), the chip must say so
+    // instead of a bare "N" that implies N are visible below when 0 are.
+    const n = shown != null ? shown : retrieved;
+    const label = SOURCE_LABELS[src] || src;
+    const cls = n > 0 ? "source-chip ok" : "source-chip missing";
+    const countText = shown != null && shown !== retrieved ? `${shown}/${retrieved} shown` : String(n);
+    chips.push(`<span class="${cls}">${escapeHtml(label)} <strong>${countText}</strong></span>`);
+  }
+  const tb = counts.textbooks || 0;
+  let note = "";
+  if (tb === 0) {
+    note =
+      '<p class="hint source-chip-note">No textbook cards in this evidence bundle — hub Round 1 may have missed; try Rebuild. WHO/Pathout/literature may still support the page.</p>';
+  }
+  return `<div class="evidence-source-bar" aria-label="Evidence sources used">${chips.join("")}${note}</div>`;
+}
+
 /** Always-visible retrieval breakdown for topic pages (works on cache hits too). */
 function renderTopicSourceSummary(data, entryMeta = null) {
   const cardCounts = countItemsBySource(data.cards || []);
@@ -2911,12 +4965,22 @@ function renderTopicSourceSummary(data, entryMeta = null) {
   }
 
   const debug = data?.debug;
-  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? entryMeta.tag.split("::", 1)[0] : null);
+  const pageRoot = debug?.page_root || (entryMeta?.tag?.includes("::") ? tagBrowseRootId(entryMeta.tag) : null);
   let html = '<div class="topic-source-summary">';
   html += `<p class="hint"><strong>Evidence used:</strong> ${escapeHtml(parts.join(" · "))}`;
   const figTotal = (data.figures || []).length;
   if (figTotal) {
     html += ` · ${figTotal} figure${figTotal === 1 ? "" : "s"}`;
+  }
+  const litCount =
+    (data.literature || []).length ||
+    (data.cards || []).filter((c) => (c.source || "") === "literature").length;
+  if (litCount) {
+    html += ` · <strong>${litCount} live literature</strong> (Elsevier/PubMed/OncoKB)`;
+  } else if (data.debug && data.debug.live_literature_enabled === false) {
+    html += " · live literature off";
+  } else if (data.debug && data.mode === "topic_page") {
+    html += " · live literature: none returned";
   }
   html += ".</p>";
 
@@ -2925,10 +4989,23 @@ function renderTopicSourceSummary(data, entryMeta = null) {
     const before = debug?.cards_before_root_filter;
     const after = debug?.cards_after_root_filter;
     if (narrow === true && typeof before === "number" && typeof after === "number" && before !== after) {
-      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO + journals kept).</p>`;
+      html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong>: ${after} cards kept (${before - after} off-root textbooks/pathout/videos dropped; WHO kept).</p>`;
     } else if (narrow === true) {
       html += `<p class="hint">Organ filter <strong>${escapeHtml(formatDisplayLabel(pageRoot))}</strong> active for textbooks, Pathoutlines, and lecture segments.</p>`;
     }
+  }
+
+  if (debug?.iterative && Array.isArray(debug.round_summaries) && debug.round_summaries.length) {
+    const rounds = debug.round_summaries
+      .map((r) => {
+        const bits = [`R${r.round} ${r.label || ""}`.trim()];
+        if (typeof r.cards === "number") bits.push(`${r.cards} cards`);
+        if (typeof r.literature_total === "number") bits.push(`${r.literature_total} lit`);
+        if (typeof r.cards_added === "number" && r.cards_added) bits.push(`+${r.cards_added}`);
+        return bits.join(" · ");
+      })
+      .join(" → ");
+    html += `<p class="hint"><strong>Iterative retrieval:</strong> ${escapeHtml(rounds)}</p>`;
   }
 
   if (debug?.cards_by_source_before_cap && debug?.cards_by_source_after_cap) {
@@ -2969,36 +5046,319 @@ function topicPageFanoutHint(data) {
   const callCount = debug.call_count || "?";
   const capped = debug.cards_capped;
   const capLimit = debug.cards_cap_limit;
-  let text = `Retrieval used ${variantCount} parallel query variants (${callCount} total source calls) for broader coverage.`;
+  let text = debug.iterative
+    ? `Iterative retrieval across ${debug.iterative_rounds || "?"} rounds · ${variantCount} hub queries (${callCount} source calls).`
+    : `Retrieval used ${variantCount} parallel query variants (${callCount} total source calls) for broader coverage.`;
   if (typeof capped === "number" && typeof capLimit === "number") {
     text += ` ${capped} unique cards (cap ${capLimit}) sent to synthesis.`;
+  }
+  if (typeof debug.literature_count === "number") {
+    text += ` ${debug.literature_count} live literature cards.`;
   }
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
 
-function renderEntryTagsFooter(tag, provenance) {
-  if (!tag) return "";
-  let html = '<div class="topic-tags-footer">';
-  html += '<span class="topic-tags-label">Tags:</span>';
-  html += `<span class="tag-chip topic-entry-tag" title="${escapeAttr(tag)}">${escapeHtml(formatDisplayLabel(tag))}</span>`;
-  const provenanceLabel = formatNavProvenanceLabel(provenance);
-  if (provenanceLabel) {
-    html += `<span class="source-badge provenance-badge">${escapeHtml(provenanceLabel)}</span>`;
+function renderTopicExportBar() {
+  return (
+    '<div class="topic-export-bar">' +
+    '<button type="button" class="btn-secondary topic-export-btn">Export page as JSON</button>' +
+    '<p class="hint">Full raw response (answer, cards, figures, literature, debug).</p>' +
+    "</div>"
+  );
+}
+
+/** Build HTML for the live SSE thinking / progress panel. */
+function renderThinkingPanel(steps, { live = false } = {}) {
+  const liveClass = live ? " thinking-live" : "";
+  if (!steps?.length) {
+    return (
+      `<div class="thinking-panel${liveClass}" data-thinking-panel>` +
+      '<div class="thinking-panel-title">Working…</div>' +
+      '<ul class="thinking-steps"></ul></div>'
+    );
+  }
+  let html =
+    `<div class="thinking-panel${liveClass}" data-thinking-panel>` +
+    '<div class="thinking-panel-title">Building evidence</div><ul class="thinking-steps">';
+  for (const step of steps) {
+    const status = step.status || "running";
+    html += `<li class="thinking-step ${escapeAttr(status)}">`;
+    html += '<span class="thinking-mark" aria-hidden="true"></span>';
+    html += "<div>";
+    html += `<div class="thinking-label">${escapeHtml(step.label || step.phase || "…")}</div>`;
+    if (step.detail) {
+      html += `<div class="thinking-detail">${escapeHtml(step.detail)}</div>`;
+    }
+    if (Array.isArray(step.queries) && step.queries.length) {
+      html += '<ul class="thinking-queries">';
+      for (const q of step.queries.slice(0, 6)) {
+        html += `<li>${escapeHtml(q)}</li>`;
+      }
+      html += "</ul>";
+    }
+    html += "</div></li>";
+  }
+  html += "</ul></div>";
+  return html;
+}
+
+function thinkingStepKey(ev) {
+  if (ev.phase === "round" || ev.phase === "literature") {
+    return `${ev.phase}-${ev.round || 0}-${ev.label || ""}`;
+  }
+  return `${ev.phase || "step"}-${ev.label || ""}`;
+}
+
+function upsertThinkingStep(steps, ev) {
+  const key = thinkingStepKey(ev);
+  const next = {
+    key,
+    phase: ev.phase,
+    round: ev.round,
+    status: ev.status || "running",
+    label: ev.label || ev.phase || "Working…",
+    detail: ev.detail || "",
+    queries: ev.queries || null,
+  };
+  const idx = steps.findIndex((s) => s.key === key);
+  if (idx >= 0) {
+    steps[idx] = { ...steps[idx], ...next };
+  } else {
+    steps.push(next);
+  }
+  return steps;
+}
+
+function yieldToBrowserPaint() {
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => resolve());
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
+}
+
+/**
+ * Real SSE client for POST /api/chat/stream — yields progress events live
+ * (not a post-hoc replay). Returns the final `result` payload.
+ *
+ * Awaits onProgress and yields to the browser between events so the thinking
+ * panel can paint even when chunks arrive in a burst.
+ */
+async function streamChat(payload, { onProgress } = {}) {
+  const resp = await fetch("/api/chat/stream", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!resp.ok) {
+    let detail = `HTTP ${resp.status}`;
+    try {
+      const errBody = await resp.json();
+      detail = errBody.error || detail;
+    } catch (_) {
+      /* ignore */
+    }
+    if (resp.status === 404) {
+      detail =
+        "No /api/chat/stream on this server — checkout cursor/topic-iterative-sse-layout-9231, restart ./scripts/run_local.sh, hard-refresh.";
+    }
+    throw new Error(detail);
+  }
+  if (!resp.body || typeof resp.body.getReader !== "function") {
+    // Extremely old environments — fall back to blocking chat.
+    const fallback = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return parseJsonResponseSafely(fallback);
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let resultPayload = null;
+
+  const flushBlock = async (block) => {
+    const lines = block.split(/\r?\n/);
+    let eventName = "message";
+    const dataLines = [];
+    for (const line of lines) {
+      if (!line || line.startsWith(":")) continue; // SSE comments / flush pads
+      if (line.startsWith("event:")) eventName = line.slice(6).trim();
+      else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+    }
+    if (!dataLines.length) return;
+    let data;
+    try {
+      data = JSON.parse(dataLines.join("\n"));
+    } catch (_) {
+      return;
+    }
+    if (eventName === "progress") {
+      if (onProgress) await onProgress(data);
+      await yieldToBrowserPaint();
+    } else if (eventName === "result") {
+      resultPayload = data;
+    } else if (eventName === "error") {
+      throw new Error(data.error || "Stream error");
+    }
+  };
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let sep;
+    // Split on blank line; tolerate padded comment frames between events.
+    while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
+      const block = buffer.slice(0, sep);
+      const match = buffer.slice(sep).match(/^\r?\n\r?\n/);
+      buffer = buffer.slice(sep + (match ? match[0].length : 2));
+      if (block.trim()) await flushBlock(block);
+    }
+  }
+  if (buffer.trim()) await flushBlock(buffer);
+  if (!resultPayload) {
+    throw new Error("Stream ended without a result event.");
+  }
+  return resultPayload;
+}
+
+function browsePathSegments(entryMeta) {
+  const segments = [];
+  const category = entryMeta?.categoryId ? findCategory(entryMeta.categoryId) : null;
+  const subcategory = category ? findSubcategory(category, entryMeta.subcategoryId) : null;
+  if (category?.label) segments.push(formatDisplayLabel(category.label));
+  if (subcategory?.label) segments.push(formatSubcategoryLabel(subcategory.label));
+  const leafLabel = entryMeta?.label || entryMeta?.query;
+  if (leafLabel) segments.push(formatDisplayLabel(leafLabel));
+  return segments;
+}
+
+/** Single compact "Tag: <tag path>" line on a built topic page — the full
+ * board/curriculum breadcrumb prose (root > subcategory > category > leaf)
+ * is redundant with the machine tag path itself and with the breadcrumbs
+ * already shown above the page (see renderBrowseBreadcrumbs), so it isn't
+ * repeated here. Falls back to the human Browse path only when there is no
+ * formal ABPath/WHO tag at all. */
+function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
+  if (tag) {
+    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
+  }
+  const pathSegments = browsePathSegments(entryMeta || {});
+  if (!pathSegments.length && !provenance) return "";
+  const provenanceLabel =
+    formatNavProvenanceLabel(provenance) || "Browse path only — open from Full index for ABPath board tags";
+  if (!pathSegments.length) {
+    return `<div class="topic-tags-header curriculum-tagline"><span class="hint">${escapeHtml(provenanceLabel)}</span></div>`;
+  }
+  return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(pathSegments.join(" › "))}</code></div>`;
+}
+
+function literatureProviderLabel(key) {
+  const k = String(key || "").toLowerCase();
+  if (k.includes("scopus") || k === "elsevier") return "Elsevier Scopus";
+  if (k.includes("pubmed")) return "PubMed";
+  if (k.includes("oncokb")) return "OncoKB";
+  if (k.includes("europe")) return "Europe PMC";
+  return key;
+}
+
+function renderLiteratureProviderStatus(debug) {
+  const providers = debug?.literature_providers;
+  if (!providers || typeof providers !== "object") return "";
+  const parts = [];
+  for (const [name, meta] of Object.entries(providers)) {
+    if (!meta || typeof meta !== "object") continue;
+    const label = literatureProviderLabel(name);
+    if (meta.ok) {
+      const n = typeof meta.returned === "number" ? meta.returned : "?";
+      const total = meta.total != null ? ` / ${meta.total} total` : "";
+      const skipped = meta.skipped ? ` (${meta.skipped})` : "";
+      const abs =
+        typeof meta.abstracts_filled === "number" ? `, ${meta.abstracts_filled} with abstract` : "";
+      parts.push(`${label}: ok (${n}${total}${abs})${skipped}`);
+    } else {
+      const err = meta.error === "missing_api_key" ? "missing provider key" : meta.error || "unknown";
+      parts.push(`${label}: failed (${err})`);
+    }
+  }
+  const warnings = Array.isArray(debug?.literature_warnings) ? debug.literature_warnings : [];
+  if (!parts.length && !warnings.length) return "";
+  let html = '<div class="literature-status">';
+  if (parts.length) {
+    html += `<p class="hint"><strong>Literature APIs:</strong> ${escapeHtml(parts.join(" · "))}</p>`;
+  }
+  if (warnings.length) {
+    html += `<p class="hint literature-warning">${escapeHtml(warnings.join("; "))}</p>`;
   }
   html += "</div>";
   return html;
 }
 
+function renderLiteratureStrip(cards, debug = null) {
+  const lit =
+    (cards || []).filter((c) => (c.source || "").toLowerCase() === "literature") ||
+    [];
+  const statusHtml = renderLiteratureProviderStatus(debug);
+  if (!lit.length) {
+    if (!statusHtml) return "";
+    return (
+      '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>' +
+      statusHtml +
+      '<p class="hint">No literature cards returned for this page.</p></div>'
+    );
+  }
+  let html =
+    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>';
+  html += statusHtml;
+  html += '<ul class="literature-list">';
+  for (const card of lit.slice(0, 10)) {
+    const title = card.title || "Untitled";
+    const journal = card.journal || card.source_name || "";
+    const year = card.year || "";
+    const mode = card.retrieval_mode || "";
+    const url = card.source_url || card.url || (card.doi ? `https://doi.org/${card.doi}` : "");
+    const snip = (card.excerpt || card.text || "").replace(/\s+/g, " ").trim().slice(0, 220);
+    const link = url
+      ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`
+      : escapeHtml(title);
+    html += `<li><div class="literature-title">${link}</div>`;
+    html += `<div class="literature-meta">${escapeHtml([journal, year, mode].filter(Boolean).join(" · "))}</div>`;
+    if (snip) html += `<div class="literature-snip">${escapeHtml(snip)}${snip.length >= 220 ? "…" : ""}</div>`;
+    html += "</li>";
+  }
+  html += "</ul></div>";
+  return html;
+}
+
 function renderTopicPageResult(data, query, entryMeta = null) {
-  const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
+  // Display caps mirror the actual backend retrieval caps (TOPIC_PAGE_MAX_CARDS=120,
+  // TOPIC_PAGE_MAX_FIGURES=40 in pathology_backend.py) — these used to be
+  // much smaller (20/16) than what was actually retrieved and sent to
+  // synthesis, so the page looked far shallower than the real evidence base.
+  const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 80 });
   const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
+  const rawLiterature =
+    data.literature || sortedCards.filter((c) => (c.source || "") === "literature");
+  // Same relevance gate as figures/cards — hide prostate/etc. off-targets on breast pages.
+  const litFilter = filterByQueryRelevance(query, rawLiterature, { maxShown: 10 });
+  const literatureCards = litFilter.shown.length ? litFilter.shown : [];
   const videoFilter = filterVideoCardsByRelevance(query, sortedCards, { maxShown: 6 });
   const lectureCards = videoFilter.shown;
-  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 16 });
+  const figFilter = filterByQueryRelevance(query, data.figures || [], { maxShown: 40 });
   const shownFigures = figFilter.shown.length ? figFilter.shown : data.figures || [];
   const sections = parseTopicPageSections(data.answer || "");
   const inlineFigures = collectInlineFiguresFromSections(sections);
-  const galleryFigures = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 16 });
+  // Pass retrieved figures (plus any inline-only URLs) into section bucketing —
+  // renderTopicPage places them under Imaging / Gross / Micro / Ancillary galleries.
+  const sectionFigurePool = mergeTopicGalleryFigures(shownFigures, inlineFigures, [], { maxShown: 40 });
   const previewIndex = buildUrlPreviewIndex(data.cards || [], [...shownFigures, ...inlineFigures]);
   for (const card of lectureCards) {
     const presentation = lectureCardPresentation(card);
@@ -3006,26 +5366,36 @@ function renderTopicPageResult(data, query, entryMeta = null) {
       previewIndex.set(presentation.previewUrl, presentation);
     }
   }
+  // Enables bare (WHO)/(Pathoutlines)/(Atlas) → real links, and journal labels → (DOI).
+  activeCiteBySource = buildCiteBySource(data.cards || [], literatureCards);
+  activeLiteratureByUrl = buildLiteratureByUrl(literatureCards);
+  activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
+  indexTextbookLabelsFromCards(data.cards || [], shownFigures);
   const pageContext = pageContextFromEntryMeta(entryMeta);
+  const tag = entryMeta?.tag || null;
+  const provenance = entryMeta?.provenance || null;
 
-  let html = renderTopicSourceSummary(data, entryMeta);
-  html += topicPageFanoutHint(data);
+  // Board/curriculum hierarchy at the top (ABPath/WHO tag path when known).
+  let html = renderEntryTagsHeader(tag, provenance, entryMeta);
+  html += renderEvidenceSourceBar(data, { videos: lectureCards.length, literature: literatureCards.length });
   html += renderTopicPage(
     sections,
     previewIndex,
-    galleryFigures,
+    sectionFigurePool,
     data.who_cross_mentions || [],
     lectureCards,
     pageContext,
   );
+  html += renderLiteratureStrip(literatureCards, data.debug || null);
+  if (litFilter.note) html += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
   if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
   html += renderCitations(sortedCards);
-  const tag = entryMeta?.tag || null;
-  const provenance = entryMeta?.provenance || null;
-  html += renderEntryTagsFooter(tag, provenance);
+  html += renderTopicSourceSummary(data, entryMeta);
+  html += topicPageFanoutHint(data);
   html += renderDebugBlock(data);
+  html += renderTopicExportBar();
   return html;
 }
 
@@ -3068,13 +5438,11 @@ async function fetchCachedTopicPage(tag) {
 function topicPageCacheHint(data, cachedMeta) {
   if (data?.cache_hit || cachedMeta) {
     const when = data?.cached_at || cachedMeta?.generated_at || "";
-    const src = data?.cache_source || cachedMeta?.cache_source || "cache";
     const model = data?.model || cachedMeta?.model || "";
-    const parts = ["Cached topic page — instant reuse from a prior open."];
-    if (when) parts.push(`Saved ${when}.`);
+    const parts = ["Prebuilt page — loaded instantly from cache."];
+    if (when) parts.push(`Built ${formatCachedTimestamp(when)}.`);
     if (model) parts.push(`Model: ${model}.`);
-    if (src === "pilot_prebuild") parts.push("(legacy pilot prebuild)");
-    parts.push("Use Rebuild for a fresh live query.");
+    parts.push("Click Rebuild for a fresh live query with up-to-date evidence.");
     return `<p class="hint topic-cache-hint">${escapeHtml(parts.join(" "))}</p>`;
   }
   if (data?.cache_saved) {
@@ -3083,12 +5451,86 @@ function topicPageCacheHint(data, cachedMeta) {
   return "";
 }
 
-/** Loads a Browse leaf's topic page. Tries read-only cache first; on miss runs
- * live topic_page (server also caches on success). Rebuild skips cache. */
-async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
+function formatCachedTimestamp(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  } catch (err) {
+    return iso;
+  }
+}
+
+function bindTopicPageChrome(root, leafRef, displayLabel, query) {
+  root.querySelector(".flag-page-btn")?.addEventListener("click", () => {
+    openFlagModal({
+      tag: leafRef.tag,
+      label: displayLabel,
+      query,
+      page_kind: "topic_page",
+    });
+  });
+  root.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
+    loadLeafTopicPage(leafRef, { rebuild: true });
+  });
+  root.querySelectorAll(".topic-export-btn").forEach((btn) => {
+    btn.addEventListener("click", exportCurrentPageAsJson);
+  });
+  bindPreviewHandlers(root);
+  bindDdxLinks(root);
+  bindVsButtons(root);
+}
+
+function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thinkingHtml = "" } = {}) {
+  const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
+    tag: leafRef.tag,
+    label: leafRef.label,
+    query,
+  });
+  let html = '<div class="topic-page-actions">';
+  html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
+  if (leafRef.tag) {
+    html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+  }
+  html += renderVsButton(compareEnt);
+  html += "</div>";
+  html += thinkingHtml;
+  html += bodyHtml;
+  return html;
+}
+
+/** Loads a Browse leaf's topic page via SSE so round progress is visible.
+ * Skips the silent prebuild cache when iterative retrieval is on (otherwise
+ * cache hits hide all thinking). Rebuild always forces a live stream. */
+async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
+  // Attach ABPath/WHO hierarchical tag when a starter leaf had tag:null.
+  const leafRef = resolveBoardMappedLeaf(leafRefIn) || leafRefIn;
+  // Keep Browse state in sync so breadcrumbs / rebuild / export see the tag.
+  if (leafRef.tag && browseState?.level === "leaf") {
+    browseState = {
+      ...browseState,
+      tag: leafRef.tag,
+      provenance: leafRef.provenance || browseState.provenance || null,
+      categoryId: leafRef.categoryId || browseState.categoryId || null,
+      subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+    };
+  }
   const seq = ++browseRequestSeq;
   const displayLabel = formatDisplayLabel(leafRef.label || leafRef.query);
-  browseContentEl.innerHTML = `<p class="hint">Loading evidence for "${escapeHtml(displayLabel)}"…</p>`;
+  browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, leafRef.query || displayLabel, {
+    thinkingHtml: renderThinkingPanel(
+      [{ status: "running", label: "Starting live retrieval…", detail: displayLabel }],
+      { live: true },
+    ),
+  });
+  bindTopicPageChrome(browseContentEl, leafRef, displayLabel, leafRef.query || displayLabel);
 
   const category = findCategory(leafRef.categoryId);
   const subcategory = category ? findSubcategory(category, leafRef.subcategoryId) : null;
@@ -3097,20 +5539,26 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
   const query = leafRef.query || displayLabel;
 
   try {
+    // Prebuilt/cached pages should load instantly — that is the entire point
+    // of prebuilding. Always check the cache first (unless the user asked to
+    // Rebuild); only fall through to a live SSE build on a cache miss.
     let cachedMeta = null;
-    if (!rebuild && leafRef.tag) {
+    const allowCache = !rebuild && Boolean(leafRef.tag);
+    if (allowCache) {
       cachedMeta = await fetchCachedTopicPage(leafRef.tag);
     }
     if (seq !== browseRequestSeq) return;
 
     let data;
-    if (cachedMeta && !rebuild) {
+    let steps = [];
+    if (cachedMeta && allowCache) {
       data = {
         ok: true,
         mode: "topic_page",
         answer: cachedMeta.answer_markdown,
         cards: cachedMeta.cards || [],
         figures: cachedMeta.figures || [],
+        literature: (cachedMeta.cards || []).filter((c) => (c.source || "") === "literature"),
         who_cross_mentions: cachedMeta.who_cross_mentions || [],
         cache_hit: true,
         cache_source: cachedMeta.cache_source,
@@ -3119,18 +5567,30 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
         debug: null,
       };
     } else {
-      const resp = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          buildPayload(query, "topic_page", {
-            categoryContext,
-            pageTag: leafRef.tag,
-            rebuild,
-          }),
-        ),
-      });
-      data = await resp.json();
+      const paintThinking = () => {
+        if (seq !== browseRequestSeq) return;
+        browseContentEl.innerHTML = renderTopicPageShell(leafRef, displayLabel, query, {
+          thinkingHtml: renderThinkingPanel(steps, { live: true }),
+        });
+        bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
+      };
+      paintThinking();
+      data = await streamChat(
+        buildPayload(query, "topic_page", {
+          categoryContext,
+          pageTag: leafRef.tag,
+          browseRoot: leafRef.categoryId || browseState.categoryId || null,
+          rebuild,
+        }),
+        {
+          onProgress: async (ev) => {
+            upsertThinkingStep(steps, ev);
+            paintThinking();
+          },
+        },
+      );
+      // Mark any still-running steps done for the retained summary.
+      steps = steps.map((s) => (s.status === "running" ? { ...s, status: "done" } : s));
     }
     if (seq !== browseRequestSeq) return;
 
@@ -3139,75 +5599,152 @@ async function loadLeafTopicPage(leafRef, { rebuild = false } = {}) {
       return;
     }
 
-    const compareEnt = comparePayloadFromLeaf(leafRef.categoryId, leafRef.subcategoryId, {
-      tag: leafRef.tag,
-      label: leafRef.label,
+    setLastExportableResult({
+      source: "topic_page",
       query,
+      tag: leafRef.tag || null,
+      label: displayLabel || leafRef.label || null,
+      data,
     });
-    let html = '<div class="topic-page-actions">';
-    html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
-    if (leafRef.tag) {
-      html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+
+    // Always surface a retrieval transcript: live SSE steps when present,
+    // otherwise rebuild a summary from debug.round_summaries so the user
+    // still sees that iterative work happened.
+    let thinkingHtml = steps.length ? renderThinkingPanel(steps) : "";
+    if (!thinkingHtml && data.debug?.round_summaries?.length) {
+      thinkingHtml = renderThinkingPanel(
+        data.debug.round_summaries.map((r) => ({
+          status: "done",
+          label: `Round ${r.round} — ${r.label || "retrieval"}`,
+          detail: [
+            typeof r.cards === "number" ? `${r.cards} cards` : null,
+            typeof r.figures === "number" ? `${r.figures} figures` : null,
+            typeof r.literature_total === "number" ? `${r.literature_total} literature` : null,
+            typeof r.cards_added === "number" && r.cards_added ? `+${r.cards_added}` : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+          queries: r.queries || null,
+        })),
+      );
     }
-    html += renderVsButton(compareEnt);
-    html += "</div>";
-    html += topicPageCacheHint(data, cachedMeta);
-    html += renderTopicPageResult(data, query, {
-      tag: leafRef.tag,
-      provenance: leafRef.provenance || null,
-      categoryId: leafRef.categoryId || browseState.categoryId || null,
-      subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+    let html = renderTopicPageShell(leafRef, displayLabel, query, {
+      thinkingHtml,
+      bodyHtml:
+        topicPageCacheHint(data, cachedMeta) +
+        renderTopicPageResult(data, query, {
+          tag: leafRef.tag,
+          provenance: leafRef.provenance || null,
+          categoryId: leafRef.categoryId || browseState.categoryId || null,
+          subcategoryId: leafRef.subcategoryId || browseState.subcategoryId || null,
+        }),
     });
     browseContentEl.innerHTML = html;
-    browseContentEl.querySelector(".flag-page-btn")?.addEventListener("click", () => {
-      openFlagModal({
-        tag: leafRef.tag,
-        label: displayLabel,
-        query,
-        page_kind: "topic_page",
-      });
-    });
-    browseContentEl.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
-      loadLeafTopicPage(leafRef, { rebuild: true });
-    });
-    bindPreviewHandlers(browseContentEl);
-    bindDdxLinks(browseContentEl);
-    bindVsButtons(browseContentEl);
+    bindTopicPageChrome(browseContentEl, leafRef, displayLabel, query);
   } catch (err) {
     if (seq !== browseRequestSeq) return;
     browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
   }
 }
 
+/** Dual function of the top query overlay: while the Browse tab is showing
+ * its home tree/tile grid, typing live-filters it (same box, no separate
+ * search input); pressing Enter still asks a full question via the submit
+ * handler below regardless of what's currently typed. */
+queryInput.addEventListener("input", () => {
+  if (!askViewEl.classList.contains("hidden")) return;
+  if (browseState.level !== "home") return;
+  browseFilterQuery = queryInput.value;
+  renderBrowseHome();
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const query = queryInput.value.trim();
   if (!query) return;
 
+  // Pressing Enter always answers the question, never just filters — and
+  // switching to the Ask tab hides the Browse tree/tiles behind it.
+  browseFilterQuery = "";
   setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
   sendBtn.disabled = true;
 
-  const thinking = appendMessage("assistant", "<em>Searching evidence…</em>");
+  const plan = planAskRequest(query);
+  const category = plan.leaf?.categoryId ? findCategory(plan.leaf.categoryId) : null;
+  const subcategory =
+    category && plan.leaf?.subcategoryId ? findSubcategory(category, plan.leaf.subcategoryId) : null;
+  const categoryContext =
+    category && subcategory ? `${category.label} > ${subcategory.label}` : category?.label || null;
+
+  const steps = [];
+  if (plan.routed) {
+    steps.push({
+      status: "done",
+      label: plan.routeNote ? "Inferred answer shape" : "Routed",
+      detail: plan.routeNote,
+    });
+  }
+  const thinking = appendMessage("assistant", renderThinkingPanel(steps, { live: true }));
+  const bodyEl = thinking.querySelector(".body");
+  const paintThinking = () => {
+    bodyEl.innerHTML = renderThinkingPanel(steps, { live: true });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
 
   try {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildPayload(query)),
-    });
-    const data = await resp.json();
+    const data = await streamChat(
+      buildPayload(plan.query, plan.mode, {
+        categoryContext,
+        pageTag: plan.leaf?.tag || null,
+      }),
+      {
+        onProgress: async (ev) => {
+          upsertThinkingStep(steps, ev);
+          paintThinking();
+        },
+      },
+    );
     let body = "";
+    const doneSteps = steps.map((s) => (s.status === "running" ? { ...s, status: "done" } : s));
+    if (doneSteps.length) {
+      body += renderThinkingPanel(doneSteps);
+    }
+    if (plan.routed) {
+      body += `<p class="hint topic-route-hint">${escapeHtml(plan.routeNote)}</p>`;
+    }
+
+    if (data.ok) {
+      setLastExportableResult({
+        source: data.mode || "chat",
+        query: plan.query,
+        original_query: query,
+        tag: plan.leaf?.tag || null,
+        label: plan.leaf?.label || null,
+        data,
+      });
+    }
 
     if (!data.ok) {
       body = `<p class="error-text">${escapeHtml(data.error || data.answer_error || "Request failed")}</p>`;
     } else if (data.mode === "topic_page") {
-      body += renderTopicPageResult(data, query);
+      body += renderTopicPageResult(data, plan.query, {
+        tag: plan.leaf?.tag || null,
+        provenance: plan.leaf?.provenance || null,
+        categoryId: plan.leaf?.categoryId || null,
+        subcategoryId: plan.leaf?.subcategoryId || null,
+        label: plan.leaf?.label || plan.query,
+        query: plan.query,
+      });
     } else {
       const cardFilter = filterByQueryRelevance(query, data.cards || [], { maxShown: 20 });
       const sortedCards = cardFilter.shown.length ? cardFilter.shown : data.cards || [];
       const previewIndex = buildUrlPreviewIndex(data.cards || [], data.figures || []);
+      activeCiteBySource = buildCiteBySource(data.cards || [], []);
+      activeLiteratureByUrl = new Map();
+      activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
+      indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
       body += renderFiguresStrip(data.figures, query);
@@ -3230,73 +5767,65 @@ form.addEventListener("submit", async (event) => {
     if (data.ok && data.mode !== "topic_page") {
       body += renderDebugBlock(data);
     }
+    if (data.ok && data.mode === "topic_page") {
+      /* export bar already included in renderTopicPageResult */
+    } else if (data.ok) {
+      body += renderTopicExportBar();
+    }
 
-    const bodyEl = thinking.querySelector(".body");
     bodyEl.innerHTML = body;
+    bodyEl.querySelectorAll(".topic-export-btn").forEach((btn) => {
+      btn.addEventListener("click", exportCurrentPageAsJson);
+    });
     bindPreviewHandlers(bodyEl);
+    if (data.mode === "topic_page") {
+      bindDdxLinks(bodyEl);
+    }
   } catch (err) {
-    thinking.querySelector(".body").innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
+    bodyEl.innerHTML = `<p class="error-text">${escapeHtml(String(err))}</p>`;
   } finally {
     sendBtn.disabled = false;
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 });
 
-function loadSessionNotes() {
-  try {
-    let saved = localStorage.getItem(NOTES_STORAGE_KEY);
-    if (saved == null) saved = localStorage.getItem(LEGACY_NOTES_STORAGE_KEY);
-    if (saved != null && saved !== "undefined") sessionNotes.value = saved;
-  } catch (err) {
-    notesStatus.textContent = "Could not load saved notes.";
-  }
+/** Tracks whatever was last rendered (topic page or Ask-tab chat answer) so
+ * the sidebar "Export current page as JSON" button always has something real
+ * to download — the full raw API response, not just what got rendered. */
+function setLastExportableResult(meta) {
+  lastExportableResult = { ...meta, exported_at: null };
+  exportPageBtn.disabled = false;
+  exportStatus.textContent = "";
 }
 
-function saveSessionNotes() {
-  try {
-    localStorage.setItem(NOTES_STORAGE_KEY, sessionNotes.value);
-    notesStatus.textContent = "Saved locally.";
-  } catch (err) {
-    notesStatus.textContent = "Could not save notes.";
-  }
+function slugForFilename(text) {
+  return (
+    String(text || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .slice(0, 60) || "page"
+  );
 }
 
-function scheduleNotesSave() {
-  clearTimeout(notesSaveTimer);
-  notesSaveTimer = setTimeout(saveSessionNotes, 300);
-}
-
-function notesMarkdownExport() {
-  const body = sessionNotes.value.trim();
-  const stamp = new Date().toISOString();
-  return `# Pathology Hub teaching session notes\n\nExported: ${stamp}\n\n---\n\n${body}\n`;
-}
-
-async function copySessionNotes() {
-  const text = sessionNotes.value;
-  if (!text.trim()) {
-    notesStatus.textContent = "Nothing to copy.";
+function exportCurrentPageAsJson() {
+  if (!lastExportableResult) {
+    exportStatus.textContent = "Nothing to export yet — ask a question or open a topic page first.";
     return;
   }
-  try {
-    await navigator.clipboard.writeText(text);
-    notesStatus.textContent = "Copied to clipboard.";
-  } catch (err) {
-    notesStatus.textContent = "Copy failed — select and copy manually.";
-  }
-}
-
-function exportSessionNotes() {
-  const md = notesMarkdownExport();
-  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const payload = { ...lastExportableResult, exported_at: new Date().toISOString() };
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   const stamp = new Date().toISOString().slice(0, 10);
+  const slug = slugForFilename(payload.tag || payload.query || payload.source);
   anchor.href = url;
-  anchor.download = `pathology_hub_teaching_session_${stamp}.md`;
+  anchor.download = `pathology_hub_${slug}_${stamp}.json`;
   anchor.click();
   URL.revokeObjectURL(url);
-  notesStatus.textContent = "Markdown file downloaded.";
+  exportStatus.textContent = "JSON file downloaded.";
 }
 
 function appendMessage(role, html) {
@@ -3329,10 +5858,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-modeSelect.addEventListener("change", updateModeHint);
-sessionNotes.addEventListener("input", scheduleNotesSave);
-copyNotesBtn.addEventListener("click", copySessionNotes);
-exportNotesBtn.addEventListener("click", exportSessionNotes);
+exportPageBtn.addEventListener("click", exportCurrentPageAsJson);
 
 viewTabs.forEach((tab) => {
   tab.addEventListener("click", () => setActiveView(tab.dataset.view));
@@ -3350,7 +5876,24 @@ flagModal?.querySelectorAll("[data-flag-close]").forEach((el) => {
 });
 flagSendBtn?.addEventListener("click", submitFlag);
 
-loadSessionNotes();
+infoModal?.querySelectorAll("[data-info-close]").forEach((el) => {
+  el.addEventListener("click", () => infoModal.classList.add("hidden"));
+});
+
+exportInfoBtn?.addEventListener("click", () => {
+  exportInfoModal?.classList.remove("hidden");
+});
+exportInfoModal?.querySelectorAll("[data-export-info-close]").forEach((el) => {
+  el.addEventListener("click", () => exportInfoModal.classList.add("hidden"));
+});
+
+homeBtn?.addEventListener("click", () => {
+  browseFilterQuery = "";
+  browseState = { level: "home" };
+  setActiveView("browse");
+  renderBrowseView();
+});
+
 updateModeHint();
 setActiveView("browse");
 browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';
