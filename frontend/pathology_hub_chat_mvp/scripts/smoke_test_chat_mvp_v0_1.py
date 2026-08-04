@@ -472,9 +472,10 @@ def smoke_offline() -> None:
     # browsing). Structural checks for the picker + submit-time routing.
     for needle in (
         "function currentMentionContext",
-        "function mentionSuggestionsFor",
-        "function selectMentionSuggestion",
+        "function renderMentionDropdown",
+        "function selectMentionLeaf",
         "function parseQueryMentions",
+        "renderOncotreeHtml(roots, { extraExpanded, isMatch",
         "resolved.length >= 2",
         "mention-dropdown",
     ):

@@ -5812,7 +5812,6 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
  * @/; syntax out of the text sent to the model (keeping the disambiguated
  * entity name) so retrieval isn't confused by the raw syntax. */
 let mentionInsertions = []; // ordered {label, leafRef} picked via the dropdown; positionally matched to parsed @mentions on submit so a dropdown pick always resolves to the exact entity chosen, even when its label collides with another root's same-named entity.
-let mentionActiveIndex = -1;
 
 function currentMentionContext() {
   const val = queryInput.value;
@@ -5825,75 +5824,105 @@ function currentMentionContext() {
   return { start: lastAt, end: pos, text: between };
 }
 
-function mentionSuggestionsFor(text) {
-  const query = String(text || "").trim();
-  const pool = TAXONOMY_LEAF_INDEX;
-  if (!query) return pool.slice(0, 8);
-  const norm = normalizeEntityName(query);
-  const scored = [];
-  for (const leaf of pool) {
-    const hay = leaf.normalized || "";
-    let score = -1;
-    if (hay === norm) score = 100;
-    else if (hay.startsWith(norm)) score = 80;
-    else if (hay.includes(` ${norm}`)) score = 60;
-    else if (norm.length >= 3 && hay.includes(norm)) score = 40;
-    if (score > 0) scored.push({ leaf, score });
-  }
-  scored.sort((a, b) => b.score - a.score || a.leaf.entityName.length - b.leaf.entityName.length);
-  return scored.slice(0, 8).map((s) => s.leaf);
-}
+/** Below this many characters after "@", don't search yet — a 1-char query
+ * would match hundreds of leaves and the floating dropdown is too small to
+ * usefully show a tree that wide. */
+const MENTION_TREE_MIN_CHARS = 2;
+/** Above this many matches, showing every one as a tree node in a small
+ * floating box is unusable — prompt to narrow instead (same idea as
+ * renderBrowseHome's flat-list fallback, just skipping straight to "type
+ * more" since there's no room here for 100+ rows either way). */
+const MENTION_TREE_MATCH_CAP = 80;
 
 function closeMentionDropdown() {
   if (!mentionDropdownEl) return;
   mentionDropdownEl.classList.add("hidden");
   mentionDropdownEl.innerHTML = "";
-  mentionDropdownEl._suggestions = null;
   mentionDropdownEl._ctx = null;
-  mentionActiveIndex = -1;
 }
 
-function renderMentionDropdown(suggestions, ctx) {
+/** Renders the SAME OncoTree visualization used for plain-text Browse
+ * search — branch curves, hierarchy, existing oncotree-vs-btn "VS" buttons
+ * — into the floating mention dropdown, instead of a separate flat list.
+ * (2026-08-04 feedback: "i wanted the plusses in the live oncotree...i did
+ * not want this unappealing dropdown".) Clicking a leaf (its label OR its
+ * VS button — both mean "select this one" while composing a mention, never
+ * "navigate away") inserts "@Label; " into the query box and adds it to the
+ * compare tray; clicking a branch expands/collapses it and re-renders this
+ * same dropdown, so the underlying hierarchy is still explorable. */
+function renderMentionDropdown(ctx) {
   if (!mentionDropdownEl) return;
-  if (!suggestions.length) {
+  const text = ctx.text.trim();
+  if (text.length < MENTION_TREE_MIN_CHARS) {
     closeMentionDropdown();
     return;
   }
+  const roots = activeBrowseRoots();
+  const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, text));
   // Positioned in JS (not CSS) because .query-overlay is sticky and its
   // rendered height/width varies (e.g. wraps on narrow screens).
   const rect = form.getBoundingClientRect();
   mentionDropdownEl.style.top = `${rect.bottom}px`;
   mentionDropdownEl.style.left = `${rect.left}px`;
   mentionDropdownEl.style.width = `${rect.width}px`;
-  let html = "";
-  suggestions.forEach((leaf, i) => {
-    const active = i === mentionActiveIndex ? " active" : "";
-    html += `<div class="mention-row${active}" data-idx="${i}">`;
-    const rootLabel = findCategory(leaf.categoryId)?.label || leaf.categoryId || "";
-    html += `<span class="mention-row-label">${escapeHtml(formatDisplayLabel(leaf.label))}</span>`;
-    html += `<span class="mention-row-path">${escapeHtml(formatDisplayLabel(rootLabel))}</span>`;
-    html += `<button type="button" class="mention-add-btn" data-idx="${i}" title="Add to query">+</button>`;
-    html += `</div>`;
-  });
-  mentionDropdownEl.innerHTML = html;
-  mentionDropdownEl.classList.remove("hidden");
-  mentionDropdownEl._suggestions = suggestions;
   mentionDropdownEl._ctx = ctx;
-  mentionDropdownEl.querySelectorAll("[data-idx]").forEach((el) => {
-    // mousedown (not click) fires before the input blurs, so selectionStart
-    // in selectMentionSuggestion() still reflects where the user was typing.
-    el.addEventListener("mousedown", (event) => {
+  if (!matches.length) {
+    mentionDropdownEl.innerHTML = `<p class="hint mention-dropdown-hint">No matches for "${escapeHtml(text)}".</p>`;
+    mentionDropdownEl.classList.remove("hidden");
+    return;
+  }
+  mentionDropdownEl.classList.remove("hidden");
+  if (matches.length > MENTION_TREE_MATCH_CAP) {
+    mentionDropdownEl.innerHTML = `<p class="hint mention-dropdown-hint">${matches.length} matches — keep typing to narrow.</p>`;
+    return;
+  }
+  const matchSet = new Set(matches.map((row) => row.leaf));
+  const extraExpanded = new Set();
+  for (const row of matches) {
+    extraExpanded.add(row.root.id);
+    extraExpanded.add(`${row.root.id}::${row.sub.id}`);
+  }
+  let html = `<p class="hint mention-dropdown-hint">${matches.length} match${matches.length === 1 ? "" : "es"} — click a diagnosis or its VS button to add it.</p>`;
+  html += renderOncotreeHtml(roots, { extraExpanded, isMatch: (leafNode) => matchSet.has(leafNode) });
+  mentionDropdownEl.innerHTML = html;
+  mentionDropdownEl.querySelectorAll(".oncotree-node[data-node]").forEach((el) => {
+    el.addEventListener("click", (event) => {
       event.preventDefault();
-      selectMentionSuggestion(Number(el.dataset.idx));
+      const data = JSON.parse(el.dataset.node);
+      if (data.kind === "leaf") {
+        selectMentionLeaf(data.leaf, data.rootId, data.subId);
+        return;
+      }
+      if (browseTreeExpanded.has(data.path)) browseTreeExpanded.delete(data.path);
+      else browseTreeExpanded.add(data.path);
+      renderMentionDropdown(mentionDropdownEl._ctx);
+    });
+  });
+  mentionDropdownEl.querySelectorAll(".vs-btn[data-compare]").forEach((btn) => {
+    // mousedown (not click) fires before the input blurs, so
+    // currentMentionContext()'s selectionStart still reflects where the
+    // user was typing, and stopPropagation keeps this from also bubbling
+    // to the .oncotree-node-wrap click handler above.
+    btn.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        const entity = JSON.parse(btn.dataset.compare);
+        selectMentionLeaf(
+          { tag: entity.tag, label: entity.label, query: entity.query },
+          entity.categoryId,
+          entity.subcategoryId,
+        );
+      } catch (err) {
+        /* ignore malformed payload */
+      }
     });
   });
 }
 
-function selectMentionSuggestion(idx) {
-  const suggestions = mentionDropdownEl?._suggestions || [];
+function selectMentionLeaf(leaf, rootId, subId) {
   const ctx = mentionDropdownEl?._ctx;
-  const leaf = suggestions[idx];
-  if (!leaf || !ctx) return;
+  if (!ctx || !leaf) return;
   const label = formatDisplayLabel(leaf.label);
   const before = queryInput.value.slice(0, ctx.start);
   const after = queryInput.value.slice(ctx.end);
@@ -5902,7 +5931,18 @@ function selectMentionSuggestion(idx) {
   const caret = before.length + insertion.length;
   queryInput.focus();
   queryInput.setSelectionRange(caret, caret);
-  mentionInsertions.push({ label, leafRef: leafRefFrom(leaf) });
+  const leafRef = leafRefFrom({
+    categoryId: rootId,
+    subcategoryId: subId,
+    tag: leaf.tag,
+    label: leaf.label,
+    query: leaf.query,
+  });
+  mentionInsertions.push({ label, leafRef });
+  // Also reflect the pick in the compare tray immediately, so it's already
+  // there even if the user never presses Enter (e.g. picks a few entities
+  // from the tree, then just clicks the tray's own Compare button).
+  addToCompare(comparePayloadFromLeaf(rootId, subId, leaf));
   closeMentionDropdown();
 }
 
@@ -5912,30 +5952,12 @@ function updateMentionDropdown() {
     closeMentionDropdown();
     return;
   }
-  mentionActiveIndex = 0;
-  renderMentionDropdown(mentionSuggestionsFor(ctx.text), ctx);
+  renderMentionDropdown(ctx);
 }
 
 queryInput.addEventListener("keydown", (event) => {
   if (!mentionDropdownEl || mentionDropdownEl.classList.contains("hidden")) return;
-  const suggestions = mentionDropdownEl._suggestions || [];
-  if (!suggestions.length) return;
-  if (event.key === "ArrowDown") {
-    event.preventDefault();
-    mentionActiveIndex = Math.min(mentionActiveIndex + 1, suggestions.length - 1);
-    renderMentionDropdown(suggestions, mentionDropdownEl._ctx);
-  } else if (event.key === "ArrowUp") {
-    event.preventDefault();
-    mentionActiveIndex = Math.max(mentionActiveIndex - 1, 0);
-    renderMentionDropdown(suggestions, mentionDropdownEl._ctx);
-  } else if (event.key === "Enter" || event.key === "Tab") {
-    if (mentionActiveIndex >= 0) {
-      event.preventDefault();
-      selectMentionSuggestion(mentionActiveIndex);
-    }
-  } else if (event.key === "Escape") {
-    closeMentionDropdown();
-  }
+  if (event.key === "Escape") closeMentionDropdown();
 });
 
 queryInput.addEventListener("click", updateMentionDropdown);

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Headless Playwright test for the @mention entity picker (2026-08-03).
+"""Headless Playwright test for the @mention entity picker (2026-08-03,
+redesigned 2026-08-04 to render the live OncoTree instead of a flat list).
 
 computerUse (manual browser testing) was unavailable this session — this is
 the automated fallback per AGENTS.md guidance. Drives the real rendered DOM
 against the local dev server (no mocking), so it actually exercises the
-`currentMentionContext` / `mentionSuggestionsFor` / `selectMentionSuggestion`
-/ `parseQueryMentions` wiring in app.js, not just static string checks.
+`currentMentionContext` / `renderMentionDropdown` / `selectMentionLeaf` /
+`parseQueryMentions` wiring in app.js, not just static string checks.
 
 Usage:
     ./scripts/run_local.sh &          # local dev server must be running
@@ -16,7 +17,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-import time
 
 from playwright.sync_api import sync_playwright
 
@@ -45,43 +45,48 @@ def main() -> None:
         query_input = page.locator("#query-input")
         dropdown = page.locator("#mention-dropdown")
 
-        # --- Type "@LCIS" and expect the dropdown to populate ---
+        # --- Type "@LCIS": expect the REAL OncoTree (not a flat list) ---
         query_input.click()
         query_input.type("@LCIS", delay=40)
-        page.wait_for_timeout(300)
-        if dropdown.get_attribute("class") and "hidden" in (dropdown.get_attribute("class") or ""):
-            _fail("mention dropdown did not open for @LCIS", page.locator("#query-input").input_value())
-        rows = dropdown.locator(".mention-row")
-        n_rows = rows.count()
-        if n_rows < 1:
-            _fail("no mention suggestions rendered for @LCIS", n_rows)
-        first_row_text = rows.nth(0).locator(".mention-row-label").inner_text()
-        if "lcis" not in first_row_text.lower() and "lobular carcinoma in situ" not in first_row_text.lower():
-            _fail("top @LCIS suggestion doesn't look right", first_row_text)
-        _ok("@LCIS autocomplete populated", f"top suggestion: {first_row_text!r} ({n_rows} rows)")
+        page.wait_for_timeout(400)
+        if "hidden" in (dropdown.get_attribute("class") or ""):
+            _fail("mention dropdown did not open for @LCIS", query_input.input_value())
+        if dropdown.locator(".oncotree-container").count() < 1:
+            _fail("mention dropdown is not rendering the live OncoTree", dropdown.inner_html()[:300])
+        leaves = dropdown.locator(".oncotree-leaf")
+        n_leaves = leaves.count()
+        if n_leaves < 1:
+            _fail("no OncoTree leaf nodes rendered for @LCIS", n_leaves)
+        first_leaf_text = leaves.nth(0).inner_text()
+        if "lcis" not in first_leaf_text.lower() and "lobular carcinoma in situ" not in first_leaf_text.lower():
+            _fail("top @LCIS tree match doesn't look right", first_leaf_text)
+        _ok("@LCIS opened the live OncoTree with a matching leaf", f"{first_leaf_text!r} ({n_leaves} leaf node(s))")
 
-        # --- Click the "+" on the first suggestion ---
-        rows.nth(0).locator(".mention-add-btn").click()
-        page.wait_for_timeout(150)
+        # --- Click that leaf's VS button (the SAME button style used everywhere else in the tree) ---
+        dropdown.locator(".vs-btn").first.click()
+        page.wait_for_timeout(200)
         val_after_first = query_input.input_value()
         if not val_after_first.startswith("@") or ";" not in val_after_first:
-            _fail("clicking + did not insert a semicolon-delimited mention", val_after_first)
-        _ok("clicked + inserted mention", val_after_first)
+            _fail("clicking the tree leaf's VS button did not insert a semicolon-delimited mention", val_after_first)
+        _ok("clicked VS button on tree leaf inserted mention", val_after_first)
+        tray_count = page.locator("#compare-tray-count").inner_text()
+        if "1" not in tray_count:
+            _fail("compare tray did not update after picking a mention from the tree", tray_count)
+        _ok("compare tray reflects the pick immediately", tray_count)
 
-        # --- Type "@DCIS" and select the top suggestion too ---
+        # --- Type "@DCIS" and pick the tree leaf by clicking its label directly ---
         query_input.type("@DCIS", delay=40)
-        page.wait_for_timeout(300)
-        rows2 = dropdown.locator(".mention-row")
-        if rows2.count() < 1:
-            _fail("no mention suggestions rendered for @DCIS", rows2.count())
-        second_label = rows2.nth(0).locator(".mention-row-label").inner_text()
-        rows2.nth(0).locator(".mention-add-btn").click()
-        page.wait_for_timeout(150)
+        page.wait_for_timeout(400)
+        leaves2 = dropdown.locator(".oncotree-leaf")
+        if leaves2.count() < 1:
+            _fail("no OncoTree leaf nodes rendered for @DCIS", leaves2.count())
+        leaves2.first.click()
+        page.wait_for_timeout(200)
         val_after_second = query_input.input_value()
         mention_count = val_after_second.count("@")
         if mention_count < 2:
             _fail("expected 2 mentions in the query box", val_after_second)
-        _ok("second mention inserted", val_after_second)
+        _ok("second mention (picked via leaf label click) inserted", val_after_second)
 
         # --- Submit with Enter: expect routing straight to Compare ---
         query_input.press("Enter")
@@ -107,10 +112,10 @@ def main() -> None:
         query_input.click()
         query_input.type("@Ewing Sarcoma", delay=40)
         page.wait_for_timeout(400)
-        rows3 = dropdown.locator(".mention-row")
-        if rows3.count() < 1:
-            _fail("no suggestions for @Ewing Sarcoma", rows3.count())
-        rows3.nth(0).locator(".mention-add-btn").click()
+        leaves3 = dropdown.locator(".oncotree-leaf")
+        if leaves3.count() < 1:
+            _fail("no tree matches for @Ewing Sarcoma", leaves3.count())
+        leaves3.first.click()
         page.wait_for_timeout(150)
         query_input.press("Enter")
         page.wait_for_timeout(2000)
@@ -118,6 +123,14 @@ def main() -> None:
         if "ewing" not in breadcrumbs.lower():
             _fail("single-mention submit did not open that entity's topic page", breadcrumbs)
         _ok("single mention (no extra text) opened topic page directly", breadcrumbs)
+
+        # --- 2026-08-04 fix: no redundant "Home" breadcrumb at the home level ---
+        page.locator("#home-btn").click()
+        page.wait_for_timeout(400)
+        home_breadcrumbs = page.locator("#browse-breadcrumbs").inner_text().strip()
+        if home_breadcrumbs:
+            _fail("breadcrumb bar should be empty at the Browse home level (redundant with the overlay Home button)", home_breadcrumbs)
+        _ok("no redundant Home breadcrumb at the Browse home level")
 
         browser.close()
 
