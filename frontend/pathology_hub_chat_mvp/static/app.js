@@ -3736,6 +3736,14 @@ function findSubcategory(category, subcategoryId) {
 }
 
 function renderBrowseBreadcrumbs() {
+  // At the home level there's nothing to show a trail back FROM — a lone
+  // "Home" link here just duplicated the query overlay's own always-visible
+  // "⌂ Home" button (reported 2026-08-04: "dunno why we need two home
+  // buttons"). Only render a trail once there's real navigation depth.
+  if (browseState.level === "home") {
+    browseBreadcrumbsEl.innerHTML = "";
+    return;
+  }
   const parts = [
     {
       label: "Home",

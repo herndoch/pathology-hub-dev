@@ -496,6 +496,13 @@ def smoke_offline() -> None:
         _fail("buildOncotreeCategoryGroups still drops leaves instead of bucketing them", None)
     _ok("uncategorized tree leaves land in a clickable Other group (structural, offline)")
 
+    # 2026-08-04: no redundant "Home" breadcrumb at the Browse home level —
+    # duplicated the query overlay's own always-visible Home button
+    # (reported: "dunno why we need two home buttons").
+    if 'if (browseState.level === "home") {\n    browseBreadcrumbsEl.innerHTML = "";' not in js:
+        _fail("breadcrumb bar still renders a redundant Home link at the Browse home level", None)
+    _ok("no redundant Home breadcrumb at Browse home level (structural, offline)")
+
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:
         _fail("flag empty comment", flag_resp.text)
