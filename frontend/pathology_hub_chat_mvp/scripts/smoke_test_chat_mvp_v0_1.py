@@ -469,25 +469,32 @@ def smoke_offline() -> None:
 
     # 2026-08-04: @mention entity picker takes over the LIVE OncoTree in
     # browse-content (no separate dropdown/list widget — reported "why do i
-    # still see dropdown menu?"), reachable from any tab/browseState level,
-    # with "+" (not "VS") buttons on matching leaves (reported "i still see
-    # vs and not plus sign"). Structural checks for the picker + submit-time
-    # routing.
+    # still see dropdown menu?"), reachable from any tab/browseState level.
+    # "+" completely and unconditionally replaces "VS" everywhere in the
+    # OncoTree, with or without an active "@" ("i wanna completely replace
+    # the vs sign, ie from the get go can click a plus") — no more separate
+    # "mentionMode" rendering branch. Each pick auto-primes a trailing "@"
+    # for the next mention, and the search bar highlights mention segments
+    # in a distinct color from plain text via an overlay behind the input.
     for needle in (
         "function currentMentionContext",
-        "function renderMentionSearchInTree",
         "function selectMentionLeaf",
         "function renderMentionAddButton",
         "function parseQueryMentions",
-        "mentionMode",
-        'nodesHtml += mentionMode\n        ? renderMentionAddButton(n.leaf, n.rootId, n.subId)',
+        "function updateQueryHighlightOverlay",
+        "nodesHtml += renderMentionAddButton(n.leaf, n.rootId, n.subId);",
+        'const insertion = `@${label}; @`;',
         "resolved.length >= 2",
     ):
         if needle not in js:
             _fail("@mention entity picker wiring missing from app.js", needle)
+    if "mentionMode" in js:
+        _fail("mentionMode conditional should be gone — + is now unconditional everywhere", None)
     if "mention-dropdown" in js or 'id="mention-dropdown"' in index_html2:
         _fail("dead mention-dropdown widget still referenced — should take over browse-content instead", None)
-    _ok("@mention entity picker takes over the live OncoTree with + buttons (structural, offline)")
+    if 'id="query-highlight-overlay"' not in index_html2:
+        _fail("query-highlight-overlay element missing from index.html", None)
+    _ok("@mention entity picker: + is unconditional, auto-primes next @, highlights mentions (structural, offline)")
 
     # 2026-08-04: leaves with no usable category segment (mostly ABPath
     # content-spec leaves) must land in a real, clickable "Other" group

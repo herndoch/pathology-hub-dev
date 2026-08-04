@@ -1272,7 +1272,6 @@ function buildOncotreeLayout(roots, options = {}) {
 }
 
 function renderOncotreeHtml(roots, options = {}) {
-  const mentionMode = Boolean(options.mentionMode);
   const { nodes, links, totalRows, rowH, colW } = buildOncotreeLayout(roots, options);
   const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
   const width = (maxDepth + 1) * colW + 40;
@@ -1342,13 +1341,12 @@ function renderOncotreeHtml(roots, options = {}) {
     nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
     nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}</span>${countBadge}${caret}`;
     nodesHtml += "</button>";
+    // Every leaf's action button always means "add this to the search bar"
+    // — "+", never "VS" (2026-08-04 feedback: "i wanna completely replace
+    // the vs sign, ie from the get go can click a plus"). Unconditional:
+    // no separate "mention mode" vs. "browse mode" rendering anymore.
     if (isLeafNode) {
-      // Composing an @mention: every leaf's action button means "add this
-      // to the search bar", never "compare" — so it reads "+", not "VS"
-      // (2026-08-04 feedback: "i still see vs and not plus sign").
-      nodesHtml += mentionMode
-        ? renderMentionAddButton(n.leaf, n.rootId, n.subId)
-        : renderVsButton(comparePayloadFromLeaf(n.rootId, n.subId, n.leaf), " oncotree-vs-btn");
+      nodesHtml += renderMentionAddButton(n.leaf, n.rootId, n.subId);
     }
     nodesHtml += wrapClose;
   }
@@ -1390,16 +1388,19 @@ function bindOncotreeToolbarHandlers(onRerender) {
   });
 }
 
-function bindOncotreeHandlers(roots, onRerender, mentionMode = false) {
+function bindOncotreeHandlers(roots, onRerender) {
   browseContentEl.querySelectorAll(".oncotree-node[data-node]").forEach((el) => {
     el.addEventListener("click", () => {
       const data = JSON.parse(el.dataset.node);
       if (data.kind === "leaf") {
         const leaf = data.leaf || {};
-        // Composing an @mention: a leaf's label means the same thing as its
-        // "+" button — add it to the search bar — never navigate away and
-        // lose the query being composed.
-        if (mentionMode) {
+        // Mid-composing an @mention (checked live, not a static render-time
+        // flag): a leaf's label means the same thing as its "+" button —
+        // add it to the search bar — never navigate away and lose the
+        // query being composed. Otherwise, the label still opens the topic
+        // page as always; the "+" button (bound below) is the explicit,
+        // always-available "add" action either way.
+        if (activeMentionCtx) {
           selectMentionLeaf(leaf, data.rootId, data.subId);
           return;
         }
@@ -1423,24 +1424,24 @@ function bindOncotreeHandlers(roots, onRerender, mentionMode = false) {
       onRerender();
     });
   });
-  if (mentionMode) {
-    browseContentEl.querySelectorAll(".mention-add-btn[data-mention-leaf]").forEach((btn) => {
-      // mousedown (not click) fires before the input blurs, so
-      // currentMentionContext()'s selectionStart still reflects where the
-      // user was typing, and stopPropagation keeps this from also bubbling
-      // to the parent .oncotree-node-wrap's click handler above.
-      btn.addEventListener("mousedown", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        try {
-          const data = JSON.parse(btn.dataset.mentionLeaf);
-          selectMentionLeaf({ tag: data.tag, label: data.label, query: data.query }, data.rootId, data.subId);
-        } catch (err) {
-          /* ignore malformed payload */
-        }
-      });
+  // "+" always means "add to the search bar", regardless of whether an
+  // @mention is actively being composed.
+  browseContentEl.querySelectorAll(".mention-add-btn[data-mention-leaf]").forEach((btn) => {
+    // mousedown (not click) fires before the input blurs, so
+    // currentMentionContext()'s selectionStart still reflects where the
+    // user was typing, and stopPropagation keeps this from also bubbling
+    // to the parent .oncotree-node-wrap's click handler above.
+    btn.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        const data = JSON.parse(btn.dataset.mentionLeaf);
+        selectMentionLeaf({ tag: data.tag, label: data.label, query: data.query }, data.rootId, data.subId);
+      } catch (err) {
+        /* ignore malformed payload */
+      }
     });
-  }
+  });
 }
 
 /** Small (?) affordance that opens the "How to use Browse" modal instead of
@@ -1801,6 +1802,7 @@ function findTaxonomyMatch(rawName, pageContext = null) {
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
+const queryHighlightOverlayEl = document.getElementById("query-highlight-overlay");
 const sendBtn = document.getElementById("send-btn");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
@@ -3914,13 +3916,14 @@ function renderVsButton(entity, extraClass = "") {
 }
 
 /** Same size/shape as renderVsButton, but means "add this to the search
- * bar" (used only while composing an @mention — see renderOncotreeHtml's
- * mentionMode / selectMentionLeaf). */
+ * bar" — the OncoTree's only leaf action button now (renderOncotreeHtml
+ * always uses this instead of renderVsButton; see selectMentionLeaf). */
 function renderMentionAddButton(leaf, rootId, subId) {
   const payload = escapeAttr(
     JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, rootId, subId }),
   );
-  return `<button type="button" class="vs-btn oncotree-vs-btn mention-add-btn" data-mention-leaf="${payload}" title="Add to search bar">+</button>`;
+  const active = isInCompareSet(comparePayloadFromLeaf(rootId, subId, leaf)) ? " in-compare" : "";
+  return `<button type="button" class="vs-btn oncotree-vs-btn mention-add-btn${active}" data-mention-leaf="${payload}" title="Add to search bar">+</button>`;
 }
 
 function bindVsButtons(root) {
@@ -4112,6 +4115,7 @@ function renderBrowseView() {
   if (queryInput && askViewEl.classList.contains("hidden") && document.activeElement !== queryInput) {
     queryInput.value = browseState.level === "home" ? browseFilterQuery : "";
   }
+  updateQueryHighlightOverlay();
   if (browseState.level === "compare") {
     loadCompareView();
   } else if (browseState.level === "category") {
@@ -5848,25 +5852,40 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   }
 }
 
-/** @mention entity picker: type "@" anywhere in the top query box to search
- * the full entity index directly IN the live OncoTree (branch curves,
- * hierarchy, the same tree the rest of Browse uses) — not a separate
- * dropdown/list widget (2026-08-04 feedback: "why do i still see dropdown
- * menu?...also i still see vs and not plus sign"). Matching leaves show a
- * "+" button (renderMentionAddButton / mentionMode) instead of "VS"; click
- * a leaf's label OR its "+" to insert "@Label; " into the query box and add
- * it to the compare tray, then keep typing more mentions. Works from any
- * tab/view — typing "@" switches to Browse and takes over browse-content
- * with the search tree, same as it would for the Home-level plain-text
- * search below, then returns to a clean Home view once the mention is
- * inserted (or "@" is removed). On submit, 2+ resolved mentions route
- * straight to Compare instead of a live chat answer; exactly 1 mention with
- * no other text opens that entity's topic page directly; mixed mentions +
- * a question clean the @/; syntax out of the text sent to the model
- * (keeping the disambiguated entity name) so retrieval isn't confused by
- * the raw syntax. */
+/** @mention entity picker: every leaf in the live OncoTree always has a "+"
+ * button (renderMentionAddButton — completely replaces "VS", 2026-08-04:
+ * "i wanna completely replace the vs sign"). Click a leaf's label OR its
+ * "+" to insert "@Label; @" into the query box — the trailing "@" primes
+ * the next mention immediately, no need to type "@" again — and add it to
+ * the compare tray, then keep typing (or clicking) more mentions. Typing
+ * "@partial" anywhere live-filters the SAME tree exactly like plain-text
+ * Browse search does (renderBrowseHome), just reachable from any
+ * tab/browseState level. On submit, 2+ resolved mentions route straight to
+ * Compare instead of a live chat answer; exactly 1 mention with no other
+ * text opens that entity's topic page directly; mixed mentions + a
+ * question clean the @/; syntax out of the text sent to the model (keeping
+ * the disambiguated entity name) so retrieval isn't confused by the raw
+ * syntax. */
 let mentionInsertions = []; // ordered {label, leafRef} picked from the tree; positionally matched to parsed @mentions on submit so a pick always resolves to the exact entity chosen, even when its label collides with another root's same-named entity.
-let activeMentionCtx = null; // {start, end, text} for the @segment currently driving the tree search, or null when not composing a mention.
+let activeMentionCtx = null; // {start, end, text} for the @segment currently driving the tree search/insertion point, or null when not composing a mention (typing plain search text instead).
+
+/** Repaints .query-highlight-overlay (the visible-text stand-in behind the
+ * now-transparent-text #query-input) to color every "@Label;" mention
+ * segment in the accent color and leave everything else default text
+ * color. Call after any programmatic or user edit to queryInput.value. */
+function updateQueryHighlightOverlay() {
+  if (!queryHighlightOverlayEl) return;
+  const text = queryInput.value;
+  if (!text) {
+    queryHighlightOverlayEl.innerHTML = "&nbsp;";
+    return;
+  }
+  const html = escapeHtml(text).replace(
+    /@[^;@]*;?/g,
+    (segment) => `<span class="mention-highlight">${segment}</span>`,
+  );
+  queryHighlightOverlayEl.innerHTML = html;
+}
 
 function currentMentionContext() {
   const val = queryInput.value;
@@ -5879,78 +5898,22 @@ function currentMentionContext() {
   return { start: lastAt, end: pos, text: between };
 }
 
-/** Below this many characters after "@", don't search yet — a 1-char query
- * would match hundreds of leaves. */
-const MENTION_TREE_MIN_CHARS = 2;
-
-/** Takes over browse-content with the live OncoTree filtered to matches for
- * the @mention text, exactly like renderBrowseHome's plain-text tree search
- * (same toolbar, same highlighting, same "too many matches" cap) but with
- * "+" buttons (mentionMode) and reachable from any tab/browseState level. */
-function renderMentionSearchInTree(ctx) {
-  activeMentionCtx = ctx;
-  const text = ctx.text.trim();
-  const roots = activeBrowseRoots();
-  let html = '<div class="oncotree-topbar">';
-  html += oncotreeToolbarHtml();
-  html += infoButtonHtml();
-  html += "</div>";
-
-  if (text.length < MENTION_TREE_MIN_CHARS) {
-    html += `<p class="hint">Keep typing after "@" to search for an entity to add — e.g. @LCIS.</p>`;
-    browseContentEl.innerHTML = html;
-    bindOncotreeToolbarHandlers(() => renderMentionSearchInTree(activeMentionCtx));
-    bindInfoButtonHandler();
-    return;
-  }
-
-  const matches = collectLeavesFromRoots(roots).filter((row) => leafMatchesBrowseFilter(row.leaf, text));
-  if (!matches.length) {
-    html += `<p class="hint">No matches for "${escapeHtml(text)}".</p>`;
-    browseContentEl.innerHTML = html;
-    bindOncotreeToolbarHandlers(() => renderMentionSearchInTree(activeMentionCtx));
-    bindInfoButtonHandler();
-    return;
-  }
-
-  if (matches.length > ONCOTREE_SEARCH_INLINE_CAP) {
-    html += `<p class="hint">${matches.length} matches — too many to highlight in the tree. Refine your search to narrow it.</p>`;
-    browseContentEl.innerHTML = html;
-    bindOncotreeToolbarHandlers(() => renderMentionSearchInTree(activeMentionCtx));
-    bindInfoButtonHandler();
-    return;
-  }
-
-  const matchSet = new Set(matches.map((row) => row.leaf));
-  const extraExpanded = new Set();
-  for (const row of matches) {
-    extraExpanded.add(row.root.id);
-    extraExpanded.add(`${row.root.id}::${row.sub.id}`);
-  }
-  html += `<p class="hint">${matches.length} match${matches.length === 1 ? "" : "es"} for "${escapeHtml(text)}" — click a diagnosis or its + button to add it to the search bar.</p>`;
-  html += renderOncotreeHtml(roots, {
-    extraExpanded,
-    isMatch: (leafNode) => matchSet.has(leafNode),
-    mentionMode: true,
-  });
-  browseContentEl.innerHTML = html;
-  bindOncotreeToolbarHandlers(() => renderMentionSearchInTree(activeMentionCtx));
-  bindInfoButtonHandler();
-  bindOncotreeHandlers(roots, () => renderMentionSearchInTree(activeMentionCtx), true);
-  browseContentEl.querySelector(".oncotree-match")?.scrollIntoView({ block: "center" });
-}
-
+/** "+" always means "add this to the search bar" — with or without an
+ * active @segment to replace (clicking + while just browsing normally, with
+ * no "@" typed at all, starts a fresh mention from scratch instead of
+ * requiring the user to type "@" first). */
 function selectMentionLeaf(leaf, rootId, subId) {
-  const ctx = activeMentionCtx;
-  if (!ctx || !leaf) return;
+  if (!leaf) return;
+  const ctx = activeMentionCtx || { start: 0, end: queryInput.value.length, text: "" };
   const label = formatDisplayLabel(leaf.label);
   const before = queryInput.value.slice(0, ctx.start);
   const after = queryInput.value.slice(ctx.end);
-  const insertion = `@${label}; `;
+  const insertion = `@${label}; @`;
   queryInput.value = `${before}${insertion}${after}`;
   const caret = before.length + insertion.length;
   queryInput.focus();
   queryInput.setSelectionRange(caret, caret);
+  updateQueryHighlightOverlay();
   const leafRef = leafRefFrom({
     categoryId: rootId,
     subcategoryId: subId,
@@ -5963,9 +5926,10 @@ function selectMentionLeaf(leaf, rootId, subId) {
   // there even if the user never presses Enter (e.g. picks a few entities
   // from the tree, then just clicks the tray's own Compare button).
   addToCompare(comparePayloadFromLeaf(rootId, subId, leaf));
-  // Mention inserted (text now ends "...; ") — back to a clean Home view,
-  // ready for the next "@" or for Enter to submit.
-  activeMentionCtx = null;
+  // The trailing "@" just inserted IS the next (empty) mention slot —
+  // recompute it live rather than assuming, then show the tree ready for
+  // that next pick (unfiltered, since the new slot has no text yet).
+  activeMentionCtx = currentMentionContext();
   browseFilterQuery = "";
   browseState = { level: "home" };
   setActiveView("browse");
@@ -5973,7 +5937,7 @@ function selectMentionLeaf(leaf, rootId, subId) {
 }
 
 queryInput.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && activeMentionCtx) {
+  if (event.key === "Escape" && (activeMentionCtx || browseFilterQuery)) {
     activeMentionCtx = null;
     browseFilterQuery = "";
     browseState = { level: "home" };
@@ -6016,38 +5980,42 @@ function parseQueryMentions(text) {
 }
 
 /** Triple function of the top query overlay: an active "@mention" takes
- * over browse-content with the live search tree (renderMentionSearchInTree,
- * from any tab/browseState level); otherwise, while the Browse tab is
- * showing its home tree/tile grid, typing live-filters it in place (same
- * box, no separate search input); pressing Enter always asks a full
- * question / runs mention routing via the submit handler below regardless
- * of what's currently typed. */
+ * over browse-content with the live search tree — reusing renderBrowseHome
+ * itself (its OncoTree leaves always have "+" buttons now, see
+ * renderOncotreeHtml) — from any tab/browseState level; otherwise, while
+ * the Browse tab is already showing its home tree/tile grid, typing
+ * live-filters it in place exactly as before (same box, no separate search
+ * input); pressing Enter always asks a full question / runs mention
+ * routing via the submit handler below regardless of what's currently
+ * typed. Also keeps the blue/black mention-highlight overlay in sync. */
 queryInput.addEventListener("input", () => {
+  updateQueryHighlightOverlay();
   const ctx = currentMentionContext();
-  if (ctx) {
+  activeMentionCtx = ctx;
+  const filterText = ctx ? ctx.text : queryInput.value;
+  if (!askViewEl.classList.contains("hidden")) {
+    if (!ctx) return; // plain text on the Ask tab still just waits for Enter
     setActiveView("browse");
-    renderMentionSearchInTree(ctx);
-    return;
   }
-  if (activeMentionCtx) {
-    // The @segment that was driving the search tree just closed (typed ";"
-    // or deleted the "@") — clear the takeover and show a plain Home view,
-    // ready for the next "@" or for Enter to submit.
-    activeMentionCtx = null;
-    browseFilterQuery = "";
+  if (browseState.level !== "home") {
+    if (!ctx) return; // plain text elsewhere in Browse still doesn't live-filter (unchanged)
     browseState = { level: "home" };
-    renderBrowseView();
-    return;
   }
-  if (!askViewEl.classList.contains("hidden")) return;
-  if (browseState.level !== "home") return;
-  browseFilterQuery = queryInput.value;
-  renderBrowseHome();
+  browseFilterQuery = filterText;
+  // renderBrowseView() (not renderBrowseHome() directly) so a stale
+  // breadcrumb trail from wherever the user was before typing "@" also
+  // clears — safe to call mid-keystroke since focus is on queryInput itself
+  // right now, which renderBrowseView()'s own value-sync guard skips.
+  renderBrowseView();
 });
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const rawQuery = queryInput.value.trim();
+  // Each pick auto-primes a trailing "@" for the next mention (see
+  // selectMentionLeaf) — strip a bare, never-typed-into one before parsing
+  // so submitting right after a pick doesn't leave a stray "@" dangling in
+  // the free text or register as an (empty, unresolvable) extra mention.
+  const rawQuery = queryInput.value.trim().replace(/@$/, "").trim();
   if (!rawQuery) return;
   activeMentionCtx = null;
 
@@ -6097,6 +6065,7 @@ form.addEventListener("submit", async (event) => {
   setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
+  updateQueryHighlightOverlay();
   sendBtn.disabled = true;
 
   const plan = planAskRequest(query);
