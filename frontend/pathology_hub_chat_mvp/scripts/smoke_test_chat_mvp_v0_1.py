@@ -431,6 +431,42 @@ def smoke_offline() -> None:
         _fail("expected cache-first allowCache gating not found", None)
     _ok("prebuilt-cache-first gating (structural, offline)")
 
+    # 2026-08-03: inline citation labels must defer to the deterministic
+    # source_id->book URL mapping, not the model's freeform label text — the
+    # model sometimes writes a hallucinated-but-plausible book chip (e.g.
+    # "Gnepp" for a Bone/Soft Tissue citation that is actually
+    # softtissue_enzinger). See citeDisplayLabel in app.js.
+    for needle in (
+        "if (/^(Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ|Dorfman|Horvai|Enzinger|Pattern)$/i.test(normalized)) {",
+        "return textbookLabelFromUrl(url) || normalized;",
+    ):
+        if needle not in js:
+            _fail("citeDisplayLabel book-chip URL cross-check missing", needle)
+    _ok("citation label URL cross-check (structural, offline)")
+
+    # WHO citations for entities covered by who_genetic_syndromes_links_v0_1.json
+    # should link to the real tumourclassification.iarc.who.int page, not only
+    # the Pathology Hub WHO_HTML mirror. See whoSyndromeUrlForEntity in app.js.
+    who_links_resp = client.get("/static/who_genetic_syndromes_links_v0_1.json")
+    if who_links_resp.status_code != 200:
+        _fail("who_genetic_syndromes_links_v0_1.json not served", who_links_resp.status_code)
+    who_links_data = who_links_resp.json()
+    who_entries = who_links_data.get("entries") or {}
+    if len(who_entries) < 1000:
+        _fail("WHO chapter-link index looks too small", len(who_entries))
+    if "neurofibromatosis type 1" not in who_entries:
+        _fail("WHO chapter-link index missing expected entry", "neurofibromatosis type 1")
+    for needle in (
+        "whoSyndromeUrlForEntity",
+        "WHO_VOLUME_BY_ROOT",
+        "loadWhoSyndromeLinks",
+        "function resolveWhoOverrideUrl",
+        "activeWhoOverrideUrl",
+    ):
+        if needle not in js:
+            _fail("WHO real-link wiring missing from app.js", needle)
+    _ok("WHO real-link lookup + root disambiguation (structural, offline)")
+
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:
         _fail("flag empty comment", flag_resp.text)

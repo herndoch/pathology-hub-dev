@@ -41,6 +41,13 @@ const TEXTBOOK_ALIASES = {
   biopsy_interpretation: "Biopsy",
   biopsy_interpretation_neoplastic: "Biopsy",
   biopsy_interpretation_non_neoplastic: "Biopsy",
+  // BST (Bone/Soft Tissue) textbook packages — bone_dorfman, bst_horvai,
+  // softtissue_enzinger, {bone,softtissue}_pattern (source_id prefix is
+  // stripped before this lookup, so keys are just the book-name suffix).
+  dorfman: "Dorfman",
+  horvai: "Horvai",
+  enzinger: "Enzinger",
+  pattern: "Pattern",
 };
 
 /** Normalize inline markdown link labels baked into prebuild/synthesis text. */
@@ -2264,6 +2271,99 @@ function cleanCardExcerptForHover(text) {
   s = s.replace(/^(Clean text|Top headings):\s*/i, "");
   return s.trim();
 }
+/** Normalized WHO Classification of Tumours entity name → list of
+ * {volume, url, text} candidates on the REAL tumourclassification.iarc.who.int
+ * site (see who_genetic_syndromes_links_v0_1.json / scripts/
+ * build_who_genetic_syndromes_links_v0_1.py — despite the filename this
+ * covers general diagnostic entities, not just genetic syndromes). Loaded
+ * once at startup so it is ready before the first topic page renders.
+ * Coverage is partial (~31% of browse leaves) — unmatched entities keep
+ * Pathology Hub's own WHO_HTML mirror link, which is still real WHO content,
+ * just self-hosted. */
+let whoLinksIndex = null;
+
+/** Browse root → dominant WHO 5th-edition volume number, used to pick the
+ * right candidate when a name is ambiguous across volumes (e.g. "Osteoma"
+ * is a distinct chapter in Soft Tissue & Bone, Head & Neck, and Skin).
+ * Empirically derived by cross-tabulating browse-leaf root vs. matched
+ * volume counts — see docs/WHO_VOLUME_BY_ROOT_DERIVATION.md for the exact
+ * counts and per-root confidence notes. */
+const WHO_VOLUME_BY_ROOT = {
+  bst: "33",
+  breast: "32",
+  skin: "64",
+  endo: "53",
+  eye_orbit: "65",
+  gi: "31",
+  gu: "36",
+  gyn: "34",
+  hn: "52",
+  heme: "63",
+  peds: "44",
+  thorax_mediastinum: "35",
+  neuro: "44", // lowest-confidence entry — shared plurality with peds
+};
+
+function normalizeSyndromeName(text) {
+  let s = String(text || "").toLowerCase();
+  s = s.replace(/\([^)]*\)/g, " "); // drop "(NF1)" gene-name parenthetical
+  s = s.replace(/[^a-z0-9]+/g, " ");
+  return s.replace(/\s+/g, " ").trim();
+}
+
+async function loadWhoSyndromeLinks() {
+  try {
+    const resp = await fetch("/static/who_genetic_syndromes_links_v0_1.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    whoLinksIndex = (data && data.entries) || {};
+  } catch (err) {
+    whoLinksIndex = {};
+    // eslint-disable-next-line no-console
+    console.warn("WHO chapter-link index unavailable; WHO cites stay on the internal mirror.", err);
+  }
+}
+
+/** Real WHO URL for an entity, or null when it isn't covered by
+ * who_genetic_syndromes_links_v0_1.json (most entities — those keep the
+ * Pathology Hub WHO_HTML mirror link). Tries the leaf tag's last segment
+ * first (cleanest, e.g. "Neurofibromatosis_Type_1"), then the display
+ * label/query. When a name is ambiguous across WHO volumes, prefers the
+ * candidate matching `rootId`'s dominant volume (WHO_VOLUME_BY_ROOT); falls
+ * back to the first parsed candidate otherwise. */
+function whoSyndromeUrlForEntity(tag, rootId, ...labels) {
+  if (!whoLinksIndex) return null;
+  const candidates = [];
+  if (tag) {
+    const lastSeg = String(tag).split("::").pop();
+    if (lastSeg) candidates.push(lastSeg.replace(/_/g, " "));
+  }
+  for (const label of labels) {
+    if (label) candidates.push(String(label));
+  }
+  const preferredVolume = WHO_VOLUME_BY_ROOT[rootId];
+  for (const candidate of candidates) {
+    const norm = normalizeSyndromeName(candidate);
+    const matches = norm && whoLinksIndex[norm];
+    if (!matches || !matches.length) continue;
+    if (preferredVolume) {
+      const preferred = matches.find((m) => m.volume === preferredVolume);
+      if (preferred) return preferred.url;
+    }
+    return matches[0].url;
+  }
+  return null;
+}
+
+/** Real WHO URL for the entity on the CURRENTLY rendered topic page (set once
+ * per renderTopicPageResult() call). Inline markdown WHO links have their
+ * https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/... URL baked
+ * directly into the stored answer_markdown text (unlike bare "(WHO)"
+ * citations, which resolve their href from data.cards at render time) — so
+ * rewriting data.cards alone isn't enough; renderInlineLink() below also
+ * needs this to redirect an already-written mirror URL. */
+let activeWhoOverrideUrl = null;
+
 /** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
 let activeTextbookLabelByUrl = new Map();
 
@@ -2320,6 +2420,9 @@ function textbookLabelFromUrl(url) {
   if (lower.includes("cardesa")) return "Cardesa";
   if (lower.includes("vasef")) return "Vasef";
   if (lower.includes("biopsy")) return "Biopsy";
+  if (lower.includes("dorfman")) return "Dorfman";
+  if (lower.includes("horvai")) return "Horvai";
+  if (lower.includes("enzinger")) return "Enzinger";
   return "";
 }
 
@@ -2374,8 +2477,19 @@ function citeDisplayLabel(label, url) {
   if (/^textbooks?$/i.test(normalized)) {
     return textbookLabelFromUrl(url) || "Textbook";
   }
-  // Keep hub / book badges as-is (Atlas preferred over Breast Atlas).
-  if (/^(WHO|Pathoutlines|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ)$/i.test(normalized)) {
+  // Book-name chips (Gnepp/Atlas/Cardesa/Vasef/Biopsy/FAQ): the synthesis prompt
+  // gives these as *examples* of a short book name, but the model sometimes
+  // picks one reflexively instead of grounding in the citation's real
+  // source_id (e.g. writing "Gnepp" — a Head & Neck atlas — for a Bone/Soft
+  // Tissue citation that is actually softtissue_enzinger). Always prefer the
+  // deterministic URL→book mapping (built from the real evidence cards) over
+  // the model's text when the URL resolves to a book at all; only fall back
+  // to the model's text for a URL we have no textbook mapping for.
+  if (/^(Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ|Dorfman|Horvai|Enzinger|Pattern)$/i.test(normalized)) {
+    return textbookLabelFromUrl(url) || normalized;
+  }
+  // Keep non-textbook hub badges as-is.
+  if (/^(WHO|Pathoutlines|Lectures|Videos)$/i.test(normalized)) {
     return normalized;
   }
   if (/^breast\s*atlas$/i.test(normalized)) return "Atlas";
@@ -2881,7 +2995,18 @@ function inlineMarkdown(text, previewIndex) {
   return html;
 }
 
-function renderInlineLink(label, url, previewIndex) {
+/** WHO_HTML mirror URL → real WHO URL when the current page matched a
+ * covered entity (see activeWhoOverrideUrl). Inline markdown links carry
+ * their URL as literal text baked into the stored answer, so this has to
+ * run at render time, not just once on data.cards. */
+function resolveWhoOverrideUrl(url) {
+  if (!activeWhoOverrideUrl) return url;
+  if (!/pathology-hub-0\/WHO\/WHO_HTML\//i.test(String(url || ""))) return url;
+  return activeWhoOverrideUrl;
+}
+
+function renderInlineLink(label, rawUrl, previewIndex) {
+  const url = resolveWhoOverrideUrl(rawUrl);
   const preview = previewIndex?.get(url);
   const safeHref = escapeAttr(url);
   // Journal/DOI → "(DOI)". Hub sources stay bare "WHO"/"Textbooks" so surrounding
@@ -5339,6 +5464,24 @@ function renderLiteratureStrip(cards, debug = null) {
 }
 
 function renderTopicPageResult(data, query, entryMeta = null) {
+  // Genetic-syndrome pages: point WHO citations at the real WHO
+  // Classification of Tumours site instead of only Pathology Hub's own
+  // WHO_HTML mirror, when this entity is one of the ~2,175 hereditary
+  // tumour predisposition syndromes covered by
+  // who_genetic_syndromes_links_v0_1.json. No-op (keeps the mirror link)
+  // for every other (non-syndrome) entity — most WHO citations are
+  // unaffected. Mutates card objects in place so exports/compare views also
+  // pick up the corrected link.
+  const whoUrl = whoSyndromeUrlForEntity(entryMeta?.tag, entryMeta?.categoryId, query, entryMeta?.label);
+  activeWhoOverrideUrl = whoUrl || null;
+  if (whoUrl && Array.isArray(data.cards)) {
+    for (const card of data.cards) {
+      if (card && String(card.source || "").toLowerCase() === "who") {
+        card.source_url = whoUrl;
+        card.url = whoUrl;
+      }
+    }
+  }
   // Display caps mirror the actual backend retrieval caps (TOPIC_PAGE_MAX_CARDS=120,
   // TOPIC_PAGE_MAX_FIGURES=40 in pathology_backend.py) — these used to be
   // much smaller (20/16) than what was actually retrieved and sent to
@@ -5900,4 +6043,5 @@ browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';
 loadBrowseIndex().then(() => {
   renderBrowseView();
 });
+loadWhoSyndromeLinks();
 refreshHealth();

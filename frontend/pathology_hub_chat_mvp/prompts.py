@@ -27,8 +27,13 @@ FORMAT (strict — ExpertPath-style scannable answers):
   restate the table content as bullets afterward.
 - Inline citations MUST be markdown links when a URL exists. Use short labels only:
   [WHO](exact-who-url), [Pathoutlines](url), and for textbooks the SHORT book name
-  from evidence `source_id` / `_citation_link_index.source_label` — prefer
-  [Atlas](url) for Breast Atlas / *atlas* books, [Gnepp](url), [Biopsy](url), etc.
+  taken LITERALLY from THAT SPECIFIC card's own `source_id` / `_citation_link_index.source_label`
+  field — e.g. [Atlas](url) only for a card whose source_id is `*_atlas`, [Gnepp](url) only for
+  a card whose source_id is `hn_gnepp`, [Biopsy](url) only for a `*_biopsy` card, etc. These are
+  examples of the label FORMAT, not a fixed list to pick from — every textbook source_id has its
+  own short name (e.g. `softtissue_enzinger` → [Enzinger], `bone_dorfman` → [Dorfman]). NEVER
+  reuse a book name from one card's citation on a different card's URL, and never guess a book
+  name for a card whose source_id you were not given — use the generic [Textbook] label instead.
   Never use the generic label [Textbooks] when a specific book name is known.
   Do NOT wrap cites in extra parentheses — write [Atlas](url) or (Atlas), never
   ((Atlas)) or ((Textbooks)). For any journal / PubMed / DOI / publisher paper
@@ -140,9 +145,11 @@ def topic_page_system_prompt() -> str:
         "includes `00_hub_sources_must_use` or textbook_results / who_results / pathout_results, "
         "ground Terminology, Clinical Issues, Gross, Microscopic, Ancillary Tests, and "
         "Differential Diagnosis primarily in those hub cards. Cite them inline as "
-        "[Atlas](url) / [Gnepp](url) / [Biopsy](url) / [WHO](url) / [Pathoutlines](url) "
-        "using exact source_url values and the short book label from source_id "
-        "(breast_atlas → Atlas — never generic Textbooks when the book is known). "
+        "[WHO](url) / [Pathoutlines](url) / [<Book>](url) using exact source_url values and the "
+        "short book label derived from THAT card's own source_id (e.g. breast_atlas → Atlas, "
+        "softtissue_enzinger → Enzinger, bone_dorfman → Dorfman, bst_horvai → Horvai, "
+        "hn_gnepp → Gnepp — never generic Textbooks when the book is known, and never copy a "
+        "book label from one citation onto a different card's URL). "
         "Never emit double parentheses like ((Atlas)) or ((Textbooks)). "
         "Do not write a textbook-free page when textbook cards are present.\n\n"
         "LIVE LITERATURE (critical): When the evidence bundle includes "
