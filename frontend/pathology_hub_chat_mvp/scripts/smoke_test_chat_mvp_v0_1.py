@@ -484,6 +484,17 @@ def smoke_offline() -> None:
         _fail("mention dropdown container missing from index.html", None)
     _ok("@mention entity picker (structural, offline)")
 
+    # 2026-08-04: leaves with no usable category segment (mostly ABPath
+    # content-spec leaves) must land in a real, clickable "Other" group
+    # instead of a dead-end "N without a clear category — use search" note
+    # with no node to expand (reported as "cant expand those without
+    # category").
+    if 'groups.push({ id: "other", label: "Other"' not in js:
+        _fail("uncategorized leaves are not bucketed into a clickable Other group", None)
+    if "let droppedCount" in js or "droppedCount += 1" in js:
+        _fail("buildOncotreeCategoryGroups still drops leaves instead of bucketing them", None)
+    _ok("uncategorized tree leaves land in a clickable Other group (structural, offline)")
+
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:
         _fail("flag empty comment", flag_resp.text)

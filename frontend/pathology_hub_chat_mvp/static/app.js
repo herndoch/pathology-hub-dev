@@ -788,23 +788,30 @@ function leafCategoryFromTag(tag) {
 
 /** Chunk leaves into branches by real pathology category (from the WHO tag
  * hierarchy) instead of alphabet. Leaves with no usable category segment
- * are dropped from the tree (findable via search / Tile view instead) —
- * returns `null` when there isn't enough categorical structure to build a
- * meaningful hierarchy at all (caller should fall back to a flat list
- * rather than force a fake grouping). */
+ * (mostly ABPath-content-spec leaves, which don't carry a WHO-style
+ * category segment at all) go into a real, clickable "Other" group instead
+ * of being silently dropped from the tree (2026-08-04 — a static "N without
+ * a clear category — use search" note with no node/click target was a dead
+ * end: reported as "cant expand those without category"). Returns `null`
+ * when there isn't enough categorical structure to build a meaningful
+ * hierarchy at all (caller should fall back to a flat list rather than
+ * force a fake grouping) — that decision still looks at how much of the
+ * list got a REAL category, ignoring the "Other" catch-all, so a subcategory
+ * that's mostly uncategorized still falls back to flat instead of a tree
+ * that's one enormous "Other" node next to a couple of tiny real ones. */
 function buildOncotreeCategoryGroups(leaves) {
   const byCategory = new Map();
-  let droppedCount = 0;
+  const other = [];
   for (const leaf of leaves) {
     const cat = leafCategoryFromTag(leaf.tag);
     if (!cat) {
-      droppedCount += 1;
+      other.push(leaf);
       continue;
     }
     if (!byCategory.has(cat)) byCategory.set(cat, []);
     byCategory.get(cat).push(leaf);
   }
-  const coverage = leaves.length ? (leaves.length - droppedCount) / leaves.length : 0;
+  const coverage = leaves.length ? (leaves.length - other.length) / leaves.length : 0;
   if (coverage < ONCOTREE_MIN_CATEGORY_COVERAGE || byCategory.size < 2) {
     return null;
   }
@@ -816,7 +823,10 @@ function buildOncotreeCategoryGroups(leaves) {
       leaves: catLeaves,
     }))
     .sort((a, b) => b.leaf_count - a.leaf_count || a.label.localeCompare(b.label));
-  return { groups, droppedCount };
+  if (other.length) {
+    groups.push({ id: "other", label: "Other", leaf_count: other.length, leaves: other });
+  }
+  return { groups, droppedCount: 0 };
 }
 
 function slugifyForTree(text) {
