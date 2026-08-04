@@ -133,39 +133,21 @@ code {
   color: #fff;
 }
 
-/** @mention entity-picker dropdown — floats just under the query overlay,
- * reachable from any tab/view (unlike the tree's VS button, which only
- * exists while browsing). Type "@" in the query box to open it. Renders the
- * SAME OncoTree tree markup (.oncotree-container etc., see style rules
- * below) used for plain-text Browse search — branch curves, hierarchy, the
- * existing "VS" buttons — scaled down to fit this floating box, rather than
- * a separate flat list UI. */
-.mention-dropdown {
-  position: fixed;
-  z-index: 39;
-  max-height: 420px;
-  overflow: auto;
-  background: #ffffff;
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(60, 64, 67, 0.18);
-  padding-bottom: 0.5rem;
-  /* left/right/top are set in JS (updateMentionDropdown) to track the query
-     overlay's actual rendered position/width, since it's sticky and its
-     height can vary (wraps on narrow screens). */
+/** @mention entity picker: no separate dropdown/overlay widget — an active
+ * "@mention" takes over browse-content with the live OncoTree itself (see
+ * renderMentionSearchInTree in app.js), so no dedicated container styles
+ * are needed here beyond the "+" button below. Matching leaves get a "+"
+ * button (mentionMode in renderOncotreeHtml) in place of the usual "VS" —
+ * same size/shape as .vs-btn, just a different glyph/color so it's visually
+ * clear this button means "add to the search bar", not "compare". */
+.mention-add-btn {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.mention-dropdown.hidden {
-  display: none;
-}
-
-.mention-dropdown-hint {
-  margin: 0.6rem 0.9rem 0.4rem;
-}
-
-.mention-dropdown .oncotree-container {
-  border: none;
-  margin: 0 0.5rem;
+.mention-add-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .info-modal-list {

@@ -467,23 +467,27 @@ def smoke_offline() -> None:
             _fail("WHO real-link wiring missing from app.js", needle)
     _ok("WHO real-link lookup + root disambiguation (structural, offline)")
 
-    # 2026-08-03: @mention entity picker in the top query box — reachable from
-    # any tab/view (the tree's VS button/compare tray only exist while
-    # browsing). Structural checks for the picker + submit-time routing.
+    # 2026-08-04: @mention entity picker takes over the LIVE OncoTree in
+    # browse-content (no separate dropdown/list widget — reported "why do i
+    # still see dropdown menu?"), reachable from any tab/browseState level,
+    # with "+" (not "VS") buttons on matching leaves (reported "i still see
+    # vs and not plus sign"). Structural checks for the picker + submit-time
+    # routing.
     for needle in (
         "function currentMentionContext",
-        "function renderMentionDropdown",
+        "function renderMentionSearchInTree",
         "function selectMentionLeaf",
+        "function renderMentionAddButton",
         "function parseQueryMentions",
-        "renderOncotreeHtml(roots, { extraExpanded, isMatch",
+        "mentionMode",
+        'nodesHtml += mentionMode\n        ? renderMentionAddButton(n.leaf, n.rootId, n.subId)',
         "resolved.length >= 2",
-        "mention-dropdown",
     ):
         if needle not in js:
             _fail("@mention entity picker wiring missing from app.js", needle)
-    if 'id="mention-dropdown"' not in index_html2:
-        _fail("mention dropdown container missing from index.html", None)
-    _ok("@mention entity picker (structural, offline)")
+    if "mention-dropdown" in js or 'id="mention-dropdown"' in index_html2:
+        _fail("dead mention-dropdown widget still referenced — should take over browse-content instead", None)
+    _ok("@mention entity picker takes over the live OncoTree with + buttons (structural, offline)")
 
     # 2026-08-04: leaves with no usable category segment (mostly ABPath
     # content-spec leaves) must land in a real, clickable "Other" group
