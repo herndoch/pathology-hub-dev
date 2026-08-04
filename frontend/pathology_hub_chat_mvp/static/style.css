@@ -133,6 +133,84 @@ code {
   color: #fff;
 }
 
+/** @mention entity-picker dropdown — floats just under the query overlay,
+ * reachable from any tab/view (unlike the tree's VS button, which only
+ * exists while browsing). Type "@" in the query box to open it. */
+.mention-dropdown {
+  position: fixed;
+  z-index: 39;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(60, 64, 67, 0.18);
+  /* left/right/top are set in JS (updateMentionDropdown) to track the query
+     overlay's actual rendered position/width, since it's sticky and its
+     height can vary (wraps on narrow screens). */
+}
+
+.mention-dropdown.hidden {
+  display: none;
+}
+
+.mention-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.mention-row:last-child {
+  border-bottom: none;
+}
+
+.mention-row:hover,
+.mention-row.active {
+  background: var(--accent-soft);
+}
+
+.mention-row-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mention-row-path {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mention-add-btn {
+  flex-shrink: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  background: #ffffff;
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mention-add-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
 .info-modal-list {
   margin: 0.5rem 0 0.9rem;
   padding-left: 1.2rem;

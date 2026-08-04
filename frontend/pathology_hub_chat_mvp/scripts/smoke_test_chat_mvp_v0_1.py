@@ -467,6 +467,23 @@ def smoke_offline() -> None:
             _fail("WHO real-link wiring missing from app.js", needle)
     _ok("WHO real-link lookup + root disambiguation (structural, offline)")
 
+    # 2026-08-03: @mention entity picker in the top query box — reachable from
+    # any tab/view (the tree's VS button/compare tray only exist while
+    # browsing). Structural checks for the picker + submit-time routing.
+    for needle in (
+        "function currentMentionContext",
+        "function mentionSuggestionsFor",
+        "function selectMentionSuggestion",
+        "function parseQueryMentions",
+        "resolved.length >= 2",
+        "mention-dropdown",
+    ):
+        if needle not in js:
+            _fail("@mention entity picker wiring missing from app.js", needle)
+    if 'id="mention-dropdown"' not in index_html2:
+        _fail("mention dropdown container missing from index.html", None)
+    _ok("@mention entity picker (structural, offline)")
+
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:
         _fail("flag empty comment", flag_resp.text)

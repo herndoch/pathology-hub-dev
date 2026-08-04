@@ -1761,6 +1761,7 @@ function findTaxonomyMatch(rawName, pageContext = null) {
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
+const mentionDropdownEl = document.getElementById("mention-dropdown");
 const sendBtn = document.getElementById("send-btn");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
@@ -5790,19 +5791,244 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   }
 }
 
+/** @mention entity picker: type "@" anywhere in the top query box to search
+ * the full entity index and insert a clean, disambiguated reference — click
+ * a suggestion (or its "+") to insert "@Label; " and keep typing more
+ * mentions. Works from any tab/view (unlike the tree-only live-filter
+ * below and the tree's VS button, both of which are only reachable from
+ * Browse). On submit, 2+ resolved mentions route straight to Compare
+ * instead of a live chat answer; exactly 1 mention with no other text opens
+ * that entity's topic page directly; mixed mentions + a question clean the
+ * @/; syntax out of the text sent to the model (keeping the disambiguated
+ * entity name) so retrieval isn't confused by the raw syntax. */
+let mentionInsertions = []; // ordered {label, leafRef} picked via the dropdown; positionally matched to parsed @mentions on submit so a dropdown pick always resolves to the exact entity chosen, even when its label collides with another root's same-named entity.
+let mentionActiveIndex = -1;
+
+function currentMentionContext() {
+  const val = queryInput.value;
+  const pos = queryInput.selectionStart ?? val.length;
+  const uptoCursor = val.slice(0, pos);
+  const lastAt = uptoCursor.lastIndexOf("@");
+  if (lastAt === -1) return null;
+  const between = uptoCursor.slice(lastAt + 1);
+  if (between.includes(";") || between.includes("@")) return null; // already-closed mention
+  return { start: lastAt, end: pos, text: between };
+}
+
+function mentionSuggestionsFor(text) {
+  const query = String(text || "").trim();
+  const pool = TAXONOMY_LEAF_INDEX;
+  if (!query) return pool.slice(0, 8);
+  const norm = normalizeEntityName(query);
+  const scored = [];
+  for (const leaf of pool) {
+    const hay = leaf.normalized || "";
+    let score = -1;
+    if (hay === norm) score = 100;
+    else if (hay.startsWith(norm)) score = 80;
+    else if (hay.includes(` ${norm}`)) score = 60;
+    else if (norm.length >= 3 && hay.includes(norm)) score = 40;
+    if (score > 0) scored.push({ leaf, score });
+  }
+  scored.sort((a, b) => b.score - a.score || a.leaf.entityName.length - b.leaf.entityName.length);
+  return scored.slice(0, 8).map((s) => s.leaf);
+}
+
+function closeMentionDropdown() {
+  if (!mentionDropdownEl) return;
+  mentionDropdownEl.classList.add("hidden");
+  mentionDropdownEl.innerHTML = "";
+  mentionDropdownEl._suggestions = null;
+  mentionDropdownEl._ctx = null;
+  mentionActiveIndex = -1;
+}
+
+function renderMentionDropdown(suggestions, ctx) {
+  if (!mentionDropdownEl) return;
+  if (!suggestions.length) {
+    closeMentionDropdown();
+    return;
+  }
+  // Positioned in JS (not CSS) because .query-overlay is sticky and its
+  // rendered height/width varies (e.g. wraps on narrow screens).
+  const rect = form.getBoundingClientRect();
+  mentionDropdownEl.style.top = `${rect.bottom}px`;
+  mentionDropdownEl.style.left = `${rect.left}px`;
+  mentionDropdownEl.style.width = `${rect.width}px`;
+  let html = "";
+  suggestions.forEach((leaf, i) => {
+    const active = i === mentionActiveIndex ? " active" : "";
+    html += `<div class="mention-row${active}" data-idx="${i}">`;
+    const rootLabel = findCategory(leaf.categoryId)?.label || leaf.categoryId || "";
+    html += `<span class="mention-row-label">${escapeHtml(formatDisplayLabel(leaf.label))}</span>`;
+    html += `<span class="mention-row-path">${escapeHtml(formatDisplayLabel(rootLabel))}</span>`;
+    html += `<button type="button" class="mention-add-btn" data-idx="${i}" title="Add to query">+</button>`;
+    html += `</div>`;
+  });
+  mentionDropdownEl.innerHTML = html;
+  mentionDropdownEl.classList.remove("hidden");
+  mentionDropdownEl._suggestions = suggestions;
+  mentionDropdownEl._ctx = ctx;
+  mentionDropdownEl.querySelectorAll("[data-idx]").forEach((el) => {
+    // mousedown (not click) fires before the input blurs, so selectionStart
+    // in selectMentionSuggestion() still reflects where the user was typing.
+    el.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      selectMentionSuggestion(Number(el.dataset.idx));
+    });
+  });
+}
+
+function selectMentionSuggestion(idx) {
+  const suggestions = mentionDropdownEl?._suggestions || [];
+  const ctx = mentionDropdownEl?._ctx;
+  const leaf = suggestions[idx];
+  if (!leaf || !ctx) return;
+  const label = formatDisplayLabel(leaf.label);
+  const before = queryInput.value.slice(0, ctx.start);
+  const after = queryInput.value.slice(ctx.end);
+  const insertion = `@${label}; `;
+  queryInput.value = `${before}${insertion}${after}`;
+  const caret = before.length + insertion.length;
+  queryInput.focus();
+  queryInput.setSelectionRange(caret, caret);
+  mentionInsertions.push({ label, leafRef: leafRefFrom(leaf) });
+  closeMentionDropdown();
+}
+
+function updateMentionDropdown() {
+  const ctx = currentMentionContext();
+  if (!ctx) {
+    closeMentionDropdown();
+    return;
+  }
+  mentionActiveIndex = 0;
+  renderMentionDropdown(mentionSuggestionsFor(ctx.text), ctx);
+}
+
+queryInput.addEventListener("keydown", (event) => {
+  if (!mentionDropdownEl || mentionDropdownEl.classList.contains("hidden")) return;
+  const suggestions = mentionDropdownEl._suggestions || [];
+  if (!suggestions.length) return;
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    mentionActiveIndex = Math.min(mentionActiveIndex + 1, suggestions.length - 1);
+    renderMentionDropdown(suggestions, mentionDropdownEl._ctx);
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    mentionActiveIndex = Math.max(mentionActiveIndex - 1, 0);
+    renderMentionDropdown(suggestions, mentionDropdownEl._ctx);
+  } else if (event.key === "Enter" || event.key === "Tab") {
+    if (mentionActiveIndex >= 0) {
+      event.preventDefault();
+      selectMentionSuggestion(mentionActiveIndex);
+    }
+  } else if (event.key === "Escape") {
+    closeMentionDropdown();
+  }
+});
+
+queryInput.addEventListener("click", updateMentionDropdown);
+document.addEventListener("click", (event) => {
+  if (mentionDropdownEl && !mentionDropdownEl.contains(event.target) && event.target !== queryInput) {
+    closeMentionDropdown();
+  }
+});
+
+/** Parse "@Label;" segments out of the submitted query text. Resolves each
+ * to an exact leaf via the positional dropdown-insertion record when
+ * available (correct even when the label collides with a same-named entity
+ * in a different root), falling back to a fuzzy TAXONOMY_LEAF_INDEX match
+ * for hand-typed/edited mentions. `cleanedQuery` strips the @/; syntax
+ * while keeping each mention's plain entity name in place, for the mixed
+ * mentions+question case. */
+function parseQueryMentions(text) {
+  const mentionRe = /@([^;@]+);?/g;
+  const mentions = [];
+  let match;
+  while ((match = mentionRe.exec(text))) {
+    const label = match[1].trim();
+    if (label) mentions.push({ raw: match[0], label });
+  }
+  const cleanedQuery = text
+    .replace(mentionRe, (_full, rawLabel) => rawLabel.trim())
+    .replace(/\s+/g, " ")
+    .trim();
+  const freeText = text.replace(mentionRe, " ").replace(/\s+/g, " ").trim();
+  const resolved = mentions
+    .map((m, i) => {
+      const tracked = mentionInsertions[i];
+      if (tracked && tracked.label.toLowerCase() === m.label.toLowerCase()) return tracked.leafRef;
+      const norm = normalizeEntityName(m.label);
+      let best = TAXONOMY_LEAF_INDEX.find((l) => l.normalized === norm);
+      if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => l.entityName.toLowerCase() === m.label.toLowerCase());
+      if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => norm.length > 3 && l.normalized.includes(norm));
+      return best ? leafRefFrom(best) : null;
+    })
+    .filter(Boolean);
+  return { mentions, freeText, cleanedQuery, resolved };
+}
+
 /** Dual function of the top query overlay: while the Browse tab is showing
  * its home tree/tile grid, typing live-filters it (same box, no separate
  * search input); pressing Enter still asks a full question via the submit
  * handler below regardless of what's currently typed. */
 queryInput.addEventListener("input", () => {
+  updateMentionDropdown();
   if (!askViewEl.classList.contains("hidden")) return;
   if (browseState.level !== "home") return;
+  // Once the user starts an @mention, the raw "@Label; @Label2" text isn't
+  // meaningful as a plain tree-filter query (and would otherwise show a
+  // confusing "0 matches" message stacked behind the mention dropdown) —
+  // leave the tree showing whatever it last showed until mentions are done.
+  if (queryInput.value.includes("@")) return;
   browseFilterQuery = queryInput.value;
   renderBrowseHome();
 });
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const rawQuery = queryInput.value.trim();
+  if (!rawQuery) return;
+  closeMentionDropdown();
+
+  if (rawQuery.includes("@")) {
+    const { resolved, freeText, cleanedQuery } = parseQueryMentions(rawQuery);
+    mentionInsertions = [];
+    if (resolved.length >= 2) {
+      // 2+ entities mentioned — go straight to Compare, same destination as
+      // the tree's VS button, but reachable from any tab.
+      compareSet = resolved.map((r) => comparePayloadFromLeaf(r.categoryId, r.subcategoryId, r));
+      renderCompareTray();
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = { level: "compare" };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    if (resolved.length === 1 && !freeText) {
+      // One disambiguated mention, no extra question — open its topic page.
+      const leafRef = resolved[0];
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = {
+        level: "leaf",
+        categoryId: leafRef.categoryId,
+        subcategoryId: leafRef.subcategoryId,
+        tag: leafRef.tag,
+        label: leafRef.label,
+        query: leafRef.query,
+      };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    // Mixed mention(s) + question, or an unresolved mention — fall through
+    // to the normal ask flow below with the @/; syntax stripped out.
+    queryInput.value = cleanedQuery || rawQuery;
+  }
+
   const query = queryInput.value.trim();
   if (!query) return;
 
