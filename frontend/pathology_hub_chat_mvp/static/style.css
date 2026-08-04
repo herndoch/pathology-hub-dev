@@ -1815,6 +1815,30 @@ button:disabled {
   margin-bottom: 0.5rem;
 }
 
+/* When resolvable to a leaf, the title is a <button> that opens that
+ * entity's own topic page (bindCompareColumnNav) — reset button chrome and
+ * make it visually obvious it's clickable. */
+button.compare-column-title {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button.compare-column-title:hover {
+  text-decoration: underline;
+}
+
+.compare-column-title-arrow {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
 .compare-tab-bar {
   display: flex;
   gap: 0.35rem;

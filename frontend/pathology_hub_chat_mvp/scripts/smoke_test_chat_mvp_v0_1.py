@@ -461,11 +461,41 @@ def smoke_offline() -> None:
         "WHO_VOLUME_BY_ROOT",
         "loadWhoSyndromeLinks",
         "function resolveWhoOverrideUrl",
-        "activeWhoOverrideUrl",
+        "activeWhoOverrideMap",
+        "function applyWhoOverrideForEntity",
     ):
         if needle not in js:
             _fail("WHO real-link wiring missing from app.js", needle)
     _ok("WHO real-link lookup + root disambiguation (structural, offline)")
+
+    # 2026-08-04: Compare Diagnoses previously never wired up citation
+    # rendering the way a single topic page does — "why is it when i click
+    # horvai it opens pdf...why does it not hyperlink to actual who???why
+    # cant i open the entity specific page from the comparison page?" Fix:
+    # rebuild the same globals (previewIndex, hover-card maps, per-entity
+    # WHO override, textbook labels) from ALL columns' merged evidence, pass
+    # a real previewIndex into every renderMarkdown() call (columns + the
+    # AI Comparison Analysis table), make renderMarkdownTable() thread
+    # previewIndex through to its own inlineMarkdown() calls (tables were
+    # silently dropping it before), and make each column title a button
+    # that opens that entity's own topic page.
+    for needle in (
+        "const mergedCards = data.columns.flatMap((c) => c.cards || []);",
+        "function bindCompareColumnNav",
+        "data-compare-col-nav",
+        "function renderMarkdownTable(block, previewIndex)",
+    ):
+        if needle not in js:
+            _fail("Compare Diagnoses citation/nav wiring missing from app.js", needle)
+    if "renderMarkdown(column.text_summary || \"\", new Map())" in js:
+        _fail("compare column text_summary still rendered with an empty previewIndex", None)
+    if 'renderMarkdown(data.comparison, new Map())' in js:
+        _fail("compare AI Comparison Analysis still rendered with an empty previewIndex", None)
+    if "inlineMarkdown(cell)" in js:
+        _fail("renderMarkdownTable's header cells still call inlineMarkdown() without previewIndex", None)
+    if 'inlineMarkdown(row[i] || "\u2014")' in js:
+        _fail("renderMarkdownTable's body cells still call inlineMarkdown() without previewIndex", None)
+    _ok("Compare Diagnoses: real previewIndex/hover/WHO-override per column + clickable titles (structural, offline)")
 
     # 2026-08-04: @mention entity picker takes over the LIVE OncoTree in
     # browse-content (no separate dropdown/list widget — reported "why do i

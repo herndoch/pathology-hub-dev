@@ -2397,14 +2397,36 @@ function whoSyndromeUrlForEntity(tag, rootId, ...labels) {
   return null;
 }
 
-/** Real WHO URL for the entity on the CURRENTLY rendered topic page (set once
- * per renderTopicPageResult() call). Inline markdown WHO links have their
- * https://storage.googleapis.com/pathology-hub-0/WHO/WHO_HTML/... URL baked
- * directly into the stored answer_markdown text (unlike bare "(WHO)"
- * citations, which resolve their href from data.cards at render time) — so
- * rewriting data.cards alone isn't enough; renderInlineLink() below also
- * needs this to redirect an already-written mirror URL. */
-let activeWhoOverrideUrl = null;
+/** Old WHO_HTML mirror URL -> real tumourclassification.iarc.who.int URL,
+ * for every WHO card on the currently rendered page(s). Inline markdown WHO
+ * links have their https://storage.googleapis.com/pathology-hub-0/WHO/
+ * WHO_HTML/... URL baked directly into the stored answer_markdown text
+ * (unlike bare "(WHO)" citations, which resolve their href from data.cards
+ * at render time) — so rewriting data.cards alone isn't enough;
+ * renderInlineLink() below also needs this to redirect an already-written
+ * mirror URL. A real Map (not a single URL) because Compare renders TWO
+ * entities' WHO citations side by side — a single override would wrongly
+ * apply one entity's WHO link to the other's citations too (2026-08-04:
+ * "why does it not hyperlink to actual who???" on the Compare page). Keyed
+ * by the EXACT old mirror URL (the synthesis prompt has the model copy
+ * `source_url` verbatim), populated by applyWhoOverrideForEntity(). */
+let activeWhoOverrideMap = new Map();
+
+/** Records the real WHO URL for `cards`' WHO-source citations (if any) into
+ * `targetMap` (old mirror URL -> whoUrl), and mutates each WHO card's own
+ * source_url/url in place so exports/citation strips also pick up the
+ * corrected link. No-op when `whoUrl` is falsy (entity isn't one of the WHO
+ * genetic-syndrome-linked entries). */
+function applyWhoOverrideForEntity(cards, whoUrl, targetMap) {
+  if (!whoUrl || !Array.isArray(cards)) return;
+  for (const card of cards) {
+    if (!card || String(card.source || "").toLowerCase() !== "who") continue;
+    const oldUrl = card.source_url || card.url;
+    if (oldUrl) targetMap.set(oldUrl, whoUrl);
+    card.source_url = whoUrl;
+    card.url = whoUrl;
+  }
+}
 
 /** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
 let activeTextbookLabelByUrl = new Map();
@@ -2758,7 +2780,7 @@ function renderMarkdown(text, previewIndex) {
     flushImages();
 
     if (isMarkdownTable(trimmed)) {
-      htmlBlocks.push(renderMarkdownTable(trimmed));
+      htmlBlocks.push(renderMarkdownTable(trimmed, previewIndex));
       continue;
     }
 
@@ -2766,7 +2788,7 @@ function renderMarkdown(text, previewIndex) {
     // Detect that before the generic list renderer turns pipes into <li> text.
     const tableFromBullets = coerceBulletWrappedMarkdownTable(trimmed);
     if (tableFromBullets) {
-      htmlBlocks.push(renderMarkdownTable(tableFromBullets));
+      htmlBlocks.push(renderMarkdownTable(tableFromBullets, previewIndex));
       continue;
     }
 
@@ -2968,7 +2990,7 @@ function splitDdxTablesAndProse(text) {
   return parts;
 }
 
-function renderMarkdownTable(block) {
+function renderMarkdownTable(block, previewIndex) {
   const lines = block
     .split("\n")
     .map((line) => line.replace(/^\s*[-*]\s+/, "").trim())
@@ -2987,13 +3009,13 @@ function renderMarkdownTable(block) {
 
   let html = '<table class="answer-table"><thead><tr>';
   for (const cell of header) {
-    html += `<th>${inlineMarkdown(cell)}</th>`;
+    html += `<th>${inlineMarkdown(cell, previewIndex)}</th>`;
   }
   html += "</tr></thead><tbody>";
   for (const row of body) {
     html += "<tr>";
     for (let i = 0; i < header.length; i += 1) {
-      html += `<td>${inlineMarkdown(row[i] || "—")}</td>`;
+      html += `<td>${inlineMarkdown(row[i] || "—", previewIndex)}</td>`;
     }
     html += "</tr>";
   }
@@ -3037,14 +3059,13 @@ function inlineMarkdown(text, previewIndex) {
   return html;
 }
 
-/** WHO_HTML mirror URL → real WHO URL when the current page matched a
- * covered entity (see activeWhoOverrideUrl). Inline markdown links carry
- * their URL as literal text baked into the stored answer, so this has to
- * run at render time, not just once on data.cards. */
+/** WHO_HTML mirror URL → real WHO URL when this exact URL is one of the
+ * currently rendered page's/columns' WHO citations (see
+ * activeWhoOverrideMap). Inline markdown links carry their URL as literal
+ * text baked into the stored answer, so this has to run at render time,
+ * not just once on data.cards. */
 function resolveWhoOverrideUrl(url) {
-  if (!activeWhoOverrideUrl) return url;
-  if (!/pathology-hub-0\/WHO\/WHO_HTML\//i.test(String(url || ""))) return url;
-  return activeWhoOverrideUrl;
+  return activeWhoOverrideMap.get(url) || url;
 }
 
 function renderInlineLink(label, rawUrl, previewIndex) {
@@ -3986,13 +4007,24 @@ async function submitFlag() {
   }
 }
 
-function renderCompareColumn(column, colIndex) {
+/** `leafRef` is the browseState-ready {categoryId, subcategoryId, tag,
+ * label, query} for this column's entity (from compareSet, positionally
+ * matched — see loadCompareView), or null when it can't be resolved (e.g.
+ * a hand-typed @mention with no taxonomy match) — in which case the title
+ * renders as plain, non-clickable text instead of a broken nav button. */
+function renderCompareColumn(column, colIndex, previewIndex, leafRef) {
   const query = column.query || column.label || "";
   const figFilter = filterByQueryRelevance(query, column.figures || [], { maxShown: 10 });
   const shownFigures = figFilter.shown.length ? figFilter.shown : column.figures || [];
   const tabId = `compare-col-${colIndex}`;
   let html = `<div class="compare-column" data-col="${colIndex}">`;
-  html += `<div class="compare-column-title">${escapeHtml(formatDisplayLabel(column.label))}</div>`;
+  const titleText = escapeHtml(formatDisplayLabel(column.label));
+  if (leafRef) {
+    const payload = escapeAttr(JSON.stringify(leafRef));
+    html += `<button type="button" class="compare-column-title" data-compare-col-nav="${payload}" title="Open ${titleText}'s topic page">${titleText} <span class="compare-column-title-arrow" aria-hidden="true">\u2192</span></button>`;
+  } else {
+    html += `<div class="compare-column-title">${titleText}</div>`;
+  }
   html += '<div class="compare-tab-bar">';
   html += `<button type="button" class="compare-tab-btn active" data-col-tab="images" data-col="${colIndex}">Images</button>`;
   html += `<button type="button" class="compare-tab-btn" data-col-tab="text" data-col="${colIndex}">Text</button>`;
@@ -4002,7 +4034,7 @@ function renderCompareColumn(column, colIndex) {
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   html += "</div>";
   html += `<div class="compare-col-panel hidden" id="${tabId}-text">`;
-  html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", new Map())}</div>`;
+  html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", previewIndex)}</div>`;
   html += "</div></div>";
   return html;
 }
@@ -4018,6 +4050,27 @@ function bindCompareColumnTabs(root) {
       root.querySelectorAll(`.compare-column[data-col="${col}"] .compare-col-panel`).forEach((panel) => {
         panel.classList.toggle("hidden", !panel.id.endsWith(`-${tab}`));
       });
+    });
+  });
+}
+
+/** Reported (2026-08-04): "why cant i open the entity specific page from
+ * the comparison page?" — each column's title is now a button
+ * (renderCompareColumn) that opens that entity's own topic page, same
+ * destination as clicking it anywhere else in Browse. compareSet stays
+ * intact and the fixed #compare-tray remains visible, so "Compare" still
+ * jumps straight back to this same comparison. */
+function bindCompareColumnNav(root) {
+  root.querySelectorAll("[data-compare-col-nav]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      try {
+        const leafRef = JSON.parse(btn.dataset.compareColNav);
+        browseState = { level: "leaf", ...leafRef };
+        setActiveView("browse");
+        renderBrowseView();
+      } catch (_err) {
+        /* ignore malformed payload */
+      }
     });
   });
 }
@@ -4068,6 +4121,33 @@ async function loadCompareView() {
       browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.comparison_error || "Compare failed")}</p>`;
       return;
     }
+    // Compare shows TWO (or more) entities' citations side by side, so the
+    // usual per-topic-page globals (previewIndex, hover cards, WHO
+    // overrides, textbook labels) have to be rebuilt from ALL columns'
+    // evidence combined, exactly like a single topic page does from
+    // data.cards — otherwise they're just whatever was left over from
+    // whichever topic page was viewed last (or empty), which is why
+    // textbook citations opened the raw PDF instead of the rich hover
+    // preview, and WHO citations didn't get the real WHO link (2026-08-04:
+    // "why is it when i click horvai it opens pdf...why does it not
+    // hyperlink to actual who???").
+    const mergedCards = data.columns.flatMap((c) => c.cards || []);
+    const mergedFigures = data.columns.flatMap((c) => c.figures || []);
+    const literatureCardsAll = mergedCards.filter((c) => String(c?.source || "").toLowerCase() === "literature");
+    const previewIndex = buildUrlPreviewIndex(mergedCards, mergedFigures);
+    activeCiteBySource = buildCiteBySource(mergedCards, literatureCardsAll);
+    activeLiteratureByUrl = buildLiteratureByUrl(literatureCardsAll);
+    activeCiteHoverByUrl = buildCiteHoverIndex(mergedCards);
+    indexTextbookLabelsFromCards(mergedCards, mergedFigures);
+    activeWhoOverrideMap = new Map();
+    data.columns.forEach((col, i) => {
+      // data.columns[i] is positionally the same entity as compareSet[i] —
+      // the backend appends one column per req.entities item, in order.
+      const meta = compareSet[i] || {};
+      const whoUrl = whoSyndromeUrlForEntity(col.tag, meta.categoryId, col.query, col.label);
+      applyWhoOverrideForEntity(col.cards, whoUrl, activeWhoOverrideMap);
+    });
+
     let html = '<div class="compare-view-header">';
     html += `<h2 class="browse-heading">Compare Diagnoses (${data.columns.length})</h2>`;
     html += '<button type="button" class="btn-secondary" id="compare-back-btn">Back</button>';
@@ -4075,12 +4155,23 @@ async function loadCompareView() {
     html += "</div>";
     html += '<div class="compare-columns">';
     for (let i = 0; i < data.columns.length; i += 1) {
-      html += renderCompareColumn(data.columns[i], i);
+      const meta = compareSet[i];
+      const leafRef =
+        meta && meta.tag && meta.tag === data.columns[i].tag
+          ? {
+              categoryId: meta.categoryId,
+              subcategoryId: meta.subcategoryId,
+              tag: data.columns[i].tag,
+              label: data.columns[i].label,
+              query: data.columns[i].query,
+            }
+          : null;
+      html += renderCompareColumn(data.columns[i], i, previewIndex, leafRef);
     }
     html += "</div>";
     html += '<div class="compare-analysis"><h3>AI Comparison Analysis</h3>';
     if (data.comparison) {
-      html += renderMarkdown(data.comparison, new Map());
+      html += renderMarkdown(data.comparison, previewIndex);
     } else {
       html += `<p class="error-text">${escapeHtml(data.comparison_error || "Comparison synthesis failed")}</p>`;
     }
@@ -4088,6 +4179,7 @@ async function loadCompareView() {
     browseContentEl.innerHTML = html;
     bindPreviewHandlers(browseContentEl);
     bindCompareColumnTabs(browseContentEl);
+    bindCompareColumnNav(browseContentEl);
     document.getElementById("compare-back-btn")?.addEventListener("click", () => {
       browseState = { level: "home" };
       renderBrowseView();
@@ -4758,7 +4850,7 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
     let html = "";
     for (const part of parts) {
       if (part.type === "table") {
-        html += renderMarkdownTable(part.text);
+        html += renderMarkdownTable(part.text, previewIndex);
       } else {
         html += renderDifferentialBulletList(part.text, previewIndex, ctx);
       }
@@ -5535,15 +5627,8 @@ function renderTopicPageResult(data, query, entryMeta = null) {
   // unaffected. Mutates card objects in place so exports/compare views also
   // pick up the corrected link.
   const whoUrl = whoSyndromeUrlForEntity(entryMeta?.tag, entryMeta?.categoryId, query, entryMeta?.label);
-  activeWhoOverrideUrl = whoUrl || null;
-  if (whoUrl && Array.isArray(data.cards)) {
-    for (const card of data.cards) {
-      if (card && String(card.source || "").toLowerCase() === "who") {
-        card.source_url = whoUrl;
-        card.url = whoUrl;
-      }
-    }
-  }
+  activeWhoOverrideMap = new Map();
+  applyWhoOverrideForEntity(data.cards, whoUrl, activeWhoOverrideMap);
   // Display caps mirror the actual backend retrieval caps (TOPIC_PAGE_MAX_CARDS=120,
   // TOPIC_PAGE_MAX_FIGURES=40 in pathology_backend.py) — these used to be
   // much smaller (20/16) than what was actually retrieved and sent to
@@ -6141,6 +6226,7 @@ form.addEventListener("submit", async (event) => {
       activeCiteBySource = buildCiteBySource(data.cards || [], []);
       activeLiteratureByUrl = new Map();
       activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
+      activeWhoOverrideMap = new Map();
       indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
