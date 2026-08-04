@@ -497,6 +497,29 @@ def smoke_offline() -> None:
         _fail("renderMarkdownTable's body cells still call inlineMarkdown() without previewIndex", None)
     _ok("Compare Diagnoses: real previewIndex/hover/WHO-override per column + clickable titles (structural, offline)")
 
+    # 2026-08-04: "how do i make it so i can hyperlink people to a page" —
+    # shareable ?tag=/?dx=/?compare=/?q= deep links on the root URL (no new
+    # backend route needed, GET / already ignores query strings), applied
+    # on load and on browser Back/Forward, and the address bar is kept in
+    # sync with whatever's on screen so the CURRENT url is always a valid
+    # link back to it. Plus explicit "Copy link" buttons on topic pages and
+    # Compare.
+    for needle in (
+        "function findLeafByTag",
+        "function fuzzyFindLeafByName",
+        "function applyUrlRoute",
+        "function syncUrlFromState",
+        "async function runAskQuery",
+        'window.addEventListener("popstate"',
+        "function copyLinkAndConfirm",
+        "function topicPageShareUrl",
+        "compare-copy-link-btn",
+        "copy-link-btn",
+    ):
+        if needle not in js:
+            _fail("shareable-link (?tag=/?dx=/?q=/?compare=) wiring missing from app.js", needle)
+    _ok("shareable ?tag=/?dx=/?q=/?compare= deep links + Copy link buttons (structural, offline)")
+
     # 2026-08-04: @mention entity picker takes over the LIVE OncoTree in
     # browse-content (no separate dropdown/list widget — reported "why do i
     # still see dropdown menu?"), reachable from any tab/browseState level.

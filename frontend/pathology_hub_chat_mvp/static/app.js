@@ -4151,6 +4151,8 @@ async function loadCompareView() {
     let html = '<div class="compare-view-header">';
     html += `<h2 class="browse-heading">Compare Diagnoses (${data.columns.length})</h2>`;
     html += '<button type="button" class="btn-secondary" id="compare-back-btn">Back</button>';
+    html +=
+      '<button type="button" class="btn-secondary" id="compare-copy-link-btn" title="Copy a shareable link to this comparison">Copy link</button>';
     html += '<button type="button" class="btn-secondary" id="compare-remove-all-btn">Remove all diagnoses</button>';
     html += "</div>";
     html += '<div class="compare-columns">';
@@ -4184,6 +4186,12 @@ async function loadCompareView() {
       browseState = { level: "home" };
       renderBrowseView();
     });
+    document.getElementById("compare-copy-link-btn")?.addEventListener("click", (event) => {
+      const params = new URLSearchParams();
+      params.set("compare", compareSet.map((e) => e.tag || e.label).join(";"));
+      const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+      copyLinkAndConfirm(event.currentTarget, url);
+    });
     document.getElementById("compare-remove-all-btn")?.addEventListener("click", () => {
       clearCompareSet();
       browseState = { level: "home" };
@@ -4208,6 +4216,11 @@ function renderBrowseView() {
     queryInput.value = browseState.level === "home" ? browseFilterQuery : "";
   }
   updateQueryHighlightOverlay();
+  // Keep the address bar a valid, shareable link to whatever's on screen —
+  // see syncUrlFromState()/applyUrlRoute() for the full ?tag=/?compare=/
+  // ?q= deep-link scheme (2026-08-04: "how do i make it so i can hyperlink
+  // people to a page").
+  syncUrlFromState();
   if (browseState.level === "compare") {
     loadCompareView();
   } else if (browseState.level === "category") {
@@ -5758,6 +5771,40 @@ function formatCachedTimestamp(iso) {
   }
 }
 
+/** Writes `text` to the clipboard and gives `btn` a brief "Link copied!"
+ * confirmation, falling back gracefully (e.g. non-HTTPS/no permission)
+ * without ever throwing. Shared by the topic page and Compare "Copy link"
+ * buttons (2026-08-04: "how do i make it so i can hyperlink people to a
+ * page"). */
+async function copyLinkAndConfirm(btn, url) {
+  if (!btn) return;
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(url);
+    ok = true;
+  } catch (_err) {
+    ok = false;
+  }
+  const original = btn.textContent;
+  btn.textContent = ok ? "Link copied!" : "Copy failed";
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.disabled = false;
+  }, 1500);
+}
+
+/** The permanent, shareable ?tag= permalink for one diagnosis's topic
+ * page — same param syncUrlFromState()/applyUrlRoute() already read/write
+ * for the address bar, so pasting this link (or just copying the address
+ * bar while viewing the page) always lands the recipient on this exact
+ * page. */
+function topicPageShareUrl(tag) {
+  const params = new URLSearchParams();
+  params.set("tag", tag);
+  return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+}
+
 function bindTopicPageChrome(root, leafRef, displayLabel, query) {
   root.querySelector(".flag-page-btn")?.addEventListener("click", () => {
     openFlagModal({
@@ -5769,6 +5816,9 @@ function bindTopicPageChrome(root, leafRef, displayLabel, query) {
   });
   root.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
     loadLeafTopicPage(leafRef, { rebuild: true });
+  });
+  root.querySelector(".copy-link-btn")?.addEventListener("click", (event) => {
+    copyLinkAndConfirm(event.currentTarget, topicPageShareUrl(leafRef.tag));
   });
   root.querySelectorAll(".topic-export-btn").forEach((btn) => {
     btn.addEventListener("click", exportCurrentPageAsJson);
@@ -5788,6 +5838,7 @@ function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thi
   html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
   if (leafRef.tag) {
     html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+    html += `<button type="button" class="btn-secondary copy-link-btn" title="Copy a shareable link to this page">Copy link</button>`;
   }
   html += renderVsButton(compareEnt);
   html += "</div>";
@@ -6037,6 +6088,26 @@ queryInput.addEventListener("keydown", (event) => {
  * for hand-typed/edited mentions. `cleanedQuery` strips the @/; syntax
  * while keeping each mention's plain entity name in place, for the mixed
  * mentions+question case. */
+/** Exact match on a leaf's real `tag` string (e.g.
+ * "BST::Bone::Chondrogenic::Malignant::Chondrosarcoma_Periosteal") — the
+ * precise, unambiguous lookup used for shareable `?tag=` deep links. */
+function findLeafByTag(tag) {
+  if (!tag) return null;
+  return TAXONOMY_LEAF_INDEX.find((l) => l.tag === tag) || null;
+}
+
+/** Best-effort fuzzy match on a human-typed/shared entity NAME (exact
+ * normalized match, then exact case-insensitive label match, then a
+ * substring match) — used for both @mention resolution and `?dx=`/
+ * `?compare=` deep links, where the exact `tag` isn't known. */
+function fuzzyFindLeafByName(label) {
+  const norm = normalizeEntityName(label);
+  let best = TAXONOMY_LEAF_INDEX.find((l) => l.normalized === norm);
+  if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => l.entityName.toLowerCase() === String(label).toLowerCase());
+  if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => norm.length > 3 && l.normalized.includes(norm));
+  return best || null;
+}
+
 function parseQueryMentions(text) {
   const mentionRe = /@([^;@]+);?/g;
   const mentions = [];
@@ -6054,15 +6125,143 @@ function parseQueryMentions(text) {
     .map((m, i) => {
       const tracked = mentionInsertions[i];
       if (tracked && tracked.label.toLowerCase() === m.label.toLowerCase()) return tracked.leafRef;
-      const norm = normalizeEntityName(m.label);
-      let best = TAXONOMY_LEAF_INDEX.find((l) => l.normalized === norm);
-      if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => l.entityName.toLowerCase() === m.label.toLowerCase());
-      if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => norm.length > 3 && l.normalized.includes(norm));
+      const best = fuzzyFindLeafByName(m.label);
       return best ? leafRefFrom(best) : null;
     })
     .filter(Boolean);
   return { mentions, freeText, cleanedQuery, resolved };
 }
+
+/** Shareable deep links (2026-08-04: "how do i make it so i can hyperlink
+ * people to a page"). Query-string params on the root URL (no new backend
+ * route needed — GET / already serves index.html regardless of query
+ * string):
+ *   ?tag=<exact leaf tag>   — precise permalink to one diagnosis's topic
+ *                             page (what the app itself writes into the
+ *                             address bar — see syncUrlFromState below).
+ *   ?dx=<entity name>       — same destination, fuzzy-matched by name, for
+ *                             hand-typed/shared links where the exact tag
+ *                             isn't known (falls back to asking it as a
+ *                             plain question if nothing matches).
+ *   ?compare=<name1>;<name2> — opens Compare with 2+ fuzzy-matched entities.
+ *   ?q=<free text>          — runs it as an Ask question, same as typing it
+ *                             and pressing Enter.
+ * Priority when several are present: tag > dx > compare > q. */
+let lastAskedQuery = null; // last free-text question actually asked — mirrored into ?q= by syncUrlFromState.
+
+/** Set right before a programmatic render that must NOT add a new browser
+ * history entry — the initial page-load deep link (browser already has
+ * this exact URL) and popstate-driven re-renders (the browser already
+ * moved history for us; we're just syncing app state to match). Consumed
+ * (and reset) by the very next syncUrlFromState() call. */
+let suppressNextUrlPush = false;
+
+/** Rewrites the address bar to reflect whatever's actually on screen right
+ * now, so the CURRENT url is always a valid, shareable link back to this
+ * exact page — mirrors browseState/compareSet/lastAskedQuery into ?tag= /
+ * ?compare= / ?q=. Called from renderBrowseView() (every Browse
+ * navigation) and runAskQuery() (every question asked). A no-op if the
+ * computed URL already matches the address bar, so re-rendering the same
+ * leaf (e.g. clicking Rebuild) never pushes a duplicate history entry. */
+function syncUrlFromState() {
+  // Consume the suppress flag FIRST, unconditionally — otherwise the
+  // no-op early return below (when the computed URL already matches, e.g.
+  // a deep link that lands on the exact URL it was already given) would
+  // leave it set to `true`, silently turning the NEXT genuine navigation's
+  // intended pushState into a replaceState (a real bug caught by
+  // playwright_test_deep_links_v0_1.py's browser-Back checks — it ate a
+  // history entry, so Back skipped straight past an intermediate page).
+  const push = !suppressNextUrlPush;
+  suppressNextUrlPush = false;
+
+  const params = new URLSearchParams();
+  if (askViewEl && !askViewEl.classList.contains("hidden")) {
+    if (lastAskedQuery) params.set("q", lastAskedQuery);
+  } else if (browseState.level === "leaf" && browseState.tag) {
+    params.set("tag", browseState.tag);
+  } else if (browseState.level === "compare" && compareSet.length >= 2) {
+    params.set("compare", compareSet.map((e) => e.tag || e.label).join(";"));
+  }
+  const qs = params.toString();
+  const newUrl = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
+  const currentUrl = `${window.location.pathname}${window.location.search}`;
+  if (newUrl === currentUrl) return;
+  if (push) {
+    window.history.pushState({ ph: true }, "", newUrl);
+  } else {
+    window.history.replaceState({ ph: true }, "", newUrl);
+  }
+}
+
+/** Reads tag/dx/compare/q off the current URL and navigates straight to
+ * that destination — run once at startup (after loadBrowseIndex resolves,
+ * so TAXONOMY_LEAF_INDEX is populated) and again on every popstate
+ * (browser Back/Forward). Returns true if a deep link was actually
+ * applied, so the caller can fall back to a plain Home render otherwise. */
+function applyUrlRoute() {
+  const params = new URLSearchParams(window.location.search);
+  const tag = params.get("tag");
+  const dx = params.get("dx");
+  const compareParam = params.get("compare");
+  const q = params.get("q");
+
+  if (tag) {
+    const hit = findLeafByTag(tag);
+    if (hit) {
+      browseState = { level: "leaf", ...leafRefFrom(hit) };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+  }
+  if (dx) {
+    const hit = fuzzyFindLeafByName(dx);
+    if (hit) {
+      browseState = { level: "leaf", ...leafRefFrom(hit) };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+    // No taxonomy match for ?dx= — fall through to asking it as a plain
+    // question below instead of silently landing on a blank Home page.
+  }
+  if (compareParam) {
+    const names = compareParam
+      .split(/[;,]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    // Try an exact tag match first — syncUrlFromState() canonicalizes
+    // ?compare= into exact tags once the view loads, so revisiting that
+    // same (e.g. copied/shared, or reached via browser Back) canonical
+    // link must resolve via tag, not fuzzy name matching against a
+    // "BST::Bone::..."-shaped string.
+    const hits = names.map((n) => findLeafByTag(n) || fuzzyFindLeafByName(n)).filter(Boolean);
+    if (hits.length >= 2) {
+      compareSet = hits.map((h) => comparePayloadFromLeaf(h.categoryId, h.subcategoryId, h));
+      renderCompareTray();
+      browseState = { level: "compare" };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+  }
+  const freeform = q || dx;
+  if (freeform) {
+    queryInput.value = freeform;
+    runAskQuery(freeform);
+    return true;
+  }
+  return false;
+}
+
+window.addEventListener("popstate", () => {
+  suppressNextUrlPush = true;
+  if (!applyUrlRoute()) {
+    browseState = { level: "home" };
+    setActiveView("browse");
+    renderBrowseView();
+  }
+});
 
 /** Triple function of the top query overlay: an active "@mention" takes
  * over browse-content with the live search tree — reusing renderBrowseHome
@@ -6094,55 +6293,13 @@ queryInput.addEventListener("input", () => {
   renderBrowseView();
 });
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  // Each pick auto-primes a trailing "@" for the next mention (see
-  // selectMentionLeaf) — strip a bare, never-typed-into one before parsing
-  // so submitting right after a pick doesn't leave a stray "@" dangling in
-  // the free text or register as an (empty, unresolvable) extra mention.
-  const rawQuery = queryInput.value.trim().replace(/@$/, "").trim();
-  if (!rawQuery) return;
-  activeMentionCtx = null;
-
-  if (rawQuery.includes("@")) {
-    const { resolved, freeText, cleanedQuery } = parseQueryMentions(rawQuery);
-    mentionInsertions = [];
-    if (resolved.length >= 2) {
-      // 2+ entities mentioned — go straight to Compare, same destination as
-      // the tree's VS button, but reachable from any tab.
-      compareSet = resolved.map((r) => comparePayloadFromLeaf(r.categoryId, r.subcategoryId, r));
-      renderCompareTray();
-      browseFilterQuery = "";
-      queryInput.value = "";
-      browseState = { level: "compare" };
-      setActiveView("browse");
-      renderBrowseView();
-      return;
-    }
-    if (resolved.length === 1 && !freeText) {
-      // One disambiguated mention, no extra question — open its topic page.
-      const leafRef = resolved[0];
-      browseFilterQuery = "";
-      queryInput.value = "";
-      browseState = {
-        level: "leaf",
-        categoryId: leafRef.categoryId,
-        subcategoryId: leafRef.subcategoryId,
-        tag: leafRef.tag,
-        label: leafRef.label,
-        query: leafRef.query,
-      };
-      setActiveView("browse");
-      renderBrowseView();
-      return;
-    }
-    // Mixed mention(s) + question, or an unresolved mention — fall through
-    // to the normal ask flow below with the @/; syntax stripped out.
-    queryInput.value = cleanedQuery || rawQuery;
-  }
-
-  const query = queryInput.value.trim();
+/** The actual "ask a full question" flow — factored out of the submit
+ * handler below so a `?q=`/unmatched-`?dx=` deep link (applyUrlRoute) can
+ * run the exact same thing directly, without faking a form-submit event.
+ * `query` must already be trimmed and non-empty. */
+async function runAskQuery(query) {
   if (!query) return;
+  lastAskedQuery = query;
 
   // Pressing Enter always answers the question, never just filters — and
   // switching to the Ask tab hides the Browse tree/tiles behind it.
@@ -6152,6 +6309,7 @@ form.addEventListener("submit", async (event) => {
   queryInput.value = "";
   updateQueryHighlightOverlay();
   sendBtn.disabled = true;
+  syncUrlFromState();
 
   const plan = planAskRequest(query);
   const category = plan.leaf?.categoryId ? findCategory(plan.leaf.categoryId) : null;
@@ -6270,6 +6428,58 @@ form.addEventListener("submit", async (event) => {
     sendBtn.disabled = false;
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  // Each pick auto-primes a trailing "@" for the next mention (see
+  // selectMentionLeaf) — strip a bare, never-typed-into one before parsing
+  // so submitting right after a pick doesn't leave a stray "@" dangling in
+  // the free text or register as an (empty, unresolvable) extra mention.
+  const rawQuery = queryInput.value.trim().replace(/@$/, "").trim();
+  if (!rawQuery) return;
+  activeMentionCtx = null;
+
+  if (rawQuery.includes("@")) {
+    const { resolved, freeText, cleanedQuery } = parseQueryMentions(rawQuery);
+    mentionInsertions = [];
+    if (resolved.length >= 2) {
+      // 2+ entities mentioned — go straight to Compare, same destination as
+      // the tree's VS button, but reachable from any tab.
+      compareSet = resolved.map((r) => comparePayloadFromLeaf(r.categoryId, r.subcategoryId, r));
+      renderCompareTray();
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = { level: "compare" };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    if (resolved.length === 1 && !freeText) {
+      // One disambiguated mention, no extra question — open its topic page.
+      const leafRef = resolved[0];
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = {
+        level: "leaf",
+        categoryId: leafRef.categoryId,
+        subcategoryId: leafRef.subcategoryId,
+        tag: leafRef.tag,
+        label: leafRef.label,
+        query: leafRef.query,
+      };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    // Mixed mention(s) + question, or an unresolved mention — fall through
+    // to the normal ask flow below with the @/; syntax stripped out.
+    queryInput.value = cleanedQuery || rawQuery;
+  }
+
+  const query = queryInput.value.trim();
+  if (!query) return;
+  await runAskQuery(query);
 });
 
 /** Tracks whatever was last rendered (topic page or Ask-tab chat answer) so
@@ -6381,7 +6591,14 @@ updateModeHint();
 setActiveView("browse");
 browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';
 loadBrowseIndex().then(() => {
-  renderBrowseView();
+  // A shared ?tag=/?dx=/?compare=/?q= link (see applyUrlRoute) lands
+  // directly on that page instead of Home — this is the very first render,
+  // so it must never push a redundant new history entry on top of the URL
+  // the browser already has.
+  suppressNextUrlPush = true;
+  if (!applyUrlRoute()) {
+    renderBrowseView();
+  }
 });
 loadWhoSyndromeLinks();
 refreshHealth();
