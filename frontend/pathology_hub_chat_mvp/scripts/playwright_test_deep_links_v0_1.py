@@ -95,10 +95,12 @@ def main() -> None:
         )
         query_input = page.locator("#query-input")
         page.locator("#home-btn").click()
-        page.wait_for_timeout(300)
+        page.wait_for_timeout(500)
         query_input.click()
         query_input.type("Ewing Sarcoma", delay=30)
-        page.wait_for_timeout(400)
+        page.wait_for_function(
+            "document.querySelectorAll('#browse-content .oncotree-leaf').length > 0", timeout=15000
+        )
         leaves = page.locator("#browse-content .oncotree-leaf")
         if leaves.count() < 1:
             _fail("no tree matches for Ewing Sarcoma (setup for popstate test)", None)
