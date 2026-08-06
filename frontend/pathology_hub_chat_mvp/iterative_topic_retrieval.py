@@ -283,7 +283,7 @@ def run_iterative_topic_retrieval(
             "phase": "literature",
             "round": 1,
             "status": "running",
-            "label": "Live literature — Elsevier / PubMed / OncoKB",
+            "label": "Literature — Elsevier / PubMed / OncoKB",
             "detail": f"Query: {query}",
         }
         lit = fetch_live_literature(query, max_per_provider=4, tumor_type=tumor_type)
@@ -296,7 +296,7 @@ def run_iterative_topic_retrieval(
             "phase": "literature",
             "round": 1,
             "status": "done",
-            "label": "Live literature — Elsevier / PubMed / OncoKB",
+            "label": "Literature — Elsevier / PubMed / OncoKB",
             "detail": (
                 f"{len(literature_all)} on-topic literature cards"
                 + (

@@ -1277,6 +1277,27 @@ code {
   font-size: 0.9rem;
 }
 
+/** Collapses literature/citations/source-summary/debug/export behind one
+ * toggle at the bottom of a topic page, instead of always taking up scroll
+ * space past the synthesized answer's own Key Literature section. */
+.topic-more-section {
+  margin: 1rem 0 0;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 0.75rem;
+}
+
+.topic-more-section summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.topic-more-section[open] {
+  padding-bottom: 0.5rem;
+}
+
 .citation-list {
   list-style: none;
   padding: 0;

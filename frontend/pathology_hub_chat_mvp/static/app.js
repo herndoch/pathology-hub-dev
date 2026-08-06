@@ -24,7 +24,7 @@ const SOURCE_LABELS = {
   textbooks: "Textbooks",
   pathout: "Pathoutlines",
   journals: "Journals (retired)",
-  literature: "Live literature",
+  literature: "Literature",
   lectures: "Lectures",
   videos: "Videos",
   curriculum: "Curriculum map",
@@ -4305,50 +4305,20 @@ function renderBrowseHome() {
     return;
   }
 
-  // Degenerate query (near-every-leaf match, e.g. a single letter) — flat
-  // list instead of an unnavigable wall of expanded tree nodes.
-  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
-  html += '<div class="chevron-list">';
-  for (const row of treeSearchMatches.slice(0, 120)) {
-    const compareEntity = comparePayloadFromLeaf(row.root.id, row.sub.id, row.leaf);
-    const leafPayload = escapeAttr(
-      JSON.stringify({
-        tag: row.leaf.tag,
-        label: row.leaf.label,
-        query: row.leaf.query,
-        provenance: row.leaf.provenance || null,
-        categoryId: row.root.id,
-        subcategoryId: row.sub.id,
-      }),
-    );
-    html += '<div class="browse-leaf-row">';
-    html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
-    html += renderVsButton(compareEntity);
-    html += "</div>";
-  }
-  html += "</div>";
-  if (treeSearchMatches.length > 120) {
-    html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
-  }
+  // Degenerate query (near-every-leaf match, e.g. a single letter) — keep
+  // showing the live OncoTree itself rather than bailing to a flat list
+  // (2026-08-06 feedback: "why dont i always see tree when i type"). An
+  // unfiltered, unhighlighted tree stays perfectly navigable/performant
+  // either way; only the highlighting+auto-expand is what would explode
+  // into an unnavigable wall of nodes for thousands of matches, so this
+  // just skips that part and asks the user to keep typing.
+  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; keep typing to narrow it down. Showing the full tree for now.</p>`;
+  html += renderOncotreeHtml(roots, {});
   browseContentEl.innerHTML = html;
+  bindOncotreeToolbarHandlers(() => renderBrowseView());
   bindInfoButtonHandler();
+  bindOncotreeHandlers(roots, () => renderBrowseView());
   bindVsButtons(browseContentEl);
-  browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
-    el.addEventListener("click", () => {
-      const leaf = JSON.parse(el.dataset.leaf);
-      browseFilterQuery = "";
-      browseState = {
-        level: "leaf",
-        categoryId: leaf.categoryId,
-        subcategoryId: leaf.subcategoryId,
-        tag: leaf.tag,
-        label: leaf.label,
-        query: leaf.query,
-        provenance: leaf.provenance || null,
-      };
-      renderBrowseView();
-    });
-  });
 }
 
 function renderBrowseCategory(categoryId) {
@@ -5268,11 +5238,11 @@ function renderTopicSourceSummary(data, entryMeta = null) {
     (data.literature || []).length ||
     (data.cards || []).filter((c) => (c.source || "") === "literature").length;
   if (litCount) {
-    html += ` · <strong>${litCount} live literature</strong> (Elsevier/PubMed/OncoKB)`;
+    html += ` · <strong>${litCount} literature</strong> (Elsevier/PubMed/OncoKB)`;
   } else if (data.debug && data.debug.live_literature_enabled === false) {
-    html += " · live literature off";
+    html += " · literature off";
   } else if (data.debug && data.mode === "topic_page") {
-    html += " · live literature: none returned";
+    html += " · literature: none returned";
   }
   html += ".</p>";
 
@@ -5345,7 +5315,7 @@ function topicPageFanoutHint(data) {
     text += ` ${capped} unique cards (cap ${capLimit}) sent to synthesis.`;
   }
   if (typeof debug.literature_count === "number") {
-    text += ` ${debug.literature_count} live literature cards.`;
+    text += ` ${debug.literature_count} literature cards.`;
   }
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
@@ -5602,13 +5572,13 @@ function renderLiteratureStrip(cards, debug = null) {
   if (!lit.length) {
     if (!statusHtml) return "";
     return (
-      '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>' +
+      '<div class="literature-strip"><div class="topic-panel-title">Literature (Elsevier / PubMed / OncoKB)</div>' +
       statusHtml +
       '<p class="hint">No literature cards returned for this page.</p></div>'
     );
   }
   let html =
-    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>';
+    '<div class="literature-strip"><div class="topic-panel-title">Literature (Elsevier / PubMed / OncoKB)</div>';
   html += statusHtml;
   html += '<ul class="literature-list">';
   for (const card of lit.slice(0, 10)) {
@@ -5689,16 +5659,21 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     lectureCards,
     pageContext,
   );
-  html += renderLiteratureStrip(literatureCards, data.debug || null);
-  if (litFilter.note) html += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
-  if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
-  if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
-  if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
-  html += renderCitations(sortedCards);
-  html += renderTopicSourceSummary(data, entryMeta);
-  html += topicPageFanoutHint(data);
-  html += renderDebugBlock(data);
-  html += renderTopicExportBar();
+  // Everything past the synthesized page itself (literature list, citations,
+  // source/debug summaries, export bar) collapsed behind one toggle instead
+  // of always taking up scroll space (2026-08-06 feedback: "collapse all
+  // the shit after key literature section").
+  let moreHtml = renderLiteratureStrip(literatureCards, data.debug || null);
+  if (litFilter.note) moreHtml += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
+  if (figFilter.note) moreHtml += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
+  if (videoFilter.note) moreHtml += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
+  if (cardFilter.note) moreHtml += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
+  moreHtml += renderCitations(sortedCards);
+  moreHtml += renderTopicSourceSummary(data, entryMeta);
+  moreHtml += topicPageFanoutHint(data);
+  moreHtml += renderDebugBlock(data);
+  moreHtml += renderTopicExportBar();
+  html += `<details class="topic-more-section"><summary>Literature list, citations, source summary &amp; export</summary>${moreHtml}</details>`;
   return html;
 }
 
