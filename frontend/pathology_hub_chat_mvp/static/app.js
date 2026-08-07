@@ -3185,7 +3185,7 @@ function renderCitations(cards) {
     html += '<li class="citation-item">';
     html += `<div class="citation-head"><strong>${escapeHtml(presentation.caption)}</strong>`;
     html += `<span class="source-badge">${escapeHtml(citationSourceLabel(card))}</span>`;
-    if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(tag)}</span>`;
+    if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(displayableTag(tag))}</span>`;
     html += "</div>";
     if (excerpt) html += `<div class="citation-excerpt">${escapeHtml(excerpt)}</div>`;
     if (previewPayload) {
@@ -5509,9 +5509,19 @@ function browsePathSegments(entryMeta) {
  * already shown above the page (see renderBrowseBreadcrumbs), so it isn't
  * repeated here. Falls back to the human Browse path only when there is no
  * formal ABPath/WHO tag at all. */
+/** "ABPathSpec::" is an internal provenance marker (this leaf came straight
+ * from the ABPath AP Content Specification outline, not a WHO/board-mapped
+ * tag) — showing it verbatim to end users just reads as confusing internal
+ * jargon (2026-08-07: "why do i still see abpath...."). Strip it for
+ * DISPLAY only; the real `tag` value (used for API calls, caching keys,
+ * ?tag= deep links, etc.) is completely unchanged. */
+function displayableTag(tag) {
+  return String(tag || "").replace(/^ABPathSpec::/, "");
+}
+
 function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
   if (tag) {
-    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
+    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(displayableTag(tag))}</code></div>`;
   }
   const pathSegments = browsePathSegments(entryMeta || {});
   if (!pathSegments.length && !provenance) return "";
