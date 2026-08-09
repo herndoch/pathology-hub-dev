@@ -366,6 +366,136 @@ def cardio_organ_for_spec_id(abpath_spec_id: str) -> str:
     return CARDIO_ORGAN_HEART
 
 
+# --- Digestive System (major 6) organ remapping
+#
+# ABPath major 6 only exposes three coarse organ_system buckets
+# ("Gastrointestinal Tract" / "Liver and Biliary Tract" / "Pancreas"). Real
+# site headers ("The Esophagus", "The Stomach", …) land in `category` for a
+# minority of rows; subsequent inflammatory/neoplastic items keep the prior
+# site only by document order. Rebuild a sticky site map once per builder
+# run (same technique as CYTO_/CARDIO_ABPATH_SPEC_RANGES) so esophagus /
+# stomach / pancreas entities are not dumped into a flat "GI Tract" nav
+# bucket (2026-08-09 feedback).
+GI_ORGAN_ESOPHAGUS = "Esophagus"
+GI_ORGAN_STOMACH = "Stomach"
+GI_ORGAN_SMALL_INTESTINE = "Small Intestine / Ampulla"
+GI_ORGAN_COLON = "Colon / Rectum"
+GI_ORGAN_APPENDIX = "Appendix"
+GI_ORGAN_ANUS = "Anus"
+GI_ORGAN_LIVER_BILIARY = "Liver / Biliary Tract"
+GI_ORGAN_PANCREAS = "Pancreas"
+GI_ORGAN_MESENCHYMAL = "Mesenchymal"
+GI_ORGAN_GENETICS = "Genetics"
+GI_ORGAN_HEME = "Hematolymphoid"
+
+_GI_CATEGORY_ORGAN = {
+    "the esophagus": GI_ORGAN_ESOPHAGUS,
+    "the stomach": GI_ORGAN_STOMACH,
+    "the small intestine": GI_ORGAN_SMALL_INTESTINE,
+    "the colon": GI_ORGAN_COLON,
+    "the appendix": GI_ORGAN_APPENDIX,
+    "the anus": GI_ORGAN_ANUS,
+    "the liver": GI_ORGAN_LIVER_BILIARY,
+}
+
+# Cross-cutting / clearly-site items that sticky category context alone would
+# mis-bucket (e.g. GIST under Colon because it followed a colon block).
+_GI_ITEM_ORGAN_OVERRIDES: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"(?i)\bgist\b|gastrointestinal stromal|^mesenchymal tumors$|^other mesenchymal tumors$"), GI_ORGAN_MESENCHYMAL),
+    (re.compile(r"(?i)^lymphomas?$"), GI_ORGAN_HEME),
+    (re.compile(r"(?i)lynch syndrome|familial adenomatous polyposis"), GI_ORGAN_GENETICS),
+    (re.compile(r"(?i)ectopic pancreas"), GI_ORGAN_PANCREAS),
+    (
+        re.compile(
+            r"(?i)gallbladder|bile duct|cholangi|cholecyst|primary biliary|"
+            r"sclerosing cholangitis|large duct obstruction|"
+            r"^the gallbladder and associated"
+        ),
+        GI_ORGAN_LIVER_BILIARY,
+    ),
+]
+
+# Bare ABPath item names that repeat under multiple GI sites — qualify with
+# the site so Browse dedupe (root+label) and ?tag= slugs stay site-specific.
+_GI_BARE_SITE_LABELS = {
+    "adenocarcinoma",
+    "adenoma",
+    "neuroendocrine tumors",
+    "dysplasia",
+    "squamous cell carcinoma",
+    "squamous dysplasia",
+    "polyps",
+    "infections",
+    "lymphomas",
+    "mesenchymal tumors",
+    "other mesenchymal tumors",
+    "mucinous neoplasms",
+}
+
+# Populated once per builder run by build_gi_abpath_organ_map().
+_GI_ORGAN_BY_SPEC_ID: dict[str, str] = {}
+
+
+def build_gi_abpath_organ_map(rows: list[dict[str, Any]]) -> dict[str, str]:
+    """Map ABPath major-6 abpath_spec_id → anatomic Browse subcategory label.
+
+    Walks rows in source order, sticking on the last "The <Organ>" category
+    header within the Gastrointestinal Tract block (and section defaults for
+    Liver / Pancreas), then applies a short override list for cross-cutting
+    entities (GIST, Lynch, ectopic pancreas, …)."""
+    mapping: dict[str, str] = {}
+    current = "General"
+    last_sys: Optional[str] = None
+    for row in rows:
+        if major_number(row.get("major_section") or "") != 6:
+            continue
+        spec_id = (row.get("abpath_spec_id") or "").strip()
+        if not spec_id:
+            continue
+        sys = (row.get("organ_system") or "").strip()
+        if sys != last_sys:
+            last_sys = sys
+            if sys.startswith("A."):
+                current = "Gastrointestinal Tract"
+            elif sys.startswith("B."):
+                current = GI_ORGAN_LIVER_BILIARY
+            elif sys.startswith("C."):
+                current = GI_ORGAN_PANCREAS
+            else:
+                current = "General"
+        cat = (row.get("category") or "").strip().lower()
+        if cat in _GI_CATEGORY_ORGAN:
+            current = _GI_CATEGORY_ORGAN[cat]
+        item = _strip_leading_list_marker((row.get("item_text") or "").strip())
+        if re.search(r"(?i)^the gallbladder and associated", item):
+            current = GI_ORGAN_LIVER_BILIARY
+        organ = current
+        for rx, name in _GI_ITEM_ORGAN_OVERRIDES:
+            if rx.search(item):
+                organ = name
+                break
+        mapping[spec_id] = organ
+    return mapping
+
+
+def gi_organ_for_spec_id(abpath_spec_id: str, fallback: str = "General") -> str:
+    """Anatomic GI subcategory for an ABPath major-6 row — see
+    build_gi_abpath_organ_map(). Falls back to `fallback` when the map was
+    not built or the id is unknown."""
+    return _GI_ORGAN_BY_SPEC_ID.get(abpath_spec_id or "", fallback)
+
+
+def _gi_qualify_site_label(label: str, organ: str) -> str:
+    """Append the site when the ABPath item text is a bare name that repeats
+    under multiple GI organs (e.g. 'Adenocarcinoma' → 'Adenocarcinoma — Colon / Rectum')."""
+    key = normalize_whitespace(label or "").casefold()
+    if key not in _GI_BARE_SITE_LABELS:
+        return label
+    if "—" in label or " - " in label:
+        return label
+    return f"{label} — {organ}"
+
+
 # Browse topics must be actual diagnoses / disease entities — not cell types,
 # normal anatomy, lab methods, QA, or generic curriculum headers.
 DIAGNOSIS_HINT_RE = re.compile(
@@ -559,6 +689,20 @@ SUBCATEGORY_ALIASES: dict[str, tuple[str, str]] = {
     "ear": ("ear_and_temporal_bone", "Ear and Temporal Bone"),
     "nasopharynx": ("nose_paranasal_sinuses_and_nasopharynx", "Nose, Paranasal Sinuses, and Nasopharynx"),
     "oropharynx": ("jaws_oral_cavity_and_oropharynx", "Jaws, Oral Cavity, and Oropharynx"),
+    # GI: WHO "Hepatobiliary" / "Gallbladder Bile Ducts" and ABPath
+    # "Liver and Biliary Tract" are the same anatomic scope from different
+    # sources — one Browse bucket (2026-08-09 feedback).
+    "hepatobiliary": ("liver_biliary_tract", "Liver / Biliary Tract"),
+    "liver and biliary tract": ("liver_biliary_tract", "Liver / Biliary Tract"),
+    "liver / biliary tract": ("liver_biliary_tract", "Liver / Biliary Tract"),
+    "gallbladder bile ducts": ("liver_biliary_tract", "Liver / Biliary Tract"),
+    "gallbladder / bile ducts": ("liver_biliary_tract", "Liver / Biliary Tract"),
+    # GI lumen sites — align ABPath remaps with existing WHO subcategory labels.
+    "small intestine ampulla": ("small_intestine_ampulla", "Small Intestine / Ampulla"),
+    "small intestine / ampulla": ("small_intestine_ampulla", "Small Intestine / Ampulla"),
+    "colon / rectum": ("colon_rectum", "Colon / Rectum"),
+    "colon": ("colon_rectum", "Colon / Rectum"),
+    "rectum": ("colon_rectum", "Colon / Rectum"),
 }
 
 # Acronyms to re-uppercase after title-casing all-caps ABPath section headers
@@ -912,6 +1056,15 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
         organ = cardio_organ_for_spec_id(row.get("abpath_spec_id") or "")
         sub_id, sub_label = normalize_subcategory(organ)
         tag = "::".join(["Thorax_Mediastinum", organ, _who_style_tag_token(fine_label), _who_style_tag_token(label)])
+    elif maj == 6:
+        # Prefer sticky anatomic site over the coarse ABPath organ_system
+        # ("Gastrointestinal Tract" / "Liver and Biliary Tract" / "Pancreas").
+        organ = gi_organ_for_spec_id(row.get("abpath_spec_id") or "", fallback=fine_label)
+        if organ in {"Gastrointestinal Tract", "General"}:
+            organ = fine_label
+        sub_id, sub_label = normalize_subcategory(organ)
+        label = _gi_qualify_site_label(label, sub_label)
+        tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
     else:
         sub_id, sub_label = fine_id, fine_label
         tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
@@ -1312,6 +1465,10 @@ def main() -> int:
         ["line_index", "raw_text", "warning_type", "detail"],
     )
 
+    # Digestive System sticky organ map must be ready before content_spec_to_leaf.
+    global _GI_ORGAN_BY_SPEC_ID
+    _GI_ORGAN_BY_SPEC_ID = build_gi_abpath_organ_map(rows)
+
     abpath_leaves: list[dict[str, Any]] = []
     skipped = 0
     skipped_non_diagnosis = 0
@@ -1511,6 +1668,8 @@ def main() -> int:
             "ABPath-derived cyto leaves carry a native 'Cyto_<System>::<Category>::<Leaf>' tag (matching the real WHO/PathOut Cyto_<Suffix> convention) instead of the generic ABPathSpec:: wrapper; <Category> is a heuristic Bethesda-tier classification (cyto_bethesda_category) off the leaf's own label, not a WHO-authoritative call — expect some borderline entities (e.g. pheochromocytoma) to sit in an arguable tier.",
             "Each cyto system also carries 5 synthetic 'Cyto_<System>::Category::<Tier>' leaves (Nondiagnostic/Benign/Atypical/Suspicious_For_Malignancy/Malignant) — standardized reporting-scheme labels for navigation, not sourced diagnosis content; never counted toward WHO/ABPath entity totals.",
             "Cardiovascular (ABPath major 4) has no standalone Browse root — its content is folded into Thorax_Mediastinum::Heart / Thorax_Mediastinum::Blood_Vessels (WHO's own Thoracic Tumours volume classifies heart tumors there; real WHO Thorax_Mediastinum::Heart::… tags already existed in this index). Heart vs Blood_Vessels boundaries were hand-reconstructed from the ordered row dump (CARDIO_ABPATH_SPEC_RANGES), same caveat as the cyto ranges above.",
+            "Digestive System (ABPath major 6) Browse subcategories are anatomic sites (Esophagus, Stomach, Colon / Rectum, …) rebuilt from sticky 'The <Organ>' category headers + a short override list (build_gi_abpath_organ_map) — not the coarse ABPath organ_system buckets 'Gastrointestinal Tract' / 'Liver and Biliary Tract' / 'Pancreas'. Bare repeating item names (Adenocarcinoma, Adenoma, …) are site-qualified in the label/tag.",
+            "GI WHO 'Hepatobiliary' and 'Gallbladder Bile Ducts' merge into the same Browse bucket as ABPath 'Liver and Biliary Tract' (canonical label: 'Liver / Biliary Tract') — same anatomic scope, different source naming.",
         ],
     }
 

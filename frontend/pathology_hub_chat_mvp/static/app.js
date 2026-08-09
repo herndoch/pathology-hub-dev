@@ -1358,9 +1358,16 @@ function oncotreeToolbarHtml() {
   const zoom = oncotreeZoom();
   const canZoomOut = browseTreeZoomIdx > 0;
   const canZoomIn = browseTreeZoomIdx < ONCOTREE_ZOOM_STEPS.length - 1;
+  // One toggle: Expand organs when the tree is fully collapsed; Collapse all
+  // once anything is open (2026-08-09 feedback — "all diagnoses" / expand
+  // control should also collapse).
+  const anyExpanded = browseTreeExpanded.size > 0;
+  const expandCollapseLabel = anyExpanded ? "Collapse all" : "Expand organs";
+  const expandCollapseTitle = anyExpanded
+    ? "Collapse everything back to the organ roots"
+    : "Expand every organ root to show its subcategories";
   return `<div class="oncotree-toolbar">
-    <button type="button" class="btn-secondary" id="oncotree-expand-organs" title="Expand every organ root to show its subcategories">Expand organs</button>
-    <button type="button" class="btn-secondary" id="oncotree-collapse-all" title="Collapse everything back to the 17 organ roots">Collapse all</button>
+    <button type="button" class="btn-secondary" id="oncotree-expand-collapse" title="${expandCollapseTitle}">${expandCollapseLabel}</button>
     <span class="oncotree-zoom-group" role="group" aria-label="Zoom">
       <button type="button" class="btn-secondary" id="oncotree-zoom-out" ${canZoomOut ? "" : "disabled"} title="Zoom out">\u2212</button>
       <span class="oncotree-zoom-label">${Math.round(zoom * 100)}%</span>
@@ -1370,12 +1377,12 @@ function oncotreeToolbarHtml() {
 }
 
 function bindOncotreeToolbarHandlers(onRerender) {
-  document.getElementById("oncotree-expand-organs")?.addEventListener("click", () => {
-    for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
-    onRerender();
-  });
-  document.getElementById("oncotree-collapse-all")?.addEventListener("click", () => {
-    browseTreeExpanded.clear();
+  document.getElementById("oncotree-expand-collapse")?.addEventListener("click", () => {
+    if (browseTreeExpanded.size > 0) {
+      browseTreeExpanded.clear();
+    } else {
+      for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
+    }
     onRerender();
   });
   document.getElementById("oncotree-zoom-out")?.addEventListener("click", () => {

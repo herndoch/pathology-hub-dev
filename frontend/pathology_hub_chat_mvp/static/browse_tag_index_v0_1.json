@@ -1,6 +1,6 @@
 {
   "schema_version": "browse_tag_index_v0_4",
-  "generated_at": "2026-08-02T23:20:40.131214+00:00",
+  "generated_at": "2026-08-09T21:36:14.816895+00:00",
   "inputs": {
     "abpath_content_spec": "data/source_specs/ABPath_Anatomic_Pathology_Content_Specifications.pdf",
     "abpath_content_spec_rows": 4455,
@@ -10,11 +10,11 @@
   },
   "counts": {
     "abpath_content_spec_terminal_rows": 4455,
-    "abpath_nav_leaves": 3612,
+    "abpath_nav_leaves": 3621,
     "who_nav_leaves_input": 1918,
     "pathout_nav_leaves_input": 2658,
-    "leaves_total": 5288,
-    "leaves_abpath_only": 3395,
+    "leaves_total": 5297,
+    "leaves_abpath_only": 3404,
     "leaves_who_only": 1676,
     "leaves_both": 217,
     "roots_total": 16,
@@ -29,7 +29,7 @@
       "endo": 91,
       "eye_orbit": 139,
       "forensic": 376,
-      "gi": 203,
+      "gi": 212,
       "gu": 247,
       "gyn": 330,
       "hn": 259,
@@ -17711,13 +17711,27 @@
       "id": "gi",
       "label": "Gastrointestinal",
       "kind": "root",
-      "leaf_count": 203,
+      "leaf_count": 212,
       "subcategories": [
         {
           "id": "anus",
           "label": "Anus",
-          "leaf_count": 4,
+          "leaf_count": 11,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::anus::anal_duct_carcinoma",
+              "label": "Anal Duct Carcinoma",
+              "provenance": "abpath",
+              "query": "Anal Duct Carcinoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::anus::anal_intraepithelial_neoplasia",
+              "label": "Anal intraepithelial neoplasia",
+              "provenance": "abpath",
+              "query": "Anal intraepithelial neoplasia",
+              "abpath_level": "AR"
+            },
             {
               "tag": "GI::Anus::Benign_Precursors::Anal_Condyloma",
               "label": "Anal_Condyloma",
@@ -17737,18 +17751,60 @@
               "query": "Anal Squamous Dysplasia intraepithelial neoplasia"
             },
             {
+              "tag": "ABPathSpec::gi::anus::condyloma",
+              "label": "Condyloma",
+              "provenance": "abpath",
+              "query": "Condyloma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::anus::hemorrhoids",
+              "label": "Hemorrhoids",
+              "provenance": "abpath",
+              "query": "Hemorrhoids",
+              "abpath_level": "C"
+            },
+            {
               "tag": "GI::Anus::Benign_Precursors::Inflammatory_Cloacogenic_Polyp",
               "label": "Inflammatory_Cloacogenic_Polyp",
               "provenance": "who",
               "query": "Inflammatory Cloacogenic Polyp"
+            },
+            {
+              "tag": "ABPathSpec::gi::anus::paget_disease",
+              "label": "Paget Disease",
+              "provenance": "abpath",
+              "query": "Paget Disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::anus::squamous_cell_carcinoma_anus",
+              "label": "Squamous cell carcinoma — Anus",
+              "provenance": "abpath",
+              "query": "Squamous cell carcinoma — Anus",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::anus::tailgut_cyst",
+              "label": "Tailgut cyst",
+              "provenance": "abpath",
+              "query": "Tailgut cyst",
+              "abpath_level": "AR"
             }
           ]
         },
         {
           "id": "appendix",
           "label": "Appendix",
-          "leaf_count": 4,
+          "leaf_count": 10,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::appendix::adenocarcinoma_appendix",
+              "label": "Adenocarcinoma — Appendix",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma — Appendix",
+              "abpath_level": "AR"
+            },
             {
               "tag": "GI::Appendix::Appendiceal_Adenocarcinoma",
               "label": "Appendiceal_Adenocarcinoma",
@@ -17772,14 +17828,224 @@
               "label": "Appendiceal_Serrated_Lesions_and_Polyps",
               "provenance": "who",
               "query": "Appendiceal Serrated Lesions and Polyps"
+            },
+            {
+              "tag": "ABPathSpec::gi::appendix::appendicitis",
+              "label": "Appendicitis",
+              "provenance": "abpath",
+              "query": "Appendicitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::appendix::enterobius_vermicularis",
+              "label": "Enterobius vermicularis",
+              "provenance": "abpath",
+              "query": "Enterobius vermicularis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::appendix::mucinous_neoplasms_appendix",
+              "label": "Mucinous neoplasms — Appendix",
+              "provenance": "abpath",
+              "query": "Mucinous neoplasms — Appendix",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::appendix::neuroendocrine_tumors_appendix",
+              "label": "Neuroendocrine tumors — Appendix",
+              "provenance": "abpath",
+              "query": "Neuroendocrine tumors — Appendix",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::appendix::pseudomyxoma_peritonei",
+              "label": "Pseudomyxoma peritonei",
+              "provenance": "abpath",
+              "query": "Pseudomyxoma peritonei",
+              "abpath_level": "AR"
+            }
+          ]
+        },
+        {
+          "id": "colon_rectum",
+          "label": "Colon / Rectum",
+          "leaf_count": 20,
+          "leaves": [
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::acute_infectious_colitis_acute_self_limited_colitis",
+              "label": "Acute infectious colitis (acute self-limited colitis)",
+              "provenance": "abpath",
+              "query": "Acute infectious colitis (acute self-limited colitis)",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::adenocarcinoma_arising_in_an_adenoma",
+              "label": "Adenocarcinoma arising in an adenoma",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma arising in an adenoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::adenocarcinoma_colon_rectum",
+              "label": "Adenocarcinoma — Colon / Rectum",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma — Colon / Rectum",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::amebic_colitis",
+              "label": "Amebic colitis",
+              "provenance": "abpath",
+              "query": "Amebic colitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::colonic_duplication_cysts",
+              "label": "Colonic duplication cysts",
+              "provenance": "abpath",
+              "query": "Colonic duplication cysts",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::crohn_s_disease",
+              "label": "Crohn's disease",
+              "provenance": "abpath",
+              "query": "Crohn's disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::diverticular_disease",
+              "label": "Diverticular disease",
+              "provenance": "abpath",
+              "query": "Diverticular disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::dysplasia_and_ibd_related_adenocarcinoma",
+              "label": "Dysplasia and IBD-Related Adenocarcinoma",
+              "provenance": "abpath",
+              "query": "Dysplasia and IBD-Related Adenocarcinoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::focal_active_colitis",
+              "label": "Focal active colitis",
+              "provenance": "abpath",
+              "query": "Focal active colitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::hamartomatous_polyps",
+              "label": "Hamartomatous polyps",
+              "provenance": "abpath",
+              "query": "Hamartomatous polyps",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::hirschsprung_disease",
+              "label": "Hirschsprung disease",
+              "provenance": "abpath",
+              "query": "Hirschsprung disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::medication_induced_enterocolitis",
+              "label": "Medication-induced enterocolitis",
+              "provenance": "abpath",
+              "query": "Medication-induced enterocolitis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::melanosis_coli",
+              "label": "Melanosis coli",
+              "provenance": "abpath",
+              "query": "Melanosis coli",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::mucosal_prolapse_solitary_rectal_ulcer",
+              "label": "Mucosal prolapse / solitary rectal ulcer",
+              "provenance": "abpath",
+              "query": "Mucosal prolapse / solitary rectal ulcer",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::neuroendocrine_tumors_colon_rectum",
+              "label": "Neuroendocrine tumors — Colon / Rectum",
+              "provenance": "abpath",
+              "query": "Neuroendocrine tumors — Colon / Rectum",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::pneumatosis_coli",
+              "label": "Pneumatosis coli",
+              "provenance": "abpath",
+              "query": "Pneumatosis coli",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::pseudomembranous_colitis_c_difficile_colitis",
+              "label": "Pseudomembranous colitis (C. difficile colitis)",
+              "provenance": "abpath",
+              "query": "Pseudomembranous colitis (C. difficile colitis)",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::serrated_polyps",
+              "label": "Serrated polyps",
+              "provenance": "abpath",
+              "query": "Serrated polyps",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::tubular_and_tubulovillous_adenomas",
+              "label": "Tubular and Tubulovillous adenomas",
+              "provenance": "abpath",
+              "query": "Tubular and Tubulovillous adenomas",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::colon_rectum::ulcerative_colitis",
+              "label": "Ulcerative colitis",
+              "provenance": "abpath",
+              "query": "Ulcerative colitis",
+              "abpath_level": "C"
             }
           ]
         },
         {
           "id": "esophagus",
           "label": "Esophagus",
-          "leaf_count": 6,
+          "leaf_count": 15,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::esophagus::adenocarcinoma_esophagus",
+              "label": "Adenocarcinoma — Esophagus",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma — Esophagus",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::esophagus::barrett_esophagus_dysplasia",
+              "label": "Barrett esophagus, dysplasia",
+              "provenance": "abpath",
+              "query": "Barrett esophagus, dysplasia",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::esophagus::barrett_esophagus_non_dysplasia_i_e_metaplasia",
+              "label": "Barrett esophagus, non-dysplasia (i.e., metaplasia)",
+              "provenance": "abpath",
+              "query": "Barrett esophagus, non-dysplasia (i.e., metaplasia)",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::esophagus::eosinophilic_esophagitis",
+              "label": "Eosinophilic esophagitis",
+              "provenance": "abpath",
+              "query": "Eosinophilic esophagitis",
+              "abpath_level": "C"
+            },
             {
               "tag": "GI::Esophagus::Esophageal_Adenoid_Cystic_Carcinoma",
               "label": "Esophageal_Adenoid_Cystic_Carcinoma",
@@ -17815,488 +18081,41 @@
               "label": "Esophageal_Undifferentiated_Carcinoma",
               "provenance": "who",
               "query": "Esophageal Undifferentiated Carcinoma"
-            }
-          ]
-        },
-        {
-          "id": "gallbladder_bile_ducts",
-          "label": "Gallbladder Bile Ducts",
-          "leaf_count": 1,
-          "leaves": [
-            {
-              "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
-              "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
-              "provenance": "who",
-              "query": "Pyloric Gland Adenoma of the Gallbladder"
-            }
-          ]
-        },
-        {
-          "id": "gastrointestinal_tract",
-          "label": "Gastrointestinal Tract",
-          "leaf_count": 66,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::acute_infectious_colitis_acute_self_limited_colitis",
-              "label": "Acute infectious colitis (acute self-limited colitis)",
-              "provenance": "abpath",
-              "query": "Acute infectious colitis (acute self-limited colitis)",
-              "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::adenocarcinoma",
-              "label": "Adenocarcinoma",
-              "provenance": "abpath",
-              "query": "Adenocarcinoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::adenocarcinoma_arising_in_an_adenoma",
-              "label": "Adenocarcinoma arising in an adenoma",
-              "provenance": "abpath",
-              "query": "Adenocarcinoma arising in an adenoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::amebic_colitis",
-              "label": "Amebic colitis",
-              "provenance": "abpath",
-              "query": "Amebic colitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::anal_duct_carcinoma",
-              "label": "Anal Duct Carcinoma",
-              "provenance": "abpath",
-              "query": "Anal Duct Carcinoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::anal_intraepithelial_neoplasia",
-              "label": "Anal intraepithelial neoplasia",
-              "provenance": "abpath",
-              "query": "Anal intraepithelial neoplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::appendicitis",
-              "label": "Appendicitis",
-              "provenance": "abpath",
-              "query": "Appendicitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::autoimmune_enteropathy",
-              "label": "Autoimmune enteropathy",
-              "provenance": "abpath",
-              "query": "Autoimmune enteropathy",
-              "abpath_level": "F"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::autoimmune_gastritis",
-              "label": "Autoimmune gastritis",
-              "provenance": "abpath",
-              "query": "Autoimmune gastritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::barrett_esophagus_dysplasia",
-              "label": "Barrett esophagus, dysplasia",
-              "provenance": "abpath",
-              "query": "Barrett esophagus, dysplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::barrett_esophagus_non_dysplasia_i_e_metaplasia",
-              "label": "Barrett esophagus, non-dysplasia (i.e., metaplasia)",
-              "provenance": "abpath",
-              "query": "Barrett esophagus, non-dysplasia (i.e., metaplasia)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::celiac_disease_and_tropical_sprue",
-              "label": "Celiac disease and tropical sprue",
-              "provenance": "abpath",
-              "query": "Celiac disease and tropical sprue",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::chemical_gastritis",
-              "label": "Chemical gastritis",
-              "provenance": "abpath",
-              "query": "Chemical gastritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::colonic_duplication_cysts",
-              "label": "Colonic duplication cysts",
-              "provenance": "abpath",
-              "query": "Colonic duplication cysts",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::condyloma",
-              "label": "Condyloma",
-              "provenance": "abpath",
-              "query": "Condyloma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::crohn_disease",
-              "label": "Crohn disease",
-              "provenance": "abpath",
-              "query": "Crohn disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::crohn_s_disease",
-              "label": "Crohn's disease",
-              "provenance": "abpath",
-              "query": "Crohn's disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::diverticular_disease",
-              "label": "Diverticular disease",
-              "provenance": "abpath",
-              "query": "Diverticular disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::dysplasia_and_ibd_related_adenocarcinoma",
-              "label": "Dysplasia and IBD-Related Adenocarcinoma",
-              "provenance": "abpath",
-              "query": "Dysplasia and IBD-Related Adenocarcinoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::ectopic_pancreas",
-              "label": "Ectopic pancreas",
-              "provenance": "abpath",
-              "query": "Ectopic pancreas",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::enterobius_vermicularis",
-              "label": "Enterobius vermicularis",
-              "provenance": "abpath",
-              "query": "Enterobius vermicularis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::eosinophilic_esophagitis",
-              "label": "Eosinophilic esophagitis",
-              "provenance": "abpath",
-              "query": "Eosinophilic esophagitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::esophagitis_dissecans_superficialis",
+              "tag": "ABPathSpec::gi::esophagus::esophagitis_dissecans_superficialis",
               "label": "Esophagitis dissecans superficialis",
               "provenance": "abpath",
               "query": "Esophagitis dissecans superficialis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::familial_adenomatous_polyposis",
-              "label": "Familial adenomatous polyposis",
-              "provenance": "abpath",
-              "query": "Familial adenomatous polyposis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::focal_active_colitis",
-              "label": "Focal active colitis",
-              "provenance": "abpath",
-              "query": "Focal active colitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::fundic_gland_polyp",
-              "label": "Fundic gland polyp",
-              "provenance": "abpath",
-              "query": "Fundic gland polyp",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::gastric_dysplasia",
-              "label": "Gastric dysplasia",
-              "provenance": "abpath",
-              "query": "Gastric dysplasia",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::gastric_heterotopia",
-              "label": "Gastric heterotopia",
-              "provenance": "abpath",
-              "query": "Gastric heterotopia",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::gastrointestinal_stromal_tumors_gist",
-              "label": "Gastrointestinal stromal tumors (GIST)",
-              "provenance": "abpath",
-              "query": "Gastrointestinal stromal tumors (GIST)",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hamartomas",
-              "label": "Hamartomas",
-              "provenance": "abpath",
-              "query": "Hamartomas",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hamartomatous_polyp",
-              "label": "Hamartomatous polyp",
-              "provenance": "abpath",
-              "query": "Hamartomatous polyp",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hamartomatous_polyps",
-              "label": "Hamartomatous polyps",
-              "provenance": "abpath",
-              "query": "Hamartomatous polyps",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::helicobacter_gastritis",
-              "label": "Helicobacter gastritis",
-              "provenance": "abpath",
-              "query": "Helicobacter gastritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hemorrhagic_erosive_gastritis",
-              "label": "Hemorrhagic erosive gastritis",
-              "provenance": "abpath",
-              "query": "Hemorrhagic erosive gastritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hemorrhoids",
-              "label": "Hemorrhoids",
-              "provenance": "abpath",
-              "query": "Hemorrhoids",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hirschsprung_disease",
-              "label": "Hirschsprung disease",
-              "provenance": "abpath",
-              "query": "Hirschsprung disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::hyperplastic_polyp",
-              "label": "Hyperplastic polyp",
-              "provenance": "abpath",
-              "query": "Hyperplastic polyp",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::inflammatory_fibroid_polyp",
-              "label": "Inflammatory fibroid polyp",
-              "provenance": "both",
-              "query": "Inflammatory fibroid polyp",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::lymphocytic_gastritis",
-              "label": "Lymphocytic gastritis",
-              "provenance": "abpath",
-              "query": "Lymphocytic gastritis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::lymphomas",
-              "label": "Lymphomas",
-              "provenance": "abpath",
-              "query": "Lymphomas",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::lynch_syndrome",
-              "label": "Lynch syndrome",
-              "provenance": "abpath",
-              "query": "Lynch syndrome",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::meckel_diverticulum",
-              "label": "Meckel diverticulum",
-              "provenance": "abpath",
-              "query": "Meckel diverticulum",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::medication_induced_enterocolitis",
-              "label": "Medication-induced enterocolitis",
-              "provenance": "abpath",
-              "query": "Medication-induced enterocolitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::melanosis_coli",
-              "label": "Melanosis coli",
-              "provenance": "abpath",
-              "query": "Melanosis coli",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::menetrier_disease",
-              "label": "Menetrier Disease",
-              "provenance": "abpath",
-              "query": "Menetrier Disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::mesenchymal_tumors",
-              "label": "Mesenchymal tumors",
-              "provenance": "abpath",
-              "query": "Mesenchymal tumors",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::mucinous_neoplasms",
-              "label": "Mucinous neoplasms",
-              "provenance": "abpath",
-              "query": "Mucinous neoplasms",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::mucosal_prolapse_solitary_rectal_ulcer",
-              "label": "Mucosal prolapse / solitary rectal ulcer",
-              "provenance": "abpath",
-              "query": "Mucosal prolapse / solitary rectal ulcer",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::necrotizing_enterocolitis",
-              "label": "Necrotizing enterocolitis",
-              "provenance": "abpath",
-              "query": "Necrotizing enterocolitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::paget_disease",
-              "label": "Paget Disease",
-              "provenance": "abpath",
-              "query": "Paget Disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::peptic_duodenitis_ulcer",
-              "label": "Peptic duodenitis / ulcer",
-              "provenance": "abpath",
-              "query": "Peptic duodenitis / ulcer",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::pneumatosis_coli",
-              "label": "Pneumatosis coli",
-              "provenance": "abpath",
-              "query": "Pneumatosis coli",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::pouchitis",
-              "label": "Pouchitis",
-              "provenance": "abpath",
-              "query": "Pouchitis",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::pseudomembranous_colitis_c_difficile_colitis",
-              "label": "Pseudomembranous colitis (C. difficile colitis)",
-              "provenance": "abpath",
-              "query": "Pseudomembranous colitis (C. difficile colitis)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::pseudomyxoma_peritonei",
-              "label": "Pseudomyxoma peritonei",
-              "provenance": "abpath",
-              "query": "Pseudomyxoma peritonei",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::reflux_esophagitis",
+              "tag": "ABPathSpec::gi::esophagus::reflux_esophagitis",
               "label": "Reflux esophagitis",
               "provenance": "abpath",
               "query": "Reflux esophagitis",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::serrated_polyps",
-              "label": "Serrated polyps",
+              "tag": "ABPathSpec::gi::esophagus::squamous_cell_carcinoma_esophagus",
+              "label": "Squamous cell carcinoma — Esophagus",
               "provenance": "abpath",
-              "query": "Serrated polyps",
+              "query": "Squamous cell carcinoma — Esophagus",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::small_intestinal_duplication_cyst",
-              "label": "Small intestinal duplication cyst",
+              "tag": "ABPathSpec::gi::esophagus::squamous_dysplasia_esophagus",
+              "label": "Squamous dysplasia — Esophagus",
               "provenance": "abpath",
-              "query": "Small intestinal duplication cyst",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::squamous_cell_carcinoma",
-              "label": "Squamous cell carcinoma",
-              "provenance": "abpath",
-              "query": "Squamous cell carcinoma",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::squamous_dysplasia",
-              "label": "Squamous dysplasia",
-              "provenance": "abpath",
-              "query": "Squamous dysplasia",
+              "query": "Squamous dysplasia — Esophagus",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::squamous_papilloma",
+              "tag": "ABPathSpec::gi::esophagus::squamous_papilloma",
               "label": "Squamous papilloma",
               "provenance": "abpath",
               "query": "Squamous papilloma",
               "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::tailgut_cyst",
-              "label": "Tailgut cyst",
-              "provenance": "abpath",
-              "query": "Tailgut cyst",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::tubular_and_tubulovillous_adenomas",
-              "label": "Tubular and Tubulovillous adenomas",
-              "provenance": "abpath",
-              "query": "Tubular and Tubulovillous adenomas",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::ulcerative_colitis",
-              "label": "Ulcerative colitis",
-              "provenance": "abpath",
-              "query": "Ulcerative colitis",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::whipple_disease",
-              "label": "Whipple disease",
-              "provenance": "abpath",
-              "query": "Whipple disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::gastrointestinal_tract::zollinger_ellison_syndrome",
-              "label": "Zollinger-Ellison Syndrome",
-              "provenance": "abpath",
-              "query": "Zollinger-Ellison Syndrome",
-              "abpath_level": "AR"
             }
           ]
         },
@@ -18322,13 +18141,20 @@
         {
           "id": "genetics",
           "label": "Genetics",
-          "leaf_count": 4,
+          "leaf_count": 6,
           "leaves": [
             {
               "tag": "GI::GENETICS::Syndromes::Cowden_Syndrome",
               "label": "Cowden_Syndrome",
               "provenance": "who",
               "query": "Cowden Syndrome"
+            },
+            {
+              "tag": "ABPathSpec::gi::genetics::familial_adenomatous_polyposis",
+              "label": "Familial adenomatous polyposis",
+              "provenance": "abpath",
+              "query": "Familial adenomatous polyposis",
+              "abpath_level": "C"
             },
             {
               "tag": "GI::GENETICS::Syndromes::Familial_Pancreatic_Cancer",
@@ -18343,6 +18169,13 @@
               "query": "GAPPS and Other Fundic Gland Polyposes"
             },
             {
+              "tag": "ABPathSpec::gi::genetics::lynch_syndrome",
+              "label": "Lynch syndrome",
+              "provenance": "abpath",
+              "query": "Lynch syndrome",
+              "abpath_level": "C"
+            },
+            {
               "tag": "GI::GENETICS::Syndromes::Peutz_Jeghers_Syndrome",
               "label": "Peutz_Jeghers_Syndrome",
               "provenance": "who",
@@ -18353,7 +18186,7 @@
         {
           "id": "hematolymphoid",
           "label": "Hematolymphoid",
-          "leaf_count": 14,
+          "leaf_count": 15,
           "leaves": [
             {
               "tag": "GI::HEME::Site_Specific_Hema::Duodenal_Type_Follicular_Lymphoma",
@@ -18416,6 +18249,13 @@
               "query": "Langerhans Cell Histiocytosis"
             },
             {
+              "tag": "ABPathSpec::gi::hematolymphoid::lymphomas_hematolymphoid",
+              "label": "Lymphomas — Hematolymphoid",
+              "provenance": "abpath",
+              "query": "Lymphomas — Hematolymphoid",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "GI::HEME::Common_Hema::Mantle_Cell_Lymphoma",
               "label": "Mantle_Cell_Lymphoma",
               "provenance": "who",
@@ -18442,10 +18282,66 @@
           ]
         },
         {
-          "id": "hepatobiliary",
-          "label": "Hepatobiliary",
-          "leaf_count": 4,
+          "id": "liver_biliary_tract",
+          "label": "Liver / Biliary Tract",
+          "leaf_count": 46,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::adenocarcinoma_of_the_gallbladder_and_bile_ducts",
+              "label": "Adenocarcinoma of the gallbladder and bile ducts",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma of the gallbladder and bile ducts",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::alcoholic_liver_disease",
+              "label": "Alcoholic liver disease",
+              "provenance": "abpath",
+              "query": "Alcoholic liver disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::alpha_1_antitrypsin_deficiency",
+              "label": "Alpha-1-Antitrypsin Deficiency",
+              "provenance": "abpath",
+              "query": "Alpha-1-Antitrypsin Deficiency",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::amebic_abscess",
+              "label": "Amebic abscess",
+              "provenance": "abpath",
+              "query": "Amebic abscess",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::angiomyolipoma",
+              "label": "Angiomyolipoma",
+              "provenance": "abpath",
+              "query": "Angiomyolipoma",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::autoimmune_hepatitis_including_overlap_syndromes",
+              "label": "Autoimmune hepatitis including overlap syndromes",
+              "provenance": "abpath",
+              "query": "Autoimmune hepatitis including overlap syndromes",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::bacterial_fungal_and_parasitic_liver_disease",
+              "label": "Bacterial, fungal, and parasitic liver disease",
+              "provenance": "abpath",
+              "query": "Bacterial, fungal, and parasitic liver disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::bile_duct_hamartoma_von_meyenburg_complex",
+              "label": "Bile duct hamartoma (Von Meyenburg complex)",
+              "provenance": "abpath",
+              "query": "Bile duct hamartoma (Von Meyenburg complex)",
+              "abpath_level": "C"
+            },
             {
               "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Bile_Duct_Adenoma",
               "label": "Bile_Duct_Adenoma",
@@ -18459,306 +18355,249 @@
               "query": "Biliary Adenofibroma"
             },
             {
-              "tag": "GI::Hepatobiliary::Benign_Hepatocellular::Focal_Nodular_Hyperplasia_of_the_Liver",
-              "label": "Focal_Nodular_Hyperplasia_of_the_Liver",
-              "provenance": "who",
-              "query": "Focal Nodular Hyperplasia of the Liver"
-            },
-            {
-              "tag": "GI::Hepatobiliary::Malignant_Biliary::Hepatic_Neuroendocrine_Neoplasms",
-              "label": "Hepatic_Neuroendocrine_Neoplasms",
-              "provenance": "who",
-              "query": "Hepatic Neuroendocrine Neoplasms"
-            }
-          ]
-        },
-        {
-          "id": "liver_and_biliary_tract",
-          "label": "Liver and Biliary Tract",
-          "leaf_count": 41,
-          "leaves": [
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::adenocarcinoma_of_the_gallbladder_and_bile_ducts",
-              "label": "Adenocarcinoma of the gallbladder and bile ducts",
-              "provenance": "abpath",
-              "query": "Adenocarcinoma of the gallbladder and bile ducts",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::alcoholic_liver_disease",
-              "label": "Alcoholic liver disease",
-              "provenance": "abpath",
-              "query": "Alcoholic liver disease",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::alpha_1_antitrypsin_deficiency",
-              "label": "Alpha-1-Antitrypsin Deficiency",
-              "provenance": "abpath",
-              "query": "Alpha-1-Antitrypsin Deficiency",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::amebic_abscess",
-              "label": "Amebic abscess",
-              "provenance": "abpath",
-              "query": "Amebic abscess",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::angiomyolipoma",
-              "label": "Angiomyolipoma",
-              "provenance": "abpath",
-              "query": "Angiomyolipoma",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::autoimmune_hepatitis_including_overlap_syndromes",
-              "label": "Autoimmune hepatitis including overlap syndromes",
-              "provenance": "abpath",
-              "query": "Autoimmune hepatitis including overlap syndromes",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::bacterial_fungal_and_parasitic_liver_disease",
-              "label": "Bacterial, fungal, and parasitic liver disease",
-              "provenance": "abpath",
-              "query": "Bacterial, fungal, and parasitic liver disease",
-              "abpath_level": "AR"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::bile_duct_hamartoma_von_meyenburg_complex",
-              "label": "Bile duct hamartoma (Von Meyenburg complex)",
-              "provenance": "abpath",
-              "query": "Bile duct hamartoma (Von Meyenburg complex)",
-              "abpath_level": "C"
-            },
-            {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::cholangiocarcinoma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::cholangiocarcinoma",
               "label": "Cholangiocarcinoma",
               "provenance": "abpath",
               "query": "Cholangiocarcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::cholecystitis_and_cholelithiasis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::cholecystitis_and_cholelithiasis",
               "label": "Cholecystitis and cholelithiasis",
               "provenance": "abpath",
               "query": "Cholecystitis and cholelithiasis",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::cirrhosis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::cirrhosis",
               "label": "Cirrhosis",
               "provenance": "abpath",
               "query": "Cirrhosis",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::drug_induced_liver_disease",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::drug_induced_liver_disease",
               "label": "Drug induced liver disease",
               "provenance": "abpath",
               "query": "Drug induced liver disease",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::ebv_cmv_and_herpes_hepatitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::ebv_cmv_and_herpes_hepatitis",
               "label": "EBV, CMV, and Herpes hepatitis",
               "provenance": "abpath",
               "query": "EBV, CMV, and Herpes hepatitis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::echinococcosis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::echinococcosis",
               "label": "Echinococcosis",
               "provenance": "abpath",
               "query": "Echinococcosis",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::epithelioid_hemangioendothelioma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::epithelioid_hemangioendothelioma",
               "label": "Epithelioid hemangioendothelioma",
               "provenance": "abpath",
               "query": "Epithelioid hemangioendothelioma",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::fibrolamellar_hepatocellular_carcinoma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::fibrolamellar_hepatocellular_carcinoma",
               "label": "Fibrolamellar hepatocellular carcinoma",
               "provenance": "abpath",
               "query": "Fibrolamellar hepatocellular carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::focal_nodular_hyperplasia",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::focal_nodular_hyperplasia",
               "label": "Focal nodular hyperplasia",
               "provenance": "abpath",
               "query": "Focal nodular hyperplasia",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::gvhd",
+              "tag": "GI::Hepatobiliary::Benign_Hepatocellular::Focal_Nodular_Hyperplasia_of_the_Liver",
+              "label": "Focal_Nodular_Hyperplasia_of_the_Liver",
+              "provenance": "who",
+              "query": "Focal Nodular Hyperplasia of the Liver"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::gvhd",
               "label": "GVHD",
               "provenance": "abpath",
               "query": "GVHD",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::hemangioma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::hemangioma",
               "label": "Hemangioma",
               "provenance": "abpath",
               "query": "Hemangioma",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::hemochromatosis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::hemochromatosis",
               "label": "Hemochromatosis",
               "provenance": "abpath",
               "query": "Hemochromatosis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::hepatoblastoma",
+              "tag": "GI::Hepatobiliary::Malignant_Biliary::Hepatic_Neuroendocrine_Neoplasms",
+              "label": "Hepatic_Neuroendocrine_Neoplasms",
+              "provenance": "who",
+              "query": "Hepatic Neuroendocrine Neoplasms"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::hepatoblastoma",
               "label": "Hepatoblastoma",
               "provenance": "abpath",
               "query": "Hepatoblastoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::hepatocellular_adenoma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::hepatocellular_adenoma",
               "label": "Hepatocellular adenoma",
               "provenance": "abpath",
               "query": "Hepatocellular adenoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::hepatocellular_carcinoma",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::hepatocellular_carcinoma",
               "label": "Hepatocellular carcinoma",
               "provenance": "abpath",
               "query": "Hepatocellular carcinoma",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::large_duct_obstruction",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::large_duct_obstruction",
               "label": "Large Duct Obstruction",
               "provenance": "abpath",
               "query": "Large Duct Obstruction",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::macroregenerative_nodules_in_cirrhosis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::macroregenerative_nodules_in_cirrhosis",
               "label": "Macroregenerative nodules in cirrhosis",
               "provenance": "abpath",
               "query": "Macroregenerative nodules in cirrhosis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::metastases_to_the_liver",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::metastases_to_the_liver",
               "label": "Metastases to the Liver",
               "provenance": "abpath",
               "query": "Metastases to the Liver",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::nash_non_alcoholic_steatohepatitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::nash_non_alcoholic_steatohepatitis",
               "label": "NASH (Non-alcoholic steatohepatitis)",
               "provenance": "abpath",
               "query": "NASH (Non-alcoholic steatohepatitis)",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::neuroendocrine_tumors",
-              "label": "Neuroendocrine tumors",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::neuroendocrine_tumors_liver_biliary_tract",
+              "label": "Neuroendocrine tumors — Liver / Biliary Tract",
               "provenance": "abpath",
-              "query": "Neuroendocrine tumors",
+              "query": "Neuroendocrine tumors — Liver / Biliary Tract",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::nodular_regenerative_hyperplasia",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::nodular_regenerative_hyperplasia",
               "label": "Nodular regenerative hyperplasia",
               "provenance": "abpath",
               "query": "Nodular regenerative hyperplasia",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::polycystic_liver_disease_and_congenital_hepatic_fibrosis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::polycystic_liver_disease_and_congenital_hepatic_fibrosis",
               "label": "Polycystic liver disease and congenital hepatic fibrosis",
               "provenance": "abpath",
               "query": "Polycystic liver disease and congenital hepatic fibrosis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::polyps_and_adenomas",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::polyps_and_adenomas",
               "label": "Polyps and adenomas",
               "provenance": "abpath",
               "query": "Polyps and adenomas",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::primary_biliary_cholangitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::primary_biliary_cholangitis",
               "label": "Primary biliary cholangitis",
               "provenance": "abpath",
               "query": "Primary biliary cholangitis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::primary_sclerosing_cholangitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::primary_sclerosing_cholangitis",
               "label": "Primary sclerosing cholangitis",
               "provenance": "abpath",
               "query": "Primary sclerosing cholangitis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::pyogenic_abscess",
+              "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
+              "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
+              "provenance": "who",
+              "query": "Pyloric Gland Adenoma of the Gallbladder"
+            },
+            {
+              "tag": "ABPathSpec::gi::liver_biliary_tract::pyogenic_abscess",
               "label": "Pyogenic abscess",
               "provenance": "abpath",
               "query": "Pyogenic abscess",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::rejection",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::rejection",
               "label": "Rejection",
               "provenance": "abpath",
               "query": "Rejection",
               "abpath_level": "F"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::sclerosing_cholangitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::sclerosing_cholangitis",
               "label": "Sclerosing cholangitis",
               "provenance": "abpath",
               "query": "Sclerosing cholangitis",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::solitary_simple_cyst",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::solitary_simple_cyst",
               "label": "Solitary (Simple) cyst",
               "provenance": "abpath",
               "query": "Solitary (Simple) cyst",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::steatohepatitis",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::steatohepatitis",
               "label": "Steatohepatitis",
               "provenance": "abpath",
               "query": "Steatohepatitis",
               "abpath_level": "C"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::vascular_disorders_of_the_liver",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::vascular_disorders_of_the_liver",
               "label": "Vascular disorders of the Liver",
               "provenance": "abpath",
               "query": "Vascular disorders of the Liver",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::viral_hepatitis_hepatitis_a_b_c",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::viral_hepatitis_hepatitis_a_b_c",
               "label": "Viral hepatitis (Hepatitis A, B, & C)",
               "provenance": "abpath",
               "query": "Viral hepatitis (Hepatitis A, B, & C)",
               "abpath_level": "AR"
             },
             {
-              "tag": "ABPathSpec::gi::liver_and_biliary_tract::wilson_disease",
+              "tag": "ABPathSpec::gi::liver_biliary_tract::wilson_disease",
               "label": "Wilson Disease",
               "provenance": "abpath",
               "query": "Wilson Disease",
@@ -18769,7 +18608,7 @@
         {
           "id": "mesenchymal",
           "label": "Mesenchymal",
-          "leaf_count": 23,
+          "leaf_count": 25,
           "leaves": [
             {
               "tag": "GI::Mesenchymal::Vascular_Perivascular::Angiosarcoma",
@@ -18806,6 +18645,13 @@
               "label": "Ganglioneuroma_and_Ganglioneuromatosis",
               "provenance": "who",
               "query": "Ganglioneuroma and Ganglioneuromatosis"
+            },
+            {
+              "tag": "ABPathSpec::gi::mesenchymal::gastrointestinal_stromal_tumors_gist",
+              "label": "Gastrointestinal stromal tumors (GIST)",
+              "provenance": "abpath",
+              "query": "Gastrointestinal stromal tumors (GIST)",
+              "abpath_level": "AR"
             },
             {
               "tag": "GI::Mesenchymal::Uncertain_Diff::Gastrointestinal_Clear_Cell_Sarcoma_Malignant_Gastrointestinal_Neuroectodermal_Tumor",
@@ -18862,6 +18708,13 @@
               "query": "Lymphangioma and Lymphangiomatosis"
             },
             {
+              "tag": "ABPathSpec::gi::mesenchymal::mesenchymal_tumors_mesenchymal",
+              "label": "Mesenchymal tumors — Mesenchymal",
+              "provenance": "abpath",
+              "query": "Mesenchymal tumors — Mesenchymal",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "GI::Mesenchymal::Uncertain_Diff::Mesenchymal_Hamartoma_of_the_Liver",
               "label": "Mesenchymal_Hamartoma_of_the_Liver",
               "provenance": "who",
@@ -18914,7 +18767,7 @@
         {
           "id": "pancreas",
           "label": "Pancreas",
-          "leaf_count": 23,
+          "leaf_count": 24,
           "leaves": [
             {
               "tag": "ABPathSpec::gi::pancreas::acinar_cell_carcinoma",
@@ -18954,6 +18807,13 @@
               "label": "Ductal adenocarcinoma",
               "provenance": "abpath",
               "query": "Ductal adenocarcinoma",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::pancreas::ectopic_pancreas",
+              "label": "Ectopic pancreas",
+              "provenance": "abpath",
+              "query": "Ectopic pancreas",
               "abpath_level": "C"
             },
             {
@@ -19069,22 +18929,134 @@
         },
         {
           "id": "small_intestine_ampulla",
-          "label": "Small Intestine Ampulla",
-          "leaf_count": 1,
+          "label": "Small Intestine / Ampulla",
+          "leaf_count": 14,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::adenocarcinoma_small_intestine_ampulla",
+              "label": "Adenocarcinoma — Small Intestine / Ampulla",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma — Small Intestine / Ampulla",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::autoimmune_enteropathy",
+              "label": "Autoimmune enteropathy",
+              "provenance": "abpath",
+              "query": "Autoimmune enteropathy",
+              "abpath_level": "F"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::celiac_disease_and_tropical_sprue",
+              "label": "Celiac disease and tropical sprue",
+              "provenance": "abpath",
+              "query": "Celiac disease and tropical sprue",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::crohn_disease",
+              "label": "Crohn disease",
+              "provenance": "abpath",
+              "query": "Crohn disease",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::gastric_heterotopia",
+              "label": "Gastric heterotopia",
+              "provenance": "abpath",
+              "query": "Gastric heterotopia",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::hamartomatous_polyp",
+              "label": "Hamartomatous polyp",
+              "provenance": "abpath",
+              "query": "Hamartomatous polyp",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::meckel_diverticulum",
+              "label": "Meckel diverticulum",
+              "provenance": "abpath",
+              "query": "Meckel diverticulum",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::necrotizing_enterocolitis",
+              "label": "Necrotizing enterocolitis",
+              "provenance": "abpath",
+              "query": "Necrotizing enterocolitis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::neuroendocrine_tumors_small_intestine_ampulla",
+              "label": "Neuroendocrine tumors — Small Intestine / Ampulla",
+              "provenance": "abpath",
+              "query": "Neuroendocrine tumors — Small Intestine / Ampulla",
+              "abpath_level": "C"
+            },
             {
               "tag": "GI::Small_Intestine_Ampulla::Benign_Precursors::Non_Ampullary_Adenoma",
               "label": "Non_Ampullary_Adenoma",
               "provenance": "who",
               "query": "Non Ampullary Adenoma"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::peptic_duodenitis_ulcer",
+              "label": "Peptic duodenitis / ulcer",
+              "provenance": "abpath",
+              "query": "Peptic duodenitis / ulcer",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::pouchitis",
+              "label": "Pouchitis",
+              "provenance": "abpath",
+              "query": "Pouchitis",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::small_intestinal_duplication_cyst",
+              "label": "Small intestinal duplication cyst",
+              "provenance": "abpath",
+              "query": "Small intestinal duplication cyst",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::small_intestine_ampulla::whipple_disease",
+              "label": "Whipple disease",
+              "provenance": "abpath",
+              "query": "Whipple disease",
+              "abpath_level": "AR"
             }
           ]
         },
         {
           "id": "stomach",
           "label": "Stomach",
-          "leaf_count": 10,
+          "leaf_count": 24,
           "leaves": [
+            {
+              "tag": "ABPathSpec::gi::stomach::adenocarcinoma_stomach",
+              "label": "Adenocarcinoma — Stomach",
+              "provenance": "abpath",
+              "query": "Adenocarcinoma — Stomach",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::autoimmune_gastritis",
+              "label": "Autoimmune gastritis",
+              "provenance": "abpath",
+              "query": "Autoimmune gastritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::chemical_gastritis",
+              "label": "Chemical gastritis",
+              "provenance": "abpath",
+              "query": "Chemical gastritis",
+              "abpath_level": "C"
+            },
             {
               "tag": "GI::Stomach::Benign_Precursors::Foveolar_Type_Adenoma",
               "label": "Foveolar_Type_Adenoma",
@@ -19092,10 +19064,24 @@
               "query": "Foveolar Type Adenoma"
             },
             {
+              "tag": "ABPathSpec::gi::stomach::fundic_gland_polyp",
+              "label": "Fundic gland polyp",
+              "provenance": "abpath",
+              "query": "Fundic gland polyp",
+              "abpath_level": "C"
+            },
+            {
               "tag": "GI::Stomach::Benign_Precursors::Fundic_Gland_Polyps",
               "label": "Fundic_Gland_Polyps",
               "provenance": "who",
               "query": "Fundic Gland Polyps"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::gastric_dysplasia",
+              "label": "Gastric dysplasia",
+              "provenance": "abpath",
+              "query": "Gastric dysplasia",
+              "abpath_level": "AR"
             },
             {
               "tag": "GI::Stomach::Gastric_Adenosquamous_Carcinoma",
@@ -19134,16 +19120,79 @@
               "query": "Gastroblastoma"
             },
             {
+              "tag": "ABPathSpec::gi::stomach::hamartomas",
+              "label": "Hamartomas",
+              "provenance": "abpath",
+              "query": "Hamartomas",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::helicobacter_gastritis",
+              "label": "Helicobacter gastritis",
+              "provenance": "abpath",
+              "query": "Helicobacter gastritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::hemorrhagic_erosive_gastritis",
+              "label": "Hemorrhagic erosive gastritis",
+              "provenance": "abpath",
+              "query": "Hemorrhagic erosive gastritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::hyperplastic_polyp",
+              "label": "Hyperplastic polyp",
+              "provenance": "abpath",
+              "query": "Hyperplastic polyp",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::inflammatory_fibroid_polyp",
+              "label": "Inflammatory fibroid polyp",
+              "provenance": "both",
+              "query": "Inflammatory fibroid polyp",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "GI::Stomach::Benign_Precursors::Intestinal_Type_Gastric_Adenoma",
               "label": "Intestinal_Type_Gastric_Adenoma",
               "provenance": "who",
               "query": "Intestinal Type Gastric Adenoma"
             },
             {
+              "tag": "ABPathSpec::gi::stomach::lymphocytic_gastritis",
+              "label": "Lymphocytic gastritis",
+              "provenance": "abpath",
+              "query": "Lymphocytic gastritis",
+              "abpath_level": "C"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::menetrier_disease",
+              "label": "Menetrier Disease",
+              "provenance": "abpath",
+              "query": "Menetrier Disease",
+              "abpath_level": "AR"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::neuroendocrine_tumors_stomach",
+              "label": "Neuroendocrine tumors — Stomach",
+              "provenance": "abpath",
+              "query": "Neuroendocrine tumors — Stomach",
+              "abpath_level": "AR"
+            },
+            {
               "tag": "GI::Stomach::Benign_Precursors::Oxyntic_Gland_Adenoma",
               "label": "Oxyntic_Gland_Adenoma",
               "provenance": "who",
               "query": "Oxyntic Gland Adenoma"
+            },
+            {
+              "tag": "ABPathSpec::gi::stomach::zollinger_ellison_syndrome",
+              "label": "Zollinger-Ellison Syndrome",
+              "provenance": "abpath",
+              "query": "Zollinger-Ellison Syndrome",
+              "abpath_level": "AR"
             }
           ]
         }
@@ -39754,7 +39803,7 @@
               "tag": "ABPathSpec::thorax_mediastinum::respiratory_tract::large_cell_neuroendocrine_carcinoma",
               "label": "Large cell neuroendocrine carcinoma",
               "provenance": "abpath",
-              "query": "Large cell neuroendocrine carcinoma of the lung",
+              "query": "Large cell neuroendocrine carcinoma",
               "abpath_level": "AR"
             },
             {
@@ -44948,19 +44997,6 @@
               ]
             },
             {
-              "id": "gallbladder_bile_ducts",
-              "label": "Gallbladder Bile Ducts",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "provenance": "who",
-                  "query": "Pyloric Gland Adenoma of the Gallbladder"
-                }
-              ]
-            },
-            {
               "id": "general",
               "label": "General",
               "leaf_count": 2,
@@ -45102,9 +45138,9 @@
               ]
             },
             {
-              "id": "hepatobiliary",
-              "label": "Hepatobiliary",
-              "leaf_count": 4,
+              "id": "liver_biliary_tract",
+              "label": "Liver / Biliary Tract",
+              "leaf_count": 5,
               "leaves": [
                 {
                   "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Bile_Duct_Adenoma",
@@ -45129,6 +45165,12 @@
                   "label": "Hepatic_Neuroendocrine_Neoplasms",
                   "provenance": "who",
                   "query": "Hepatic Neuroendocrine Neoplasms"
+                },
+                {
+                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "provenance": "who",
+                  "query": "Pyloric Gland Adenoma of the Gallbladder"
                 }
               ]
             },
@@ -45364,7 +45406,7 @@
             },
             {
               "id": "small_intestine_ampulla",
-              "label": "Small Intestine Ampulla",
+              "label": "Small Intestine / Ampulla",
               "leaf_count": 1,
               "leaves": [
                 {
@@ -61980,8 +62022,8 @@
               ]
             },
             {
-              "id": "colon",
-              "label": "Colon",
+              "id": "colon_rectum",
+              "label": "Colon / Rectum",
               "leaf_count": 100,
               "leaves": [
                 {
@@ -62840,19 +62882,6 @@
               ]
             },
             {
-              "id": "gallbladder_bile_ducts",
-              "label": "Gallbladder Bile Ducts",
-              "leaf_count": 1,
-              "leaves": [
-                {
-                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
-                  "provenance": "who",
-                  "query": "Pyloric Gland Adenoma of the Gallbladder"
-                }
-              ]
-            },
-            {
               "id": "general",
               "label": "General",
               "leaf_count": 9,
@@ -63038,37 +63067,6 @@
                   "label": "Posttransplant_Lymphoproliferative_Disorders",
                   "provenance": "who",
                   "query": "Posttransplant Lymphoproliferative Disorders"
-                }
-              ]
-            },
-            {
-              "id": "hepatobiliary",
-              "label": "Hepatobiliary",
-              "leaf_count": 4,
-              "leaves": [
-                {
-                  "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Bile_Duct_Adenoma",
-                  "label": "Bile_Duct_Adenoma",
-                  "provenance": "both",
-                  "query": "Bile Duct Adenoma"
-                },
-                {
-                  "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Biliary_Adenofibroma",
-                  "label": "Biliary_Adenofibroma",
-                  "provenance": "both",
-                  "query": "Biliary Adenofibroma"
-                },
-                {
-                  "tag": "GI::Hepatobiliary::Benign_Hepatocellular::Focal_Nodular_Hyperplasia_of_the_Liver",
-                  "label": "Focal_Nodular_Hyperplasia_of_the_Liver",
-                  "provenance": "who",
-                  "query": "Focal Nodular Hyperplasia of the Liver"
-                },
-                {
-                  "tag": "GI::Hepatobiliary::Malignant_Biliary::Hepatic_Neuroendocrine_Neoplasms",
-                  "label": "Hepatic_Neuroendocrine_Neoplasms",
-                  "provenance": "who",
-                  "query": "Hepatic Neuroendocrine Neoplasms"
                 }
               ]
             },
@@ -63532,6 +63530,43 @@
                   "label": "Wilson_Disease",
                   "provenance": "pathout",
                   "query": "Wilson Disease"
+                }
+              ]
+            },
+            {
+              "id": "liver_biliary_tract",
+              "label": "Liver / Biliary Tract",
+              "leaf_count": 5,
+              "leaves": [
+                {
+                  "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Bile_Duct_Adenoma",
+                  "label": "Bile_Duct_Adenoma",
+                  "provenance": "both",
+                  "query": "Bile Duct Adenoma"
+                },
+                {
+                  "tag": "GI::Hepatobiliary::Benign_Biliary_Precursors::Biliary_Adenofibroma",
+                  "label": "Biliary_Adenofibroma",
+                  "provenance": "both",
+                  "query": "Biliary Adenofibroma"
+                },
+                {
+                  "tag": "GI::Hepatobiliary::Benign_Hepatocellular::Focal_Nodular_Hyperplasia_of_the_Liver",
+                  "label": "Focal_Nodular_Hyperplasia_of_the_Liver",
+                  "provenance": "who",
+                  "query": "Focal Nodular Hyperplasia of the Liver"
+                },
+                {
+                  "tag": "GI::Hepatobiliary::Malignant_Biliary::Hepatic_Neuroendocrine_Neoplasms",
+                  "label": "Hepatic_Neuroendocrine_Neoplasms",
+                  "provenance": "who",
+                  "query": "Hepatic Neuroendocrine Neoplasms"
+                },
+                {
+                  "tag": "GI::Gallbladder_Bile_Ducts::Benign_Precursors::Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "label": "Pyloric_Gland_Adenoma_of_the_Gallbladder",
+                  "provenance": "who",
+                  "query": "Pyloric Gland Adenoma of the Gallbladder"
                 }
               ]
             },
@@ -64188,7 +64223,7 @@
             },
             {
               "id": "small_intestine_ampulla",
-              "label": "Small Intestine Ampulla",
+              "label": "Small Intestine / Ampulla",
               "leaf_count": 1,
               "leaves": [
                 {
