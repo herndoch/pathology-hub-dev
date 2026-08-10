@@ -123,11 +123,49 @@ def smoke_cyto_root_narrow() -> None:
     _ok("cyto root-narrow bare-token fallback (structural, offline)")
 
 
+def smoke_thoracic_root_narrow() -> None:
+    """Thoracic lean textbooks use source_id prefix thoracic_*; Browse/WHO pages
+    use Thorax_Mediastinum → thoraxmediastinum. They must match under B8."""
+    import pathology_backend as backend
+
+    if not backend.roots_equivalent("thoracic", "thoraxmediastinum"):
+        _fail("thoracic and thoraxmediastinum should be equivalent roots", None)
+    if backend.roots_equivalent("thoracic", "breast"):
+        _fail("thoracic must not equate to breast", None)
+
+    cards = [
+        {"source": "textbooks", "source_id": "thoracic_burke", "title": "Type AB thymoma"},
+        {"source": "textbooks", "source_id": "thoracic_weissferdt", "title": "BA/CMPT"},
+        {"source": "textbooks", "source_id": "thoracic_leslie", "title": "PPB"},
+        {"source": "textbooks", "source_id": "cyto_psc_lung", "title": "PSC lung"},
+        {"source": "textbooks", "source_id": "breast_atlas", "title": "Breast atlas"},
+        {"source": "videos", "source_id": "Thoracic_Lecture_1_Lung_Non_Neoplastic1", "title": "Lecture"},
+        {"source": "who", "title": "WHO entity"},
+    ]
+    page_root = backend.page_root_from_tag(
+        "Thorax_Mediastinum::Benign::Bronchiolar_Adenoma_ciliated_muconodular_papillary_tumor"
+    )
+    if page_root != "thoraxmediastinum":
+        _fail("unexpected thorax page root", page_root)
+    kept = backend.filter_cards_by_page_root(cards, page_root)
+    kept_sids = {c.get("source_id") for c in kept}
+    for sid in ("thoracic_burke", "thoracic_weissferdt", "thoracic_leslie", "Thoracic_Lecture_1_Lung_Non_Neoplastic1"):
+        if sid not in kept_sids:
+            _fail(f"thoracic on-root card wrongly dropped: {sid}", sorted(kept_sids))
+    for sid in ("cyto_psc_lung", "breast_atlas"):
+        if sid in kept_sids:
+            _fail(f"off-root textbook wrongly kept on thorax page: {sid}", sorted(kept_sids))
+    if not any(c.get("source") == "who" for c in kept):
+        _fail("WHO card wrongly dropped on thorax page", kept_sids)
+    _ok("thoracic↔thoraxmediastinum root-narrow (structural, offline)")
+
+
 def smoke_offline() -> None:
     print("Offline smoke (TestClient)")
     smoke_unpaywall()
     smoke_model_selector()
     smoke_cyto_root_narrow()
+    smoke_thoracic_root_narrow()
     client = TestClient(app)
 
     idx = client.get("/static/browse_tag_index_v0_1.json")
