@@ -39803,7 +39803,7 @@
               "tag": "ABPathSpec::thorax_mediastinum::respiratory_tract::large_cell_neuroendocrine_carcinoma",
               "label": "Large cell neuroendocrine carcinoma",
               "provenance": "abpath",
-              "query": "Large cell neuroendocrine carcinoma",
+              "query": "Large cell neuroendocrine carcinoma of the lung",
               "abpath_level": "AR"
             },
             {
