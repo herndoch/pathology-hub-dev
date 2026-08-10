@@ -24,7 +24,7 @@ const SOURCE_LABELS = {
   textbooks: "Textbooks",
   pathout: "Pathoutlines",
   journals: "Journals (retired)",
-  literature: "Live literature",
+  literature: "Literature",
   lectures: "Lectures",
   videos: "Videos",
   curriculum: "Curriculum map",
@@ -41,6 +41,13 @@ const TEXTBOOK_ALIASES = {
   biopsy_interpretation: "Biopsy",
   biopsy_interpretation_neoplastic: "Biopsy",
   biopsy_interpretation_non_neoplastic: "Biopsy",
+  // BST (Bone/Soft Tissue) textbook packages — bone_dorfman, bst_horvai,
+  // softtissue_enzinger, {bone,softtissue}_pattern (source_id prefix is
+  // stripped before this lookup, so keys are just the book-name suffix).
+  dorfman: "Dorfman",
+  horvai: "Horvai",
+  enzinger: "Enzinger",
+  pattern: "Pattern",
 };
 
 /** Normalize inline markdown link labels baked into prebuild/synthesis text. */
@@ -781,23 +788,30 @@ function leafCategoryFromTag(tag) {
 
 /** Chunk leaves into branches by real pathology category (from the WHO tag
  * hierarchy) instead of alphabet. Leaves with no usable category segment
- * are dropped from the tree (findable via search / Tile view instead) —
- * returns `null` when there isn't enough categorical structure to build a
- * meaningful hierarchy at all (caller should fall back to a flat list
- * rather than force a fake grouping). */
+ * (mostly ABPath-content-spec leaves, which don't carry a WHO-style
+ * category segment at all) go into a real, clickable "Other" group instead
+ * of being silently dropped from the tree (2026-08-04 — a static "N without
+ * a clear category — use search" note with no node/click target was a dead
+ * end: reported as "cant expand those without category"). Returns `null`
+ * when there isn't enough categorical structure to build a meaningful
+ * hierarchy at all (caller should fall back to a flat list rather than
+ * force a fake grouping) — that decision still looks at how much of the
+ * list got a REAL category, ignoring the "Other" catch-all, so a subcategory
+ * that's mostly uncategorized still falls back to flat instead of a tree
+ * that's one enormous "Other" node next to a couple of tiny real ones. */
 function buildOncotreeCategoryGroups(leaves) {
   const byCategory = new Map();
-  let droppedCount = 0;
+  const other = [];
   for (const leaf of leaves) {
     const cat = leafCategoryFromTag(leaf.tag);
     if (!cat) {
-      droppedCount += 1;
+      other.push(leaf);
       continue;
     }
     if (!byCategory.has(cat)) byCategory.set(cat, []);
     byCategory.get(cat).push(leaf);
   }
-  const coverage = leaves.length ? (leaves.length - droppedCount) / leaves.length : 0;
+  const coverage = leaves.length ? (leaves.length - other.length) / leaves.length : 0;
   if (coverage < ONCOTREE_MIN_CATEGORY_COVERAGE || byCategory.size < 2) {
     return null;
   }
@@ -809,7 +823,10 @@ function buildOncotreeCategoryGroups(leaves) {
       leaves: catLeaves,
     }))
     .sort((a, b) => b.leaf_count - a.leaf_count || a.label.localeCompare(b.label));
-  return { groups, droppedCount };
+  if (other.length) {
+    groups.push({ id: "other", label: "Other", leaf_count: other.length, leaves: other });
+  }
+  return { groups, droppedCount: 0 };
 }
 
 function slugifyForTree(text) {
@@ -1324,9 +1341,12 @@ function renderOncotreeHtml(roots, options = {}) {
     nodesHtml += `<span class="${dotClass}" style="width:${dotSize}px;height:${dotSize}px;background:${n.hasChildren ? "transparent" : n.color};border-color:${n.color};"></span>`;
     nodesHtml += `<span class="oncotree-label">${escapeHtml(n.label)}</span>${countBadge}${caret}`;
     nodesHtml += "</button>";
+    // Every leaf's action button always means "add this to the search bar"
+    // — "+", never "VS" (2026-08-04 feedback: "i wanna completely replace
+    // the vs sign, ie from the get go can click a plus"). Unconditional:
+    // no separate "mention mode" vs. "browse mode" rendering anymore.
     if (isLeafNode) {
-      const compareEntity = comparePayloadFromLeaf(n.rootId, n.subId, n.leaf);
-      nodesHtml += renderVsButton(compareEntity, " oncotree-vs-btn");
+      nodesHtml += renderMentionAddButton(n.leaf, n.rootId, n.subId);
     }
     nodesHtml += wrapClose;
   }
@@ -1338,9 +1358,16 @@ function oncotreeToolbarHtml() {
   const zoom = oncotreeZoom();
   const canZoomOut = browseTreeZoomIdx > 0;
   const canZoomIn = browseTreeZoomIdx < ONCOTREE_ZOOM_STEPS.length - 1;
+  // One toggle: Expand organs when the tree is fully collapsed; Collapse all
+  // once anything is open (2026-08-09 feedback — "all diagnoses" / expand
+  // control should also collapse).
+  const anyExpanded = browseTreeExpanded.size > 0;
+  const expandCollapseLabel = anyExpanded ? "Collapse all" : "Expand organs";
+  const expandCollapseTitle = anyExpanded
+    ? "Collapse everything back to the organ roots"
+    : "Expand every organ root to show its subcategories";
   return `<div class="oncotree-toolbar">
-    <button type="button" class="btn-secondary" id="oncotree-expand-organs" title="Expand every organ root to show its subcategories">Expand organs</button>
-    <button type="button" class="btn-secondary" id="oncotree-collapse-all" title="Collapse everything back to the 17 organ roots">Collapse all</button>
+    <button type="button" class="btn-secondary" id="oncotree-expand-collapse" title="${expandCollapseTitle}">${expandCollapseLabel}</button>
     <span class="oncotree-zoom-group" role="group" aria-label="Zoom">
       <button type="button" class="btn-secondary" id="oncotree-zoom-out" ${canZoomOut ? "" : "disabled"} title="Zoom out">\u2212</button>
       <span class="oncotree-zoom-label">${Math.round(zoom * 100)}%</span>
@@ -1350,12 +1377,12 @@ function oncotreeToolbarHtml() {
 }
 
 function bindOncotreeToolbarHandlers(onRerender) {
-  document.getElementById("oncotree-expand-organs")?.addEventListener("click", () => {
-    for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
-    onRerender();
-  });
-  document.getElementById("oncotree-collapse-all")?.addEventListener("click", () => {
-    browseTreeExpanded.clear();
+  document.getElementById("oncotree-expand-collapse")?.addEventListener("click", () => {
+    if (browseTreeExpanded.size > 0) {
+      browseTreeExpanded.clear();
+    } else {
+      for (const r of activeBrowseRoots()) browseTreeExpanded.add(r.id);
+    }
     onRerender();
   });
   document.getElementById("oncotree-zoom-out")?.addEventListener("click", () => {
@@ -1374,6 +1401,16 @@ function bindOncotreeHandlers(roots, onRerender) {
       const data = JSON.parse(el.dataset.node);
       if (data.kind === "leaf") {
         const leaf = data.leaf || {};
+        // Mid-composing an @mention (checked live, not a static render-time
+        // flag): a leaf's label means the same thing as its "+" button —
+        // add it to the search bar — never navigate away and lose the
+        // query being composed. Otherwise, the label still opens the topic
+        // page as always; the "+" button (bound below) is the explicit,
+        // always-available "add" action either way.
+        if (activeMentionCtx) {
+          selectMentionLeaf(leaf, data.rootId, data.subId);
+          return;
+        }
         browseState = {
           level: "leaf",
           categoryId: data.rootId,
@@ -1392,6 +1429,24 @@ function bindOncotreeHandlers(roots, onRerender) {
         browseTreeExpanded.add(data.path);
       }
       onRerender();
+    });
+  });
+  // "+" always means "add to the search bar", regardless of whether an
+  // @mention is actively being composed.
+  browseContentEl.querySelectorAll(".mention-add-btn[data-mention-leaf]").forEach((btn) => {
+    // mousedown (not click) fires before the input blurs, so
+    // currentMentionContext()'s selectionStart still reflects where the
+    // user was typing, and stopPropagation keeps this from also bubbling
+    // to the parent .oncotree-node-wrap's click handler above.
+    btn.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        const data = JSON.parse(btn.dataset.mentionLeaf);
+        selectMentionLeaf({ tag: data.tag, label: data.label, query: data.query }, data.rootId, data.subId);
+      } catch (err) {
+        /* ignore malformed payload */
+      }
     });
   });
 }
@@ -1754,6 +1809,7 @@ function findTaxonomyMatch(rawName, pageContext = null) {
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("chat-form");
 const queryInput = document.getElementById("query-input");
+const queryHighlightOverlayEl = document.getElementById("query-highlight-overlay");
 const sendBtn = document.getElementById("send-btn");
 const modeHint = document.getElementById("mode-hint");
 const maxResultsInput = document.getElementById("max-results");
@@ -2264,6 +2320,121 @@ function cleanCardExcerptForHover(text) {
   s = s.replace(/^(Clean text|Top headings):\s*/i, "");
   return s.trim();
 }
+/** Normalized WHO Classification of Tumours entity name → list of
+ * {volume, url, text} candidates on the REAL tumourclassification.iarc.who.int
+ * site (see who_genetic_syndromes_links_v0_1.json / scripts/
+ * build_who_genetic_syndromes_links_v0_1.py — despite the filename this
+ * covers general diagnostic entities, not just genetic syndromes). Loaded
+ * once at startup so it is ready before the first topic page renders.
+ * Coverage is partial (~31% of browse leaves) — unmatched entities keep
+ * Pathology Hub's own WHO_HTML mirror link, which is still real WHO content,
+ * just self-hosted. */
+let whoLinksIndex = null;
+
+/** Browse root → dominant WHO 5th-edition volume number, used to pick the
+ * right candidate when a name is ambiguous across volumes (e.g. "Osteoma"
+ * is a distinct chapter in Soft Tissue & Bone, Head & Neck, and Skin).
+ * Empirically derived by cross-tabulating browse-leaf root vs. matched
+ * volume counts — see docs/WHO_VOLUME_BY_ROOT_DERIVATION.md for the exact
+ * counts and per-root confidence notes. */
+const WHO_VOLUME_BY_ROOT = {
+  bst: "33",
+  breast: "32",
+  skin: "64",
+  endo: "53",
+  eye_orbit: "65",
+  gi: "31",
+  gu: "36",
+  gyn: "34",
+  hn: "52",
+  heme: "63",
+  peds: "44",
+  thorax_mediastinum: "35",
+  neuro: "44", // lowest-confidence entry — shared plurality with peds
+};
+
+function normalizeSyndromeName(text) {
+  let s = String(text || "").toLowerCase();
+  s = s.replace(/\([^)]*\)/g, " "); // drop "(NF1)" gene-name parenthetical
+  s = s.replace(/[^a-z0-9]+/g, " ");
+  return s.replace(/\s+/g, " ").trim();
+}
+
+async function loadWhoSyndromeLinks() {
+  try {
+    const resp = await fetch("/static/who_genetic_syndromes_links_v0_1.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    whoLinksIndex = (data && data.entries) || {};
+  } catch (err) {
+    whoLinksIndex = {};
+    // eslint-disable-next-line no-console
+    console.warn("WHO chapter-link index unavailable; WHO cites stay on the internal mirror.", err);
+  }
+}
+
+/** Real WHO URL for an entity, or null when it isn't covered by
+ * who_genetic_syndromes_links_v0_1.json (most entities — those keep the
+ * Pathology Hub WHO_HTML mirror link). Tries the leaf tag's last segment
+ * first (cleanest, e.g. "Neurofibromatosis_Type_1"), then the display
+ * label/query. When a name is ambiguous across WHO volumes, prefers the
+ * candidate matching `rootId`'s dominant volume (WHO_VOLUME_BY_ROOT); falls
+ * back to the first parsed candidate otherwise. */
+function whoSyndromeUrlForEntity(tag, rootId, ...labels) {
+  if (!whoLinksIndex) return null;
+  const candidates = [];
+  if (tag) {
+    const lastSeg = String(tag).split("::").pop();
+    if (lastSeg) candidates.push(lastSeg.replace(/_/g, " "));
+  }
+  for (const label of labels) {
+    if (label) candidates.push(String(label));
+  }
+  const preferredVolume = WHO_VOLUME_BY_ROOT[rootId];
+  for (const candidate of candidates) {
+    const norm = normalizeSyndromeName(candidate);
+    const matches = norm && whoLinksIndex[norm];
+    if (!matches || !matches.length) continue;
+    if (preferredVolume) {
+      const preferred = matches.find((m) => m.volume === preferredVolume);
+      if (preferred) return preferred.url;
+    }
+    return matches[0].url;
+  }
+  return null;
+}
+
+/** Old WHO_HTML mirror URL -> real tumourclassification.iarc.who.int URL,
+ * for every WHO card on the currently rendered page(s). Inline markdown WHO
+ * links have their https://storage.googleapis.com/pathology-hub-0/WHO/
+ * WHO_HTML/... URL baked directly into the stored answer_markdown text
+ * (unlike bare "(WHO)" citations, which resolve their href from data.cards
+ * at render time) — so rewriting data.cards alone isn't enough;
+ * renderInlineLink() below also needs this to redirect an already-written
+ * mirror URL. A real Map (not a single URL) because Compare renders TWO
+ * entities' WHO citations side by side — a single override would wrongly
+ * apply one entity's WHO link to the other's citations too (2026-08-04:
+ * "why does it not hyperlink to actual who???" on the Compare page). Keyed
+ * by the EXACT old mirror URL (the synthesis prompt has the model copy
+ * `source_url` verbatim), populated by applyWhoOverrideForEntity(). */
+let activeWhoOverrideMap = new Map();
+
+/** Records the real WHO URL for `cards`' WHO-source citations (if any) into
+ * `targetMap` (old mirror URL -> whoUrl), and mutates each WHO card's own
+ * source_url/url in place so exports/citation strips also pick up the
+ * corrected link. No-op when `whoUrl` is falsy (entity isn't one of the WHO
+ * genetic-syndrome-linked entries). */
+function applyWhoOverrideForEntity(cards, whoUrl, targetMap) {
+  if (!whoUrl || !Array.isArray(cards)) return;
+  for (const card of cards) {
+    if (!card || String(card.source || "").toLowerCase() !== "who") continue;
+    const oldUrl = card.source_url || card.url;
+    if (oldUrl) targetMap.set(oldUrl, whoUrl);
+    card.source_url = whoUrl;
+    card.url = whoUrl;
+  }
+}
+
 /** URL → short textbook name (Atlas, Gnepp, …) for cite label rewrite. */
 let activeTextbookLabelByUrl = new Map();
 
@@ -2320,6 +2491,9 @@ function textbookLabelFromUrl(url) {
   if (lower.includes("cardesa")) return "Cardesa";
   if (lower.includes("vasef")) return "Vasef";
   if (lower.includes("biopsy")) return "Biopsy";
+  if (lower.includes("dorfman")) return "Dorfman";
+  if (lower.includes("horvai")) return "Horvai";
+  if (lower.includes("enzinger")) return "Enzinger";
   return "";
 }
 
@@ -2374,8 +2548,19 @@ function citeDisplayLabel(label, url) {
   if (/^textbooks?$/i.test(normalized)) {
     return textbookLabelFromUrl(url) || "Textbook";
   }
-  // Keep hub / book badges as-is (Atlas preferred over Breast Atlas).
-  if (/^(WHO|Pathoutlines|Lectures|Videos|Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ)$/i.test(normalized)) {
+  // Book-name chips (Gnepp/Atlas/Cardesa/Vasef/Biopsy/FAQ): the synthesis prompt
+  // gives these as *examples* of a short book name, but the model sometimes
+  // picks one reflexively instead of grounding in the citation's real
+  // source_id (e.g. writing "Gnepp" — a Head & Neck atlas — for a Bone/Soft
+  // Tissue citation that is actually softtissue_enzinger). Always prefer the
+  // deterministic URL→book mapping (built from the real evidence cards) over
+  // the model's text when the URL resolves to a book at all; only fall back
+  // to the model's text for a URL we have no textbook mapping for.
+  if (/^(Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ|Dorfman|Horvai|Enzinger|Pattern)$/i.test(normalized)) {
+    return textbookLabelFromUrl(url) || normalized;
+  }
+  // Keep non-textbook hub badges as-is.
+  if (/^(WHO|Pathoutlines|Lectures|Videos)$/i.test(normalized)) {
     return normalized;
   }
   if (/^breast\s*atlas$/i.test(normalized)) return "Atlas";
@@ -2602,7 +2787,7 @@ function renderMarkdown(text, previewIndex) {
     flushImages();
 
     if (isMarkdownTable(trimmed)) {
-      htmlBlocks.push(renderMarkdownTable(trimmed));
+      htmlBlocks.push(renderMarkdownTable(trimmed, previewIndex));
       continue;
     }
 
@@ -2610,7 +2795,7 @@ function renderMarkdown(text, previewIndex) {
     // Detect that before the generic list renderer turns pipes into <li> text.
     const tableFromBullets = coerceBulletWrappedMarkdownTable(trimmed);
     if (tableFromBullets) {
-      htmlBlocks.push(renderMarkdownTable(tableFromBullets));
+      htmlBlocks.push(renderMarkdownTable(tableFromBullets, previewIndex));
       continue;
     }
 
@@ -2812,7 +2997,7 @@ function splitDdxTablesAndProse(text) {
   return parts;
 }
 
-function renderMarkdownTable(block) {
+function renderMarkdownTable(block, previewIndex) {
   const lines = block
     .split("\n")
     .map((line) => line.replace(/^\s*[-*]\s+/, "").trim())
@@ -2831,13 +3016,13 @@ function renderMarkdownTable(block) {
 
   let html = '<table class="answer-table"><thead><tr>';
   for (const cell of header) {
-    html += `<th>${inlineMarkdown(cell)}</th>`;
+    html += `<th>${inlineMarkdown(cell, previewIndex)}</th>`;
   }
   html += "</tr></thead><tbody>";
   for (const row of body) {
     html += "<tr>";
     for (let i = 0; i < header.length; i += 1) {
-      html += `<td>${inlineMarkdown(row[i] || "—")}</td>`;
+      html += `<td>${inlineMarkdown(row[i] || "—", previewIndex)}</td>`;
     }
     html += "</tr>";
   }
@@ -2881,7 +3066,17 @@ function inlineMarkdown(text, previewIndex) {
   return html;
 }
 
-function renderInlineLink(label, url, previewIndex) {
+/** WHO_HTML mirror URL → real WHO URL when this exact URL is one of the
+ * currently rendered page's/columns' WHO citations (see
+ * activeWhoOverrideMap). Inline markdown links carry their URL as literal
+ * text baked into the stored answer, so this has to run at render time,
+ * not just once on data.cards. */
+function resolveWhoOverrideUrl(url) {
+  return activeWhoOverrideMap.get(url) || url;
+}
+
+function renderInlineLink(label, rawUrl, previewIndex) {
+  const url = resolveWhoOverrideUrl(rawUrl);
   const preview = previewIndex?.get(url);
   const safeHref = escapeAttr(url);
   // Journal/DOI → "(DOI)". Hub sources stay bare "WHO"/"Textbooks" so surrounding
@@ -2997,7 +3192,7 @@ function renderCitations(cards) {
     html += '<li class="citation-item">';
     html += `<div class="citation-head"><strong>${escapeHtml(presentation.caption)}</strong>`;
     html += `<span class="source-badge">${escapeHtml(citationSourceLabel(card))}</span>`;
-    if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(tag)}</span>`;
+    if (tag) html += `<span class="tag-chip" title="${escapeAttr(tag)}">${escapeHtml(displayableTag(tag))}</span>`;
     html += "</div>";
     if (excerpt) html += `<div class="citation-excerpt">${escapeHtml(excerpt)}</div>`;
     if (previewPayload) {
@@ -3600,6 +3795,14 @@ function findSubcategory(category, subcategoryId) {
 }
 
 function renderBrowseBreadcrumbs() {
+  // At the home level there's nothing to show a trail back FROM — a lone
+  // "Home" link here just duplicated the query overlay's own always-visible
+  // "⌂ Home" button (reported 2026-08-04: "dunno why we need two home
+  // buttons"). Only render a trail once there's real navigation depth.
+  if (browseState.level === "home") {
+    browseBreadcrumbsEl.innerHTML = "";
+    return;
+  }
   const parts = [
     {
       label: "Home",
@@ -3740,6 +3943,17 @@ function renderVsButton(entity, extraClass = "") {
   return `<button type="button" class="vs-btn${extraClass}${active}" data-compare="${payload}" title="Add to comparison">VS</button>`;
 }
 
+/** Same size/shape as renderVsButton, but means "add this to the search
+ * bar" — the OncoTree's only leaf action button now (renderOncotreeHtml
+ * always uses this instead of renderVsButton; see selectMentionLeaf). */
+function renderMentionAddButton(leaf, rootId, subId) {
+  const payload = escapeAttr(
+    JSON.stringify({ tag: leaf.tag, label: leaf.label, query: leaf.query, rootId, subId }),
+  );
+  const active = isInCompareSet(comparePayloadFromLeaf(rootId, subId, leaf)) ? " in-compare" : "";
+  return `<button type="button" class="vs-btn oncotree-vs-btn mention-add-btn${active}" data-mention-leaf="${payload}" title="Add to search bar">+</button>`;
+}
+
 function bindVsButtons(root) {
   root.querySelectorAll(".vs-btn").forEach((btn) => {
     btn.addEventListener("click", (event) => {
@@ -3800,13 +4014,24 @@ async function submitFlag() {
   }
 }
 
-function renderCompareColumn(column, colIndex) {
+/** `leafRef` is the browseState-ready {categoryId, subcategoryId, tag,
+ * label, query} for this column's entity (from compareSet, positionally
+ * matched — see loadCompareView), or null when it can't be resolved (e.g.
+ * a hand-typed @mention with no taxonomy match) — in which case the title
+ * renders as plain, non-clickable text instead of a broken nav button. */
+function renderCompareColumn(column, colIndex, previewIndex, leafRef) {
   const query = column.query || column.label || "";
   const figFilter = filterByQueryRelevance(query, column.figures || [], { maxShown: 10 });
   const shownFigures = figFilter.shown.length ? figFilter.shown : column.figures || [];
   const tabId = `compare-col-${colIndex}`;
   let html = `<div class="compare-column" data-col="${colIndex}">`;
-  html += `<div class="compare-column-title">${escapeHtml(formatDisplayLabel(column.label))}</div>`;
+  const titleText = escapeHtml(formatDisplayLabel(column.label));
+  if (leafRef) {
+    const payload = escapeAttr(JSON.stringify(leafRef));
+    html += `<button type="button" class="compare-column-title" data-compare-col-nav="${payload}" title="Open ${titleText}'s topic page">${titleText} <span class="compare-column-title-arrow" aria-hidden="true">\u2192</span></button>`;
+  } else {
+    html += `<div class="compare-column-title">${titleText}</div>`;
+  }
   html += '<div class="compare-tab-bar">';
   html += `<button type="button" class="compare-tab-btn active" data-col-tab="images" data-col="${colIndex}">Images</button>`;
   html += `<button type="button" class="compare-tab-btn" data-col-tab="text" data-col="${colIndex}">Text</button>`;
@@ -3816,7 +4041,7 @@ function renderCompareColumn(column, colIndex) {
   if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
   html += "</div>";
   html += `<div class="compare-col-panel hidden" id="${tabId}-text">`;
-  html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", new Map())}</div>`;
+  html += `<div class="topic-section-body">${renderMarkdown(column.text_summary || "", previewIndex)}</div>`;
   html += "</div></div>";
   return html;
 }
@@ -3832,6 +4057,27 @@ function bindCompareColumnTabs(root) {
       root.querySelectorAll(`.compare-column[data-col="${col}"] .compare-col-panel`).forEach((panel) => {
         panel.classList.toggle("hidden", !panel.id.endsWith(`-${tab}`));
       });
+    });
+  });
+}
+
+/** Reported (2026-08-04): "why cant i open the entity specific page from
+ * the comparison page?" — each column's title is now a button
+ * (renderCompareColumn) that opens that entity's own topic page, same
+ * destination as clicking it anywhere else in Browse. compareSet stays
+ * intact and the fixed #compare-tray remains visible, so "Compare" still
+ * jumps straight back to this same comparison. */
+function bindCompareColumnNav(root) {
+  root.querySelectorAll("[data-compare-col-nav]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      try {
+        const leafRef = JSON.parse(btn.dataset.compareColNav);
+        browseState = { level: "leaf", ...leafRef };
+        setActiveView("browse");
+        renderBrowseView();
+      } catch (_err) {
+        /* ignore malformed payload */
+      }
     });
   });
 }
@@ -3882,19 +4128,59 @@ async function loadCompareView() {
       browseContentEl.innerHTML = `<p class="error-text">${escapeHtml(data.error || data.comparison_error || "Compare failed")}</p>`;
       return;
     }
+    // Compare shows TWO (or more) entities' citations side by side, so the
+    // usual per-topic-page globals (previewIndex, hover cards, WHO
+    // overrides, textbook labels) have to be rebuilt from ALL columns'
+    // evidence combined, exactly like a single topic page does from
+    // data.cards — otherwise they're just whatever was left over from
+    // whichever topic page was viewed last (or empty), which is why
+    // textbook citations opened the raw PDF instead of the rich hover
+    // preview, and WHO citations didn't get the real WHO link (2026-08-04:
+    // "why is it when i click horvai it opens pdf...why does it not
+    // hyperlink to actual who???").
+    const mergedCards = data.columns.flatMap((c) => c.cards || []);
+    const mergedFigures = data.columns.flatMap((c) => c.figures || []);
+    const literatureCardsAll = mergedCards.filter((c) => String(c?.source || "").toLowerCase() === "literature");
+    const previewIndex = buildUrlPreviewIndex(mergedCards, mergedFigures);
+    activeCiteBySource = buildCiteBySource(mergedCards, literatureCardsAll);
+    activeLiteratureByUrl = buildLiteratureByUrl(literatureCardsAll);
+    activeCiteHoverByUrl = buildCiteHoverIndex(mergedCards);
+    indexTextbookLabelsFromCards(mergedCards, mergedFigures);
+    activeWhoOverrideMap = new Map();
+    data.columns.forEach((col, i) => {
+      // data.columns[i] is positionally the same entity as compareSet[i] —
+      // the backend appends one column per req.entities item, in order.
+      const meta = compareSet[i] || {};
+      const whoUrl = whoSyndromeUrlForEntity(col.tag, meta.categoryId, col.query, col.label);
+      applyWhoOverrideForEntity(col.cards, whoUrl, activeWhoOverrideMap);
+    });
+
     let html = '<div class="compare-view-header">';
     html += `<h2 class="browse-heading">Compare Diagnoses (${data.columns.length})</h2>`;
     html += '<button type="button" class="btn-secondary" id="compare-back-btn">Back</button>';
+    html +=
+      '<button type="button" class="btn-secondary" id="compare-copy-link-btn" title="Copy a shareable link to this comparison">Copy link</button>';
     html += '<button type="button" class="btn-secondary" id="compare-remove-all-btn">Remove all diagnoses</button>';
     html += "</div>";
     html += '<div class="compare-columns">';
     for (let i = 0; i < data.columns.length; i += 1) {
-      html += renderCompareColumn(data.columns[i], i);
+      const meta = compareSet[i];
+      const leafRef =
+        meta && meta.tag && meta.tag === data.columns[i].tag
+          ? {
+              categoryId: meta.categoryId,
+              subcategoryId: meta.subcategoryId,
+              tag: data.columns[i].tag,
+              label: data.columns[i].label,
+              query: data.columns[i].query,
+            }
+          : null;
+      html += renderCompareColumn(data.columns[i], i, previewIndex, leafRef);
     }
     html += "</div>";
     html += '<div class="compare-analysis"><h3>AI Comparison Analysis</h3>';
     if (data.comparison) {
-      html += renderMarkdown(data.comparison, new Map());
+      html += renderMarkdown(data.comparison, previewIndex);
     } else {
       html += `<p class="error-text">${escapeHtml(data.comparison_error || "Comparison synthesis failed")}</p>`;
     }
@@ -3902,9 +4188,16 @@ async function loadCompareView() {
     browseContentEl.innerHTML = html;
     bindPreviewHandlers(browseContentEl);
     bindCompareColumnTabs(browseContentEl);
+    bindCompareColumnNav(browseContentEl);
     document.getElementById("compare-back-btn")?.addEventListener("click", () => {
       browseState = { level: "home" };
       renderBrowseView();
+    });
+    document.getElementById("compare-copy-link-btn")?.addEventListener("click", (event) => {
+      const params = new URLSearchParams();
+      params.set("compare", compareSet.map((e) => e.tag || e.label).join(";"));
+      const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+      copyLinkAndConfirm(event.currentTarget, url);
     });
     document.getElementById("compare-remove-all-btn")?.addEventListener("click", () => {
       clearCompareSet();
@@ -3929,6 +4222,12 @@ function renderBrowseView() {
   if (queryInput && askViewEl.classList.contains("hidden") && document.activeElement !== queryInput) {
     queryInput.value = browseState.level === "home" ? browseFilterQuery : "";
   }
+  updateQueryHighlightOverlay();
+  // Keep the address bar a valid, shareable link to whatever's on screen —
+  // see syncUrlFromState()/applyUrlRoute() for the full ?tag=/?compare=/
+  // ?q= deep-link scheme (2026-08-04: "how do i make it so i can hyperlink
+  // people to a page").
+  syncUrlFromState();
   if (browseState.level === "compare") {
     loadCompareView();
   } else if (browseState.level === "category") {
@@ -4013,50 +4312,20 @@ function renderBrowseHome() {
     return;
   }
 
-  // Degenerate query (near-every-leaf match, e.g. a single letter) — flat
-  // list instead of an unnavigable wall of expanded tree nodes.
-  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; showing a flat list instead. Refine your search to narrow it.</p>`;
-  html += '<div class="chevron-list">';
-  for (const row of treeSearchMatches.slice(0, 120)) {
-    const compareEntity = comparePayloadFromLeaf(row.root.id, row.sub.id, row.leaf);
-    const leafPayload = escapeAttr(
-      JSON.stringify({
-        tag: row.leaf.tag,
-        label: row.leaf.label,
-        query: row.leaf.query,
-        provenance: row.leaf.provenance || null,
-        categoryId: row.root.id,
-        subcategoryId: row.sub.id,
-      }),
-    );
-    html += '<div class="browse-leaf-row">';
-    html += `<button type="button" class="chevron-item browse-search-hit" data-leaf="${leafPayload}"><span>${escapeHtml(row.displayLabel)} <span class="chevron-count">(${escapeHtml(formatDisplayLabel(row.root.label))})</span></span><span class="chevron">\u203a</span></button>`;
-    html += renderVsButton(compareEntity);
-    html += "</div>";
-  }
-  html += "</div>";
-  if (treeSearchMatches.length > 120) {
-    html += `<p class="hint">Showing first 120 matches — refine your search to narrow further.</p>`;
-  }
+  // Degenerate query (near-every-leaf match, e.g. a single letter) — keep
+  // showing the live OncoTree itself rather than bailing to a flat list
+  // (2026-08-06 feedback: "why dont i always see tree when i type"). An
+  // unfiltered, unhighlighted tree stays perfectly navigable/performant
+  // either way; only the highlighting+auto-expand is what would explode
+  // into an unnavigable wall of nodes for thousands of matches, so this
+  // just skips that part and asks the user to keep typing.
+  html += `<p class="hint">${treeSearchMatches.length} matches — too many to highlight in the tree; keep typing to narrow it down. Showing the full tree for now.</p>`;
+  html += renderOncotreeHtml(roots, {});
   browseContentEl.innerHTML = html;
+  bindOncotreeToolbarHandlers(() => renderBrowseView());
   bindInfoButtonHandler();
+  bindOncotreeHandlers(roots, () => renderBrowseView());
   bindVsButtons(browseContentEl);
-  browseContentEl.querySelectorAll(".browse-search-hit").forEach((el) => {
-    el.addEventListener("click", () => {
-      const leaf = JSON.parse(el.dataset.leaf);
-      browseFilterQuery = "";
-      browseState = {
-        level: "leaf",
-        categoryId: leaf.categoryId,
-        subcategoryId: leaf.subcategoryId,
-        tag: leaf.tag,
-        label: leaf.label,
-        query: leaf.query,
-        provenance: leaf.provenance || null,
-      };
-      renderBrowseView();
-    });
-  });
 }
 
 function renderBrowseCategory(categoryId) {
@@ -4571,7 +4840,7 @@ function renderDifferentialSection(content, previewIndex, pageContext = null) {
     let html = "";
     for (const part of parts) {
       if (part.type === "table") {
-        html += renderMarkdownTable(part.text);
+        html += renderMarkdownTable(part.text, previewIndex);
       } else {
         html += renderDifferentialBulletList(part.text, previewIndex, ctx);
       }
@@ -4976,11 +5245,11 @@ function renderTopicSourceSummary(data, entryMeta = null) {
     (data.literature || []).length ||
     (data.cards || []).filter((c) => (c.source || "") === "literature").length;
   if (litCount) {
-    html += ` · <strong>${litCount} live literature</strong> (Elsevier/PubMed/OncoKB)`;
+    html += ` · <strong>${litCount} literature</strong> (Elsevier/PubMed/OncoKB)`;
   } else if (data.debug && data.debug.live_literature_enabled === false) {
-    html += " · live literature off";
+    html += " · literature off";
   } else if (data.debug && data.mode === "topic_page") {
-    html += " · live literature: none returned";
+    html += " · literature: none returned";
   }
   html += ".</p>";
 
@@ -5053,7 +5322,7 @@ function topicPageFanoutHint(data) {
     text += ` ${capped} unique cards (cap ${capLimit}) sent to synthesis.`;
   }
   if (typeof debug.literature_count === "number") {
-    text += ` ${debug.literature_count} live literature cards.`;
+    text += ` ${debug.literature_count} literature cards.`;
   }
   return `<p class="hint topic-fanout-hint">${escapeHtml(text)}</p>`;
 }
@@ -5247,9 +5516,19 @@ function browsePathSegments(entryMeta) {
  * already shown above the page (see renderBrowseBreadcrumbs), so it isn't
  * repeated here. Falls back to the human Browse path only when there is no
  * formal ABPath/WHO tag at all. */
+/** "ABPathSpec::" is an internal provenance marker (this leaf came straight
+ * from the ABPath AP Content Specification outline, not a WHO/board-mapped
+ * tag) — showing it verbatim to end users just reads as confusing internal
+ * jargon (2026-08-07: "why do i still see abpath...."). Strip it for
+ * DISPLAY only; the real `tag` value (used for API calls, caching keys,
+ * ?tag= deep links, etc.) is completely unchanged. */
+function displayableTag(tag) {
+  return String(tag || "").replace(/^ABPathSpec::/, "");
+}
+
 function renderEntryTagsHeader(tag, provenance, entryMeta = null) {
   if (tag) {
-    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(tag)}</code></div>`;
+    return `<div class="topic-tags-header curriculum-tagline"><span class="topic-tags-label">Tag:</span> <code class="curriculum-tag-path">${escapeHtml(displayableTag(tag))}</code></div>`;
   }
   const pathSegments = browsePathSegments(entryMeta || {});
   if (!pathSegments.length && !provenance) return "";
@@ -5310,13 +5589,13 @@ function renderLiteratureStrip(cards, debug = null) {
   if (!lit.length) {
     if (!statusHtml) return "";
     return (
-      '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>' +
+      '<div class="literature-strip"><div class="topic-panel-title">Literature (Elsevier / PubMed / OncoKB)</div>' +
       statusHtml +
       '<p class="hint">No literature cards returned for this page.</p></div>'
     );
   }
   let html =
-    '<div class="literature-strip"><div class="topic-panel-title">Live literature (Elsevier / PubMed / OncoKB)</div>';
+    '<div class="literature-strip"><div class="topic-panel-title">Literature (Elsevier / PubMed / OncoKB)</div>';
   html += statusHtml;
   html += '<ul class="literature-list">';
   for (const card of lit.slice(0, 10)) {
@@ -5339,6 +5618,17 @@ function renderLiteratureStrip(cards, debug = null) {
 }
 
 function renderTopicPageResult(data, query, entryMeta = null) {
+  // Genetic-syndrome pages: point WHO citations at the real WHO
+  // Classification of Tumours site instead of only Pathology Hub's own
+  // WHO_HTML mirror, when this entity is one of the ~2,175 hereditary
+  // tumour predisposition syndromes covered by
+  // who_genetic_syndromes_links_v0_1.json. No-op (keeps the mirror link)
+  // for every other (non-syndrome) entity — most WHO citations are
+  // unaffected. Mutates card objects in place so exports/compare views also
+  // pick up the corrected link.
+  const whoUrl = whoSyndromeUrlForEntity(entryMeta?.tag, entryMeta?.categoryId, query, entryMeta?.label);
+  activeWhoOverrideMap = new Map();
+  applyWhoOverrideForEntity(data.cards, whoUrl, activeWhoOverrideMap);
   // Display caps mirror the actual backend retrieval caps (TOPIC_PAGE_MAX_CARDS=120,
   // TOPIC_PAGE_MAX_FIGURES=40 in pathology_backend.py) — these used to be
   // much smaller (20/16) than what was actually retrieved and sent to
@@ -5386,16 +5676,21 @@ function renderTopicPageResult(data, query, entryMeta = null) {
     lectureCards,
     pageContext,
   );
-  html += renderLiteratureStrip(literatureCards, data.debug || null);
-  if (litFilter.note) html += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
-  if (figFilter.note) html += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
-  if (videoFilter.note) html += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
-  if (cardFilter.note) html += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
-  html += renderCitations(sortedCards);
-  html += renderTopicSourceSummary(data, entryMeta);
-  html += topicPageFanoutHint(data);
-  html += renderDebugBlock(data);
-  html += renderTopicExportBar();
+  // Everything past the synthesized page itself (literature list, citations,
+  // source/debug summaries, export bar) collapsed behind one toggle instead
+  // of always taking up scroll space (2026-08-06 feedback: "collapse all
+  // the shit after key literature section").
+  let moreHtml = renderLiteratureStrip(literatureCards, data.debug || null);
+  if (litFilter.note) moreHtml += `<p class="hint">${escapeHtml(litFilter.note)}</p>`;
+  if (figFilter.note) moreHtml += `<p class="hint">${escapeHtml(figFilter.note)}</p>`;
+  if (videoFilter.note) moreHtml += `<p class="hint">${escapeHtml(videoFilter.note)}</p>`;
+  if (cardFilter.note) moreHtml += `<p class="hint">${escapeHtml(cardFilter.note)}</p>`;
+  moreHtml += renderCitations(sortedCards);
+  moreHtml += renderTopicSourceSummary(data, entryMeta);
+  moreHtml += topicPageFanoutHint(data);
+  moreHtml += renderDebugBlock(data);
+  moreHtml += renderTopicExportBar();
+  html += `<details class="topic-more-section"><summary>Literature list, citations, source summary &amp; export</summary>${moreHtml}</details>`;
   return html;
 }
 
@@ -5468,6 +5763,40 @@ function formatCachedTimestamp(iso) {
   }
 }
 
+/** Writes `text` to the clipboard and gives `btn` a brief "Link copied!"
+ * confirmation, falling back gracefully (e.g. non-HTTPS/no permission)
+ * without ever throwing. Shared by the topic page and Compare "Copy link"
+ * buttons (2026-08-04: "how do i make it so i can hyperlink people to a
+ * page"). */
+async function copyLinkAndConfirm(btn, url) {
+  if (!btn) return;
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(url);
+    ok = true;
+  } catch (_err) {
+    ok = false;
+  }
+  const original = btn.textContent;
+  btn.textContent = ok ? "Link copied!" : "Copy failed";
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.disabled = false;
+  }, 1500);
+}
+
+/** The permanent, shareable ?tag= permalink for one diagnosis's topic
+ * page — same param syncUrlFromState()/applyUrlRoute() already read/write
+ * for the address bar, so pasting this link (or just copying the address
+ * bar while viewing the page) always lands the recipient on this exact
+ * page. */
+function topicPageShareUrl(tag) {
+  const params = new URLSearchParams();
+  params.set("tag", tag);
+  return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+}
+
 function bindTopicPageChrome(root, leafRef, displayLabel, query) {
   root.querySelector(".flag-page-btn")?.addEventListener("click", () => {
     openFlagModal({
@@ -5479,6 +5808,9 @@ function bindTopicPageChrome(root, leafRef, displayLabel, query) {
   });
   root.querySelector(".rebuild-page-btn")?.addEventListener("click", () => {
     loadLeafTopicPage(leafRef, { rebuild: true });
+  });
+  root.querySelector(".copy-link-btn")?.addEventListener("click", (event) => {
+    copyLinkAndConfirm(event.currentTarget, topicPageShareUrl(leafRef.tag));
   });
   root.querySelectorAll(".topic-export-btn").forEach((btn) => {
     btn.addEventListener("click", exportCurrentPageAsJson);
@@ -5498,6 +5830,7 @@ function renderTopicPageShell(leafRef, displayLabel, query, { bodyHtml = "", thi
   html += `<button type="button" class="btn-secondary flag-page-btn">Flag</button>`;
   if (leafRef.tag) {
     html += `<button type="button" class="btn-secondary rebuild-page-btn">Rebuild</button>`;
+    html += `<button type="button" class="btn-secondary copy-link-btn" title="Copy a shareable link to this page">Copy link</button>`;
   }
   html += renderVsButton(compareEnt);
   html += "</div>";
@@ -5647,21 +5980,318 @@ async function loadLeafTopicPage(leafRefIn, { rebuild = false } = {}) {
   }
 }
 
-/** Dual function of the top query overlay: while the Browse tab is showing
- * its home tree/tile grid, typing live-filters it (same box, no separate
- * search input); pressing Enter still asks a full question via the submit
- * handler below regardless of what's currently typed. */
-queryInput.addEventListener("input", () => {
-  if (!askViewEl.classList.contains("hidden")) return;
-  if (browseState.level !== "home") return;
-  browseFilterQuery = queryInput.value;
-  renderBrowseHome();
+/** @mention entity picker: every leaf in the live OncoTree always has a "+"
+ * button (renderMentionAddButton — completely replaces "VS", 2026-08-04:
+ * "i wanna completely replace the vs sign"). Click a leaf's label OR its
+ * "+" to insert "@Label; @" into the query box — the trailing "@" primes
+ * the next mention immediately, no need to type "@" again — and add it to
+ * the compare tray, then keep typing (or clicking) more mentions. Typing
+ * "@partial" anywhere live-filters the SAME tree exactly like plain-text
+ * Browse search does (renderBrowseHome), just reachable from any
+ * tab/browseState level. On submit, 2+ resolved mentions route straight to
+ * Compare instead of a live chat answer; exactly 1 mention with no other
+ * text opens that entity's topic page directly; mixed mentions + a
+ * question clean the @/; syntax out of the text sent to the model (keeping
+ * the disambiguated entity name) so retrieval isn't confused by the raw
+ * syntax. */
+let mentionInsertions = []; // ordered {label, leafRef} picked from the tree; positionally matched to parsed @mentions on submit so a pick always resolves to the exact entity chosen, even when its label collides with another root's same-named entity.
+let activeMentionCtx = null; // {start, end, text} for the @segment currently driving the tree search/insertion point, or null when not composing a mention (typing plain search text instead).
+
+/** Repaints .query-highlight-overlay (the visible-text stand-in behind the
+ * now-transparent-text #query-input) to color every "@Label;" mention
+ * segment in the accent color and leave everything else default text
+ * color. Call after any programmatic or user edit to queryInput.value. */
+function updateQueryHighlightOverlay() {
+  if (!queryHighlightOverlayEl) return;
+  const text = queryInput.value;
+  if (!text) {
+    queryHighlightOverlayEl.innerHTML = "&nbsp;";
+    return;
+  }
+  const html = escapeHtml(text).replace(
+    /@[^;@]*;?/g,
+    (segment) => `<span class="mention-highlight">${segment}</span>`,
+  );
+  queryHighlightOverlayEl.innerHTML = html;
+}
+
+function currentMentionContext() {
+  const val = queryInput.value;
+  const pos = queryInput.selectionStart ?? val.length;
+  const uptoCursor = val.slice(0, pos);
+  const lastAt = uptoCursor.lastIndexOf("@");
+  if (lastAt === -1) return null;
+  const between = uptoCursor.slice(lastAt + 1);
+  if (between.includes(";") || between.includes("@")) return null; // already-closed mention
+  return { start: lastAt, end: pos, text: between };
+}
+
+/** "+" always means "add this to the search bar" — with or without an
+ * active @segment to replace (clicking + while just browsing normally, with
+ * no "@" typed at all, starts a fresh mention from scratch instead of
+ * requiring the user to type "@" first). */
+function selectMentionLeaf(leaf, rootId, subId) {
+  if (!leaf) return;
+  const ctx = activeMentionCtx || { start: 0, end: queryInput.value.length, text: "" };
+  const label = formatDisplayLabel(leaf.label);
+  const before = queryInput.value.slice(0, ctx.start);
+  const after = queryInput.value.slice(ctx.end);
+  const insertion = `@${label}; @`;
+  queryInput.value = `${before}${insertion}${after}`;
+  const caret = before.length + insertion.length;
+  queryInput.focus();
+  queryInput.setSelectionRange(caret, caret);
+  updateQueryHighlightOverlay();
+  const leafRef = leafRefFrom({
+    categoryId: rootId,
+    subcategoryId: subId,
+    tag: leaf.tag,
+    label: leaf.label,
+    query: leaf.query,
+  });
+  mentionInsertions.push({ label, leafRef });
+  // Also reflect the pick in the compare tray immediately, so it's already
+  // there even if the user never presses Enter (e.g. picks a few entities
+  // from the tree, then just clicks the tray's own Compare button).
+  addToCompare(comparePayloadFromLeaf(rootId, subId, leaf));
+  // The trailing "@" just inserted IS the next (empty) mention slot —
+  // recompute it live rather than assuming, then show the tree ready for
+  // that next pick (unfiltered, since the new slot has no text yet).
+  activeMentionCtx = currentMentionContext();
+  browseFilterQuery = "";
+  browseState = { level: "home" };
+  setActiveView("browse");
+  renderBrowseView();
+}
+
+queryInput.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && (activeMentionCtx || browseFilterQuery)) {
+    activeMentionCtx = null;
+    browseFilterQuery = "";
+    browseState = { level: "home" };
+    renderBrowseView();
+  }
 });
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const query = queryInput.value.trim();
+/** Parse "@Label;" segments out of the submitted query text. Resolves each
+ * to an exact leaf via the positional dropdown-insertion record when
+ * available (correct even when the label collides with a same-named entity
+ * in a different root), falling back to a fuzzy TAXONOMY_LEAF_INDEX match
+ * for hand-typed/edited mentions. `cleanedQuery` strips the @/; syntax
+ * while keeping each mention's plain entity name in place, for the mixed
+ * mentions+question case. */
+/** Exact match on a leaf's real `tag` string (e.g.
+ * "BST::Bone::Chondrogenic::Malignant::Chondrosarcoma_Periosteal") — the
+ * precise, unambiguous lookup used for shareable `?tag=` deep links. */
+function findLeafByTag(tag) {
+  if (!tag) return null;
+  return TAXONOMY_LEAF_INDEX.find((l) => l.tag === tag) || null;
+}
+
+/** Best-effort fuzzy match on a human-typed/shared entity NAME (exact
+ * normalized match, then exact case-insensitive label match, then a
+ * substring match) — used for both @mention resolution and `?dx=`/
+ * `?compare=` deep links, where the exact `tag` isn't known. */
+function fuzzyFindLeafByName(label) {
+  const norm = normalizeEntityName(label);
+  let best = TAXONOMY_LEAF_INDEX.find((l) => l.normalized === norm);
+  if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => l.entityName.toLowerCase() === String(label).toLowerCase());
+  if (!best) best = TAXONOMY_LEAF_INDEX.find((l) => norm.length > 3 && l.normalized.includes(norm));
+  return best || null;
+}
+
+function parseQueryMentions(text) {
+  const mentionRe = /@([^;@]+);?/g;
+  const mentions = [];
+  let match;
+  while ((match = mentionRe.exec(text))) {
+    const label = match[1].trim();
+    if (label) mentions.push({ raw: match[0], label });
+  }
+  const cleanedQuery = text
+    .replace(mentionRe, (_full, rawLabel) => rawLabel.trim())
+    .replace(/\s+/g, " ")
+    .trim();
+  const freeText = text.replace(mentionRe, " ").replace(/\s+/g, " ").trim();
+  const resolved = mentions
+    .map((m, i) => {
+      const tracked = mentionInsertions[i];
+      if (tracked && tracked.label.toLowerCase() === m.label.toLowerCase()) return tracked.leafRef;
+      const best = fuzzyFindLeafByName(m.label);
+      return best ? leafRefFrom(best) : null;
+    })
+    .filter(Boolean);
+  return { mentions, freeText, cleanedQuery, resolved };
+}
+
+/** Shareable deep links (2026-08-04: "how do i make it so i can hyperlink
+ * people to a page"). Query-string params on the root URL (no new backend
+ * route needed — GET / already serves index.html regardless of query
+ * string):
+ *   ?tag=<exact leaf tag>   — precise permalink to one diagnosis's topic
+ *                             page (what the app itself writes into the
+ *                             address bar — see syncUrlFromState below).
+ *   ?dx=<entity name>       — same destination, fuzzy-matched by name, for
+ *                             hand-typed/shared links where the exact tag
+ *                             isn't known (falls back to asking it as a
+ *                             plain question if nothing matches).
+ *   ?compare=<name1>;<name2> — opens Compare with 2+ fuzzy-matched entities.
+ *   ?q=<free text>          — runs it as an Ask question, same as typing it
+ *                             and pressing Enter.
+ * Priority when several are present: tag > dx > compare > q. */
+let lastAskedQuery = null; // last free-text question actually asked — mirrored into ?q= by syncUrlFromState.
+
+/** Set right before a programmatic render that must NOT add a new browser
+ * history entry — the initial page-load deep link (browser already has
+ * this exact URL) and popstate-driven re-renders (the browser already
+ * moved history for us; we're just syncing app state to match). Consumed
+ * (and reset) by the very next syncUrlFromState() call. */
+let suppressNextUrlPush = false;
+
+/** Rewrites the address bar to reflect whatever's actually on screen right
+ * now, so the CURRENT url is always a valid, shareable link back to this
+ * exact page — mirrors browseState/compareSet/lastAskedQuery into ?tag= /
+ * ?compare= / ?q=. Called from renderBrowseView() (every Browse
+ * navigation) and runAskQuery() (every question asked). A no-op if the
+ * computed URL already matches the address bar, so re-rendering the same
+ * leaf (e.g. clicking Rebuild) never pushes a duplicate history entry. */
+function syncUrlFromState() {
+  // Consume the suppress flag FIRST, unconditionally — otherwise the
+  // no-op early return below (when the computed URL already matches, e.g.
+  // a deep link that lands on the exact URL it was already given) would
+  // leave it set to `true`, silently turning the NEXT genuine navigation's
+  // intended pushState into a replaceState (a real bug caught by
+  // playwright_test_deep_links_v0_1.py's browser-Back checks — it ate a
+  // history entry, so Back skipped straight past an intermediate page).
+  const push = !suppressNextUrlPush;
+  suppressNextUrlPush = false;
+
+  const params = new URLSearchParams();
+  if (askViewEl && !askViewEl.classList.contains("hidden")) {
+    if (lastAskedQuery) params.set("q", lastAskedQuery);
+  } else if (browseState.level === "leaf" && browseState.tag) {
+    params.set("tag", browseState.tag);
+  } else if (browseState.level === "compare" && compareSet.length >= 2) {
+    params.set("compare", compareSet.map((e) => e.tag || e.label).join(";"));
+  }
+  const qs = params.toString();
+  const newUrl = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
+  const currentUrl = `${window.location.pathname}${window.location.search}`;
+  if (newUrl === currentUrl) return;
+  if (push) {
+    window.history.pushState({ ph: true }, "", newUrl);
+  } else {
+    window.history.replaceState({ ph: true }, "", newUrl);
+  }
+}
+
+/** Reads tag/dx/compare/q off the current URL and navigates straight to
+ * that destination — run once at startup (after loadBrowseIndex resolves,
+ * so TAXONOMY_LEAF_INDEX is populated) and again on every popstate
+ * (browser Back/Forward). Returns true if a deep link was actually
+ * applied, so the caller can fall back to a plain Home render otherwise. */
+function applyUrlRoute() {
+  const params = new URLSearchParams(window.location.search);
+  const tag = params.get("tag");
+  const dx = params.get("dx");
+  const compareParam = params.get("compare");
+  const q = params.get("q");
+
+  if (tag) {
+    const hit = findLeafByTag(tag);
+    if (hit) {
+      browseState = { level: "leaf", ...leafRefFrom(hit) };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+  }
+  if (dx) {
+    const hit = fuzzyFindLeafByName(dx);
+    if (hit) {
+      browseState = { level: "leaf", ...leafRefFrom(hit) };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+    // No taxonomy match for ?dx= — fall through to asking it as a plain
+    // question below instead of silently landing on a blank Home page.
+  }
+  if (compareParam) {
+    const names = compareParam
+      .split(/[;,]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    // Try an exact tag match first — syncUrlFromState() canonicalizes
+    // ?compare= into exact tags once the view loads, so revisiting that
+    // same (e.g. copied/shared, or reached via browser Back) canonical
+    // link must resolve via tag, not fuzzy name matching against a
+    // "BST::Bone::..."-shaped string.
+    const hits = names.map((n) => findLeafByTag(n) || fuzzyFindLeafByName(n)).filter(Boolean);
+    if (hits.length >= 2) {
+      compareSet = hits.map((h) => comparePayloadFromLeaf(h.categoryId, h.subcategoryId, h));
+      renderCompareTray();
+      browseState = { level: "compare" };
+      setActiveView("browse");
+      renderBrowseView();
+      return true;
+    }
+  }
+  const freeform = q || dx;
+  if (freeform) {
+    queryInput.value = freeform;
+    runAskQuery(freeform);
+    return true;
+  }
+  return false;
+}
+
+window.addEventListener("popstate", () => {
+  suppressNextUrlPush = true;
+  if (!applyUrlRoute()) {
+    browseState = { level: "home" };
+    setActiveView("browse");
+    renderBrowseView();
+  }
+});
+
+/** Triple function of the top query overlay: an active "@mention" takes
+ * over browse-content with the live search tree — reusing renderBrowseHome
+ * itself (its OncoTree leaves always have "+" buttons now, see
+ * renderOncotreeHtml) — from any tab/browseState level; otherwise, while
+ * the Browse tab is already showing its home tree/tile grid, typing
+ * live-filters it in place exactly as before (same box, no separate search
+ * input); pressing Enter always asks a full question / runs mention
+ * routing via the submit handler below regardless of what's currently
+ * typed. Also keeps the blue/black mention-highlight overlay in sync. */
+queryInput.addEventListener("input", () => {
+  updateQueryHighlightOverlay();
+  const ctx = currentMentionContext();
+  activeMentionCtx = ctx;
+  const filterText = ctx ? ctx.text : queryInput.value;
+  if (!askViewEl.classList.contains("hidden")) {
+    if (!ctx) return; // plain text on the Ask tab still just waits for Enter
+    setActiveView("browse");
+  }
+  if (browseState.level !== "home") {
+    if (!ctx) return; // plain text elsewhere in Browse still doesn't live-filter (unchanged)
+    browseState = { level: "home" };
+  }
+  browseFilterQuery = filterText;
+  // renderBrowseView() (not renderBrowseHome() directly) so a stale
+  // breadcrumb trail from wherever the user was before typing "@" also
+  // clears — safe to call mid-keystroke since focus is on queryInput itself
+  // right now, which renderBrowseView()'s own value-sync guard skips.
+  renderBrowseView();
+});
+
+/** The actual "ask a full question" flow — factored out of the submit
+ * handler below so a `?q=`/unmatched-`?dx=` deep link (applyUrlRoute) can
+ * run the exact same thing directly, without faking a form-submit event.
+ * `query` must already be trimmed and non-empty. */
+async function runAskQuery(query) {
   if (!query) return;
+  lastAskedQuery = query;
 
   // Pressing Enter always answers the question, never just filters — and
   // switching to the Ask tab hides the Browse tree/tiles behind it.
@@ -5669,7 +6299,9 @@ form.addEventListener("submit", async (event) => {
   setActiveView("ask");
   appendMessage("user", escapeHtml(query));
   queryInput.value = "";
+  updateQueryHighlightOverlay();
   sendBtn.disabled = true;
+  syncUrlFromState();
 
   const plan = planAskRequest(query);
   const category = plan.leaf?.categoryId ? findCategory(plan.leaf.categoryId) : null;
@@ -5744,6 +6376,7 @@ form.addEventListener("submit", async (event) => {
       activeCiteBySource = buildCiteBySource(data.cards || [], []);
       activeLiteratureByUrl = new Map();
       activeCiteHoverByUrl = buildCiteHoverIndex(data.cards || []);
+      activeWhoOverrideMap = new Map();
       indexTextbookLabelsFromCards(data.cards || [], data.figures || []);
 
       body += renderHtmlTeachingBanner(data.evidence);
@@ -5787,6 +6420,58 @@ form.addEventListener("submit", async (event) => {
     sendBtn.disabled = false;
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  // Each pick auto-primes a trailing "@" for the next mention (see
+  // selectMentionLeaf) — strip a bare, never-typed-into one before parsing
+  // so submitting right after a pick doesn't leave a stray "@" dangling in
+  // the free text or register as an (empty, unresolvable) extra mention.
+  const rawQuery = queryInput.value.trim().replace(/@$/, "").trim();
+  if (!rawQuery) return;
+  activeMentionCtx = null;
+
+  if (rawQuery.includes("@")) {
+    const { resolved, freeText, cleanedQuery } = parseQueryMentions(rawQuery);
+    mentionInsertions = [];
+    if (resolved.length >= 2) {
+      // 2+ entities mentioned — go straight to Compare, same destination as
+      // the tree's VS button, but reachable from any tab.
+      compareSet = resolved.map((r) => comparePayloadFromLeaf(r.categoryId, r.subcategoryId, r));
+      renderCompareTray();
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = { level: "compare" };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    if (resolved.length === 1 && !freeText) {
+      // One disambiguated mention, no extra question — open its topic page.
+      const leafRef = resolved[0];
+      browseFilterQuery = "";
+      queryInput.value = "";
+      browseState = {
+        level: "leaf",
+        categoryId: leafRef.categoryId,
+        subcategoryId: leafRef.subcategoryId,
+        tag: leafRef.tag,
+        label: leafRef.label,
+        query: leafRef.query,
+      };
+      setActiveView("browse");
+      renderBrowseView();
+      return;
+    }
+    // Mixed mention(s) + question, or an unresolved mention — fall through
+    // to the normal ask flow below with the @/; syntax stripped out.
+    queryInput.value = cleanedQuery || rawQuery;
+  }
+
+  const query = queryInput.value.trim();
+  if (!query) return;
+  await runAskQuery(query);
 });
 
 /** Tracks whatever was last rendered (topic page or Ask-tab chat answer) so
@@ -5898,6 +6583,14 @@ updateModeHint();
 setActiveView("browse");
 browseContentEl.innerHTML = '<p class="hint">Loading Browse topic index…</p>';
 loadBrowseIndex().then(() => {
-  renderBrowseView();
+  // A shared ?tag=/?dx=/?compare=/?q= link (see applyUrlRoute) lands
+  // directly on that page instead of Home — this is the very first render,
+  // so it must never push a redundant new history entry on top of the URL
+  // the browser already has.
+  suppressNextUrlPush = true;
+  if (!applyUrlRoute()) {
+    renderBrowseView();
+  }
 });
+loadWhoSyndromeLinks();
 refreshHealth();

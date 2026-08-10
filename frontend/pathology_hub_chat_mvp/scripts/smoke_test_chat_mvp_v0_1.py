@@ -434,6 +434,9 @@ def smoke_offline() -> None:
         "normalizeInlineLinkLabel",
         "scoreLeafForPageContext",
         "pickBestLeaf",
+        "renderMentionAddButton",
+        "mention-add-btn",
+        'Add to search bar">+</button>',
     ):
         if needle not in js:
             _fail("app.js feature", f"missing {needle!r}")
