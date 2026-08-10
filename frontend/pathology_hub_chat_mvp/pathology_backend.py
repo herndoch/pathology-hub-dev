@@ -707,10 +707,30 @@ def extract_figures(response_json: dict) -> list[dict]:
 
 _ROOT_FILTERABLE_SOURCES = frozenset({"textbooks", "pathout", "videos"})
 
+# Browse / WHO tags use Thorax_Mediastinum → thoraxmediastinum, while lean
+# textbook + lecture source_ids use the thoracic_* prefix → thoracic. Without
+# this equivalence, B8 root_narrow silently drops Burke/Leslie/Weissferdt (and
+# Thoracic_* lecture decks) from every Thorax/Mediastinum topic page.
+_ROOT_EQUIVALENCE_GROUPS = (
+    frozenset({"thoracic", "thoraxmediastinum"}),
+)
+
 
 def normalize_root_token(token: str) -> str:
     """Case/punctuation-insensitive root token for cross-field matching."""
     return re.sub(r"[^a-z0-9]+", "", (token or "").casefold())
+
+
+def roots_equivalent(a: Optional[str], b: Optional[str]) -> bool:
+    """True when two normalized roots are the same organ family."""
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    for group in _ROOT_EQUIVALENCE_GROUPS:
+        if a in group and b in group:
+            return True
+    return False
 
 
 def card_root_token(card: dict) -> Optional[str]:
@@ -806,7 +826,7 @@ def _root_matches_page(item_root: Optional[str], target: str, strict_cyto: bool)
     signal, not a reason to drop every cyto-tagged card on the page."""
     if target == _GENERIC_CYTO_SOURCE_TOKEN and bool(item_root) and item_root.startswith(_GENERIC_CYTO_SOURCE_TOKEN):
         return True
-    if item_root == target:
+    if roots_equivalent(item_root, target):
         return True
     if strict_cyto and item_root == _GENERIC_CYTO_SOURCE_TOKEN:
         return True

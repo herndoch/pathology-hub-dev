@@ -123,11 +123,49 @@ def smoke_cyto_root_narrow() -> None:
     _ok("cyto root-narrow bare-token fallback (structural, offline)")
 
 
+def smoke_thoracic_root_narrow() -> None:
+    """Thoracic lean textbooks use source_id prefix thoracic_*; Browse/WHO pages
+    use Thorax_Mediastinum → thoraxmediastinum. They must match under B8."""
+    import pathology_backend as backend
+
+    if not backend.roots_equivalent("thoracic", "thoraxmediastinum"):
+        _fail("thoracic and thoraxmediastinum should be equivalent roots", None)
+    if backend.roots_equivalent("thoracic", "breast"):
+        _fail("thoracic must not equate to breast", None)
+
+    cards = [
+        {"source": "textbooks", "source_id": "thoracic_burke", "title": "Type AB thymoma"},
+        {"source": "textbooks", "source_id": "thoracic_weissferdt", "title": "BA/CMPT"},
+        {"source": "textbooks", "source_id": "thoracic_leslie", "title": "PPB"},
+        {"source": "textbooks", "source_id": "cyto_psc_lung", "title": "PSC lung"},
+        {"source": "textbooks", "source_id": "breast_atlas", "title": "Breast atlas"},
+        {"source": "videos", "source_id": "Thoracic_Lecture_1_Lung_Non_Neoplastic1", "title": "Lecture"},
+        {"source": "who", "title": "WHO entity"},
+    ]
+    page_root = backend.page_root_from_tag(
+        "Thorax_Mediastinum::Benign::Bronchiolar_Adenoma_ciliated_muconodular_papillary_tumor"
+    )
+    if page_root != "thoraxmediastinum":
+        _fail("unexpected thorax page root", page_root)
+    kept = backend.filter_cards_by_page_root(cards, page_root)
+    kept_sids = {c.get("source_id") for c in kept}
+    for sid in ("thoracic_burke", "thoracic_weissferdt", "thoracic_leslie", "Thoracic_Lecture_1_Lung_Non_Neoplastic1"):
+        if sid not in kept_sids:
+            _fail(f"thoracic on-root card wrongly dropped: {sid}", sorted(kept_sids))
+    for sid in ("cyto_psc_lung", "breast_atlas"):
+        if sid in kept_sids:
+            _fail(f"off-root textbook wrongly kept on thorax page: {sid}", sorted(kept_sids))
+    if not any(c.get("source") == "who" for c in kept):
+        _fail("WHO card wrongly dropped on thorax page", kept_sids)
+    _ok("thoracic↔thoraxmediastinum root-narrow (structural, offline)")
+
+
 def smoke_offline() -> None:
     print("Offline smoke (TestClient)")
     smoke_unpaywall()
     smoke_model_selector()
     smoke_cyto_root_narrow()
+    smoke_thoracic_root_narrow()
     client = TestClient(app)
 
     idx = client.get("/static/browse_tag_index_v0_1.json")
@@ -396,6 +434,9 @@ def smoke_offline() -> None:
         "normalizeInlineLinkLabel",
         "scoreLeafForPageContext",
         "pickBestLeaf",
+        "renderMentionAddButton",
+        "mention-add-btn",
+        'Add to search bar">+</button>',
     ):
         if needle not in js:
             _fail("app.js feature", f"missing {needle!r}")
@@ -430,6 +471,142 @@ def smoke_offline() -> None:
     if "const allowCache = !rebuild && Boolean(leafRef.tag);" not in js:
         _fail("expected cache-first allowCache gating not found", None)
     _ok("prebuilt-cache-first gating (structural, offline)")
+
+    # 2026-08-03: inline citation labels must defer to the deterministic
+    # source_id->book URL mapping, not the model's freeform label text — the
+    # model sometimes writes a hallucinated-but-plausible book chip (e.g.
+    # "Gnepp" for a Bone/Soft Tissue citation that is actually
+    # softtissue_enzinger). See citeDisplayLabel in app.js.
+    for needle in (
+        "if (/^(Gnepp|Atlas|Cardesa|Vasef|Biopsy|FAQ|Dorfman|Horvai|Enzinger|Pattern)$/i.test(normalized)) {",
+        "return textbookLabelFromUrl(url) || normalized;",
+    ):
+        if needle not in js:
+            _fail("citeDisplayLabel book-chip URL cross-check missing", needle)
+    _ok("citation label URL cross-check (structural, offline)")
+
+    # WHO citations for entities covered by who_genetic_syndromes_links_v0_1.json
+    # should link to the real tumourclassification.iarc.who.int page, not only
+    # the Pathology Hub WHO_HTML mirror. See whoSyndromeUrlForEntity in app.js.
+    who_links_resp = client.get("/static/who_genetic_syndromes_links_v0_1.json")
+    if who_links_resp.status_code != 200:
+        _fail("who_genetic_syndromes_links_v0_1.json not served", who_links_resp.status_code)
+    who_links_data = who_links_resp.json()
+    who_entries = who_links_data.get("entries") or {}
+    if len(who_entries) < 1000:
+        _fail("WHO chapter-link index looks too small", len(who_entries))
+    if "neurofibromatosis type 1" not in who_entries:
+        _fail("WHO chapter-link index missing expected entry", "neurofibromatosis type 1")
+    for needle in (
+        "whoSyndromeUrlForEntity",
+        "WHO_VOLUME_BY_ROOT",
+        "loadWhoSyndromeLinks",
+        "function resolveWhoOverrideUrl",
+        "activeWhoOverrideMap",
+        "function applyWhoOverrideForEntity",
+    ):
+        if needle not in js:
+            _fail("WHO real-link wiring missing from app.js", needle)
+    _ok("WHO real-link lookup + root disambiguation (structural, offline)")
+
+    # 2026-08-04: Compare Diagnoses previously never wired up citation
+    # rendering the way a single topic page does — "why is it when i click
+    # horvai it opens pdf...why does it not hyperlink to actual who???why
+    # cant i open the entity specific page from the comparison page?" Fix:
+    # rebuild the same globals (previewIndex, hover-card maps, per-entity
+    # WHO override, textbook labels) from ALL columns' merged evidence, pass
+    # a real previewIndex into every renderMarkdown() call (columns + the
+    # AI Comparison Analysis table), make renderMarkdownTable() thread
+    # previewIndex through to its own inlineMarkdown() calls (tables were
+    # silently dropping it before), and make each column title a button
+    # that opens that entity's own topic page.
+    for needle in (
+        "const mergedCards = data.columns.flatMap((c) => c.cards || []);",
+        "function bindCompareColumnNav",
+        "data-compare-col-nav",
+        "function renderMarkdownTable(block, previewIndex)",
+    ):
+        if needle not in js:
+            _fail("Compare Diagnoses citation/nav wiring missing from app.js", needle)
+    if "renderMarkdown(column.text_summary || \"\", new Map())" in js:
+        _fail("compare column text_summary still rendered with an empty previewIndex", None)
+    if 'renderMarkdown(data.comparison, new Map())' in js:
+        _fail("compare AI Comparison Analysis still rendered with an empty previewIndex", None)
+    if "inlineMarkdown(cell)" in js:
+        _fail("renderMarkdownTable's header cells still call inlineMarkdown() without previewIndex", None)
+    if 'inlineMarkdown(row[i] || "\u2014")' in js:
+        _fail("renderMarkdownTable's body cells still call inlineMarkdown() without previewIndex", None)
+    _ok("Compare Diagnoses: real previewIndex/hover/WHO-override per column + clickable titles (structural, offline)")
+
+    # 2026-08-04: "how do i make it so i can hyperlink people to a page" —
+    # shareable ?tag=/?dx=/?compare=/?q= deep links on the root URL (no new
+    # backend route needed, GET / already ignores query strings), applied
+    # on load and on browser Back/Forward, and the address bar is kept in
+    # sync with whatever's on screen so the CURRENT url is always a valid
+    # link back to it. Plus explicit "Copy link" buttons on topic pages and
+    # Compare.
+    for needle in (
+        "function findLeafByTag",
+        "function fuzzyFindLeafByName",
+        "function applyUrlRoute",
+        "function syncUrlFromState",
+        "async function runAskQuery",
+        'window.addEventListener("popstate"',
+        "function copyLinkAndConfirm",
+        "function topicPageShareUrl",
+        "compare-copy-link-btn",
+        "copy-link-btn",
+    ):
+        if needle not in js:
+            _fail("shareable-link (?tag=/?dx=/?q=/?compare=) wiring missing from app.js", needle)
+    _ok("shareable ?tag=/?dx=/?q=/?compare= deep links + Copy link buttons (structural, offline)")
+
+    # 2026-08-04: @mention entity picker takes over the LIVE OncoTree in
+    # browse-content (no separate dropdown/list widget — reported "why do i
+    # still see dropdown menu?"), reachable from any tab/browseState level.
+    # "+" completely and unconditionally replaces "VS" everywhere in the
+    # OncoTree, with or without an active "@" ("i wanna completely replace
+    # the vs sign, ie from the get go can click a plus") — no more separate
+    # "mentionMode" rendering branch. Each pick auto-primes a trailing "@"
+    # for the next mention, and the search bar highlights mention segments
+    # in a distinct color from plain text via an overlay behind the input.
+    for needle in (
+        "function currentMentionContext",
+        "function selectMentionLeaf",
+        "function renderMentionAddButton",
+        "function parseQueryMentions",
+        "function updateQueryHighlightOverlay",
+        "nodesHtml += renderMentionAddButton(n.leaf, n.rootId, n.subId);",
+        'const insertion = `@${label}; @`;',
+        "resolved.length >= 2",
+    ):
+        if needle not in js:
+            _fail("@mention entity picker wiring missing from app.js", needle)
+    if "mentionMode" in js:
+        _fail("mentionMode conditional should be gone — + is now unconditional everywhere", None)
+    if "mention-dropdown" in js or 'id="mention-dropdown"' in index_html2:
+        _fail("dead mention-dropdown widget still referenced — should take over browse-content instead", None)
+    if 'id="query-highlight-overlay"' not in index_html2:
+        _fail("query-highlight-overlay element missing from index.html", None)
+    _ok("@mention entity picker: + is unconditional, auto-primes next @, highlights mentions (structural, offline)")
+
+    # 2026-08-04: leaves with no usable category segment (mostly ABPath
+    # content-spec leaves) must land in a real, clickable "Other" group
+    # instead of a dead-end "N without a clear category — use search" note
+    # with no node to expand (reported as "cant expand those without
+    # category").
+    if 'groups.push({ id: "other", label: "Other"' not in js:
+        _fail("uncategorized leaves are not bucketed into a clickable Other group", None)
+    if "let droppedCount" in js or "droppedCount += 1" in js:
+        _fail("buildOncotreeCategoryGroups still drops leaves instead of bucketing them", None)
+    _ok("uncategorized tree leaves land in a clickable Other group (structural, offline)")
+
+    # 2026-08-04: no redundant "Home" breadcrumb at the Browse home level —
+    # duplicated the query overlay's own always-visible Home button
+    # (reported: "dunno why we need two home buttons").
+    if 'if (browseState.level === "home") {\n    browseBreadcrumbsEl.innerHTML = "";' not in js:
+        _fail("breadcrumb bar still renders a redundant Home link at the Browse home level", None)
+    _ok("no redundant Home breadcrumb at Browse home level (structural, offline)")
 
     flag_resp = client.post("/api/flag", json={"tag": "smoke::test", "label": "Smoke", "comment": ""})
     if flag_resp.status_code != 200 or flag_resp.json().get("ok") is not False:

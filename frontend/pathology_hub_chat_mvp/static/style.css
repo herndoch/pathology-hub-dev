@@ -70,21 +70,69 @@ code {
   box-shadow: 0 2px 6px rgba(60, 64, 67, 0.08);
 }
 
-.query-overlay #query-input {
+/** The real <input> sits on top with transparent text/background (only its
+ * caret is visible) — a separate .query-highlight-overlay div behind it
+ * (same font/padding/border-radius, so a single line of text lines up
+ * pixel-for-pixel) actually paints the visible text, so "@Label; " mention
+ * segments can be colored differently from free text (2026-08-04: "may be
+ * useful to highlight dx text in the search bar with blue, and other text
+ * black") — a plain <input> can't have mixed inline text colors on its own.
+ * Kept in sync on every keystroke by updateQueryHighlightOverlay(). */
+.query-input-wrap {
+  position: relative;
   flex: 1;
   min-width: 0;
+}
+
+.query-overlay #query-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
   border: 1px solid var(--panel-border);
   border-radius: 999px;
   padding: 0.55rem 1rem;
   font: inherit;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--text);
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
 }
 
 .query-overlay #query-input:focus {
   outline: 2px solid var(--accent);
   outline-offset: -1px;
+}
+
+/* The input's own text color is transparent (see .query-highlight-overlay
+ * above) — give the placeholder an explicit visible color so it doesn't
+ * inherit that transparency. */
+.query-overlay #query-input::placeholder {
+  color: #6b7280;
+}
+
+.query-highlight-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: pre;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+}
+
+.query-input-wrap:focus-within .query-highlight-overlay {
   background: #ffffff;
+}
+
+.query-highlight-overlay .mention-highlight {
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .query-overlay #send-btn {
@@ -131,6 +179,22 @@ code {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/** "+" completely and unconditionally replaces "VS" as the OncoTree's only
+ * leaf action button (renderMentionAddButton in app.js) — same size/shape
+ * as .vs-btn, just a different glyph/color so it's visually clear this
+ * button means "add to the search bar", not "compare". No separate
+ * dropdown/overlay widget: typing "@" just takes over browse-content with
+ * the live OncoTree itself (see selectMentionLeaf in app.js). */
+.mention-add-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mention-add-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .info-modal-list {
@@ -1213,6 +1277,27 @@ code {
   font-size: 0.9rem;
 }
 
+/** Collapses literature/citations/source-summary/debug/export behind one
+ * toggle at the bottom of a topic page, instead of always taking up scroll
+ * space past the synthesized answer's own Key Literature section. */
+.topic-more-section {
+  margin: 1rem 0 0;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 0.75rem;
+}
+
+.topic-more-section summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.topic-more-section[open] {
+  padding-bottom: 0.5rem;
+}
+
 .citation-list {
   list-style: none;
   padding: 0;
@@ -1749,6 +1834,30 @@ button:disabled {
   font-weight: 700;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+}
+
+/* When resolvable to a leaf, the title is a <button> that opens that
+ * entity's own topic page (bindCompareColumnNav) — reset button chrome and
+ * make it visually obvious it's clickable. */
+button.compare-column-title {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button.compare-column-title:hover {
+  text-decoration: underline;
+}
+
+.compare-column-title-arrow {
+  font-weight: 400;
+  opacity: 0.7;
 }
 
 .compare-tab-bar {
