@@ -125,6 +125,9 @@ python3 scripts/prebuild_topic_pages_pilot_v0_1.py \
   --tags "HN::Salivary_Gland::Benign_Tumor::Pleomorphic_Adenoma"
 ```
 
+Browse coverage audit: `python3 scripts/audit_browse_prebuild_coverage_v0_1.py`
+writes `outputs/chat_mvp_topic_prepop_v0_1/browse_prebuild_coverage_audit_v0_1.json`.
+
 Other ops scripts: `root_narrow_ab_v0_1.py`, `model_ab_topic_synthesis_v0_1.py` (see README
 sections above). Audits land under `outputs/chat_mvp_topic_prepop_v0_1/` (gitignored).
 
