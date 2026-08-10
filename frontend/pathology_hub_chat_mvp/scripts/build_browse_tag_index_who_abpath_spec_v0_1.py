@@ -85,11 +85,16 @@ MAJOR_TO_ROOT: dict[int, tuple[str, str]] = {
     11: ("bst", "Bone / Soft Tissue"),
     12: ("cyto", "Cytopathology"),
     13: ("skin", "Dermatopathology"),
-    14: ("forensic", "Forensic Pathology"),
+    # Major 14 (Forensic Pathology) deliberately omitted — no textbook / WHO /
+    # PathOut / lecture corpus backs it in Pathology Hub, so Browse leaves were
+    # empty evidence shells. Dropped 2026-08-10 (see EXCLUDED_ABPATH_MAJORS).
     16: ("heme", "Hematolymphoid"),
     17: ("neuro", "Neuropathology"),
     18: ("peds", "Pediatric Pathology"),
 }
+
+# Content-spec majors intentionally not mapped into Browse (skipped at parse).
+EXCLUDED_ABPATH_MAJORS: frozenset[int] = frozenset({14})  # Forensic Pathology
 
 # Skip TOC / non-entity noise if any slip through.
 SKIP_ITEM_RE = re.compile(
@@ -1670,6 +1675,7 @@ def main() -> int:
             "Cardiovascular (ABPath major 4) has no standalone Browse root — its content is folded into Thorax_Mediastinum::Heart / Thorax_Mediastinum::Blood_Vessels (WHO's own Thoracic Tumours volume classifies heart tumors there; real WHO Thorax_Mediastinum::Heart::… tags already existed in this index). Heart vs Blood_Vessels boundaries were hand-reconstructed from the ordered row dump (CARDIO_ABPATH_SPEC_RANGES), same caveat as the cyto ranges above.",
             "Digestive System (ABPath major 6) Browse subcategories are anatomic sites (Esophagus, Stomach, Colon / Rectum, …) rebuilt from sticky 'The <Organ>' category headers + a short override list (build_gi_abpath_organ_map) — not the coarse ABPath organ_system buckets 'Gastrointestinal Tract' / 'Liver and Biliary Tract' / 'Pancreas'. Bare repeating item names (Adenocarcinoma, Adenoma, …) are site-qualified in the label/tag.",
             "GI WHO 'Hepatobiliary' and 'Gallbladder Bile Ducts' merge into the same Browse bucket as ABPath 'Liver and Biliary Tract' (canonical label: 'Liver / Biliary Tract') — same anatomic scope, different source naming.",
+            "Forensic Pathology (ABPath major 14) is excluded from Browse — Hub has no forensic textbook/WHO/PathOut/lecture corpus, so those leaves could not be evidence-backed. Re-add only with a real source pipeline.",
         ],
     }
 

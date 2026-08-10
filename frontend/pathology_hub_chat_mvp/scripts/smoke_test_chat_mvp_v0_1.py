@@ -362,16 +362,19 @@ def smoke_offline() -> None:
                 _fail("Cardiac Myxoma has unexpected tag shape", myxoma.get("tag"))
             elif myxoma.get("provenance") != "abpath":
                 _fail("Cardiac Myxoma provenance should be 'abpath', not sanitized to 'who'", myxoma.get("provenance"))
-        # Roots with huge subcategory fan-out (Peds/Neuro/Skin/Heme/Forensic)
+        # Roots with huge subcategory fan-out (Peds/Neuro/Skin/Heme)
         # must actually exceed the frontend's grouping threshold — otherwise
         # a future data change could silently regress back to a flat wall.
-        for rid, min_subs in (("peds", 100), ("neuro", 100), ("skin", 100), ("heme", 30), ("forensic", 30)):
+        for rid, min_subs in (("peds", 100), ("neuro", 100), ("skin", 100), ("heme", 30)):
             root = next((r for r in data.get("roots") or [] if r.get("id") == rid), None)
             if not root or len(root.get("subcategories") or []) < min_subs:
                 _fail(
                     f"{rid} root subcategory fan-out unexpectedly small",
                     len(root.get("subcategories") or []) if root else None,
                 )
+        # Forensic intentionally removed from Browse (no Hub corpus) — 2026-08-10.
+        if any(r.get("id") == "forensic" for r in data.get("roots") or []):
+            _fail("forensic root should be excluded from Browse", None)
         js = client.get("/static/app.js").text
         if 'data-browse-mode=' in js:
             _fail("browse mode toggle should be removed", "found data-browse-mode in app.js")
