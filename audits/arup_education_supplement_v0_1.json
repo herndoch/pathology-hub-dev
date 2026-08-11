@@ -1,0 +1,870 @@
+{
+  "schema_version": "arup_education_supplement.v0_1",
+  "pages": [
+    [
+      "case_reports_index",
+      "https://arup.utah.edu/education/cytoIndex"
+    ],
+    [
+      "short_topics",
+      "https://arup.utah.edu/education/shortTopics"
+    ],
+    [
+      "conf_index",
+      "https://arup.utah.edu/education/confIndex"
+    ],
+    [
+      "hemepath5",
+      "https://arup.utah.edu/education/hemepath5-2025"
+    ],
+    [
+      "hemepath6",
+      "https://arup.utah.edu/education/hemepath6-2026"
+    ]
+  ],
+  "extra_links": [
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-01",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-01"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-02",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-02"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-03",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-03"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-04",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-04"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-05",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-05"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-06",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-06"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-07",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-07"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-08",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-08"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-09",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-09"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-10",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-10"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-11",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-11"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-12",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-12"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-13",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-13"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-14",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-14"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-15",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-15"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/cytopathology-case-16",
+      "url": "https://arup.utah.edu/education/case-reports/cytopathology-case-16"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/hema1/case1",
+      "url": "https://arup.utah.edu/education/case-reports/hema1/case1"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/hema2/case2",
+      "url": "https://arup.utah.edu/education/case-reports/hema2/case2"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/case-reports/hema3/case3",
+      "url": "https://arup.utah.edu/education/case-reports/hema3/case3"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/publications",
+      "url": "https://arup.utah.edu/education/publications"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/shortTopics?short_topic_type=2",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=2"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/shortTopics?short_topic_type=3",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=3"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0"
+    },
+    {
+      "kind": "case_reports_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/evidence-based-diagnostics ",
+      "url": "https://arup.utah.edu/education/podcasts/evidence-based-diagnostics "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep1 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep1 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep10 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep10 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep100 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep100 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep101 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep101 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep102 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep102 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep103 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep103 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep104 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep104 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep105 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep105 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep11 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep11 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep12 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep12 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep13 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep13 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep14 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep14 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep15 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep15 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep16 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep16 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep17 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep17 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep18 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep18 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep19 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep19 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep2 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep2 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep20 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep20 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep21 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep21 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep22 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep22 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep23 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep23 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep24 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep24 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep25 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep25 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep26 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep26 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep27 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep27 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep28 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep28 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep29 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep29 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep3 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep3 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep30 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep30 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep31 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep31 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep32 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep32 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep33 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep33 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep34 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep34 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep35 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep35 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep36 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep36 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep37 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep37 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep38 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep38 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep39 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep39 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep4 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep4 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep40 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep40 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep41 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep41 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep42 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep42 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep43 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep43 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep44 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep44 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep45 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep45 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep46 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep46 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep47 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep47 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep48 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep48 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep49 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep49 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep5 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep5 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep50 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep50 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep51 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep51 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep52 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep52 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep53 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep53 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep54 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep54 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep55 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep55 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep56 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep56 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep57 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep57 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep58 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep58 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep59 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep59 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep6 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep6 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep60 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep60 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep61 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep61 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep62 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep62 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep63 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep63 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep64 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep64 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep65 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep65 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep66 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep66 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep67 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep67 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep68 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep68 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep69 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep69 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep7 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep7 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep70 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep70 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep71 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep71 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep72 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep72 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep73 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep73 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep74 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep74 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep75 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep75 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep76 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep76 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep77 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep77 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep78 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep78 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep79 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep79 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep8 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep8 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep80 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep80 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep81 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep81 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep82 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep82 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep83 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep83 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep84 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep84 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep85 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep85 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep86 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep86 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep87 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep87 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep88 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep88 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep89 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep89 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep9 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep9 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep90 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep90 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep91 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep91 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep92 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep92 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep93 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep93 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep94 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep94 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep95 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep95 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep96 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep96 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep97 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep97 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep98 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep98 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/labmindep99 ",
+      "url": "https://arup.utah.edu/education/podcasts/labmindep99 "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/rose-testing ",
+      "url": "https://arup.utah.edu/education/podcasts/rose-testing "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/theraputic-drug-monitoring ",
+      "url": "https://arup.utah.edu/education/podcasts/theraputic-drug-monitoring "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/podcasts/toxicologyTesting ",
+      "url": "https://arup.utah.edu/education/podcasts/toxicologyTesting "
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/publications",
+      "url": "https://arup.utah.edu/education/publications"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/shortTopics?short_topic_type=2",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=2"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/shortTopics?short_topic_type=3",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=3"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0"
+    },
+    {
+      "kind": "short_topics",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/conferences/fungi2026",
+      "url": "https://arup.utah.edu/education/conferences/fungi2026"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/publications",
+      "url": "https://arup.utah.edu/education/publications"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/shortTopics?short_topic_type=2",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=2"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/shortTopics?short_topic_type=3",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=3"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0"
+    },
+    {
+      "kind": "conf_index",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/content/ceLandingPage/hemepath5-2025",
+      "url": "https://arup.utah.edu/education/content/ceLandingPage/hemepath5-2025"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/content/courseTroubleshooting/hemepath5-2025",
+      "url": "https://arup.utah.edu/education/content/courseTroubleshooting/hemepath5-2025"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/publications",
+      "url": "https://arup.utah.edu/education/publications"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/shortTopics?short_topic_type=2",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=2"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/shortTopics?short_topic_type=3",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=3"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0"
+    },
+    {
+      "kind": "hemepath5",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/content/ceLandingPage/hemepath6-2026",
+      "url": "https://arup.utah.edu/education/content/ceLandingPage/hemepath6-2026"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/content/courseTroubleshooting/hemepath6-2026",
+      "url": "https://arup.utah.edu/education/content/courseTroubleshooting/hemepath6-2026"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/publications",
+      "url": "https://arup.utah.edu/education/publications"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/shortTopics?short_topic_type=2",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=2"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/shortTopics?short_topic_type=3",
+      "url": "https://arup.utah.edu/education/shortTopics?short_topic_type=3"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;cme_credits=1&amp;pace_credits=0&amp;florida_credits=0"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;florida_credits=1&amp;cme_credits=0&amp;pace_credits=0"
+    },
+    {
+      "kind": "hemepath6",
+      "path": "/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0",
+      "url": "https://arup.utah.edu/education/videoIndex?combine=&amp;field_area_of_specialty_fl_target_id=All&amp;field_course_categories=All&amp;pace_credits=1&amp;cme_credits=0&amp;florida_credits=0"
+    }
+  ],
+  "sitemap_categories": {
+    "other": 696,
+    "case_reports": 19,
+    "conferences": 9,
+    "podcasts": 109
+  },
+  "sitemap_sample": [
+    "https://arup.utah.edu/education/affolter-panc-pcap25",
+    "https://arup.utah.edu/education/affolter-pancreatoupdate-2018",
+    "https://arup.utah.edu/education/agarwal-acuteleukemia-2019",
+    "https://arup.utah.edu/education/agarwal-neoanemia-2021",
+    "https://arup.utah.edu/education/agarwal-updaterbcmembrane-2020",
+    "https://arup.utah.edu/education/airplane-2023",
+    "https://arup.utah.edu/education/albertson-digitalpath-pcap24",
+    "https://arup.utah.edu/education/albertson-genitourinary-2019",
+    "https://arup.utah.edu/education/albertson-urothelial1-pcap23",
+    "https://arup.utah.edu/education/allison-gamechangers-pcap22",
+    "https://arup.utah.edu/education/amin-bladdercancer-2019",
+    "https://arup.utah.edu/education/amin-dxurotumors-2019",
+    "https://arup.utah.edu/education/amin-whourocancer-2019",
+    "https://arup.utah.edu/education/anani-bloodbank-2022",
+    "https://arup.utah.edu/education/andersen-concyto-2018",
+    "https://arup.utah.edu/education/andersen-introcyto1-2020",
+    "https://arup.utah.edu/education/andersen-introcyto2-2020",
+    "https://arup.utah.edu/education/anemia",
+    "https://arup.utah.edu/education/antibodyidentification",
+    "https://arup.utah.edu/education/aps"
+  ]
+}

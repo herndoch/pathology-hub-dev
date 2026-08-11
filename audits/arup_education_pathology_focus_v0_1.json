@@ -1,0 +1,804 @@
+{
+  "schema_version": "arup_education_pathology_focus_v0_1",
+  "video_lecture_catalog": {
+    "total": 189,
+    "with_title": 189,
+    "with_embed": 189,
+    "with_mp4": 186,
+    "with_pdf": 181,
+    "with_vtt": 186,
+    "errors": 0
+  },
+  "url_patterns": {
+    "education_page": "https://arup.utah.edu/education/{slug}",
+    "embed_player": "https://arup.utah.edu/media/{slug}/videoLecture",
+    "video_mp4": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/{slug}_vN.mp4",
+    "slides_pdf": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/{base}_lecture-slides.pdf",
+    "vtt": "https://arup.utah.edu/sites/default/files/Edu_Media/cc/{slug}_*.vtt",
+    "pdf_base_rule": "strip _vN suffix from video filename before _lecture-slides.pdf"
+  },
+  "content_types_on_site": {
+    "video_lectures": 189,
+    "case_reports_sitemap": 19,
+    "podcasts_sitemap": 109,
+    "conferences_sitemap": 9,
+    "short_topics_index_links": 119
+  },
+  "series_pages": {
+    "https://arup.utah.edu/education/hemepath5-2025": {
+      "title": "Measurable/Minimal Residual Disease Testing in Acute Leukemias",
+      "lectures": [
+        {
+          "url": "https://arup.utah.edu/education/publications",
+          "slug": "publications",
+          "title": null,
+          "has_mp4": null,
+          "has_pdf": null
+        }
+      ],
+      "media_links": []
+    },
+    "https://arup.utah.edu/education/hemepath6-2026": {
+      "title": "Evaluation of Anemia in Pediatric Population in the Era of Molecular Diagnosis",
+      "lectures": [
+        {
+          "url": "https://arup.utah.edu/education/publications",
+          "slug": "publications",
+          "title": null,
+          "has_mp4": null,
+          "has_pdf": null
+        }
+      ],
+      "media_links": []
+    },
+    "https://arup.utah.edu/education/hematologymm": {
+      "title": "Hematology M+Ms: Morphology and Mystery (Case Studies)",
+      "lectures": [
+        {
+          "url": "https://arup.utah.edu/education/publications",
+          "slug": "publications",
+          "title": null,
+          "has_mp4": null,
+          "has_pdf": null
+        }
+      ],
+      "media_links": []
+    }
+  },
+  "target_batch_original_5": [
+    {
+      "slug": "shestakova-heme-pcap24",
+      "title": "ICC and WHO Classifications: Follicular, Large, and High-Grade B-Cell Lymphomas",
+      "education_url": "https://arup.utah.edu/education/shestakova-heme-pcap24",
+      "embed_url": "https://arup.utah.edu/media/shestakova-heme-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "55 min 20 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/shestakova-heme-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/shestakova-heme-pcap24_v2.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/shestakova-heme-pcap24_3%20-%20Shestakova_ICC_WHO_Classifications%20SRT.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/shestakova-heme-pcap24_v2.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/shestakova-heme-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "rets-hematopathology-pcap24",
+      "title": "Immunohistochemistry in Challenging Hematology Cases: Old Friends and New Acquaintances",
+      "education_url": "https://arup.utah.edu/education/rets-hematopathology-pcap24",
+      "embed_url": "https://arup.utah.edu/media/rets-hematopathology-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "52 min 18 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/rets-hematopathology-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/rets-hematopathology-pcap24_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/rets-hematopathology-pcap24_rets-hematopathology-pcap24.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/rets-hematopathology-pcap24_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/rets-hematopathology-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "williams-hematopathology-pcap24",
+      "title": "Challenging Cases in Hematopathology: Incorporating Molecular Results",
+      "education_url": "https://arup.utah.edu/education/williams-hematopathology-pcap24",
+      "embed_url": "https://arup.utah.edu/media/williams-hematopathology-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "49 min 45 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/williams-hematopathology-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/williams-hematopathology-pcap24_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/williams-hematopathology-pcap24_cc_0.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/williams-hematopathology-pcap24_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/williams-hematopathology-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "menon-hemepath3-2024",
+      "title": "Hematopathology Expert SeriesThe Broad-Ranging Impact of Clonal Hematopoiesis: From Diagnostic Considerations to Clinical Implications",
+      "education_url": "https://arup.utah.edu/education/menon-hemepath3-2024",
+      "embed_url": "https://arup.utah.edu/media/menon-hemepath3-2024/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "1 hr 35 min 31 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath3-2024_lecture-slides.pdf"
+      ],
+      "series_hint": "heme",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath3-2024_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/menon-hemepath3-2024_SRT%20Patel_Clonal%20Hematopoiesis%20for%20ARUP%20V1-EDU.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath3-2024_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath3-2024_lecture-slides.pdf"
+    },
+    {
+      "slug": "raca-ngs-2025",
+      "title": "From Microscope to Molecule: Chromosome Abnormality Testing in the Era of NGS",
+      "education_url": "https://arup.utah.edu/education/raca-ngs-2025",
+      "embed_url": "https://arup.utah.edu/media/raca-ngs-2025/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "58 min 31 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raca-ngs-2025_lecture-slides.pdf"
+      ],
+      "series_hint": null,
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raca-ngs-2025_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/raca-ngs-2025_Raca_From%20Microscope%20to%20Molecule%20Chromosome%20Abnormality%20Testing%20in%20the%20Era%20of%20NGS.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raca-ngs-2025_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raca-ngs-2025_lecture-slides.pdf"
+    }
+  ],
+  "pcap24_heme_related": [
+    {
+      "slug": "george-dxmasto_heme_path-2025",
+      "title": "Diagnosing Systemic Mastocytosis: For Hematologists and Pathologists",
+      "education_url": "https://arup.utah.edu/education/george-dxmasto_heme_path-2025",
+      "embed_url": "https://arup.utah.edu/media/george-dxmasto_heme_path-2025/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "36 min 57 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/george-dxmasto_heme_path-2025_lecture-slides.pdf"
+      ],
+      "series_hint": "heme",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/george-dxmasto_heme_path-2025_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/george-dxmasto_heme_path-2025_Subtitles%20Tracy%20George%20MCD%20For%20Hematologists%20V1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/george-dxmasto_heme_path-2025_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/george-dxmasto_heme_path-2025_lecture-slides.pdf"
+    },
+    {
+      "slug": "mcmurtry-molecular-pcap24",
+      "title": "Molecular Subtypes of Endometrial Cancers: Approaches and Considerations for Testing",
+      "education_url": "https://arup.utah.edu/education/mcmurtry-molecular-pcap24",
+      "embed_url": "https://arup.utah.edu/media/mcmurtry-molecular-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "38 min 57 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/mcmurtry-molecular-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/mcmurtry-molecular-pcap24_v2.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/mcmurtry-molecular-pcap24_18%20-%20McMurtry_Endometrial_Cancers_V2.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/mcmurtry-molecular-pcap24_v2.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/mcmurtry-molecular-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "menon-hemepath1-2023",
+      "title": "Hematopathology Expert SeriesState of Hematopathology: The Past, Present, and the Future",
+      "education_url": "https://arup.utah.edu/education/menon-hemepath1-2023",
+      "embed_url": "https://arup.utah.edu/media/menon-hemepath1-2023/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "1 hr 31 min 9 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath1-2023_lecture-slides.pdf"
+      ],
+      "series_hint": "heme",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath1-2023_Hem_Conference_V3_EDU.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/menon-hemepath1-2023_menon-hemepath1-2023.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath1-2023_Hem_Conference_V3_EDU.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath1-2023_lecture-slides.pdf"
+    },
+    {
+      "slug": "menon-hemepath3-2024",
+      "title": "Hematopathology Expert SeriesThe Broad-Ranging Impact of Clonal Hematopoiesis: From Diagnostic Considerations to Clinical Implications",
+      "education_url": "https://arup.utah.edu/education/menon-hemepath3-2024",
+      "embed_url": "https://arup.utah.edu/media/menon-hemepath3-2024/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "1 hr 35 min 31 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath3-2024_lecture-slides.pdf"
+      ],
+      "series_hint": "heme",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath3-2024_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/menon-hemepath3-2024_SRT%20Patel_Clonal%20Hematopoiesis%20for%20ARUP%20V1-EDU.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath3-2024_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath3-2024_lecture-slides.pdf"
+    },
+    {
+      "slug": "menon-hemepath4-2025",
+      "title": "Hematopathology Expert SeriesClinical and Laboratory Approaches to Diagnosis of Acquired Bleeding Disorders",
+      "education_url": "https://arup.utah.edu/education/menon-hemepath4-2025",
+      "embed_url": "https://arup.utah.edu/media/menon-hemepath4-2025/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "1 hr 22 min 48 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath4-2025_lecture-slides.pdf"
+      ],
+      "series_hint": "heme",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath4-2025_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/menon-hemepath4-2025_Subtitles%20Hema%202025-05%20edu%20edit%202025-04-29.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/menon-hemepath4-2025_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/menon-hemepath4-2025_lecture-slides.pdf"
+    },
+    {
+      "slug": "rets-hematopathology-pcap24",
+      "title": "Immunohistochemistry in Challenging Hematology Cases: Old Friends and New Acquaintances",
+      "education_url": "https://arup.utah.edu/education/rets-hematopathology-pcap24",
+      "embed_url": "https://arup.utah.edu/media/rets-hematopathology-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "52 min 18 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/rets-hematopathology-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/rets-hematopathology-pcap24_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/rets-hematopathology-pcap24_rets-hematopathology-pcap24.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/rets-hematopathology-pcap24_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/rets-hematopathology-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "shestakova-heme-pcap24",
+      "title": "ICC and WHO Classifications: Follicular, Large, and High-Grade B-Cell Lymphomas",
+      "education_url": "https://arup.utah.edu/education/shestakova-heme-pcap24",
+      "embed_url": "https://arup.utah.edu/media/shestakova-heme-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "55 min 20 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/shestakova-heme-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/shestakova-heme-pcap24_v2.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/shestakova-heme-pcap24_3%20-%20Shestakova_ICC_WHO_Classifications%20SRT.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/shestakova-heme-pcap24_v2.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/shestakova-heme-pcap24_lecture-slides.pdf"
+    },
+    {
+      "slug": "williams-hematopathology-pcap24",
+      "title": "Challenging Cases in Hematopathology: Incorporating Molecular Results",
+      "education_url": "https://arup.utah.edu/education/williams-hematopathology-pcap24",
+      "embed_url": "https://arup.utah.edu/media/williams-hematopathology-pcap24/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "49 min 45 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/williams-hematopathology-pcap24_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap24",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/williams-hematopathology-pcap24_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/williams-hematopathology-pcap24_cc_0.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/williams-hematopathology-pcap24_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/williams-hematopathology-pcap24_lecture-slides.pdf"
+    }
+  ],
+  "pcap25_ap_high_yield": [
+    {
+      "slug": "affolter-panc-pcap25",
+      "title": "Pancreatic Histology: A Case-Based Approach",
+      "education_url": "https://arup.utah.edu/education/affolter-panc-pcap25",
+      "embed_url": "https://arup.utah.edu/media/affolter-panc-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "55 min 3 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/affolter-panc-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/affolter-panc-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/affolter-panc-pcap25_cc_0.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/affolter-panc-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/affolter-panc-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "beech-molec-pcap25",
+      "title": "Mutations, Biomarkers, and Pathways: A Molecular Tour of Gastrointestinal Cancer",
+      "education_url": "https://arup.utah.edu/education/beech-molec-pcap25",
+      "embed_url": "https://arup.utah.edu/media/beech-molec-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "50 min 42 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/beech-molec-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/beech-molec-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/beech-molec-pcap25_cc_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/beech-molec-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/beech-molec-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "bellizzi-gi19-pcap25",
+      "title": "A GI Pathologist\u2019s Perspective on Hematolymphoid Neoplasms of the GI Tract",
+      "education_url": "https://arup.utah.edu/education/bellizzi-gi19-pcap25",
+      "embed_url": "https://arup.utah.edu/media/bellizzi-gi19-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "41 min 10 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/bellizzi-gi19-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/bellizzi-gi19-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/bellizzi-gi19-pcap25_SRT%2019%20Bellizzi_A%20GI%20Pathologist%27s%20Perspective%20on%20Hematolymphoid%20Neoplasms%20of%20the%20GI%20Tract_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/bellizzi-gi19-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/bellizzi-gi19-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "bellizzi-neuroend16-pcap25",
+      "title": "Neuroendocrine Neoplasms of the GI Tract: Diagnosis, Reporting, and Clinical Correlates",
+      "education_url": "https://arup.utah.edu/education/bellizzi-neuroend16-pcap25",
+      "embed_url": "https://arup.utah.edu/media/bellizzi-neuroend16-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "58 min 34 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/bellizzi-neuroend16-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/bellizzi-neuroend16-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/bellizzi-neuroend16-pcap25_SRT%2016%20Bellizzi_Neuroendocrine%20Neoplasms%20of%20the%20GI%20Tract-%20Diagnosis%2C%20Reporting%2C%20Clinical%20Correlates_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/bellizzi-neuroend16-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/bellizzi-neuroend16-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "boylan-hepato-pcap25",
+      "title": "Diagnosing Hepatocellular Adenomas: A Case-Based Approach",
+      "education_url": "https://arup.utah.edu/education/boylan-hepato-pcap25",
+      "embed_url": "https://arup.utah.edu/media/boylan-hepato-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "50 min 39 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/boylan-hepato-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/boylan-hepato-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/boylan-hepato-pcap25_18%20Boylan_Diagnosing%20Hepatocellular%20Adenomas-%20A%20Case-Based%20Approach_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/boylan-hepato-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/boylan-hepato-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "florell-skin-pcap25",
+      "title": "The Industrialized Diet and Its Relationship to Skin Disease",
+      "education_url": "https://arup.utah.edu/education/florell-skin-pcap25",
+      "embed_url": "https://arup.utah.edu/media/florell-skin-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "54 min 56 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/florell-skin-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/florell-skin-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/florell-skin-pcap25_SRT%2010%20Florell_Industrialized%20Diet%20and%20its%20Relationship%20to%20Skin%20Disease_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/florell-skin-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/florell-skin-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "hale-liver-pcap25",
+      "title": "Beyond A, B, and C: Emerging and Reemerging Infections in the Liver",
+      "education_url": "https://arup.utah.edu/education/hale-liver-pcap25",
+      "embed_url": "https://arup.utah.edu/media/hale-liver-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "56 min 0 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/hale-liver-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/hale-liver-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/hale-liver-pcap25_Subtitles%20-%2002%20Hale_Beyond%20A%2C%20B%2C%20and%20C%20Emerging%20Reemerging%20Infections%20in%20the%20Liver_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/hale-liver-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/hale-liver-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "jacobsen-tcell-pcap25",
+      "title": "T-Cell Lymphoproliferative Disorders of the GI Tract",
+      "education_url": "https://arup.utah.edu/education/jacobsen-tcell-pcap25",
+      "embed_url": "https://arup.utah.edu/media/jacobsen-tcell-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "46 min 30 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/jacobsen-tcell-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/jacobsen-tcell-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/jacobsen-tcell-pcap25_20%20Jacobsen_T-Cell%20Lymphoproliferative%20Disorders%20of%20the%20GI%20Tract_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/jacobsen-tcell-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/jacobsen-tcell-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "kikuchi-poordiff-pcap25",
+      "title": "Primary Liver Carcinomas: Challenges, Tools, and Diagnostic Considerations",
+      "education_url": "https://arup.utah.edu/education/kikuchi-poordiff-pcap25",
+      "embed_url": "https://arup.utah.edu/media/kikuchi-poordiff-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "52 min 38 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/kikuchi-poordiff-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/kikuchi-poordiff-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/kikuchi-poordiff-pcap25_06%20Kikuchi_Primary%20Liver%20Carcinomas%20Challenges%20Tools%20Diagnostic%20Considerations_1_lowbitrate.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/kikuchi-poordiff-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/kikuchi-poordiff-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "knudsen-gi-pcap25",
+      "title": "The Rise, Hype, and Reality of AI in Diagnostic Pathology",
+      "education_url": "https://arup.utah.edu/education/knudsen-gi-pcap25",
+      "embed_url": "https://arup.utah.edu/media/knudsen-gi-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "27 min 47 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/knudsen-gi-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/knudsen-gi-pcap25_v2.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/knudsen-gi-pcap25_SRT%2011%20Knudsen_The%20Rise%20Hype%20and%20Reality%20of%20AI%20in%20Diagnostic%20Pathology_V2.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/knudsen-gi-pcap25_v2.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/knudsen-gi-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "masld-pcap25",
+      "title": "Metabolic Dysfunction-Associated Steatotic Liver Disease (MASLD): Clinician and Pathologist Perspectives",
+      "education_url": "https://arup.utah.edu/education/masld-pcap25",
+      "embed_url": "https://arup.utah.edu/media/masld-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "1 hr 29 min 23 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/masld-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/masld-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/masld-pcap25_12%20Evason_Gallegos-Orozco_Metabolic-Dysfunction%20Associated%20Steatotic%20Liver%20Disease_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/masld-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/masld-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "mcmurtry-panc-pcap25",
+      "title": "Pancreatic Cytology: Pattern Recognition and Case-Based Approach",
+      "education_url": "https://arup.utah.edu/education/mcmurtry-panc-pcap25",
+      "embed_url": "https://arup.utah.edu/media/mcmurtry-panc-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "46 min 28 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/mcmurtry-panc-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/mcmurtry-panc-pcap25_v2.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/mcmurtry-panc-pcap25_SRT%2008%20McMurtry_Pancreatic%20Cytology%20Pattern%20Recognition%20Case-Based%20Approach%20-slide%20updated-.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/mcmurtry-panc-pcap25_v2.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/mcmurtry-panc-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "montgomery-mesenchymal03-pcap25",
+      "title": "Mesenchymal Neoplasms of the Gastrointestinal Tract and Liver\u2014It\u2019s All About Location",
+      "education_url": "https://arup.utah.edu/education/montgomery-mesenchymal03-pcap25",
+      "embed_url": "https://arup.utah.edu/media/montgomery-mesenchymal03-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "50 min 32 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/montgomery-mesenchymal03-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/montgomery-mesenchymal03-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/montgomery-mesenchymal03-pcap25_SRT%2003%20Montgomery_Mesenchymal%20Neoplasms%20Gastrointestinal%20Tract%20and%20Liver_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/montgomery-mesenchymal03-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/montgomery-mesenchymal03-pcap25_lecture-slides.pdf"
+    },
+    {
+      "slug": "raps-cyto-pcap25",
+      "title": "Cases From the FNA Service: Cyto-Histo Correlation",
+      "education_url": "https://arup.utah.edu/education/raps-cyto-pcap25",
+      "embed_url": "https://arup.utah.edu/media/raps-cyto-pcap25/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "51 min 38 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raps-cyto-pcap25_lecture-slides.pdf"
+      ],
+      "series_hint": "pcap25",
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raps-cyto-pcap25_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/raps-cyto-pcap25_SRT%2014%20Raps_Cases%20from%20the%20FNA%20Service-%20Cyto-Histo%20Correlation_1.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raps-cyto-pcap25_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raps-cyto-pcap25_lecture-slides.pdf"
+    }
+  ],
+  "raca_lecture": [
+    {
+      "slug": "raca-ngs-2025",
+      "title": "From Microscope to Molecule: Chromosome Abnormality Testing in the Era of NGS",
+      "education_url": "https://arup.utah.edu/education/raca-ngs-2025",
+      "embed_url": "https://arup.utah.edu/media/raca-ngs-2025/videoLecture",
+      "content_url_declared": null,
+      "thumbnail_url": null,
+      "duration_iso": null,
+      "video_length_label": "58 min 31 sec",
+      "slides_pdfs": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raca-ngs-2025_lecture-slides.pdf"
+      ],
+      "series_hint": null,
+      "has_pdf": true,
+      "has_embed": true,
+      "video_mp4s": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raca-ngs-2025_v1.mp4"
+      ],
+      "vtt_tracks": [
+        "https://arup.utah.edu/sites/default/files/Edu_Media/cc/raca-ngs-2025_Raca_From%20Microscope%20to%20Molecule%20Chromosome%20Abnormality%20Testing%20in%20the%20Era%20of%20NGS.vtt"
+      ],
+      "has_mp4": true,
+      "has_vtt": true,
+      "video_mp4_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/videos/raca-ngs-2025_v1.mp4",
+      "slides_pdf_primary": "https://arup.utah.edu/sites/default/files/Edu_Media/pdfs/raca-ngs-2025_lecture-slides.pdf"
+    }
+  ]
+}
