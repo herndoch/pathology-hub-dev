@@ -1,0 +1,174 @@
+{
+  "schema_version": "topic_page_quality_burn_snapshot_v0_1",
+  "generated_at": "2026-08-11T00:31:08.404728+00:00",
+  "input_paths": [
+    "outputs/chat_mvp_topic_prepop_v0_1/pages"
+  ],
+  "output_paths": [
+    "audits/topic_page_quality_burn_v0_1/quality_burn_snapshot_v0_1.json"
+  ],
+  "counts": {
+    "local_pages": 3460,
+    "structural_scored": 3470,
+    "structural_bands": {
+      "good": 1734,
+      "excellent": 1644,
+      "fair": 63,
+      "poor": 29
+    },
+    "llm_reviews": 280,
+    "verdicts": {
+      "needs_fixes": 228,
+      "blocked_thin_evidence": 29,
+      "ready_for_human_review": 23
+    },
+    "models": {
+      "gpt-5.6-terra": 74,
+      "gpt-5.6-luna": 134,
+      "gpt-5.6-sol": 72
+    },
+    "score_stats": {
+      "n": 83,
+      "mean": 51.59,
+      "min": 0,
+      "max": 84,
+      "gte_75": 10,
+      "lt_50": 24
+    },
+    "repair_batch_40": {
+      "n_ok": 40,
+      "total_cards": 1035,
+      "total_figures": 766,
+      "zero_card_pages_after": 0
+    }
+  },
+  "ready_samples": [
+    {
+      "tag": "Cyto_CNS_Eye::Category::Benign",
+      "label": "CNS / Eye Cytopathology Reporting Category: Benign",
+      "score": 82,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "ABPathSpec::peds::cardiovascular_system::normal_circulation_of_the_embryo_and_fetus",
+      "label": "Normal Circulation of the Embryo and Fetus",
+      "score": 78,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "ABPathSpec::heme::thrombophilic_disorders::ttp_hus",
+      "label": "TTP/HUS",
+      "score": null,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::r_enal_atheroembolic_disease",
+      "label": "R enal atheroembolic disease",
+      "score": null,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "Cyto_Soft_Tissue::Benign::Spindle_Cell::Haemangiomas",
+      "label": "Haemangiomas",
+      "score": null,
+      "model": "gpt-5.6-terra"
+    },
+    {
+      "tag": "ABPathSpec::thorax_mediastinum::respiratory_tract::lymphoepithlioma_like_carcinoma",
+      "label": "Lymphoepithlioma-like carcinoma",
+      "score": null,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "BST::Syndromes::Werner_Syndrome",
+      "label": "Werner_Syndrome",
+      "score": null,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "Breast::Neoplastic::Mesenchymal::Benign::Angiomatosis",
+      "label": "Angiomatosis",
+      "score": 84,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::minimal_change_nephrotic_syndrome",
+      "label": "Minimal change nephrotic syndrome",
+      "score": null,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Nondiagnostic",
+      "label": "CNS / Eye Cytopathology Reporting Category: Nondiagnostic",
+      "score": 80,
+      "model": "gpt-5.6-luna"
+    }
+  ],
+  "blocked_samples": [
+    {
+      "tag": "Cyto_Pancreatobiliary::Malignant::Adenocarcinoma",
+      "label": "Adenocarcinoma",
+      "score": 8,
+      "model": "gpt-5.6-sol"
+    },
+    {
+      "tag": "ABPathSpec::bst::joints::gout",
+      "label": "Gout",
+      "score": 10,
+      "model": "gpt-5.6-terra"
+    },
+    {
+      "tag": "Cyto_Thoracic::Category::Nondiagnostic",
+      "label": "Thoracic / Pulmonary Cytopathology Reporting Category: Nondiagnostic",
+      "score": 2,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "GYN::Uterine_Corpus::Endometrial_Epithelial::Carcinomas::Undifferentiated_and_Dedifferentiated_Carcinomas_of_the_Uterine_Corpus",
+      "label": "Undifferentiated_and_Dedifferentiated_Carcinomas_of_the_Uterine_Corpus",
+      "score": 3,
+      "model": "gpt-5.6-sol"
+    },
+    {
+      "tag": "Cyto_GYN::Malignant::Adenocarcinoma_Endometrial_Endocervical",
+      "label": "Adenocarcinoma: Endometrial & Endocervical",
+      "score": 1,
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "tag": "Cyto_Pancreatobiliary::High_Risk::Intraductal_Tubulopapillary_Neoplasm",
+      "label": "Intraductal_Tubulopapillary_Neoplasm",
+      "score": 1,
+      "model": "gpt-5.6-terra"
+    },
+    {
+      "tag": "Cyto_Thoracic::Malignant::Carcinoma::Pleomorphic_Carcinoma",
+      "label": "Pleomorphic_Carcinoma",
+      "score": 1,
+      "model": "gpt-5.6-terra"
+    },
+    {
+      "tag": "ABPathSpec::peds::cystic_disease::glomerulocystic_diseases_nos",
+      "label": "Glomerulocystic Diseases, NOS",
+      "score": null,
+      "model": "gpt-5.6-sol"
+    },
+    {
+      "tag": "ABPathSpec::gi::mesenchymal::mesenchymal_tumors_mesenchymal",
+      "label": "Mesenchymal tumors \u2014 Mesenchymal",
+      "score": 1,
+      "model": "gpt-5.6-terra"
+    },
+    {
+      "tag": "Cyto_General::Benign::Acquisition",
+      "label": "Acquisition",
+      "score": 4,
+      "model": "gpt-5.6-sol"
+    }
+  ],
+  "known_limitations": [
+    "Snapshot mid-burn; continuous LLM review still running.",
+    "Verdicts score-calibrated (>=75 ready, <=35 blocked).",
+    "Not human pathologist sign-off."
+  ]
+}
