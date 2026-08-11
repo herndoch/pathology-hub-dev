@@ -196,7 +196,9 @@ def main() -> None:
         raise SystemExit(f"No page JSON files found under {pages_dir}")
 
     results: list[dict] = []
-    workers = max(1, min(args.parallel, 4))
+    # Cap raised for quality-burn throughput (OpenAI can absorb more than 4;
+    # still bounded so a runaway CLI flag cannot open hundreds of sockets).
+    workers = max(1, min(args.parallel, 24))
     if workers == 1:
         for path in paths:
             results.append(_review_one(path, args.model))
