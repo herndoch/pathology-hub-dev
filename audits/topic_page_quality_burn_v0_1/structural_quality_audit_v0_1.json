@@ -1,0 +1,760 @@
+{
+  "schema_version": "topic_page_structural_quality_batch_audit_v0_1",
+  "generated_at": "2026-08-11T00:20:35.646600+00:00",
+  "input_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages"
+  ],
+  "output_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_structural_quality_audit_v0_1.json"
+  ],
+  "counts": {
+    "pages_scored": 3403,
+    "unreadable": 0,
+    "bands": {
+      "good": 1676,
+      "excellent": 1610,
+      "fair": 85,
+      "poor": 32
+    },
+    "mean_score": 93.41,
+    "flag_counts": {
+      "imaging_figures_without_imaging_section": 618,
+      "no_ddx_despite_rich_evidence": 548,
+      "some_unmatched_urls": 404,
+      "who_cards_but_no_who_mention": 330,
+      "gross_figures_without_gross_section": 285,
+      "many_unmatched_urls": 129,
+      "ihc_figures_without_ancillary_section": 91,
+      "few_cards": 63,
+      "cyto_figures_without_cytology_section": 53,
+      "section_order_drift": 50,
+      "very_short_answer": 47,
+      "modest_cards": 42,
+      "not_ok_or_empty_answer": 28,
+      "few_sections": 25,
+      "orphan_embedded_images": 11,
+      "short_answer": 6
+    },
+    "high_priority_for_llm": 117
+  },
+  "worst_50": [
+    {
+      "tag": "ABPathSpec::breast::additional_topics::therapy_induced_changes",
+      "label": "Therapy induced changes",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::breast::premalignant_malignant_and_borderline::atypical_lobular_hyperplasia",
+      "label": "Atypical lobular hyperplasia",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::breast::premalignant_malignant_and_borderline::invasive_ductal_carcinoma_nos",
+      "label": "Invasive ductal carcinoma, NOS",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::bst::bone::bone_infarct",
+      "label": "Bone infarct",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::bst::joints::wear_debris_arthropathy",
+      "label": "Wear debris arthropathy",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gi::gastrointestinal_tract::celiac_disease_and_tropical_sprue",
+      "label": "Celiac disease and tropical sprue",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gi::gastrointestinal_tract::dysplasia_and_ibd_related_adenocarcinoma",
+      "label": "Dysplasia and IBD-Related Adenocarcinoma",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gi::liver_and_biliary_tract::drug_induced_liver_disease",
+      "label": "Drug induced liver disease",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gi::liver_biliary_tract::drug_induced_liver_disease",
+      "label": "Drug induced liver disease",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::acute_diffuse_intracapillary_proliferative_glomerulonephritis",
+      "label": "Acute diffuse intracapillary proliferative glomerulonephritis",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::anti_androgen",
+      "label": "Anti-androgen",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::margins",
+      "label": "Margins",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::prostatic_duct_adenocarcinoma",
+      "label": "Prostatic duct adenocarcinoma",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::therapy_effects",
+      "label": "Therapy effects",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::gu::testis::maturation_arrest",
+      "label": "Maturation arrest",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::heme::bone_abnormalities::renal_osteodystrophy",
+      "label": "Renal Osteodystrophy",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::heme::erythrocyte_enzyme_disorders::pyruvate_kinase_deficiency",
+      "label": "Pyruvate Kinase Deficiency",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::heme::leucocyte_infections::anaplasma_ehrlichia",
+      "label": "Anaplasma & Ehrlichia",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::heme::thrombophilic_disorders::dic",
+      "label": "DIC",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::peds::cardiomyopathy::mitochondrial_cardiomyopathy",
+      "label": "Mitochondrial Cardiomyopathy",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::peds::cns_and_eye::teratogenesis",
+      "label": "Teratogenesis",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::skin::anogenital::sclerosing_lipogranuloma_paraffinoma",
+      "label": "Sclerosing Lipogranuloma/Paraffinoma",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::cutis_marmorata_telangiectatica_congenita",
+      "label": "Cutis Marmorata Telangiectatica Congenita",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::skin::benign_tumors_of_smooth_muscle::accessory_nipple",
+      "label": "Accessory Nipple",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "ABPathSpec::skin::corynebacterial_infections::pitted_keratolysis",
+      "label": "Pitted Keratolysis",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "Cyto_Heme::Category::Benign",
+      "label": "Hematolymphoid Cytopathology Reporting Category: Benign",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Drug_Related_Myocarditis",
+      "label": "Drug-related myocarditis",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Amyloidosis",
+      "label": "Amyloidosis",
+      "score": 25,
+      "band": "poor",
+      "flags": [
+        "not_ok_or_empty_answer",
+        "very_short_answer",
+        "few_cards"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 0
+    },
+    {
+      "tag": "HN::Ear_Temporal_Bone::Inflammatory::Infection",
+      "label": "Infection",
+      "score": 37,
+      "band": "poor",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "who_cards_but_no_who_mention",
+        "few_sections",
+        "imaging_figures_without_imaging_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 3,
+      "answer_chars": 330
+    },
+    {
+      "tag": "Cyto_Soft_Tissue::STNUMP::STNUMP_Category_Definition_And_Criteria",
+      "label": "STNUMP_Category_Definition_And_Criteria",
+      "score": 39,
+      "band": "poor",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections",
+        "gross_figures_without_gross_section",
+        "cyto_figures_without_cytology_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 3,
+      "answer_chars": 569
+    },
+    {
+      "tag": "ABPathSpec::peds::bone_marrow_and_peripheral_blood_non_neoplastic::hb_s_disorders",
+      "label": "Hb S Disorders",
+      "score": 40,
+      "band": "poor",
+      "flags": [
+        "very_short_answer",
+        "who_cards_but_no_who_mention",
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 43,
+      "answer_chars": 568
+    },
+    {
+      "tag": "Cyto_Mediastinum::Category::Nondiagnostic",
+      "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Nondiagnostic",
+      "score": 53,
+      "band": "poor",
+      "flags": [
+        "short_answer",
+        "few_cards",
+        "few_sections",
+        "gross_figures_without_gross_section",
+        "ihc_figures_without_ancillary_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 692
+    },
+    {
+      "tag": "Cyto_Fluid::Category::Benign",
+      "label": "Effusion / Serous & Synovial Fluid Cytopathology Reporting Category: Benign",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 1,
+      "answer_chars": 391
+    },
+    {
+      "tag": "Breast::Neoplastic::Epithelial::Malignant::Myoepithelial_Carcinoma",
+      "label": "Myoepithelial_Carcinoma",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 267
+    },
+    {
+      "tag": "Breast::Neoplastic::Hematolymphoid::Malignant::Breast_Implant_Associated_ALCL",
+      "label": "Breast_Implant_Associated_ALCL",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 155
+    },
+    {
+      "tag": "Breast::Neoplastic::Mesenchymal::Benign::Angiomatosis",
+      "label": "Angiomatosis",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 90
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Atypical",
+      "label": "CNS / Eye Cytopathology Reporting Category: Atypical",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 451
+    },
+    {
+      "tag": "Cyto_Mediastinum::Category::Suspicious_For_Malignancy",
+      "label": "Mediastinum / Retroperitoneum Cytopathology Reporting Category: Suspicious For Malignancy",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 438
+    },
+    {
+      "tag": "Eye_Orbit::Bone::Osteoclast_Rich::Giant_Cell_Tumor_Of_Bone",
+      "label": "Giant_Cell_Tumor_Of_Bone",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 247
+    },
+    {
+      "tag": "Eye_Orbit::Eyelid_Adnexal::Malignant::Adenoid_Cystic_Carcinoma",
+      "label": "Adenoid_Cystic_Carcinoma",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 154
+    },
+    {
+      "tag": "Eye_Orbit::Soft_Tissue::Fibrous_Fibroblastic::Solitary_Fibrous_Tumor",
+      "label": "Solitary_Fibrous_Tumor",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 217
+    },
+    {
+      "tag": "HN::Ear_Temporal_Bone::External_Auditory_Canal::Ceruminous_Adenoma",
+      "label": "Ceruminous_Adenoma",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 151
+    },
+    {
+      "tag": "HN::Heme::Reactive::EBV_Positive_Mucocutaneous_Ulcer",
+      "label": "EBV_Positive_Mucocutaneous_Ulcer",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 280
+    },
+    {
+      "tag": "HN::Neck_Lymph_Node::Cyst::Ranula",
+      "label": "Ranula",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 244
+    },
+    {
+      "tag": "HN::Neuroendocrine_Paraganglioma::Neuroendocrine_Tumor::Neuroendocrine_Tumor_NOS",
+      "label": "Neuroendocrine_Tumor_NOS",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 306
+    },
+    {
+      "tag": "HN::Odontogenic_Maxillofacial::Malignant::Ameloblastic_Carcinoma",
+      "label": "Ameloblastic_Carcinoma",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 139
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Hyalinizing_Clear_Cell_Carcinoma",
+      "label": "Hyalinizing_Clear_Cell_Carcinoma",
+      "score": 55,
+      "band": "fair",
+      "flags": [
+        "very_short_answer",
+        "few_cards",
+        "few_sections"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 0,
+      "answer_chars": 287
+    },
+    {
+      "tag": "Cyto_Heme::Category::Benign",
+      "label": "Hematolymphoid Cytopathology Reporting Category: Benign",
+      "score": 58,
+      "band": "fair",
+      "flags": [
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "cyto_figures_without_cytology_section",
+        "ihc_figures_without_ancillary_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 10,
+      "answer_chars": 7195
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::sebacaous_hyperplasia",
+      "label": "Sebacaous Hyperplasia",
+      "score": 60,
+      "band": "fair",
+      "flags": [
+        "short_answer",
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 1097
+    },
+    {
+      "tag": "ABPathSpec::breast::premalignant_malignant_and_borderline::invasive_ductal_carcinoma_nos",
+      "label": "Invasive ductal carcinoma, NOS",
+      "score": 62,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 32,
+      "answer_chars": 7540
+    }
+  ],
+  "known_limitations": [
+    "Structural heuristics only.",
+    "Does not prove medical correctness or citation faithfulness beyond URL presence."
+  ]
+}

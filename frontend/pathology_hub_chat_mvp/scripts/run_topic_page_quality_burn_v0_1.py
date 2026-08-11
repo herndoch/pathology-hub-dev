@@ -48,6 +48,7 @@ from openai_synthesizer import SUPPORTED_SYNTHESIS_MODELS, synthesize  # noqa: E
 # Reuse helpers from sibling scripts
 sys.path.insert(0, str(SCRIPT_DIR))
 from pathologist_review_topic_pages_v0_1 import (  # noqa: E402
+    _parse_score,
     _parse_verdict,
     _slim_evidence_for_review,
 )
@@ -152,21 +153,26 @@ def _pick_review_targets(
 
 def _hostile_editor_prompt() -> str:
     return (
-        "You are a hostile journal editor + board-certified anatomic pathologist tearing apart "
+        "You are a hostile journal editor + board-certified anatomic pathologist reviewing "
         "a draft ExpertPath-style topic page. You are NOT rewriting it.\n"
         "Use ONLY the draft + evidence JSON. Invent nothing.\n\n"
-        "Hunt specifically for:\n"
+        "Hunt specifically for FATAL issues:\n"
         "- Claims not supported by any card excerpt\n"
         "- Wrong figure modality placement (gross/micro/cyto/imaging/IHC)\n"
         "- Missing Key Literature when literature cards exist\n"
         "- Textbook/WHO/PathOut cards present but unused\n"
-        "- DDx table weak/missing despite rich evidence\n"
         "- Off-topic literature (wrong organ/system)\n"
         "- Citation labels that don't match the cited card\n\n"
+        "CALIBRATION: If there are no fatal issues, verdict MUST be "
+        "`ready_for_human_review` even if polish remains. Do not reject a solid draft "
+        "for missing optional flair. Use `blocked_thin_evidence` only for empty/near-empty bundles.\n\n"
         "OUTPUT EXACTLY:\n"
         "## Verdict\n"
-        "- One of: `ready_for_human_review` | `needs_fixes` | `blocked_thin_evidence`\n"
+        "- Emit exactly one token: `ready_for_human_review` OR `needs_fixes` OR "
+        "`blocked_thin_evidence` (do not list the alternatives).\n"
         "- One short sentence why.\n\n"
+        "## Score\n"
+        "- Integer 0–100.\n\n"
         "## Fatal issues\n"
         "- Bullets (or `None`).\n\n"
         "## Evidence mismatches\n"
@@ -210,6 +216,7 @@ def _review_one(
         else f"Hostile edit pass for: {label}"
     )
     result = synthesize(system, user_q, bundle, model=model)
+    score = _parse_score(result.text) if result.ok else None
     review = {
         "schema_version": (
             "topic_page_pathologist_review_v0_1"
@@ -223,12 +230,14 @@ def _review_one(
         "ok": bool(result.ok),
         "model": result.model,
         "mode": mode,
+        "score": score,
         "verdict": _parse_verdict(result.text) if result.ok else None,
         "review_markdown": result.text if result.ok else "",
         "error": result.error,
         "known_limitations": [
             "Advisory LLM critique only — not a human pathologist sign-off.",
             "Does not mutate the prebuild page JSON/markdown.",
+            "Verdict is score-calibrated when ## Score is present (>=75 ready, <=35 blocked).",
         ],
     }
     out_path = path.parent / f"{path.stem}{out_suffix}"
@@ -430,6 +439,11 @@ def main() -> None:
     ap.add_argument("--continuous-sleep-s", type=int, default=45)
     ap.add_argument("--audit-out", type=Path, default=DEFAULT_AUDIT)
     ap.add_argument("--shuffle-within-band", action="store_true")
+    ap.add_argument(
+        "--force-rereview",
+        action="store_true",
+        help="Ignore existing *.review.json and review again (burns credits).",
+    )
     args = ap.parse_args()
 
     models = [m.strip() for m in args.models.split(",") if m.strip()]
@@ -458,7 +472,7 @@ def main() -> None:
             args.pages_dir,
             llm_limit=limit,
             prefer_high=True,
-            skip_reviewed=True,
+            skip_reviewed=not args.force_rereview,
         )
         if args.shuffle_within_band:
             random.shuffle(targets)
@@ -468,8 +482,9 @@ def main() -> None:
             if not args.continuous:
                 break
         else:
-            # In continuous mode, chew a chunk each loop so new pages get scored too
-            chunk = targets if not args.continuous else targets[: max(20, args.parallel * 4)]
+            # In continuous mode, chew a large chunk each loop so credit burn
+            # stays saturated while still rescanning for newly written pages.
+            chunk = targets if not args.continuous else targets[: max(64, args.parallel * 20)]
             batch = run_llm_reviews(
                 chunk,
                 parallel=args.parallel,

@@ -1,0 +1,68 @@
+{
+  "schema_version": "topic_page_quality_repair_run_audit_v0_1",
+  "generated_at": "2026-08-11T00:20:35.656609+00:00",
+  "input_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_quality_repair_queue_v0_1.json"
+  ],
+  "output_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_quality_repair_run_audit_v0_1.json",
+    "/workspace/audits/topic_page_quality_burn_v0_1/repair_run_audit_v0_1.json"
+  ],
+  "counts": {
+    "queued_requested": 40,
+    "tags": 40,
+    "prebuild_rc": 1,
+    "score_rc": 0,
+    "rereview": {
+      "skipped": true
+    }
+  },
+  "tags": [
+    "HN::Ear_Temporal_Bone::Inflammatory::Infection",
+    "Cyto_Soft_Tissue::STNUMP::STNUMP_Category_Definition_And_Criteria",
+    "ABPathSpec::peds::bone_marrow_and_peripheral_blood_non_neoplastic::hb_s_disorders",
+    "Cyto_Mediastinum::Category::Nondiagnostic",
+    "HN::Heme::Reactive::EBV_Positive_Mucocutaneous_Ulcer",
+    "Breast::Neoplastic::Hematolymphoid::Malignant::Breast_Implant_Associated_ALCL",
+    "Eye_Orbit::Soft_Tissue::Fibrous_Fibroblastic::Solitary_Fibrous_Tumor",
+    "Breast::Neoplastic::Mesenchymal::Benign::Angiomatosis",
+    "HN::Ear_Temporal_Bone::External_Auditory_Canal::Ceruminous_Adenoma",
+    "HN::Salivary_Gland::Malignant_Tumor::Hyalinizing_Clear_Cell_Carcinoma",
+    "Cyto_Mediastinum::Category::Suspicious_For_Malignancy",
+    "HN::Neck_Lymph_Node::Cyst::Ranula",
+    "Breast::Neoplastic::Epithelial::Malignant::Myoepithelial_Carcinoma",
+    "Eye_Orbit::Eyelid_Adnexal::Malignant::Adenoid_Cystic_Carcinoma",
+    "Cyto_Fluid::Category::Benign",
+    "HN::Neuroendocrine_Paraganglioma::Neuroendocrine_Tumor::Neuroendocrine_Tumor_NOS",
+    "Cyto_CNS_Eye::Category::Atypical",
+    "Eye_Orbit::Bone::Osteoclast_Rich::Giant_Cell_Tumor_Of_Bone",
+    "HN::Odontogenic_Maxillofacial::Malignant::Ameloblastic_Carcinoma",
+    "ABPathSpec::skin::benign::sebacaous_hyperplasia",
+    "Cyto_Fluid::Category::Nondiagnostic",
+    "ABPathSpec::neuro::cell_types::ependyma_microglia_and_mononuclear_cells",
+    "Cyto_Thoracic::Benign::Neoplastic::Solitary_Tracheobronchial_Papilloma",
+    "Cyto_CNS_Eye::Category::Suspicious_For_Malignancy",
+    "ABPathSpec::heme::coagulation_and_fibrinolytic_disorders::factor_deficiency_or_functional_abnormalities",
+    "ABPathSpec::neuro::cerebral_amyloid_angiopathy::inherited_amyloidoses_non_a_beta",
+    "ABPathSpec::peds::cardiovascular_system::normal_circulation_of_the_embryo_and_fetus",
+    "GU::Penis_Scrotum::Precursor_HPV_Assoc::PIN_HPV_Associated",
+    "ABPathSpec::peds::congenital_adrenal_hyperplasia::gonadotropin_leydig_cell_defects",
+    "ABPathSpec::heme::other_hemolytic_anemias::anemia_related_to_chronic_disease_other_disorders",
+    "Cyto_CNS_Eye::Category::Nondiagnostic",
+    "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Immune_Complex_Mediated_Small_Vessel_Vasculitis",
+    "Cyto_Pancreatobiliary::Benign::Non_Neoplastic::Cholangitis",
+    "ABPathSpec::thorax_mediastinum::mediastinum::cysts_other_than_thymic",
+    "Cyto_Soft_Tissue::Benign::Mass_Forming_Inflammatory::Ischaemic_Fasciitis",
+    "Cyto_CNS_Eye::Category::Benign",
+    "HN::Odontogenic_Maxillofacial::Giant_Cell_Lesion::Peripheral_Giant_Cell_Granuloma",
+    "Cyto_Mediastinum::Category::Benign",
+    "Cyto_GU::Category::Atypical",
+    "Cyto_Soft_Tissue::Benign::Myxoid_Stroma::Intramuscular_Juxta_Articular_Myxoma"
+  ],
+  "base_url": "https://chat.pathologynotebook.com",
+  "known_limitations": [
+    "Rebuilds use live retrieval; corpus drift may change cards.",
+    "Does not guarantee LLM verdict flips to ready_for_human_review.",
+    "Prefer --parallel 2 to avoid textbook search degradation under load."
+  ]
+}
