@@ -3265,9 +3265,18 @@ function buildPayload(query, modeOverride, options = {}) {
 }
 
 /** Pull an entity name out of Ask phrasing like "what is LCIS?". */
+/** Aspect / panel asks should stay gpt_like, not become full topic pages. */
+const ASPECT_ASK_RE =
+  /(?:^\s*(?:ihc|immunohistochem(?:istry)?|stains?|markers?|panel|ancillary|molecular|mutations?|genetics?|ddx|fish|ngs|cytology|imaging|gross)\b|\b(?:ihc|immunohistochem(?:istry)?|stains?|markers?|panel|ancillary|molecular|mutations?|ddx|differential(?:\s+diagnosis)?|fish|ngs)\s+(?:for|of|in|panel)\b|\b(?:what|which)\s+(?:stains?|markers?|ihc|panel|antibodies)\b)/i;
+
+function isAspectAskQuery(query) {
+  return ASPECT_ASK_RE.test(String(query || "").trim());
+}
+
 function extractEntityFromAskQuery(query) {
   const q = String(query || "").trim();
   if (!q) return null;
+  if (isAspectAskQuery(q)) return null;
   const m = q.match(
     /^(?:what\s+is|what'?s|whats|define|explain|tell\s+me\s+about|describe|features?\s+of|pathology\s+of|histology\s+of|criteria\s+for|workup\s+of)\s+(.+?)\??$/i,
   );
@@ -3327,6 +3336,17 @@ function planAskRequest(rawQuery) {
       leaf: null,
       routed: true,
       routeNote: "Inferred: comparison answer across sources.",
+    };
+  }
+
+  // "ihc for pulmonary adenocarcinoma" etc. → focused gpt_like, not ExpertPath page.
+  if (isAspectAskQuery(q)) {
+    return {
+      query: q,
+      mode: "gpt_like",
+      leaf: null,
+      routed: true,
+      routeNote: "Inferred: focused aspect answer (not a full topic page).",
     };
   }
 
@@ -5415,88 +5435,119 @@ function yieldToBrowserPaint() {
  * Awaits onProgress and yields to the browser between events so the thinking
  * panel can paint even when chunks arrive in a burst.
  */
-async function streamChat(payload, { onProgress } = {}) {
-  const resp = await fetch("/api/chat/stream", {
+async function fetchChatBlocking(payload) {
+  const fallback = await fetch("/api/chat", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "text/event-stream",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  if (!resp.ok) {
-    let detail = `HTTP ${resp.status}`;
-    try {
-      const errBody = await resp.json();
-      detail = errBody.error || detail;
-    } catch (_) {
-      /* ignore */
-    }
-    if (resp.status === 404) {
-      detail =
-        "No /api/chat/stream on this server — checkout cursor/topic-iterative-sse-layout-9231, restart ./scripts/run_local.sh, hard-refresh.";
-    }
-    throw new Error(detail);
-  }
-  if (!resp.body || typeof resp.body.getReader !== "function") {
-    // Extremely old environments — fall back to blocking chat.
-    const fallback = await fetch("/api/chat", {
+  return parseJsonResponseSafely(fallback);
+}
+
+function isLikelyNetworkFailure(err) {
+  const msg = String(err && err.message != null ? err.message : err || "").toLowerCase();
+  const name = String((err && err.name) || "").toLowerCase();
+  return (
+    name === "typeerror" ||
+    /network error|failed to fetch|load failed|networkerror|stream ended without a result/.test(msg)
+  );
+}
+
+async function streamChat(payload, { onProgress } = {}) {
+  const runStream = async () => {
+    const resp = await fetch("/api/chat/stream", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "text/event-stream",
+      },
       body: JSON.stringify(payload),
     });
-    return parseJsonResponseSafely(fallback);
-  }
+    if (!resp.ok) {
+      let detail = `HTTP ${resp.status}`;
+      try {
+        const errBody = await resp.json();
+        detail = errBody.error || detail;
+      } catch (_) {
+        /* ignore */
+      }
+      if (resp.status === 404) {
+        detail =
+          "No /api/chat/stream on this server — checkout cursor/topic-iterative-sse-layout-9231, restart ./scripts/run_local.sh, hard-refresh.";
+      }
+      throw new Error(detail);
+    }
+    if (!resp.body || typeof resp.body.getReader !== "function") {
+      return fetchChatBlocking(payload);
+    }
 
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-  let resultPayload = null;
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let resultPayload = null;
 
-  const flushBlock = async (block) => {
-    const lines = block.split(/\r?\n/);
-    let eventName = "message";
-    const dataLines = [];
-    for (const line of lines) {
-      if (!line || line.startsWith(":")) continue; // SSE comments / flush pads
-      if (line.startsWith("event:")) eventName = line.slice(6).trim();
-      else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+    const flushBlock = async (block) => {
+      const lines = block.split(/\r?\n/);
+      let eventName = "message";
+      const dataLines = [];
+      for (const line of lines) {
+        if (!line || line.startsWith(":")) continue; // SSE comments / flush pads
+        if (line.startsWith("event:")) eventName = line.slice(6).trim();
+        else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+      }
+      if (!dataLines.length) return;
+      let data;
+      try {
+        data = JSON.parse(dataLines.join("\n"));
+      } catch (_) {
+        return;
+      }
+      if (eventName === "progress") {
+        if (onProgress) await onProgress(data);
+        await yieldToBrowserPaint();
+      } else if (eventName === "result") {
+        resultPayload = data;
+      } else if (eventName === "error") {
+        throw new Error(data.error || "Stream error");
+      }
+    };
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let sep;
+      // Split on blank line; tolerate padded comment frames between events.
+      while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
+        const block = buffer.slice(0, sep);
+        const match = buffer.slice(sep).match(/^\r?\n\r?\n/);
+        buffer = buffer.slice(sep + (match ? match[0].length : 2));
+        if (block.trim()) await flushBlock(block);
+      }
     }
-    if (!dataLines.length) return;
-    let data;
-    try {
-      data = JSON.parse(dataLines.join("\n"));
-    } catch (_) {
-      return;
+    if (buffer.trim()) await flushBlock(buffer);
+    if (!resultPayload) {
+      throw new Error("Stream ended without a result event.");
     }
-    if (eventName === "progress") {
-      if (onProgress) await onProgress(data);
-      await yieldToBrowserPaint();
-    } else if (eventName === "result") {
-      resultPayload = data;
-    } else if (eventName === "error") {
-      throw new Error(data.error || "Stream error");
-    }
+    return resultPayload;
   };
 
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    let sep;
-    // Split on blank line; tolerate padded comment frames between events.
-    while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
-      const block = buffer.slice(0, sep);
-      const match = buffer.slice(sep).match(/^\r?\n\r?\n/);
-      buffer = buffer.slice(sep + (match ? match[0].length : 2));
-      if (block.trim()) await flushBlock(block);
+  try {
+    return await runStream();
+  } catch (err) {
+    // Long topic-page SSE streams often die as TypeError: network error in the
+    // browser; fall back to blocking /api/chat so the user still gets an answer.
+    if (!isLikelyNetworkFailure(err)) throw err;
+    if (onProgress) {
+      await onProgress({
+        phase: "fallback",
+        status: "running",
+        label: "Retrying without live stream",
+        detail: "Connection dropped — finishing via standard request.",
+      });
     }
+    return fetchChatBlocking(payload);
   }
-  if (buffer.trim()) await flushBlock(buffer);
-  if (!resultPayload) {
-    throw new Error("Stream ended without a result event.");
-  }
-  return resultPayload;
 }
 
 function browsePathSegments(entryMeta) {
