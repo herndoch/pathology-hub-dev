@@ -111,10 +111,10 @@ class DirectClient:
 class CurriculumProvenanceBrowserTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.module = load_app_module()
         src = REPO_ROOT / "outputs/curriculum_map_v0_4/curriculum_source_locator_index_v0_1.sqlite"
         if not src.exists():
             raise unittest.SkipTest(f"missing sqlite index: {src}")
+        cls.module = load_app_module()
         cls.temp_dir = tempfile.TemporaryDirectory()
         cls.db_copy = Path(cls.temp_dir.name) / "index.sqlite"
         cls.db_copy.write_bytes(src.read_bytes())
