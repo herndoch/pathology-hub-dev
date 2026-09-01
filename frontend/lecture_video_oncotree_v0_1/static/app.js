@@ -298,13 +298,19 @@
         <div class="meta">${fmtTime(clip.start_sec)}–${fmtTime(clip.end_sec)} · ${escapeHtml(clip.entity_name || "")}</div>
         <div class="excerpt">${escapeHtml(clip.excerpt || "")}</div>
       `;
-      li.addEventListener("click", () => playClip(clip, li));
+      // Load + seek only; user presses play on the video controls.
+      li.addEventListener("click", () => loadClip(clip, li, { autoplay: false }));
       clipListEl.appendChild(li);
     });
-    if (clips[0]) playClip(clips[0], clipListEl.querySelector(".clip"));
+    // Do not autoplay when selecting a tree node — only refresh the list.
+    player.pause();
+    nowPlaying.textContent = clips.length
+      ? "Select a clip, then press play on the video."
+      : "No clips under this node.";
   }
 
-  function playClip(clip, liEl) {
+  function loadClip(clip, liEl, options = {}) {
+    const autoplay = Boolean(options.autoplay);
     activeClipId = clip.chunk_id;
     clipEndSec = clip.end_sec;
     document.querySelectorAll(".clip").forEach((el) => el.classList.remove("active"));
@@ -315,6 +321,7 @@
       return;
     }
     const start = Number(clip.start_sec) || 0;
+    player.pause();
     if (player.dataset.base !== base) {
       player.dataset.base = base;
       player.src = `${base}#t=${start}`;
@@ -325,11 +332,13 @@
       } catch (_) {
         /* ignore */
       }
-      player.play().catch(() => {});
+      if (autoplay) player.play().catch(() => {});
     };
     if (player.readyState >= 1) seek();
     else player.addEventListener("loadedmetadata", seek, { once: true });
-    nowPlaying.textContent = `Now playing: ${clip.title} · ${fmtTime(clip.start_sec)}–${fmtTime(clip.end_sec)}`;
+    nowPlaying.textContent = autoplay
+      ? `Now playing: ${clip.title} · ${fmtTime(clip.start_sec)}–${fmtTime(clip.end_sec)}`
+      : `Ready: ${clip.title} · ${fmtTime(clip.start_sec)}–${fmtTime(clip.end_sec)} (press play)`;
   }
 
   player.addEventListener("timeupdate", () => {
