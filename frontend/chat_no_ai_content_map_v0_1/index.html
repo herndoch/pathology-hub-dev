@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub — Chat content map (no AI)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand-block">
+        <p class="eyebrow">Pathology Hub</p>
+        <h1>Chat content map (no AI)</h1>
+        <p class="lede">Map of source cards and figures used by prebuilt topic pages — no live AI. Intended host: no-ai-chat.pathologynotebook.com.</p>
+      </div>
+      <div class="stats" id="stats" aria-live="polite"></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Filter topics, sources, or captions…" autocomplete="off" />
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
+    </div>
+
+    <section class="tree-stage" aria-label="OncoTree">
+      <div id="tree" class="tree-host">Loading OncoTree…</div>
+    </section>
+
+    <section class="detail-pane" aria-label="Prebuild source inventory">
+      <div id="empty" class="empty">
+        <h2>Pick a prebuilt topic on the tree</h2>
+        <p>Expand roots, then open a leaf to see the cards and figures that feed that prebuilt page.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <header class="detail-head">
+          <h2 id="detail-title"></h2>
+          <p id="detail-path" class="path"></p>
+        </header>
+        <div class="detail-grid">
+          <div id="figure-pane" class="figure-pane">
+            <img id="figure-img" alt="Source figure" class="hidden" />
+            <p id="figure-caption" class="now-playing"></p>
+          </div>
+          <ul id="item-list" class="clip-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Local / shareable · content inventory from topic prebuilds · no AI synthesis</p>
+      <p id="limitations" class="limitations"></p>
+    </footer>
+  </div>
+
+  <div id="sample-modal" class="sample-modal hidden" role="dialog" aria-modal="true" aria-labelledby="sample-modal-title">
+    <div class="sample-modal-backdrop" data-modal-close></div>
+    <div class="sample-modal-panel">
+      <button type="button" class="sample-modal-close" data-modal-close aria-label="Close">&times;</button>
+      <header class="sample-modal-head">
+        <h2 id="sample-modal-title"></h2>
+        <p id="sample-modal-meta" class="sample-modal-meta"></p>
+      </header>
+      <p id="sample-modal-excerpt" class="sample-modal-excerpt"></p>
+      <div class="sample-modal-media">
+        <figure class="sample-modal-fig" id="sample-modal-figure-wrap" hidden>
+          <figcaption>Figure</figcaption>
+          <img id="sample-modal-figure-img" alt="Figure" />
+        </figure>
+        <figure class="sample-modal-fig" id="sample-modal-page-wrap" hidden>
+          <figcaption>Page image</figcaption>
+          <img id="sample-modal-page-img" alt="Page image" />
+        </figure>
+      </div>
+      <div class="sample-modal-actions">
+        <a id="sample-modal-pdf" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open page in PDF</a>
+        <a id="sample-modal-figure-link" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open figure</a>
+        <a id="sample-modal-page-link" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open page image</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/app.js"></script>
+</body>
+</html>
