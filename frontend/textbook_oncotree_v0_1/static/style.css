@@ -491,6 +491,10 @@ h1 {
   background: rgba(15, 106, 106, 0.08);
 }
 
+.sample-modal-action[hidden] {
+  display: none !important;
+}
+
 body.modal-open {
   overflow: hidden;
 }
