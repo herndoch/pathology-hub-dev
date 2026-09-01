@@ -3,8 +3,22 @@
 Static OncoTree inventory of **source cards and figures** used by Chat MVP
 topic prebuilds. No live retrieval and no `answer_markdown` AI synthesis.
 
-Intended public path (not claimed live by this package):
-`pathologynotebook.com/chat-no-ai`
+## Intended host
+
+**Preferred:** `https://no-ai-chat.pathologynotebook.com`
+
+Same pattern as `chat.pathologynotebook.com` (hostname → dedicated host), but
+this package stays a static map — not mounted under the Chat MVP FastAPI
+service. That keeps cold starts, deploys, and API spend for chat separate from
+this inventory (AGENTS.md workstream split).
+
+| Option | Verdict |
+|--------|---------|
+| `no-ai-chat.pathologynotebook.com` | **Use** — sustainable, independent |
+| `chat.pathologynotebook.com/no-ai` | Avoid for now — path-couples to chat service or needs LB rewrite |
+| `pathologynotebook.com/chat-no-ai` | Later optional redirect once apex has path routing |
+
+Not claimed live until DNS + hosting are wired.
 
 ## Run locally
 

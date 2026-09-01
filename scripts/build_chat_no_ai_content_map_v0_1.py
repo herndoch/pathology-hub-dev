@@ -5,8 +5,12 @@ Reads prebuilt topic page JSON (cards + figures only — no answer_markdown
 synthesis) and emits a browseable OncoTree inventory of source content that
 feeds those pages.
 
-Intended host path (not claimed live by this package):
-  pathologynotebook.com/chat-no-ai
+Intended host (not claimed live by this package):
+  https://no-ai-chat.pathologynotebook.com
+
+Rationale: subdomain + static (or tiny static Cloud Run) stays independent of the
+Chat MVP FastAPI service. Apex paths like /chat-no-ai can redirect later once a
+path-aware front door exists on pathologynotebook.com.
 
 Output:
   frontend/chat_no_ai_content_map_v0_1/data/chat_no_ai_content_map_v0_1.json
@@ -272,7 +276,23 @@ def main() -> None:
             "Inventory of source cards and figures used by prebuilt topic pages. "
             "No live retrieval and no AI answer synthesis."
         ),
-        "intended_host_path": "pathologynotebook.com/chat-no-ai",
+        "intended_host": "https://no-ai-chat.pathologynotebook.com",
+        "hosting_recommendation": {
+            "preferred": "no-ai-chat.pathologynotebook.com",
+            "why": (
+                "Hostname→service mapping matches chat.pathologynotebook.com; "
+                "static map stays independent of Chat MVP Cloud Run lifecycle."
+            ),
+            "avoid_for_now": "chat.pathologynotebook.com/no-ai",
+            "avoid_why": (
+                "Path routing couples this static inventory to the chat FastAPI "
+                "service or needs a shared LB rewrite."
+            ),
+            "later_optional": (
+                "When apex path routing exists, redirect "
+                "pathologynotebook.com/chat-no-ai → no-ai-chat.pathologynotebook.com"
+            ),
+        },
         "source": {
             "pages_dir": str(args.pages_dir),
             "canonical_prebuilds_gcs": (
@@ -282,7 +302,7 @@ def main() -> None:
         },
         "counts": counts,
         "known_limitations": [
-            "This map is built from prebuilt page JSON only; it is not a claim that /chat-no-ai is live on the public domain.",
+            "This map is built from prebuilt page JSON only; no-ai-chat.pathologynotebook.com is the intended host and is not claimed live by this package.",
             "answer_markdown and other AI synthesis fields are intentionally omitted.",
             f"Each leaf shows up to {MAX_CARDS_PER_LEAF} cards + {MAX_FIGURES_PER_LEAF} figures (samples), not every retrieval hit.",
             "All Cyto_* prebuild roots are nested under a single Cytopathology root (Cyto_Adrenal → Cytopathology::Adrenal, etc.).",
