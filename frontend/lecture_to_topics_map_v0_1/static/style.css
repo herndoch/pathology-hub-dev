@@ -122,6 +122,50 @@ h1 {
   gap: 8px;
 }
 
+.confidence-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.confidence-wrap select {
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.badge-high {
+  background: rgba(15, 106, 106, 0.14);
+  color: var(--teal-deep);
+}
+
+.badge-medium {
+  background: rgba(161, 98, 7, 0.14);
+  color: #854d0e;
+}
+
+.badge-low {
+  background: rgba(185, 28, 28, 0.12);
+  color: #9b2c2c;
+}
+
 .export-links a {
   display: inline-flex;
   padding: 8px 12px;

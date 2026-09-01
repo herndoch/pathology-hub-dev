@@ -15,13 +15,21 @@
       <div class="brand-block">
         <p class="eyebrow">Pathology Hub</p>
         <h1>Lecture → topics</h1>
-        <p class="lede">Reverse content map for education leadership — open a lecture to see tagged topics and timestamped transcript segments. Companion to the topic→clips OncoTree.</p>
+        <p class="lede">Reverse map for education leadership — lecture → topics → timestamped transcripts. Default shows <strong>high-confidence</strong> tags only; semantic-gated hits can still be off-target.</p>
       </div>
       <div class="stats" id="stats" aria-live="polite"></div>
     </header>
 
     <div class="toolbar">
       <input id="filter" type="search" placeholder="Filter lectures, topics, or transcript text…" autocomplete="off" />
+      <label class="confidence-wrap" for="confidence-filter">
+        Confidence
+        <select id="confidence-filter">
+          <option value="high" selected>High only (leadership default)</option>
+          <option value="high_medium">High + medium</option>
+          <option value="all">All gated (includes uncertain / off-target risk)</option>
+        </select>
+      </label>
       <div class="export-links" id="export-links"></div>
     </div>
 
