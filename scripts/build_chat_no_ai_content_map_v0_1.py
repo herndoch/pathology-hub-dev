@@ -169,11 +169,23 @@ def load_prebuild_pages(pages_dir: Path) -> list[dict]:
     return pages
 
 
+def normalize_tag_parts(tag: str) -> list[str]:
+    """Split tag path; nest all Cyto_* roots under Cytopathology."""
+    parts = [p for p in (tag or "").split("::") if p]
+    if not parts:
+        return parts
+    root = parts[0]
+    if root.startswith("Cyto_"):
+        site = root[len("Cyto_") :] or root
+        return ["Cytopathology", site, *parts[1:]]
+    return parts
+
+
 def build_tree(pages: list[dict]) -> tuple[list[dict], dict]:
     roots: dict[str, dict] = {}
     family_counter: Counter[str] = Counter()
     for page in pages:
-        parts = [p for p in page["tag"].split("::") if p]
+        parts = normalize_tag_parts(page["tag"])
         if not parts:
             continue
         root_id = parts[0]
@@ -199,6 +211,7 @@ def build_tree(pages: list[dict]) -> tuple[list[dict], dict]:
         node["card_count"] = int(page["card_count"])
         node["figure_count"] = int(page["figure_count"])
         node["prebuild_label"] = page["label"]
+        node["prebuild_tag"] = page["tag"]
         node["who_cross_mentions"] = page["who_cross_mentions"]
         for it in items:
             family_counter[str(it.get("source_family") or "unknown")] += 1
@@ -222,6 +235,7 @@ def build_tree(pages: list[dict]) -> tuple[list[dict], dict]:
     for r in root_list:
         finalize(r)
 
+    cyto = next((r for r in root_list if r["id"] == "Cytopathology"), None)
     counts = {
         "prebuild_pages": len(pages),
         "roots": len(root_list),
@@ -230,6 +244,8 @@ def build_tree(pages: list[dict]) -> tuple[list[dict], dict]:
         "figures_indexed": sum(int(p["figure_count"]) for p in pages),
         "sample_items": sum(len(p["cards"]) + len(p["figures"]) for p in pages),
         "source_families": dict(family_counter.most_common()),
+        "cytopathology_sites": len(cyto["children"]) if cyto else 0,
+        "cytopathology_pages": int(cyto["page_count"]) if cyto else 0,
     }
     return root_list, counts
 
@@ -269,6 +285,7 @@ def main() -> None:
             "This map is built from prebuilt page JSON only; it is not a claim that /chat-no-ai is live on the public domain.",
             "answer_markdown and other AI synthesis fields are intentionally omitted.",
             f"Each leaf shows up to {MAX_CARDS_PER_LEAF} cards + {MAX_FIGURES_PER_LEAF} figures (samples), not every retrieval hit.",
+            "All Cyto_* prebuild roots are nested under a single Cytopathology root (Cyto_Adrenal → Cytopathology::Adrenal, etc.).",
             "Some figure URLs are gs:// rewritten to storage.googleapis.com and may 404 if the object is not public.",
             "Page image / PDF links appear when present on the prebuild card; many WHO/PathOut cards lack textbook page inventory fields.",
         ],

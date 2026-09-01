@@ -35,6 +35,8 @@ git add -f frontend/chat_no_ai_content_map_v0_1/data/chat_no_ai_content_map_v0_1
 ## Notes
 
 - Built from `topic_page_prebuild_v0_1` page JSON only.
+- All `Cyto_*` prebuild roots are nested under one **Cytopathology** root
+  (`Cyto_Adrenal` → `Cytopathology::Adrenal`, etc.).
 - Leaves show capped samples (6 cards + 4 figures).
 - Modal opens figure / page image when URLs exist, plus PDF or source link.
 - Separate from live Chat MVP at `chat.pathologynotebook.com`.
