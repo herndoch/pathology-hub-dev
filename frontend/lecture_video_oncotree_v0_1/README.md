@@ -1,8 +1,10 @@
 # Lecture Video OncoTree (local / shareable) v0_1
 
 A **video-only** taxonomy browser for Pathology Hub timestamped lecture clips.
-Built for mentoring / edu-leadership demos: toggle through topics, play seekable
-segments, share as a static folder (no Chat MVP / Cloud Run required).
+Uses the same **visual OncoTree** (SVG links, colored dots, expand/zoom) as Chat
+MVP Browse — filtered to tags that already have seekable lecture segments.
+Built for mentoring / edu-leadership demos; share as a static folder (no Chat
+MVP / Cloud Run required).
 
 ## What’s in the box
 

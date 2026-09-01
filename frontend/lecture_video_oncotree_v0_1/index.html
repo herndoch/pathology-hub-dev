@@ -15,44 +15,42 @@
       <div class="brand-block">
         <p class="eyebrow">Pathology Hub</p>
         <h1>Lecture Video OncoTree</h1>
-        <p class="lede">Timestamped clips only — browse the taxonomy of lectures that already have seekable video segments.</p>
+        <p class="lede">Same OncoTree browse shape as Chat MVP — but only topics that already have timestamped lecture clips.</p>
       </div>
       <div class="stats" id="stats" aria-live="polite"></div>
     </header>
 
     <div class="toolbar">
       <input id="filter" type="search" placeholder="Filter topics or lecture titles…" autocomplete="off" />
-      <label class="check">
-        <input id="expand-all" type="checkbox" />
-        Expand all
-      </label>
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
     </div>
 
-    <main class="layout">
-      <aside class="tree-pane" aria-label="OncoTree">
-        <div id="tree" class="tree">Loading index…</div>
-      </aside>
-      <section class="detail-pane" aria-label="Clips and player">
-        <div id="empty" class="empty">
-          <h2>Pick a topic</h2>
-          <p>Select a leaf (or any node) in the tree to list timestamped lecture clips. Use the player to scrub within the clip window.</p>
-        </div>
-        <div id="detail" class="detail hidden">
-          <header class="detail-head">
-            <h2 id="detail-title"></h2>
-            <p id="detail-path" class="path"></p>
-          </header>
+    <section class="tree-stage" aria-label="OncoTree">
+      <div id="tree" class="tree-host">Loading OncoTree…</div>
+    </section>
+
+    <section class="detail-pane" aria-label="Clips and player">
+      <div id="empty" class="empty">
+        <h2>Pick a node on the OncoTree</h2>
+        <p>Click a colored root or branch to expand. Click a leaf (or any node) to list timestamped clips and play them here.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <header class="detail-head">
+          <h2 id="detail-title"></h2>
+          <p id="detail-path" class="path"></p>
+        </header>
+        <div class="detail-grid">
           <div class="player-wrap">
             <video id="player" controls playsinline preload="metadata"></video>
             <p id="now-playing" class="now-playing"></p>
           </div>
           <ul id="clip-list" class="clip-list"></ul>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
     <footer class="foot">
-      <p>Local / shareable static site · built from lecture deck vector docstore · not the full Chat MVP Browse tree</p>
+      <p>Local / shareable static site · visual OncoTree ported from Chat MVP Browse · video-only index</p>
       <p id="limitations" class="limitations"></p>
     </footer>
   </div>

@@ -6,11 +6,12 @@
   --line: #d5cbb8;
   --teal: #0f6a6a;
   --teal-deep: #0a4548;
-  --amber: #c47b2b;
   --focus: #1d4f91;
   --shadow: 0 10px 30px rgba(20, 33, 43, 0.08);
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+  --panel-border: var(--line);
+  --text: var(--ink);
 }
 
 * { box-sizing: border-box; }
@@ -27,7 +28,7 @@ html, body {
 }
 
 .app {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 28px 20px 48px;
 }
@@ -61,7 +62,7 @@ h1 {
 .lede {
   margin: 10px 0 0;
   color: var(--muted);
-  max-width: 38rem;
+  max-width: 40rem;
   font-size: 1.02rem;
 }
 
@@ -100,7 +101,7 @@ h1 {
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 #filter {
@@ -117,100 +118,156 @@ h1 {
   outline-offset: 1px;
 }
 
-.check {
-  display: inline-flex;
-  gap: 8px;
+.oncotree-toolbar {
+  display: flex;
   align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.oncotree-toolbar .btn-secondary {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+}
+
+.oncotree-toolbar .btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.oncotree-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.oncotree-zoom-label {
+  font-size: 0.78rem;
   color: var(--muted);
-  font-size: 0.92rem;
+  min-width: 2.6rem;
+  text-align: center;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1.25fr);
-  gap: 14px;
-  min-height: 62vh;
+.tree-stage {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+  margin-bottom: 14px;
 }
 
-.tree-pane,
+.tree-host {
+  min-height: 280px;
+}
+
+.oncotree-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 62vh;
+  border-radius: 10px;
+  background: #fbfbfc;
+}
+
+.oncotree-canvas {
+  position: relative;
+}
+
+.oncotree-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.oncotree-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 28px;
+  max-width: 300px;
+  padding: 0 0.4rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.oncotree-node:hover {
+  background: rgba(15, 106, 106, 0.08);
+}
+
+.oncotree-node.oncotree-leaf {
+  font-weight: 600;
+}
+
+.oncotree-node.oncotree-active {
+  background: rgba(15, 106, 106, 0.16);
+  box-shadow: inset 3px 0 0 var(--teal);
+}
+
+.oncotree-node.oncotree-match {
+  background: rgba(196, 123, 43, 0.18);
+}
+
+.oncotree-node.oncotree-super {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--teal-deep);
+}
+
+.oncotree-node.oncotree-branch .oncotree-label {
+  font-weight: 700;
+}
+
+.oncotree-dot {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #888;
+  background: #888;
+}
+
+.oncotree-dot-branch {
+  background: transparent;
+}
+
+.oncotree-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oncotree-count {
+  margin-left: 0.15rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.oncotree-caret {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
 .detail-pane {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
   box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.tree-pane {
-  max-height: 72vh;
-  overflow: auto;
-  padding: 10px 8px 16px;
-}
-
-.tree details {
-  margin-left: 0.55rem;
-}
-
-.tree details > summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
-  display: flex;
-  gap: 8px;
-  align-items: baseline;
-}
-
-.tree details > summary::-webkit-details-marker { display: none; }
-
-.tree details > summary:hover,
-.tree .leaf-btn:hover {
-  background: rgba(15, 106, 106, 0.08);
-}
-
-.tree .caret {
-  color: var(--teal);
-  font-size: 0.75rem;
-  width: 0.9rem;
-  display: inline-block;
-}
-
-.tree .label {
-  font-weight: 600;
-}
-
-.tree .count {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.leaf-btn {
-  width: calc(100% - 0.55rem);
-  margin-left: 0.55rem;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  padding: 7px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  gap: 8px;
-  align-items: baseline;
-}
-
-.leaf-btn.active {
-  background: rgba(15, 106, 106, 0.14);
-  box-shadow: inset 3px 0 0 var(--teal);
-}
-
-.detail-pane {
   padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
 }
 
 .empty h2,
@@ -227,9 +284,16 @@ h1 {
 
 .hidden { display: none !important; }
 
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) minmax(240px, 0.9fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+
 .player-wrap video {
   width: 100%;
-  max-height: 340px;
+  max-height: 320px;
   background: #0b1518;
   border-radius: 12px;
 }
@@ -247,7 +311,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 36vh;
+  max-height: 360px;
   overflow: auto;
 }
 
@@ -265,16 +329,12 @@ h1 {
   background: rgba(15, 106, 106, 0.06);
 }
 
-.clip .title {
-  font-weight: 700;
-}
-
+.clip .title { font-weight: 700; }
 .clip .meta {
   color: var(--muted);
   font-size: 0.85rem;
   margin-top: 2px;
 }
-
 .clip .excerpt {
   margin-top: 6px;
   font-size: 0.88rem;
@@ -287,16 +347,11 @@ h1 {
   font-size: 0.85rem;
 }
 
-.limitations {
-  white-space: pre-wrap;
-}
+.limitations { white-space: pre-wrap; }
 
 @media (max-width: 900px) {
   .top,
-  .layout {
+  .detail-grid {
     grid-template-columns: 1fr;
-  }
-  .tree-pane {
-    max-height: 40vh;
   }
 }
