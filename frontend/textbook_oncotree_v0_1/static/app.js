@@ -24,6 +24,17 @@
   const figureImg = document.getElementById("figure-img");
   const figureCaption = document.getElementById("figure-caption");
   const limitationsEl = document.getElementById("limitations");
+  const sampleModal = document.getElementById("sample-modal");
+  const sampleModalTitle = document.getElementById("sample-modal-title");
+  const sampleModalMeta = document.getElementById("sample-modal-meta");
+  const sampleModalExcerpt = document.getElementById("sample-modal-excerpt");
+  const sampleModalFigureWrap = document.getElementById("sample-modal-figure-wrap");
+  const sampleModalFigureImg = document.getElementById("sample-modal-figure-img");
+  const sampleModalPageWrap = document.getElementById("sample-modal-page-wrap");
+  const sampleModalPageImg = document.getElementById("sample-modal-page-img");
+  const sampleModalPdf = document.getElementById("sample-modal-pdf");
+  const sampleModalFigureLink = document.getElementById("sample-modal-figure-link");
+  const sampleModalPageLink = document.getElementById("sample-modal-page-link");
 
   let index = null;
   let expanded = new Set();
@@ -46,6 +57,63 @@
 
   function escapeAttr(value) {
     return escapeHtml(value).replace(/'/g, "&#39;");
+  }
+
+  function pickHttp(value) {
+    return typeof value === "string" && value.startsWith("http") ? value : null;
+  }
+
+  function setAction(el, href, label) {
+    if (!el) return;
+    if (!href) {
+      el.hidden = true;
+      el.removeAttribute("href");
+      return;
+    }
+    el.hidden = false;
+    el.href = href;
+    if (label) el.textContent = label;
+  }
+
+  function closeSampleModal() {
+    if (!sampleModal) return;
+    sampleModal.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  }
+
+  function openSampleModal(it) {
+    if (!sampleModal) return;
+    const kind = it.chunk_type === "figure_caption" ? "Figure" : "Text";
+    const page = it.page != null ? `p.${it.page}` : "";
+    sampleModalTitle.textContent = it.source_title || it.source_id || "Textbook sample";
+    sampleModalMeta.textContent = [kind, page, it.figure_id || it.section || ""].filter(Boolean).join(" · ");
+    sampleModalExcerpt.textContent = it.excerpt || "";
+
+    const figureUrl = pickHttp(it.image_url);
+    const pageUrl = pickHttp(it.page_image_url);
+    const pdfUrl = pickHttp(it.source_page_url) || pickHttp(it.source_pdf_url);
+
+    if (figureUrl) {
+      sampleModalFigureWrap.hidden = false;
+      sampleModalFigureImg.src = figureUrl;
+    } else {
+      sampleModalFigureWrap.hidden = true;
+      sampleModalFigureImg.removeAttribute("src");
+    }
+    if (pageUrl) {
+      sampleModalPageWrap.hidden = false;
+      sampleModalPageImg.src = pageUrl;
+    } else {
+      sampleModalPageWrap.hidden = true;
+      sampleModalPageImg.removeAttribute("src");
+    }
+
+    setAction(sampleModalPdf, pdfUrl, it.page != null ? `Open page ${it.page} in PDF` : "Open PDF");
+    setAction(sampleModalFigureLink, figureUrl, "Open figure");
+    setAction(sampleModalPageLink, pageUrl, "Open page image");
+
+    sampleModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
   }
 
   function rootColor(rootId, i) {
@@ -304,7 +372,11 @@
     if (it.image_url) {
       figureImg.classList.remove("hidden");
       figureImg.src = it.image_url;
-      figureCaption.textContent = `${it.source_title || ""} ${it.figure_id || ""} p.${it.page ?? "?"}`.trim();
+      figureCaption.textContent = `${it.source_title || ""} ${it.figure_id || ""} p.${it.page ?? "?"} — click sample again or use Open for page/PDF`.trim();
+    } else if (it.page_image_url) {
+      figureImg.classList.remove("hidden");
+      figureImg.src = it.page_image_url;
+      figureCaption.textContent = `Page image · ${it.source_title || ""} p.${it.page ?? "?"}`;
     } else {
       figureImg.classList.add("hidden");
       figureImg.removeAttribute("src");
@@ -312,6 +384,7 @@
         ? `Text excerpt · ${it.source_title || ""} p.${it.page ?? "?"}`
         : "No figure URL on this sample.";
     }
+    openSampleModal(it);
   }
 
   function renderStats(counts) {
@@ -336,6 +409,13 @@
   }
 
   filterEl.addEventListener("input", render);
+
+  sampleModal?.querySelectorAll("[data-modal-close]").forEach((el) => {
+    el.addEventListener("click", closeSampleModal);
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") closeSampleModal();
+  });
 
   fetch(DATA_URL)
     .then((r) => {

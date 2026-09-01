@@ -5,6 +5,7 @@ Inputs:
   --catalog  textbook_primary_tag_catalog_v2_1.jsonl
   --docstore textbook_lean_vector_docstore_v2_1.jsonl
   --webmap   textbook_figure_web_map_v1_FILTERED_NO_MCKEE_DORFMAN.jsonl (optional)
+  --page-inv textbook_page_image_inventory_v1.jsonl (optional; joins page PNG + PDF page URLs)
 
 Output:
   frontend/textbook_oncotree_v0_1/data/textbook_oncotree_index_v0_1.json
@@ -18,7 +19,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -76,6 +76,35 @@ def load_webmap(path: Path | None) -> dict[str, str]:
     return out
 
 
+def load_page_inventory(path: Path | None) -> dict[tuple[str, int], dict]:
+    """Map (source_id, page) → page_image_url / source_page_url / source_pdf_url."""
+    out: dict[tuple[str, int], dict] = {}
+    if not path or not path.is_file():
+        return out
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            sid = (row.get("source_id") or "").strip()
+            page = row.get("page")
+            if not sid or page is None:
+                continue
+            try:
+                page_i = int(page)
+            except (TypeError, ValueError):
+                continue
+            page_image = row.get("page_image_url")
+            if row.get("page_image_status") not in {None, "exists", "ok"} and not page_image:
+                page_image = None
+            out[(sid, page_i)] = {
+                "page_image_url": page_image,
+                "source_page_url": row.get("source_page_url"),
+                "source_pdf_url": row.get("source_pdf_url"),
+            }
+    return out
+
+
 def load_catalog(path: Path) -> dict[str, dict]:
     by_tag: dict[str, dict] = {}
     with path.open(encoding="utf-8") as f:
@@ -94,7 +123,7 @@ def load_catalog(path: Path) -> dict[str, dict]:
     return by_tag
 
 
-def sample_card(row: dict, webmap: dict[str, str]) -> dict:
+def sample_card(row: dict, webmap: dict[str, str], page_inv: dict[tuple[str, int], dict]) -> dict:
     chunk_type = row.get("chunk_type") or "page_text"
     image_path = row.get("image_path")
     public = None
@@ -105,21 +134,37 @@ def sample_card(row: dict, webmap: dict[str, str]) -> dict:
         if not public:
             public = _gs_to_https(image_path)
     text = (row.get("text") or "").strip()
+    sid = row.get("source_id")
+    page = row.get("page")
+    page_meta: dict = {}
+    if sid is not None and page is not None:
+        try:
+            page_meta = page_inv.get((str(sid), int(page))) or {}
+        except (TypeError, ValueError):
+            page_meta = {}
     return {
         "chunk_id": row.get("chunk_id"),
         "chunk_type": chunk_type,
-        "source_id": row.get("source_id"),
-        "source_title": row.get("source_title") or row.get("source_id"),
-        "page": row.get("page"),
+        "source_id": sid,
+        "source_title": row.get("source_title") or sid,
+        "page": page,
         "section": row.get("section") or row.get("chapter_title"),
         "figure_id": row.get("figure_id"),
         "image_url": public,
+        "page_image_url": page_meta.get("page_image_url"),
+        "source_page_url": page_meta.get("source_page_url"),
+        "source_pdf_url": page_meta.get("source_pdf_url"),
         "excerpt": text[:EXCERPT_CHARS],
         "primary_tag": row.get("primary_tag"),
     }
 
 
-def stream_samples(docstore: Path, allowed_tags: set[str], webmap: dict[str, str]) -> dict[str, dict]:
+def stream_samples(
+    docstore: Path,
+    allowed_tags: set[str],
+    webmap: dict[str, str],
+    page_inv: dict[tuple[str, int], dict],
+) -> tuple[dict[str, dict], set[str]]:
     """Per tag: totals + capped text/figure samples."""
     buckets: dict[str, dict] = {}
     books: set[str] = set()
@@ -148,7 +193,7 @@ def stream_samples(docstore: Path, allowed_tags: set[str], webmap: dict[str, str
                 b["books"].add(sid)
                 books.add(sid)
             ctype = row.get("chunk_type") or "page_text"
-            card = sample_card(row, webmap)
+            card = sample_card(row, webmap, page_inv)
             if ctype == "figure_caption":
                 b["figure_count"] += 1
                 if len(b["figures"]) < MAX_FIGURES_PER_LEAF and card.get("image_url"):
@@ -249,14 +294,32 @@ def main() -> None:
     ap.add_argument("--catalog", type=Path, required=True)
     ap.add_argument("--docstore", type=Path, required=True)
     ap.add_argument("--webmap", type=Path, default=None)
+    ap.add_argument(
+        "--page-inv",
+        type=Path,
+        default=None,
+        help="textbook_page_image_inventory_v1.jsonl for page PNG + PDF page links",
+    )
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
     args = ap.parse_args()
 
     catalog = load_catalog(args.catalog)
     webmap = load_webmap(args.webmap)
-    samples, books = stream_samples(args.docstore, set(catalog.keys()), webmap)
+    page_inv = load_page_inventory(args.page_inv)
+    samples, books = stream_samples(args.docstore, set(catalog.keys()), webmap, page_inv)
     roots, counts = build_tree(catalog, samples)
     counts["books"] = len(books)
+    counts["page_inventory_keys"] = len(page_inv)
+
+    def _count_joined(items_key: str) -> int:
+        n = 0
+        for samp in samples.values():
+            for card in samp.get(items_key) or []:
+                if card.get("page_image_url") or card.get("source_page_url"):
+                    n += 1
+        return n
+
+    counts["samples_with_page_or_pdf"] = _count_joined("texts") + _count_joined("figures")
 
     payload = {
         "schema_version": SCHEMA,
@@ -267,6 +330,7 @@ def main() -> None:
             "catalog": str(args.catalog),
             "docstore": str(args.docstore),
             "webmap": str(args.webmap) if args.webmap else None,
+            "page_inventory": str(args.page_inv) if args.page_inv else None,
             "canonical_catalog_gcs": (
                 "gs://pathology_hub/02_normalized/textbooks/lean/tags/tag_consolidation_v2_1/"
                 "textbook_primary_tag_catalog_v2_1.jsonl"
@@ -275,12 +339,16 @@ def main() -> None:
                 "gs://pathology_hub/03_indexes/textbooks/vector_v2_1_tag_consolidation/"
                 "textbook_lean_vector_docstore_v2_1.jsonl"
             ),
+            "canonical_page_inventory_gcs": (
+                "gs://pathology_hub/02_normalized/source_registry/textbook_page_image_inventory_v1.jsonl"
+            ),
         },
         "counts": counts,
         "known_limitations": [
             "Tree includes controlled v2.1 tags only (generated/review-required tags omitted).",
             f"Each leaf shows up to {MAX_TEXT_PER_LEAF} text + {MAX_FIGURES_PER_LEAF} figure samples, not the full chunk list.",
             "Figure images use public web-map URLs when available; otherwise HTTPS rewrite of gs:// may 404.",
+            "Page PNG + PDF page links come from page inventory join on (source_id, page); missing inventory rows omit those fields.",
             "Separate from the Lecture Video OncoTree; not deployed to chat.pathologynotebook.com by this package.",
         ],
         "roots": roots,
@@ -296,7 +364,18 @@ def main() -> None:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"ok": True, "out": str(args.out), "counts": counts, "webmap_keys": len(webmap)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "out": str(args.out),
+                "counts": counts,
+                "webmap_keys": len(webmap),
+                "page_inv_keys": len(page_inv),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

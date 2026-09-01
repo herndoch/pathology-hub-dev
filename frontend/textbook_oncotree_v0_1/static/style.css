@@ -371,6 +371,130 @@ h1 {
 
 .limitations { white-space: pre-wrap; }
 
+.sample-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.sample-modal.hidden {
+  display: none;
+}
+
+.sample-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 33, 43, 0.55);
+}
+
+.sample-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(960px, 100%);
+  max-height: min(92vh, 920px);
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(20, 33, 43, 0.28);
+  padding: 22px 22px 18px;
+}
+
+.sample-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.sample-modal-head h2 {
+  margin: 0 28px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--teal-deep);
+}
+
+.sample-modal-meta {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sample-modal-excerpt {
+  margin: 12px 0 0;
+  color: #3c4a55;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.sample-modal-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.sample-modal-fig {
+  margin: 0;
+  background: #0b1518;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sample-modal-fig figcaption {
+  padding: 8px 10px 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c9d4db;
+}
+
+.sample-modal-fig img {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: #0b1518;
+}
+
+.sample-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.sample-modal-action {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fbf8f1;
+  color: var(--teal-deep);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.sample-modal-action:hover {
+  border-color: var(--teal);
+  background: rgba(15, 106, 106, 0.08);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 @media (max-width: 900px) {
   .top,
   .detail-grid {

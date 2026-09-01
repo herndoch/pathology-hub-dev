@@ -15,7 +15,7 @@
       <div class="brand-block">
         <p class="eyebrow">Pathology Hub</p>
         <h1>Textbook OncoTree</h1>
-        <p class="lede">Visual OncoTree of textbook primary tags — click a leaf for sample pages and figures (separate from the lecture-video map).</p>
+        <p class="lede">Visual OncoTree of textbook primary tags — click a leaf for samples; open a sample for figure, page image, and PDF.</p>
       </div>
       <div class="stats" id="stats" aria-live="polite"></div>
     </header>
@@ -54,6 +54,34 @@
       <p id="limitations" class="limitations"></p>
     </footer>
   </div>
+
+  <div id="sample-modal" class="sample-modal hidden" role="dialog" aria-modal="true" aria-labelledby="sample-modal-title">
+    <div class="sample-modal-backdrop" data-modal-close></div>
+    <div class="sample-modal-panel">
+      <button type="button" class="sample-modal-close" data-modal-close aria-label="Close">&times;</button>
+      <header class="sample-modal-head">
+        <h2 id="sample-modal-title"></h2>
+        <p id="sample-modal-meta" class="sample-modal-meta"></p>
+      </header>
+      <p id="sample-modal-excerpt" class="sample-modal-excerpt"></p>
+      <div class="sample-modal-media">
+        <figure class="sample-modal-fig" id="sample-modal-figure-wrap" hidden>
+          <figcaption>Figure</figcaption>
+          <img id="sample-modal-figure-img" alt="Figure" />
+        </figure>
+        <figure class="sample-modal-fig" id="sample-modal-page-wrap" hidden>
+          <figcaption>Page image</figcaption>
+          <img id="sample-modal-page-img" alt="Page image" />
+        </figure>
+      </div>
+      <div class="sample-modal-actions">
+        <a id="sample-modal-pdf" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open page in PDF</a>
+        <a id="sample-modal-figure-link" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open figure</a>
+        <a id="sample-modal-page-link" class="sample-modal-action" href="#" target="_blank" rel="noopener" hidden>Open page image</a>
+      </div>
+    </div>
+  </div>
+
   <script src="static/app.js"></script>
 </body>
 </html>
