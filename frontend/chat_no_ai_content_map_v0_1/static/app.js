@@ -1,5 +1,8 @@
 (() => {
-  const DATA_URL = "data/chat_no_ai_content_map_v0_1.json";
+  const DATA_URL =
+    "https://storage.googleapis.com/pathology_hub/api_exposed/chat_no_ai_content_map_v0_1/chat_no_ai_content_map_v0_1.json.gz";
+  const DATA_URL_FALLBACK =
+    "https://storage.googleapis.com/pathology_hub/api_exposed/chat_no_ai_content_map_v0_1/chat_no_ai_content_map_v0_1.json";
 
   const ONCOTREE_BASE_ROW_HEIGHT = 30;
   const ONCOTREE_BASE_COL_WIDTH = 300;
@@ -423,6 +426,12 @@
       if (!r.ok) throw new Error(`Failed to load ${DATA_URL}`);
       return r.json();
     })
+    .catch(() =>
+      fetch(DATA_URL_FALLBACK).then((r) => {
+        if (!r.ok) throw new Error(`Failed to load ${DATA_URL_FALLBACK}`);
+        return r.json();
+      })
+    )
     .then((data) => {
       index = data;
       document.title = data.title || document.title;

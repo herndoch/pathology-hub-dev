@@ -7,6 +7,29 @@ topic prebuilds. No live retrieval and no `answer_markdown` AI synthesis.
 
 **Preferred:** `https://no-ai-chat.pathologynotebook.com`
 
+Live Cloud Run (until DNS CNAME is set):  
+`https://pathology-hub-no-ai-chat-vorn5q2kga-uc.a.run.app`
+
+Index JSON (GCS, public):  
+`gs://pathology_hub/api_exposed/chat_no_ai_content_map_v0_1/`
+
+### DNS (required for custom domain cert)
+
+In Google Domains / Squarespace DNS for `pathologynotebook.com`:
+
+| Host | Type | Value |
+|------|------|-------|
+| `no-ai-chat` | CNAME | `ghs.googlehosted.com.` |
+
+Same pattern as `chat` → `ghs.googlehosted.com.`
+
+### Deploy
+
+```bash
+cd frontend/chat_no_ai_content_map_v0_1
+MAP_DOMAIN=1 ./scripts/deploy_cloud_run_https_v0_1.sh
+```
+
 Same pattern as `chat.pathologynotebook.com` (hostname → dedicated host), but
 this package stays a static map — not mounted under the Chat MVP FastAPI
 service. That keeps cold starts, deploys, and API spend for chat separate from
@@ -18,8 +41,7 @@ this inventory (AGENTS.md workstream split).
 | `chat.pathologynotebook.com/no-ai` | Avoid for now — path-couples to chat service or needs LB rewrite |
 | `pathologynotebook.com/chat-no-ai` | Later optional redirect once apex has path routing |
 
-Not claimed live until DNS + hosting are wired.
-
+Not claimed Ready on the custom domain until DNS CNAME + cert provision.
 ## Run locally
 
 ```bash
