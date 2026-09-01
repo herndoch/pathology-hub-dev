@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub — Textbook OncoTree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand-block">
+        <p class="eyebrow">Pathology Hub</p>
+        <h1>Textbook OncoTree</h1>
+        <p class="lede">Visual OncoTree of textbook primary tags — click a leaf for sample pages and figures (separate from the lecture-video map).</p>
+      </div>
+      <div class="stats" id="stats" aria-live="polite"></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Filter topics, books, or figure captions…" autocomplete="off" />
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
+    </div>
+
+    <section class="tree-stage" aria-label="OncoTree">
+      <div id="tree" class="tree-host">Loading OncoTree…</div>
+    </section>
+
+    <section class="detail-pane" aria-label="Textbook samples">
+      <div id="empty" class="empty">
+        <h2>Pick a node on the OncoTree</h2>
+        <p>Expand roots, then open a leaf to browse sample textbook excerpts and figures for that tag.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <header class="detail-head">
+          <h2 id="detail-title"></h2>
+          <p id="detail-path" class="path"></p>
+        </header>
+        <div class="detail-grid">
+          <div id="figure-pane" class="figure-pane">
+            <img id="figure-img" alt="Textbook figure" class="hidden" />
+            <p id="figure-caption" class="now-playing"></p>
+          </div>
+          <ul id="item-list" class="clip-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Local / shareable static site · textbook-only OncoTree · v2.1 controlled tags</p>
+      <p id="limitations" class="limitations"></p>
+    </footer>
+  </div>
+  <script src="static/app.js"></script>
+</body>
+</html>
