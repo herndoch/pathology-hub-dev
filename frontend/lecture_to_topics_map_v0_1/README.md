@@ -1,53 +1,36 @@
-# Lecture → topics map (shareable) v0_1
+# Lecture map — navigable HTML for education leadership
 
-**Reverse** content map for education leadership: pick a **lecture**, see its
-**topics of interest**, then the **timestamped segments / transcript excerpts**.
+Visual **tree** (specialty → lecture → topics) plus clip list / video seek.
+Default: **high-confidence** tags only.
 
-Companion to the topic-first OncoTree:
-`frontend/lecture_video_oncotree_v0_1/` (topic → clips).
+## Share with non-tech education folks (recommended)
 
-## Off-target / confidence (important)
+**Best:** send them a link (no install):
 
-Source tags are **automated** `semantic_gated_v0_2`. That gate still admits
-**off-target** topic hits (wrong entity, low margin vs runner-up).
+After deploy, use the Cloud Run URL (or custom domain once DNS is set):
 
-This package:
+```bash
+cd frontend/lecture_to_topics_map_v0_1
+MAP_DOMAIN=1 ./scripts/deploy_cloud_run_https_v0_1.sh
+```
 
-- Labels each segment `confidence`: `high` / `medium` / `low`
-- **Defaults the UI + leadership CSVs to high-confidence only**
-  (`tag_score ≥ 0.65` and `tag_margin ≥ 0.05`)
-- Offers a toggle / separate CSV for the full gated set (includes uncertain)
+- Service: `pathology-hub-lecture-map` (min instances **0** — idle ≈ $0)
+- Optional DNS: `lecture-map` CNAME → `ghs.googlehosted.com.`
 
-## Share formats
+**Also fine:** zip this whole folder and have IT host it on any static HTTPS page.
 
-| Format | Path | Notes |
-|--------|------|-------|
-| Interactive HTML | this folder | default = high-confidence |
-| JSON index | `data/lecture_to_topics_index_v0_1.json` | all tiers, with `confidence` |
-| CSV lecture summary | `data/exports/lectures_summary_high_confidence_v0_1.csv` | leadership default |
-| CSV high-conf segments | `data/exports/lecture_topic_segments_high_confidence_v0_1.csv` | leadership default |
-| CSV all gated | `data/exports/lecture_topic_segments_all_gated_v0_1.csv` | includes uncertain |
+CSVs remain under **Advanced** for spreadsheet users — not the primary handoff.
 
-## Run locally
+## Local preview
 
 ```bash
 cd frontend/lecture_to_topics_map_v0_1
 python3 -m http.server 8768
-# http://127.0.0.1:8768/
 ```
 
-## Rebuild
+## Rebuild data
 
 ```bash
-gcloud storage cp \
-  gs://pathology_hub/03_indexes/lectures/vector_deck_packages_v0_1/lecture_deck_packages_vector_docstore_v0_1.jsonl \
-  /tmp/lecture_docstore.jsonl
-
 python3 scripts/build_lecture_to_topics_map_v0_1.py \
-  --docstore /tmp/lecture_docstore.jsonl
+  --docstore /path/to/lecture_deck_packages_vector_docstore_v0_1.jsonl
 ```
-
-## Notes
-
-- ~137 lectures in source docstore; high-confidence subset is smaller.
-- Playback uses public video URLs; user presses play (no autoplay).
