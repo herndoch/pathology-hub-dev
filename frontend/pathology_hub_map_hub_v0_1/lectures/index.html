@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub — Lecture map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <p class="back"><a href="/">← All maps</a></p>
+    <header class="top">
+      <div class="brand-block">
+        <p class="eyebrow">Pathology Hub · Education map</p>
+        <h1>Lecture map</h1>
+        <p class="lede">Click a lecture on the tree to see its topics and short video clips. Built for sharing with education leadership — no install required on this page.</p>
+      </div>
+      <div class="stats" id="stats" aria-live="polite"></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Search lectures or topics…" autocomplete="off" />
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label class="confidence-wrap" for="confidence-filter">
+          Tag confidence
+          <select id="confidence-filter">
+            <option value="high" selected>High only (recommended)</option>
+            <option value="high_medium">High + medium</option>
+            <option value="all">All automated tags</option>
+          </select>
+        </label>
+        <div class="export-links" id="export-links"></div>
+      </details>
+    </div>
+
+    <section class="tree-stage" aria-label="Lecture tree">
+      <div id="tree" class="tree-host">Loading map…</div>
+    </section>
+
+    <section class="detail-pane" aria-label="Lecture detail">
+      <div id="empty" class="empty">
+        <h2>Open a lecture on the tree</h2>
+        <p>Expand a specialty, then click a lecture name. You’ll get topics and timestamped clips with transcript text.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <header class="detail-head">
+          <h2 id="detail-title"></h2>
+          <p id="detail-meta" class="path"></p>
+        </header>
+        <div class="detail-grid">
+          <div class="player-col">
+            <video id="player" controls playsinline preload="metadata"></video>
+            <p id="now-playing" class="now-playing">Pick a clip below, then press play.</p>
+            <h3 class="pane-title">Topics in this lecture</h3>
+            <ul id="topic-list" class="topic-list"></ul>
+          </div>
+          <div class="seg-col">
+            <h3 class="pane-title" id="seg-heading">Clips</h3>
+            <ul id="segment-list" class="segment-list"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Navigable HTML map · high-confidence topics by default · companion to the topic→clips OncoTree</p>
+      <p id="limitations" class="limitations"></p>
+    </footer>
+  </div>
+  <script src="static/app.js"></script>
+</body>
+</html>

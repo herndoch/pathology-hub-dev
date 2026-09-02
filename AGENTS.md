@@ -36,3 +36,8 @@ Before uploading to GCS:
 - include output paths
 - include counts
 - include known limitations
+
+Shareable education maps hub:
+- `map.pathologynotebook.com` (Cloud Run `pathology-hub-map`; DNS CNAME `map` → `ghs.googlehosted.com.`)
+- Paths: `/lectures/`, `/textbooks/`, `/journals/` (WHO+PathOut); Chat stays at `chat.pathologynotebook.com`
+- See `docs/HOSTING_MAP_PATHOLOGYNOTEBOOK_v0_1.md`
