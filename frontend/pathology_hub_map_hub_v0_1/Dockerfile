@@ -5,6 +5,7 @@ COPY serve.py ./
 COPY index.html ./www/
 COPY static ./www/static/
 COPY lectures ./www/lectures/
+COPY content ./www/content/
 COPY textbooks ./www/textbooks/
 COPY journals ./www/journals/
 EXPOSE 8080

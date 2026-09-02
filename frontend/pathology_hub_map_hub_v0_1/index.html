@@ -14,24 +14,19 @@
     <header class="hero">
       <p class="eyebrow">Pathology Notebook</p>
       <h1>Maps</h1>
-      <p class="lede">Open a content map for education and browsing — or go to Chat.</p>
+      <p class="lede">Browse textbooks, WHO, and PathOutlines together — or open lectures and Chat.</p>
     </header>
 
     <nav class="choices" aria-label="Choose a map">
+      <a class="choice" href="/content/">
+        <span class="choice-kicker">Content</span>
+        <span class="choice-title">Textbooks · WHO · PathOut</span>
+        <span class="choice-desc">One tree, one Cytopathology root — filter by source and open samples or Chat</span>
+      </a>
       <a class="choice" href="/lectures/">
         <span class="choice-kicker">Lectures</span>
         <span class="choice-title">Lecture → topics tree</span>
         <span class="choice-desc">Specialty → lecture → high-confidence clips with transcripts</span>
-      </a>
-      <a class="choice" href="/textbooks/">
-        <span class="choice-kicker">Textbooks</span>
-        <span class="choice-title">Textbook OncoTree</span>
-        <span class="choice-desc">Tags → sample pages, figures, and PDF page links</span>
-      </a>
-      <a class="choice" href="/journals/">
-        <span class="choice-kicker">WHO · PathOut</span>
-        <span class="choice-title">Journals map</span>
-        <span class="choice-desc">Navigate WHO Classification and PathologyOutlines topics together</span>
       </a>
       <a class="choice choice-chat" href="https://chat.pathologynotebook.com/" target="_blank" rel="noopener">
         <span class="choice-kicker">Live site</span>
@@ -40,8 +35,10 @@
       </a>
     </nav>
 
+    <p class="hub-alt">Also available: <a href="/textbooks/">textbooks only</a> · <a href="/journals/">WHO + PathOut only</a></p>
+
     <footer class="hub-foot">
-      <p>Intended host: <code>map.pathologynotebook.com</code> · maps are navigable HTML (no install)</p>
+      <p>Preferred URL: <code>map.pathologynotebook.com</code> (after DNS). Until then Cloud Run’s <code>*.run.app</code> link works the same.</p>
     </footer>
   </div>
 </body>

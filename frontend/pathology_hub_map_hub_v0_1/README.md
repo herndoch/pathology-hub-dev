@@ -6,13 +6,22 @@ Unified navigable HTML maps for education leadership.
 
 `https://map.pathologynotebook.com`
 
+Until DNS is set, use the Cloud Run `*.run.app` URL for the same service (same content).
+
 | Path | Map |
 |------|-----|
-| `/` | Hub (choose a map or open Chat) |
+| `/` | Hub (Content · Lectures · Chat) |
+| `/content/` | **Textbooks + WHO + PathOut** in one tree (one Cytopathology root) |
 | `/lectures/` | Lecture → topics tree |
-| `/textbooks/` | Textbook OncoTree |
-| `/journals/` | WHO + PathologyOutlines tree |
+| `/textbooks/` | Textbooks-only OncoTree (legacy split) |
+| `/journals/` | WHO + PathOut only (legacy split) |
 | Chat | https://chat.pathologynotebook.com |
+
+## Rebuild unified content JSON
+
+```bash
+python3 scripts/build_unified_content_map_v0_1.py
+```
 
 ## DNS (one record)
 
@@ -33,6 +42,6 @@ Service: `pathology-hub-map` · **min instances 0** (idle ≈ $0)
 
 ```bash
 cd frontend/pathology_hub_map_hub_v0_1
-# optional: assemble www layout by serving this folder directly
 python3 -m http.server 8770
+# open http://127.0.0.1:8770/content/
 ```

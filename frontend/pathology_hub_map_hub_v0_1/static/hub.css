@@ -104,6 +104,22 @@ h1 {
 
 .choice-chat .choice-kicker { color: var(--amber); }
 
+.hub-alt {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.hub-alt a {
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hub-alt a:hover {
+  text-decoration: underline;
+}
+
 .hub-foot {
   margin-top: 28px;
   color: var(--muted);

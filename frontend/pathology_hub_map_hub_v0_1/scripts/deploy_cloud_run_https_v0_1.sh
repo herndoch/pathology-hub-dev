@@ -27,7 +27,7 @@ gcloud run deploy "$SERVICE" \
 
 URL="$(gcloud run services describe "$SERVICE" --region="$REGION" --project="$PROJECT" --format='value(status.url)')"
 echo "HTTPS URL: $URL"
-echo "Paths: /  /lectures/  /textbooks/  /journals/"
+echo "Paths: /  /content/  /lectures/  /textbooks/  /journals/"
 
 if [[ "$MAP_DOMAIN" == "1" || "$MAP_DOMAIN" == "true" ]]; then
   if ! gcloud beta run domain-mappings describe --domain="$DOMAIN" --region="$REGION" --project="$PROJECT" >/dev/null 2>&1; then
