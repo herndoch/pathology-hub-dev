@@ -1,0 +1,137 @@
+:root {
+  --ink: #132029;
+  --muted: #5b6b76;
+  --paper: #eef3f1;
+  --panel: rgba(255, 252, 247, 0.88);
+  --line: #c9d5cf;
+  --teal: #0c5c5c;
+  --teal-deep: #083e40;
+  --amber: #9a5b12;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(900px 420px at 12% -8%, rgba(12, 92, 92, 0.18), transparent 55%),
+    radial-gradient(700px 380px at 95% 8%, rgba(154, 91, 18, 0.12), transparent 50%),
+    linear-gradient(165deg, #d9e4df 0%, var(--paper) 45%, #e7ebe4 100%);
+}
+
+.hub {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(40px, 8vh, 88px) 22px 48px;
+}
+
+.hero {
+  margin-bottom: 36px;
+  max-width: 34rem;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 4.6rem);
+  line-height: 0.95;
+  color: var(--teal-deep);
+}
+
+.lede {
+  margin: 16px 0 0;
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 28rem;
+}
+
+.choices {
+  display: grid;
+  gap: 12px;
+}
+
+.choice {
+  display: grid;
+  gap: 4px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  text-decoration: none;
+  color: inherit;
+  backdrop-filter: blur(6px);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.choice:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal);
+  background: #fff;
+}
+
+.choice-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.choice-title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  color: var(--teal-deep);
+}
+
+.choice-desc {
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.choice-chat .choice-kicker { color: var(--amber); }
+
+.hub-alt {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.hub-alt a {
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hub-alt a:hover {
+  text-decoration: underline;
+}
+
+.hub-foot {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.hub-foot code {
+  font-size: 0.86rem;
+}
+
+@media (min-width: 860px) {
+  .choices {
+    grid-template-columns: 1fr 1fr;
+  }
+}
