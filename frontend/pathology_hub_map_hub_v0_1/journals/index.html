@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub — Journals map (WHO + PathOut)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <p class="back"><a href="/">← All maps</a></p>
+    <header class="top">
+      <div class="brand-block">
+        <p class="eyebrow">Pathology Notebook · Maps</p>
+        <h1>Journals map</h1>
+        <p class="lede">WHO Classification and PathologyOutlines in one navigable tree. Open a topic in Chat when you want retrieval.</p>
+      </div>
+      <div class="stats" id="stats"></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Search topics…" autocomplete="off" />
+      <label class="source-wrap" for="source-filter">
+        Source
+        <select id="source-filter">
+          <option value="all" selected>WHO + PathOut</option>
+          <option value="who">WHO only</option>
+          <option value="pathout">PathOut only</option>
+        </select>
+      </label>
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
+      <a class="chat-link" id="chat-link" href="https://chat.pathologynotebook.com/" target="_blank" rel="noopener">Open Chat</a>
+    </div>
+
+    <section class="tree-stage"><div id="tree" class="tree-host">Loading…</div></section>
+
+    <section class="detail-pane">
+      <div id="empty" class="empty">
+        <h2>Pick a topic on the tree</h2>
+        <p>Leaves show whether they come from WHO, PathOut, or both. Use Open in Chat to explore.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <h2 id="detail-title"></h2>
+        <p id="detail-meta" class="path"></p>
+        <div class="detail-actions">
+          <a id="open-chat" class="action" href="#" target="_blank" rel="noopener">Open in Chat</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot"><p id="limitations"></p></footer>
+  </div>
+  <script src="static/app.js"></script>
+</body>
+</html>

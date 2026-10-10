@@ -4,6 +4,8 @@ Tools for finding pathology teaching material, inspecting its sources, and conne
 
 This repository contains the application and engineering work for the Hub: a reference/chat interface, an evidence-search backend, curriculum browsing tools, and content-processing scripts. The related [pathology_hub](https://github.com/herndoch/pathology_hub) repository describes the earlier data-processing pipeline.
 
+**Share the Hub:** [Open Pathology Knowledge Hub](https://map.pathologynotebook.com/) · [Run or package the maps locally](frontend/pathology_hub_map_hub_v0_1/README.md)
+
 **Start here:** [Project guide](docs/PROJECT_GUIDE.md) · [Consolidation and release plan](docs/REPOSITORY_CLEANUP.md)
 
 ## Explore the project
@@ -17,7 +19,7 @@ This repository contains the application and engineering work for the Hub: a ref
 | Inspect the evidence backend | [Recovered backend source and provenance](backend/pathology_hub_v04_live_recovered/README_RECOVERED_SOURCE.md) |
 | Understand pending work and the next release | [Consolidation and release plan](docs/REPOSITORY_CLEANUP.md) |
 
-The hosted links are project entry points. Their deployment versions and end-to-end behavior have not been revalidated by this documentation update.
+The maps provide one front door to the existing hosted reference library and assistant preview. See the [October 10 release record](docs/HUB_RELEASE_20261010.md) for tested workflows and deployment boundaries.
 
 ## What is in this repository?
 
@@ -27,7 +29,7 @@ The hosted links are project entry points. Their deployment versions and end-to-
 - **Processing scripts:** preparation of lecture, textbook, figure, and other source records.
 - **Engineering records:** tests, audits, API contracts, and dated implementation handoffs.
 
-The unified teaching maps are currently proposed in [PR #51](https://github.com/herndoch/pathology-hub-dev/pull/51). They are not yet part of the default branch. [The project guide](docs/PROJECT_GUIDE.md) distinguishes code in this branch from pending and locally developed work.
+The unified teaching maps incorporate [PR #51](https://github.com/herndoch/pathology-hub-dev/pull/51) with source-provenance, navigation and sharing fixes. Their canonical implementation is `frontend/pathology_hub_map_hub_v0_1/`. [The release record](docs/HUB_RELEASE_20261010.md) distinguishes the map package from separately deployed application work.
 
 ## Run the reference/chat application
 
@@ -49,7 +51,7 @@ Provide `PATHOLOGY_HUB_API_KEY` (or `HUB_API`) through your local environment fo
 
 This is a research and development repository with work distributed across open pull requests. The October 10, 2026 inventory found **22 open PRs and 49 remote branches**. The default branch does not yet represent all of the locally developed or separately deployed work.
 
-The immediate release work is to establish a clear project entry point, consolidate the teaching-map implementation, reconcile application changes, and verify a reproducible delivery. See the [specific PR decisions and acceptance criteria](docs/REPOSITORY_CLEANUP.md).
+The shared entry point and teaching-map package are consolidated. Broader reconciliation of the separately deployed application source remains a separate workstream. See the [specific PR decisions and acceptance criteria](docs/REPOSITORY_CLEANUP.md).
 
 ## Source material and reuse
 
