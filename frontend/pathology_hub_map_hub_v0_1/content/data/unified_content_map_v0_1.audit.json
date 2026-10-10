@@ -1,0 +1,32 @@
+{
+  "schema_version": "content_map_build_audit.v1",
+  "inputs": [
+    {
+      "path": "frontend/pathology_hub_map_hub_v0_1/textbooks/data/textbook_oncotree_index_v0_1.json",
+      "sha256": "7fbdc8bd0afb744428abde1467164d313697ca4d3df2d1179108a8caca24d6ed"
+    },
+    {
+      "path": "frontend/pathology_hub_map_hub_v0_1/journals/data/journals_who_pathout_map_v0_1.json",
+      "sha256": "cb8df8104deef4e8efbd7f8da1f4b3142b213bd77462464b45402ee57522528c"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "frontend/pathology_hub_map_hub_v0_1/content/data/unified_content_map_v0_1.json",
+      "sha256": "a6e28d1cb68f761f27f15e015feccc6a16db569ec42036ab616f72ed50dff729"
+    }
+  ],
+  "counts": {
+    "roots": 15,
+    "leaves": 5554,
+    "leaves_with_textbooks": 2212,
+    "leaves_with_who": 1920,
+    "leaves_with_pathout": 2618,
+    "cytopathology_sites": 20
+  },
+  "known_limitations": [
+    "Unified browse map for education sharing; not a claim that every leaf is vectorized/API-exposed.",
+    "Textbook samples are capped per leaf. Reference links search the library; source badges describe mapping provenance.",
+    "All Cyto_* textbook roots are nested under Cytopathology."
+  ]
+}

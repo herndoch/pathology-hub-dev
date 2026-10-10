@@ -1,5 +1,7 @@
 # Consolidation and release plan
 
+> October 10 update: the reviewed #51 maps and sharing fixes are consolidated in the canonical hub. [Current release record](HUB_RELEASE_20261010.md). The inventory below preserves the earlier snapshot; it is not a fresh count of open PRs.
+
 Inventory date: October 10, 2026. This plan records reviewed repository structure and proposed next actions. It does not certify application behavior or authorize deletion of branches.
 
 ## Observed starting point

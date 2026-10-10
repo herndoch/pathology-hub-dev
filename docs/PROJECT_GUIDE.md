@@ -1,5 +1,7 @@
 # Project guide
 
+> October 10 update: the reviewed #51 maps and sharing fixes are consolidated in the canonical hub. [Current release record](HUB_RELEASE_20261010.md). The inventory below preserves the earlier snapshot; it is not a fresh count of open PRs.
+
 This guide describes the repository checked on October 10, 2026. It separates the code available on the default branch from proposed additions and historical implementation records.
 
 ## How the pieces fit
