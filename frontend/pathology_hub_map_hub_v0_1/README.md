@@ -22,7 +22,8 @@ The reference-library link opens a matching saved topic or prepares a topic sear
 
 | Route | Content |
 |---|---|
-| `/` | Shared front door |
+| `/` | Front door, videos first |
+| `/videos/` | Pathology Video Index (self-contained page; see `videos/README.md`) |
 | `/content/` | Textbook, WHO and PathOutlines topic tree |
 | `/lectures/` | Lecture topics and timestamped clips |
 | `/textbooks/` | Redirect to the textbook filter |
@@ -39,6 +40,10 @@ python3 scripts/package_hub_maps.py --output /tmp/pathology-hub-maps.zip
 ```
 
 The ZIP contains the same launcher and static files, plus a SHA-256 manifest. Extract it and run `python serve.py` (Windows: `py serve.py`). It links to the hosted application; it does not bundle its backend or source library.
+
+## One visual system
+
+All pages load `static/tokens.css` (palette, type, dark mode) and the shared navigation bar from `static/navigation.js`. The front page and the video index share the same six source labels: Full, Partial, Video not yet checked, Pathology Outlines, Webpage, No free source yet. Keep those names and the dated "playable as of" line consistent across pages.
 
 ## Hosting
 

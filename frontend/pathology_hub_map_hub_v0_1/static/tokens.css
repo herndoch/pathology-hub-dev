@@ -1,0 +1,38 @@
+/* Pathology Knowledge Hub: one visual system for the front door, the maps and the video index.
+   Palette: hematoxylin blue-violet is the working accent; eosin pink is reserved for the
+   "taught in full" mark and the videos product. Keep these names in step with the index page. */
+:root{
+  --bg:#f7f6f9; --panel:#ffffff; --ink:#1d1a2b; --ink-2:#5a566b; --ink-3:#8b8799;
+  --line:#e1dde9; --line-2:#cfcadb;
+  --hx:#4b3f8f; --hx-soft:#ebe7f8; --hx-ink:#3b3077;
+  --eo:#c2416b; --eo-soft:#fbe6ee;
+  --ok:#2c7a4b; --ok-soft:#e3f3e8; --warn:#9a6400; --warn-soft:#fff2cf; --mute-soft:#edebf1;
+  --focus:#6d5fd1;
+  --shadow:0 1px 2px rgba(29,26,43,.06), 0 8px 24px rgba(29,26,43,.06);
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-disp:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --radius:10px; --radius-lg:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15131d; --panel:#1e1b29; --ink:#ece9f4; --ink-2:#b4afc6; --ink-3:#7f7a92;
+  --line:#2e2a3d; --line-2:#3d384f;
+  --hx:#a79af0; --hx-soft:#2a2544; --hx-ink:#c9bff7;
+  --eo:#ef7fa6; --eo-soft:#3b2230;
+  --ok:#7fd09a; --ok-soft:#1d3327; --warn:#f0c04d; --warn-soft:#3a2f12; --mute-soft:#2a2735;
+  --focus:#b3a6ff; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15131d; --panel:#1e1b29; --ink:#ece9f4; --ink-2:#b4afc6; --ink-3:#7f7a92;
+  --line:#2e2a3d; --line-2:#3d384f;
+  --hx:#a79af0; --hx-soft:#2a2544; --hx-ink:#c9bff7;
+  --eo:#ef7fa6; --eo-soft:#3b2230;
+  --ok:#7fd09a; --ok-soft:#1d3327; --warn:#f0c04d; --warn-soft:#3a2f12; --mute-soft:#2a2735;
+  --focus:#b3a6ff; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+a{color:var(--hx-ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}

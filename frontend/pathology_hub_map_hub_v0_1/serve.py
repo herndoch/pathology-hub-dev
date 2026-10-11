@@ -27,8 +27,8 @@ class Handler(SimpleHTTPRequestHandler):
             if self.command != "HEAD": self.wfile.write(body)
             return
         if any(p.startswith(".") for p in path.split("/") if p) or not (
-            path in ("/", "/index.html", "/content", "/lectures") or
-            path.startswith(("/static/", "/content/", "/lectures/"))
+            path in ("/", "/index.html", "/content", "/lectures", "/videos") or
+            path.startswith(("/static/", "/content/", "/lectures/", "/videos/"))
         ):
             self.send_error(404); return
         super().do_GET()

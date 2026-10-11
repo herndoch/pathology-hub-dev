@@ -93,10 +93,19 @@ class DeliveryTests(unittest.TestCase):
     def test_health_and_head(self):
         with urllib.request.urlopen(self.base + "/health") as response:
             self.assertEqual(json.load(response)["status"], "ok")
-        for route in ("/", "/health", "/content/"):
+        for route in ("/", "/health", "/content/", "/videos/"):
             with urllib.request.urlopen(urllib.request.Request(self.base + route, method="HEAD")) as response:
                 self.assertEqual(response.read(), b"")
                 self.assertEqual(response.status, 200)
+
+    def test_videos_route_and_shared_navigation(self):
+        with urllib.request.urlopen(self.base + "/videos/") as response:
+            body = response.read().decode()
+        self.assertEqual(response.status, 200)
+        self.assertIn("/static/navigation.js", body)
+        self.assertIn("/static/tokens.css", body)
+        for page in ("index.html", "content/index.html", "lectures/index.html", "videos/index.html"):
+            self.assertIn("/static/tokens.css", (MAP / page).read_text(), page)
 
     def test_private_paths_and_directory_indexes_not_served(self):
         for route in ("/.env", "/serve.py", "/static/", "/content/../.env"):

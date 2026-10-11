@@ -2,36 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pathology references, teaching topics and lecture clips in one place.">
+  <meta name="description" content="Free public pathology teaching videos mapped to the ABPath curriculum, with teaching topics, lecture clips and a reference library.">
   <title>Pathology Knowledge Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap">
+  <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="/static/hub.css">
   <link rel="stylesheet" href="/static/navigation.css">
-  <script src="/static/navigation.js?v=20261010.1" defer></script>
+  <script src="/static/navigation.js?v=20261011.1" defer></script>
 </head>
 <body>
   <main class="hub">
     <header class="hero">
-      <h1>Pathology Knowledge Hub</h1>
-      <p class="lede">Find a reference, explore a teaching topic, or open a lecture clip.</p>
+      <div>
+        <p class="eyebrow">Free pathology teaching, mapped to the ABPath curriculum</p>
+        <h1>Find the video that teaches it, <em>starting at the right minute.</em></h1>
+        <p class="lede">For each anatomic pathology curriculum requirement, the best free public video we could find, checked against its transcript and linked at the teaching timestamp. Where no video qualifies yet, the matching Pathology Outlines page.</p>
+      </div>
+      <p class="hero-aside"><b>Links only.</b> Every video opens on its original host. Nothing is re-uploaded, and each link carries the date it was last confirmed playable without an account.</p>
     </header>
-    <nav class="choices" aria-label="Choose a resource">
-      <a class="choice" href="https://chat.pathologynotebook.com/">
-        <span class="choice-title">Reference library <span aria-hidden="true">↗</span></span>
-        <span class="choice-desc">Browse saved pathology pages with figures and source links.</span>
-      </a>
+
+    <a class="product" href="/videos/">
+      <div>
+        <p class="product-title"><span class="product-name">Pathology Video Index</span> <span class="tag">Main resource</span></p>
+        <p class="product-desc">Browse by specialty and curriculum level, or search a topic. Each requirement shows whether its video teaches the topic in full or in part, and when a video has not been checked yet.</p>
+      </div>
+      <span class="product-cta">Open the video index <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+    </a>
+
+    <nav class="choices" aria-label="Other resources">
       <a class="choice" href="/content/">
         <span class="choice-title">Teaching topics</span>
-        <span class="choice-desc">Explore textbook, WHO and PathologyOutlines mappings by specialty.</span>
+        <span class="choice-desc">Textbook, WHO and Pathology Outlines mappings in one tree, by specialty.</span>
       </a>
       <a class="choice" href="/lectures/">
         <span class="choice-title">Lecture clips</span>
-        <span class="choice-desc">Find lectures, review mapped topics and open timestamped clips.</span>
+        <span class="choice-desc">Departmental lectures broken into timestamped clips with mapped topics.</span>
+      </a>
+      <a class="choice" href="https://chat.pathologynotebook.com/">
+        <span class="choice-title">Reference library <span aria-hidden="true">↗</span></span>
+        <span class="choice-desc">Saved pathology pages with figures and source links, plus an assistant preview.</span>
       </a>
     </nav>
-    <p class="hub-alt"><a href="https://assistant-preview---pathology-hub-chat-mvp-vorn5q2kga-uc.a.run.app/">Interactive assistant · preview ↗</a></p>
+
+    <section class="labels" aria-labelledby="labels-h">
+      <h2 id="labels-h">How to read the labels</h2>
+      <p>The same six labels are used everywhere on this site. They describe what we observed in the transcript and on the host page, not how good the teaching is.</p>
+      <ul class="pills">
+        <li class="pill full"><span class="dot"></span>Full</li>
+        <li class="pill partial"><span class="dot"></span>Partial</li>
+        <li class="pill unchecked"><span class="dot"></span>Video, not yet checked</li>
+        <li class="pill po"><span class="dot"></span>Pathology Outlines</li>
+        <li class="pill"><span class="dot"></span>Webpage</li>
+        <li class="pill none"><span class="dot"></span>No free source yet</li>
+      </ul>
+    </section>
+
     <footer class="hub-foot">
-      <p>For education. Mapping and automated confidence labels do not establish source completeness or independent validation.</p>
-      <p><a href="https://github.com/herndoch/pathology-hub-dev">Code and setup</a> · <a href="https://github.com/herndoch/pathology-hub-dev/releases">Download a release</a></p>
+      <p>Public videos catalogued and checked, mapped to the ABPath anatomic pathology curriculum. This is not every pathology video online, and mapping does not establish curriculum completeness or independent validation. For education.</p>
+      <p><a href="https://github.com/herndoch/pathology-hub-dev">Code and setup</a> · <a href="https://github.com/herndoch/pathology-hub-dev/releases">Download a release</a> · <a href="https://assistant-preview---pathology-hub-chat-mvp-vorn5q2kga-uc.a.run.app/">Assistant preview ↗</a></p>
     </footer>
   </main>
 </body>
