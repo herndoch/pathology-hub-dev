@@ -1,6 +1,16 @@
 # Active Context
 
-Last updated: 2026-07-26
+Last updated: 2026-08-26
+
+## Billing / Cloud Run cost (2026-08-22)
+
+**Idle-cheap posture:** automatic scaling + `minScale=0` on kept Cloud Run services.
+Do **not** confuse that with **manual scaling instance count 0** (returns 503 “Service is
+disabled” on `chat.pathologynotebook.com`). Full write-up, restore commands, and what
+actually burned money: `docs/BILLING_AND_CLOUD_RUN_COST_NOTES_20260822.md`.
+
+Primary warm-cost service: `pathology-hub-v04` (4 CPU / 16Gi after Compare OOM mitigation).
+GCS prebuilds are not deleted by scaling to zero. OpenAI is a separate bill from GCP.
 
 ## Product decision (current — corrected 2026-07-26)
 
