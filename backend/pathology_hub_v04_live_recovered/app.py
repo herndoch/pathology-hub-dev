@@ -596,6 +596,29 @@ def vector_search_pool(query: str, pool_size: int):
         out.append(d)
     return out
 
+def fts_only_textbook_search(query: str, max_results: int, excerpt_char_limit: int):
+    """SQLite FTS path that never calls OpenAI — used when embeddings are down."""
+    ensure_artifacts()
+    fts_hits = fts_search_pool(query, max(FTS_POOL, max_results))
+    results = []
+    for rank, h in enumerate(fts_hits[:max_results], start=1):
+        extra = {
+            "fusion_score": 1.0 / (RRF_K + (h.get("_fts_rank") or rank)),
+            "fts_rank": h.get("_fts_rank") or rank,
+            "vector_rank": None,
+            "bm25_score": h.get("_bm25_score"),
+            "vector_score": None,
+        }
+        results.append(
+            row_to_textbook_result(h, query, excerpt_char_limit, rank, "fts_only", extra)
+        )
+    warnings = [
+        "Textbook retrieval is using SQLite FTS only (no OpenAI embeddings).",
+        "Textbook figure URLs prefer direct public web-safe derivative URLs and fall back to expiring proxy URLs if needed.",
+    ]
+    return results, warnings
+
+
 def hybrid_textbook_search(query: str, max_results: int, excerpt_char_limit: int):
     ensure_artifacts()
     fts_hits = fts_search_pool(query, max(FTS_POOL, max_results))
@@ -603,6 +626,7 @@ def hybrid_textbook_search(query: str, max_results: int, excerpt_char_limit: int
     try:
         vector_hits = vector_search_pool(query, max(VECTOR_POOL, max_results))
     except Exception as e:
+        # OpenAI embedding 429 / missing key / FAISS issues must NOT zero textbooks.
         vector_hits = []
         vector_warnings.append(
             f"textbook_vector_unavailable_using_fts_only: {repr(e)}"
@@ -742,16 +766,33 @@ def search_evidence(req: EvidenceSearchRequest, request: Request, x_api_key: Opt
     }
 
     if "textbooks" in sources:
+        results = []
+        warnings = []
         try:
             results, warnings = hybrid_textbook_search(req.query, req.max_results, req.excerpt_char_limit)
+        except Exception as e:
+            # Last-resort FTS-only so embedding quota exhaustion cannot blank textbooks.
+            try:
+                results, warnings = fts_only_textbook_search(
+                    req.query, req.max_results, req.excerpt_char_limit
+                )
+                warnings = list(warnings) + [f"textbook_hybrid_error_fell_back_to_fts: {repr(e)}"]
+            except Exception as e2:
+                response["source_status"]["textbooks"] = "error"
+                response["warnings"].append(f"textbook_hybrid_error: {repr(e)}; fts_fallback: {repr(e2)}")
+                results = []
+                warnings = []
+        if response["source_status"].get("textbooks") != "error":
             response["textbook_results"] = results
             response["source_status"]["textbooks"] = "ok"
             response["warnings"].extend(warnings)
             if req.include_figures and req.max_figures > 0:
-                response["figures"].extend(collect_textbook_figures(results, base_url, req.max_figures))
-        except Exception as e:
-            response["source_status"]["textbooks"] = "error"
-            response["warnings"].append(f"textbook_hybrid_error: {repr(e)}")
+                try:
+                    response["figures"].extend(
+                        collect_textbook_figures(results, base_url, req.max_figures)
+                    )
+                except Exception as fe:
+                    response["warnings"].append(f"textbook_figures_error: {repr(fe)}")
 
     upstream_sources = [s for s in sources if s in {"who", "journals", "pathout"}]
     if upstream_sources:
@@ -1163,16 +1204,32 @@ def search_evidence_v045(req: EvidenceSearchRequest, request: Request, x_api_key
     }
 
     if "textbooks" in sources:
+        results = []
+        warnings = []
         try:
             results, warnings = hybrid_textbook_search(req.query, req.max_results, req.excerpt_char_limit)
+        except Exception as e:
+            try:
+                results, warnings = fts_only_textbook_search(
+                    req.query, req.max_results, req.excerpt_char_limit
+                )
+                warnings = list(warnings) + [f"textbook_hybrid_error_fell_back_to_fts: {repr(e)}"]
+            except Exception as e2:
+                response["source_status"]["textbooks"] = "error"
+                response["warnings"].append(f"textbook_hybrid_error: {repr(e)}; fts_fallback: {repr(e2)}")
+                results = []
+                warnings = []
+        if response["source_status"].get("textbooks") != "error":
             response["textbook_results"] = results
             response["source_status"]["textbooks"] = "ok"
             response["warnings"].extend(warnings)
             if req.include_figures and req.max_figures > 0:
-                response["figures"].extend(collect_textbook_figures(results, base_url, req.max_figures))
-        except Exception as e:
-            response["source_status"]["textbooks"] = "error"
-            response["warnings"].append(f"textbook_hybrid_error: {repr(e)}")
+                try:
+                    response["figures"].extend(
+                        collect_textbook_figures(results, base_url, req.max_figures)
+                    )
+                except Exception as fe:
+                    response["warnings"].append(f"textbook_figures_error: {repr(fe)}")
 
     if "journals" in sources:
         try:
