@@ -1,0 +1,786 @@
+{
+  "schema_version": "topic_page_structural_quality_batch_audit_v0_1",
+  "generated_at": "2026-08-11T00:28:57.807316+00:00",
+  "input_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages"
+  ],
+  "output_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_structural_quality_audit_v0_1.json"
+  ],
+  "counts": {
+    "pages_scored": 3442,
+    "unreadable": 0,
+    "bands": {
+      "good": 1734,
+      "excellent": 1644,
+      "fair": 63,
+      "poor": 1
+    },
+    "mean_score": 94.23,
+    "flag_counts": {
+      "imaging_figures_without_imaging_section": 631,
+      "no_ddx_despite_rich_evidence": 567,
+      "some_unmatched_urls": 404,
+      "who_cards_but_no_who_mention": 345,
+      "gross_figures_without_gross_section": 292,
+      "many_unmatched_urls": 129,
+      "ihc_figures_without_ancillary_section": 92,
+      "cyto_figures_without_cytology_section": 53,
+      "section_order_drift": 50,
+      "modest_cards": 49,
+      "orphan_embedded_images": 11,
+      "few_cards": 9,
+      "few_sections": 7,
+      "short_answer": 4,
+      "textbook_cards_but_no_markdown_cites": 2,
+      "very_short_answer": 1
+    },
+    "high_priority_for_llm": 64
+  },
+  "worst_50": [
+    {
+      "tag": "ABPathSpec::peds::bone_marrow_and_peripheral_blood_non_neoplastic::hb_s_disorders",
+      "label": "Hb S Disorders",
+      "score": 40,
+      "band": "poor",
+      "flags": [
+        "very_short_answer",
+        "who_cards_but_no_who_mention",
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 43,
+      "answer_chars": 253
+    },
+    {
+      "tag": "Cyto_Heme::Category::Benign",
+      "label": "Hematolymphoid Cytopathology Reporting Category: Benign",
+      "score": 58,
+      "band": "fair",
+      "flags": [
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "cyto_figures_without_cytology_section",
+        "ihc_figures_without_ancillary_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 10,
+      "answer_chars": 7195
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::sebacaous_hyperplasia",
+      "label": "Sebacaous Hyperplasia",
+      "score": 60,
+      "band": "fair",
+      "flags": [
+        "short_answer",
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 1037
+    },
+    {
+      "tag": "ABPathSpec::breast::premalignant_malignant_and_borderline::invasive_ductal_carcinoma_nos",
+      "label": "Invasive ductal carcinoma, NOS",
+      "score": 62,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 32,
+      "answer_chars": 7540
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::anti_androgen",
+      "label": "Anti-androgen",
+      "score": 64,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 49,
+      "answer_chars": 7186
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::margins",
+      "label": "Margins",
+      "score": 64,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "some_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 42,
+      "answer_chars": 4113
+    },
+    {
+      "tag": "ABPathSpec::bst::bone::bone_infarct",
+      "label": "Bone infarct",
+      "score": 64,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "gross_figures_without_gross_section",
+        "orphan_embedded_images",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 5604
+    },
+    {
+      "tag": "ABPathSpec::bst::joints::wear_debris_arthropathy",
+      "label": "Wear debris arthropathy",
+      "score": 64,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 36,
+      "answer_chars": 4461
+    },
+    {
+      "tag": "ABPathSpec::heme::bone_abnormalities::renal_osteodystrophy",
+      "label": "Renal Osteodystrophy",
+      "score": 64,
+      "band": "fair",
+      "flags": [
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "many_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 32,
+      "answer_chars": 5324
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::acute_diffuse_intracapillary_proliferative_glomerulonephritis",
+      "label": "Acute diffuse intracapillary proliferative glomerulonephritis",
+      "score": 66,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "cyto_figures_without_cytology_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 38,
+      "answer_chars": 7609
+    },
+    {
+      "tag": "ABPathSpec::neuro::craniocerebral_trauma::contra_coup_lesion",
+      "label": "Contra-Coup Lesion",
+      "score": 66,
+      "band": "fair",
+      "flags": [
+        "short_answer",
+        "few_sections",
+        "imaging_figures_without_imaging_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 25,
+      "answer_chars": 848
+    },
+    {
+      "tag": "ABPathSpec::peds::cardiomyopathy::mitochondrial_cardiomyopathy",
+      "label": "Mitochondrial Cardiomyopathy",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 4804
+    },
+    {
+      "tag": "ABPathSpec::peds::endocrine_tests::vitamin_d",
+      "label": "Vitamin D",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 36,
+      "answer_chars": 4111
+    },
+    {
+      "tag": "ABPathSpec::heme::other_hemolytic_anemias::anemia_related_to_chronic_disease_other_disorders",
+      "label": "Anemia Related to Chronic Disease & Other Disorders",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 35,
+      "answer_chars": 4215
+    },
+    {
+      "tag": "ABPathSpec::heme::thrombophilic_disorders::dic",
+      "label": "DIC",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 34,
+      "answer_chars": 6533
+    },
+    {
+      "tag": "ABPathSpec::heme::erythrocyte_enzyme_disorders::pyruvate_kinase_deficiency",
+      "label": "Pyruvate Kinase Deficiency",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 33,
+      "answer_chars": 3854
+    },
+    {
+      "tag": "ABPathSpec::gu::testis::maturation_arrest",
+      "label": "Maturation arrest",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 32,
+      "answer_chars": 3398
+    },
+    {
+      "tag": "ABPathSpec::neuro::craniocerebral_trauma::laceration",
+      "label": "Laceration",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "section_order_drift",
+        "many_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 28,
+      "answer_chars": 5125
+    },
+    {
+      "tag": "ABPathSpec::peds::cardiovascular_system::normal_circulation_of_the_embryo_and_fetus",
+      "label": "Normal Circulation of the Embryo and Fetus",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 28,
+      "answer_chars": 3681
+    },
+    {
+      "tag": "ABPathSpec::neuro::cerebral_amyloid_angiopathy::inherited_amyloidoses_non_a_beta",
+      "label": "Inherited Amyloidoses (Non-A-beta)",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 26,
+      "answer_chars": 1792
+    },
+    {
+      "tag": "Cyto_Soft_Tissue::STNUMP::STNUMP_Category_Definition_And_Criteria",
+      "label": "STNUMP_Category_Definition_And_Criteria",
+      "score": 68,
+      "band": "fair",
+      "flags": [
+        "short_answer",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 13,
+      "answer_chars": 1171
+    },
+    {
+      "tag": "ABPathSpec::gi::liver_and_biliary_tract::drug_induced_liver_disease",
+      "label": "Drug induced liver disease",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 49,
+      "answer_chars": 9307
+    },
+    {
+      "tag": "ABPathSpec::gi::liver_biliary_tract::drug_induced_liver_disease",
+      "label": "Drug induced liver disease",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 49,
+      "answer_chars": 9317
+    },
+    {
+      "tag": "ABPathSpec::gi::gastrointestinal_tract::celiac_disease_and_tropical_sprue",
+      "label": "Celiac disease and tropical sprue",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "some_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 42,
+      "answer_chars": 8018
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::prostatic_duct_adenocarcinoma",
+      "label": "Prostatic duct adenocarcinoma",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 42,
+      "answer_chars": 8925
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::cutis_marmorata_telangiectatica_congenita",
+      "label": "Cutis Marmorata Telangiectatica Congenita",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 42,
+      "answer_chars": 3564
+    },
+    {
+      "tag": "ABPathSpec::gi::gastrointestinal_tract::dysplasia_and_ibd_related_adenocarcinoma",
+      "label": "Dysplasia and IBD-Related Adenocarcinoma",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 41,
+      "answer_chars": 13008
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::Secondary_Cardiomyopathy::Amyloidosis",
+      "label": "Amyloidosis",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "gross_figures_without_gross_section",
+        "cyto_figures_without_cytology_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 38,
+      "answer_chars": 6271
+    },
+    {
+      "tag": "ABPathSpec::gu::prostate_and_seminal_vesicles::therapy_effects",
+      "label": "Therapy effects",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "some_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 36,
+      "answer_chars": 6777
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Drug_Related_Myocarditis",
+      "label": "Drug-related myocarditis",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 34,
+      "answer_chars": 5041
+    },
+    {
+      "tag": "ABPathSpec::peds::cns_and_eye::teratogenesis",
+      "label": "Teratogenesis",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 33,
+      "answer_chars": 3477
+    },
+    {
+      "tag": "ABPathSpec::skin::anogenital::sclerosing_lipogranuloma_paraffinoma",
+      "label": "Sclerosing Lipogranuloma/Paraffinoma",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "section_order_drift",
+        "imaging_figures_without_imaging_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 29,
+      "answer_chars": 5662
+    },
+    {
+      "tag": "ABPathSpec::skin::benign_tumors_of_smooth_muscle::accessory_nipple",
+      "label": "Accessory Nipple",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 27,
+      "answer_chars": 4110
+    },
+    {
+      "tag": "ABPathSpec::skin::corynebacterial_infections::pitted_keratolysis",
+      "label": "Pitted Keratolysis",
+      "score": 70,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 27,
+      "answer_chars": 4417
+    },
+    {
+      "tag": "ABPathSpec::bst::bone::nonossifying_fibroma",
+      "label": "Nonossifying fibroma",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "gross_figures_without_gross_section",
+        "orphan_embedded_images",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 44,
+      "answer_chars": 6392
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::General::Hypertensive_Heart_Disease",
+      "label": "Hypertensive heart disease",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "gross_figures_without_gross_section",
+        "ihc_figures_without_ancillary_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 40,
+      "answer_chars": 4244
+    },
+    {
+      "tag": "ABPathSpec::breast::additional_topics::therapy_induced_changes",
+      "label": "Therapy induced changes",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section",
+        "some_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 38,
+      "answer_chars": 5398
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::apocrine_nevus",
+      "label": "Apocrine Nevus",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "some_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 36,
+      "answer_chars": 2878
+    },
+    {
+      "tag": "ABPathSpec::heme::leucocyte_infections::anaplasma_ehrlichia",
+      "label": "Anaplasma & Ehrlichia",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "imaging_figures_without_imaging_section",
+        "many_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 34,
+      "answer_chars": 6935
+    },
+    {
+      "tag": "ABPathSpec::breast::premalignant_malignant_and_borderline::atypical_lobular_hyperplasia",
+      "label": "Atypical lobular hyperplasia",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "gross_figures_without_gross_section",
+        "many_unmatched_urls"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 33,
+      "answer_chars": 7664
+    },
+    {
+      "tag": "ABPathSpec::skin::cutaneous_metastases::breast_lung_oral_cavity_and_gastrointestinal_system",
+      "label": "Breast, Lung, Oral Cavity, and Gastrointestinal System",
+      "score": 72,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "section_order_drift",
+        "gross_figures_without_gross_section",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 27,
+      "answer_chars": 5340
+    },
+    {
+      "tag": "ABPathSpec::gi::gastrointestinal_tract::acute_infectious_colitis_acute_self_limited_colitis",
+      "label": "Acute infectious colitis (acute self-limited colitis)",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 48,
+      "answer_chars": 8588
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::diabetic_nephropathy",
+      "label": "Diabetic nephropathy",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 47,
+      "answer_chars": 9044
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::thrombotic_microangiopathy",
+      "label": "Thrombotic microangiopathy",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 41,
+      "answer_chars": 8501
+    },
+    {
+      "tag": "ABPathSpec::heme::other_causes_of_anemia::cold_agglutinin_disease",
+      "label": "Cold Agglutinin Disease",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 40,
+      "answer_chars": 6173
+    },
+    {
+      "tag": "ABPathSpec::gi::liver_and_biliary_tract::alpha_1_antitrypsin_deficiency",
+      "label": "Alpha-1-Antitrypsin Deficiency",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "cyto_figures_without_cytology_section",
+        "some_unmatched_urls",
+        "no_ddx_despite_rich_evidence"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 6574
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::minimal_change_nephrotic_syndrome",
+      "label": "Minimal change nephrotic syndrome",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "cyto_figures_without_cytology_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 7713
+    },
+    {
+      "tag": "Thorax_Mediastinum::Heart::Inflammatory_Cardiomyopathy::Giant_Cell_Myocarditis",
+      "label": "Giant cell myocarditis",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 39,
+      "answer_chars": 6597
+    },
+    {
+      "tag": "ABPathSpec::gi::small_intestine_ampulla::celiac_disease_and_tropical_sprue",
+      "label": "Celiac disease and tropical sprue",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 37,
+      "answer_chars": 7846
+    },
+    {
+      "tag": "ABPathSpec::gu::kidney::diffuse_extracapillary_proliferative_crescentic_glomerulonephritis",
+      "label": "Diffuse extracapillary proliferative (crescentic) glomerulonephritis",
+      "score": 74,
+      "band": "fair",
+      "flags": [
+        "who_cards_but_no_who_mention",
+        "imaging_figures_without_imaging_section",
+        "gross_figures_without_gross_section"
+      ],
+      "priority_for_llm_review": "high",
+      "card_count": 37,
+      "answer_chars": 8299
+    }
+  ],
+  "known_limitations": [
+    "Structural heuristics only.",
+    "Does not prove medical correctness or citation faithfulness beyond URL presence."
+  ]
+}

@@ -1,0 +1,394 @@
+{
+  "schema_version": "topic_page_quality_repair_run_audit_v0_1",
+  "generated_at": "2026-08-11T00:30:13.579295+00:00",
+  "input_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_quality_repair_queue_v0_1.json"
+  ],
+  "output_paths": [
+    "/workspace/outputs/chat_mvp_topic_prepop_v0_1/topic_page_quality_repair_run_audit_v0_1.json",
+    "/workspace/audits/topic_page_quality_burn_v0_1/repair_run_audit_v0_1.json"
+  ],
+  "counts": {
+    "queued_requested": 40,
+    "jobs": 40,
+    "missing_page_json": 0,
+    "n_ok": 40,
+    "n_failed": 0,
+    "score_rc": 0,
+    "rereview": {
+      "rc": 0,
+      "n_tags": 40
+    },
+    "total_cards": 1035,
+    "total_figures": 766
+  },
+  "missing_pages": [],
+  "results": [
+    {
+      "tag": "Cyto_Soft_Tissue::STNUMP::STNUMP_Category_Definition_And_Criteria",
+      "ok": true,
+      "cards": 13,
+      "figures": 11,
+      "elapsed_s": 25.8,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Soft_Tissue__STNUMP__STNUMP_Category_Definition_And_Criteria.json"
+    },
+    {
+      "tag": "HN::Ear_Temporal_Bone::Inflammatory::Infection",
+      "ok": true,
+      "cards": 56,
+      "figures": 32,
+      "elapsed_s": 34.2,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Ear_Temporal_Bone__Inflammatory__Infection.json"
+    },
+    {
+      "tag": "ABPathSpec::peds::bone_marrow_and_peripheral_blood_non_neoplastic::hb_s_disorders",
+      "ok": true,
+      "cards": 43,
+      "figures": 26,
+      "elapsed_s": 14.8,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__peds__bone_marrow_and_peripheral_blood_non_neoplastic__hb_s_disorders.json"
+    },
+    {
+      "tag": "Cyto_Mediastinum::Category::Nondiagnostic",
+      "ok": true,
+      "cards": 9,
+      "figures": 2,
+      "elapsed_s": 15.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Mediastinum__Category__Nondiagnostic.json"
+    },
+    {
+      "tag": "HN::Heme::Reactive::EBV_Positive_Mucocutaneous_Ulcer",
+      "ok": true,
+      "cards": 28,
+      "figures": 16,
+      "elapsed_s": 27.2,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Heme__Reactive__EBV_Positive_Mucocutaneous_Ulcer.json"
+    },
+    {
+      "tag": "Breast::Neoplastic::Hematolymphoid::Malignant::Breast_Implant_Associated_ALCL",
+      "ok": true,
+      "cards": 21,
+      "figures": 17,
+      "elapsed_s": 36.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Breast__Neoplastic__Hematolymphoid__Malignant__Breast_Implant_Associated_ALCL.json"
+    },
+    {
+      "tag": "Eye_Orbit::Soft_Tissue::Fibrous_Fibroblastic::Solitary_Fibrous_Tumor",
+      "ok": true,
+      "cards": 34,
+      "figures": 20,
+      "elapsed_s": 35.5,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Eye_Orbit__Soft_Tissue__Fibrous_Fibroblastic__Solitary_Fibrous_Tumor.json"
+    },
+    {
+      "tag": "Breast::Neoplastic::Mesenchymal::Benign::Angiomatosis",
+      "ok": true,
+      "cards": 39,
+      "figures": 30,
+      "elapsed_s": 20.7,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Breast__Neoplastic__Mesenchymal__Benign__Angiomatosis.json"
+    },
+    {
+      "tag": "HN::Ear_Temporal_Bone::External_Auditory_Canal::Ceruminous_Adenoma",
+      "ok": true,
+      "cards": 51,
+      "figures": 36,
+      "elapsed_s": 25.9,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Ear_Temporal_Bone__External_Auditory_Canal__Ceruminous_Adenoma.json"
+    },
+    {
+      "tag": "HN::Salivary_Gland::Malignant_Tumor::Hyalinizing_Clear_Cell_Carcinoma",
+      "ok": true,
+      "cards": 33,
+      "figures": 33,
+      "elapsed_s": 30.8,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Salivary_Gland__Malignant_Tumor__Hyalinizing_Clear_Cell_Carcinoma.json"
+    },
+    {
+      "tag": "Cyto_Mediastinum::Category::Suspicious_For_Malignancy",
+      "ok": true,
+      "cards": 8,
+      "figures": 4,
+      "elapsed_s": 16.6,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Mediastinum__Category__Suspicious_For_Malignancy.json"
+    },
+    {
+      "tag": "HN::Neck_Lymph_Node::Cyst::Ranula",
+      "ok": true,
+      "cards": 36,
+      "figures": 35,
+      "elapsed_s": 28.9,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Neck_Lymph_Node__Cyst__Ranula.json"
+    },
+    {
+      "tag": "Breast::Neoplastic::Epithelial::Malignant::Myoepithelial_Carcinoma",
+      "ok": true,
+      "cards": 48,
+      "figures": 37,
+      "elapsed_s": 31.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Breast__Neoplastic__Epithelial__Malignant__Myoepithelial_Carcinoma.json"
+    },
+    {
+      "tag": "Cyto_Fluid::Category::Benign",
+      "ok": true,
+      "cards": 8,
+      "figures": 0,
+      "elapsed_s": 18.6,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Fluid__Category__Benign.json"
+    },
+    {
+      "tag": "Eye_Orbit::Eyelid_Adnexal::Malignant::Adenoid_Cystic_Carcinoma",
+      "ok": true,
+      "cards": 35,
+      "figures": 16,
+      "elapsed_s": 31.8,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Eye_Orbit__Eyelid_Adnexal__Malignant__Adenoid_Cystic_Carcinoma.json"
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Atypical",
+      "ok": true,
+      "cards": 9,
+      "figures": 7,
+      "elapsed_s": 21.0,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_CNS_Eye__Category__Atypical.json"
+    },
+    {
+      "tag": "HN::Neuroendocrine_Paraganglioma::Neuroendocrine_Tumor::Neuroendocrine_Tumor_NOS",
+      "ok": true,
+      "cards": 43,
+      "figures": 31,
+      "elapsed_s": 29.6,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Neuroendocrine_Paraganglioma__Neuroendocrine_Tumor__Neuroendocrine_Tumor_NOS.json"
+    },
+    {
+      "tag": "Eye_Orbit::Bone::Osteoclast_Rich::Giant_Cell_Tumor_Of_Bone",
+      "ok": true,
+      "cards": 26,
+      "figures": 24,
+      "elapsed_s": 36.4,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Eye_Orbit__Bone__Osteoclast_Rich__Giant_Cell_Tumor_Of_Bone.json"
+    },
+    {
+      "tag": "HN::Odontogenic_Maxillofacial::Malignant::Ameloblastic_Carcinoma",
+      "ok": true,
+      "cards": 41,
+      "figures": 33,
+      "elapsed_s": 32.5,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Odontogenic_Maxillofacial__Malignant__Ameloblastic_Carcinoma.json"
+    },
+    {
+      "tag": "ABPathSpec::skin::benign::sebacaous_hyperplasia",
+      "ok": true,
+      "cards": 39,
+      "figures": 24,
+      "elapsed_s": 11.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__skin__benign__sebacaous_hyperplasia.json"
+    },
+    {
+      "tag": "Cyto_Fluid::Category::Nondiagnostic",
+      "ok": true,
+      "cards": 7,
+      "figures": 0,
+      "elapsed_s": 13.2,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Fluid__Category__Nondiagnostic.json"
+    },
+    {
+      "tag": "Cyto_Thoracic::Benign::Neoplastic::Solitary_Tracheobronchial_Papilloma",
+      "ok": true,
+      "cards": 5,
+      "figures": 15,
+      "elapsed_s": 15.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Thoracic__Benign__Neoplastic__Solitary_Tracheobronchial_Papilloma.json"
+    },
+    {
+      "tag": "ABPathSpec::neuro::cell_types::ependyma_microglia_and_mononuclear_cells",
+      "ok": true,
+      "cards": 31,
+      "figures": 35,
+      "elapsed_s": 22.7,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__neuro__cell_types__ependyma_microglia_and_mononuclear_cells.json"
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Suspicious_For_Malignancy",
+      "ok": true,
+      "cards": 12,
+      "figures": 3,
+      "elapsed_s": 25.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_CNS_Eye__Category__Suspicious_For_Malignancy.json"
+    },
+    {
+      "tag": "ABPathSpec::heme::coagulation_and_fibrinolytic_disorders::factor_deficiency_or_functional_abnormalities",
+      "ok": true,
+      "cards": 31,
+      "figures": 29,
+      "elapsed_s": 24.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__heme__coagulation_and_fibrinolytic_disorders__factor_deficiency_or_functional_abnormalities.json"
+    },
+    {
+      "tag": "ABPathSpec::neuro::cerebral_amyloid_angiopathy::inherited_amyloidoses_non_a_beta",
+      "ok": true,
+      "cards": 26,
+      "figures": 20,
+      "elapsed_s": 12.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__neuro__cerebral_amyloid_angiopathy__inherited_amyloidoses_non_a_beta.json"
+    },
+    {
+      "tag": "ABPathSpec::peds::cardiovascular_system::normal_circulation_of_the_embryo_and_fetus",
+      "ok": true,
+      "cards": 28,
+      "figures": 20,
+      "elapsed_s": 22.9,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__peds__cardiovascular_system__normal_circulation_of_the_embryo_and_fetus.json"
+    },
+    {
+      "tag": "GU::Penis_Scrotum::Precursor_HPV_Assoc::PIN_HPV_Associated",
+      "ok": true,
+      "cards": 43,
+      "figures": 23,
+      "elapsed_s": 18.6,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/GU__Penis_Scrotum__Precursor_HPV_Assoc__PIN_HPV_Associated.json"
+    },
+    {
+      "tag": "ABPathSpec::heme::other_hemolytic_anemias::anemia_related_to_chronic_disease_other_disorders",
+      "ok": true,
+      "cards": 35,
+      "figures": 26,
+      "elapsed_s": 21.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__heme__other_hemolytic_anemias__anemia_related_to_chronic_disease_other_disorders.json"
+    },
+    {
+      "tag": "ABPathSpec::peds::congenital_adrenal_hyperplasia::gonadotropin_leydig_cell_defects",
+      "ok": true,
+      "cards": 30,
+      "figures": 27,
+      "elapsed_s": 38.9,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__peds__congenital_adrenal_hyperplasia__gonadotropin_leydig_cell_defects.json"
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Nondiagnostic",
+      "ok": true,
+      "cards": 10,
+      "figures": 5,
+      "elapsed_s": 15.5,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_CNS_Eye__Category__Nondiagnostic.json"
+    },
+    {
+      "tag": "Cyto_Pancreatobiliary::Benign::Non_Neoplastic::Cholangitis",
+      "ok": true,
+      "cards": 19,
+      "figures": 16,
+      "elapsed_s": 24.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Pancreatobiliary__Benign__Non_Neoplastic__Cholangitis.json"
+    },
+    {
+      "tag": "Thorax_Mediastinum::Blood_Vessels::Vasculitis::Immune_Complex_Mediated_Small_Vessel_Vasculitis",
+      "ok": true,
+      "cards": 28,
+      "figures": 24,
+      "elapsed_s": 28.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Thorax_Mediastinum__Blood_Vessels__Vasculitis__Immune_Complex_Mediated_Small_Vessel_Vasculitis.json"
+    },
+    {
+      "tag": "Cyto_Soft_Tissue::Benign::Mass_Forming_Inflammatory::Ischaemic_Fasciitis",
+      "ok": true,
+      "cards": 9,
+      "figures": 7,
+      "elapsed_s": 17.9,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Soft_Tissue__Benign__Mass_Forming_Inflammatory__Ischaemic_Fasciitis.json"
+    },
+    {
+      "tag": "ABPathSpec::thorax_mediastinum::mediastinum::cysts_other_than_thymic",
+      "ok": true,
+      "cards": 36,
+      "figures": 21,
+      "elapsed_s": 22.1,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/ABPathSpec__thorax_mediastinum__mediastinum__cysts_other_than_thymic.json"
+    },
+    {
+      "tag": "Cyto_CNS_Eye::Category::Benign",
+      "ok": true,
+      "cards": 11,
+      "figures": 6,
+      "elapsed_s": 14.4,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_CNS_Eye__Category__Benign.json"
+    },
+    {
+      "tag": "Cyto_Mediastinum::Category::Benign",
+      "ok": true,
+      "cards": 10,
+      "figures": 6,
+      "elapsed_s": 15.3,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Mediastinum__Category__Benign.json"
+    },
+    {
+      "tag": "HN::Odontogenic_Maxillofacial::Giant_Cell_Lesion::Peripheral_Giant_Cell_Granuloma",
+      "ok": true,
+      "cards": 29,
+      "figures": 33,
+      "elapsed_s": 30.4,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/HN__Odontogenic_Maxillofacial__Giant_Cell_Lesion__Peripheral_Giant_Cell_Granuloma.json"
+    },
+    {
+      "tag": "Cyto_Soft_Tissue::Benign::Myxoid_Stroma::Intramuscular_Juxta_Articular_Myxoma",
+      "ok": true,
+      "cards": 2,
+      "figures": 1,
+      "elapsed_s": 10.6,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_Soft_Tissue__Benign__Myxoid_Stroma__Intramuscular_Juxta_Articular_Myxoma.json"
+    },
+    {
+      "tag": "Cyto_GU::Category::Atypical",
+      "ok": true,
+      "cards": 13,
+      "figures": 15,
+      "elapsed_s": 19.7,
+      "model": "gpt-5.6-luna",
+      "json_path": "/workspace/outputs/chat_mvp_topic_prepop_v0_1/pages/Cyto_GU__Category__Atypical.json"
+    }
+  ],
+  "base_url": "https://chat.pathologynotebook.com",
+  "known_limitations": [
+    "Index-independent repair using page sidecar query/category_context.",
+    "Does not guarantee LLM verdict flips to ready_for_human_review.",
+    "Prefer --parallel 2 to avoid textbook search degradation under load."
+  ]
+}

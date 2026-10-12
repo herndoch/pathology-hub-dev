@@ -98,12 +98,55 @@ def _slim_evidence_for_review(page: dict) -> dict[str, Any]:
     }
 
 
+def _parse_score(text: str) -> int | None:
+    m = re.search(r"##\s*Score\b(.*?)(?:\n##\s|\Z)", text or "", flags=re.I | re.S)
+    scope = m.group(1) if m else (text or "")
+    m2 = re.search(r"\b(\d{1,3})\b", scope)
+    if not m2:
+        return None
+    n = int(m2.group(1))
+    return n if 0 <= n <= 100 else None
+
+
 def _parse_verdict(text: str) -> str:
-    low = (text or "").lower()
-    for key in ("blocked_thin_evidence", "needs_fixes", "ready_for_human_review"):
+    """Prefer the ## Verdict section; calibrate with ## Score when present.
+
+    Models often emit needs_fixes even at score 80+. When a numeric Score is
+    present, enforce the rubric: >=75 → ready, <=35 → blocked (unless already
+    blocked), else keep the model label.
+    """
+    text = text or ""
+    section = re.search(
+        r"##\s*Verdict\b(.*?)(?:\n##\s|\Z)",
+        text,
+        flags=re.I | re.S,
+    )
+    scope = section.group(1) if section else text
+    low = scope.lower()
+    raw = None
+    for key in ("ready_for_human_review", "blocked_thin_evidence", "needs_fixes"):
         if key in low:
-            return key
-    return "needs_fixes"
+            raw = key
+            break
+    if raw is None:
+        low_all = text.lower()
+        for key in ("ready_for_human_review", "blocked_thin_evidence", "needs_fixes"):
+            if key in low_all:
+                raw = key
+                break
+    if raw is None:
+        raw = "needs_fixes"
+
+    score = _parse_score(text)
+    if score is None:
+        return raw
+    if raw == "blocked_thin_evidence" and score <= 45:
+        return "blocked_thin_evidence"
+    if score <= 35:
+        return "blocked_thin_evidence"
+    if score >= 75:
+        return "ready_for_human_review"
+    return raw if raw != "ready_for_human_review" or score >= 75 else "needs_fixes"
 
 
 def _review_one(page_path: Path, model: Optional[str]) -> dict[str, Any]:
@@ -126,6 +169,7 @@ def _review_one(page_path: Path, model: Optional[str]) -> dict[str, Any]:
         bundle,
         model=model or get_topic_page_model(),
     )
+    score = _parse_score(result.text) if result.ok else None
     review = {
         "schema_version": REVIEW_SCHEMA_VERSION,
         "tag": tag,
@@ -134,6 +178,7 @@ def _review_one(page_path: Path, model: Optional[str]) -> dict[str, Any]:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "ok": bool(result.ok),
         "model": result.model,
+        "score": score,
         "verdict": _parse_verdict(result.text) if result.ok else None,
         "review_markdown": result.text if result.ok else "",
         "error": result.error,
@@ -141,6 +186,7 @@ def _review_one(page_path: Path, model: Optional[str]) -> dict[str, Any]:
             "Advisory LLM critique only — not a human pathologist sign-off.",
             "Does not mutate the prebuild page JSON/markdown.",
             "Publish decisions remain with a human reviewer.",
+            "Verdict is score-calibrated when ## Score is present (>=75 ready, <=35 blocked).",
         ],
     }
     out_path = page_path.parent / f"{page_path.stem}.review.json"
@@ -196,7 +242,9 @@ def main() -> None:
         raise SystemExit(f"No page JSON files found under {pages_dir}")
 
     results: list[dict] = []
-    workers = max(1, min(args.parallel, 4))
+    # Cap raised for quality-burn throughput (OpenAI can absorb more than 4;
+    # still bounded so a runaway CLI flag cannot open hundreds of sockets).
+    workers = max(1, min(args.parallel, 24))
     if workers == 1:
         for path in paths:
             results.append(_review_one(path, args.model))
