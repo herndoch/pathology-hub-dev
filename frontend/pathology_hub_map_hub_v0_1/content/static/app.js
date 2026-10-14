@@ -63,12 +63,12 @@
   }
 
   function leafHas(leaf, mode) {
-    if (mode === "all") return !!(leaf.textbook_items?.length || leaf.who || leaf.pathout);
-    if (mode === "textbooks") return !!(leaf.textbook_items && leaf.textbook_items.length);
+    // Public sources only: textbook samples in the data are never shown on the site.
+    if (mode === "all") return !!(leaf.who || leaf.pathout);
     if (mode === "who") return !!leaf.who;
     if (mode === "pathout") return !!leaf.pathout;
     if (mode === "references") return !!(leaf.who || leaf.pathout);
-    return true;
+    return !!(leaf.who || leaf.pathout);
   }
 
   function filterModel(roots) {
@@ -87,10 +87,6 @@
     if (!q) return true;
     const hay = `${node.label} ${node.path} ${node.primary_tag || ""}`.toLowerCase();
     if (hay.includes(q)) return true;
-    for (const it of node.textbook_items || []) {
-      const cHay = `${it.source_title || ""} ${it.source_id || ""} ${it.excerpt || ""}`.toLowerCase();
-      if (cHay.includes(q)) return true;
-    }
     if ((node.who?.query || "").toLowerCase().includes(q)) return true;
     if ((node.pathout?.query || "").toLowerCase().includes(q)) return true;
     return (node.children || []).some((c) => nodeMatches(c, q));
@@ -307,7 +303,6 @@
     detailPath.textContent = leaf.path || leaf.primary_tag || "";
 
     const badges = [];
-    if (leaf.textbook_items?.length) badges.push(`<span class="badge badge-tb">Textbook ×${leaf.textbook_items.length}</span>`);
     if (leaf.who) badges.push(`<span class="badge badge-who">WHO</span>`);
     if (leaf.pathout) badges.push(`<span class="badge badge-pathout">PathOut</span>`);
     detailBadges.innerHTML = badges.join("");
@@ -326,13 +321,12 @@
       }
     });
 
-    const items = leaf.textbook_items || [];
+    const items = [];
     itemListEl.innerHTML = "";
     figureImg.classList.add("hidden");
     figureImg.removeAttribute("src");
-    figureCaption.textContent = items.length
-      ? "Select a textbook sample"
-      : (leaf.who || leaf.pathout ? "No textbook samples on this topic. Search the reference library above." : "No samples.");
+    figureCaption.textContent = "";
+    document.getElementById("detail-grid").classList.add("hidden");
 
     items.forEach((it, i) => {
       const li = document.createElement("li");
@@ -372,10 +366,19 @@
     });
   }
 
+  function publicLeafCount() {
+    let n = 0;
+    function walk(node) {
+      if (node.kind === "leaf") { if (node.who || node.pathout) n += 1; return; }
+      for (const c of node.children || []) walk(c);
+    }
+    for (const r of (index && index.roots) || []) walk(r);
+    return n;
+  }
+
   function renderStats(counts) {
     statsEl.innerHTML = [
-      ["Leaves", counts.leaves],
-      ["Textbooks", counts.leaves_with_textbooks],
+      ["Topics", publicLeafCount()],
       ["WHO", counts.leaves_with_who],
       ["PathOut", counts.leaves_with_pathout],
     ].map(([k, v]) => `<div class="stat"><span class="k">${k}</span><span class="v">${Number(v || 0).toLocaleString()}</span></div>`).join("");
@@ -451,7 +454,7 @@
       if (chatLink && data.chat_url) chatLink.href = data.chat_url;
       renderStats(data.counts || {});
       if (Array.isArray(data.known_limitations)) {
-        limitationsEl.textContent = "Note: " + data.known_limitations.join(" ");
+        limitationsEl.textContent = "Note: " + data.known_limitations.filter((s) => !/textbook/i.test(s)).join(" ");
       }
       // Expand Cytopathology so the single cyto root is obvious
       const cyto = (data.roots || []).find((r) => r.id === "Cytopathology" || r.label === "Cytopathology");

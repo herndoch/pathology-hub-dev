@@ -16,7 +16,7 @@
       <div class="brand-block">
         <p class="eyebrow">Pathology Knowledge Hub</p>
         <h1>Teaching topics</h1>
-        <p class="lede">Textbooks, WHO Classification, and PathologyOutlines in one tree — one Cytopathology root. Filter by source; inspect source samples.</p>
+        <p class="lede">WHO Classification and PathologyOutlines topics in one tree, one Cytopathology root. Filter by source, then open a topic in the reference library.</p>
       </div>
       <div class="stats" id="stats"></div>
     </header>
@@ -25,14 +25,13 @@
       <div class="site-search" role="search">
         <div class="wrap">
           <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
-          <input id="filter" type="search" placeholder="Search topics, books, WHO, PathOut…" autocomplete="off" aria-label="Search topics, books, WHO, PathOut…" />
+          <input id="filter" type="search" placeholder="Search topics, WHO, PathOut…" autocomplete="off" aria-label="Search topics, WHO, PathOut" />
         </div>
       </div>
       <label class="source-wrap" for="source-filter">
         Source
         <select id="source-filter">
           <option value="all" selected>All sources</option>
-          <option value="textbooks">Textbooks</option>
           <option value="who">WHO</option>
           <option value="pathout">PathOut</option>
           <option value="references">WHO + PathOutlines</option>
@@ -49,7 +48,7 @@
     <section class="detail-pane" aria-label="Topic detail">
       <div id="empty" class="empty">
         <h2>Pick a topic on the tree</h2>
-        <p>Leaves may include textbook samples, WHO, PathOut, or a mix. Reference library for retrieval.</p>
+        <p>Topics carry WHO, PathOut, or both. Open a topic in the reference library for the saved page.</p>
       </div>
       <div id="detail" class="detail hidden">
         <header class="detail-head">
@@ -60,7 +59,7 @@
         <div class="detail-actions" id="journal-actions"></div>
         <div class="detail-grid" id="detail-grid">
           <div id="figure-pane" class="figure-pane">
-            <img id="figure-img" alt="Textbook figure" class="hidden" />
+            <img id="figure-img" alt="Figure" class="hidden" />
             <p id="figure-caption" class="now-playing"></p>
           </div>
           <ul id="item-list" class="clip-list"></ul>

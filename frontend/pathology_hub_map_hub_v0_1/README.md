@@ -26,7 +26,7 @@ The reference-library link opens a matching saved topic or prepares a topic sear
 | `/videos/` | Pathology Video Index (self-contained page; see `videos/README.md`) |
 | `/content/` | Textbook, WHO and PathOutlines topic tree |
 | `/lectures/` | Lecture topics and timestamped clips |
-| `/textbooks/` | Redirect to the textbook filter |
+| `/textbooks/` | Redirect to the topic tree |
 | `/journals/` | Redirect to the WHO/PathOutlines filter |
 | `/app/` | Redirect to the hosted reference library |
 
