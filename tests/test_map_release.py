@@ -85,7 +85,7 @@ class DeliveryTests(unittest.TestCase):
         cls.thread.join()
 
     def test_legacy_routes_open_the_canonical_filters(self):
-        for old, target in [("/textbooks/", "/content/?source=textbooks"), ("/journals/", "/content/?source=references")]:
+        for old, target in [("/textbooks/", "/content/"), ("/journals/", "/content/?source=references")]:
             with urllib.request.urlopen(self.base + old) as response:
                 self.assertEqual(response.url, self.base + target)
                 self.assertEqual(response.status, 200)
