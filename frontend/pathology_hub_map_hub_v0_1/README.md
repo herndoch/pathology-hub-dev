@@ -43,7 +43,7 @@ The ZIP contains the same launcher and static files, plus a SHA-256 manifest. Ex
 
 ## One visual system
 
-All pages load `static/tokens.css` (palette, type, dark mode) and the shared navigation bar from `static/navigation.js`. The front page and the video index share the same six source labels: Full, Partial, Video not yet checked, Pathology Outlines, Webpage, No free source yet. Keep those names and the dated "playable as of" line consistent across pages.
+All pages load `static/tokens.css` and the shared navigation bar from `static/navigation.js`. The tokens (palette, type, radii, shadows, search bar, pill and card classes) are copied from the reference library at chat.pathologynotebook.com (its `landing_ui.css`), so the hub reads as the same product; when that site's look changes, update `tokens.css` to match. There is no dark mode, to match the reference library. The front page and the video index share the same six source labels: Full, Partial, Video not yet checked, Pathology Outlines, Webpage, No free source yet. Keep those names and the dated "playable as of" line consistent across pages.
 
 ## Hosting
 

@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teaching topics · Pathology Knowledge Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="static/style.css" />
 <link rel="stylesheet" href="/static/navigation.css">
@@ -25,7 +22,12 @@
     </header>
 
     <div class="toolbar">
-      <input id="filter" type="search" placeholder="Search topics, books, WHO, PathOut…" autocomplete="off" />
+      <div class="site-search" role="search">
+        <div class="wrap">
+          <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+          <input id="filter" type="search" placeholder="Search topics, books, WHO, PathOut…" autocomplete="off" aria-label="Search topics, books, WHO, PathOut…" />
+        </div>
+      </div>
       <label class="source-wrap" for="source-filter">
         Source
         <select id="source-filter">
@@ -37,7 +39,7 @@
         </select>
       </label>
       <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
-      <a class="chat-link" id="chat-link" href="https://chat.pathologynotebook.com/" target="_blank" rel="noopener">Reference library</a>
+      <a class="chat-link action-pill" id="chat-link" href="https://chat.pathologynotebook.com/" target="_blank" rel="noopener">Reference library</a>
     </div>
 
     <section class="tree-stage" aria-label="Content OncoTree">

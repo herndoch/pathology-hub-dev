@@ -1,38 +1,45 @@
-/* Pathology Knowledge Hub: one visual system for the front door, the maps and the video index.
-   Palette: hematoxylin blue-violet is the working accent; eosin pink is reserved for the
-   "taught in full" mark and the videos product. Keep these names in step with the index page. */
+/* Pathology Knowledge Hub: one visual system shared with chat.pathologynotebook.com (the reference library).
+   Palette, type, radii and shadows are taken from that site's landing stylesheet so the front door, the maps
+   and the video index read as the same product. Variable names are kept so page stylesheets keep working:
+   --hx is the working accent (reference-library blue), --eo is reserved for the "Full" video mark. */
 :root{
-  --bg:#f7f6f9; --panel:#ffffff; --ink:#1d1a2b; --ink-2:#5a566b; --ink-3:#8b8799;
-  --line:#e1dde9; --line-2:#cfcadb;
-  --hx:#4b3f8f; --hx-soft:#ebe7f8; --hx-ink:#3b3077;
-  --eo:#c2416b; --eo-soft:#fbe6ee;
-  --ok:#2c7a4b; --ok-soft:#e3f3e8; --warn:#9a6400; --warn-soft:#fff2cf; --mute-soft:#edebf1;
-  --focus:#6d5fd1;
-  --shadow:0 1px 2px rgba(29,26,43,.06), 0 8px 24px rgba(29,26,43,.06);
-  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-disp:"Newsreader",Georgia,"Times New Roman",serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --radius:10px; --radius-lg:14px;
+  --bg:#f7f9fb; --panel:#fbfcfe; --card:#ffffff;
+  --ink:#253445; --ink-2:#637285; --ink-3:#8193a5; --brand:#3b4f65; --eyebrow:#718daa;
+  --line:#e1e9f1; --line-2:#d8e2ec;
+  --hx:#3768a4; --hx-soft:#ecf3fa; --hx-ink:#345d90; --hx-hover:#254f80; --hx-hover-soft:#eaf2fa;
+  --btn:#486fa2; --btn-ink:#ffffff;
+  --accent:var(--hx); --accent-soft:var(--hx-soft); --link:var(--hx);
+  --eo:#b8456e; --eo-soft:#fbe6ee;
+  --ok:#3d767c; --ok-soft:#e6f3f2; --warn:#b06000; --warn-soft:#fff5dc; --error:#d93025; --mute-soft:#edf3f9;
+  --focus:#88a9d2;
+  --shadow:0 9px 25px rgba(44,66,90,.06);
+  --shadow-input:0 3px 13px rgba(44,66,90,.085);
+  --f-body:"Google Sans",Roboto,Arial,sans-serif;
+  --f-disp:"Google Sans",Roboto,Arial,sans-serif;
+  --f-mono:ui-monospace,Menlo,Consolas,monospace;
+  --radius:13px; --radius-lg:18px; --radius-input:15px;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#15131d; --panel:#1e1b29; --ink:#ece9f4; --ink-2:#b4afc6; --ink-3:#7f7a92;
-  --line:#2e2a3d; --line-2:#3d384f;
-  --hx:#a79af0; --hx-soft:#2a2544; --hx-ink:#c9bff7;
-  --eo:#ef7fa6; --eo-soft:#3b2230;
-  --ok:#7fd09a; --ok-soft:#1d3327; --warn:#f0c04d; --warn-soft:#3a2f12; --mute-soft:#2a2735;
-  --focus:#b3a6ff; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#15131d; --panel:#1e1b29; --ink:#ece9f4; --ink-2:#b4afc6; --ink-3:#7f7a92;
-  --line:#2e2a3d; --line-2:#3d384f;
-  --hx:#a79af0; --hx-soft:#2a2544; --hx-ink:#c9bff7;
-  --eo:#ef7fa6; --eo-soft:#3b2230;
-  --ok:#7fd09a; --ok-soft:#1d3327; --warn:#f0c04d; --warn-soft:#3a2f12; --mute-soft:#2a2735;
-  --focus:#b3a6ff; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
-a{color:var(--hx-ink)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+a{color:var(--link)}
+button,input,select{font-family:inherit}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums}
+
+/* Shared chat-site components: search bar, pill actions, cards and eyebrows. */
+.site-search{display:grid;grid-template-columns:minmax(0,min(850px,100%)) auto;justify-content:center;align-items:center;gap:.55rem .65rem;margin:0 auto}
+.site-search .wrap{position:relative;width:100%;min-width:0}
+.site-search .icon{position:absolute;z-index:3;left:1.15rem;top:50%;transform:translateY(-50%);display:flex;color:#8193a5;pointer-events:none}
+.site-search input{width:100%;height:46px;border:1px solid var(--line-2);border-radius:var(--radius-input);padding:0 1rem 0 3.1rem;font:inherit;font-size:.93rem;color:var(--ink);background:#fff;box-shadow:var(--shadow-input)}
+.site-search input::placeholder{color:#6b7280}
+.site-search input:focus{outline:2px solid var(--focus);outline-offset:0}
+.site-search button{min-width:80px;height:43px;padding:.4rem .9rem;border:1px solid var(--btn);border-radius:var(--radius);background:var(--btn);color:var(--btn-ink);font:inherit;font-weight:650;cursor:pointer}
+.site-search button:hover{background:var(--hx-ink);border-color:var(--hx-ink)}
+.action-pill{border:1px solid transparent;border-radius:999px;padding:.27rem .68rem;color:#78899b;background:transparent;font:inherit;font-size:.76rem;cursor:pointer;text-decoration:none}
+.action-pill:hover,.action-pill:focus-visible{color:#355f93;background:#edf3f9}
+.action-pill.active,.action-pill[aria-pressed="true"],.action-pill[aria-current="page"]{color:#345d90;background:#e8f0f8;border-color:#d9e5f1;font-weight:700}
+.site-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow)}
+.site-eyebrow{color:var(--eyebrow);font-size:.7rem;font-weight:750;letter-spacing:.09em;text-transform:uppercase}

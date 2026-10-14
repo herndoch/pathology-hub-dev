@@ -4,25 +4,37 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Free public pathology teaching videos mapped to the ABPath curriculum, with teaching topics, lecture clips and a reference library.">
   <title>Pathology Knowledge Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap">
   <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="/static/hub.css">
   <link rel="stylesheet" href="/static/navigation.css">
-  <script src="/static/navigation.js?v=20261011.1" defer></script>
+  <script src="/static/navigation.js?v=20261014.1" defer></script>
 </head>
 <body>
+  <form class="search-bar" action="/videos/" method="get" role="search">
+    <div class="site-search">
+      <div class="wrap">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="10.8" cy="10.8" r="6.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <input type="search" name="q" placeholder="Search a topic in the video index, e.g. radial scar, ependymoma, HLH" autocomplete="off" aria-label="Search the video index">
+      </div>
+      <button type="submit">Search</button>
+      <div class="actions" role="group" aria-label="Where to look">
+        <a class="action-pill active" href="/videos/">Videos</a>
+        <a class="action-pill" href="/content/">Teaching topics</a>
+        <a class="action-pill" href="/lectures/">Lecture clips</a>
+        <a class="action-pill" href="https://chat.pathologynotebook.com/">Reference library ↗</a>
+      </div>
+    </div>
+  </form>
+
   <main class="hub">
     <header class="hero">
-      <div>
-        <p class="eyebrow">Free pathology teaching, mapped to the ABPath curriculum</p>
-        <h1>Find the video that teaches it, <em>starting at the right minute.</em></h1>
-        <p class="lede">For each anatomic pathology curriculum requirement, the best free public video we could find, checked against its transcript and linked at the teaching timestamp. Where no video qualifies yet, the matching Pathology Outlines page.</p>
-      </div>
+      <p class="site-eyebrow">Free pathology teaching, mapped to the ABPath curriculum</p>
+      <h1>Find the video that teaches it, starting at the right minute.</h1>
+      <p class="lede">For each anatomic pathology curriculum requirement, the best free public video we could find, checked against its transcript and linked at the teaching timestamp. Where no video qualifies yet, the matching Pathology Outlines page.</p>
       <p class="hero-aside"><b>Links only.</b> Every video opens on its original host. Nothing is re-uploaded, and each link carries the date it was last confirmed playable without an account.</p>
     </header>
 
-    <a class="product" href="/videos/">
+    <a class="product site-card" href="/videos/">
       <div>
         <p class="product-title"><span class="product-name">Pathology Video Index</span> <span class="tag">Main resource</span></p>
         <p class="product-desc">Browse by specialty and curriculum level, or search a topic. Each requirement shows whether its video teaches the topic in full or in part, and when a video has not been checked yet.</p>
@@ -31,21 +43,21 @@
     </a>
 
     <nav class="choices" aria-label="Other resources">
-      <a class="choice" href="/content/">
+      <a class="choice site-card" href="/content/">
         <span class="choice-title">Teaching topics</span>
         <span class="choice-desc">Textbook, WHO and Pathology Outlines mappings in one tree, by specialty.</span>
       </a>
-      <a class="choice" href="/lectures/">
+      <a class="choice site-card" href="/lectures/">
         <span class="choice-title">Lecture clips</span>
         <span class="choice-desc">Departmental lectures broken into timestamped clips with mapped topics.</span>
       </a>
-      <a class="choice" href="https://chat.pathologynotebook.com/">
+      <a class="choice site-card" href="https://chat.pathologynotebook.com/">
         <span class="choice-title">Reference library <span aria-hidden="true">↗</span></span>
         <span class="choice-desc">Saved pathology pages with figures and source links, plus an assistant preview.</span>
       </a>
     </nav>
 
-    <section class="labels" aria-labelledby="labels-h">
+    <section class="labels site-card" aria-labelledby="labels-h">
       <h2 id="labels-h">How to read the labels</h2>
       <p>The same six labels are used everywhere on this site. They describe what we observed in the transcript and on the host page, not how good the teaching is.</p>
       <ul class="pills">
