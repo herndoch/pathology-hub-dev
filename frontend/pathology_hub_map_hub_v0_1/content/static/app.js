@@ -307,9 +307,14 @@
     if (leaf.pathout) badges.push(`<span class="badge badge-pathout">PathOut</span>`);
     detailBadges.innerHTML = badges.join("");
 
+    // Public site: titles and outbound links to the sources only. Saved topic pages, figures and
+    // the reference library stay on chat.pathologynotebook.com (UCSF access).
     const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
-    journalActions.innerHTML = `<a class="action" href="${escapeAttr(chatBase())}/?dx=${q}" target="_blank" rel="noopener">Find in reference library ↗</a>
-      <button type="button" class="action secondary" id="copy-topic-link">Copy topic link</button>`;
+    const links = [];
+    if (leaf.pathout) links.push(`<a class="action" href="https://www.google.com/cse?cx=partner-pub-3521518608648020:8640627894&q=${q}" target="_blank" rel="noopener">Search Pathology Outlines ↗</a>`);
+    if (leaf.who) links.push(`<a class="action${leaf.pathout ? " secondary" : ""}" href="https://tumourclassification.iarc.who.int/" target="_blank" rel="noopener">WHO Classification of Tumours ↗</a>`);
+    journalActions.innerHTML = `${links.join("\n      ")}
+      <button type="button" class="action ghost" id="copy-topic-link">Copy topic link</button>`;
     document.getElementById("copy-topic-link").addEventListener("click", async (event) => {
       syncUrl(false);
       const button = event.currentTarget;
