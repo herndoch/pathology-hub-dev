@@ -38,6 +38,7 @@
   const sampleModalPageLink = document.getElementById("sample-modal-page-link");
 
   let index = null;
+  let journals = null; // journal_links_v0_1.json: topic path -> {n, articles[]}
   let treeRoots = [];
   let pathToNode = new Map();
   let expanded = new Set();
@@ -68,6 +69,7 @@
     if (mode === "who") return !!leaf.who;
     if (mode === "pathout") return !!leaf.pathout;
     if (mode === "references") return !!(leaf.who || leaf.pathout);
+    if (mode === "journals") return !!((leaf.who || leaf.pathout) && journals && journals.topics[leaf.path]);
     return !!(leaf.who || leaf.pathout);
   }
 
@@ -332,6 +334,7 @@
     figureImg.removeAttribute("src");
     figureCaption.textContent = "";
     document.getElementById("detail-grid").classList.add("hidden");
+    renderArticles(leaf);
 
     items.forEach((it, i) => {
       const li = document.createElement("li");
@@ -371,6 +374,26 @@
     });
   }
 
+  // Journal articles: titles and links only, from the archived article list (no text, no API).
+  function renderArticles(leaf) {
+    const section = document.getElementById("articles");
+    const list = document.getElementById("article-list");
+    const note = document.getElementById("articles-note");
+    const entry = journals && journals.topics[leaf.path];
+    if (!entry) { section.hidden = true; list.innerHTML = ""; return; }
+    const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
+    note.innerHTML = `${entry.n.toLocaleString()} article${entry.n === 1 ? "" : "s"} whose title names this topic` +
+      (entry.n > entry.articles.length ? `, newest ${entry.articles.length} shown` : "") +
+      `. Titles and links only; these journals need a subscription for full text. ` +
+      `<a href="https://pubmed.ncbi.nlm.nih.gov/?term=${q}" target="_blank" rel="noopener">More on PubMed ↗</a>`;
+    list.innerHTML = entry.articles.map((a) => `
+      <li class="article">
+        <a href="${escapeAttr(a.u)}" target="_blank" rel="noopener">${escapeHtml(a.t)}</a>
+        <span class="article-meta">${escapeHtml(a.j)}${a.y ? " · " + escapeHtml(a.y) : ""}${a.s ? ' · <span class="badge badge-sub">subscription</span>' : ""}${a.k === "pubmed_search" ? " · PubMed search" : ""}</span>
+      </li>`).join("");
+    section.hidden = false;
+  }
+
   function publicLeafCount() {
     let n = 0;
     function walk(node) {
@@ -384,6 +407,7 @@
   function renderStats(counts) {
     statsEl.innerHTML = [
       ["Topics", publicLeafCount()],
+      ["Articles", journals ? journals.counts.articles_matched : 0],
       ["WHO", counts.leaves_with_who],
       ["PathOut", counts.leaves_with_pathout],
     ].map(([k, v]) => `<div class="stat"><span class="k">${k}</span><span class="v">${Number(v || 0).toLocaleString()}</span></div>`).join("");
@@ -417,7 +441,7 @@
   function restoreUrl() {
     const params = new URLSearchParams(window.location.search);
     filterEl.value = params.get("q") || "";
-    sourceMode = ["all", "textbooks", "who", "pathout", "references"].includes(params.get("source")) ? params.get("source") : "all";
+    sourceMode = ["all", "who", "pathout", "references", "journals"].includes(params.get("source")) ? params.get("source") : "all";
     sourceEl.value = sourceMode;
     activePath = params.get("topic");
     render();
@@ -448,11 +472,18 @@
     if (e.key === "Escape") closeSampleModal();
   });
 
+  const JOURNALS_URL = "data/journal_links_v0_1.json";
+  const journalsReady = fetch(JOURNALS_URL)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((data) => { journals = data && data.topics ? data : null; })
+    .catch(() => { journals = null; });
+
   fetch(DATA_URL)
     .then((r) => {
       if (!r.ok) throw new Error(`Failed ${DATA_URL}: ${r.status}`);
       return r.json();
     })
+    .then((data) => journalsReady.then(() => data))
     .then((data) => {
       index = data;
       document.title = data.title || document.title;

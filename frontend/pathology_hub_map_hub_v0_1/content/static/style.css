@@ -190,3 +190,14 @@ body.modal-open { overflow: hidden; }
   .sample-modal { padding: 10px; }
   .sample-modal-panel { padding: 18px 16px 14px; }
 }
+
+/* Journal articles under a topic: titles and links only. */
+.articles { margin-top: 16px; padding-top: 12px; border-top: 1px solid #e1e9f1; }
+.articles h3 { margin: 0 0 4px; }
+.articles-note { margin: 0 0 8px; color: #66788b; font-size: .85rem; line-height: 1.5; }
+.article-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 420px; overflow: auto; }
+.article { padding: 8px 10px; border: 1px solid #e1e9f1; border-radius: 13px; background: #fff; line-height: 1.4; }
+.article a { color: #365d8a; font-weight: 600; font-size: .9rem; text-decoration: none; }
+.article a:hover { text-decoration: underline; }
+.article-meta { display: block; margin-top: 2px; color: #8193a5; font-size: .78rem; }
+.badge-sub { background: #fff5dc; color: #b06000; margin-left: 0; }

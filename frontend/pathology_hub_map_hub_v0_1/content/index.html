@@ -35,6 +35,7 @@
           <option value="who">WHO</option>
           <option value="pathout">PathOut</option>
           <option value="references">WHO + PathOutlines</option>
+          <option value="journals">With journal articles</option>
         </select>
       </label>
       <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
@@ -64,6 +65,11 @@
           </div>
           <ul id="item-list" class="clip-list"></ul>
         </div>
+        <section class="articles" id="articles" aria-labelledby="articles-h" hidden>
+          <h3 class="site-eyebrow" id="articles-h">Journal articles</h3>
+          <p class="articles-note" id="articles-note"></p>
+          <ul class="article-list" id="article-list"></ul>
+        </section>
       </div>
     </section>
 
@@ -99,6 +105,6 @@
     </div>
   </div>
 
-  <script src="static/app.js?v=20261015.1"></script>
+  <script src="static/app.js?v=20261015.2"></script>
 </body>
 </html>
