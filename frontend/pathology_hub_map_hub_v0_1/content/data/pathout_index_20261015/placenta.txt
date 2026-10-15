@@ -1,0 +1,79 @@
+placenta4categories|4 main categories
+placentanormalhistology|anatomy & histology-placenta & umbilical cord
+placentagrossing|grossing
+placentagrossingPOC|grossing-products of conception
+placentaplacentaldevel|placental development & hormones
+placentaaccessory|accessory lobe / bilobate placenta
+placentalowweight|small / large for gestational age
+placentaamnioticweb|amnionic web and amniotic band syndrome
+placentacysts|chorionic cysts
+placentacircummarginate|circummarginate placenta
+placentacircumvallate|circumvallate placenta
+placentafetuspapyraceus|fetus papyraceus (pending)
+placentafurcate|furcate insertion
+placentaknots|knots
+placentalongcord|long cord
+placentamarginalinsert|marginal insertion
+placentanuchalcord|nuchal cord
+placentaprolapsed|prolapsed umbilical cord
+placentashortcord|short cord
+placentathincord|thin cord
+placentatorsion|torsion / hypercoiling
+placentavelamentous|velamentous insertion
+placentablightedovum|blighted ovum / anembryonic gestation
+placentaectopicpreg|ectopic pregnancy
+placentaplacentaaccreta|placenta accreta spectrum (PAS)
+placentaplacentaprevia|placenta previa
+placentaacutevillitis|acute villitis and intervillositis
+placentachorioamnionitis|acute chorioamnionitis
+placentaCOVID-19placentitis|COVID-19 placentitis
+placentaspecificorg|specific infectious organisms
+placentaacutefunisitis|umbilical vasculitis and funisitis
+placentaamnionnodosum|amnion nodosum
+placentachorangiomatosis|chorangiomatosis
+placentachorangiosis|chorangiosis
+placentachronicchorioamnionitis|chronic chorioamnionitis
+placentachronicdecid|chronic deciduitis
+placentachronicintervillositis|chronic histiocytic intervillositis
+placentadecidualvasculopathy|decidual arteriopathy
+placentavillousdysmaturity|distal villous hyperplasia (villous dysmaturity / delayed villous maturation)
+placentaeosinophilicTcellvasculitis|eosinophilic / T cell chorionic vasculitis
+placentafetalnrbc|erythroblastosis
+placentafetalthrombotic|fetal thrombotic vasculopathy
+placentafetalvascularmal|fetal vascular malperfusion
+placentahemorrhagicendo|hemorrhagic endovasculitis / vasculopathy
+placentaplainfarct|infarct
+placentamatfloorinfarct|massive perivillous fibrin deposition / maternal floor infarction
+placentauteroplacentalinsuff|maternal vascular malperfusion
+placentameconium|meconium staining
+placentaretroplacentalhematoma|retroplacental hematoma with intraplacental extension (placental abruption)
+placentavillitisunknown|villitis of unknown etiology
+placentaspontaneousab|early first trimester pregnancy loss
+placentafif|fetus in fetu
+placentahydrops|hydrops fetalis
+placentafetaldeath|intrauterine fetal demise
+placentaplaedema|placental edema (placental hydrops)
+placentatoxemia|toxemia of pregnancy (preeclampsia and eclampsia)
+placentatwins|twins
+placentatwintwin|twin - twin transfusion
+placentahematoma|hematoma
+placentasua|single umbilical artery and supernumerary vessels
+placentaembryonicremn|embryonic remnants
+placentachoriocarcinoma|choriocarcinoma
+placentaETT|epithelioid trophoblastic tumor
+placentamixedtrophoblastic|mixed trophoblastic tumor (pending)
+placentaPSTT|placental site trophoblastic tumor
+placentastaging|staging-gestational trophoblastic neoplasms
+placentaexagg|exaggerated placental site
+placentaplacentalsitenodule|placental site nodule
+placentacompletemole|complete hydatidiform mole
+placentahydatgeneral|hydatidiform mole
+placentainvasivemole|invasive hydatidiform mole
+placentaincompletemole|partial hydatidiform mole
+placentaandrogeneticbiparentalmosaic|androgenetic / biparental mosaic / chimeric gestation (pending)
+placentapmd|mesenchymal dysplasia
+placentatrisomy|nonmolar aneuploidy
+placentachorangioma|chorangioma
+placentahepatocellularadenoma|hepatocellular adenoma-like lesion of placenta
+placentamets|metastases
+placentaplacentalsiteinvol|placental site subinvolution

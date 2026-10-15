@@ -1,0 +1,89 @@
+bladderanatomy|anatomy
+bladderreport|features to report, grossing & frozen section
+bladdergrading|grading-bladder
+bladderhistology|histology
+bladderstaging|staging-bladder carcinoma
+vulvaurethrastaging|staging-female urethra
+prostateurethrastaging|staging-male urethra
+bladderstagingrenalpelvis|staging-renal pelvic carcinoma
+bladderstagingureters|staging-ureter carcinoma
+bladderurinarydiversion|urinary diversion / neobladder
+bladderwhoisup|WHO classification
+bladdercytologynormal|cytology-general, normal findings & biomarker testing
+bladdercytologyneoplastic|cytology-neoplastic
+bladdercytologynonneoplastic|cytology-nonneoplastic
+bladdercytologyparissystemnew|Paris system for urothelial neoplasia
+bladderAVM|arteriovenous malformation
+bladderduplication|duplication
+bladderectopicprostate|ectopic prostate
+bladderexstrophy|exstrophy
+bladdercloacogenic|persistent cloaca
+syndromesprunebelly|prune belly syndrome
+bladderurachus|urachus
+bladdercongenureters|ureters-congenital anomalies
+bladderbullouscystitis|bullous cystitis
+bladdercystitiscystica|cystitis cystica and cystitis glandularis
+bladderemphysematous|emphysematous cystitis
+bladderencrustedcystitis|encrusted cystitis
+bladdereosinophilic|eosinophilic cystitis
+bladderfollicular|follicular cystitis
+bladdergranulomatouscystitis|granulomatous cystitis
+bladderhemorrhagiccystitis|hemorrhagic cystitis
+bladderinterstitial|interstitial cystitis
+bladderpolypoidcystitis|polypoid / papillary cystitis
+bladderradiationcystitis|radiation cystitis
+bladderschistosomiasis|schistosomiasis (bilharziasis)
+bladderdiverticula|diverticula
+bladderfibroepithelialpolyp|fibroepithelial polyp
+bladderflatreactiveatypia|flat lesions with reactive changes
+bladderintestinalmetaplasia|intestinal metaplasia
+bladdermalakoplakia|malakoplakia
+bladderendocervicosis|Mullerian lesions
+bladdernephroadenoma|nephrogenic metaplasia
+bladderpostopspindle|postoperative spindle cell nodule
+bladderprostatepolyp|prostatic type polyp
+bladdersquamousmetaplasia|squamous metaplasia
+bladdertreatmenteffect|treatment effect
+bladderurethralcarcinoma|urethral carcinoma
+bladdercis|carcinoma in situ
+bladderdysplasia|dysplasia
+bladderflathyperplasia|flat hyperplasia
+bladderflatatypiaunknown|flat lesions with atypia of unknown significance
+bladderinvertedpapilloma|inverted urothelial papilloma
+bladderLGpap|noninvasive papillary urothelial carcinoma low grade
+bladderHGpap|noninvasive papillary urothelial carcinoma high grade
+bladderPUNLMP|papillary urothelial neoplasm of low malignant potential
+bladderpapilloma|urothelial papilloma
+bladderdiverticularcarc|diverticular carcinoma (pending)
+bladderurothelialinvasivegen|invasive urothelial carcinoma
+bladderendophyticgrowth|inverted urothelial carcinoma
+bladderlipidcell|lipid rich
+bladderlymphoepithel|lymphoepithelioma-like
+bladdermicrocystic|microcystic
+kidneytumormalignanturothelialcarcinomasubtypesmicropap|micropapillary
+bladdernested|nested
+kidneytumormalignanturothelialcarcinomasubtypesplasma|plasmacytoid
+bladderundifferentiatedosteoclast|poorly differentiated variant (including osteoclast rich giant cells)
+bladdersarcomatoidvariant|sarcomatoid variant
+bladderurethralaccessoryglandcarc|urethral accessory gland carcinomas (pending)
+kidneytumormalignanturothelialcarcinomasubtypesglandulardiff|with glandular differentiation
+bladdertrophoblasticdiff|with trophoblastic differentiation
+bladdersquamousdiff|with squamous differentiation
+bladdercondyloma|condyloma acuminatum
+bladdersquamous|squamous cell carcinoma
+bladdersquamouspapilloma|squamous cell papilloma
+bladdersquamousverrucous|verrucous carcinoma
+bladderadeno|adenocarcinoma
+bladderadenoinsitu|adenocarcinoma in situ
+bladderclearcell|clear cell (adeno)carcinoma
+bladderadenourachal|urachal adenocarcinoma
+bladderMCTLMP|urachal mucinous cystic tumor of low malignant potential (pending)
+bladdervillousadenoma|villous adenoma
+kidneytumormalignantlargecell|large cell neuroendocrine carcinoma
+bladderparaganglioma|paraganglioma
+bladdersmallcell|small cell neuroendocrine carcinoma
+bladdercarcinoid|well differentiated neuroendocrine tumor
+bladderangiosarcoma|angiosarcoma
+bladderIMT|inflammatory myofibroblastic tumor
+bladdermets|metastases
+bladderrhabdo|rhabdomyosarcoma

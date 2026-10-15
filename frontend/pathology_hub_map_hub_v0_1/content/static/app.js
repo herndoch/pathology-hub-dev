@@ -39,6 +39,7 @@
 
   let index = null;
   let journals = null; // journal_links_v0_1.json: topic path -> {n, articles[]}
+  let pathoutPages = null; // pathout_pages_v0_1.json: topic path -> {u, t}
   let treeRoots = [];
   let pathToNode = new Map();
   let expanded = new Set();
@@ -313,7 +314,9 @@
     // the reference library stay on chat.pathologynotebook.com (UCSF access).
     const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
     const links = [];
-    if (leaf.pathout) links.push(`<a class="action" href="https://www.google.com/cse?cx=partner-pub-3521518608648020:8640627894&q=${q}" target="_blank" rel="noopener">Search Pathology Outlines ↗</a>`);
+    const poPage = leaf.pathout && pathoutPages && pathoutPages.topics[leaf.path];
+    if (poPage) links.push(`<a class="action" href="${escapeAttr(poPage.u)}" target="_blank" rel="noopener" title="${escapeAttr(poPage.t)}">Pathology Outlines: ${escapeHtml(poPage.t)} ↗</a>`);
+    else if (leaf.pathout) links.push(`<a class="action" href="https://www.google.com/cse?cx=partner-pub-3521518608648020:8640627894&q=${q}" target="_blank" rel="noopener">Search Pathology Outlines ↗</a>`);
     if (leaf.who) links.push(`<a class="action${leaf.pathout ? " secondary" : ""}" href="https://tumourclassification.iarc.who.int/" target="_blank" rel="noopener">WHO Classification of Tumours ↗</a>`);
     journalActions.innerHTML = `${links.join("\n      ")}
       <button type="button" class="action ghost" id="copy-topic-link">Copy topic link</button>`;
@@ -382,14 +385,12 @@
     const entry = journals && journals.topics[leaf.path];
     if (!entry) { section.hidden = true; list.innerHTML = ""; return; }
     const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
-    note.innerHTML = `${entry.n.toLocaleString()} article${entry.n === 1 ? "" : "s"} whose title names this topic` +
-      (entry.n > entry.articles.length ? `, newest ${entry.articles.length} shown` : "") +
-      `. Titles and links only; these journals need a subscription for full text. ` +
-      `<a href="https://pubmed.ncbi.nlm.nih.gov/?term=${q}" target="_blank" rel="noopener">More on PubMed ↗</a>`;
+    note.innerHTML = `${entry.n.toLocaleString()} article${entry.n === 1 ? "" : "s"} from pathology journals whose title names this topic, reviews first. ` +
+      `Each link opens the article itself. <a href="https://pubmed.ncbi.nlm.nih.gov/?term=${q}" target="_blank" rel="noopener">All on PubMed ↗</a>`;
     list.innerHTML = entry.articles.map((a) => `
       <li class="article">
         <a href="${escapeAttr(a.u)}" target="_blank" rel="noopener">${escapeHtml(a.t)}</a>
-        <span class="article-meta">${escapeHtml(a.j)}${a.y ? " · " + escapeHtml(a.y) : ""}${a.s ? ' · <span class="badge badge-sub">subscription</span>' : ""}${a.k === "pubmed_search" ? " · PubMed search" : ""}</span>
+        <span class="article-meta">${escapeHtml(a.j)}${a.y ? " · " + escapeHtml(a.y) : ""}${a.r ? ' · <span class="badge badge-review">review</span>' : ""}${a.o ? ' · <span class="badge badge-oa">open access</span>' : ' · <span class="badge badge-sub">subscription</span>'}</span>
       </li>`).join("");
     section.hidden = false;
   }
@@ -473,10 +474,11 @@
   });
 
   const JOURNALS_URL = "data/journal_links_v0_1.json";
-  const journalsReady = fetch(JOURNALS_URL)
-    .then((r) => (r.ok ? r.json() : null))
-    .then((data) => { journals = data && data.topics ? data : null; })
-    .catch(() => { journals = null; });
+  const PATHOUT_URL = "data/pathout_pages_v0_1.json";
+  const journalsReady = Promise.all([
+    fetch(JOURNALS_URL).then((r) => (r.ok ? r.json() : null)).then((data) => { journals = data && data.topics ? data : null; }).catch(() => { journals = null; }),
+    fetch(PATHOUT_URL).then((r) => (r.ok ? r.json() : null)).then((data) => { pathoutPages = data && data.topics ? data : null; }).catch(() => { pathoutPages = null; }),
+  ]);
 
   fetch(DATA_URL)
     .then((r) => {

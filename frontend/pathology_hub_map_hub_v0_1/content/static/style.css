@@ -201,3 +201,5 @@ body.modal-open { overflow: hidden; }
 .article a:hover { text-decoration: underline; }
 .article-meta { display: block; margin-top: 2px; color: #8193a5; font-size: .78rem; }
 .badge-sub { background: #fff5dc; color: #b06000; margin-left: 0; }
+.badge-oa { background: #e6f3f2; color: #3d767c; margin-left: 0; }
+.badge-review { background: #e8f0f8; color: #345d90; margin-left: 0; }

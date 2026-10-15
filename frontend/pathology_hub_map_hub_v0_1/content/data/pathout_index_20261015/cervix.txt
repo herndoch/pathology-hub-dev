@@ -1,0 +1,85 @@
+cervixanatomy|anatomy
+cervixembryology|embryology
+cervixgrossing|grossing
+cervixnormalhistology|histology
+cervixstaging|staging
+cervixWHO|WHO classification
+cervixcytologybethesda|bethesda system
+cervixcytologypreparations|preparations
+cervixcytologybenignfeatures|normal and nonneoplastic findings
+cervixmetaplasiasquamous|squamous metaplasia
+cervixmetaplasiatuboendometrial|tuboendometrioid metaplasia
+cervixactinomycosis|actinomycosis
+cervixcytologybacterialvaginosis|bacterial vaginosis
+cervixcytologyfungi|Candida / fungi
+cervixchlamydia|Chlamydia trachomatis
+cervixchroniccervicitis|chronic cervicitis
+cervixcmv|CMV
+cervixgranulomainguinale|granuloma inguinale
+cervixHPVoverview|HPV overview
+cervixcytologylactobacillus|lactobacillus
+cervixleptothrix|leptothrix
+cervixpseudolymphoma|pseudolymphoma
+cervixtrichomonasvaginalis|Trichomonas vaginalis
+cervixvasculitis|vasculitis
+cervixariasstella|Arias-Stella reaction
+cervixcytologyatrophy|atrophy
+cervixcervicaldiverticulum|cervical diverticulum (pending)
+cervixdiffuselaminar|diffuse laminar endocervical hyperplasia
+cervixdecidual|ectopic decidual reaction
+cervixendocervpolyp|endocervical polyp
+cervixendometriosis|endometriosis
+cervixglialpolyp|glial polyp
+cervixlobularendocerv|lobular endocervical glandular hyperplasia
+cervixmesonephrichyper|mesonephric rests and mesonephric hyperplasia
+cervixMGH|microglandular hyperplasia
+cervixmullerianpap|Mullerian papilloma
+cervixnabothiancyst|Nabothian cysts
+cervixplacentalsitenod|placental site nodule
+cervixradiationatypia|radiation atypia
+cervixsquamouspapilloma|squamous papilloma
+cervixtraumaticneuroma|traumatic neuroma
+cervixtunnelclusters|tunnel clusters
+cervixAIS|adenocarcinoma in situ
+cervixcondyloma|condyloma
+cervixHSILCINIII|HSIL / CIN II / CIN III
+cervixLSIL|LSIL / CIN I
+cervixSMILE|SMILE (stratified mucin producing intraepithelial lesion)
+cervixcytologyagc|atypical glandular cells (cytology)
+cervixASCH|ASC-H (cytology)
+cervixcytologyatypicalsquamouscells|ASCUS (cytology)
+cervixHSILcytology|HSIL (cytology)
+cervixcytologyLSIL|LSIL (cytology)
+cervixSCC|HPV associated cervical squamous cell carcinoma
+cervixSCCHPVindep|HPV independent cervical squamous cell carcinoma
+cervixclearcell|clear cell carcinoma
+cervixendometrialadenocarcinomacyto|endometrial adenocarcinoma (cytology)
+cervixGAS|gastric type adenocarcinoma
+cervixhpvadenocarcinoma|HPV associated adenocarcinoma (usual type and variants)
+cervixinvasivestratifiedmucincarc|invasive stratified mucin producing carcinoma
+cervixmesonephricadeno|mesonephric adenocarcinoma
+cervixprimaryendoadeno|primary endometrioid adenocarcinoma (HPV independent)
+cervixadenoidbasal|adenoid basal carcinoma
+cervixadenoidcystic|cervical carcinoma with adenoid cystic-like morphology
+cervixadenosquamous|adenosquamous carcinoma
+cervixlargecellneuroendocrine|large cell neuroendocrine carcinoma
+cervixlymphoepithelioma|lymphoepithelioma-like carcinoma
+cervixcarcinoidtumor|neuroendocrine tumor (carcinoid and atypical carcinoid)
+cervixsmallcell|small cell neuroendocrine carcinoma
+cervixadenomyoma|adenomyoma
+cervixadenosarcoma|adenosarcoma
+cervixalveolarsoftpartssarcoma|alveolar soft part sarcoma
+cervixapa|atypical polypoid adenomyoma
+cervixMMMT|carcinosarcoma
+cervixcellularangiofibroma|cellular angiofibroma
+cervixleiomyoma|leiomyoma
+cervixleiomyosarcoma|leiomyosarcoma
+cervixNTRKfusionsarcoma|NTRK fusion sarcoma
+cervixpostoperativespindlecell|postoperative spindle cell nodule
+cervixrhabdomyosarcoma|rhabdomyosarcoma
+cervixbluenevus|blue nevus
+cervixETT|epithelioid trophoblastic tumor
+cervixlymphoma|lymphoma
+cervixmelanoma|melanoma
+cervixmelanosis|melanosis
+cervixmets|metastases

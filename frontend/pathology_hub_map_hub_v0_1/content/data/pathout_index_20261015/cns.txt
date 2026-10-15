@@ -1,0 +1,55 @@
+cnsgross|CNS-gross (pending)
+cnstumorparaneoplastic|paraneoplastic syndromes
+syndromesarnoldchiari|Arnold-Chiari malformation
+syndromesdandywalker|Dandy-Walker Malformation
+cnsfocalcorticaldysplasia|focal cortical dysplasia (epilepsy related malformations)
+cnsholoprosencephaly|holoprosencephaly (pending)
+cnsmalformationsoverview|malformations overview (pending)
+syndromesmeckelgruber|Meckel-Gruber syndrome
+cnsrudimentarymenin|neural tube closure defects
+cnsabscess|abscess
+cnsmeningitis|meningitis - bacterial
+cnscmv|CMV infections
+cnshsvencephalitis|herpes simplex encephalitis
+cnsacuteviralinfections|other acute viral infections (pending)
+cnsrabies|rabies
+cnshivencephalitis|HIV encephalitis
+cnspml|progressive multifocal leukoencephalopathy (PML) and other JC virus infections
+cnssspe|subacute sclerosing panencephalitis (SSPE) (pending)
+cnssyphilis|syphilis (pending)
+cnstuberculosis|tuberculosis
+cnswhippledisease|Whipple disease (pending)
+CNSnontumoraspergillosis|aspergillosis
+cnsfungalinfections|fungal infections (pending)
+cnsentamoeba|Entamoeba
+cnspam|primary amebic meningoencephalitis
+cnstaeniasolium|Taenia solium (neurocysticercosis)
+cnstoxoplasma|toxoplasmosis
+cnstrypanosomes|trypanosomes (pending)
+cnsalcoholic|alcoholic cerebellar degeneration
+cnscarbonmonoxide|carbon monoxide injury
+cnshepatic|hepatic encephalopathy
+cnsheroin|heroin leukoencephalopathy
+cnsmethanol|methanol
+cnsmethotrexate|methotrexate toxicity
+cnspontine|pontine and extrapontine myelinolysis
+cnsradiationinjury|radiation injury
+cnssubacutecombined|subacute combined degeneration
+cnswernickekorsakoff|Wernicke-Korsakoff syndrome
+cnsleukodystrophies|leukodystrophies
+cnsmultiplesclerosis|multiple sclerosis
+cnsALS|amyotrophic lateral sclerosis
+cnscorticobasaldegeneration|corticobasal degeneration
+cnsdegenerativeataxic|degenerative ataxic disorders (pending)
+cnshuntingtondisease|Huntington disease
+cnsmultiplesystematrophy|multiple system atrophy
+cnsparkinsons|Parkinson disease
+cnsprogressivesupranuclearpalsy|progressive supranuclear palsy (pending)
+cnsbulbospinal|X linked bulbospinal neuronopathy (Kennedy disease)
+cnscerebralamyloid|cerebral amyloid angiopathy
+cnsprimaryangiitis|primary angiitis of CNS
+cnsstroke|ischemic stroke / infarct / vascular dementia
+cnsalzheimer|Alzheimer disease
+cnsnontumorCTE|chronic traumatic encephalopathy (pending)
+cnsnontumorfrontotemporalnontum|frontotemporal (pending)
+cnsnontumorlewybody|dementia with Lewy bodies

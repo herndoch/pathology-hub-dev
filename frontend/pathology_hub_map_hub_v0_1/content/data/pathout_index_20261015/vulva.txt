@@ -1,0 +1,47 @@
+vulvaanatomy|anatomy & histology - vulva, vagina & female urethra
+vulvafeaturestoreport|features to report
+vaginastaging|staging-vagina carcinoma
+vulvastaging|staging-vulva carcinoma
+vulvavaginaWHO|WHO classification (pending)
+vaginaladenosis|vaginal adenosis
+vulvainfections|infection
+vulvalichenplanus|lichen planus
+vulvaLSC|lichen simplex chronicus
+vulvalichensclerosus|lichen sclerosus
+vulvaspongioticdermatitis|spongiotic dermatitis
+vaginacysts|vulvovaginal cysts
+vulvavaginahidradenomapapilliferum|hidradenoma papilliferum
+vaginaspindlecellep|mixed tumor of vagina
+vulvavaginamullerianpapilloma|Mullerian papilloma
+vulvaectopicmammary|other mammary / mammary-like tissue and associated lesions
+vulvavaginavillousadenoma|villous adenoma and tubulovillous adenoma-vagina (pending)
+vulvacondyloma|condyloma
+vulvaVIN|HPV associated SIL
+vulvascc|HPV associated squamous cell carcinoma-vulva
+vulvaverrucous|HPV independent squamous cell carcinoma-vulva
+vulvadifferentiatedVIN|HPV independent VIN-vulva
+vaginascc|squamous cell carcinoma-vagina
+vaginavain|vaginal squamous intraepithelial lesion
+vulvavaginaadenocarcinomaintestinaltype|adenocarcinoma, intestinal type (pending)
+vulvavaginaadenocarcinomaskenegland|adenocarcinoma of Skene gland origin (pending)
+vulvabartholinglandcarc|Bartholin gland carcinoma-vulva
+vulvabasalcellcarc|basal cell carcinoma-vulva
+vulvamerkelcell|Merkel cell carcinoma
+vulvapagetsdisease|Paget disease
+vulvaaggressiveangiomyxoma|aggressive angiomyxoma-vulva
+vulvaalveolarsoftpartssarcoma|alveolar soft part sarcoma
+vulvaangiomyofibroblastoma|angiomyofibroblastoma
+vulvacellularangiofibroma|cellular angiofibroma
+vulvaepithelioidsarcoma|epithelioid sarcoma-vulva
+vaginafibroepithelial|fibroepithelial (stromal) polyp
+vulvalipoblastomaliketumor|lipoblastoma-like tumor (pending)
+vulvavaginamyofibroblastoma|myofibroblastoma
+vulvavaginaprepubertalfibroma|prepubertal fibroma (pending)
+vulvarhabdomyosarcoma|rhabdomyosarcoma
+vulvavaginaSMARCB1deficient|SMARCB1 deficient vulvar neoplasms (pending)
+vulvaLMS|smooth muscle tumors
+vulvaAMNGT|atypical melanocytic nevi of the genital type-vulva
+vulvadysplasticnevi|dysplastic melanocytic nevus
+vulvamelanoma|melanoma
+vulvapigmented|pigmented lesions-vulva
+vulvaemergingentities|emerging / novel neoplastic entities

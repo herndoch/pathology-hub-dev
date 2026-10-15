@@ -1,0 +1,47 @@
+heartchambers|chambers
+heartconductiontiss|conduction tissue
+heartcoronary|coronary vessels
+heartCOVIDmyocarditis|COVID myocarditis (pending)
+heartembryology|embryology
+hearttumorfeaturestoreport|features to report
+hearthistology|histology
+heartLVAD|left ventricular assist device (LVAD)
+heartvalves|valves
+heartWHO|WHO classification (pending)
+hearttetralogy|tetralogy of Fallot
+syndromesvacterl|VACTERL association
+heartnontumorinfecendocarditis|infective endocarditis
+heartnontumornoninfecendo|noninfective endocarditis
+heartgiantcellarteritis|giant cell arteritis
+heartinfectiousmyocarditis|infective myocarditis
+heartnoninfecmyo|noninfective myocarditis
+heartnoninfecpericarditis|noninfective pericarditis
+heartanomalouscoronary|anomalous coronary artery
+heartcoronaryarteritis|aortic aneurysms
+heartatheroscleroticCAD|atherosclerotic coronary artery disease
+heartfibromusculardysplasia|fibromuscular dysplasia
+heartmyocardialinfarction|myocardial infarction (pending)
+heartnonatheroscleroticCAD|nonatherosclerotic coronary artery disease
+heartamyloidosis|amyloidosis
+heartsarcoidosis|sarcoidosis
+heartconnectivetissue|connective tissue diseases
+heartdegenerative|degenerative valve disease
+heartDIVHD|drug induced valvular heart disease
+hearttumorlamblexcrescence|Lambl excrescence
+heartprostheticvalves|prosthetic valves
+heartsyphilis|syphilis
+heartarrhythmogenic|arrhythmogenic cardiomyopathy (ACM)
+heartHCM|hypertrophic cardiomyopathy
+heartidiopathicrestrictive|idiopathic restrictive cardiomyopathy
+heartdilated|primary and secondary dilated cardiomyopathy
+hearttakotsubo|takotsubo cardiomyopathy
+hearttransplant|general (transplant)
+heartacutecellularrejection|acute cellular rejection
+heartantibodymediatedrejection|antibody mediated rejection
+heartchronicgraftvasculopathy|chronic allograft vasculopathy
+hearttumorfibroma|cardiac fibroma
+hearttumormyxoma|cardiac myxoma
+hearttumormesotheliomaofAVnode|cystic tumor of the atrioventricular node
+hearttumorfibroelastoma|papillary fibroelastoma
+hearttumorrhabdomyoma|rhabdomyoma
+hearttumorangiosarcoma|angiosarcoma

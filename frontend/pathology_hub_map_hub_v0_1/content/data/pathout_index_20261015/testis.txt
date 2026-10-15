@@ -1,0 +1,68 @@
+testisanatomy|anatomy & histology
+testisgrossing|grossing and features to report
+testisstaging|staging
+testistestclassif|WHO classification
+testisadrenalcortical|adrenal rests
+testiscryptorchidism|cryptorchidism
+testissplenogonadal|splenogonadal fusion
+testistesticularregression|testicular regression syndrome / anorchia
+testisatrophy|atrophy
+testiscysts|cysts
+testisepidermoidcyst|epidermoid cyst
+testisepididymitis|epididymitis
+testisorchitis|granulomatous inflammation
+testisherniasacepid|hernia sac with mesothelial entrapment
+testishydrocele|hydrocele
+testisinfertility|infertility / Sertoli cell only
+softtissuepf|pseudotumor / funiculitis
+testisreteadenomatoushyper|rete testis adenomatous hyperplasia
+testissertolihyperplasia|Sertoli cell nodule
+testissmoothmuscle|smooth muscle hyperplasia
+testisspermatocele|spermatocele
+testisadrenogenital|testicular adrenal rest tumor / tumor of adrenogenital syndrome
+testistorsion|torsion
+testisvaricocele|varicocele
+testisvasculitis|vasculitis
+testisvasitisnodosa|vasitis nodosa
+testischorio|choriocarcinoma
+testisctt|cystic trophoblastic tumor
+testisembryonal|embryonal carcinoma
+testisepithelioidtrophoblastictumor|epithelioid trophoblastic tumor
+testisitgcn|germ cell neoplasia in situ
+testismixed|gonadoblastoma
+testisptt|placental site trophoblastic tumor
+testispolyembryoma|polyembryoma
+testisregressedgct|regressed germ cell tumor
+testisseminomas|seminoma
+testisspermseminoma|spermatocytic tumor
+testisteratoma|teratoma
+testisdermoid|teratoma-dermoid cyst
+testiscarcinoid|teratoma-neuroendocrine tumor
+testisteratocarcinoma|teratoma with somatic type malignancy
+testisyst|yolk sac tumor
+testissexcordgeneral|sex cord stromal tumors-general
+testisgranulosa|adult granulosa cell tumor
+testisfibroma|fibroma thecoma group
+testisitlchscn|intratubular large cell hyalinizing Sertoli cell neoplasia (ITLCHSCN)
+testisgranulosajuvenile|juvenile granulosa cell tumor
+testissertolilargecell|large cell calcifying Sertoli cell tumor
+testisleydig|Leydig cell tumor
+testismixedscst|mixed and other sex cord stromal tumors
+testismyoidgonadalstromaltumor|myoid gonadal stromal tumor
+testisSertoliNOS|Sertoli cell tumor
+testisbrenner|Brenner tumor
+testismucincystadenoca|mucinous cystadenocarcinoma
+testisborderline|mucinous borderline tumor
+testisserousborder|serous borderline tumor
+testisserouspapca|serous cystadenocarcinoma
+testisepidadenomatoid|adenomatoid tumor
+testismesotheliomamalignant|mesothelioma
+testismesothelioma|well differentiated papillary mesothelial tumor
+testisreteadeno|adenocarcinoma
+testisepidadenocarcinoma|adenocarcinoma of epididymis
+testisepidmelanoticneuro|melanotic neuroectodermal tumor
+testisepidpapcyst|papillary cystadenoma
+testisleiomyosarcoma|leiomyosarcoma
+testisliposarcoma|liposarcoma
+testismetastases|metastases
+testislymphomafolliculartesticular|primary follicular lymphoma of testis

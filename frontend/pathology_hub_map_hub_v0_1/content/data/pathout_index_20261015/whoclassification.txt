@@ -1,0 +1,43 @@
+boneWHOclass|bone
+softtissuewhoclassification|soft tissue
+softtissuewhoclassificationgi|soft tissue-GI mesenchymal tumors
+breastmalignantwhoclassification|breast
+cervixWHO|cervix
+fallopianwhoclassification|fallopian tubes
+uterusWHO|uterus (pending)
+ovarytumorwhoclassif|ovary
+cnstumorwhoclassification|CNS & pituitary
+cnstumorwhograding|CNS-gliomas
+skintumormelanocyticWHO|skin melanocytic tumor
+skinnonmelanocyticWHO|skin nonmelanocytic tumor
+eyeWHO|conjunctiva and caruncle
+anuswhoclassification|anus
+appendixwhoclassification|appendix
+colontumorwhoclassification|colon
+esphaguswhoclassification|esophagus
+gallbladderwhoclassification|gallbladder & extrahepatic bile ducts
+liverwhoclassification|liver & intrahepatic bile ducts
+pancreaswho|pancreas
+smallbowelWHOclassification|small intestine & ampulla
+stomachWHOclassification|stomach
+adrenalwho|adrenal gland & paraganglia
+bladderwhoisup|bladder, ureter & renal pelvis
+kidneytumorWHOclass|kidney
+testistestclassif|testis & paratestis
+earWHOear|ear
+mandiblemaxillawhoclassification|mandible & maxilla
+nasalwhoclassification|nasal cavity & nasopharynx
+oralcavityWHOoropharynx|oral cavity & oropharynx
+thyroidwho|thyroid & parathyroid
+bonemarrowneoplasticMDSWHO|myelodysplastic syndromes
+lymphomawhoclassificationgi|WHO 2019 GI hematolymphoid tumors
+lymphomaWHOHAEM5ICCBcell|WHO 2022 & ICC-B cell lymphoma
+lymphomaWHOHAEM5ICCTcell|WHO 2022 & ICC-T/NK cell lymphoma
+heartWHO|heart (pending)
+lungtumorWHO|lung
+cytopathologylungWHO|cytopathology-lung
+lymphnodessydneysystem|cytopathology-lymph nodes (pending)
+pancreaspapanicolaousystem|cytopathology-pancreas
+cytopathologysofttissueWHO|cytopathology-soft tissue (pending)
+lymphomanonBwhotcell|WHO 2016 T/NK cell
+lymphomabcellwho|WHO 2017 B cell
