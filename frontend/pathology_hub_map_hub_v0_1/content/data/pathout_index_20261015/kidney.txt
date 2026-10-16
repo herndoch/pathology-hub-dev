@@ -1,0 +1,90 @@
+kidneyanatomy|anatomy & histology
+kidneybiopsy|biopsy
+kidneyrenaldisease|renal disease-general
+kidneycongenital|congenital anomalies-general
+kidneytumoracquiredcyst|acquired cystic kidney disease
+kidneytumoradultpkd|autosomal dominant polycystic kidney disease
+kidneytumorchildpkd|autosomal recessive polycystic kidney disease
+kidneytumorsimplecyst|benign renal cysts
+kidneytumorcysticrenaldysplasia|dysplasia / hypoplasia / agenesis
+kidneytumormedullarysponge|medullary sponge kidney
+kidneytumornephronophthisis|nephronophthisis
+kidneyminchange|minimal change glomerulopathy
+kidneyfsgs|focal segmental glomerulosclerosis-general
+kidneyfsgscollapsing|FSGS-collapsing variant
+kidneygeneticfsgs|genetic proteinuria of glomerular origin, including genetic FSGS
+kidneymemgn|membranous nephropathy
+kidneymembranoprolif|MPGN pattern of injury
+kidneydensedepdisease|C3 glomerulonephritis / dense deposit disease
+kidneypoststrep|acute postinfectious glomerulonephritis
+kidneybacterialinfectionGN|bacterial infection related GN
+kidneyhsp|Henoch-Schonlein purpura (HSP) / IgA vasculitis
+kidneyiga|IgA nephropathy
+kidneysle|systemic lupus erythematosus
+kidneyAntiGBMnephritis|Anti-GBM nephritis
+kidneyamyloidosis|renal amyloidosis
+kidneyfibrillarygn|fibrillary glomerulonephritis
+kidneydiabetes|diabetic kidney disease
+kidneyobesity|obesity related glomerulopathy
+kidneyalport|Alport syndrome and thin basement membrane lesion
+kidneycongenitalnephroticsyndrome|congenital nephrotic syndrome
+kidneycongenitalnephroticsyndromediffusemesangialsclerosis|diffuse mesangial sclerosis
+kidneyfabry|Fabry disease
+kidneycollagentypeIIIglomerulopathy|collagen type III glomerulopathy
+kidneyfibronectinglomerulopathy|fibronectin glomerulopathy
+kidneyrpgn|crescentic glomerulonephritis overview
+kidneycryoglobulinemia|cryoglobulinemia
+kidneyidiopathicnodgs|idiopathic nodular glomerulosclerosis
+kidneychurgstrauss|Eosinophilic granulomatosis with polyangiitis (EGPA)
+kidneyGPA|granulomatosis with polyangiitis
+kidneyANCArelatedgngen|pauci-immune complex crescentic glomerulonephritis / ANCA associated vasculitis
+kidneynontumortakayasuarteritis|Takayasu arteritis
+kidneyhusttp|hemolytic uremic syndrome / thrombotic thrombocytopenic purpura
+kidneysclerodermarenaldisease|scleroderma renal disease
+kidneymalignanthyper|malignant hypertension and accelerated nephrosclerosis
+kidneyrenalartstenosis|renal artery stenosis
+kidneynontumorsrad|spontaneous renal artery dissection
+kidneyarterionephrosclerosis|arterionephrosclerosis
+kidneydiffusecorticalnecrosis|diffuse cortical necrosis
+kidneyinfarct|embolic phenomenon and infarction
+kidneyatn|acute tubular necrosis
+kidneyanalgesicabuse|analgesic nephropathy
+kidneybilecastnephropathy|bile cast nephropathy
+kidneycyclosporinA|calcineurin Inhibitor toxicity
+kidneynontumorcheckpointinhibitor|checkpoint inhibitor associated tubulointerstitial nephritis
+kidneyindinavir|indinavir nephropathy
+kidneyrhabdomyolysis|rhabdomyolysis
+kidneyantibrushLRP2|anti-brush border antibody disease / anti-LRP2 nephropathy
+kidneyigg4related|IgG4 related disease
+kidneysarcoidosis|sarcoidosis
+kidneysjogrensyndrome|Sjogren syndrome
+kidneynephrocalcinosis|nephrocalcinosis
+kidneyoxalosis|oxalosis
+kidneyurate|urate nephropathy
+kidneyobstructive|obstructive uropathy
+bladdertamm|Tamm-Horsfall protein
+kidneytubulointerstitialnephritis|tubulointerstitial nephritis-general
+kidneyacutepyelo|acute pyelonephritis
+kidneyadenovirus|adenovirus
+kidneybkvirus|BK virus / polyomavirus
+kidneychronicpyelo|chronic pyelonephritis
+kidneynontumorCOVIDinjury|COVID-19 associated kidney injury
+kidneyHIVassociatedrenaldisease|HIV associated renal disease
+kidneymalakoplakia|malakoplakia
+kidneytb|tuberculosis
+kidneyxantho|xanthogranulomatous pyelonephritis
+kidneyparaproteingeneral|monoclonal gammopathy of renal significance (MGRS) / paraprotein related kidney disease
+kidneycrystalstoringhistio|crystal storing histiocytosis
+kidneyimmunotactoid|immunotactoid glomerulopathy
+kidneylightchaincastnephropathy|light chain cast nephropathy
+kidneylcpt|light chain proximal tubulopathy
+kidneylightchaindepositiondisease|monoclonal immunoglobulin deposition disease
+kidneyhyperacuterejection|hyperacute rejection
+kidneyacutechroniccellularrejection|acute / chronic active T cell mediated rejection
+kidneyacutechronichumoralrejection|active / chronic active antibody mediated rejection
+kidneyrecurrentdenovo|recurrent and de novo diseases
+kidneydonorevaluation|donor evaluation
+kidneyacutechroniccellularrejection2|Banff classification
+kidneyBMtransplant|hematopoietic stem cell transplantation associated thrombotic microangiopathy (HSCT-TMA)
+kidneynontumorCKDu|chronic kidney disease of unknown etiology (CKDu)
+kidneyurolithiasis|urolithiasis (stones)

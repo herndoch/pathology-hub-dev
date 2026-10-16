@@ -1,0 +1,61 @@
+kidneytumormalignantreport|features to report
+kidneytumormalignantgrossing|grossing & frozen section
+kidneytumormalignantnucleargrading|grading
+kidneytumornonneoplastic|nonneoplastic kidney
+kidneytumormalignantstaging|staging
+kidneytumorvideos|videos
+kidneytumorWHOclass|WHO classification
+kidneyanaplasticsarcoma|anaplastic sarcoma of the kidney
+kidneytumorclearcellsarcoma|clear cell sarcoma
+kidneytumormesoblastic|congenital mesoblastic nephroma
+kidneytumormetaadenofibroma|metanephric adenofibroma
+kidneytumormetastromal|metanephric stromal tumor
+kidneytumormalignantASPLTFE3|TFE3 rearranged renal cell carcinoma
+kidneytumorwilmkids|nephroblastoma
+kidneytumorcysticnephroblastoma|cystic partially differentiated nephroblastoma
+kidneytumornephroblastomatosis|nephroblastomatosis / nephrogenic rests
+kidneytumorossifying|ossifying renal tumor of infancy
+kidneytumorpediatric|pediatric cystic nephroma
+kidneytumorrhabdoid|rhabdoid tumor
+kidneytumorangiomyolipoma|angiomyolipoma
+kidneytumorepitheliodaml|epithelioid angiomyolipoma
+kidneytumorglomus|glomus tumor
+kidneytumormalignanthemangioblastoma|hemangioblastoma
+kidneytumorhemangiomas|hemangioma
+kidneytumorjgtumor|juxtaglomerular cell tumor
+kidneytumorleiomyoma|leiomyoma
+kidneytumormalignantmetastases|metastases
+kidneytumorrenalmedfibroma|renomedullary interstitial cell tumor
+kidneytumorsolitary|solitary fibrous tumor
+kidneytumormalignantcarcinoid|well differentiated neuroendocrine tumor (carcinoid)
+kidneytumorcysticnephroma|adult cystic nephroma
+kidneytumorclearcellpapillary|clear cell papillary renal cell tumor
+kidneytumorEVT|eosinophilic vacuolated tumor (EVT)
+kidneytumorLOT|low grade oncocytic tumor (LOT)
+kidneytumormetanephric|metanephric adenoma
+kidneytumormixedepithelial|mixed epithelial and stromal tumor
+kidneytumormcrnlow|multilocular cystic renal neoplasm of low malignant potential
+kidneytumoroncocytoma|oncocytoma
+kidneytumorrenalcortadenoma|papillary adenoma
+kidneytumorPRNRP|papillary renal neoplasm with reverse polarity
+kidneytumormalignantrcc|renal cell carcinoma overview
+kidneytumormalignantrccchromo|chromophobe
+kidneytumormalignantrccclear|clear cell
+kidneytumormalignantrccpap|papillary
+kidneytumormalignantacquiredcysticRCC|acquired cystic disease associated
+kidneytumormalignantcollectingduct|collecting duct carcinoma
+kidneytumorescrcc|eosinophilic, solid and cystic
+kidneytumoroncocyticchromhybrid|hybrid oncocytic chromophobe tumor
+kidneytumormalignantmucinoustubular|mucinous tubular and spindle cell carcinoma
+kidneytumormalignantprimarythyroidlike|primary thyroid-like follicular
+kidneytumormalignantclearcellrhabdoid|rhabdoid
+kidneytumormalignantrccsarcoma|sarcomatoid
+kidneytumormalignanttubulocystic|tubulocystic
+kidneytumormalignantnos|unclassified
+kidneytumorALKtranslocationrcc|ALK translocation
+kidneytumortceb1mutatedrcc|ELOC (TCEB1) mutated
+kidneytumorHLRCC|FH deficient
+kidneytumormalignantmedullarycar|SMARCB1 deficient renal medullary carcinoma
+kidneytumorSDH|SDH deficient
+kidneytumormalignantASPLTFE3adult|TFE3 rearranged renal cell carcinoma
+kidneytumorTFEBalteredRCC|TFEB altered

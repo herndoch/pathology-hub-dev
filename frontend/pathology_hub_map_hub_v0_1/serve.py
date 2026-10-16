@@ -12,7 +12,7 @@ import os
 class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
-        redirects = {"/textbooks": "/content/?source=textbooks", "/textbooks/": "/content/?source=textbooks",
+        redirects = {"/textbooks": "/content/", "/textbooks/": "/content/",
                      "/journals": "/content/?source=references", "/journals/": "/content/?source=references",
                      "/app": "https://chat.pathologynotebook.com/", "/app/": "https://chat.pathologynotebook.com/"}
         if path in redirects:
@@ -27,8 +27,8 @@ class Handler(SimpleHTTPRequestHandler):
             if self.command != "HEAD": self.wfile.write(body)
             return
         if any(p.startswith(".") for p in path.split("/") if p) or not (
-            path in ("/", "/index.html", "/content", "/lectures") or
-            path.startswith(("/static/", "/content/", "/lectures/"))
+            path in ("/", "/index.html", "/content", "/lectures", "/videos") or
+            path.startswith(("/static/", "/content/", "/lectures/", "/videos/"))
         ):
             self.send_error(404); return
         super().do_GET()

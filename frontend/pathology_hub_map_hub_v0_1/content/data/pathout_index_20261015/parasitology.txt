@@ -1,0 +1,142 @@
+microbiologylabbiosafety|biosafety for lab and pathology
+microbiologybloodculturecontam|blood culture contamination
+microbiologyMALDIToFMS|MALDI TOF MS
+microbiologypostmorteminfections|postmortem microbiology & infections
+microbiologyautomation|total laboratory automation (pending)
+parasitologyanthrax|Bacillus anthracis (anthrax)
+microbiologycdifficile|Clostridioides difficile
+microbiologyperfringenssepticum|Clostridium perfringens / C. septicum
+microbiologycdiphtheriae|Corynebacterium diphtheriae (pending)
+microcutibacteriumacne|Cutibacterium acnes
+microbiologyenterococcus|Enterococcus
+microbiologylmonocytogenes|Listeria monocytogenes
+microbiologystaphaureus|Staph aureus
+microbiologystaphylococcus|Staph coagulase negative
+microbiologystreptococcuspneumoniae|Streptococcus pneumoniae
+microbiologystreptococci|Streptococcus-other
+microbiologywhipple|Tropheryma whipplei / Whipple disease
+microbiologyacinetobacter|Acinetobacter
+microbiologyanaplasma|Anaplasma
+microbiologycatscratch|Bartonella / cat scratch disease
+microbiologyescherichiacoli|E. coli
+microbiologyehrlichia|Ehrlichia
+microbiologyfnecrophorum|Fusobacterium necrophorum
+microbiologyhinfluenzae|Haemophilus influenzae
+microbiologyklebsiellaoxytoca|Klebsiella oxytoca
+microbiologylegionella|Legionella
+microbiologyngonorrhoeae|Neisseria gonorrhoeae
+microbiologynmeningitidis|Neisseria meningitidis
+parasitologysalmonella|Salmonella
+microbiologyserratiaspecies|Serratia species
+microbiologyshigella|Shigella
+microbiologyvibriocholerae|Vibrio cholerae
+microbiologyvibriovulnificus|Vibrio vulnificus
+microbiologyyersiniasp|Yersinia species
+microbiologyactinomyces|actinomyces
+microbiologynocardia|Nocardia
+parasitologymtuberculosis|M. tuberculosis
+microbiologymyconontb|mycobacteria non-TB
+microbiologymgenitalium|M. genitalium
+microbiologymhominis|M. hominis / Ureaplasma spp.
+microbiologympneumoniae|M. pneumoniae
+microbiologybburgdorferi|Borrelia burgdorferi / Lyme disease
+microbiologybrecurrentis|Borrelia recurrentis / relapsing fever (pending)
+microbiologyleptospira|Leptospira
+microbiologysyphilis|syphilis
+microbiologycauris|Candida auris
+microbiologycandida|Candida species
+microbiologycneoformans|cryptococcus neoformans & gattii
+microbiologyblastomyces|Blastomyces
+microbiologycoccidioidomycosis|coccidioidomycosis
+microbiologyhcapsulatum|Histoplasma capsulatum
+microbiologypenicilliosis|Talaromyces marneffei
+parasitologyaspergillus|aspergillus
+microbiologyconidiobolomycosis|conidiobolomycosis (pending)
+microbiologydematiaceousmolds|dematiaceous molds
+microbiologydermatophytes|dermatophytes
+microbiologyhyalinemolds|hyaline molds
+microbiologyzygomycetes|zygomycetes
+microbiologybkvirus|BK virus / polyomavirus
+microbiologyvirusesdiagtestSARSCOV2|COVID-19 (SARS-CoV-2) testing
+microbiologydenguefever|dengue fever
+microbiologyvirusesDNA|DNA Viruses
+parasitologyebola|Ebola
+microbiologyEBV|Epstein-Barr virus (EBV)
+microbiologyhantavirus|hantavirus
+microbiologyhivtesting|HIV testing (pending)
+microbiologyHSV12|HSV1 / HSV2
+microbiologymonkeypox|Mpox / orthopoxvirus
+microbiologynorovirus|norovirus (pending)
+microbiologyorf|orf
+microbiologyparvovirus|parvovirus (erythrovirus) B19
+microbiologyrsv|respiratory virus panel (PCR) (pending)
+microbiologyyellowfever|yellow fever
+parasitologyartifacts|artifacts
+parasitologybabesia|Babesia
+parasitologymalariapfalciparum|Plasmodium falciparum
+parasitologymalariapvivax|Plasmodium non-falciparum
+parasitologytrypanosomes|trypanosomes (pending)
+parasitologyangiostrongyliasis|Angiostrongyliasis
+parasitologybalamuthia|Balamuthia
+parasitologynaegleria|Naegleria
+parasitologytaeniasolium|Taenia solium (neurocysticercosis)
+microbiologytoxoplasmosis|toxoplasmosis
+parasitologyvariantcreutzfeldtjakob|variant Creutzfeldt-Jakob
+parasitologyarthropodectoparasites|arthropod ectoparasites (pending)
+microbiologybotfly|botfly
+parasitologycimexlectularius|Cimex lectularius (bed bug)
+parasitologycrodhaini|Cordylobia rodhaini (Lund fly)
+microbiologycutlarvamigrans|cutaneous larva migrans
+microbiologydemodex|demodex
+parasitologydermatophagoides|Dermatophagoides
+breastfilariasis|filariasis
+parasitologyleishmania|Leishmania
+parasitologyloaloa|Loa loa
+parasitologymyiasis|myiasis
+microbiologypediculosis|pediculosis (lice)
+microbiologyscabies|scabies
+parasitologytickhyalomma|tick (Hyalomma)
+parasitologytickixodes|tick (Ixodes)
+parasitologytoxocara|Toxocara
+parasitologytrichinella|Trichinella (pending)
+parasitologyacanthamoeba|Acanthamoeba
+parasitologydirofilariarepens|Dirofilaria repens
+microbiologyanasakis|anasakis
+parasitologyascaris|Ascaris
+parasitologyblastocystis|Blastocystis
+parasitologycryptosporidium|Cryptosporidium
+parasitologycyclospora|Cyclospora cayetanensis
+parasitologydiphyllobothrium|Diphyllobothrium latum
+parasitologydipylidiumcaninum|Dipylidium caninum
+parasitologyentamoeba|Entamoeba
+microbiologyenterobius|Enterobius vermicularis
+parasitologyehominis|Enteromonas hominis
+microbiologygiardialamblia|Giardia lamblia
+parasitologyhookworm|hookworm
+parasitologyhdiminuta|Hymenolepis diminuta
+parasitologyhymenolepisnana|Hymenolepis nana
+parasitologyiodamoebabutschlii|Iodamoeba butschlii
+parasitologymacracanthorhynchus|Macracanthorhynchus
+parasitologymicrosporidia|microsporidia
+parasitologyraillietina|Raillietina
+parasitologysarcocystis|Sarcocystis
+parasitologystrongyloides|Strongyloides
+parasitologytaeniaspecies|Taenia species
+parasitologytaeniasaginata|Taenia saginata
+parasitologytrichostrongylus|Trichostrongylus
+parasitologywhipworm|whipworm
+microbiologychlamydia|chlamydia
+parasitologyschisto|Schistosomiasis
+parasitologytrichomonas|Trichomonas (pending)
+parasitologyechinococcus|echinococcal cyst
+colonfasciola|Fasciola
+microbiologyfilariasis|filariasis
+parasitologytoxoplasmosis|toxoplasmosis
+parasitologydirofilariaimmitis|Dirofilaria immitis (pending)
+parasitologyparagonimuswestermani|Paragonimus westermani (pending)
+colonCOVID19colitis|colitis
+transfusionmedcovid19convplasma|convalescent plasma
+kidneynontumorCOVIDinjury|kidney injury
+lungnontumorcovid|lung disease
+placentaCOVID-19placentitis|placentitis
+liverCOVID19|viral hepatitis

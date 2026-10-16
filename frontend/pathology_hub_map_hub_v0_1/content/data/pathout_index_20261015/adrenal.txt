@@ -1,0 +1,31 @@
+adrenalglandcortex|anatomy & histology-adrenal cortex, medulla & paraganglia
+adrenalreportadrenalcarcinoma|features to report-adrenal cortical carcinoma
+adrenalparagangliomareport|features to report-pheochromocytoma / paraganglioma
+adrenalstaging|staging-adrenal cortical carcinoma
+adrenalstagingneuroblastic|staging-neuroblastic tumors
+adrenalpheostaging|staging-pheochromocytoma & paraganglioma
+adrenalwho|WHO classification
+adrenalaccessoryadrenaltissue|adrenal rests
+adrenalcysts|cysts
+adrenalovarianthecal|ovarian thecal metaplasia
+adrenalWFsyndrome|Waterhouse-Friderichsen syndrome
+adrenaladenomageneral|adrenal cortical adenoma
+adrenalacquiredhyper|adrenocortical nodular disease
+adrenalcongenitalhyperplasia|congenital adrenal hyperplasia
+adrenocorticalcarcinoma|adrenal cortical carcinoma
+adrenocorticalcarcinomamyxoid|myxoid
+adrenocorticalcarcinomaoncocytic|oncocytic
+adrenocorticalcarcinomacarcinosarcoma|sarcomatoid
+adrenalpheochromocytoma|pheochromocytoma
+adrenalparaganglioma|paraganglioma
+adrenalcompositepheochromocytoma|composite pheochromocytoma and paraganglioma
+adrenalhyperplasia|hyperplasia-medulla
+adrenalparagangliahyperplasia|hyperplasia-paraganglia
+adrenalganglioneuroma|ganglioneuroma
+adrenalganglioneuroblastoma|ganglioneuroblastoma, intermixed and nodular
+adrenalganglioneuroblastomaintermixed|ganglioneuroblastoma, intermixed (pending)
+adrenalganglioneuroblastomanodular|ganglioneuroblastoma, nodular (pending)
+adrenalneuroblastoma|neuroblastoma
+adrenaladenomatoid|adenomatoid tumor
+adrenalmetastases|metastases
+adrenalmyelolipoma|myelolipoma

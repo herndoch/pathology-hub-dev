@@ -1,0 +1,3029 @@
+{
+ "generated_at_utc": "2026-10-15T04:01:53.114715+00:00",
+ "rows": [
+  {
+   "topic": "Breast::Infectious::Sparganosis",
+   "phrase": "sparganosis",
+   "counts": {
+    "pubmed": 1,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 1,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Sparganosis of the breast",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2004.01831.x",
+      "y": "2004",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Letter"
+     }
+    ],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Breast::Neoplastic::Epithelial::Malignant::Apocrine_Carcinoma",
+   "phrase": "apocrine carcinoma",
+   "counts": {
+    "pubmed": 35,
+    "openalex": 4,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 34,
+   "not_in_pubmed": 1,
+   "examples_not_in_pubmed": [
+    "Axillary apocrine carcinoma with benign apocrine tumours: a case report involvin"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Apocrine carcinoma of the breast",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1093/ajcp/94.4.485",
+      "y": "1990",
+      "c": null,
+      "oa": false,
+      "type": "Editorial"
+     },
+     {
+      "t": "Primary cutaneous apocrine carcinoma with RARA::NPEPPS fusion",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.14607",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Intraductal apocrine carcinoma: a clinicopathologic study of 37 cases",
+      "v": "Mod Pathol",
+      "doi": "",
+      "y": "1994",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Recurrent apocrine carcinoma of the scrotum: a case report",
+      "v": "Pathol Res Pract",
+      "doi": "10.1016/j.prp.2014.12.010",
+      "y": "2015",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Apocrine carcinoma with signet ring cells and histiocytoid features. A potentially confusing axillary tumor",
+      "v": "Pathol Res Pract",
+      "doi": "10.1016/s0344-0338(97)80031-3",
+      "y": "1997",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't,Review"
+     },
+     {
+      "t": "Overexpression of PGC1α and accumulation of p62 in apocrine carcinoma of the breast",
+      "v": "Pathol Int",
+      "doi": "10.1111/pin.12235",
+      "y": "2015",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Apocrine carcinoma of the breast. A morphologic and immunocytochemical study",
+      "v": "Am J Pathol",
+      "doi": "",
+      "y": "1986",
+      "c": null,
+      "oa": true,
+      "type": "Comparative Study,Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Apocrine lesions of the breast: part 2 of a two-part review. Invasive apocrine carcinoma, the molecular apocrine signature and utility of immunohistochemistry in the diagnosis of apocrine lesions of the breast",
+      "v": "J Clin Pathol",
+      "doi": "10.1136/jclinpath-2018-205485",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Apocrine carcinoma of breast: a case report with review of the literature",
+      "v": "Case Rep Pathol",
+      "doi": "10.1155/2013/170918",
+      "y": "2013",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Apocrine carcinoma of the breast: distinctive metabolic reprogramming and high-frequency PIK3CA mutations revealed by molecular and immunohistochemical analysis",
+      "v": "Histopathology",
+      "doi": "10.1111/his.70024",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Invasive apocrine carcinoma of the breast: clinicopathologic features and comprehensive genomic profiling of 18 pure triple-negative apocrine carcinomas",
+      "v": "Mod Pathol",
+      "doi": "10.1038/s41379-020-0589-x",
+      "y": "2020",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Cutaneous Apocrine Carcinoma With an In Situ Component and Histiocytoid and Signet-Ring Cells",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000000810",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Mixed pleomorphic lobular and apocrine carcinoma of the breast: A case report suggesting pathogenesis",
+      "v": "Pathol Int",
+      "doi": "10.1111/pin.12781",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Primary cutaneous apocrine carcinoma: a clinico-pathologic analysis of 24 cases",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0b013e3181590ba4",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Multicenter Study"
+     },
+     {
+      "t": "Apocrine carcinoma vs. apocrine metaplasia with atypia of the breast. Use of aspiration biopsy cytology",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000333746",
+      "y": "1996",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     },
+     {
+      "t": "EGFR and HER-2/neu expression in invasive apocrine carcinoma of the breast",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.2010.50",
+      "y": "2010",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "HER2-Positive Metaplastic Spindle Cell Carcinoma Associated with Synchronous Bilateral Apocrine Carcinoma of the Breast",
+      "v": "Case Rep Pathol",
+      "doi": "10.1155/2014/310829",
+      "y": "2014",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Neoadjuvant Chemotherapy Response in Triple-Negative Apocrine Carcinoma: Comparing Apocrine Morphology, Androgen Receptor, and Immune Phenotypes",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2023-0561-oa",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Comparative Study"
+     },
+     {
+      "t": "Molecular cytogenetic comparison of apocrine hyperplasia and apocrine carcinoma of the breast",
+      "v": "Am J Pathol",
+      "doi": "10.1016/s0002-9440(10)63959-4",
+      "y": "2001",
+      "c": null,
+      "oa": true,
+      "type": "Comparative Study,Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Myoblastomatoid (histiocytoid) carcinoma of the breast. A type of apocrine carcinoma",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/00000478-199505000-00007",
+      "y": "1995",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "A unique case of apocrine carcinoma on the male pubic skin: histopathologic and ultrastructural observations",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.1993.tb01280.x",
+      "y": "1993",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Expression of 5α-reductase in apocrine carcinoma of the breast and its correlation with clinicopathological aggressiveness",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2012.04214.x",
+      "y": "2012",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Extramammary Paget Disease of the Axilla Associated With Comedo-like Apocrine Carcinoma In Situ",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/00000372-200208000-00013",
+      "y": "2002",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Apocrine carcinoma of breast: A rare entity posing cytological challenge",
+      "v": "Diagn Cytopathol",
+      "doi": "10.1002/dc.23819",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Letter"
+     },
+     {
+      "t": "Fine needle aspiration cytodiagnosis of apocrine carcinoma of the breast",
+      "v": "Cytopathology",
+      "doi": "10.1111/j.1365-2303.1992.tb00055.x",
+      "y": "1992",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Intracytoplasmic lipid accumulation in apocrine carcinoma of the breast evaluated with adipophilin immunoreactivity: a possible link between apocrine carcinoma and lipid-rich carcinoma",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0b013e31821a7f3e",
+      "y": "2011",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Solid apocrine carcinoma of the skin: report of a rare adnexal neoplasm mimicking lobular breast carcinoma",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.2007.00804.x",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Comparative Study,Journal Article"
+     },
+     {
+      "t": "Unusual apocrine carcinoma with neuroendocrine differentiation: a cutaneous neoplasm may be analogous to neuroendocrine carcinoma with apocrine differentiation of breast",
+      "v": "Diagn Pathol",
+      "doi": "10.1186/s13000-015-0302-4",
+      "y": "2015",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Fine needle aspiration cytology of apocrine carcinoma of the breast. Review of cases in a three-year period",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000326869",
+      "y": "2002",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Comparative Study,Journal Article"
+     },
+     {
+      "t": "Immunohistochemical analysis of apocrine breast lesions. Consistent over-expression of androgen receptor accompanied by the loss of estrogen and progesterone receptors in apocrine metaplasia and apocrine carcinoma in situ",
+      "v": "Pathol Res Pract",
+      "doi": "10.1016/s0344-0338(97)80053-2",
+      "y": "1997",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Apocrine carcinoma of the breast containing foam cells. An electron microscopic and immunohistological study",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.1987.tb02671.x",
+      "y": "1987",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Male breast cancer: a case of apocrine carcinoma with psammoma bodies",
+      "v": "Hum Pathol",
+      "doi": "10.1016/s0046-8177(81)80178-5",
+      "y": "1981",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "A Modern Approach to Differential Diagnosis Between Cutaneous Apocrine Carcinoma and Metastasis From Breast Carcinoma",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000000302",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Letter,Comment"
+     },
+     {
+      "t": "Apocrine carcinoma of the breast diagnosed on fine needle aspiration cytology",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000325822",
+      "y": "2007",
+      "c": null,
+      "oa": false,
+      "type": "Letter"
+     },
+     {
+      "t": "Myoblastomatoid carcinoma of the breast: an unusual variant of apocrine carcinoma: report of a case with fine-needle aspiration cytology and immunohistochemical study",
+      "v": "Diagn Cytopathol",
+      "doi": "10.1002/(sici)1097-0339(199702)16:2<145::aid-dc10>3.0.co;2-m",
+      "y": "1997",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Primary Cutaneous Apocrine Carcinoma",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0b013e3181590ba4",
+      "y": 2008,
+      "c": 155,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "EGFR and HER-2/neu expression in invasive apocrine carcinoma of the breast",
+      "v": "Modern Pathology",
+      "doi": "10.1038/modpathol.2010.50",
+      "y": 2010,
+      "c": 124,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Molecular Cytogenetic Comparison of Apocrine Hyperplasia and Apocrine Carcinoma of the Breast",
+      "v": "American Journal Of Pathology",
+      "doi": "10.1016/s0002-9440(10)63959-4",
+      "y": 2001,
+      "c": 81,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Axillary apocrine carcinoma with benign apocrine tumours: a case report involving a pathological and immunohistochemical study and review of the literature",
+      "v": "Journal of Clinical Pathology",
+      "doi": "10.1136/jcp.2004.019794",
+      "y": 2005,
+      "c": 77,
+      "oa": true,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "BST::Bone::Reactive::Infectious::Osteomyelitis_Chronic",
+   "phrase": "osteomyelitis chronic",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "BST::Soft_Tissue::Hematolymphoid::Malignant::Myeloid_Sarcoma",
+   "phrase": "myeloid sarcoma",
+   "counts": {
+    "pubmed": 7,
+    "openalex": 8,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 13,
+   "not_in_pubmed": 7,
+   "examples_not_in_pubmed": [
+    "Myeloid Sarcoma",
+    "Clinicopathological, Cytogenetic, and Prognostic Analysis of 131 Myeloid Sarcoma",
+    "Myeloid Sarcoma Involving the Gynecologic Tract"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Myeloid sarcoma: clinical and morphologic criteria useful for diagnosis",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/106689690301100404",
+      "y": "2003",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "A practical approach to diagnose soft tissue myeloid sarcoma preceding or coinciding with acute myeloid leukemia",
+      "v": "Ann Diagn Pathol",
+      "doi": "10.1016/j.anndiagpath.2014.06.001",
+      "y": "2014",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "A primary myeloid sarcoma involving the small intestine and mesentery: case report and literature review",
+      "v": "Int J Clin Exp Pathol",
+      "doi": "",
+      "y": "2018",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "ERG and CD31 expression in acute megakaryoblastic leukemia and myeloid sarcoma: A diagnostic pitfall",
+      "v": "Ann Diagn Pathol",
+      "doi": "10.1016/j.anndiagpath.2026.152709",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Myeloid Sarcoma Versus Epithelioid Angiosarcoma: A Case Report of a Potential Diagnostic Pitfall",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/10668969251384889",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Case Reports"
+     },
+     {
+      "t": "Autopsy case of primary myelofibrosis in which myeloid sarcoma was the initial manifestation of tumor progression",
+      "v": "Pathol Int",
+      "doi": "10.1111/j.1440-1827.2012.02813.x",
+      "y": "2012",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Chronic myelogenous leukemia presenting in blast phase with nodal, bilineal myeloid sarcoma and T-lymphoblastic lymphoma in a child",
+      "v": "Pediatr Dev Pathol",
+      "doi": "10.2350/12-07-1230-cr.1",
+      "y": "2013",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Myeloid Sarcoma",
+      "v": "American Journal of Clinical Pathology",
+      "doi": "10.1309/ajcp1za7hyzkazhs",
+      "y": 2009,
+      "c": 237,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Myeloid Sarcoma: Clinical and Morphologic Criteria Useful for Diagnosis",
+      "v": "International Journal of Surgical Pathology",
+      "doi": "10.1177/106689690301100404",
+      "y": 2003,
+      "c": 136,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Clinicopathological, Cytogenetic, and Prognostic Analysis of 131 Myeloid Sarcoma Patients",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000000727",
+      "y": 2016,
+      "c": 112,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Myeloid Sarcoma Involving the Gynecologic Tract",
+      "v": "American Journal of Clinical Pathology",
+      "doi": "10.1309/h9mm-21fp-t7yb-l3pw",
+      "y": 2006,
+      "c": 77,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Myeloid Sarcoma Involving the Breast",
+      "v": "Archives of Pathology & Laboratory Medicine",
+      "doi": "10.5858/2005-129-32-msitb",
+      "y": 2005,
+      "c": 75,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Optimized immunohistochemical panel to differentiate myeloid sarcoma from blastic plasmacytoid dendritic cell neoplasm",
+      "v": "Modern Pathology",
+      "doi": "10.1038/modpathol.2013.238",
+      "y": 2014,
+      "c": 57,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Clinicopathological features of myeloid sarcoma: Report of 39 cases and literature review",
+      "v": "Pathology - Research and Practice",
+      "doi": "10.1016/j.prp.2016.06.014",
+      "y": 2016,
+      "c": 56,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Myeloid Sarcoma of the Head and Neck Region",
+      "v": "Archives of Pathology & Laboratory Medicine",
+      "doi": "10.5858/arpa.2012-0537-oa",
+      "y": 2013,
+      "c": 52,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Cytopathology::Pancreatobiliary::High_Risk::Biliary_Intraepithelial_Neoplasia_High_Grade",
+   "phrase": "biliary intraepithelial neoplasia high grade cytology",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Cytopathology::Soft_Tissue::Malignant::Round_Cell::CIC_Rearranged_Sarcoma",
+   "phrase": "cic rearranged sarcoma cytology",
+   "counts": {
+    "pubmed": 1,
+    "openalex": 1,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 2,
+   "not_in_pubmed": 1,
+   "examples_not_in_pubmed": [
+    "Cytological Features of CIC-Rearranged Sarcoma: A Report of 5 New Cases and Revi"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Ancillary Tools for the Diagnosis of CIC -Rearranged Sarcoma: A Comprehensive Review",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.14792",
+      "y": "2025",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Review"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Cytological Features of CIC-Rearranged Sarcoma: A Report of 5 New Cases and Review of the Literature",
+      "v": "Acta Cytologica",
+      "doi": "10.1159/000553217",
+      "y": 2026,
+      "c": 0,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Endo::Pancreatic::NEN_Neoplasms::NEN_Tumors::Gastrinoma",
+   "phrase": "gastrinoma",
+   "counts": {
+    "pubmed": 1,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Extrapancreatic gastrinoma with pancreatic islet cell hyperplasia",
+      "v": "Arch Pathol Lab Med",
+      "doi": "",
+      "y": "1989",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Endo::Thyroid::Inflammatory::Thyroid_Autoantibodies",
+   "phrase": "thyroid autoantibodies",
+   "counts": {
+    "pubmed": 2,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 2,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Thyroid autoantibodies",
+      "v": "J Clin Pathol",
+      "doi": "10.1136/jcp-2022-208290",
+      "y": "2023",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Intravenous immunoglobulin as a source of passively acquired thyroid autoantibodies",
+      "v": "Pathology",
+      "doi": "10.1016/j.pathol.2023.05.020",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Letter"
+     }
+    ],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Eye_Orbit::Eyelid::Malignant::Merkel_Cell_Carcinoma",
+   "phrase": "merkel cell carcinoma",
+   "counts": {
+    "pubmed": 4,
+    "openalex": 4,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 6,
+   "not_in_pubmed": 4,
+   "examples_not_in_pubmed": [
+    "Merkel cell carcinoma demographics, morphology, and survival based on 3870 cases",
+    "Primary neuroendocrine (Merkel cell?) carcinoma of the skin",
+    "Immunostaining for Thyroid Transcription Factor 1 and Cytokeratin 20 Aids the Di"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Merkel cell carcinoma co-existent with sebaceous carcinoma of the eyelid",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.2008.01160.x",
+      "y": "2009",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "An unusual presentation of periocular Merkel cell carcinoma",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.2006.00525.x",
+      "y": "2006",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Fine needle aspiration cytologic diagnosis of metastatic Merkel cell carcinoma in the parotid gland",
+      "v": "Acta Cytol",
+      "doi": "",
+      "y": "1988",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Parotid metastasis of Merkel cell carcinoma in a young patient with ectodermal dysplasia. Diagnosis by fine needle aspiration cytology and immunocytochemistry",
+      "v": "Acta Cytol",
+      "doi": "",
+      "y": "1990",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Merkel cell carcinoma demographics, morphology, and survival based on 3870 cases: a population based study",
+      "v": "Journal of Cutaneous Pathology",
+      "doi": "10.1111/j.1600-0560.2009.01370.x",
+      "y": 2009,
+      "c": 546,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Primary neuroendocrine (Merkel cell?) carcinoma of the skin",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/00000478-198502000-00004",
+      "y": 1985,
+      "c": 280,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Immunostaining for Thyroid Transcription Factor 1 and Cytokeratin 20 Aids the Distinction of Small Cell Carcinoma From Merkel Cell Carcinoma, But Not Pulmonary From Extrapulmonary Small Cell Carcinomas",
+      "v": "Archives of Pathology & Laboratory Medicine",
+      "doi": "10.5858/2001-125-0228-ifttfa",
+      "y": 2001,
+      "c": 277,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Merkel cell carcinoma of the skin: pathological and molecular evidence for a causative role of MCV in oncogenesis",
+      "v": "The Journal of Pathology",
+      "doi": "10.1002/path.2532",
+      "y": 2009,
+      "c": 262,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Eye_Orbit::Orbit::Choristoma_Malformation::Vascular_Malformation::Orbital_Venous_Malformation",
+   "phrase": "orbital venous malformation",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GI::Colon::Neoplastic::Precursor::Nonconventional_Dysplasia",
+   "phrase": "nonconventional dysplasia",
+   "counts": {
+    "pubmed": 2,
+    "openalex": 7,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 7,
+   "not_in_pubmed": 5,
+   "examples_not_in_pubmed": [
+    "Increased histologic inflammation is an independent risk factor for nonconventio",
+    "Characteristics, Reporting, and Potential Clinical Significance of Nonconvention",
+    "Nonconventional Dysplasia is Frequently Associated With Goblet Cell Deficient an"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Gastric metaplasia as a precursor of nonconventional dysplasia in inflammatory bowel disease",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2023.11.011",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Nonconventional dysplasia in patients with inflammatory bowel disease and colorectal carcinoma: a multicenter clinicopathologic study",
+      "v": "Mod Pathol",
+      "doi": "10.1038/s41379-019-0419-1",
+      "y": "2020",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Multicenter Study"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Nonconventional dysplasia in patients with inflammatory bowel disease and colorectal carcinoma: a multicenter clinicopathologic study",
+      "v": "Modern Pathology",
+      "doi": "10.1038/s41379-019-0419-1",
+      "y": 2019,
+      "c": 92,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Increased histologic inflammation is an independent risk factor for nonconventional dysplasia in ulcerative colitis",
+      "v": "Histopathology",
+      "doi": "10.1111/his.14765",
+      "y": 2022,
+      "c": 26,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Characteristics, Reporting, and Potential Clinical Significance of Nonconventional Dysplasia in Inflammatory Bowel Disease",
+      "v": "Surgical pathology clinics",
+      "doi": "10.1016/j.path.2023.05.006",
+      "y": 2023,
+      "c": 19,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Nonconventional Dysplasia is Frequently Associated With Goblet Cell Deficient and Serrated Variants of Colonic Adenocarcinoma in Inflammatory Bowel Disease",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000002217",
+      "y": 2024,
+      "c": 18,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Poor Diagnostic Reproducibility in the Identification of Nonconventional Dysplasia in Colitis Impacts the Application of Histologic Stratification Tools",
+      "v": "Modern Pathology",
+      "doi": "10.1016/j.modpat.2023.100419",
+      "y": 2023,
+      "c": 15,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Gastric metaplasia as a precursor of nonconventional dysplasia in inflammatory bowel disease",
+      "v": "Human Pathology",
+      "doi": "10.1016/j.humpath.2023.11.011",
+      "y": 2023,
+      "c": 5,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "335 Nonconventional Dysplasia and Conventional Dysplasia in Inflammatory Bowel Disease are Commonly Concurrent",
+      "v": "American Journal of Clinical Pathology",
+      "doi": "10.1093/ajcp/aqaf121.143",
+      "y": 2025,
+      "c": 0,
+      "oa": true,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GI::Mesenchymal::Neural::Granular_Cell_Tumor",
+   "phrase": "granular cell tumor",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GU::Kidney::Mesenchymal::Angiomyolipoma",
+   "phrase": "angiomyolipoma",
+   "counts": {
+    "pubmed": 19,
+    "openalex": 3,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 20,
+   "not_in_pubmed": 2,
+   "examples_not_in_pubmed": [
+    "Pure Epithelioid PEComas (So-Called Epithelioid Angiomyolipoma) of the Kidney",
+    "Epithelioid Angiomyolipoma of the Kidney"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Angiomyolipoma of kidney",
+      "v": "Semin Diagn Pathol",
+      "doi": "",
+      "y": "1998",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Angiomyolipoma of the kidney: from simple hamartoma to complex tumour",
+      "v": "Pathology",
+      "doi": "10.1016/j.pathol.2020.08.008",
+      "y": "2021",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Epithelioid angiomyolipoma of the kidney",
+      "v": "Pathol Int",
+      "doi": "10.1111/j.1440-1827.2008.02322.x",
+      "y": "2009",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Primary angiosarcoma arising in an angiomyolipoma of the kidney: case report and literature review",
+      "v": "Diagn Pathol",
+      "doi": "10.1186/s13000-018-0730-z",
+      "y": "2018",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Cystic angiomyolipoma of the kidney: a clinicopathologic description of 11 cases",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.3800572",
+      "y": "2006",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Oncocytoma-Like Angiomyolipoma of the Kidney: A Closer Look into the Clinicopathologic, Immunohistochemical, and Molecular Characteristics of a Rare Entity with Review of the Literature",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/10668969231186925",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Review,Case Reports,Journal Article"
+     },
+     {
+      "t": "Association of angiomyolipoma and oncocytoma of the kidney: a case report and review of the literature",
+      "v": "J Clin Pathol",
+      "doi": "10.1136/jcp.56.7.544",
+      "y": "2003",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Angiomyolipoma with epithelial cysts of the kidney in a man",
+      "v": "Pathol Int",
+      "doi": "10.1111/j.1440-1827.2008.02287.x",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "p53 aberration and TFE3 gene amplification may be predictors of adverse prognosis in epithelioid angiomyolipoma of the kidney",
+      "v": "Diagn Pathol",
+      "doi": "10.1186/s13000-023-01298-9",
+      "y": "2023",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Melanoma markers in angiomyolipoma of the liver and kidney: a comparative study",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2002-126-0049-mmiaot",
+      "y": "2002",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     },
+     {
+      "t": "Epithelioid angiomyolipoma of the kidney: pathological features and clinical outcome in a series of consecutively resected tumors",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.2013.72",
+      "y": "2013",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Malignant epithelioid angiomyolipoma ('sarcoma ex angiomyolipoma') of the kidney: a case report and review of the literature",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/00000478-200101000-00014",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Large exophytic angiomyolipoma of the kidney mimicking retroperitoneal liposarcoma",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/1066896913511526",
+      "y": "2014",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Nuclear pseudoinclusions in angiomyolipoma of the kidney. A case report",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000331631",
+      "y": "1998",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Melanocyte-marker-HMB-45 is regularly expressed in angiomyolipoma of the kidney",
+      "v": "Pathology",
+      "doi": "10.3109/00313029109063563",
+      "y": "1991",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Epithelioid angiomyolipoma of kidney with atypical nuclear features and intranuclear inclusions on cytology",
+      "v": "Diagn Cytopathol",
+      "doi": "10.1002/dc.21408",
+      "y": "2011",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Concurrent angiomyolipoma and two oncocytomas in the same kidney",
+      "v": "Ann Diagn Pathol",
+      "doi": "10.1016/j.anndiagpath.2006.02.004",
+      "y": "2007",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Tumor-to-tumor metastasis: report of 2 cases of metastatic carcinoma to angiomyolipoma of the kidney",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2008-132-1016-tmroco",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Immunohistochemical study of microphthalmia transcription factor and tyrosinase in angiomyolipoma of the kidney, renal cell carcinoma, and renal and retroperitoneal sarcomas: comparative evaluation with traditional diagnostic markers",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/00000478-200101000-00007",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Pure Epithelioid PEComas (So-Called Epithelioid Angiomyolipoma) of the Kidney",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0b013e318206f2a9",
+      "y": 2011,
+      "c": 286,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Epithelioid Angiomyolipoma of the Kidney",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/00000478-199710000-00001",
+      "y": 1997,
+      "c": 271,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Melanocyte-marker-HMB-45 is regularly expressed in angiomyolipoma of the kidney",
+      "v": "Pathology",
+      "doi": "10.3109/00313029109063563",
+      "y": 1991,
+      "c": 243,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GU::Prostate::Additional_Topics::Gleason_Grading",
+   "phrase": "gleason grading",
+   "counts": {
+    "pubmed": 33,
+    "openalex": 12,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 37,
+   "not_in_pubmed": 4,
+   "examples_not_in_pubmed": [
+    "The 2005 International Society of Urological Pathology (ISUP) Consensus Conferen",
+    "Interobserver reproducibility of Gleason grading of prostatic carcinoma: Urologi",
+    "The significance of modified Gleason grading of prostatic carcinoma in biopsy an"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "The 2014 International Society of Urological Pathology (ISUP) Consensus Conference on Gleason Grading of Prostatic Carcinoma: Definition of Grading Patterns and Proposal for a New Grading System",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0000000000000530",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Consensus Statement,Journal Article,Practice Guideline,Review"
+     },
+     {
+      "t": "Evaluation of Artificial Intelligence-Based Gleason Grading Algorithms \"in the Wild\"",
+      "v": "Mod Pathol",
+      "doi": "10.1016/j.modpat.2024.100563",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Recent advances in prostate cancer pathology: Gleason grading and beyond",
+      "v": "Pathol Int",
+      "doi": "10.1111/pin.12398",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Gleason grading and prognostic factors in carcinoma of the prostate",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.3800054",
+      "y": "2004",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Real-time diagnosis and Gleason grading of prostate core needle biopsies using nonlinear microscopy",
+      "v": "Mod Pathol",
+      "doi": "10.1038/s41379-021-00960-1",
+      "y": "2022",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Research Support, N.I.H., Extramural,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Artificial intelligence assistance significantly improves Gleason grading of prostate biopsies by pathologists",
+      "v": "Mod Pathol",
+      "doi": "10.1038/s41379-020-0640-y",
+      "y": "2021",
+      "c": null,
+      "oa": true,
+      "type": "Comparative Study,Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Gleason grading and volume estimation in prostate needle biopsy specimens: evolving issues",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1309/28ftju4tb2d77242",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Current perspectives on the Gleason grading of prostate cancer",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/133.11.1810",
+      "y": "2009",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Current practice of Gleason grading among genitourinary pathologists",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2004.10.001",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Multicenter Study"
+     },
+     {
+      "t": "Interobserver reproducibility of Gleason grading of prostatic carcinoma: general pathologist",
+      "v": "Hum Pathol",
+      "doi": "10.1053/hupa.2001.21135",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Standardization of Gleason grading among 337 European pathologists",
+      "v": "Histopathology",
+      "doi": "10.1111/his.12008",
+      "y": "2013",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Multicenter Study,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Implications of the International Society of Urological Pathology modified Gleason grading system",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2011-0495-ra",
+      "y": "2012",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Update on the Gleason grading system for prostate cancer: results of an international consensus conference of urologic pathologists",
+      "v": "Adv Anat Pathol",
+      "doi": "10.1097/01.pap.0000202017.78917.18",
+      "y": "2006",
+      "c": null,
+      "oa": false,
+      "type": "Consensus Statement,Journal Article"
+     },
+     {
+      "t": "Prostate Cancer Grading: A Decade After the 2005 Modified Gleason Grading System",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2015-0487-sa",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Gleason grading of prostatic adenocarcinoma with glomeruloid features on needle biopsy",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2008.10.002",
+      "y": "2009",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Gleason Grading, Biochemical Failure, and Prostate Cancer-Specific Death",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1093/ajcp/aqw212",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Contemporary Gleason Grading of Prostatic Carcinoma: An Update With Discussion on Practical Issues to Implement the 2014 International Society of Urological Pathology (ISUP) Consensus Conference on Gleason Grading of Prostatic Carcinoma",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0000000000000820",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Consensus Statement,Journal Article,Practice Guideline"
+     },
+     {
+      "t": "Enhancing Prostate Cancer Diagnosis: Artificial Intelligence-Driven Virtual Biopsy for Optimal Magnetic Resonance Imaging-Targeted Biopsy Approach and Gleason Grading Strategy",
+      "v": "Mod Pathol",
+      "doi": "10.1016/j.modpat.2024.100564",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Gleason grading of prostatic needle biopsies. Correlation with grade in 316 matched prostatectomies",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/00000478-199408000-00006",
+      "y": "1994",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article,Research Support, U.S. Gov't, P.H.S."
+     },
+     {
+      "t": "Evaluation of the interobserver reproducibility of Gleason grading of prostatic adenocarcinoma using tissue microarrays",
+      "v": "Hum Pathol",
+      "doi": "10.1016/s0046-8177(03)00123-0",
+      "y": "2003",
+      "c": null,
+      "oa": false,
+      "type": "Evaluation Study,Journal Article,Research Support, Non-U.S. Gov't,Research Support, U.S. Gov't, P.H.S."
+     },
+     {
+      "t": "Long term evaluation of optimized Gleason grading in a large cohort of men with prostate cancer in Canada",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2024.04.002",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Interlaboratory Gleason grading variation affects treatment: a Dutch historic cohort study in 30 509 patients with prostate cancer",
+      "v": "J Clin Pathol",
+      "doi": "10.1136/jcp-2021-208067",
+      "y": "2023",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Gleason grading of prostate cancer: level of concordance between pathologists at the University Hospital of the West Indies",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1309/3a32-dtvm-h640-m2qa",
+      "y": "2004",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     },
+     {
+      "t": "Accurate Gleason grading of prostatic adenocarcinoma in prostate needle biopsies by general pathologists",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2003-127-1007-aggopa",
+      "y": "2003",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     },
+     {
+      "t": "Web-based tissue microarray image data analysis: initial validation testing through prostate cancer Gleason grading",
+      "v": "Hum Pathol",
+      "doi": "10.1053/hupa.2001.23517",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Clinical Trial,Clinical Trial, Phase II,Clinical Trial, Phase III,Journal Article,Randomized Controlled Trial,Research Support, Non-U.S. Gov't,Research Support, U.S. Gov't, P.H.S."
+     },
+     {
+      "t": "The reasons behind variation in Gleason grading of prostatic biopsies: areas of agreement and misconception among 266 European pathologists",
+      "v": "Histopathology",
+      "doi": "10.1111/his.12284",
+      "y": "2014",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Prostate Cancer Grading: A Decade After the 2005 Modified Gleason Grading System",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2016-0300-le",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Comment"
+     },
+     {
+      "t": "Adenocarcinoma of the prostate with Gleason pattern 5 on core biopsy: frequency of diagnosis, morphologic subpatterns, and relation to pattern distribution based on the modified Gleason grading system",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2014.07.012",
+      "y": "2014",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Impact on the clinical outcome of prostate cancer by the 2005 international society of urological pathology modified Gleason grading system",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0b013e3182486faf",
+      "y": "2012",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Pathology residents' use of a Web-based tutorial to improve Gleason grading of prostate carcinoma on needle biopsies",
+      "v": "Hum Pathol",
+      "doi": "10.1053/hupa.2000.16278",
+      "y": "2000",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Multicenter Study"
+     },
+     {
+      "t": "A UK-based investigation of inter- and intra-observer reproducibility of Gleason grading of prostatic biopsies",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2006.02393.x",
+      "y": "2006",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Gleason grading of prostatic adenocarcinoma on fine-needle aspiration",
+      "v": "Diagn Cytopathol",
+      "doi": "10.1002/dc.2840050204",
+      "y": "1989",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article"
+     },
+     {
+      "t": "Comparison of Classic and International Society of Urological Pathology 2005 Modified Gleason grading using needle biopsies from the Reduction by Dutasteride of Prostate Cancer Events (REDUCE) trial",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2012-0447-oa",
+      "y": "2013",
+      "c": null,
+      "oa": false,
+      "type": "Comparative Study,Journal Article,Research Support, Non-U.S. Gov't"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "The 2014 International Society of Urological Pathology (ISUP) Consensus Conference on Gleason Grading of Prostatic Carcinoma",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000000530",
+      "y": 2015,
+      "c": 3236,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "The 2005 International Society of Urological Pathology (ISUP) Consensus Conference on Gleason Grading of Prostatic Carcinoma",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/01.pas.0000173646.99337.b1",
+      "y": 2005,
+      "c": 2763,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Gleason grading and prognostic factors in carcinoma of the prostate",
+      "v": "Modern Pathology",
+      "doi": "10.1038/modpathol.3800054",
+      "y": 2004,
+      "c": 524,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Interobserver reproducibility of Gleason grading of prostatic carcinoma: General pathologist",
+      "v": "Human Pathology",
+      "doi": "10.1053/hupa.2001.21135",
+      "y": 2001,
+      "c": 380,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Interobserver reproducibility of Gleason grading of prostatic carcinoma: Urologic pathologists",
+      "v": "Human Pathology",
+      "doi": "10.1053/hupa.2001.21134",
+      "y": 2001,
+      "c": 332,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Contemporary Gleason Grading of Prostatic Carcinoma",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000000820",
+      "y": 2017,
+      "c": 285,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Standardization of Gleason grading among 337 European pathologists",
+      "v": "Histopathology",
+      "doi": "10.1111/his.12008",
+      "y": 2012,
+      "c": 186,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Artificial intelligence assistance significantly improves Gleason grading of prostate biopsies by pathologists",
+      "v": "Modern Pathology",
+      "doi": "10.1038/s41379-020-0640-y",
+      "y": 2020,
+      "c": 174,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "The significance of modified Gleason grading of prostatic carcinoma in biopsy and radical prostatectomy specimens",
+      "v": "Archiv für Pathologische Anatomie und Physiologie und für Klinische Medicin",
+      "doi": "10.1007/s00428-006-0310-6",
+      "y": 2006,
+      "c": 160,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "A UK‐based investigation of inter‐ and intra‐observer reproducibility of Gleason grading of prostatic biopsies",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2006.02393.x",
+      "y": 2006,
+      "c": 133,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Gleason grading: past, present and future",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2011.04003.x",
+      "y": 2011,
+      "c": 118,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Update on the Gleason Grading System for Prostate Cancer",
+      "v": "Advances in Anatomic Pathology",
+      "doi": "10.1097/01.pap.0000202017.78917.18",
+      "y": 2006,
+      "c": 118,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GYN::Lower_Genital_Mesenchymal::Vascular::Angiosarcoma",
+   "phrase": "angiosarcoma",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "GYN::Peritoneum::Tumor_Like::Histiocytic_Nodule",
+   "phrase": "histiocytic nodule",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Heme::Mature_T_NK_Cell::Anaplastic_Large_Cell::ALK_Negative_Anaplastic_Large_Cell_Lymphoma",
+   "phrase": "alk negative anaplastic large cell lymphoma",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 5,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 5,
+   "not_in_pubmed": 5,
+   "examples_not_in_pubmed": [
+    "ALK‐negative anaplastic large‐cell lymphoma demonstrates similar poor prognosis ",
+    "Differential Expression of BCL-2 Family Proteins in ALK-Positive and ALK-Negativ",
+    "Intravascular ALK-negative Anaplastic Large Cell Lymphoma With Localized Cutaneo"
+   ],
+   "results": {
+    "pubmed": [],
+    "openalex": [
+     {
+      "t": "ALK‐negative anaplastic large‐cell lymphoma demonstrates similar poor prognosis to peripheral T‐cell lymphoma, unspecified",
+      "v": "Histopathology",
+      "doi": "10.1046/j.1365-2559.2003.01726.x",
+      "y": 2003,
+      "c": 106,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Differential Expression of BCL-2 Family Proteins in ALK-Positive and ALK-Negative Anaplastic Large Cell Lymphoma of T/Null-Cell Lineage",
+      "v": "American Journal Of Pathology",
+      "doi": "10.1016/s0002-9440(10)61724-5",
+      "y": 2001,
+      "c": 103,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Intravascular ALK-negative Anaplastic Large Cell Lymphoma With Localized Cutaneous Involvement and an Indolent Clinical Course",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0b013e318280aa9c",
+      "y": 2013,
+      "c": 35,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "ALK-negative anaplastic large cell lymphoma mimicking a soft tissue sarcoma",
+      "v": "Journal of Cytology",
+      "doi": "10.4103/0970-9371.86362",
+      "y": 2011,
+      "c": 16,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Two cases of CD30+, anaplastic lymphoma kinase (ALK)-negative anaplastic large cell lymphoma with oral manifestations",
+      "v": "Oral Surgery Oral Medicine Oral Pathology and Oral Radiology",
+      "doi": "10.1016/j.oooo.2012.04.010",
+      "y": 2012,
+      "c": 15,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Heme::Non_Neoplastic::Congenital_Structural::Pure_Red_Cell_Aplasia",
+   "phrase": "pure red cell aplasia",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "HN::Larynx_Hypopharynx_Trachea::Inflammatory::Contact_Ulcer",
+   "phrase": "contact ulcer",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "HN::Other::Inflammatory::Chronic_Ulcerative_Stomatitis",
+   "phrase": "chronic ulcerative stomatitis",
+   "counts": {
+    "pubmed": 7,
+    "openalex": 15,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 16,
+   "not_in_pubmed": 9,
+   "examples_not_in_pubmed": [
+    "Chronic ulcerative stomatitis: clinical, histopathologic, and immunopathologic f",
+    "Chronic ulcerative stomatitis: Diagnostic and management challenges—four new cas",
+    "Chronic ulcerative stomatitis associated with stratified epithelial specific ant"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Is chronic ulcerative stomatitis a variant of lichen planus, or a distinct disease?",
+      "v": "J Oral Pathol Med",
+      "doi": "10.1111/jop.12561",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Seventeen New Cases of Chronic Ulcerative Stomatitis with Literature Review",
+      "v": "Head Neck Pathol",
+      "doi": "10.1007/s12105-018-0982-7",
+      "y": "2019",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Clinical and immunological features of chronic ulcerative stomatitis: A systematic review",
+      "v": "J Oral Pathol Med",
+      "doi": "10.1111/jop.13279",
+      "y": "2022",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Systematic Review"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis: Case series of an under-recognized entity",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.13347",
+      "y": "2018",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Hydroxychloroquine and the treatment of Sjogren syndrome, chronic ulcerative stomatitis, and oral lichen planus in the age of COVID-19",
+      "v": "Oral Surg Oral Med Oral Pathol Oral Radiol",
+      "doi": "10.1016/j.oooo.2020.06.011",
+      "y": "2021",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "The diagnostic challenges of separating chronic ulcerative stomatitis from oral lichen planus",
+      "v": "Oral Surg Oral Med Oral Pathol Oral Radiol",
+      "doi": "10.1016/j.oooo.2015.07.018",
+      "y": "2015",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Detection of in vivo IgG1 antinuclear antibodies may have diagnostic utility in oral biopsies from patients with suspected chronic ulcerative stomatitis or systemic autoimmune connective tissue disease",
+      "v": "Oral Surg Oral Med Oral Pathol Oral Radiol",
+      "doi": "10.1016/j.oooo.2026.07.017",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Chronic ulcerative stomatitis: clinical, histopathologic, and immunopathologic findings",
+      "v": "Oral Surgery Oral Medicine Oral Pathology Oral Radiology and Endodontology",
+      "doi": "10.1016/s1079-2104(03)00459-1",
+      "y": 2003,
+      "c": 51,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis: Diagnostic and management challenges—four new cases and review of literature",
+      "v": "Oral Surgery Oral Medicine Oral Pathology Oral Radiology and Endodontology",
+      "doi": "10.1016/j.tripleo.2007.02.013",
+      "y": 2007,
+      "c": 44,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis associated with stratified epithelial specific antinuclear antibodies",
+      "v": "Oral Surgery Oral Medicine Oral Pathology",
+      "doi": "10.1016/0030-4220(92)90102-v",
+      "y": 1992,
+      "c": 44,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "The diagnostic challenges of separating chronic ulcerative stomatitis from oral lichen planus",
+      "v": "Oral Surgery Oral Medicine Oral Pathology and Oral Radiology",
+      "doi": "10.1016/j.oooo.2015.07.018",
+      "y": 2015,
+      "c": 33,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis: evidence of autoimmune pathogenesis",
+      "v": "Oral Surgery Oral Medicine Oral Pathology Oral Radiology and Endodontology",
+      "doi": "10.1016/j.tripleo.2010.12.020",
+      "y": 2011,
+      "c": 32,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Clinical and Histopathologic Characterization of Canine Chronic Ulcerative Stomatitis",
+      "v": "Veterinary Pathology",
+      "doi": "10.1177/0300985816688754",
+      "y": 2017,
+      "c": 26,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Is chronic ulcerative stomatitis a variant of lichen planus, or a distinct disease?",
+      "v": "Journal of Oral Pathology and Medicine",
+      "doi": "10.1111/jop.12561",
+      "y": 2017,
+      "c": 16,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis: Case series of an under‐recognized entity",
+      "v": "Journal of Cutaneous Pathology",
+      "doi": "10.1111/cup.13347",
+      "y": 2018,
+      "c": 14,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Seventeen New Cases of Chronic Ulcerative Stomatitis with Literature Review",
+      "v": "Head and Neck Pathology",
+      "doi": "10.1007/s12105-018-0982-7",
+      "y": 2018,
+      "c": 10,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "The 30th birthday of chronic ulcerative stomatitis: A systematic review",
+      "v": "International Journal of Immunopathology and Pharmacology",
+      "doi": "10.1177/20587384211052437",
+      "y": 2021,
+      "c": 8,
+      "oa": true,
+      "type": "review"
+     },
+     {
+      "t": "Hydroxychloroquine and the treatment of Sjogren syndrome, chronic ulcerative stomatitis, and oral lichen planus in the age of COVID-19",
+      "v": "Oral Surgery Oral Medicine Oral Pathology and Oral Radiology",
+      "doi": "10.1016/j.oooo.2020.06.011",
+      "y": 2020,
+      "c": 7,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Clinical and immunological features of chronic ulcerative stomatitis: A systematic review",
+      "v": "Journal of Oral Pathology and Medicine",
+      "doi": "10.1111/jop.13279",
+      "y": 2022,
+      "c": 4,
+      "oa": false,
+      "type": "review"
+     },
+     {
+      "t": "Chronic ulcerative stomatitis in primary Sjögren’s syndrome",
+      "v": "Oral Surgery Oral Medicine Oral Pathology Oral Radiology and Endodontology",
+      "doi": "10.1016/j.tripleo.2006.06.036",
+      "y": 2006,
+      "c": 3,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "CHRONIC ULCERATIVE STOMATITIS: A CASE REPORT",
+      "v": "Oral Surgery Oral Medicine Oral Pathology and Oral Radiology",
+      "doi": "10.1016/j.oooo.2020.04.204",
+      "y": 2020,
+      "c": 2,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "CHRONIC ULCERATIVE STOMATITIS: A LICHENOID OR VESICULOBULLOUS DISEASE?",
+      "v": "Oral Surgery Oral Medicine Oral Pathology and Oral Radiology",
+      "doi": "10.1016/j.oooo.2019.02.213",
+      "y": 2019,
+      "c": 2,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Molecular::GROWTH_FACTOR_SIGNALING::WNT_TGFBETA_PATHWAY:Serrated_Polyposis_RNF43_",
+   "phrase": "wnt tgfbeta pathway serrated polyposis rnf43",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Molecular::Heme::Neoplastic::Special_At_Rich_Sequence_Binding_Protein_2_SATB2_STAINSSATB2",
+   "phrase": "special at rich sequence binding protein 2 satb2 stainssatb2",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Neuro::Infection::Infectious::Amebic_Colitis",
+   "phrase": "amebic colitis",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 2,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 2,
+   "not_in_pubmed": 2,
+   "examples_not_in_pubmed": [
+    "Amebic Colitis Can Mimic Tuberculosis and Inflammatory Bowel Disease on Endoscop",
+    "The differentiation of amebic colitis from inflammatory bowel disease on endosco"
+   ],
+   "results": {
+    "pubmed": [],
+    "openalex": [
+     {
+      "t": "Amebic Colitis Can Mimic Tuberculosis and Inflammatory Bowel Disease on Endoscopy and Biopsy",
+      "v": "International Journal of Surgical Pathology",
+      "doi": "10.1177/1066896908316380",
+      "y": 2008,
+      "c": 63,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "The differentiation of amebic colitis from inflammatory bowel disease on endoscopic mucosal biopsies",
+      "v": "Indian Journal of Pathology and Microbiology",
+      "doi": "10.4103/0377-4929.168880",
+      "y": 2015,
+      "c": 56,
+      "oa": true,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Neuro::Tumor::Congenital_Structural::Meningeal_Cyst",
+   "phrase": "meningeal cyst",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Peds::GYN::Ovarian::Sex_Cord::Gynandroblastoma",
+   "phrase": "gynandroblastoma",
+   "counts": {
+    "pubmed": 1,
+    "openalex": 1,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 1,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Gynandroblastoma of the testis in an infant: a morphological, immunohistochemical and in-situ hybridization report",
+      "v": "Histopathology",
+      "doi": "10.1046/j.1365-2559.2002.t01-2-01299.x",
+      "y": "2002",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Letter"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Gynandroblastoma of the testis in an infant: a morphological, immunohistochemical and in‐situ hybridization report",
+      "v": "Histopathology",
+      "doi": "10.1046/j.1365-2559.2002.t01-2-01299.x",
+      "y": 2002,
+      "c": 2,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Peds::Skin::Hamartomas::Hamartomas",
+   "phrase": "hamartomas",
+   "counts": {
+    "pubmed": 2,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 2,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Hamartomas of skin and soft tissue",
+      "v": "Semin Diagn Pathol",
+      "doi": "10.1053/j.semdp.2018.12.001",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Multiple rhabdomyomatous mesenchymal hamartomas of skin",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/00000372-199010000-00009",
+      "y": "1990",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Skin::Infectious::Viral::Epstein_Barr_Virus",
+   "phrase": "epstein barr virus",
+   "counts": {
+    "pubmed": 41,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 3
+   },
+   "union_dois": 42,
+   "not_in_pubmed": 3,
+   "examples_not_in_pubmed": [
+    "Epstein-Barr Virus and Cancer.",
+    "Epstein-Barr virus (EBV) reactivation and therapeutic inhibitors",
+    "Epigenetic lifestyle of Epstein-Barr virus"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Epstein-Barr virus in cutaneous pathology",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0b013e318287e0c6",
+      "y": "2013",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Epstein-Barr Virus-associated Lymphoproliferative Disorders in the Skin",
+      "v": "Surg Pathol Clin",
+      "doi": "10.1016/j.path.2017.01.001",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Follicular Helper T-Cell Lymphomas With Epstein-Barr Virus-Positive Neoplastic Cells: A Rare Scenario With Diagnostic Implications",
+      "v": "Mod Pathol",
+      "doi": "10.1016/j.modpat.2025.100875",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, N.I.H., Extramural"
+     },
+     {
+      "t": "Epstein-Barr virus-associated T- and NK-cell lymphoproliferative diseases: an update and diagnostic approach",
+      "v": "Pathology",
+      "doi": "10.1016/j.pathol.2019.09.011",
+      "y": "2020",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Epstein - Barr virus positive T and NK-cell lymphoproliferations: Morphological features and differential diagnosis",
+      "v": "Semin Diagn Pathol",
+      "doi": "10.1053/j.semdp.2019.12.004",
+      "y": "2020",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Epstein-Barr virus-positive T- and NK-cell lymphoproliferative disorders: Report from the 2023 SH/EA4HP Lymphoma Workshop",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1093/ajcp/aqaf020",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Epstein-Barr Virus-Associated Lymphomatoid Papules: A Sign of Immunosuppression Resembling Lymphomatoid Papulosis",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000002479",
+      "y": "2023",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus in cutaneous lymphomatoid granulomatosis",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.1994.tb01373.x",
+      "y": "1994",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Cutaneous Epstein-Barr virus-associated smooth muscle tumor in immunosuppression",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.13849",
+      "y": "2021",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Acute Epstein-Barr virus infection resembling cutaneous T-cell lymphoma",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.14357",
+      "y": "2023",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "High frequency of Epstein-Barr virus-infected lymphocytes in pilonidal cysts",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2012.03.016",
+      "y": "2012",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Epstein-Barr Virus-positive Mucocutanous Ulcer of the Uterine Cervix: Report of a Rare and Evolving Entity",
+      "v": "Int J Gynecol Pathol",
+      "doi": "10.1097/pgp.0000000000000861",
+      "y": "2023",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus: an aetiological factor in cutaneous lymphoproliferative disorders?",
+      "v": "J Pathol",
+      "doi": "10.1002/path.1711650102",
+      "y": "1991",
+      "c": null,
+      "oa": false,
+      "type": "Editorial"
+     },
+     {
+      "t": "Epstein-Barr virus in B-cell lymphomas associated with chronic suppurative inflammation",
+      "v": "J Pathol",
+      "doi": "10.1002/(sici)1096-9896(199711)183:3<287::aid-path932>3.0.co;2-q",
+      "y": "1997",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't,Review"
+     },
+     {
+      "t": "Comparison of Epstein-Barr virus-positive mucocutaneous ulcer associated with treated lymphoma or methotrexate in Japan",
+      "v": "Histopathology",
+      "doi": "10.1111/his.13464",
+      "y": "2018",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Epstein Barr Virus-Related Acute Liver Failure and Hemophagocytosis in an Immunocompetent Individual: An Autopsy Report",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/10668969231195068",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein Barr virus-associated lymphoproliferative-disorders primarily involving the skin",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.1999.tb01837.x",
+      "y": "1999",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Spectrum of Epstein-Barr virus-associated T-cell lymphoproliferative disorder in adolescents and young adults in Taiwan",
+      "v": "Int J Clin Exp Pathol",
+      "doi": "",
+      "y": "2014",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "A case of age-related Epstein-Barr virus (EBV)-associated B cell lymphoproliferative disorder, so-called polymorphous subtype, of the mandible, with a review of the literature",
+      "v": "Head Neck Pathol",
+      "doi": "10.1007/s12105-012-0392-1",
+      "y": "2013",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Skin-Limited, Methotrexate-Associated Epstein-Barr Virus-Positive Mucocutaneous Ulcer-A Mimicker of High-Grade Lymphoma. A Report of 4 Cases and Review of the Literature",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000002419",
+      "y": "2023",
+      "c": null,
+      "oa": false,
+      "type": "Review,Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus--associated smooth muscle tumor mimicking cutaneous angioleiomyoma",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0b013e3181ed5fd9",
+      "y": "2011",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Cutaneous Manifestations of Epstein-Barr Virus: A Unique Case of Gianotti-Crosti Syndrome",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.70080",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Case Reports,Review"
+     },
+     {
+      "t": "Epstein-Barr virus-negative Hodgkin's lymphoma after mycosis fungoides: molecular evidence for distinct clonal origin",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.3880262",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus (EBV) infects T lymphocytes in childhood EBV-associated hemophagocytic syndrome in Taiwan",
+      "v": "Am J Pathol",
+      "doi": "",
+      "y": "1994",
+      "c": null,
+      "oa": true,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Primary cutaneous Epstein-Barr virus-associated T-cell lymphoproliferative disorder-2 cases with unusual, prolonged clinical course",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0b013e3181d68381",
+      "y": "2010",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Cutaneous intravascular NK-cell lymphoma: report of a rare variant associated with Epstein-Barr virus",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/01.pas.0000213263.99973.09",
+      "y": "2006",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't,Review"
+     },
+     {
+      "t": "Epstein-Barr virus negative clonal plasma cell proliferations and lymphomas in peripheral T-cell lymphomas: a phenomenon with distinctive clinicopathologic features",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/pas.0b013e3180339f18",
+      "y": "2007",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Detection of Epstein-Barr virus and HTLV-I in T-cell lymphomas of skin in Taiwan",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/00000372-199806000-00005",
+      "y": "1998",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Epstein-Barr virus-positive Hodgkin lymphoma-like earlobe lymphoid infiltrate: case report",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0b013e3181ac6738",
+      "y": "2009",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "A Rare Case of Epstein-Barr Virus-Positive T-Cell Lymphoma in the Skin of an Immunocompromised Patient",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000002048",
+      "y": "2022",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus- and human herpesvirus 8-associated primary cutaneous plasmablastic lymphoma in the setting of renal transplantation",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.0303-6987.2005.00258.x",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr virus-associated adrenal smooth muscle tumors and disseminated diffuse large B-cell lymphoma in a child with common variable immunodeficiency: a case report and review of the literature",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/1066896911399901",
+      "y": "2014",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't,Review"
+     },
+     {
+      "t": "Epstein--Barr virus-associated B-cell lymphoma in the setting of iatrogenic immune dysregulation presenting initially in the skin",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.0303-6987.2005.00363.x",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Follicular dendritic cell tumor of the liver: a clinicopathologic and Epstein-Barr virus study of two cases",
+      "v": "Mod Pathol",
+      "doi": "10.1038/modpathol.3880315",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Research Support, Non-U.S. Gov't,Review"
+     },
+     {
+      "t": "Epstein-Barr virus-associated leiomyosarcoma with cutaneous involvement in an African child with human immunodeficiency virus: a case report and review of the literature",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/j.1600-0560.2011.01721.x",
+      "y": "2011",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Epstein-Barr virus is present in neoplastic cytotoxic T cells in extranodal, and predominantly in B cells in nodal T non-Hodgkin lymphomas",
+      "v": "J Pathol",
+      "doi": "10.1002/1096-9896(2000)9999:9999<::aid-path658>3.0.co;2-g",
+      "y": "2000",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Lymphoepithelioma-like carcinoma of the skin: a report of 3 Epstein-Barr virus (EBV)-negative additional cases. Immunohistochemical study of the stroma reaction",
+      "v": "J Cutan Pathol",
+      "doi": "10.1034/j.1600-0560.2000.027006306.x",
+      "y": "2000",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Secondary cutaneous Epstein-Barr virus-associated diffuse large B-cell lymphoma in a patient with angioimmunoblastic T-cell lymphoma: a case report and review of literature",
+      "v": "Diagn Pathol",
+      "doi": "10.1186/1746-1596-7-7",
+      "y": "2012",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Epstein-Barr virus-positive, primary cutaneous marginal zone lymphoma, with transformation: Case report and review of the literature",
+      "v": "Am J Clin Pathol",
+      "doi": "10.1093/ajcp/aqae124",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Case Reports,Review"
+     },
+     {
+      "t": "Primary intestinal gamma-delta T-cell lymphoma with evidence of Epstein-Barr virus",
+      "v": "Histopathology",
+      "doi": "10.1046/j.1365-2559.1998.00394.x",
+      "y": "1998",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Epstein-Barr Virus-Induced Cutaneous Diffuse Large B-Cell Lymphoma in a Patient With Angioimmunoblastic T-Cell Lymphoma",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000001371",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": [
+     {
+      "t": "Epstein-Barr Virus and Cancer.",
+      "v": "Annual Review of Pathology",
+      "doi": "10.1146/annurev-pathmechdis-012418-013023",
+      "y": 2019,
+      "c": 382,
+      "oa": false,
+      "type": "JournalArticle"
+     },
+     {
+      "t": "Epstein-Barr virus (EBV) reactivation and therapeutic inhibitors",
+      "v": "Journal of Clinical Pathology",
+      "doi": "10.1136/jclinpath-2019-205822",
+      "y": 2019,
+      "c": 184,
+      "oa": true,
+      "type": "Review,JournalArticle"
+     },
+     {
+      "t": "Epigenetic lifestyle of Epstein-Barr virus",
+      "v": "Seminars in Immunopathology",
+      "doi": "10.1007/s00281-020-00792-2",
+      "y": 2020,
+      "c": 92,
+      "oa": true,
+      "type": "Review,JournalArticle"
+     }
+    ]
+   }
+  },
+  {
+   "topic": "Skin::Neoplastic::Hematolymphoid::ALK_Positive_Histiocytosis",
+   "phrase": "alk positive histiocytosis",
+   "counts": {
+    "pubmed": 2,
+    "openalex": 18,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 18,
+   "not_in_pubmed": 16,
+   "examples_not_in_pubmed": [
+    "Expanding the Phenotype of ALK-positive Histiocytosis: A Report of 2 Cases",
+    "ALK-positive histiocytosis with KIF5B-ALK fusion in the central nervous system",
+    "ALK-positive Histiocytosis of the Breast"
+   ],
+   "results": {
+    "pubmed": [
+     {
+      "t": "ALK-positive histiocytosis: an expanded clinicopathologic spectrum and frequent presence of KIF5B-ALK fusion",
+      "v": "Mod Pathol",
+      "doi": "10.1038/s41379-018-0168-6",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Multicenter Study"
+     },
+     {
+      "t": "Multisystem ALK-Positive Histiocytosis With DCTN1::ALK Fusion in an Adult, Responsive to Alectinib: Case Report and Literature Review",
+      "v": "J Cutan Pathol",
+      "doi": "10.1111/cup.14732",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Review"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "ALK-positive histiocytosis: an expanded clinicopathologic spectrum and frequent presence of KIF5B-ALK fusion",
+      "v": "Modern Pathology",
+      "doi": "10.1038/s41379-018-0168-6",
+      "y": 2018,
+      "c": 137,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Expanding the Phenotype of ALK-positive Histiocytosis: A Report of 2 Cases",
+      "v": "Pediatric and Developmental Pathology",
+      "doi": "10.1177/1093526617740784",
+      "y": 2017,
+      "c": 45,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "ALK-positive histiocytosis with KIF5B-ALK fusion in the central nervous system",
+      "v": "Acta Neuropathologica",
+      "doi": "10.1007/s00401-019-02027-7",
+      "y": 2019,
+      "c": 41,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "ALK-positive Histiocytosis of the Breast",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000001567",
+      "y": 2020,
+      "c": 37,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Local ALK-Positive Histiocytosis With Unusual Morphology and Novel TRIM33-ALK Gene Fusion",
+      "v": "International Journal of Surgical Pathology",
+      "doi": "10.1177/1066896920976862",
+      "y": 2020,
+      "c": 21,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Distinct Clinicopathologic Features and Possible Pathogenesis of Localized ALK-positive Histiocytosis of the Breast",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/pas.0000000000001794",
+      "y": 2021,
+      "c": 19,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Localized ALK-positive histiocytosis in a Chinese woman: report of a case in the lung with a novel EML4-ALK rearrangement",
+      "v": "Archiv für Pathologische Anatomie und Physiologie und für Klinische Medicin",
+      "doi": "10.1007/s00428-021-03092-8",
+      "y": 2021,
+      "c": 16,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "ALK-positive histiocytosis associated with chronic lymphocytic leukaemia/small lymphocytic lymphoma: a multitarget response under ibrutinib",
+      "v": "Archiv für Pathologische Anatomie und Physiologie und für Klinische Medicin",
+      "doi": "10.1007/s00428-020-02937-y",
+      "y": 2020,
+      "c": 16,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Alk-positive histiocytosis: a case report and literature review",
+      "v": "Turkish Journal of Pathology",
+      "doi": "10.5146/tjpath.2020.01507",
+      "y": 2020,
+      "c": 16,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "ALK-positive histiocytosis in 12 Asian children",
+      "v": "Human Pathology",
+      "doi": "10.1016/j.humpath.2024.105637",
+      "y": 2024,
+      "c": 9,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Multisystem ALK ‐Positive Histiocytosis With DCTN1::ALK Fusion in an Adult, Responsive to Alectinib: Case Report and Literature Review",
+      "v": "Journal of Cutaneous Pathology",
+      "doi": "10.1111/cup.14732",
+      "y": 2024,
+      "c": 7,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "ALK-positive histiocytosis of the umbilicus with KIF5B-ALK fusion: A case report and review of the literature",
+      "v": "Human Pathology Case Reports",
+      "doi": "10.1016/j.ehpc.2021.200504",
+      "y": 2021,
+      "c": 4,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Cutaneous ALK-positive histiocytosis",
+      "v": "Journal of Hematopathology",
+      "doi": "10.1007/s12308-021-00443-x",
+      "y": 2021,
+      "c": 4,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "An ALK Immunohistochemical Pitfall: ALK -Positive Histiocytosis Versus Angiomatoid Fibrous Histiocytoma",
+      "v": "International Journal of Surgical Pathology",
+      "doi": "10.1177/10668969241308201",
+      "y": 2025,
+      "c": 3,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Localised ALK-positive histiocytosis in lung with EML4::ALK fusion",
+      "v": "Pathology",
+      "doi": "10.1016/j.pathol.2023.09.014",
+      "y": 2023,
+      "c": 3,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "ALK positive histiocytosis in an adult female with an EML4-ALK RNA fusion",
+      "v": "Human Pathology Case Reports",
+      "doi": "10.1016/j.ehpc.2020.200404",
+      "y": 2020,
+      "c": 3,
+      "oa": true,
+      "type": "article"
+     },
+     {
+      "t": "Incidentally Detected ALK-Positive Histiocytosis with EML4::ALK Fusion in a Solitary Pulmonary Nodule Following COVID-19 Infection: A Rare Case Report",
+      "v": "International Journal of Surgical Pathology",
+      "doi": "10.1177/10668969241271372",
+      "y": 2024,
+      "c": 2,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "ALK ‐positive histiocytosis: Report of a rare case with exclusive involvement of the central nervous system in an adult woman",
+      "v": "Neuropathology",
+      "doi": "10.1111/neup.13002",
+      "y": 2024,
+      "c": 1,
+      "oa": true,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Thorax_Mediastinum::Heme::Lymphoma_Histiocytosis::Pulmonary_Langerhans_Cell_Histiocytosis",
+   "phrase": "pulmonary langerhans cell histiocytosis",
+   "counts": {
+    "pubmed": 21,
+    "openalex": 2,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 20,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [
+     {
+      "t": "Pulmonary Langerhans Cell Histiocytosis: An Update From the Pathologists' Perspective",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2015-0246-ra",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Pulmonary Langerhans Cell Histiocytosis: Diagnosis in Bronchoalveolar Lavage Liquid-Based Cytology Samples",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000540011",
+      "y": "2024",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Pulmonary Langerhans cell histiocytosis and other pulmonary histiocytic diseases: a review",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2008-132-1171-plchao",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Review"
+     },
+     {
+      "t": "Primary pulmonary Langerhans cell histiocytosis: comprehensive clinicopathologic and molecular genetic analysis of 13 cases",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2026.106034",
+      "y": "2026",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Pulmonary Langerhans cell histiocytosis \"de novo\" after lung transplantation",
+      "v": "Pathol Int",
+      "doi": "10.1111/pin.12597",
+      "y": "2017",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Childhood pulmonary langerhans cell histiocytosis in bronchoalveolar lavage: A case report along with review of literature",
+      "v": "Diagn Cytopathol",
+      "doi": "10.1002/dc.23561",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Pulmonary Langerhans' cell histiocytosis: molecular analysis of clonality",
+      "v": "Am J Surg Pathol",
+      "doi": "10.1097/00000478-200105000-00010",
+      "y": "2001",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Genotypic analysis of pulmonary Langerhans cell histiocytosis",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2003.07.014",
+      "y": "2003",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Childhood pulmonary Langerhans cell histiocytosis: a comprehensive clinical-histopathological and BRAF(V600E) mutation study from the French national cohort",
+      "v": "Hum Pathol",
+      "doi": "10.1016/j.humpath.2019.04.005",
+      "y": "2019",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Research Support, Non-U.S. Gov't"
+     },
+     {
+      "t": "Morphometric Study of Pulmonary Arterial Changes in Pulmonary Langerhans Cell Histiocytosis",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/arpa.2017-0463-oa",
+      "y": "2018",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Pulmonary Langerhans cell histiocytosis with cervical lymph node involvement, and coexistence with pulmonary tuberculosis and right pneumothorax: a case report and review of literature",
+      "v": "Int J Clin Exp Pathol",
+      "doi": "",
+      "y": "2015",
+      "c": null,
+      "oa": true,
+      "type": "Case Reports,Journal Article,Review"
+     },
+     {
+      "t": "Lymphocyte sub-populations and non-Langerhans' cell monocytoid cells in pulmonary Langerhans' cell histiocytosis",
+      "v": "Pathol Res Pract",
+      "doi": "10.1016/j.prp.2008.01.007",
+      "y": "2008",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Pulmonary langerhans cell histiocytosis diagnosed in a cervical lymph node: a case report",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000325188",
+      "y": "2010",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Cyclin D1 and BRAF V600E immunohistochemical staining in pulmonary Langerhans cell histiocytosis",
+      "v": "Histopathology",
+      "doi": "10.1111/his.14068",
+      "y": "2020",
+      "c": null,
+      "oa": false,
+      "type": "Letter"
+     },
+     {
+      "t": "Pulmonary langerhans cell histiocytosis (histiocytosis X) on bronchoalveolar lavage: a report of 2 cases",
+      "v": "Acta Cytol",
+      "doi": "10.1159/000325773",
+      "y": "2007",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Pulmonary Langerhans Cell Histiocytosis Post-Hodgkin Lymphoma Completely Resolved With Vinblastine in a Heavy Smoker: Coincidence or Causation?",
+      "v": "Int J Surg Pathol",
+      "doi": "10.1177/10668969241253216",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article,Case Reports"
+     },
+     {
+      "t": "Mutually exclusive extracellular signal-regulated kinase pathway mutations are present in different stages of multi-focal pulmonary Langerhans cell histiocytosis supporting clonal nature of the disease",
+      "v": "Histopathology",
+      "doi": "10.1111/his.12955",
+      "y": "2016",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Synchronous Pulmonary Langerhans Cell Histiocytosis and Multiple Cutaneous Reticulohistiocytomas With a Common BRAF- V600E/D Mutation Driver",
+      "v": "Am J Dermatopathol",
+      "doi": "10.1097/dad.0000000000002871",
+      "y": "2025",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Sudden death of a patient with pulmonary Langerhans cell histiocytosis",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2005-129-798-sdoapw",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     },
+     {
+      "t": "Expression of apoptosis-regulatory proteins in lesions of pulmonary Langerhans cell histiocytosis",
+      "v": "Histopathology",
+      "doi": "10.1111/j.1365-2559.2004.01875.x",
+      "y": "2004",
+      "c": null,
+      "oa": false,
+      "type": "Journal Article"
+     },
+     {
+      "t": "Bilateral pulmonary nodules in a 37-year-old woman with malignant melanoma. Pulmonary Langerhans cell histiocytosis (eosinophilic granuloma)",
+      "v": "Arch Pathol Lab Med",
+      "doi": "10.5858/2005-129-e136-bpniay",
+      "y": "2005",
+      "c": null,
+      "oa": false,
+      "type": "Case Reports,Journal Article"
+     }
+    ],
+    "openalex": [
+     {
+      "t": "Pulmonary Langerhans' Cell Histiocytosis",
+      "v": "The American Journal of Surgical Pathology",
+      "doi": "10.1097/00000478-200105000-00010",
+      "y": 2001,
+      "c": 232,
+      "oa": false,
+      "type": "article"
+     },
+     {
+      "t": "Pulmonary Langerhans Cell Histiocytosis: An Update From the Pathologists' Perspective",
+      "v": "Archives of Pathology & Laboratory Medicine",
+      "doi": "10.5858/arpa.2015-0246-ra",
+      "y": 2016,
+      "c": 85,
+      "oa": false,
+      "type": "article"
+     }
+    ],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  },
+  {
+   "topic": "Thorax_Mediastinum::Mesenchymal::Nerve_Tumor::Schwannoma_of_the_Thorax",
+   "phrase": "schwannoma of the thorax",
+   "counts": {
+    "pubmed": 0,
+    "openalex": 0,
+    "europepmc": 0,
+    "semanticscholar": 0
+   },
+   "union_dois": 0,
+   "not_in_pubmed": 0,
+   "examples_not_in_pubmed": [],
+   "results": {
+    "pubmed": [],
+    "openalex": [],
+    "europepmc": [],
+    "semanticscholar": []
+   }
+  }
+ ],
+ "totals": {
+  "pubmed": 179,
+  "openalex": 82,
+  "europepmc": 0,
+  "semanticscholar": 3
+ }
+}

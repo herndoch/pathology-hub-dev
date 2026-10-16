@@ -1,0 +1,21 @@
+larynxanatomy|anatomy & histology
+larynxgrossing|grossing & features to report
+larynxstaginghypopharynx|staging-hypopharynx
+larynxtnm|staging-larynx
+larynxWHO|WHO classification of Laryngeal tumors (pending)
+larynxamyloidosis|amyloidosis-larynx
+tracheaamyloidosis|amyloidosis-trachea
+larynxcontactulcer|contact ulcer
+tracheadiphtheria|diphtheria
+larynxacutelaryngoep|laryngitis / laryngoepiglottitis
+larynxcyst|laryngeal cysts
+larynxlaryngocele|laryngocele
+larynxpapilloma|papilloma
+larynxvocalcordpolyp|vocal cord polyp
+larynxdysplasia|dysplasia
+larynxhyperplasia|reactive epithelial hyperplasia
+larynxscc|squamous cell carcinoma of larynx
+larynxverrucous|verrucous carcinoma
+larynxacc|adenoid cystic carcinoma
+larynxchondrosarcoma|chondrosarcoma
+larynxne|neuroendocrine neoplasm

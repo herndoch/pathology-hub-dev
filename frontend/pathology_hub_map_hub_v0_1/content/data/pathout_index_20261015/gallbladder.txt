@@ -1,0 +1,35 @@
+gallbladderfeaturestoreport|grossing, frozen section & features to report
+gallbladderhistology|anatomy, histology & embryology
+gallbladderstaging|staging-gallbladder and cystic duct carcinoma
+gallbladderstagingextrahepaticdistal|staging-distal bile duct
+gallbladderstagingextrahepatic|staging-perihilar bile duct
+gallbladderwhoclassification|WHO classification
+gallbladderacutecholecystitis|acute cholecystitis
+gallbladderchroniccholecystitis|chronic cholecystitis
+gallbladderemphysematous|emphysematous cholecystitis
+gallbladderfollicularchol|follicular cholecystitis
+gallbladdergangrenouschol|gangrenous cholecystitis
+gallbladdergranulomatouschol|granulomatous cholecystitis
+gallbladderporcelaingb|hyalinizing / porcelain gallbladder
+gallbladderxanthogranulomatous|xanthogranulomatous cholecystitis
+gallbladderadenomyomatous|adenomyomatous hyperplasia
+gallbladderangiodysplasia|angiodysplasia
+gallbladdercholelithiasis|cholelithiasis
+gallbladdercholesterolpolyp|cholesterol polyp
+gallbladdercholesterolosis|cholesterolosis
+gallbladdercystoisospora|cystoisospora-like inclusions
+gallbladderhydrops|hydrops / mucocele
+gallbladderinflammatorypolyp|inflammatory polyp
+gallbladdermetaplasia|metaplasia
+gallbladderpaphyperplasia|papillary hyperplasia
+gallbladderipn|intracholecystic papillary neoplasm
+gallbladderICTN|intracholecystic tubular nonmucinous neoplasm (ICTN)
+gallbladderpyloricgland|pyloric gland adenoma
+gallbladderdysplasia|dysplasia
+gallbladdercarcinoma|gallbladder carcinoma
+gallbladderneuroendocrinetumor|neuroendocrine tumor
+gallbladderBilIN|biliary intraepithelial neoplasia
+gallbladdercarcinomaextrahepatic|carcinoma of extrahepatic bile ducts
+gallbladdercholedochalcyst|choledochal cyst
+gallbladderIPMN|intraductal papillary neoplasm of biliary tract
+gallbladdertraumaticneuroma|traumatic neuroma

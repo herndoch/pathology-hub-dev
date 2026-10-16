@@ -1,0 +1,26 @@
+earnormalanatomy|anatomy, histology & grossing
+earWHOear|WHO classification
+earaccessorytragi|accessory tragi
+earcongenital|branchial cleft anomalies
+earcongenitalother|congential - other
+earinfectiousinflam|infectious / inflammatory
+earinflammatoryotic|inflammatory aural / otic polyp
+earangiolymphoidhyperplasia|angiolymphoid hyperplasia with eosinophilia
+earceruminalglandadenoma|ceruminous adenoma
+earchondrodermatitis|chondrodermatitis nodularis chronica helicis
+earexostosis|exostosis
+earkeloid|keloid
+earkeratinouscyst|keratinous cyst
+earsynovialchondromatosis|synovial chondromatosis of temporomandibular joint / external auditory canal
+earceruminalglandadenocarcinoma|ceruminous adenocarcinoma
+earsccexternal|squamous cell carcinoma of the external auditory canal
+earcholesteatoma|cholesteatoma
+earmeningioma|meningioma
+earmiddleearadenoma|middle ear neuroendocrine tumor
+earmiddleearpapilloma|middle ear papilloma (pending)
+earjugulotympanicparaganglioma|middle ear paraganglioma
+earotosclerosis|otosclerosis
+earvestibularschwannoma|vestibular schwannoma
+earendolymphaticsac|endolymphatic sac tumor
+earmiddleearadeno|middle ear adenocarcinoma (pending)
+earmiddlescc|squamous cell carcinoma of middle ear

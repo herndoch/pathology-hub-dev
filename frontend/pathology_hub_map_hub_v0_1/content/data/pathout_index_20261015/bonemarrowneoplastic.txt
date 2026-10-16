@@ -1,0 +1,142 @@
+bonemarrowneoplasticamlgeneral|AML-general
+bonemarrowneoplasticflowcytometry|flow cytometry
+bonemarrowneoplasticbiopsyprocedure|how to do a bone marrow biopsy (procedure)
+bonemarrowneoplasticAMLBCRABL1|AML with BCR::ABL1
+bonemarrowneoplasticAMLbiallelicCEBPA|AML with CEBPA mutation (WHO-HAEM5-biallelic or ICC bzip)
+bonemarrowneoplasticAMLmutatedNPM1|AML with mutated NPM1
+bonemarrowneoplasticAMLinv3q21q26|AML with inv(3)(q21.3;q26.2) or t(3;3)(q21.3;q26.2); GATA2, MECOM
+leukemiainv16|AML with inv(16)(p13.1;q22) or t(16;16)(p13.1;q22); CBFB::MYH11
+leukemiaAMLt69|AML with t(6;9)(p23;q34); DEK::NUP214
+leukemiaAMLwitht821q22q22|AML with t(8;21)(q22;q22); RUNX1::RUNX1T1
+leukemiaaml11q23|AML with t(9;11)(p22;q23); KMT2A::MLLT3
+bonemarrowneoplasticAMLKMT2A|AML with other KMT2A rearrangements
+bonemarrowneoplasticAMLMECOM|AML with other MECOM rearrangements
+leukemiaAPL|APL with PML::RARA
+bonemarrowneoplasticAMLFUSERG|AML with FUS::ERG (pending)
+bonemarrowneoplasticAMLKAT6ACREBBP|AML with KAT6A::CREBBP
+bonemarrowneoplasticAMLRUNX1T3|AML with RUNX1T3(CBFA2T3)::GLIS2
+bonemarrowneoplasticAMLt13p36q21|AML with t(1;3)(p36;q21); RDM16::RPN1
+bonemarrowneoplasticAMLmegakaryoblastic|AML (megakaryoblastic) with t(1;22)(p13.3;q13.1); RBM15::MRTF1
+bonemarrowneoplasticAMLt35NPM1MLF1|AML with t(3;5)(q25.3;q35.1); NPM1::MLF1
+bonemarrowneoplasticAMLNUP98NSD1|AML with t(5;11)(q35.2;p15.4); NUP98::NSD1 (pending)
+bonemarrowneoplasticAMLETV6MNX1|AML with t(7;12)(q36.3;p13.2) / MNX1::ETV6
+leukemiaM0|AML with minimal differentiation (FAB AML M0)
+leukemiaM1|AML without maturation (FAB AML M1)
+leukemiaM2|AML with maturation (FAB AML M2)
+leukemiaM4|Acute myelomonocytic leukemia (AMML)
+leukemiaacutemonocyticleukemia|AMoL
+leukemiaacutemonocyticleukemiam5a|M5a
+leukemiaacutemonocyticleukemiam5b|M5b
+leukemiaM6|AML M6
+leukemiaM7|AMKL M7
+leukemiabasophil|acute basophilic leukemia
+leukemiapseudochediak|AML with pseudo-Chediak-Higashi anomaly
+leukemiahypocellular|AML hypocellular
+leukemiapanmyelosis|acute panmyelosis with myelofibrosis
+leukemiaAMLmulti|AML with myelodysplasia defining abnormalities
+leukemiaacutemyeloiddown|myeloid leukemia associated with Down syndrome
+leukemiagranulocytic|myeloid sarcoma
+bonemarrowneoplastictherapy|therapy related myeloid neoplasm (therapy related AML)
+leukemiaTAM|transient abnormal myelopoiesis associated with Down syndrome
+bonemarrowneoplasticMDSWHO|WHO classification - MDS
+bonemarrowneoplasticMDSgeneral|MDS-general
+myeloproliferative5qminus|with del(5q)
+myeloproliferativemdsprognosticscoring|MDS prognostic scoring
+bonemarrowneoplasticMDShypoplastic|MDS, hypoplastic
+myeloproliferativechildhoodmds|MDS in childhood
+myeloproliferativeRA|MDS with single lineage dysplasia
+myeloproliferativeRARS|MDS with mutated SF3B1
+myeloproliferativeRCMD|MDS with multilineage dysplasia
+bonemarrowneoplasticMDSbiallelicTP53inactivation|MDS with biallelic TP53 inactivation
+bonemarrowneoplasticMDSmutatedTP53|MDS with mutated TP53
+myeloproliferativeRAEB|MDS with excess blasts
+myeloproliferativeMDSNOS|MDS unclassifiable
+bonemarrowneoplasticrefractorycytopeniachildhoodpending|refractory cytopenia of childhood (pending)
+bonemarrowneoplasticCCUS|clonal cytopenia of undetermined significance (CCUS)
+bonemarrowneoplasticCHIP|clonal hematopoiesis of indeterminate potential (CHIP)
+bonemarrowneoplasticcmus|clonal monocytosis of undetermined significance (CMUS)
+bonemarrowneoplasticPNH|paroxysmal nocturnal hemoglobinuria (PNH)
+bonemarrowneoplasticVEXAS|VEXAS (pending)
+myeloproliferativeCEL|chronic eosinophilic leukemia
+myeloproliferativecml|chronic myeloid leukemia; BCR::ABL1 positive
+myeloproliferativeCNL|chronic neutrophilic leukemia
+myeloproliferativeET|essential thrombocythemia
+myeloproliferativeMPNunclassified|MPN unclassifiable
+myeloproliferativePV|polycythemia vera
+myeloproliferativemyelofibrosis|primary myelofibrosis
+bonemarrowneoplasticmastcell|cutaneous mastocytosis
+bonemarrowneoplasticmastcellsarcoma|mast cell sarcoma
+bonemarrowsystemicmastocytosis|systemic mastocytosis
+myeloproliferativeatypicalCML|atypical chronic myeloid leukemia; BCR::ABL1 negative
+myeloproliferativecmml|chronic myelomonocytic leukemia
+myeloproliferativeJMML|juvenile myelomonocytic leukemia
+myeloproliferativemdsmpnunclassified|MDS / MPN, NOS (unclassifiable)
+myeloproliferativemdsmpnrst|MDS / MPN with SF3B1 and thrombocytosis
+myeloproliferativePDGFRA|PDGFRA rearrangement
+myeloproliferativePDGFRB|PDGFRB rearrangement
+bonemarrowneoplasticETV6ABL1fus|ETV6::ABL1 fusion with other tyrosine kinase gene fusions (pending)
+myeloproliferativeFGFR1|FGFR1 rearrangement
+bonemarrowneoplasticFLT3rearr|FLT3 rearrangement
+bonemarrowneoplasticPCM1JAK2|JAK2
+bonemarrowmyeloidneoCEBPA|AML with germline CEBPA mutation
+bonemarrowneoplasticgermlineTP53|myeloid or lymphoid neoplasms with germline TP53 mutation
+bonemarrowneomyeloidDDX41|with DDX41 mutation
+bonemarrowneoplasticrunx1mutation|myeloid or lymphoid neoplasms with germline RUNX1 mutation
+bonemarrowneoplasticANKRD26mutation|myeloid neoplasms with ANKRD26 mutation
+bonemarrowneoplasticETV6mutation|myeloid or lymphoid neoplasms with germline ETV6 mutation (pending)
+bonemarrowneoplasticdiamondblackfan|Diamond-Blackfan anemia
+bonemarrowneoplasticfanconianemia|Fanconi anemia
+bonemarrowneoplasticGATA2|myeloid neoplasms with germline GATA2 mutation
+bonemarrowneoplasticmyeloidgermlineSAMD9|myeloid neoplasms with germline SAMD9 mutation
+bonemarrowneoplasticmyeloidgermlineSAMD9L|myeloid neoplasms with germline SAMD9L mutation (pending)
+bonemarrowneoplasticcongenneutropenia|severe congenital neutropenia (pending)
+bonemarrowneoplasticshwachmandiamond|Shwachman-Diamond syndrome
+bonemarrowneotelomere|telomere biology disorders including dyskeratosis congenita (pending)
+bonemarrowneogermlinedown|with Down syndrome (pending)
+bonemarrowneoplasticBPDCN|blastic plasmacytoid dendritic cell neoplasm
+myeloproliferativehypereosinophilicsyndrome|idiopathic hypereosinophilic syndrome
+bonemarrowneoplasticpdcproliferations|mature plasmacytoid dendritic cell proliferation
+lymphomaheavychain|heavy chain disease
+lymphomaMGUSIgM|MGUS-IgM
+lymphomaMGUS|MGUS - non-IgM
+lymphomanonsecretorymyeloma|nonsecretory myeloma
+lymphomaplasmacellleukemia|plasma cell leukemia
+lymphomamyeloma|plasma cell myeloma (multiple myeloma)
+lymphomaplasmacytoma|plasmacytoma
+lymphomaPOEMS|POEMS syndrome (osteosclerotic myeloma)
+lymphomaTEMPIsyndrome|TEMPI syndrome
+lymphnodesALL|acute lymphoblastic leukemia / lymphoma
+lymphomacryoglobulins|cryoglobulinemia
+lymphomaMIDD|monoclonal immunoglobulin deposition diseases (pending)
+lymphomaprimaryamyloid|primary amyloidosis
+leukemiapreBALLt119|t(1;19)(q23;p13.3); TCF3::PBX1
+leukemiat514|t(5;14)(q31;q32); IGH::IL3
+leukemiapreBt922|t(9;22)(q34;q11); BCR::ABL1
+leukemiapreBALLt1221|t(12;21)(p13;q22); ETV6::RUNX1
+leukemiapreballMLL|t(v;11q23); KMT2A rearranged
+leukemiaprebbcrabl1like|BCR::ABL1-like
+bonemarrowneoTCF3HLF|TCF3::HLF (pending)
+boneneoplastictBALL|therapy related B ALL
+leukemiaALLhyperdiploidy|with hyperdiploidy
+leukemiahypodiploidy|with hypodiploidy
+bonemarrowneoiAMP21|with iAMP21
+lymphomaTcelllymphoblasticleukemia|early T cell precursor lymphoblastic leukemia
+lymphomaNKlymphoblastic|NK lymphoblastic leukemia / lymphoma
+leukemiaTall|T lymphoblastic lymphoma / leukemia
+bonemarrowneoplasticacuteundifferentiated|acute undifferentiated leukemia
+leukemiaambiguouslin|ambiguous lineage NOS
+leukemiamixedpheno|mixed phenotype
+hematologycsh|crystal storing histiocytosis
+kidneyheavychaindepositiondisease|heavy chain deposition disease
+kidneylightchaindepositiondisease|light chain deposition disease
+molecularBCRABL|BCR::ABL1
+molecularcalr|CALR
+molecularcebpa|CEBPA (pending)
+molecularCSF3R|CSF3R
+bonemarrowneoplasticAMLFLT3|FLT3
+molecularPMLRARA|PML::RARA
+molecularsf3b1|SF3B1 (pending)
+molecularpathfishgeneral|FISH overview
+bonemarrowneomyelomaprogprobesets|myeloma prognostic probe sets (pending)
+molecularnextgensequencing|NGS-general
+molecularNGSlibprep|NGS library prep

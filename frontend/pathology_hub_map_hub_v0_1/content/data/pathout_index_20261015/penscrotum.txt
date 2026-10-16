@@ -1,0 +1,37 @@
+prostateurethramalenormal|anatomy & histology-male urethra
+penscrotumanat|anatomy & histology-penis
+penscrotumscrotumnormal|anatomy & histology-scrotum
+penscrotumcongen|congenital anomalies
+penscrotumgrossingpenect|grossing & features to report
+prostateurethrastaging|staging-male urethra
+penscrotumpenisstaging|staging-penis
+penisscrotumWHO|WHO classification
+penscrotumcellulitis|cellulitis
+penscrotumchancroid|chancroid
+penscrotumcondyloma|condyloma acuminatum
+penscrotumfournier|Fournier gangrene
+penscrotumgranulomainguinale|granuloma inguinale
+penscrotumHSV|herpes simplex virus
+penscrotumLGV|lymphogranuloma venereum
+penscrotummolluscum|molluscum contagiosum
+penscrotumsyphilis|syphilis
+penscrotumbalanoposthitis|balanitis / phimosis
+penscrotumbxo|lichen sclerosus (balanitis xerotica obliterans)
+penscrotumsclerosinglipo|lipogranuloma
+penscrotumlentiginousmel|melanosis and lentiginosis
+penscrotummucoidcyst|mucoid cyst
+penscrotumospenis|ossification
+penscrotumpapglands|pearly penile papules
+penscrotumpeyronie|Peyronie disease
+penscrotumidiopathiccalcinosis|scrotal calcinosis
+penscrotumpenssqhyper|squamous hyperplasia
+penscrotumcutaneousverruciform|verruciform xanthoma
+penscrotumpenilepagets|extramammary Paget disease
+penscrotumPeIN|penile intraepithelial neoplasia (PeIN)
+penscrotumcarcinomagen|squamous cell carcinoma-general
+penscrotumHPVassociatedSCC|HPV associated squamous cell carcinoma
+penscrotumHPVindependentSCC|HPV independent squamous cell carcinoma (usual, verrucous, papillary, sarcomatoid)
+penscrotumadenosq|adenosquamous carcinoma
+penscrotumbcc|basal cell carcinoma
+penismyointimoma|myointimoma
+prostatemaleurethracarcinoma|urethral carcinoma

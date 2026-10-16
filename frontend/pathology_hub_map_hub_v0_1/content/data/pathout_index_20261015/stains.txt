@@ -1,0 +1,401 @@
+stainsae1ae3|AE1/AE3
+stainsbcor|BCOR
+stainsbrachyury|brachyury
+stainscamta1|CAMTA1
+cdmarkerscd1a|CD1a
+cdmarkerscd68|CD68
+cdmarkerscd99|mic2
+cdmarkerscd138|CD138
+cdmarkerscd163|CD163
+stainsERG|ERG
+stainsfos|FOS
+stainsfosb|FOSB (pending)
+stainsGRM1|GRM1
+stainsH3F3AG34W|H3.3 G34W (H3F3A)
+stainsh33k36m|H3K36M (pending)
+stainsmdm2|MDM2
+stainsmum1|MUM1
+stainsNKX2|NKX2.2
+stainss100|S100
+stainssatb2|SATB2
+stainssox9|SOX9
+stainsALK|ALK1
+stainsBCOR|BCOR
+stainsbetacatenin|beta catenin
+stainscaldesmon|caldesmon
+stainsCAMTA1|CAMTA1
+stainsCCNB3|CCNB3
+cdmarkerscd31|PECAM1
+cdmarkerscd34|CD34
+stainscdk4|CDK4
+stainsD240|podoplanin
+stainsDDIT3|DDIT3
+stainsdesmin|desmin
+stainsDOG1|DOG1
+stainsDUX4|DUX4
+stainsEBER1|EBER
+stainsEMA|EMA
+stainsETV4|ETV4
+stainsfactorxiiia|Factor XIIIa
+stainsfli1|FLI1
+stainsglut1|GLUT1
+stainsh3k27me3|H3K27me3
+stainshhv8|KSHV
+stainshmb45|HMB45
+stainsinsm1|INSM1
+cdmarkerscd117|c-kit / CD117
+stainsmart1|MelanA
+stainsmuc4|MUC4
+stainsmyod1|MyoD1
+stainsmyogenin|myogenin / myoglobin
+stainsnkx3|NKX3.1
+stainsnr4a3|NR4A3
+stainsntrk|Pan-TRK
+stainsPAX3|PAX3 (pending)
+stainsPRKAR1A|PRKAR1A
+stainsPROX1|PROX1
+stainsrb|RB1
+stainSDHB|SDHB
+stainsSMARCA4BRG1|SMARCA4
+stainsini1|INI1
+stainsalphasmoothmuscleactin|actin-alpha smooth muscle
+stainssox10|SOX10
+stainsSYTSSX|SS18::SSX fusion
+stainsstat6|STAT6
+stainstfe3|TFE3
+stainstle1|TLE1
+stainsWT1|WT1
+stainsAR|androgen receptor (AR)
+stainscalponin|calponin
+stainsck5and6|CK5/6 and CK5
+stainsck7|CK7
+stainsecadherin|E-cadherin
+stainser|estrogen receptor (ER)
+stainsgata3|GATA3
+stainsgcdfp15|GCDFP-15
+stainsbreasther2|HER2 breast
+breastmalignanthormonereceptors|hormone receptors
+breastKi67|Ki67 breast
+stainsmammaglobin|mammaglobin
+stainsdeltaNp63|p40
+stainsp63|p63
+stainsp120|p120 catenin
+stainsPDL1|PDL1 22C3
+stainsprog|progesterone receptor (PR)
+stainssmmhc|SMMHC / smooth muscle myosin heavy chain
+stainsTRPS1|TRPS1
+stainsadipophilin|adipophilin
+stainsBerEP4|BerEP4
+cdmarkerscd10|CD10
+stainscea|CEA
+stainsck20|CK20
+stainsema|MUC1
+stainsPHLDA1|PHLDA1
+stainsalk|ALK
+stainsvimentin|vimentin
+stainsBAP1|BAP1
+stainsbraf|BRAF V600E
+stainsmlh1|MLH1
+stainsmsh2|MSH2
+stainsmsh6|MSH6
+stainspms2|PMS2
+stainsp16|p16
+stainsBCL2|BCL2
+stainsepcam|MOC31
+stainscdx2|CDX2
+stainschromogranin|chromogranin
+stainshpv|HPV
+stainshsv|HSV
+stainsINSM1|INSM1
+stainsp40|p40
+stainsp53|p53
+stainsSATB2|SATB2
+stainssynaptophysin|synaptophysin
+stainstreponemaihc|treponema IHC
+stainswarthin|Warthin-Starry
+stainscmv|CMV
+stainslynchcolorectal|MSI-Lynch syndrome
+stainsher2colon|HER2 colon
+stainski67|MIB1
+stainsmsh1|MSH1
+stainsadenovirus|adenovirus
+stainsclaudin182|claudin 18.2
+stainsgms|GMS
+stainsher2GI|HER2 stomach GEJ
+stainsHSV|HSV
+stainspas|PAS
+stainsPDL1SP263|PDL1 SP263
+stainsck19|CK19
+stainsdpc4|SMAD4 / DPC4
+stainsAFP|AFP
+molecularalbuminISH|albumin ISH (pending)
+stainsarginase1|arginase1
+C4d|C4d
+stainsglutaminesynthetase|glutamine synthetase (pending)
+stainsglypican3|glypican 3
+stainsheppar1|HepPar1
+stainsHNF1B|HNF1B
+stainshsp70|HSP70
+stainsiron|iron
+stainstrichrome|Masson trichrome
+stainsreticulin|reticulin
+stainsserumamyloida|serum amyloid A/SAA
+stainsarid1a|ARID1A
+stainsigg4|IgG4
+stainsinhibina|inhibin
+stainsmtap|MTAP (pending)
+stainsSOX11|SOX11
+stainstrypsin|trypsin
+stainseber1|EBER
+stainsgastrin|gastrin
+stainsgiemsa|Giemsa / Helicobacter pylori
+stainsS100|S100
+stainscalretinin|calretinin
+stainssf1|SF1
+stainsttf1|TTF1
+stainsher2bladder|HER2 bladder
+stainsUroplakinii|uroplakin II
+stainsamacr|P504S
+stainscarbonicanhydraseix|carbonic anhydrase IX / CAIX
+stainsFH2SC|fumarate hydratase
+stainspax8|PAX8
+stainspten|PTEN
+stainsrcc|RCC
+stainswt1|WT1
+stainsprostein|prostein
+stainspsa|PSA
+stainspap|PSAP
+stainspsma|PSMA
+stainsafp|alpha-fetoprotein (AFP)
+cdmarkerscd30|CD30
+stainshcg|hCG
+stainsoct4|OCT3/4
+stainsplap|PLAP
+stainssall4|SALL4
+stainshik1083|HIK1083
+stainsmuc6|MUC6
+stainsFRa|folate receptor alpha (FRa)
+stainsfoxl2|FOXL2
+stainsnapsina|Napsin A
+stainsoct34|OCT3/4
+stainsSOX17|SOX17
+stainsp57kip2|p57
+stainsPAX2|PAX2
+stainsHER2endometrium|HER2 endometrium
+stainscyclind1|Cyclin D1
+stainsIFITM1|IFITM1
+stainsHMGA2|HMGA2
+cdmarkerscd56|N-CAM
+cdmarkerscd45|CD45
+stainsnutm1|NUTM1
+stainsacidfast|Ziehl-Neelsen
+stainsmucins|mucins
+stainsIgA|IgA
+stainsLEF1|LEF1
+stainsmyb|MYB
+stainsplag1|PLAG1
+stainscalcitonin|calcitonin
+stainscongored|Congo red
+stainsgalectin3|Galectin3
+stainshbme|HBME
+stainsthyroglobulin|thyroglobulin
+cdmarkerscd3|CD3
+cdmarkerscd15|CD15
+cdmarkerscd20|CD20
+stainspax5|PAX5
+stainsmyeloperoxidase|myeloperoxidase
+stainsNPM1|NPM1
+stainstdt|TdT
+stainsbcl6|BCL6
+cdmarkerscd5|CD5
+cdmarkerscd23|CD23
+stainskappa|kappa & lambda light chains
+cdmarkerscd61|CD61
+stainsfactorviii|Factor VIII
+stainsegfrmutationspecific|EGFR mutation specific antibodies
+stainsmet|MET IHC
+stainsOTP|OTP (orthopedia) (pending)
+stainsPDL1SP142|PDL1 SP142
+stainsC4d|C4d
+stainscalcium|calcium
+stainscollagentypeIV|collagen / type IV
+stainscyclooxygenase2|COX2
+stainsdnajb9|DNAJB9
+stainsFN1|FN1
+stainsJMS|Jones methenamine silver (JMS)
+stainsSV40|SV40
+stainsgomoritrichrome|Gomori trichrome
+stainsoilredo|Oil Red O
+stainsacidphosphatase|acid phosphatase
+stainsalkphos|alkaline phosphatase
+stainsATPases|ATPases
+stainscox|COX
+stainsmyophosphorylase|myophosphorylase (pending)
+NADH|NADH
+stainsnonspecificesterase|nonspecific esterase
+stainsphosphofructokinase|phosphofructokinase (pending)
+SDH|SDH muscle stain (pending)
+stainsC5b9|C5b9
+stainsMHC1|MHC I
+stainsMHC2|MHC2 (pending)
+stainsMxA|MxA (pending)
+stainsalphasynuclein|alpha-synuclein
+stainsat8|AT8 / tau
+stainsamyloidbetaapp|amyloid beta / APP
+stainsluxol|Luxol fast blue
+stainsp62|p62
+stainstdp43|TDP-43
+stainsatrx|ATDX (ATRX)
+stainsH3K27M|H3K27M
+stainsh3k36m|H3K36M (pending)
+stainsgfap|GFAP
+stainsidh1|IDH1 (R132H)
+stainsneun|NeuN
+stainsneurofilament|NFP / neurofilament
+stainsolig2|Olig2
+stainsPIT1|Pit1
+stainsSSTR2A|SSTR2A
+stainsTpit|Tpit
+stainsTROP2|TROP2
+stainsihcprocedure|IHC procedure
+stainstissueoforigin|common panels / unknown primary
+stainsenzymecytochemistry|enzyme cytochemistry
+cytopathologyflowcytometry|flow cytometry
+stainsABCC2|ABCC2
+stainsactin|actin-general / cardiac
+stainsactinmusclespecific|MSA
+stainsalbumin|albumin
+stainsalcianblue|Alcian blue
+stainsalpha1antichymo|alpha-1-antichymotrypsin
+stainsa1a|alpha-1 antitrypsin
+stainsatm|ATM
+stainsb723|B72.3
+stainsbcl10|BCL10
+stainsbcl2|BCL2
+stainsbob1|BOB1
+stainsBSEP|BSEP
+stainsca19-9|CA 19-9
+stainsCA125|CA 125
+stainscathepsink|cathepsin K
+cdmarkersgeneral|CD markers-general
+cdmarkerscd4|CD4
+cdmarkerscd8|CD8
+cdmarkerscd19|CD19
+cdmarkerscd21|CD21
+cdmarkerscd33|CD33
+cdmarkerscd38|CD38
+cdmarkerscd41|CD41
+cdmarkerscd43|CD43
+cdmarkerscd44|CD44
+cdmarkerscd57|Leu7
+cdmarkerscd71|CD71
+cdmarkerscd79a|CD79a
+cdmarkerscd79b|CD79b
+cdmarkerscd103|CD103
+cdmarkerscd105|CD105
+cdmarkerscd123|CD123
+cdmarkerscd207|CD207
+cdmarkerscd276|CD276 (pending)
+cdmarkersother|CD markers (uncommon, nonclinical)
+stainsCCNB3|CCNB3
+stainschloroacetate|chloroacetate esterase
+stainsclaudins|claudins
+stainscopper|copper / rhodamine
+stainsCXCL13|CXCL13
+stainsckgeneral|general
+stainsck1|uncommon
+stainsck8|CK8
+stainsCK818|CK8/18 (pending)
+stainsck10|CK10
+stainsck14|CK14
+stainsck17|CK17
+stainsck18|CK18
+stainsck34be12|34betaE12 / HMWCK / high molecular weight
+stainsCK35bh11|35betaH11
+stainscam52|CAM5.2
+stainsmnf116|MNF116
+stainsoscarkeratin|OSCAR
+stainsdba44|DBA-44
+stainsdicer|dicer
+stainsdll3|DLL3 (pending)
+stainsEBNA12|EBNA1/2
+stainselastic|elastic fibers
+stainsewsr1|EWSR1
+stainsEZH2|EZH2
+cdmarkerscd95|Fas/CD95
+stainsfascin|fascin
+stainsFDCSP|FDCSP
+stainsfilaggrin|filaggrin
+stainsfmc7|FMC7
+stainsfontana|Fontana-Masson
+stainsfoxp3|FOXP3
+stainsGCET|GCET (pending)
+stainsGD2|GD2 (pending)
+stainsgramstain|gram stain
+stainsgranzymeb|granzyme B, M
+stainshe|H&E (pending)
+stainshansel|Hansel
+stainsHGAL|HGAL
+stainshladr|HLA-DR
+stainshpl|HPL
+stainsIgD|IgD
+stainsIgG|IgG
+stainsIgM|IgM
+stainsIMP3|IMP3
+stainsisl1|ISL1
+stainsL1CAM|L1-CAM
+stainslana|LANA
+stainsleder|Leder
+stainsLFABP|LFABP
+stainslipochrome|lipochrome
+stainslmo2|LMO2
+stainslysozyme|lysozyme
+stainsmastcelltryptase|mast cell tryptase (MCT)
+stainsMCPyV|MCPyV
+stainsMDR|P glycoprotein
+stainsMDR3|MDR3 (pending)
+stainsMEF2B|MEF2B
+stainsmitf|microphthalmia transcription factor (MITF)
+stainsmovatpentachrome|Movat pentachrome (pending)
+stainsmuc2|MUC2
+stainsmuc5ac|MUC5AC
+stainscmyc|MYC
+stainsNB84|NB84
+stainsNSE|neuron specific enolase
+stainsNF1NF2|NF1 / NF2
+stainsNGFR|NGFR / p75
+cdmarkerscd63|NKI-C3
+stainsOCT2|OCT2
+stainsp21|p21
+stainspax2|PAX2
+stainspcna|PCNA
+stainspd1|PD-1
+stainsperforin|perforin
+stainsPGP95|PGP9.5
+stainsphosphohistoneh3|phosphohistone H3
+stainsPRAME|PRAME
+stainspu1|PU.1
+stainsros1|ROS1
+stainss100p|S100P
+stainssiriusred|Sirius red
+stainssmoothelin|smoothelin
+stainssox2|SOX2
+stainssox11|SOX11
+stainssudanblackb|Sudan Black B
+stainstcf4|TCF4 (pending)
+stainstcl1|TCL1
+stainstcralphabeta|T cell receptor (TCR) and variants
+stainstert|TERT
+stainsthrombomodulin|thrombomodulin
+stainstrap|TRAP
+stainsTSC1/2|TSC1/2
+stainsTSH|TSH (pending)
+stainstyrosinase|tyrosinase
+stainsihcpanel|Unknown primary
+stainsurates|uric acid
+stainsuroplakiniii|uroplakin III
+stainsvhl|VHL
+stainsvillin|villin
+stainsvwf|vWF
+stainswright|Wright-Giemsa
+stainsyap1|YAP1
