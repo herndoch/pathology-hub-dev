@@ -768,8 +768,10 @@ function oncotreeZoom() {
  * CYTO_SYSTEM_* constants), one segment earlier than every other root — so
  * the real histologic category (WHO's own "Benign"/"Malignant"/"SIL", or
  * ABPath's own content-spec heading) sits one segment sooner too. */
-function leafCategoryFromTag(tag) {
+function leafCategoryFromTag(tag, provenance = "") {
   if (!tag) return null;
+  // Bare v0_2 tags carry no ABPathSpec:: marker, so ABPath-only leaves are recognised by provenance.
+  if (provenance === "abpath") return null;
   // Cyto_<System>::<Category>::<Leaf> is only 3 segments (the system IS
   // the root+subcategory already) — category is one segment earlier than
   // every other root's Root::Sub::Category::Leaf shape. Covers both real
@@ -803,7 +805,7 @@ function buildOncotreeCategoryGroups(leaves) {
   const byCategory = new Map();
   const other = [];
   for (const leaf of leaves) {
-    const cat = leafCategoryFromTag(leaf.tag);
+    const cat = leafCategoryFromTag(leaf.tag, leaf.provenance);
     if (!cat) {
       other.push(leaf);
       continue;
@@ -1497,6 +1499,17 @@ async function loadBrowseIndex() {
     const data = await resp.json();
     if (!data || !Array.isArray(data.roots) || !data.roots.length) {
       throw new Error("Empty or malformed browse_tag_index_v0_1.json");
+    }
+    try {
+      const aliasResp = await fetch("/static/browse_tag_alias_v0_2.json");
+      if (aliasResp.ok) {
+        const aliasData = (await aliasResp.json()) || {};
+        BROWSE_TAG_ALIAS = Object.fromEntries(
+          Object.entries(aliasData).map(([oldTag, entry]) => [oldTag, entry?.new_tag || oldTag])
+        );
+      }
+    } catch (_) {
+      // Without the alias map, old ABPathSpec:: keys simply do not resolve.
     }
     const rules = data.dedupe_rules || {};
     const navSources = Array.isArray(rules.nav_sources) ? rules.nav_sources : [];
@@ -6083,9 +6096,13 @@ queryInput.addEventListener("keydown", (event) => {
 /** Exact match on a leaf's real `tag` string (e.g.
  * "BST::Bone::Chondrogenic::Malignant::Chondrosarcoma_Periosteal") — the
  * precise, unambiguous lookup used for shareable `?tag=` deep links. */
+/** Legacy ABPathSpec:: keys and deep links -> bare tag (loaded with the browse index). */
+let BROWSE_TAG_ALIAS = {};
+
 function findLeafByTag(tag) {
   if (!tag) return null;
-  return TAXONOMY_LEAF_INDEX.find((l) => l.tag === tag) || null;
+  const canonical = BROWSE_TAG_ALIAS[tag] || tag;
+  return TAXONOMY_LEAF_INDEX.find((l) => l.tag === canonical) || null;
 }
 
 /** Best-effort fuzzy match on a human-typed/shared entity NAME (exact

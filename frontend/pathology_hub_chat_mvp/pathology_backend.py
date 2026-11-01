@@ -19,7 +19,10 @@ Do not add new backend operations here. Do not mutate GCS or Cloud Run.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
+from functools import lru_cache
+from pathlib import Path
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
@@ -744,12 +747,31 @@ def card_root_token(card: dict) -> Optional[str]:
     return None
 
 
+BROWSE_TAG_ALIAS_PATH = Path(__file__).resolve().parent / "static" / "browse_tag_alias_v0_2.json"
+
+
+@lru_cache(maxsize=1)
+def _browse_tag_alias() -> dict[str, str]:
+    """Legacy ``ABPathSpec::`` tag -> bare tag (v0_2 migration). Empty if the map is missing."""
+    try:
+        raw = json.loads(BROWSE_TAG_ALIAS_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {old: str(entry.get("new_tag") or old) for old, entry in raw.items() if isinstance(entry, dict)}
+
+
+def canonical_browse_tag(tag: str) -> str:
+    return _browse_tag_alias().get(tag, tag)
+
+
 def page_root_from_tag(tag: Optional[str]) -> Optional[str]:
     """Organ/root token from a board tag.
 
     Content-spec tags are ``ABPathSpec::<root>::…`` — the real browse root is
     the second segment, not the literal ``ABPathSpec`` prefix.
     """
+    if isinstance(tag, str):
+        tag = canonical_browse_tag(tag)
     if not isinstance(tag, str) or "::" not in tag:
         return None
     parts = [p for p in tag.split("::") if p]

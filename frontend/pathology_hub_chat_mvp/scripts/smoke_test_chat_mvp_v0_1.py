@@ -333,6 +333,8 @@ def smoke_offline() -> None:
             ]
             if any(t.startswith("ABPathSpec::cyto::") for t in cyto_tags):
                 _fail("cyto still has synthetic ABPathSpec:: tags (expected native Cyto_<System>::…)", None)
+            if "ABPathSpec::" in json.dumps(data):
+                _fail("browse index still has ABPathSpec:: tags (bare-namespace migration v0_2)", None)
             if "Cyto_Adrenal::Malignant::Adrenal_Cortical_Carcinoma" not in cyto_tags:
                 _fail("expected native Cyto_Adrenal tag not found", None)
             category_tags = [t for t in cyto_tags if "::Category::" in t]

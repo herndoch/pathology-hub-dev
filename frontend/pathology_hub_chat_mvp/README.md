@@ -315,3 +315,18 @@ overall light/dark surface theme) with white text for contrast.
   lecture/video results — see Browse tab section above)
 - GPT Builder / Actions packaging and hosted deployment
 - Figure quality-flag awareness in the UI
+
+## Bare tag namespace (v0_2, 2026-11-01)
+
+Browse tags no longer carry the `ABPathSpec::` wrapper. Content-spec leaves use the bare specialty
+tag (for example `BST::Bone::…`, `GU::…`, `HEME::…`). Merged leaves carry `both` provenance.
+
+- `static/browse_tag_index_v0_1.json` is the migrated index (same filename, so loaders are unchanged).
+- `static/browse_tag_alias_v0_2.json` maps every legacy `ABPathSpec::` tag to its bare tag, with
+  the action (`merged_into_bare_twin` or `renamed_new_bare_tag`) and match type. The frontend
+  (`findLeafByTag`), the backend (`page_root_from_tag`) and the GCS prebuild upload read it, so old
+  `?tag=` deep links and cache keys still resolve.
+- `scripts/build_browse_tag_index_who_abpath_spec_v0_1.py` emits bare tags through the same map
+  (`abpath_leaf_tag`). A legacy key that is missing from the map would still come out with the prefix.
+- Tags created under ABPath placement with no WHO twin are listed for review in the migration
+  outputs (`PLACEMENT_REVIEW.csv`, `CROSS_ROOT_REVIEW.csv`), not in this repo.

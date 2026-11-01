@@ -44,8 +44,16 @@ PAGES_DIR = OUTPUT_DIR / "pages"
 sys.path.insert(0, str(APP_DIR))
 import gcs_topic_cache  # noqa: E402
 
+_ALIAS_PATH = APP_DIR / "static" / "browse_tag_alias_v0_2.json"
+_TAG_ALIAS = (
+    {old: entry["new_tag"] for old, entry in json.loads(_ALIAS_PATH.read_text(encoding="utf-8")).items()}
+    if _ALIAS_PATH.exists()
+    else {}
+)
+
 
 def _root_of_tag(tag: str) -> str:
+    tag = _TAG_ALIAS.get(tag, tag)
     parts = tag.split("::")
     if parts and parts[0] == "ABPathSpec" and len(parts) > 1:
         return parts[1].lower()
