@@ -31,6 +31,22 @@ from pathlib import Path
 from typing import Any, Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+
+# 2026-11-01: the ABPathSpec:: wrapper is retired. Content-spec leaves take the bare specialty tag
+# from the committed alias map (static/browse_tag_alias_v0_2.json), keyed by the legacy tag so old
+# keys and deep links still resolve.
+ABPATH_ALIAS_PATH = Path(__file__).resolve().parents[1] / "static" / "browse_tag_alias_v0_2.json"
+ABPATH_ALIAS: dict[str, Any] = (
+    json.loads(ABPATH_ALIAS_PATH.read_text(encoding="utf-8")) if ABPATH_ALIAS_PATH.exists() else {}
+)
+ABPATH_RENAMED_TAGS = {v["new_tag"] for v in ABPATH_ALIAS.values() if v.get("action") == "renamed_new_bare_tag"}
+ABPATH_BARE_TAGS = {v["new_tag"] for v in ABPATH_ALIAS.values()}
+
+
+def abpath_leaf_tag(root_id: str, sub_id: str, label: str) -> str:
+    legacy = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
+    entry = ABPATH_ALIAS.get(legacy)
+    return entry["new_tag"] if entry else legacy
 MVP_DIR = Path(__file__).resolve().parents[1]
 SCRIPTS_REPO = REPO_ROOT / "scripts"
 if str(SCRIPTS_REPO) not in sys.path:
@@ -1064,10 +1080,10 @@ def content_spec_to_leaf(row: dict[str, Any]) -> Optional[dict[str, Any]]:
             organ = fine_label
         sub_id, sub_label = normalize_subcategory(organ)
         label = _gi_qualify_site_label(label, sub_label)
-        tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
+        tag = abpath_leaf_tag(root_id, sub_id, label)
     else:
         sub_id, sub_label = fine_id, fine_label
-        tag = "::".join(["ABPathSpec", root_id, sub_id, slugify(label) or "item"])
+        tag = abpath_leaf_tag(root_id, sub_id, label)
     return {
         "tag": tag,
         "label": label,
@@ -1131,7 +1147,7 @@ def harvest_who_from_browse_index(index: dict[str, Any]) -> list[dict[str, Any]]
                 tag = leaf.get("tag") or ""
                 if not isinstance(tag, str) or "::" not in tag:
                     continue
-                if tag.startswith("ABPathSpec::"):
+                if tag in ABPATH_RENAMED_TAGS:
                     continue
                 prov = str(leaf.get("provenance") or "").lower()
                 if prov in {"abpath", "pathout"}:
@@ -1552,7 +1568,7 @@ def main() -> int:
             by_root_label[key] = leaf
             continue
         existing_tag = str(existing.get("tag") or "")
-        if existing_tag.startswith("ABPathSpec::") or existing.get("provenance") == "abpath":
+        if existing_tag in ABPATH_BARE_TAGS or existing.get("provenance") == "abpath":
             existing["provenance"] = "both"
 
     merged = list(by_root_label.values())
@@ -1565,7 +1581,7 @@ def main() -> int:
     # source-list membership above; this only guards against a leaf whose
     # tag looks like neither pattern falsely claiming abpath/both.
     def _is_recognized_abpath_tag(tag: str) -> bool:
-        if tag.startswith("ABPathSpec::"):
+        if tag in ABPATH_BARE_TAGS:
             return True
         if tag.startswith("Thorax_Mediastinum::") and (
             tag.startswith(f"Thorax_Mediastinum::{CARDIO_ORGAN_HEART}::")
@@ -1660,7 +1676,7 @@ def main() -> int:
             "Cell types, normal anatomy/histology/cytology, lab methods, QA/billing, and generic headers are excluded from ABPath nav.",
             "PathOut variant also drops Concept/Staging/Procedure and non-diagnosis-like tags.",
             "The expanded abpath_source_tags.jsonl curriculum ontology is intentionally excluded.",
-            "Content-spec tags use ABPathSpec::<root>::… identity — retrieval still uses the query/label text.",
+            "Content-spec tags use bare specialty tags (ABPathSpec:: wrapper retired 2026-11-01; old keys resolve via static/browse_tag_alias_v0_2.json) — retrieval still uses the query/label text.",
             "Index is a local snapshot; not proof of API/vector coverage.",
             "Cytopathology (cyto root) subcategories are organ system first (e.g. 'Hematolymphoid Cytopathology'), not the raw ABPath content-spec header — see CYTO_SYSTEM_* constants and CYTO_ABPATH_SPEC_RANGES.",
             "ABPath major-section-12 organ-system boundaries were hand-reconstructed from the ordered row dump (the DOCX/PDF parser only recovers ~11% of section 12's own organ headers) and keyed on abpath_spec_id sequence ranges; re-verify ranges if the source PDF/DOCX content changes.",

@@ -172,7 +172,8 @@ def smoke_offline() -> None:
     if idx.status_code != 200:
         _fail("browse index", f"HTTP {idx.status_code}")
     data = idx.json()
-    schema = data.get("schema_version")
+    # Migration builds tag a suffix (e.g. "+bare_tag_migration_v0_2"); compare the base version.
+    schema = (data.get("schema_version") or "").split("+")[0]
     if schema not in {"browse_tag_index_v0_2", "browse_tag_index_v0_3", "browse_tag_index_v0_4"}:
         _fail("browse index schema", schema)
     counts = data.get("counts") or {}
@@ -333,6 +334,8 @@ def smoke_offline() -> None:
             ]
             if any(t.startswith("ABPathSpec::cyto::") for t in cyto_tags):
                 _fail("cyto still has synthetic ABPathSpec:: tags (expected native Cyto_<System>::…)", None)
+            if "\"tag\": \"ABPathSpec::" in json.dumps(data):
+                _fail("browse index still has ABPathSpec:: tags (bare-namespace migration v0_2)", None)
             if "Cyto_Adrenal::Malignant::Adrenal_Cortical_Carcinoma" not in cyto_tags:
                 _fail("expected native Cyto_Adrenal tag not found", None)
             category_tags = [t for t in cyto_tags if "::Category::" in t]
