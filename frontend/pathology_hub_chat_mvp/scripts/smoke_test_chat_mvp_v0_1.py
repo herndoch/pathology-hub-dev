@@ -172,7 +172,8 @@ def smoke_offline() -> None:
     if idx.status_code != 200:
         _fail("browse index", f"HTTP {idx.status_code}")
     data = idx.json()
-    schema = data.get("schema_version")
+    # Migration builds tag a suffix (e.g. "+bare_tag_migration_v0_2"); compare the base version.
+    schema = (data.get("schema_version") or "").split("+")[0]
     if schema not in {"browse_tag_index_v0_2", "browse_tag_index_v0_3", "browse_tag_index_v0_4"}:
         _fail("browse index schema", schema)
     counts = data.get("counts") or {}
