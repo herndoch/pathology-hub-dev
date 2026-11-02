@@ -1,0 +1,120 @@
+thyroidanatomy|anatomy
+thyroidembryology|embryology
+thyroidfeatures|features to report
+thyroidfrozen|frozen section
+thyroidgrossing|grossing
+thyroidhistology|histology
+thyroidstaging|AJCC / TNM Staging
+thyroidreferences|references
+thyroidwho|WHO classification
+thyroidFNA|FNA-general
+thyroidglandmolectestingfna|molecular testing in FNA
+thyroidultrasound|ultrasound
+thyroiddiagnostic|Bethesda system diagnostic categories
+thyroidadequacy|adequacy
+thyroidnduns|nondiagnostic
+thyroidbenign|benign
+thyroidatypia|AUS
+thyroidfollicularneoplasm|follicular neoplasm
+thyroidhurthlecellneoplasm|follicular neoplasm (oncocytic follicular neoplasm)
+thyroidsuspicious|suspicious for malignancy
+thyroidmalignant|malignant
+thyroidaplasiahypoplasia|aplasia / hypoplasia
+thyroidbranchial|branchial pouch / cleft anomalies
+thyroiddigeorge|DiGeorge syndrome
+thyroidheterotopic|ectopic thyroid tissue
+thyroidlateral|lateral aberrant thyroid
+thyroidlymphnodes|thyroid inclusions
+thyroidlymphoepithelialcyst|lymphoepithelial cyst
+thyroidparasiticnodule|parasitic nodule
+thyroidparathyroidtissue|parathyroid tissue
+thyroidsolidcellnests|solid cell nests / ultimobranchial body remnants
+thyroidthyroglossal|thyroglossal duct cyst
+thyroidthymictissue|thymic tissue
+thyroidamiodarone|amiodarone induced hyperthyroidism
+thyroidcretinism|congenital hypothyroidism
+thyroidinfectious|acute / infectious thyroiditis
+thyroidhashimotosthyroiditis|Hashimoto thyroiditis
+thyroidhashimotosthyroiditisfibrosing|Hashimoto-fibrous
+thyroidpalpation|palpation thyroiditis
+thyroidradiationthyroiditis|radiation thyroiditis
+thyroidriedel|Riedel thyroiditis
+thyroidgranuloma|subacute thyroiditis
+thyroidamyloidgoiter|amyloid goiter
+thyroidccell|C cell hyperplasia
+thyroiddyshormono|dyshormonogenetic goiter
+thyroidendemicgoiter|endemic goiter
+thyroidgraves|Graves disease
+thyroidnodular|thyroid follicular nodular disease (multinodular goiter)
+thyroidtoxicmultinodulargoiter|toxic goiter
+thyroidblack|black / pigmented thyroid
+thyroidcalcification|calcification
+thyroidclearcell|clear cell change
+thyroidcrystals|crystals
+thyroidmalakoplakia|malakoplakia
+thyroidpcgranuloma|plasma cell granuloma
+thyroidpostop|postoperative spindle cell nodule
+thyroidsarcoid|sarcoidosis
+thyroidfollicularadenoma|follicular adenoma
+thyroidfollicularpapillary|follicular adenoma with papillary architecture
+thyroidsolitary|solitary thyroid nodule
+thyroidFTUMP|FT-UMP
+thyroidhtn|hyalinizing trabecular tumor
+thyroidglandNIFTP|NIFTP
+thyroidwelldiffump|WDT-UMP
+thyroidthyroidcarcinomachildren|children
+thyroidcancermolecpath|molecular pathology basics
+thyroidcancerpracticalmolecpath|molecular pathology-practical
+thyroidpapillary|papillary thyroid carcinoma overview
+thyroidpapillaryclassic|papillary thyroid carcinoma-classic
+thyroidclearcellvariant|clear cell
+thyroidcolumnarvariant|columnar cell
+thyroiddiffusefollicular|diffuse follicular
+thyroiddiffusesclerosing|diffuse sclerosing
+thyroidencapsulated|encapsulated
+thyroidnodularfasciitis|fibromatosis / fasciitis-like
+thyroidfollicularvariant|follicular variant
+thyroidpapillaryhobnail|hobnail
+thyroidinvasiveEFVPTC|invasive EFVPTC
+thyroidmacrofollicular|macrofollicular
+thyroidmicrocarcinomavariant|microcarcinoma
+thyroidoncocytic|oncocytic
+thyroidsolidvariant|solid / trabecular
+thyroidtallcellvariant|tall cell
+thyroidwarthin|Warthin-like
+thyroidUndiff|anaplastic thyroid carcinoma
+thyroiddifferentiatedHGcarcinomas|differentiated high grade thyroid carcinoma / high grade differentiated thyroid carcinoma
+thyroidfollicular|follicular thyroid carcinoma
+thyroidmedullary|medullary thyroid carcinoma
+thyroidhurthle|oncocytic (Hurthle cell) tumors
+thyroidinsular|poorly differentiated thyroid carcinoma
+thyroidcribriformmorular|cribriform-morular thyroid carcinoma
+thyroidcastle|intrathyroidal thymic carcinoma
+thyroidmedullarymixed|mixed medullary and follicular cell derived carcinomas (pending)
+thyroidMuco|mucoepidermoid carcinoma
+thyroidsclerosing|sclerosing mucoepidermoid carcinoma with eosinophilia
+thyroidMASC|secretory carcinoma
+thyroidsettle|SETTLE
+thyroidthyroglossalcarc|thyroglossal duct carcinoma
+thyroidangiosarcoma|angiosarcoma
+thyroidlymphoma|lymphoma
+thyroidplasmacytoma|plasmacytoma
+thyroidsarcoma|sarcoma
+thyroidteratomas|teratoma
+thyroidthyroblastoma|thyroblastoma
+thyroidmetastatic|thyroid metastases
+thyroidlch|Langerhans cell histiocytosis
+thyroidrosaidorf|Rosai-Dorfman disease
+thyroidsft|solitary fibrous tumor
+parathyroidanatomy|anatomy & histology-parathyroid
+parathyroidfrozen|frozen section-parathyroid
+parathyroidstaging|staging-parathyroid
+parathyroidwho|WHO classification-parathyroid
+thyroidatypicalparathyroid|atypical parathyroid tumor (pending)
+parathyroidectopicPTH|ectopic parathyroid tissue
+parathyroidprimarypth|hyperparathyroidism
+parathyroidothernonneoplastic|other nonneoplastic parathyroid
+parathyroidpthadenoma|parathyroid adenoma
+thyroidparathyroidlipoadenoma|parathyroid lipoadenoma (pending)
+parathyroidpthhyper|parathyroid gland hyperplasia
+parathyroidpthca|parathyroid carcinoma

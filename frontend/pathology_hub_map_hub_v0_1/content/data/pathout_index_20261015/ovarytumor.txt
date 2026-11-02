@@ -1,0 +1,95 @@
+ovarynontumornormalhistology|anatomy & histology
+ovarytumorfeatures|features to report
+ovaryolaparib|olaparib
+ovarytumorstage|staging
+ovarytumorwhoclassif|WHO classification
+ovarynontumorgonadaldysgenesis|disorders of sex development-general
+ovarynontumor46XXDSD|46XX DSD
+ovarynontumortruehermaph|ovotesticular DSD
+ovarynontumorsexchromosomeDSD|sex chromosome DSD
+ovaryautoimmuneoophoritis|autoimmune oophoritis (pending)
+ovarynontumorgranulomatous|granulomatous inflammation
+ovarynontumortuboovarianabscess|tubo-ovarian abscess
+ovarynontumorxanthogranoophoritis|xanthogranulomatous oophoritis
+ovarynontumorcalcification|calcification
+ovarynontumorectopicdecidual|ectopic decidual reaction
+ovarynontumorendometriosis|endometriosis
+ovarynontumorendosalpingiosis|endosalpingiosis
+ovarynontumorinclusioncyst|cortical inclusion cyst
+ovaryPCO|polycystic ovary disease
+ovarytubetorsion|torsion
+ovarynontumorcorpuslutcyst|corpus luteum cyst
+ovarymassiveedema|massive ovarian edema
+ovarynontumorfollicularcysts|follicle cyst
+ovarynontumorhyperreactio|hyperreactio luteinalis
+ovaryLSLFC|large solitary luteinized follicular cyst of pregnancy and puerperium
+ovaryleydigcellhyperplasia|Leydig cell hyperplasia
+ovarypregnancyluteoma|pregnancy luteoma
+ovarynontumorhyperthecosis|stromal hyperplasia and hyperthecosis
+ovarytumorsurfacegeneral|epithelial tumors-overview / molecular
+ovarytumorserousbenign|serous cystadenoma, adenofibroma and surface papilloma
+ovarytumorserousborderline|serous borderline tumor
+ovarytumorserouscarcinomalg|low grade serous carcinoma
+ovarytumorserouscarcinomahg|high grade serous carcinoma
+ovarytumormucinousbenign|mucinous cystadenoma and adenofibroma
+ovarytumorborderlinemucinous|mucinous borderline tumor
+ovarytumormucinouscarcinoma|mucinous carcinoma
+ovarytumormuralnodules|mural nodules in mucinous cystic neoplasms
+ovaryseromucinouscystadenoma|seromucinous cystadenoma and adenofibroma
+ovaryseromucinousborderline|seromucinous borderline tumor
+ovarytumorendoborderline|endometrioid borderline tumor
+ovarytumorendometrioidcarcinoma|endometrioid carcinoma
+ovarytumorendometadenofibroma|endometrioid cystadenoma and adenofibroma
+ovarytumorclearcelladenofibroma|clear cell cystadenoma and adenofibroma
+ovaryclearcellborderlinetumor|clear cell borderline tumor
+ovarytumorclearcell|clear cell carcinoma
+ovarytumorb9brenner|benign, borderline and malignant Brenner tumors
+ovarymesonephriclikeadenocarcinoma|mesonephric-like adenocarcinoma (uterus / ovary)
+ovarytumormmt|carcinosarcoma
+ovarymixedcarcinoma|mixed carcinoma
+ovarytumorundifferentiated|undifferentiated / dedifferentiated carcinoma (endometrium / ovary)
+ovarytumoress|endometrioid stromal sarcoma
+ovarytumorleiomyoma|leiomyoma
+ovarytumorleiomyosarcoma|leiomyosarcoma
+ovarytumormullerianadeno|adenosarcoma
+ovarytumorfibroma|fibroma
+ovarytumorleydig|Leydig cell tumor
+ovaryluteinizedthecomasclerperi|luteinized thecoma associated with sclerosing peritonitis
+ovarytumormicrocysticstromal|microcystic stromal tumor
+ovarymyxoma|ovarian myxoma (pending)
+ovarytumorsclerosingstroma|sclerosing stromal tumor
+ovarytumorsignetringstromal|signet ring stromal tumor
+ovarytumorsteroidcelltumorNOS|steroid cell tumor
+ovarytumorthecoma|thecoma
+ovarytumorgctadult|granulosa cell tumor-adult
+ovarytumorgctjuv|granulosa cell tumor-juvenile
+ovarytumorsertoli|Sertoli cell tumor
+ovarytumorsexcordannular|sex cord tumor with annular tubules
+ovarytumorgynandro|gynandroblastoma
+ovarytumorsertolileydig|Sertoli-Leydig cell tumor
+ovarysexcordstromalNOS|sex cord stromal tumor NOS (pending)
+ovarytumorchorio|choriocarcinoma
+ovarytumordysgerminoma|dysgerminoma
+ovarytumorembryonal|embryonal carcinoma
+ovarytumormixed|mixed germ cell tumor
+ovarysomaticneoplasmsteratomas|somatic neoplasms arising from teratomas
+ovarytumorteratomamature|teratoma-mature
+ovarytumorteratomaimmature|teratoma-immature
+ovarytumoryolksac|yolk sac tumor
+ovarytumorcarcinoid|carcinoid tumor
+ovarymonodermalcysticteratoma|monodermal cystic teratoma
+ovaryneuroectodermaltype|neuroectodermal type tumors (pending)
+ovarytumorstruma|struma ovarii
+ovarytumorgonadoblastoma|gonadoblastoma
+ovarymixedgermcellsexcordstromal|mixed germ cell - sex cord stromal tumor, unclassified
+ovarytumormetastatic|metastases to ovary
+ovarytumorappendiceal|appendiceal neoplasms
+ovarytumormetatstaticbreastcarc|breast carcinoma
+ovarytumormetastaticcarcinoid|carcinoid tumor metastatic to ovary
+ovarytumormetastaticcervicalcarc|cervical carcinoma metastatic to ovary
+ovarytumorcolorectaladeno|colorectal adenocarcinoma
+ovarytumorupperGItract|upper gastrointestinal tract
+ovaryreteovarii|rete cystadenoma, adenoma and adenocarcinoma
+ovarytumorspn|solid pseudopapillary tumor
+ovarytumorsmallcellhyper|small cell carcinoma of ovary, hypercalcemic type
+ovarytumornephroblastoma|Wilms tumor (nephroblastoma)

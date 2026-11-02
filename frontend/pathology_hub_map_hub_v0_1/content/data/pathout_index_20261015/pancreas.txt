@@ -1,0 +1,63 @@
+pancreasnormal|anatomy & histology
+pancreascytology|cytology
+pancreasfeatures|features to report-pancreatectomy
+pancreasfrozensection|frozen section
+pancreasgrossing|grossing
+pancreaspapanicolaousystem|WHO reporting system for pancreaticobiliary cytopathology
+pancreastnm|staging-exocrine
+pancreasneuroendocrinetumorstaging|staging-neuroendocrine
+pancreaswho|WHO classification
+pancreascysticfibrosis|cystic fibrosis
+pancreasheterotopic|heterotopic pancreas
+pancreasnesidio|nesidioblastosis
+pancreasacute|acute pancreatitis
+pancreasaiptype1|autoimmune pancreatitis type 1
+pancreasaiptype2|autoimmune pancreatitis type 2
+pancreaschronic|chronic pancreatitis
+pancreasgroovepancreatitis|groove pancreatitis
+pancreashereditary|PRSS1 hereditary pancreatitis
+pancreasdmgeneral|diabetes mellitus
+pancreasallograftrejection|allograft rejection
+pancreasiopn|intraductal oncocytic papillary neoplasm (IOPN)
+pancreasipmn|intraductal papillary mucinous neoplasm (IPMN)
+pancreasitpn|intraductal tubulopapillary neoplasm (ITPN)
+pancreaslymphoepithelial|lymphoepithelial cysts
+pancreasmcn|mucinous cystic neoplasm (MCN)
+pancreascysticfluidanalysis|pancreatic cystic fluid analysis
+pancreaspanin|PanIN
+pancreaspseudocyst|pseudocysts
+pancreasriskstratificationipmns|risk stratification of IPMNs
+pancreasserous|serous cystadenoma
+pancreasmucnoncyst|simple mucinous cyst
+pancreassquamoidcyst|squamoid cyst of pancreatic ducts
+pancreastrue|true cysts
+pancreasacinar|acinar cell carcinoma
+pancreasacinarcellcystadenoma|acinar cystic transformation
+pancreasductal|ductal adenocarcinoma, NOS
+pancreasadenosquamous|adenosquamous carcinoma
+pancreascolloid|colloid carcinoma
+pancreasmedullary|medullary carcinoma
+pancreasmolecularaspects|molecular genetics of pancreatic ductal carcinoma
+pancreasmucin|mucinous pancreatic tumor overview
+pancreasundifferentiated|undifferentiated carcinoma
+pancreasosteoclastic|undifferentiated carcinoma with osteoclast-like giant cells
+pancreaspen|neuroendocrine neoplasms-general
+pancreasacth|ACTH secreting tumors
+pancreasclearcellendocrine|clear cell pancreatic endocrine tumor
+pancreascysticendocrine|cystic endocrine tumors
+pancreasgastrinoma|gastrinoma
+pancreasglucagonoma|glucagonoma (alpha cell tumors)
+pancreasinsulinoma|insulinoma (beta cell tumor)
+pancreasMEN1|MEN1 syndrome
+pancreasmixed|mixed neuroendocrine nonneuroendocrine neoplasms (MiNENs)
+pancreasmolecularnens|molecular genetics of pancreatic neuroendocrine neoplasms
+pancreaspensarcomatous|neuroendocrine tumor with sarcomatous differentiation
+pancreasppoma|pancreatic polypeptide secreting tumors
+pancreasneuroendocrinecarcinoma|poorly differentiated neuroendocrine carcinoma
+pancreassomatostatin|somatostatinoma
+pancreasvipoma|VIPoma
+pancreasWDNET|well differentiated neuroendocrine tumor
+pancreasfamilialpancreaticneoplasms|familial pancreatic neoplasms
+pancreaspancreatoblastoma|pancreatoblastoma
+pancreassclerosingepit|sclerosing epithelioid mesenchymal neoplasm
+pancreassolidpseudo|solid pseudopapillary neoplasm

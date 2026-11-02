@@ -1,0 +1,124 @@
+eyeuveaciliarybodygeneral|anatomy & histology-ciliary body
+eyeconjunctivahistology|anatomy & histology-conjunctiva
+eyecorneaanatomy|anatomy & histology-cornea
+eyeeyelidanatomy|anatomy & histology - eyelid
+eyeanatomyother|anatomy & histology-other
+eyeretinageneral|anatomy & histology-retina
+eyeanatomyuvea|anatomy & histology-uvea
+eyeglobegrossing|grossing & features to report
+eyeconjTNM|staging-conjunctiva carcinoma
+eyeconjTNMmelanoma|staging-conjunctival melanoma
+eyeeyelidTNM|staging-eyelid
+eyelacrimalTNM|staging-lacrimal duct
+eyeorbittnmlymphoma|staging-ocular adnexal lymphoma
+eyeorbittnmsarcoma|staging-orbital sarcoma
+eyeretinatnmretinoblastoma|staging-retinoblastoma
+eyeuveatnmuvealmelanoma|staging-uvea melanoma
+eyeWHO|WHO classification of tumors of the conjunctiva and caruncle
+eyeacutehemorrhagic|acute hemorrhagic conjunctivitis
+eyechronicconj|conjunctivitis and variants
+eyecicatrizingconj|cicatrizing conjunctivitis
+eyeconjgranulomatous|granulomatous conjunctivitis
+eyeconjligneous|ligneous conjunctivitis
+eyetrachoma|trachoma
+eyecystsofconjunctiva|cysts-conjunctiva
+eyedermoidtumor|epibulbar choristoma
+eyehereditarybenign|hereditary benign intraepithelial dyskeratosis
+eyeocularcicatricialpemphigoid|ocular cicatricial pemphigoid
+eyepinguecula|pinguecula
+eyepterygium|pterygium
+eyecinconj|conjunctival intraepithelial neoplasia
+eyeoncocytomaconjunc|conjunctival oncocytoma
+eyeconjSCC|squamous cell carcinoma-conjunctiva
+eyepapillomaconjunctiva|squamous papilloma-conjunctiva
+eyebenignmelanosisconj|benign conjunctival melanosis
+eyeneviblue|blue nevus
+eyenevijuvenile|inflamed juvenile conjunctival nevus
+eyeconjmelanoma|melanoma-conjunctiva
+eyepamconj|conjunctival melanocytic intraepithelial lesions (CMIL)
+eyenevi|nevi-conjunctiva
+eyeGVHDconjunctiva|graft versus host disease
+eyeconjlymphoma|lymphoma-conjunctiva
+eyecorneaacanthamoeba|acanthamoeba keratitis
+eyecorneaactinicband|actinic keratopathy
+eyecorneabullouskeratopathy|bullous keratopathy
+eyecorneacalcificbandkeratopathy|calcific band keratopathy
+eyecorneadystrophy|corneal dystrophy
+eyecorneatransplant|corneal transplantation & graft failure
+eyecorneainfectiouskeratitis|infectious keratitis
+eyecorneakeratoconus|keratoconus
+eyecorneakeratomalacia|keratomalacia
+eyecorneanonspecific|nonspecific responses-cornea
+eyecorneafuchsdystrophy|posterior polymorphous dystrophy
+eyechalazion|chalazion
+eyenecrobiotic|necrobiotic xanthogranuloma with paraproteinemia
+eyepseudorheumatoid|pseudorheumatoid nodules
+eyepyogenicgranulomaeyelid|pyogenic granuloma
+eyesilica|silica granuloma
+eyestye|stye (hordeolum)
+eyeeyelidtumorsgeneral|tumors general-eyelid
+eyeeyelidcysts|eyelid cysts
+eyeeyelidxanthelasma|xanthelasma
+eyeactinickeratosis|actinic keratosis
+eyebcc|basal cell carcinoma
+eyeeyelidmerkel|Merkel cell carcinoma
+eyeeyelidsquamouspapilloma|squamous papilloma-eyelid
+eyeeyelidseborrheickeratosis|seborrheic keratosis
+eyeeyelidscc|squamous cell carcinoma-eyelid
+eyesignetringcell|signet ring cell / histiocytoid carcinoma
+eyemucinouscarc|mucinous carcinoma
+eyesebaceouscarc|sebaceous carcinoma
+eyeglaucomageneral|glaucoma
+eyeglobephthisisbulbi|phthisis bulbi
+eyelacrimaladenoidcystic|adenoid cystic carcinoma
+eyedacryocystitis|dacryocystitis
+eyeinflammatorylesionslacrimal|inflammatory lesions of lacrimal gland and related structures
+eyelacrimaloncocytoma|lacrimal gland oncocytoma
+eyelacrimalmucocele|mucocele-lacrimal sac
+eyelacrimalpapilloma|papilloma-lacrimal duct
+eyelacrimalpleomorphicadenoma|pleomorphic adenoma
+eyesalivaryglandtumorslacrimal|salivary gland tumors of the lacrimal system
+eyelacrimalscc|squamous cell carcinoma-lacrimal duct
+eyelenscataract|cataract
+eyelensphacoanaphylaxis|lens induced uveitis
+eyelenspersistenthyperplasticprimaryvitreous|persistent fetal vasculature
+eyeprimaryvitreoretinallargeBcell|primary intraocular lymphoma (pending)
+eyeorbitcoloboma|coloboma
+eyeorbitgliomaoptic|glioma-optic nerve
+eyeorbitmelanocytoma|melanocytoma
+eyeorbitmeningioma|meningioma
+eyeorbitopticatrophy|optic nerve atrophy
+eyeorbitschnabel|Schnabel cavernous degeneration
+eyeorbitmucocele|mucocele-orbit
+eyeorbitinflammatorypseudo|orbital inflammation
+eyeorbitdermoid|orbital dermoid cysts and other cysts
+eyeorbitrms|rhabdomyosarcoma-orbit
+eyeorbitsft|solitary fibrous tumor-orbit
+softtissueadiposeshof|subconjunctival herniated orbital fat
+eyeorbittemporalarteritis|temporal arteritis
+eyeorbitdysthyroid|thyroid ophthalmopathy
+eyeretinaadenocarcinomarpe|adenoma and adenocarcinoma-retinal pigment epithelium
+eyeretinaastrocytictumor|astrocytic tumor
+eyeretinacoats|Coats disease
+eyeretinaretinaldetachment|detachment of retina
+eyeretinadiabetes|diabetic retinopathy
+eyeretinalatticedegeneration|lattice degeneration
+eyeretinamaculardegeneration|macular degeneration
+eyeretinamassiveretinalgliosis|nodular & massive retinal gliosis
+eyeretinaretinitispigmentosa|retinitis pigmentosa
+eyeretinaretinoblastoma|retinoblastoma
+eyeretinaretinocytoma|retinoma / retinocytoma
+eyeretinaretrolentalfibroplasia|retinopathy of prematurity
+eyeretinaviscerallarvamigrans|visceral larva migrans
+eyeuveafuchsadenoma|adenoma / adenocarcinoma of the ciliary body
+eyeuvealisch|Lisch nodule
+eyeuveamedulloepithelioma|medulloepithelioma
+eyeuveamelanoma|melanoma-uvea
+eyeuveamelanosisoculi|ocular melanocytosis
+eyeuveanevichoroid|nevi-choroid or iris
+eyeprimarychoroidallymphoma|primary choroidal lymphoma (pending)
+eyeuveauveitis|uveitis
+lymphnodeshemophagocyticlymphohistiocytosis|hemophagocytic lymphohistiocytosis
+lymphnodeshistiocyticsarcoma|histiocytic sarcoma
+lymphnodesLCH|Langerhans cell histiocytosis
+leukemiagranulocytic|myeloid sarcoma

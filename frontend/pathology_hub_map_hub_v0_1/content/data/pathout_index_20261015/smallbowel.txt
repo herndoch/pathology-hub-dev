@@ -1,0 +1,71 @@
+smallbowelnormalanatomy|anatomy
+ampullahistology|anatomy & histology-ampulla
+smallbowelfeaturestoreport|grossing & features to report
+smallbowelnormalhistology|histology-small intestine
+ampullatnmamp|staging-ampulla carcinoma
+ampullatnmstaging|staging-duodenal & ampullary neuroendocrine tumors
+smallbowelstagingneuroendocrine|staging-jejunal and ileal neuroendocrine tumors
+smallbowelstaging|staging-small intestine carcinoma
+smallbowelWHOclassification|WHO classification
+smallbowelatresiastenosis|atresia / stenosis
+smallbowelcommonvariable|common variable immunodeficiency syndrome
+smallboweldiverticula|diverticula (other than Meckel)
+smallbowelduplication|duplication
+smallbowelenterogenous|enterogenous cysts
+smallbowelheterotopicgastric|heterotopic gastric mucosa
+smallbowelheterotopicpancreas|heterotopic pancreas
+smallbowelMeckels|meckel diverticulum
+smallbowelmalabsorptiongen|malabsorption-general
+smallbowelceliacsprue|celiac sprue
+smallbowelautoimmuneenter|autoimmune enteropathy
+smallbowelbehcet|Behcet disease
+smallbowelcrohns|Crohn's disease
+smallboweldiaphragmdisease|diaphragm disease
+smallbowelduodenalpepticulcer|duodenal peptic ulcer
+smallboweleosinophilic|eosinophilic gastroenterocolitis
+smallbowelilealpouch|ileal pouch / pouchitis
+smallbowellymphocyticenterocolitis|lymphocytic enteritis
+smallbowelnecrotizingent|necrotizing enterocolitis
+olmesarataninjury|olmesartan enteropathy
+smallbowelduodenitis|peptic duodenitis
+smallbowelradiationentero|radiation enterocolitis
+smallbowelUC|ulcerative colitis
+smallbowelinfectiousdisordersgen|infectious disorders-general
+smallbowelgiardiasis|Giardia lamblia
+smallbowelwhipple|Whipple disease
+smallbowelbrunnersgland|Brunner gland lesions
+smallbowelenteritiscystica|enteritis cystica profunda
+ampullahyperplasticpolyp|hyperplastic polyp
+smallbowelinflammatoryfibroidpolyp|inflammatory fibroid polyp
+smallbowelIMT|inflammatory myofibroblastic tumor
+smallbowelinflammatorypolyp|inflammatory polyp
+smallbowelintussusception|intussusception
+smallbowelischemia|ischemia
+smallboweljuvenilepolyposis|juvenile polyposis
+smallbowelleiomyoma|leiomyoma
+smallbowellipoma|lipoma
+smallbowellipomatosisileocecalvalve|lipomatosis of the ileocecal valve
+smallbowellymphangiectasia|lymphangiectasia
+smallbowellymphangioma|lymphangioma
+smallbowellymphoidhyperplasia|lymphoid hyperplasia
+smallbowelnonampullaryadenoma|nonampullary adenoma
+smallbowelpeutzjeghers|Peutz-Jeghers polyp
+smallbowelpneumatosis|pneumatosis cystoides intestinalis
+smallbowelpseudomelanosis|pseudomelanosis duodeni
+smallbowelreactivenodular|reactive nodular fibrous pseudotumor
+smallbowelsclerosingperitonitis|retroperitoneal fibrosis / sclerosing mesenteritis
+smallboweladenocarcinoma|adenocarcinoma-small intestine
+smallbowelNECarcinoma|neuroendocrine carcinoma
+smallbowelmediterranean|immunoproliferative small intestinal disease (ISID)
+smallbowelMALT|MALT lymphoma
+smallbowelGIST|GIST
+smallbowelmaliggastroneuroectodermaltumor|malignant GI neuroectodermal tumor
+smallbowelcarcinoidtumor|neuroendocrine tumor
+smallbowelrejection|rejection
+ampullaadenocarcinoma|adenocarcinoma-ampulla
+ampullaadenoma|adenoma
+ampullaganglio|composite gangliocytoma / neuroma and neuroendocrine tumor
+ampullaiapn|intra-ampullary papillary tubular neoplasm (IAPN)
+lymphomafolliculargi|duodenal type follicular lymphoma
+lymphomanonBenteropathy|enteropathy associated T cell lymphoma
+lymphomaMCL|mantle cell lymphoma

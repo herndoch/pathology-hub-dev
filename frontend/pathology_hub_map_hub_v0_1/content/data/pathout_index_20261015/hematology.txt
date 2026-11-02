@@ -1,0 +1,54 @@
+hematologyanemiaclassification|anemia classification (pending)
+hematofolatedefanemia|folate deficiency anemia
+hematologyirondefanemia|iron deficiency anemia
+hematologyvitaminb12deficiency|Vitamin B12 deficiency
+hematologysemenanalysis|semen analysis
+hematologysynovialfluidcrystals|synovial fluid crystals (pending)
+hematologyneoplasticWBC|neoplastic WBC
+hematologyMBL|B cell monoclonal lymphocytosis
+hematologyCLL|CLL / SLL
+hematologyprolymphocyticleukemia|prolymphocytic leukemia
+hematologyhcl|hairy cell leukemia
+hematologyhclvariant|hairy cell leukemia variant
+hematologynonnodalmantlecell|MCL-leukemic nonnodal
+hematologyatll|ATLL
+hematologyhepatosplenic|hepatosplenic T cell lymphoma
+hematologysezary|Sezary syndrome
+hematologyTcellpro|T cell prolymphocytic leukemia
+hematologytLGL|T cell large granular lymphocytic leukemia
+hematologychronicNK|chronic lymphoproliferative disorders of NK cells
+hematologyNKcell|aggressive NK cell leukemia
+bonemarrowhowelljollybodies|RBC inclusions
+hematologyanaplasma|Anaplasma
+hematologybabesia|Babesia
+hematologybburgdorferi|Borrelia burgdorferi
+hematologybrecurrentis|Borrelia recurrentis / relapsing fever (pending)
+hematologymalariapfalciparum|Plasmodium falciparum
+hematologyplasmodiumnonfalc|Plasmodium non-falciparum
+hematologyreactivelymphocytosis|reactive lymphocytosis (pending)
+hematologyreactiveneutrophilia|reactive neutrophilia
+hematologytrypanosomes|trypanosomes (pending)
+hematologyautomation|automation (pending)
+hematoalphathalassemia|alpha thalassemia
+hematologybetathalassemia|beta thalassemia
+hematologyhemoglobinCdisease|hemoglobin C disease
+hematologyhemoglobinSCdisease|hemoglobin S/C disease (pending)
+hematologyhpfh|hereditary persistence of fetal hemoglobin (HPFH)
+hematologysicklecelldisease|sickle cell disease
+hematologyhemolyticanemia|diagnosing hemolytic anemia
+hematologyTTP|immune thrombotic thrombocytopenic purpura (TTP)
+hematologyPCH|paroxysmal cold hemoglobinuria (PCH)
+hematologyPNH|paroxysmal nocturnal hemoglobinuria (PNH)
+lymphnodesALPS|autoimmune lymphoproliferative syndrome
+lymphnodeschronicgranulomatousdisease|chronic granulomatous disease
+lymphnodesCR3deficiency|CR3 deficiency
+lymphnodesomennssyndrome|Omenn syndrome
+spleenwiskott|Wiskott-Aldrich syndrome
+hematologycsh|crystal storing histiocytosis
+molecularBTK|BTK (pending)
+molecularMYD88|MYD88
+molecularnotch1|NOTCH1
+molecularTRGTRB|TRG and TRB (pending)
+bonemarrowaplasticanemia|aplastic anemia
+lymphomacryoglobulins|cryoglobulinemia
+bonemarrowpureredcellaplasia|pure red cell aplasia

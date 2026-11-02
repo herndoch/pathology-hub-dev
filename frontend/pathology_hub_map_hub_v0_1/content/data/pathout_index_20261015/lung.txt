@@ -1,0 +1,153 @@
+lungnontumoranatomy|anatomy
+lungtumorbiopsies|biopsies
+lungtumorgrossing|grossing & features to report
+lungnontumorhistology|histology
+lungnontumorpatternsofinjury|patterns of injury
+lungtumorradiologypathcorrelation|radiology-pathology correlation (pending)
+lungtumorstaging|staging
+lungtumorWHO|WHO classification
+lungWHOcytopathology|WHO reporting system for lung cytopathology (pending)
+lungnontumorbronchialatresia|bronchial atresia
+lungnontumorBPD|bronchopulmonary dysplasia
+lungnontumorcysticadenomatoid|congenital pulmonary airway malformation (CPAM)
+lungnontumorcysticfibrosis|cystic fibrosis
+lungfetalinterstitial|fetal lung interstitial tumor
+lungnontumorhypoplasia|hypoplasia
+lungnontumorcongenitallobarover|infantile lobar emphysema
+lungnontumorsequestrations|sequestrations
+lungnontumorasbestosis|asbestosis
+lungnontumorcoalworker|coal workers' pneumoconiosis
+lungnontumorsilicosis|silicosis
+lungotherpneumoconiosis|other pneumoconiosis
+lungnontumorasthma|asthma
+lungnontumorchronicbronchitis|chronic bronchitis
+lungnontumoremphysema|emphysema
+lungnontumorinfectionsgeneral|acute pneumonia
+lungnontumorlegion|Legionella
+lungnontumormalakoplakia|malakoplakia
+lungnontumoratypicalmyco|mycobacteria non-TB
+lungnontumormycoplasma|Mycoplasma pneumoniae
+lungnontumornocardiosis|Nocardia
+lungnontumorpseudomonas|Pseudomonas
+lungnontumorstaphpneumonia|Staphylococcus aureus
+lungnontumorTB|tuberculosis
+lungnontumorpulmonaryzoonoses|pulmonary zoonoses
+lungnontumoraspergillosis|Aspergillus
+lungnontumorcoccidio|Coccidioides
+lungnontumorhistoplasma|Histoplasma
+lungnontumorPCP|pneumocystis
+lungnontumorotherfungi|other fungi
+lungnontumorstrongyloides|Strongyloides
+lungnontumorotherparasites|other parasites
+lungnontumoradenovirus|adenovirus
+lungnontumorCMV|CMV
+lungnontumorcovid|COVID-19
+lungnontumorHSV|Herpes simplex
+lungnontumorAIDS|HIV
+lungnontumorinfluenza|Influenza
+lungnontumormeasles|Measles
+lungnontumorrsv|RSV
+lungnontumorSARS|SARS
+lungnontumorVZV|Varicella zoster
+lungnontumorbronchocentric|bronchocentric granulomatosis
+lungnontumorallergicgran|eosinophilic granulomatosis with polyangiitis (EGPA)
+lungnontumorgranulomatosiswithpolyangiitis|granulomatosis with polyangiitis (GPA)
+lungnontumorhyalinizinggran|hyalinizing granuloma
+lungnontumorextrinsicallergic|hypersensitivity pneumonitis
+lungnontumorsarcoidosis|sarcoidosis
+lungnontumorgiantcellpneumonia|giant cell interstitial pneumonia
+lungnontumorIPAF|interstitial pneumonia with autoimmune features
+lungnontumorlipoidpneumonia|lipoid pneumonia
+lungnontumorLIP|lymphoid interstitial pneumonia
+lungnontumornonspecificintpneumo|nonspecific interstitial pneumonia
+lungnontumorrheumatoid|rheumatoid lung disease
+lungnontumorUIP|UIP / IPF
+lungnontumorDIP|alveolar macrophage pneumonia (desquamative interstitial pneumonitis)
+lungnontumorrespbronchiolitis|respiratory bronchiolitis
+lungnontumorvaping|vaping associated acute lung injury
+lungapicalcap|pulmonary apical cap (pending)
+lungnontumordiffusealveolardamageafop|acute fibrinous and organizing pneumonia
+lungnontumoracuteinterstitialp|idiopathic diffuse alveolar damage (acute interstitial pneumonia)
+lungnontumordiffusealveolardamage|ARDS / DAD
+lungnontumorBOOP|organizing pneumonia
+lungnontumoreosinophilic|eosinophilic pneumonia
+lungnontumoramiodarone|amiodarone induced pulmonary toxicity
+lungnontumordruginduced|drug induced pneumonitis
+lungnontumorloeffler|Loeffler syndrome
+lungnontumoralveolarprotein|alveolar proteinosis
+lungnontumoramyloid|amyloidosis
+lungnontumoramyloidnodular|nodular amyloid (amyloidoma)
+lungnontumorroundedat|atelectasis
+lungnontumorbronchiectasis|bronchiectasis
+lungnontumorgoodpasture|Goodpasture syndrome
+lungnontumoridiopulmhemo|idiopathic pulmonary hemosiderosis
+lungnontumorinfarct|infarct / pulmonary emboli
+lungnontumorIBD|inflammatory bowel disease
+lungnontumorivda|intravenous drug abusers
+lungnontumorpulmonaryhyperplexart|plexiform arteriopathy
+lungnontumorpulmonaryedema|pulmonary edema
+lungnontumorpulmonaryhyper|pulmonary hypertension
+lungnontumorplacentaltrans|pulmonary placental transmogrification
+lungnontumorradiationinduced|radiation induced lung disease
+lungnontumorlungtransp|transplantation / rejection
+lungtumoradenomagen|adenoma
+lungtumorsclerosingheman|sclerosing pneumocytoma
+lungtumorsquamouspapilloma|squamous / glandular / mixed papilloma
+lungtumordysplasiagen|preinvasive-general
+lungtumorbronchAAH|atypical adenomatous hyperplasia
+lungtumoradenoinsitu|adenocarcinoma in situ
+lungsquamouscellcarcinomainsitu|squamous cell carcinoma in situ
+lungtumoradenocarcinoma|adenocarcinoma overview
+lungtumorcolloidadeno|colloid
+lungtumoradenoenteric|enteric
+lungtumoradenofetal|fetal
+lungtumorinvmucadenocarcinoma|invasive mucinous
+lungtumoradenolepidic|lepidic adenocarcinoma
+lungtumoradenominimallyinvasive|minimally invasive
+lunglymphoepithelialcarcinoma|lymphoepithelial carcinoma
+lungtumorSCC|squamous cell carcinoma
+lungtumordipnech|diffuse idiopathic pulmonary neuroendocrine hyperplasia
+lungtumortumorlet|carcinoid tumorlet
+lungtumorcarcinoid|typical carcinoid tumor / neuroendocrine tumor, grade 1
+lungtumoratypicalcarcinoid|atypical carcinoid tumor / neuroendocrine tumor, grade 2
+lungtumorlargecellNE|large cell neuroendocrine carcinoma
+lungtumorsmallcell|small cell carcinoma
+lungtumorcarcinosarcoma|carcinosarcoma
+lungtumorpleomorphic|pleomorphic carcinoma
+lungtumorpulmonaryblastoma|pulmonary blastoma
+lungtumorACC|adenoid cystic carcinoma
+lungtumorepithelialmyo|epithelial myoepithelial carcinoma
+lunghyalinizingclearcellcarcinoma|hyalinizing clear cell carcinoma
+lungtumormucoepidermoid|mucoepidermoid carcinoma
+lungmyoepithelioma|myoepithelioma
+lungtumoradenoma|pleomorphic adenoma
+lungtumoradenosquamous|adenosquamous
+lungtumorlargecell|large cell
+lungtumorLEL|lymphoepithelioma-like
+lungtumornutcarcinoma|NUT carcinoma
+lungtumorb9metastasizingleio|benign metastasizing leiomyoma
+lungtumordiffusepulm|diffuse pulmonary lymphangiomatosis
+lungtumorEHE|epithelioid hemangioendothelioma
+lungtumorinflammatorypseudotumor|inflammatory myofibroblastic tumor
+lungtumorlipoma|lipoma
+lungtumorlymphangioleiomyomatosis|lymphangioleiomyomatosis
+lungtumorleiomyomatoushamartomas|multiple pulmonary leiomyomatous hamartomas
+lungtumorclearcell|PEComa (clear cell tumor)
+lungtumorPPB|pleuropulmonary blastoma
+lungtumorprimpulmmyxsarcoma|primary pulmonary myxoid sarcoma with EWSR1::CREB1 fusion
+lungtumorpais|pulmonary artery intimal sarcoma
+lungtumorhemangiomatosis|pulmonary capillary hemangiomatosis
+lungtumorhamartoma|pulmonary hamartoma
+lungtumorErdheimChester|Erdheim-Chester disease
+lungtumorintravascularLBCL|intravascular large B cell lymphoma
+lungtumorLCH|Langerhans cell histiocytosis
+lungtumorlymphomatoidgran|lymphomatoid granulomatosis
+lungpnlh|pulmonary nodular lymphoid hyperplasia (PNLH) (pending)
+lungtumorgermcell|germ cell (pending)
+lungtumorintrapulmonarythymoma|intrapulmonary thymoma (pending)
+lungtumormeningioma|meningioma (pending)
+lungtumormetastases|metastases
+lungtumormicronodpneumohyper|micronodular pneumocyte hyperplasia
+lungtumormpmn|minute pulmonary meningothelial-like nodules
+lungtumorparaganglioma|paraganglioma
+medistinumbronchogeniccyst|bronchogenic cyst

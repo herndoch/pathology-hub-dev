@@ -1,0 +1,158 @@
+breastnormalanatomy|anatomy
+breastmalignantaxillary|axillary lymph nodes
+breastbiopsymarkingdevices|biopsy marking devices
+breastcore|core biopsy
+breastcytology|cytology
+breastmalignantfrozensections|frozen sections
+breastmalignantgrossing|grossing & features to report
+breastnormal|histology
+breastIACYsystem|International Academy of Cytology Yokohama System
+breastmalignantsentinel|sentinel lymph nodes
+breastmalignantstaging|staging
+breastmalignantwhoclassification|WHO classification
+breastamastia|amastia / aplasia / hypoplasia / athelia
+breastpubertalmacromastia|pubertal macromastia
+breastsupernumerary|supernumerary / accessory tissue
+breastacutemastitis|acute mastitis / abscess
+breastamyloidtumor|amyloid
+breastimplantchanges|benign breast implant related changes
+breastcysticgranulomatousmastitis|cystic neutrophilic granulomatous mastitis
+breastductectasia|duct ectasia
+breastfatnecrosis|fat necrosis
+breastforeignbodyreaction|foreign body reaction
+breastgranulomatousmastitis|idiopathic granulomatous mastitis
+breastlymphocyticmastitis|lymphocytic / diabetic mastitis
+breastsiliconebreastimplants|silicone leak / lymphadenopathy
+breastsmold|SMOLD
+breastsparganosis|sparganosis
+breastTB|tuberculosis
+breastadenomyoepithelialadenosis|adenomyoepithelial adenosis
+breastadenosisgeneral|adenosis
+breastapocrineadenosis|apocrine adenosis / apocrine adenoma
+breastapocrinemetaplasia|apocrine metaplasia
+breastcolumnarcelllesion|columnar cell change / hyperplasia
+breastcysts|microcysts
+breastfcc|nonproliferative fibrocystic changes
+breastradialscar|radial scar / complex sclerosing lesion
+breastsclerosingadenosis|sclerosing adenosis
+breastepithelialductalhyperplasia|usual ductal hyperplasia
+breastcollageneousspherulosis|collagenous spherulosis
+breastcystichypersecretoryhyperplasia|cystic hypersecretory hyperplasia
+breastgalactocele|galactocele
+breastgynecomastia|gynecomastia
+breastjuvenilepapillomatosis|juvenile papillomatosis
+breastlactatingadenoma|lactating adenoma
+breastcalcification|microcalcifications
+breastmucocele|mucocele-like lesion
+breastpash|pseudoangiomatous stromal hyperplasia
+breastpseudolactionalhyperplasia|secretory change
+breastsubareolarsclerosing|subareolar sclerosing duct hyperplasia
+breasttransgenderpath|transgender breast pathology
+breastfibroadenoma|fibroadenoma
+breastfibroadenomatoidchange|fibroadenomatoid change
+breasthamartoma|hamartoma
+breastphyllodesgeneral|phyllodes tumor
+breasttubularadenoma|tubular adenoma
+breastadenomyo|adenomyoepithelioma & malignant adenomyoepithelioma
+breastmixedtumor|pleomorphic adenoma
+breastatypicalvascular|atypical vascular proliferation
+breastductaladenoma|ductal adenoma
+breastfibromatosis|fibromatosis
+breastgct|granular cell tumor
+breasthemangioma|hemangioma
+breastpapilloma|intraductal papilloma
+breastleiomyoma|leiomyoma
+breastmicroglandularadenosis|microglandular adenosis
+breastmyofibroblastoma|myofibroblastoma
+breastnipplead|nipple adenoma
+breastschwannoma|schwannoma
+breastsyringomatousadenomanipple|syringomatous tumor
+breastalh|atypical lobular hyperplasia
+breastLCISflorid|LCIS florid
+breastmalignantpleolcis|LCIS pleomorphic
+breastmalignantlcis|lobular carcinoma in situ (LCIS) classic
+breastadh|atypical ductal hyperplasia
+breastflatepithelialatypia|flat epithelial atypia
+breastmalignantDCIS|DCIS
+breastmalignantpaget|Paget disease
+breastmalignantencapsulatedpapillary|encapsulated papillary carcinoma
+breastmalignantpapillary|papillary
+breastmalignantsolidpapillarycarcinoma|solid papillary carcinoma
+breastmalignanthistologic|histologic grading
+breastmalignantinflamcar|inflammatory
+breastmalignantmalecarcinoma|male invasive
+breastmolecularsubtypes|molecular subtypes
+breastmalignantprognosismultigene|multigene expression tumor prognostic profiling in breast cancer
+breastmalignantcarcinomaspread|spread and metastases
+breastmalignanttripleneg|triple negative breast cancer
+breastantibodydrugconjugate|antibody drug conjugate therapy
+breastimmunotherapy|immunotherapy
+breastmalignanttreatmenteffect|neoadjuvant chemotherapy
+breastneoadjuvantendocrinetherapy|neoadjuvant endocrine therapy
+breastmalignanttreatmenteffectradiation|radiation therapy & cryoprobe
+breastmalignantductalNOS|invasive breast cancer of no special type (NST)
+breastchoriocarcinomatous|choriocarcinomatous / pleomorphic patterns
+breastglycogenrich|glycogen rich clear cell
+breastlipidrich|lipid rich
+breastmalignantmedullary|medullary
+breastoncocytic|oncocytic (pending)
+breastosteoclast|osteoclast
+breastsebaceous|sebaceous
+breastmalignantlobularclassic|invasive lobular carcinoma classic
+breastmalignantlobularpleomorphic|invasive pleomorphic lobular carcinoma
+breastsignetringcell|signet ring cell
+breastmalignantmetaplastic|metaplastic
+breastmalignantmetaplasticfibro|fibromatosis-like
+breastmalignantadenosquamous|low grade adenosquamous
+breastmetaplasticcarcinomahetero|metaplastic carcinoma with heterologous mesenchymal differentiation
+breastspindlecellcarcinoma|spindle cell carcinoma
+breastmalignantscc|squamous cell carcinoma
+breastNEC|neuroendocrine carcinoma (NEC)
+breastmalignantneuroendocrine|neuroendocrine tumor
+breastmalignantaciniccellcarcinoma|acinic cell carcinoma
+breastmalignantadenoidcystic|adenoid cystic
+breastmalignantapocrine|apocrine
+breastmalignantcribriform|cribriform
+breastmalignantmicroinvasion|microinvasive
+breastmalignantmicropapillary|micropapillary
+breastmixedNST|mixed NST
+breastmalignantmucinous|mucinous
+breastmalignantmucinouscystadenocarcinoma|mucinous cystadenocarcinoma
+breastmalignantmucoepidermoid|mucoepidermoid
+breastmalignantpolymorphous|polymorphous
+breastmalignantjuvenile|secretory
+breastmalignantspcrp|tall cell carcinoma with reverse polarity
+breastmalignanttubular|tubular
+breastmalignantbrca1|BRCA associated carcinoma
+breastmalignantcystichypersecretoryinvasive|cystic hypersecretory carcinoma
+breastHER2lowbreastcancer|HER2 low breast cancer
+breasther2ultralow|HER2 ultralow breast cancer
+breastmyoepithelioma|myoepithelioma and myoepithelial carcinoma
+breastmalignanttubulolobular|tubulolobular carcinoma
+breastmalignantangiosarcoma|angiosarcoma
+breastmalignantRMS|other sarcomas
+breastwelldifferentiatedliposarcoma|well differentiated liposarcoma
+breastmalignantimplantalcl|breast implant associated anaplastic large cell lymphoma
+breastmalignantlymphoma|lymphoma
+breastmalignantmet|metastases
+breastplasmacellneoplasm|plasma cell neoplasm (pending)
+stainsAR|androgen receptor
+stainscalponin|calponin
+stainsck5and6|CK5
+stainsck7|CK7
+stainsecadherin|E-cadherin
+stainser|ER
+stainsgata3|GATA3
+stainsgcdfp15|GCDFP-15
+stainsbreasther2|HER2 breast
+breastmalignanthormonereceptors|hormone receptors
+breastKi67|Ki67 breast
+stainsmammaglobin|mammaglobin
+stainsdeltaNp63|p40
+stainsp63|p63
+stainsp120|p120 catenin
+stainsPDL1|PDL1 22C3
+stainsprog|PR
+stainssmmhc|SMMHC / smooth muscle myosin heavy chain
+stainssox10|SOX10
+stainsTRPS1|TRPS1

@@ -1,0 +1,43 @@
+mediastinumgeneral|anatomy & thymus histology
+mediastinumgrossing|grossing & features to report
+mediastinumthymomastaging|staging-thymic tumors
+mediastinumsclerosingmediastinitis|IgG4 related sclerosing mediastinitis
+mediastinummyastheniagravis|myasthenia gravis
+mediastinumothernonneoplastic|other nonneoplastic
+mediastinumthymicfollicularhyperplasia|thymic follicular hyperplasia
+mediastinumtruethymichyperplasia|true thymic hyperplasia
+mediastinumbronchogenic|bronchogenic cyst
+mediastinumentericcyst|enteric (esophageal) duplication cyst
+mediastinummeningocele|meningocele-cystic
+mediastinummulleriancyst|Mullerian cyst (Hattori cyst)
+mediastinumpericardialcyst|pericardial cyst
+mediastinumteratoma|teratoma-cystic
+mediastinumthymiccyst|thymic cyst
+mediastinumthymoma|thymoma
+mediastinumthymolipoma|thymolipoma
+mediastinumthoracicSMARCA4deficient|thoracic SMARCA4 deficient undifferentiated tumor
+mediastinumthymiccarcinomanos|thymic carcinoma, NOS (pending)
+mediastinumthymiccarcinomaother|thymic carcinoma-other variants
+mediastinumthymiccarcinoma|thymic squamous cell carcinoma
+mediastinumLEL|lymphoepithelial carcinoma
+mediastinumnutcarcinoma|NUT carcinoma
+mediastinumcarcinoid|carcinoid tumor
+mediastinumneuroendocrinecarcinoma|neuroendocrine carcinoma
+mediastinumcastlemandisease|Castleman disease
+mediastinumerdheimchester|Erdheim-Chester disease
+mediastinumrosaidorfman|Rosai-Dorfman disease
+mediastinumfdcs|follicular dendritic cell sarcoma
+mediastinumhodgkinlymphoma|Hodgkin lymphoma
+mediastinumMALTlymphoma|MALT lymphoma
+mediastinumgrayzonelymphoma|mediastinal gray zone lymphoma
+mediastinummyeloidsarcoma|myeloid sarcoma
+mediastinumprimarymediastinal|primary mediastinal
+mediastinumtlymphoblasticlymphleuk|T lymphoblastic lymphoma / leukemia
+mediastinumganglioneuroblastoma|ganglioneuroblastoma
+mediastinumganglioneuroma|ganglioneuroma
+mediastinumMPNST|malignant peripheral nerve sheath tumor (MPNST)
+mediastinumneurofibroma|neurofibroma
+mediastinumparaganglioma|paraganglioma
+mediastinumschwannoma|schwannoma
+mediastinumgermcell|germ cell tumors
+mediastinumsynovial|synovial sarcoma

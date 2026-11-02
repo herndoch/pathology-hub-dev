@@ -1,0 +1,31 @@
+pleurahistology|anatomy, history, grossing & features to report
+pleurastaging|staging
+pleurapleuraleffusion|pleural effusion
+pleurapleuralplaques|pleural plaques
+pleurapleuritis|pleuritis with pleural effusion
+pleurapneumothorax|pneumothorax
+pleuraadenomatoidtumor|adenomatoid tumor (pleura) (pending)
+pleurab9mesothelial|benign mesothelial proliferations (pleura)
+pleuramesothelioma|diffuse mesothelioma (pleura)
+pleuralocmalmesothelioma|localized mesothelioma (pleura)
+pleuramesotheliomamixed|mesothelioma (pleura)-biphasic
+pleuramesotheliomadesmoplastic|mesothelioma (pleura)-desmoplastic
+pleuramesoinsitu|mesothelioma in situ (pleura)
+pleuramesotheliomaepithelioid|mesothelioma (pleura)-epithelioid
+pleuramesotheliomasarcomatoid|mesothelioma (pleura)-sarcomatoid
+pleuramesovsadeno|mesothelioma versus adenocarcinoma (pleura)
+pleurareactivepleuritis|reactive pleuritis with mesothelial hyperplasia
+pleurawelldiffpapillarymeso|well differentiated papillary mesothelial tumor (pleura) (pending)
+pleurametastases|metastases
+pleuranodularhistiohyper|nodular histiocytic hyperplasia
+pleuraperitoneumadenomatoid|adenomatoid tumor (peritoneum)
+pleuraendosalpingiosis|endosalpingiosis (peritoneum)
+pleuraperitmesothelialhyper|mesothelial hyperplasia (peritoneum)
+pleuraperitmesotheliomageneral|mesothelioma (peritoneum)-overview
+pleuraperitmesothelioma|mesothelioma (peritoneum)-epithelioid
+pleuramesoperisarcobiphas|mesothelioma (peritoneum)-sarcomatoid and biphasic (pending)
+pleuraperitmulticysticmeso|peritoneal inclusion cyst (peritoneum)
+peritoneumwelldiffpapillarymeso|well differentiated papillary mesothelial tumor (peritoneum)
+softtissuesft|solitary fibrous tumor
+mediastinumsynovial|synovial sarcoma-mediastinum
+softtissuesynovialsarc|synovial sarcoma-soft tissue

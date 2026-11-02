@@ -6,5 +6,6 @@ COPY index.html ./www/
 COPY static ./www/static/
 COPY lectures ./www/lectures/
 COPY content ./www/content/
+COPY videos ./www/videos/
 EXPOSE 8080
 CMD ["python", "serve.py"]

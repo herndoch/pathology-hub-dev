@@ -1,0 +1,128 @@
+bonenormalanatomy|anatomy-bone & joints
+bonebiopsy|biopsy
+bonebonegrowth|bone formation and growth
+bonegrossing|grossing, frozen section & features to report
+bonehistology|histology-bone
+jointsnormalhistology|histology-joints
+bonestaging|staging
+boneWHOclass|WHO classification
+boneisland|bone island
+boneFOP|fibrodysplasia ossificans progressiva
+boneskeletaldysplasias|skeletal dysplasias
+bonebacterialosteomyelitis|bacterial osteomyelitis (acute)
+bonechronic|chronic osteomyelitis
+boneTBosteo|tuberculous osteomyelitis
+jointspseudogout|calcium pyrophosphate crystal deposition disease
+jointsDJD|degenerative joint disease
+jointsgout|gout and gouty arthritis
+jointsJRA|juvenile rheumatoid arthritis
+jointslyme|Lyme arthritis
+jointsra|rheumatoid arthritis
+jointssuppurativearthritis|septic arthritis
+jointsspondylodiskitis|spondylodiscitis
+jointsSLE|systemic lupus erythematosus
+jointsTBarthritis|tuberculous arthritis
+boneasepticbonenecrosis|avascular necrosis
+bonehyperarathyroidism|brown tumor
+jointsbursitis|bursitis
+bonecartilaginousrest|cartilaginous rest
+jointscysticmeniscus|cystic meniscus
+jointsdiscmaterial|disc material
+boneepidermoidcyst|epidermoid inclusion cyst
+bonefracture|fracture
+jointsganglion|ganglion cyst
+jointsimplantchanges|implant related changes
+boneinfarct|infarct
+boneloosebodies|osteocartilaginous loose bodies
+jointsosteochondritis|osteochondritis dissecans
+boneosteogenesisimperfecta|osteogenesis imperfecta
+boneosteopetrosis|osteopetrosis
+boneosteoporosis|osteoporosis
+bonerickets|rickets / osteomalacia
+jointssynovialcysts|synovial cysts
+jointssynoviallipomatosis|synovial lipomatosis
+bonemetcalcification|tumoral calcinosis
+boneatypicalcartilaginoustumor|central atypical cartilaginous tumor / chondrosarcoma, grade 1
+bonecentralchondrosarcoma|central chondrosarcoma, grades 2 and 3 (pending)
+bonechondrosarcoma|chondrosarcoma (primary, secondary, periosteal)
+boneclearcellchondrosarcoma|clear cell chondrosarcoma
+bonedediffchondrosarcoma|dedifferentiated chondrosarcoma
+bonesecondaryperipheral|secondary peripheral atypical cartilaginous tumor / chondrosarcoma, grade 1 (pending)
+bonesecondaryperipheralchondro|secondary peripheral chondrosarcoma, grades 2 and 3 (pending)
+softtissueeskchondrosarcomamesenchymal|mesenchymal chondrosarcoma
+boneperiostealchondrosarcoma|periosteal chondrosarcoma
+bonefibrosarcoma|adult fibrosarcoma
+bonedesmoplasticfibroma|desmoplastic fibroma of bone
+bonetenosynovialgiantcell|tenosynovial giant cell tumor
+bonebizarreparosteal|bizarre parosteal osteochondromatous proliferation
+bonechondroblastoma|chondroblastoma
+bonechondromesenchymalhamartoma|chondromesenchymal hamartoma of chest wall
+bonechondromyxoidfibroma|chondromyxoid fibroma
+bonechondromaenchondroma|enchondroma
+boneosteochondroma|osteochondroma
+boneosteochondromyxoma|osteochondromyxoma
+bonechondroma|periosteal chondroma
+bonesubungualexostosis|subungual exostosis
+jointssynovialosteochondromatosis|synovial & tenosynovial chondromatosis
+boneosteoma|osteoma, NOS
+boneosteoidosteoma|osteoid osteoma
+boneosteoblastoma|osteoblastoma, NOS
+boneosteosarcomageneral|osteosarcoma
+boneLGcentralosteo|low grade (central) osteosarcoma
+boneparostealosteo|parosteal osteosarcoma
+boneperiostealosteo|periosteal osteosarcoma
+bonehighgradesurface|high grade surface osteosarcoma
+bonepagetosteo|secondary osteosarcoma
+boneangiosarcoma|angiosarcoma
+bonehemangioendotheliomaepithelioid|epithelioid hemangioendothelioma
+boneepithelioidhemangioma|epithelioid hemangioma
+bonepseudomyogenichemangio|pseudomyogenic hemangioendothelioma
+bonearteriovenousmalformation|arteriovenous malformation (pending)
+bonehemangioma|hemangioma of bone
+bonespindlecellhemangioma|spindle cell hemangioma
+bonesynovialvascularanomalies|synovial vascular anomalies (pending)
+boneabc|aneurysmal bone cyst
+bonegiantcelltumormalignant|giant cell tumor of bone, malignant
+bonegiantcelltumor|giant cell tumor of bone, NOS
+bonemetaphysealfibrousdefect|nonossifying fibroma
+boneBNCT|benign notochordal cell tumor
+bonechordoma|chordoma
+boneadamantinoma|adamantinoma
+bonefibrousdysplasia|fibrous dysplasia
+bonejuxtaarticularmyx|juxta-articular myxoma
+boneinfantilemyofibromatosis|myopericytoma / myofibroma
+bonemyositisossificans|myositis ossificans
+boneosteofibrousdysplasia|osteofibrous dysplasia
+bonesolitarybonecyst|simple bone cyst
+bonesystemicmastocytosis|systemic mastocytosis
+boneMFH|undifferentiated pleomorphic sarcoma
+bonexanthoma|xanthoma
+boneerdheim|Erdheim-Chester disease
+bonelangerhanscellhistiocytosis|Langerhans cell histiocytosis
+bonemazabraud|Mazabraud syndrome
+bonefibrousdysplasiamccunealbright|McCune-Albright syndrome
+bonepagets|Paget disease
+boneBCORCCNB3|sarcomas with BCOR genetic alterations
+bonecicrearranged|CIC rearranged sarcoma
+boneewing|Ewing sarcoma
+boneroundcellsarcomaewsr1|NFATC2 rearranged sarcoma
+stainsae1ae3|AE1 / AE3
+stainsbcor|BCOR
+stainsbrachyury|brachyury
+stainscamta1|CAMTA1
+cdmarkerscd1a|CD1a
+cdmarkerscd68|CD68
+cdmarkerscd99|CD99
+cdmarkerscd138|CD138
+stainsERG|ERG
+stainsfos|FOS
+stainsfosb|FOSB (pending)
+stainsGRM1|GRM1
+stainsH3F3AG34W|H3.3 G34W (H3F3A)
+stainsh33k36m|H3K36M (pending)
+stainsmdm2|MDM2
+stainsmum1|MUM1
+stainsNKX2|NKX2.2
+stainss100|S100
+stainssatb2|SATB2
+stainssox9|SOX9

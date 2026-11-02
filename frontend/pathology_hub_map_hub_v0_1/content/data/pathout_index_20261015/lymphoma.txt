@@ -1,0 +1,111 @@
+lymphomacompositelymphoma|composite lymphoma
+lymphnodesebv|EBV related lymphoid proliferations
+cytopathologyflowcytometry|flow cytometry
+lymphomanonBstagingprimarycutaneous|staging-primary cutaneous
+lymphomawhoclassificationgi|WHO 2019 GI hematolymphoid tumors
+lymphomaWHOHAEM5ICCBcell|WHO 2022 & ICC-B cell
+lymphomaWHOHAEM5ICCTcell|WHO 2022 & ICC-T / NK cell
+lymphomaMBL|monoclonal B cell lymphocytosis
+lymphomaatypicalcll|atypical CLL
+lymphomaCLL|CLL / SLL
+lymphomaprolymphocyticleukemia|prolymphocytic leukemia
+lymphomarichtersyndrome|Richter syndrome
+lymphomaMALT|extranodal marginal zone lymphoma of mucosa associated lymphoid tissue
+lymphomalpl|lymphoplasmacytic lymphoma
+lymphomanodalMZL|nodal marginal zone lymphoma
+lymphomapediatricnodalMZL|pediatric nodal marginal zone lymphoma
+lymphomafollicularnodalusual|follicular-usual
+lymphomafolliculargi|follicular lymphoma-duodenal type
+lymphomafollicularneoplasiainsitu|in situ follicular B cell neoplasm
+lymphomafollicularchildhood|pediatric type follicular lymphoma
+lymphomafolliculartesticular|primary follicular lymphoma-testis
+lymphomafollicularunusual|unusual morphologic patterns of follicular lymphoma
+lymphomaMCL|mantle cell lymphoma
+lymphomaisMCN|in situ mantle cell neoplasm
+lymphomanonnodalmantlecell|MCL-leukemic nonnodal
+lymphomaMCLaggressive|MCL-aggressive variants
+lymphomadiffuse|DLBCL, NOS
+lymphomaburkitt|Burkitt lymphoma
+lymphomaburkittlike11q|high grade B cell lymphoma with 11q aberrations
+lymphomabunclassburkitt|DLBCL / high grade B cell lymphoma with MYC and BCL2 rearrangements
+lymphomahighgradebcell|high grade B cell lymphoma, NOS
+lymphomamediastinal|primary mediastinal
+lymphomairf4rearrangement|LBCL with IRF4 rearrangement
+lymphomanonBNLPHL|nodular lymphocyte predominant Hodgkin lymphoma / nodular lymphocyte predominant B cell lymphoma
+lymphomadiffusetcell|T cell / histiocyte rich LBCL
+lymphomadiffuseEBV|EBV+ DLBCL
+lymphomafibrinassoc|fibrin associated large B cell lymphoma
+lymphomafluidoverloadlbcl|fluid overload associated LBCL
+lymphomamediastinalgrayzone|mediastinal gray zone lymphoma
+lymphomadiffusepyo|diffuse large B cell lymphoma associated with chronic inflammation
+lymphomalymphomatoidgran|lymphomatoid granulomatosis
+lymphomaplasmablastic|plasmablastic lymphoma
+lymphomadiffuseintra|intravascular LBCL
+lymphomaALKpositive|ALK+ LBCL
+lymphomadiffuselargeBcellleg|primary cutaneous DLBCL-leg type
+lymphomafollicularcutaneous2|primary cutaneous follicle center lymphoma
+lymphomaprimarycutaneousmarginal|primary cutaneous marginal zone lymphoma
+lymphomahcl|hairy cell leukemia
+lymphomahclvariant|splenic B cell lymphoma / leukemia with prominent nucleoli
+lymphomaspleniBcellunclassifiable|splenic B cell leukemia / lymphoma
+lymphomasdrpl|splenic diffuse red pulp small B cell lymphoma
+lymphomasplenicmzl|splenic marginal zone lymphoma
+lymphomaprimarytesticular|DLBCL-primary testicular
+lymphomaprimaryCNSlymphoma|primary CNS lymphoma
+lymphomaebvmucocutulcer|EBV+ mucocutaneous ulcer
+lymphomaprimaryimmuno|inborn error of immunity associated lymphoid proliferations and lymphomas
+lymphomanonBAIDSgeneral|lymphomas arising in immune deficiency / dysregulation
+lymphomapmlpd|primary mucosal CD30 positive T cell lymphoproliferative disorder
+lymphomaclassichodgkinptld|PTLD-classic Hodgkin
+lymphomanonBpolymorphicB|PTLD-polymorphic
+lymphomapolymorphicimmunedeficiency|polymorphic lymphoproliferative disorders arising in immune deficiency / dysregulation
+lymphomaHHV8asscmulticastleman|HHV8 associated multicentric Castleman disease
+lymphomaHHV8DLBCL|KSHV / HHV8 positive diffuse large B cell lymphoma
+lymphomaHHV8germinotropicLPD|KSHV / HHV8 positive germinotropic lymphoproliferative disorder
+lymphomaeffusion|primary effusion lymphoma
+lymphomanonBLRHL|CHL lymphocyte rich
+lymphomanonBlymphocytedepleted|CHL lymphocyte depleted
+lymphomanonBmixed|CHL mixed cellularity
+lymphomanonBnshl|CHL nodular sclerosis
+lymphomanonBclassic|classic Hodgkin lymphoma
+lymphomanonBNLPHL2|nodular lymphocyte predominant B cell lymphoma / nodular lymphocyte predominant Hodgkin lymphoma
+lymphomanonBNKcell|aggressive NK cell leukemia
+lymphomanonBatlv|ATLL
+lymphomanonBchronicNK|NK large granular lymphocytic leukemia
+lymphomanonBsezary|Sezary syndrome
+lymphomanonBtLGL|T cell large granular lymphocytic leukemia
+lymphomanonBTcellpro|T prolymphocytic leukemia
+lymphomanonBenteropathy|enteropathy associated T cell lymphoma
+lymphomaindolentNKlymphoprolifGI|indolent NK cell lymphoproliferative disease of the GI tract
+lymphomanonBindolentTcell|indolent T cell lymphoma of the GI tract
+lymphomaintestinalT|intestinal T cell lymphoma, NOS
+lymphomameitl|monomorphic epitheliotropic intestinal
+lymphomaEBVposnodalTNKcell|EBV+ nodal T and NK cell lymphoma
+lymphomanonBnasal|extranodal NK / T cell lymphoma
+lymphomanonBhepatosplenic|hepatosplenic T cell lymphoma
+lymphomanonBperipheral|peripheral T cell lymphoma, NOS
+lymphomanonBanaplasticneg|ALK negative anaplastic large cell lymphoma
+lymphomanonBanaplastic|ALK positive anaplastic large cell lymphoma
+lymphomanonBAITL|nodal TFH cell lymphoma, angioimmunoblastic type
+lymphomaFPTCL|nodal T follicular helper cell lymphoma, follicular type
+lymphomaPTCLTFH|nodal T follicular helper cell lymphoma, NOS
+lymphomamycosisfungoides|mycosis fungoides
+lymphomamycosisfungoidesvariants|mycosis fungoides subtypes
+lymphomanonbacraltcell|primary cutaneous acral CD8+ lymphoproliferative disorder
+lymphomanonBcutaneouscd4|primary cutaneous CD4+ small or medium T cell lymphoproliferative disorder
+lymphomanonBCD8epidermotropic|primary cutaneous CD8+ aggressive epidermotropic cytotoxic T cell lymphoma
+lymphomanonBcutangammadelta|primary cutaneous gamma delta
+lymphomaptclnos|primary cutaneous PTCL, NOS
+lymphomanonBsubcutaneouspan|subcutaneous panniculitis-like T cell lymphoma
+lymphomalymphpapulosis|lymphomatoid papulosis
+lymphomaprimarycutaneousanaplasticlarge|primary cutaneous anaplastic large cell lymphoma
+lymphomahydroavacciniformelympho|hydroa vacciniforme lymphoproliferative disorder
+lymphomamosquito|severe mosquito bite allergy
+lymphomasystemicchronicactiveEBV|systemic chronic active EBV disease
+lymphomanonBchild|systemic EBV+ T cell lymphoma of childhood
+lymphomanonBwhotcell|WHO 2016 T/NK cell
+lymphomabcellwho|WHO 2017 B cell
+lymphnodesALL|acute lymphoblastic leukemia / lymphoma
+lymphomaTcelllymphoblasticleukemia|early T cell precursor lymphoblastic leukemia
+lymphomaNKlymphoblastic|NK lymphoblastic leukemia / lymphoma (pending)
+leukemiaTall|T lymphoblastic lymphoma / leukemia

@@ -1,0 +1,35 @@
+forensicsammunitions|ammunitions (pending)
+forensicsautopsytechniques|autopsy techniques
+forensicscauses|cause, manner, mechanism of death & death certificate
+forensicsdeathsincustody|deaths in custody (pending)
+forensicsradiology|forensic radiology
+forensicstoxicology|forensic toxicology
+forensicshomicidenaturalcauses|homicide by natural causes (pending)
+forensicsidentification|identification
+forensicsmassdisasterfatalities|mass disaster fatalities
+forensicsmaternalmortality|maternal mortality (pending)
+autopsypostmortemartifact|postmortem artifacts (pending)
+forensicspostmortem|postmortem changes
+forensicschemistry|postmortem chemistry
+forensicspostmorteminfections|postmortem microbiology & infections (pending)
+forensicssceneinvestigation|scene investigation (pending)
+forensicsautopsygeneral|autopsy report-general
+autopsyancillary|ancillary investigations
+forensicsheartdissection|basic heart dissection techniques for forensic purposes
+forensicsautopsyFAD|summary & opinion, expert testimony
+forensicsasphyxia|asphyxia
+forensicsbluntforce|blunt force injuries
+forensicschildabuse|child abuse
+forensicsdrowning|drowning
+forensicselderabuse|elder abuse
+forensicsenvironmentaldeaths|environmental deaths
+forensicsentomology|forensic entomology
+forensicsneuropathologycontusions|forensic evaluations of brain contusions
+forensicsneuropathologyspinalcord|forensic evaluations of spine and spinal cord traumatic injury
+forensicsneuropathologytai|forensic evaluations of traumatic axonal injury
+forensicsgunshotwounds|gunshot wounds
+autopsysharpforce|sharp force injuries
+heartsuddendeath|sudden cardiac death
+forensicspediatricdeaths|sudden unexpected deaths in infants and children
+forensicsintrapostopdeaths|therapy related deaths
+forensicsmotorvehicledeaths|traffic related deaths

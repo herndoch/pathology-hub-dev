@@ -1,0 +1,52 @@
+esophagusnormalhistology|anatomy, embryology & histology
+esophagusgrossing|grossing & features to report
+esophagusstaging|staging
+esphaguswhoclassification|WHO classification
+esophagusatresia|atresia and tracheoesophageal fistula (pending)
+esophaguscysts|esophageal cysts and duplications
+esophagusectopicsebaceousglands|heterotopic / ectopic sebaceous glands
+esophagusectopicgastric|heterotopic gastric mucosa
+esophagusectopicpancreatic|pancreatic acinar metaplasia
+esophagusesophagitisgen|esophagitis-overview
+esophaguscandidaesophagitis|Candida
+esophaguschemical|chemical (corrosive) esophagitis
+esophagusCMVesophagitis|CMV esophagitis
+esophaguscrohn|Crohn's disease
+esophaguseosinophilic|eosinophilic esophagitis
+esophagusGVHD|graft versus host disease
+esophagusHSV|HSV esophagitis
+esophaguslichenplanus|lichenoid esophagitis
+esophaguslymphocyticesophagitis|lymphocytic esophagitis
+esophaguspillinduced|pill induced esophagitis
+esophagusirradiation|radiation esophagitis
+esophagusreflux|reflux esophagitis / gastroesophageal reflux disease
+esophagusachalasia|achalasia and motor disorders
+esophagusdiverticula|diverticula
+esophagusdermdiseasemanifest|esophageal manifestation of dermatologic disease (pending)
+esophaguseds|esophagitis dissecans superficialis / sloughing esophagitis
+esophagusmelanocytosis|melanocytosis
+esophagusglycogenic|glycogenic acanthosis
+esophagusvarices|varices
+esophagusgct|granular cell tumor
+esophagusleiomyoma|leiomyoma
+esophagussquamouspapilloma|squamous papilloma
+esophagusBarrettsgeneral|Barrett esophagus
+esophagusdysplasia|Barrett related dysplasia
+esophagusepidermization|epidermoid metaplasia
+esophagussquamousdysplasia|squamous dysplasia
+esophaguscarcinomageneral|esophageal carcinoma-overview
+esophagusadenocarcinoma|adenocarcinoma of the esophagus and GE junction
+esophagusadenosquamous|adenosquamous carcinoma
+esophagusbasaloidSCC|basaloid squamous cell carcinoma
+esophagusmucoepidermoidcarc|mucoepidermoid carcinoma (pending)
+esophagusneuroendocrine|neuroendocrine carcinoma
+esophagussarcomatoid|sarcomatoid carcinoma
+esophagusscc|squamous cell carcinoma
+esophagusundiffcarcinoma|undifferentiated carcinoma
+esophagusverrucousscc|verrucous squamous cell carcinoma
+esophaguscarcinoid|well differentiated neuroendocrine tumor
+esophagussarcomagen|esophageal sarcoma-overview
+esophagusGIST|gastrointestinal stromal tumor
+esophagusfibrovascularpolyp|giant fibrovascular polyp / well differentiated liposarcoma
+esophaguslymphoma|lymphoma
+esophagusmelanoma|melanoma

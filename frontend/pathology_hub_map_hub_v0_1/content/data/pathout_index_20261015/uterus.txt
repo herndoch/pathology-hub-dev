@@ -1,0 +1,46 @@
+uterusnormal|anatomy & histology
+uterusendobiopsybenign|endometrial biopsy reporting benign / metaplasia
+uterusgrossing|grossing & features to report
+uterusstaging|staging-carcinoma and carcinosarcoma
+uterusstagingsarcoma|staging-sarcoma
+uterusWHO|WHO classification (pending)
+uterusdub|abnormal uterine bleeding
+uterusadenomyosis|adenomyosis / adenomyoma
+uterusariasstella|Arias-Stella reaction
+uterusatrophy|atrophy
+uterusdisorderedproliferative|disordered proliferative
+uterusmetaplasia|endometrial metaplasia
+uterusendopolyp|endometrial polyp
+uterusendometritis|endometritis
+uterusexogenoushor|exogenous hormones
+uterusfmtransgenderhistologic|histology of specimens from gender affirming surgery in individuals assigned female at birth
+uterusendometrialhyperplasiageneral|endometrial hyperplasia
+uterusprogestinrelated|progestin therapy related changes
+uterusendometrialcarc|endometrial carcinoma-general
+uterusmmmt|carcinosarcoma (MMMT)
+uterusclearcell|clear cell carcinoma
+uterusendometrioid|endometrioid carcinoma
+uterusgastriccarcinoma|gastric (gastrointestinal) type carcinoma (pending)
+uterusmesonephricendocarc|mesonephric-like adenocarcinoma
+uterusmixedcarcinoma|mixed carcinoma of the uterine corpus
+uterusPOLEendometrialcarcinoma|POLE ultramutated endometrial carcinoma
+uterusserous|serous carcinoma
+uterusundifferentiated|undifferentiated / dedifferentiated carcinoma (endometrium / ovary)
+uterusleiomyoma|leiomyoma-general
+uterusleiomyomaintravascular|intravenous and diffuse leiomyomatosis
+uterusSTUMP|smooth muscle tumors of uncertain malignant potential
+uteruslms|leiomyosarcoma
+uterusstromalnodule|endometrial stromal nodule
+uterusESShighgrade|high grade endometrial stromal sarcoma
+uterusESSlowgrade|low grade endometrial stromal sarcoma
+uterusalveolarsoftpartssarcoma|alveolar soft part sarcoma
+uterusinflammpseudo|inflammatory myofibroblastic tumor
+uterusPEComa|perivascular epithelioid cell tumor (PEComa)
+uterusSMARCA4sarcoma|SMARCA4 deficient uterine sarcoma
+uterussarcoma|undifferentiated uterine sarcoma
+uterusUTROSCT|uterine tumors resembling ovarian sex cord tumors
+uterusapa|atypical polypoid adenomyoma
+uterusadenosarcoma|Mullerian adenosarcoma
+uterusadenomatoid|adenomatoid tumor
+uteruscentralprimitiveneuro|central primitive neuroectodermal tumour / CNS embryonal tumor (pending)
+uterusgermcelltumors|germ cell tumors of the uterine corpus (pending)

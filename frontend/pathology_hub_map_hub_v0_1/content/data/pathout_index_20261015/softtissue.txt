@@ -1,0 +1,217 @@
+softtissuegrading|grading
+softtissuevascnormal|histology-blood vessels
+softtissueadiposewhitefat|histology-brown and white adipose
+softtissuefibrousnormal|histology-fibrous tissue & nerve
+softtissueskeletalnormal|histology-skeletal muscle
+softtissuesmoothmuscle|histology-smooth muscle
+softtissueinterventionalcytopathology|interventional cytopathology (pending)
+softtissueissvaclassification|ISSVA classification for vascular anomalies (pending)
+softtissuemolecular|soft tissue and bone molecular
+softtissuestaging|staging
+softtissuestaginggist|staging-GIST
+softtissuewhoclassification|WHO classification
+softtissueWHOcytopathology|WHO reporting system for soft tissue cytopathology (pending)
+softtissueadiposelipoma|lipoma
+softtissueadiposeangiolipoma|angiolipoma
+softtissueadiposechondroid|chondroid lipoma
+softtissueadiposemyolipoma|myolipoma
+softtissueadiposepleomorphicgeneral|spindle cell / pleomorphic lipoma
+softtissueadiposehibernoma|hibernoma
+softtissuelipoblastomalike|lipoblastoma-like tumor (pending)
+softtissueadiposelipoblastoma|lipoblastoma / lipoblastomatosis
+softtissueadiposelipomatosis|lipomatosis
+softtissueadiposelipomatosisnerve|lipomatosis of nerve
+softtissuewdliposarcoma|atypical lipomatous tumor / well differentiated liposarcoma
+softtissueaslt|atypical spindle cell / pleomorphic lipomatous tumor
+softtissuededifflipo|dedifferentiated liposarcoma
+softtissuemyxoidliposarcoma|myxoid liposarcoma
+softtissuemyxoidpls|myxoid pleomorphic liposarcoma
+softtissueadiposepleomorphiclipo|pleomorphic liposarcoma
+softtissueeskosteo|extraskeletal osteosarcoma
+softtissueeskchondroma|soft tissue chondroma
+softtissueangiofibroma|angiofibroma of soft tissue
+softtissueangiomyofibroblastoma|angiomyofibroblastoma
+softtissuecalcifying|calcifying aponeurotic fibroma
+softtissuecalcifyingfibrous|calcifying fibrous tumor
+softtissuecellularangiofibroma|cellular angiofibroma
+skintumornonmelanocyticdeepbfh|deep fibrous histiocytoma
+skintumornonmelanocyticdfsp|dermatofibrosarcoma protuberans (DFSP)
+softtissuecollagenousfibroma|desmoplastic fibroblastoma
+softtissueelastofibroma|elastofibroma
+softtissueepiinflammyofibroblastic|epithelioid inflammatory myofibroblastic sarcoma (pending)
+softtissueesft|EWSR1::SMAD3 positive fibroblastic tumor
+softtissuefibromatendon|fibroma of tendon sheath
+softtissuefibroushamart|fibrous hamartoma of infancy
+softtissuegardnerfibroma|Gardner fibroma
+softtissuegiantcellfibro|giant cell fibroblastoma
+softtissuegct|giant cell tumor of soft tissue
+softtissueinflammyofibro|inflammatory myofibroblastic tumor
+softtissueintranodalpalisaded|intranodal palisaded myofibroblastoma
+softtissueischemicfasciitis|ischemic fasciitis
+softtissuekeratinposgiantcell|keratin positive giant cell rich tumor
+softtissuemyositis|myositis ossificans and fibro-osseous pseudotumor of digits
+softtissuenf|nodular fasciitis
+softtissuenuchaltypefibroma|nuchal type fibroma
+softtissueplexiformfh|plexiform fibrohistiocytic tumor
+softtissueproliferativefasciitis|proliferative fasciitis
+softtissueproliferativemyositis|proliferative myositis
+softtissueprrx1rearranged|PRRX1 rearranged mesenchymal tumors
+softtissuesft|solitary fibrous tumor
+softtissuesuperficialacral|superficial acral fibromyxoma
+softtissuesuperficialcd34fibro|superficial CD34+ fibroblastic tumor
+softtissuegctlocal|tenosynovial giant cell tumor
+softtissuefibromatosiscolli|fibromatosis colli
+softtissuefibromatosisdeep|fibromatosis-desmoid
+softtissuefibromatosissuperficial|fibromatosis-palmar / plantar
+softtissuefibromatosishyalinica|hyaline fibromatosis syndrome
+softtissueinfantiledigitalfibromatosis|inclusion body fibromatosis
+softtissuelipofibromatosis|lipofibromatosis
+softtissuefibrosarcoma|adult fibrosarcoma
+softtissuefibrosarcomainfantile|infantile fibrosarcoma
+softtissuelgfibromyxoid|low grade fibromyxoid sarcoma
+softtissuelowgradmyofibroblasticsarcoma|low grade myofibroblastic sarcoma
+softtissuemyxofibrosarcoma|myxofibrosarcoma
+softtissuemyxoinflammatory|myxoinflammatory fibroblastic sarcoma
+softtissuesclerosingepithelioidfibrosarcoma|sclerosing epithelioid fibrosarcoma
+softtissueGIST|gastrointestinal stromal tumor (GIST)
+softtissueneurofibroma|neurofibroma-general
+softtissueneurofibromaplexiform|plexiform neurofibroma
+softtissueneuromuscularhamartoma|benign triton tumor / neuromuscular choristoma
+softtissuenervesheathmyxoma|dermal nerve sheath myxoma
+softtissueectopicmeningioma|ectopic meningioma
+softtissuegranularcell|granular cell tumor
+softtissuehybridnervesheath|hybrid nerve sheath tumor
+softtissueneuroma|neuroma
+softtissueperineurioma|perineurioma
+softtissueschwannoma|schwannoma
+softtissuesolitarycircneuroma|solitary circumscribed neuroma
+softtissuemmnst|malignant melanotic nerve sheath tumor
+softtissuempnst|malignant peripheral nerve sheath tumor (MPNST)
+softtissueinflammatoryleiomyosarcoma|inflammatory rhabdomyoblastic tumor
+softtissueadultrhabdomyoma|rhabdomyoma
+softtissuevgll3rearranged|VGLL3 rearranged spindle cell rhabdomyoblastic tumor (pending)
+softtissuealvrhabdo|alveolar rhabdomyosarcoma
+softtissueembryonalrhabdo|embryonal rhabdomyosarcoma
+softtissuepleomorphicrhabdo|pleomorphic rhabdomyosarcoma
+softtissuesclerosingrhabdo|spindle cell / sclerosing rhabdomyosarcoma
+softtissueebv|Epstein-Barr virus associated smooth muscle tumor
+softtissueleiomyoma|leiomyoma
+softtissueleiomyosarcoma|leiomyosarcoma
+softtissuearteriovenousmalformation|arteriovenous malformation
+softtissueverrucousvenousmalformation|verrucous venous malformation
+softtissuemasson|papillary endothelial hyperplasia
+softtissuelymphangiomaradiation|atypical vascular lesion post radiation
+softtissueanastomosinghemangioma|anastomosing hemangioma
+softtissuelymphangiomacystic|cystic / cavernous lymphangioma
+softtissueepithelioidhemangioma|epithelioid hemangioma
+softtissuehemangioma|hemangioma & variants
+softtissuehemangiomaintramuscular|intramuscular angioma
+softtissuelymphangioma|lymphangioma
+softtissuevenoushemangioma|venous hemangioma
+softtissuehemangioendotheliomacomposite|composite hemangioendothelioma
+softtissuehemangioendotheliomaepithelioid|epithelioid hemangioendothelioma
+softtissuehemangioendotheliomakaposiform|kaposiform hemangioendothelioma & tufted angioma
+softtissuekaposi|Kaposi sarcoma
+softtissuehemangioendotheliomaendovascular|papillary intralymphatic angioendothelioma
+softtissuepseudomyogenichemangio|pseudomyogenic hemangioendothelioma
+softtissuehemangioendotheliomaretiform|retiform hemangioendothelioma
+softtissueangiosarcoma|angiosarcoma
+softtissueangioleiomyoma|angioleiomyoma
+softtissueglomus|glomus tumor
+softtissuemyopericytoma|myopericytoma / myofibroma
+softtissueSRFmyoidneoplasm|SRF rearranged myoid neoplasm
+softtissueacralfibrochondromyxoid|acral fibrochondromyxoid tumor
+softtissuealveolarsoft|alveolar soft part sarcoma
+softtissuefhangiomatoid|angiomatoid fibrous histiocytoma
+softtissuechondroidsynoviocytic|chondroid synoviocytic neoplasm (pending)
+boneCICDUX4|CIC rearranged sarcoma
+softtissueclearcellsarcoma|clear cell sarcoma of soft tissue
+softtissueDSRCT|desmoplastic small round cell tumor
+softtissueepithelioidsarcoma|epithelioid sarcoma
+softtissueewing|Ewing sarcoma
+softtissuerhabdoidtumor|extrarenal rhabdoid tumor
+softtissueeskchondrosarcomamyxoid|extraskeletal myxoid chondrosarcoma
+softtissueFETCREBepithelioid|FET::CREB epithelioid mesenchymal tumor (pending)
+softtissueGLI1altered|GLI1 altered soft tissue tumors
+softtissueintimalsarcoma|intimal sarcoma
+softtissuemyxoma|intramuscular myxoma
+jointsjuxtaarticularmyxoma|juxta-articular myxoma
+softtissuentrkrearranged|kinase altered spindle cell neoplasm
+softtissuekmt2arearranged|soft tissue - KMT2A rearranged sarcoma (pending)
+softtissuemyoepithelialca|myoepithelioma / myoepithelial carcinoma / mixed tumor
+softtissueNFATC2sarc|NFATC2 rearranged sarcoma (pending)
+softtissueNUTM1rearranged|NUTM1 rearranged sarcoma
+softtissueOGTrearrangedmesenchymal|OGT rearranged mesenchymal neoplasm
+softtissueossifyingfibromyxoid|ossifying fibromyxoid tumor
+softtissueoset|ossifying spindled and epithelioid tumor (OSET)
+softtissuepatz1rearranged|PATZ1 rearranged sarcoma
+softtissuepecoma|perivascular epithelioid cell tumor (PEComa)
+softtissuephosphaturic|phosphaturic mesenchymal tumor
+softtissuephat|pleomorphic hyalinizing angiectatic tumor
+softtissuepseudoendocrinesarc|pseudoendocrine sarcoma
+softtissuesuperficialFETETSneuro|superficial FET::ETS neurocristic tumor (pending)
+softtissuesynovialsarc|synovial sarcoma
+softtissuemfhpleo|undifferentiated / unclassified sarcoma
+softtissuehematoma|hematoma
+softtissuemassivelocalizedlymphedema|massive localized lymphedema
+softtissuemorellavallee|Morel-Lavallee lesions
+jointsmortonsneuroma|Morton neuroma
+softtissuemycobacterialspindlecell|mycobacterial spindle cell tumor
+softtissuenecrotizingfasciitis|necrotizing fasciitis
+softtissuepmpf|perinephric myxoid pseudotumor of fat
+softtissuetumoralcalcinosis|tumoral calcinosis
+softtissuefibroadiposevascanomaly|fibroadipose vascular anomaly (pending)
+softtissuemuc4posfibroblastoma|MUC4 positive fibroblastoma (pending)
+stainsae1ae3|AE1 / AE3
+stainsALK|ALK1
+stainsBCOR|BCOR
+stainsbetacatenin|beta catenin
+stainscaldesmon|caldesmon
+stainsCAMTA1|CAMTA1
+stainsCCNB3|CCNB3
+cdmarkerscd31|CD31
+cdmarkerscd34|CD34
+cdmarkerscd99|CD99
+stainscdk4|CDK4
+stainsD240|D2-40
+stainsDDIT3|DDIT3 (pending)
+stainsdesmin|desmin
+stainsDOG1|DOG1
+stainsDUX4|DUX4
+stainsEBER1|EBER
+stainsEMA|EMA
+stainsERG|ERG
+stainsETV4|ETV4
+stainsfactorxiiia|factor XIIIa
+stainsfli1|FLI1
+stainsfosb|FOSB (pending)
+stainsglut1|GLUT1
+stainsh3k27me3|H3K27me3
+stainshhv8|HHV8 / LANA1
+stainshmb45|HMB45
+stainsinsm1|INSM1
+cdmarkerscd117|c-kit / CD117
+stainsmdm2|MDM2
+stainsmart1|MelanA
+stainsmuc4|MUC4
+stainsmyod1|MYOD1
+stainsmyogenin|myogenin
+stainsNKX2|NKX2.2
+stainsnkx3|NKX3.1
+stainsnr4a3|NR4A3
+stainsntrk|pan-TRK
+stainsPAX3|PAX3 (pending)
+stainsPRKAR1A|PRKAR1A
+stainsPROX1|PROX1
+stainsrb|RB1
+stainss100|S100
+stainSDHB|SDHB
+stainsSMARCA4BRG1|SMARCA4 / BRG1
+stainsini1|SMARCB1 / IN1
+stainsalphasmoothmuscleactin|SMA
+stainssox10|SOX10
+stainsstat6|STAT6
+stainsSYTSSX|SYT / SSX
+stainstfe3|TFE3
+stainstle1|TLE1
+stainsWT1|WT1

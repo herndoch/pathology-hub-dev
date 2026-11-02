@@ -1,0 +1,34 @@
+anusanatomy|anatomy & histology
+anusreport|grossing & features to report
+anusstaging|staging
+anuswhoclassification|WHO classification
+anushypertrophicherpes|anogenital hypertrophic herpes
+anuscytomegavirus|cytomegavirus
+anusgranulomainguinale|granuloma inguinale
+anusLGV|lymphogranuloma venereum
+anussyphilis|syphilis
+anuscrohns|Crohn's disease
+anusanalfissure|fissure
+anusanalfistula|fistula
+anushemorrhoids|hemorrhoids
+anushypertrophiedpapillae|hypertrophied papillae
+anusinflamcloaco|inflammatory cloacogenic polyp
+anustailgutcyst|tailgut cyst
+anusbuschkelowenstein|Buschke-Lowenstein tumor
+anuscondyloma|condyloma acuminatum
+anushpvindependentneoplasia|HPV independent anal neoplasia (pending)
+anusdysplasia|squamous dysplasia
+anuscarcinomageneral|carcinoma overview
+anusadenocarcinoma|adenocarcinoma
+anusapocrinecarcinoma|apocrine carcinoma
+anusbasalcell|basal cell carcinoma
+anusmixedneurononneuroneoplasms|mixed neuroendocrine nonneuroendocrine neoplasms (pending)
+anuspagets|Paget disease
+anussmallcell|neuroendocrine carcinoma
+anusneuroendocrinetumor|neuroendocrine tumor
+anusscc|squamous cell carcinoma
+anusverrucous|verrucous carcinoma
+anusGCT|granular cell tumor
+anushidradenomapapilliferum|hidradenoma papilliferum
+anusintradermalnevus|intradermal nevus
+anusmelanoma|melanoma

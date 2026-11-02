@@ -38,6 +38,8 @@
   const sampleModalPageLink = document.getElementById("sample-modal-page-link");
 
   let index = null;
+  let journals = null; // journal_links_v0_1.json: topic path -> {n, articles[]}
+  let pathoutPages = null; // pathout_pages_v0_1.json: topic path -> {u, t}
   let treeRoots = [];
   let pathToNode = new Map();
   let expanded = new Set();
@@ -63,12 +65,13 @@
   }
 
   function leafHas(leaf, mode) {
-    if (mode === "all") return !!(leaf.textbook_items?.length || leaf.who || leaf.pathout);
-    if (mode === "textbooks") return !!(leaf.textbook_items && leaf.textbook_items.length);
+    // Public sources only: textbook samples in the data are never shown on the site.
+    if (mode === "all") return !!(leaf.who || leaf.pathout);
     if (mode === "who") return !!leaf.who;
     if (mode === "pathout") return !!leaf.pathout;
     if (mode === "references") return !!(leaf.who || leaf.pathout);
-    return true;
+    if (mode === "journals") return !!((leaf.who || leaf.pathout) && journals && journals.topics[leaf.path]);
+    return !!(leaf.who || leaf.pathout);
   }
 
   function filterModel(roots) {
@@ -87,10 +90,6 @@
     if (!q) return true;
     const hay = `${node.label} ${node.path} ${node.primary_tag || ""}`.toLowerCase();
     if (hay.includes(q)) return true;
-    for (const it of node.textbook_items || []) {
-      const cHay = `${it.source_title || ""} ${it.source_id || ""} ${it.excerpt || ""}`.toLowerCase();
-      if (cHay.includes(q)) return true;
-    }
     if ((node.who?.query || "").toLowerCase().includes(q)) return true;
     if ((node.pathout?.query || "").toLowerCase().includes(q)) return true;
     return (node.children || []).some((c) => nodeMatches(c, q));
@@ -307,14 +306,20 @@
     detailPath.textContent = leaf.path || leaf.primary_tag || "";
 
     const badges = [];
-    if (leaf.textbook_items?.length) badges.push(`<span class="badge badge-tb">Textbook ×${leaf.textbook_items.length}</span>`);
     if (leaf.who) badges.push(`<span class="badge badge-who">WHO</span>`);
     if (leaf.pathout) badges.push(`<span class="badge badge-pathout">PathOut</span>`);
     detailBadges.innerHTML = badges.join("");
 
+    // Public site: titles and outbound links to the sources only. Saved topic pages, figures and
+    // the reference library stay on chat.pathologynotebook.com (UCSF access).
     const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
-    journalActions.innerHTML = `<a class="action" href="${escapeAttr(chatBase())}/?dx=${q}" target="_blank" rel="noopener">Find in reference library ↗</a>
-      <button type="button" class="action secondary" id="copy-topic-link">Copy topic link</button>`;
+    const links = [];
+    const poPage = leaf.pathout && pathoutPages && pathoutPages.topics[leaf.path];
+    if (poPage) links.push(`<a class="action" href="${escapeAttr(poPage.u)}" target="_blank" rel="noopener" title="${escapeAttr(poPage.t)}">Pathology Outlines: ${escapeHtml(poPage.t)} ↗</a>`);
+    else if (leaf.pathout) links.push(`<a class="action" href="https://www.google.com/cse?cx=partner-pub-3521518608648020:8640627894&q=${q}" target="_blank" rel="noopener">Search Pathology Outlines ↗</a>`);
+    if (leaf.who) links.push(`<a class="action${leaf.pathout ? " secondary" : ""}" href="https://tumourclassification.iarc.who.int/" target="_blank" rel="noopener">WHO Classification of Tumours ↗</a>`);
+    journalActions.innerHTML = `${links.join("\n      ")}
+      <button type="button" class="action ghost" id="copy-topic-link">Copy topic link</button>`;
     document.getElementById("copy-topic-link").addEventListener("click", async (event) => {
       syncUrl(false);
       const button = event.currentTarget;
@@ -326,13 +331,13 @@
       }
     });
 
-    const items = leaf.textbook_items || [];
+    const items = [];
     itemListEl.innerHTML = "";
     figureImg.classList.add("hidden");
     figureImg.removeAttribute("src");
-    figureCaption.textContent = items.length
-      ? "Select a textbook sample"
-      : (leaf.who || leaf.pathout ? "No textbook samples on this topic. Search the reference library above." : "No samples.");
+    figureCaption.textContent = "";
+    document.getElementById("detail-grid").classList.add("hidden");
+    renderArticles(leaf);
 
     items.forEach((it, i) => {
       const li = document.createElement("li");
@@ -372,10 +377,38 @@
     });
   }
 
+  // Journal articles: titles and links only, from the archived article list (no text, no API).
+  function renderArticles(leaf) {
+    const section = document.getElementById("articles");
+    const list = document.getElementById("article-list");
+    const note = document.getElementById("articles-note");
+    const entry = journals && journals.topics[leaf.path];
+    if (!entry) { section.hidden = true; list.innerHTML = ""; return; }
+    const q = encodeURIComponent(leaf.label.replaceAll("_", " "));
+    note.innerHTML = `${entry.n.toLocaleString()} article${entry.n === 1 ? "" : "s"} from pathology journals whose title names this topic, reviews first. ` +
+      `Each link opens the article itself. <a href="https://pubmed.ncbi.nlm.nih.gov/?term=${q}" target="_blank" rel="noopener">All on PubMed ↗</a>`;
+    list.innerHTML = entry.articles.map((a) => `
+      <li class="article">
+        <a href="${escapeAttr(a.u)}" target="_blank" rel="noopener">${escapeHtml(a.t)}</a>
+        <span class="article-meta">${escapeHtml(a.j)}${a.y ? " · " + escapeHtml(a.y) : ""}${a.r ? ' · <span class="badge badge-review">review</span>' : ""}${a.o ? ' · <span class="badge badge-oa">open access</span>' : ' · <span class="badge badge-sub">subscription</span>'}</span>
+      </li>`).join("");
+    section.hidden = false;
+  }
+
+  function publicLeafCount() {
+    let n = 0;
+    function walk(node) {
+      if (node.kind === "leaf") { if (node.who || node.pathout) n += 1; return; }
+      for (const c of node.children || []) walk(c);
+    }
+    for (const r of (index && index.roots) || []) walk(r);
+    return n;
+  }
+
   function renderStats(counts) {
     statsEl.innerHTML = [
-      ["Leaves", counts.leaves],
-      ["Textbooks", counts.leaves_with_textbooks],
+      ["Topics", publicLeafCount()],
+      ["Articles", journals ? journals.counts.articles_matched : 0],
       ["WHO", counts.leaves_with_who],
       ["PathOut", counts.leaves_with_pathout],
     ].map(([k, v]) => `<div class="stat"><span class="k">${k}</span><span class="v">${Number(v || 0).toLocaleString()}</span></div>`).join("");
@@ -409,7 +442,7 @@
   function restoreUrl() {
     const params = new URLSearchParams(window.location.search);
     filterEl.value = params.get("q") || "";
-    sourceMode = ["all", "textbooks", "who", "pathout", "references"].includes(params.get("source")) ? params.get("source") : "all";
+    sourceMode = ["all", "who", "pathout", "references", "journals"].includes(params.get("source")) ? params.get("source") : "all";
     sourceEl.value = sourceMode;
     activePath = params.get("topic");
     render();
@@ -440,18 +473,26 @@
     if (e.key === "Escape") closeSampleModal();
   });
 
+  const JOURNALS_URL = "data/journal_links_v0_1.json";
+  const PATHOUT_URL = "data/pathout_pages_v0_1.json";
+  const journalsReady = Promise.all([
+    fetch(JOURNALS_URL).then((r) => (r.ok ? r.json() : null)).then((data) => { journals = data && data.topics ? data : null; }).catch(() => { journals = null; }),
+    fetch(PATHOUT_URL).then((r) => (r.ok ? r.json() : null)).then((data) => { pathoutPages = data && data.topics ? data : null; }).catch(() => { pathoutPages = null; }),
+  ]);
+
   fetch(DATA_URL)
     .then((r) => {
       if (!r.ok) throw new Error(`Failed ${DATA_URL}: ${r.status}`);
       return r.json();
     })
+    .then((data) => journalsReady.then(() => data))
     .then((data) => {
       index = data;
       document.title = data.title || document.title;
       if (chatLink && data.chat_url) chatLink.href = data.chat_url;
       renderStats(data.counts || {});
       if (Array.isArray(data.known_limitations)) {
-        limitationsEl.textContent = "Note: " + data.known_limitations.join(" ");
+        limitationsEl.textContent = "Note: " + data.known_limitations.filter((s) => !/textbook/i.test(s)).join(" ");
       }
       // Expand Cytopathology so the single cyto root is obvious
       const cyto = (data.roots || []).find((r) => r.id === "Cytopathology" || r.label === "Cytopathology");

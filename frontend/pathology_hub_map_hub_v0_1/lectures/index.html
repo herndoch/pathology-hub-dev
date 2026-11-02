@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pathology Hub — Lecture map</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Lecture clips · Pathology Knowledge Hub</title>
+  <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="static/style.css" />
 <link rel="stylesheet" href="/static/navigation.css">
   <script src="/static/navigation.js?v=20261010.1" defer></script>
@@ -16,15 +14,20 @@
     <p class="back"><a href="/">← All maps</a></p>
     <header class="top">
       <div class="brand-block">
-        <p class="eyebrow">Pathology Hub · Education map</p>
-        <h1>Lecture map</h1>
+        <p class="eyebrow">Pathology Knowledge Hub</p>
+        <h1>Lecture clips</h1>
         <p class="lede">Click a lecture on the tree to see its topics and short video clips. Share a lecture link or open a clip at its recorded timestamp.</p>
       </div>
       <div class="stats" id="stats" aria-live="polite"></div>
     </header>
 
     <div class="toolbar">
-      <input id="filter" type="search" placeholder="Search lectures or topics…" autocomplete="off" />
+      <div class="site-search" role="search">
+        <div class="wrap">
+          <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+          <input id="filter" type="search" placeholder="Search lectures or topics…" autocomplete="off" aria-label="Search lectures or topics…" />
+        </div>
+      </div>
       <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
       <details class="advanced">
         <summary>Advanced</summary>

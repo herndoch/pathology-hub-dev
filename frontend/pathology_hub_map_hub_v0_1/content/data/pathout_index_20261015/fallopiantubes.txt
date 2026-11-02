@@ -1,0 +1,34 @@
+fallopiantubesnormal|anatomy, histology & embryology
+fallopiantubesgrossing|grossing & features to report (pending)
+fallopiantubesstaging|staging
+fallopianwhoclassification|WHO classification
+fallopiantubeschronicsalpingitis|chronic salpingitis
+fallopiantubesectopicpregnancy|ectopic / tubal pregnancy
+fallopiantubestransitionalcellmetaplasiafimbriae|metaplastic changes
+fallopiantubesprolapse|prolapse
+fallopiantubesendosalpingiosis|endosalpingiosis
+fallopiantubesmetaplasticpapillary|metaplastic papillary lesion
+fallopianmucinousmetaplasia|mucinous metaplasia
+fallopiantubesparatubalcyst|paratubal cysts
+fallopiantubesplacentalsitenodule|placental site nodule
+fallopiantubessin|salpingitis isthmica nodosa
+fallopiantubesepithelialhyper|tubal hyperplasia
+fallopiantubessalpingitis|tubo-ovarian abscess
+fallopiantubecarcinosarcoma|carcinosarcoma
+fallopiantubescarcinoma|endometrioid adenocarcinoma
+fallopiantubesserouscarcinoma|high grade serous carcinoma
+fallopiantubesadenofibroma|serous cystadenoma, adenofibroma and papilloma
+fallopianserousborderlinetumor|serous borderline tumor
+fallopiantubesstic|serous tubal intraepithelial carcinoma
+fallopiantubesadenosarcoma|adenosarcoma
+fallopianteratoma|teratoma (pending)
+fallopianbroadligamentadenomyoma|adenomyoma
+fallopianbroadligamentleiomyoma|leiomyoma
+fallopianbroadligamentleiomyosarcoma|leiomyosarcoma (pending)
+fallopiantubespapillarycyst|papillary cystadenoma of mesosalpinx
+fallopianSTK11adnexaltumor|STK11 adnexal tumor
+ovarytumorfatwo|Wolffian tumor / Female adnexal tumor of probable Wolffian origin
+fallopianbroadligamentadrenocorticalremnants|adrenocortical remnants
+fallopiantubesdevelopmentalcysts|developmental cysts
+fallopiantubesmesonephric|mesonephric duct remnants
+fallopiantubeswalthard|Walthard cell nests

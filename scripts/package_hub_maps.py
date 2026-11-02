@@ -11,7 +11,7 @@ HUB = ROOT / "frontend/pathology_hub_map_hub_v0_1"
 
 def package(output):
     files = [HUB / name for name in ("serve.py", "index.html")]
-    for folder in ("static", "content", "lectures"):
+    for folder in ("static", "content", "lectures", "videos"):
         files += [p for p in (HUB / folder).rglob("*") if p.is_file()
                   and not any(part.startswith(".") or part == "__pycache__" for part in p.relative_to(HUB).parts)
                   and p.suffix in {".html", ".js", ".css", ".json", ".csv"}]

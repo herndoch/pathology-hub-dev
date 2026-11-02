@@ -1,0 +1,44 @@
+nasalnormalanatomy|anatomy
+nasalfeaturestoreport|grossing & features to report
+nasalnormalhistology|histology
+Nasalcavitystagingterminology|staging terminology
+nasalTNM|staging-nasal cavity & sinuses
+nasalstagingnasopharynx|staging-nasopharynx
+nasalwhoclassification|WHO classification
+nasalallergicfungal|allergic fungal rhinosinusitis
+nasalfungalball|fungal ball
+nasalmucor|invasive fungal rhinosinusitis
+larynxrhinosclerosis|rhinosclerosis
+nasalrhinosporidiosis|rhinosporidiosis
+nasalallergicrhinitis|allergic rhinosinusitis
+nasalchronicrhinitis|chronic rhinosinusitis
+nasalpolypinflammatory|inflammatory sinonasal polyp, including antrochoanal polyp
+nasalglialheterotopia|glial heterotopia
+nasalchondromes|nasal chondromesenchymal hamartoma
+nasalrespepithadenohamart|respiratory epithelial adenomatoid hamartoma
+nasalseromucinous|seromucinous hamartoma
+nasalhairypolyp|hairy polyp
+nasalangiofibroma|sinonasal tract angiofibroma
+nasalpsammomatoid|psammomatoid ossifying fibroma
+nasalsalivaryglandanlage|salivary gland anlage tumor
+nasalmeningioma|sinonasal meningioma
+nasalsinonasalpapilloma|sinonasal papilloma
+nasalnasopharyngealgeneral|nasopharyngeal carcinoma
+nasalpapillaryadenocarcinoma|low grade nasopharyngeal papillary adenocarcinoma
+nasalcarcinomageneral|sinonasal carcinoma-general
+HPVrelatedmultiphenotypiccarcinoma|HPV related multiphenotypic sinonasal carcinoma
+nasalsmallcell|high grade neuroendocrine carcinoma
+nasalnutcarcinoma|NUT carcinoma
+nasalsnuc|sinonasal undifferentiated carcinoma
+nasalsinolymphoepicarc|sinonasal lymphoepithelial carcinoma
+nasalSMARCB1deficient|SWI / SNF complex deficient sinonasal carcinoma
+nasalscc|squamous cell carcinoma
+nasalteratoidcarcinosarcoma|teratocarcinosarcoma
+nasaladenocarcinoma|adenocarcinoma-general
+nasalintestinaladeno|intestinal type
+nasalLGseromucinous|nonintestinal type
+nasalademantinomatouscranio|adamantinomatous craniopharyngioma
+nasalbiphenotypicsarcoma|biphenotypic sinonasal sarcoma
+nasalchordoma|chordoma
+nasalolfactoryneuroblastoma|olfactory neuroblastoma
+nasalHPC|sinonasal glomangiopericytoma

@@ -1,0 +1,92 @@
+lymphnodesanatomy|anatomy & histology-lymph nodes
+lymphomanormalBcells|B & T cells
+lymphnodesinterventionalcytopathology|core needle procedure
+lymphnodesgrossing|grossing & features to report-lymph nodes
+lymphnodessydneysystem|WHO system for reporting lymph node cytopathology (pending)
+lymphnodesadiposetissuemetaplasia|adipose tissue / lipogranuloma
+lymphnodesbreastepithelium|epithelial / mesothelial inclusions
+lymphnodesotherectopic|other ectopic tissue / inclusions
+lymphnodesendogenouspigment|endogenous pigment
+lymphnodesforeignmaterial|foreign material
+lymphnodescatscratch|cat scratch disease
+lymphnodeshiv|HIV
+lymphnodesinfectmononuc|infectious mononucleosis
+lymphnodessyphilis|luetic lymphadenitis
+lymphnodesatypicalmycobacteria|mycobacteria-atypical / other than TB or leprosy
+lymphnodestoxoplasma|toxoplasmosis
+lymphnodesotherinfections|other infections
+lymphnodescastleman|Castleman disease
+lymphnodesdermatopathiclymphadenitis|dermatopathic lymphadenopathy
+lymphnodesdrughypersensitivity|drug hypersensitivity
+lymphnodeseczemaherpeticum|eczema herpeticum lymphadenopathy (pending)
+lymphnodesIgG4lymphadenopathy|IgG4 related lymphadenopathy
+lymphnodestlymphoblastic|indolent T lymphoblastic proliferations
+lymphnodeskawasaki|Kawasaki disease
+lymphnodeskikuchi|Kikuchi disease
+lymphnodeskimurasdisease|Kimura disease
+lymphnodeslymphadenopathyjointprosthesis|lymphadenopathy associated with joint prosthesis (pending)
+lymphnodesPTGC|progressive transformation of germinal centers
+lymphnodesrheumatoidarthritis|rheumatoid arthritis
+lymphnodesreactivebcellrichlymphprolif|reactive B cell rich lymphoid proliferations that can mimic lymphoma
+lymphnodessinushistiocytosiswithmassivelymph|Rosai-Dorfman disease (RDD)
+lymphnodessle|lupus lymphadenitis
+lymphnodesadultstills|adult onset Still disease
+lymphnodesfollicularhyperplasia|follicular hyperplasia
+lymphnodesgranulomatous|granulomatous inflammation
+lymphnodeshemophagocyticlymphohistiocytosis|hemophagocytic lymphohistiocytosis
+lymphnodesreactivegeneral|reactive lymphadenopathy
+lymphnodesangiolipomatoushyperplasia|angiolipomatous hamartoma
+lymphnodesangiomyolipoma|angiomyolipoma
+lymphnodesangiomyomatoushamartoma|angiomyomatous hamartoma
+lymphnodeshemangioma|hemangioma-lymph nodes
+lymphnodeslymphangioma|lymphangioma
+lymphnodeslymphangiomyomatosis|lymphangiomyomatosis
+lymphnodesvasculartransformationofsinuses|vascular transformation of sinuses
+lymphnodesalkhistiocytosis|ALK+ histiocytosis
+lymphnodesamyloidosis|amyloid
+lymphnodesEBVposinflamm|EBV positive inflammatory follicular dendritic cell / fibroblastic reticular cell tumor
+lymphnodeserdheimchester|Erdheim-Chester disease
+lymphnodesfibroblasticreticulumcellsarcoma|fibroblastic reticulum cell sarcoma
+lymphnodesFDCsarcoma|follicular dendritic cell sarcoma (FDCS)
+lymphnodeshistiocyticsarcoma|histiocytic sarcoma
+lymphnodesindeterminatecelltumors|indeterminate cell histiocytosis / indeterminate dendritic cell tumor
+lymphnodesinterdigitatingreticulum|interdigitating dendritic cell / reticulum cell sarcoma
+lymphnodesintranodalpalismyofibroblast|intranodal palisaded myofibroblastoma
+lymphnodesLCH|Langerhans cell histiocytic neoplasms
+lymphnodesmetastases|metastases
+lymphnodesmyofibroblastoma|myofibroblastoma
+lymphnodesplasmacytoma|plasmacytoma
+spleennormalanatomy|anatomy, histology & grossing-spleen
+spleennonspecificabnormalfeatures|common nonspecific abnormal features
+spleensplenectomy|splenectomy, rupture & splenosis
+spleenaccessoryspleen|accessory
+lymphnodessplenicmalformations|splenic malformations
+spleenepithelialcysts|epithelial cyst
+spleenabscess|abscess
+spleenacutesepticsplenitis|acute splenitis
+spleengranulomatousinflammation|granulomatous inflammation
+spleenuncommoninfections|uncommon infections
+spleeninfectiousmono|infectious mononucleosis
+lymphnodessarcoidosisinspleen|sarcoidosis in spleen (pending)
+spleenSplendoreHoeppliPhenomenon|Splendore-Hoeppli phenomenon
+spleencongestivesplenomegaly|congestive splenomegaly
+spleengaucher|Gaucher disease
+lymphnodehemophagocyticlymphohistio|hemophagocytic lymphohistiocytosis
+spleenHS|hereditary spherocytosis
+spleenITP|immune thrombocytopenia (ITP)
+lymphnodesinfarct|infarct (pending)
+lymphnodessicklecelldisease|sickle cell disease (pending)
+spleenhamartoma|hamartoma
+spleenhemangioma|hemangioma-spleen
+spleenlittoralcellangioma|littoral cell angioma
+spleensclerosingangiomatoid|sclerosing angiomatoid nodular transformation
+bonemarrowneoplasticBPDCN|blastic plasmacytoid dendritic cell neoplasm (BPDCN)
+lymphomahcl|hairy cell leukemia
+lymphomahclvariant|hairy cell leukemia variant
+lymphomanonBhepatosplenic|hepatosplenic T cell lymphoma
+softtissuekaposi|Kaposi sarcoma
+leukemiagranulocytic|myeloid sarcoma
+lungnontumorsarcoidosis|sarcoidosis
+salivaryglandssjogren|Sjogren syndrome
+lymphomasplenicmzl|splenic marginal zone lymphoma
+lymphomasdrpl|splenic diffuse red pulp small B cell lymphoma

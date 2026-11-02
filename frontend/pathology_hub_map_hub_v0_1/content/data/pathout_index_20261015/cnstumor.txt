@@ -1,0 +1,100 @@
+cnstumorpinealglandnormal|anatomy & histology-pineal gland
+CNStumorhistology|CNS-anatomy & histology
+CNStumorDNAmethylationclass|DNA methylation classification of CNS tumors
+cnstumorgrossing|grossing, features to report & staging
+cnstumorwhoclassification|WHO classification
+cnstumorcolloidcyst|colloid cyst
+cnstumorepidermoidcyst|ectodermal cysts
+cnstumorendodermalcysts|endodermal cyst
+cnstumorglioependymalcyst|glioependymal / ependymal cyst
+cnstumormeningealcyst|meningeal cyst
+cnstumorneuroectodermalcyst|neuroectodermal cysts
+cnstumorpinealcyst|pineal cyst
+cnstumorrathke|Rathke cleft cyst
+cnstumorsimplecyst|simple cyst
+cnstumorsynovialcyst|synovial cyst
+cnstumorsyrinx|syrinx
+cnstumorgliomageneral|glioma overview
+cnstumorwhograding|WHO grading of gliomas
+cnstumorastroblastoma|astroblastoma, MN1 altered
+cnstumorchordoidglioma|chordoid glioma
+cnstumorgliosarcoma|gliosarcoma
+CNStumorHGAP|high grade astrocytoma with piloid features (HGAP)
+cnstumorpleomorphicxanthoastrocytoma|pleomorphic xanthoastrocytoma
+cnstumorpilocyticastrocytoma|pilocytic astrocytoma
+cnstumorsubependymalgiantcell|subependymal giant cell astrocytoma
+CNStumorgliomasastrocytomasIDHmutant|astrocytoma, IDH mutant
+CNStumorgliomasglioblastomasIDHwildtype|glioblastoma, IDH wild type
+cnstumoroligodendrogliomaidhmutant|oligodendroglioma, IDH mutant and 1p / 19q codeleted
+cnstumordiffuseH3G34mutant|diffuse hemispheric glioma, H3 G34 mutant
+cnstumordmgh3k27m|diffuse midline glioma, H3 K27 altered
+CNStumordiffusepediatrichighglioma|diffuse pediatric type high grade glioma, H3 wild type and IDH wild type
+CNStumorinfanttype|infant type hemispheric glioma
+cnstumorangiocentricglioma|angiocentric glioma
+cnstumordiffuseastrocytomamyb|diffuse astrocytoma, MYB or MYBL1 altered
+cnstumordiffuselowgradegliomaMAPK|diffuse low grade glioma, MAPK pathway altered
+cnstumorplnty|polymorphous low grade neuroepithelial tumor of the young (PLNTY)
+cnstumorependymoma|ependymoma overview
+cnstumormyxopapillaryependymoma|myxopapillary ependymoma
+cnstumorposteriorfossaependymoma|posterior fossa ependymoma
+CNStumorspinalependymoma|spinal ependymoma
+cnstumorsubependymoma|subependymoma
+cnstumorsupratentorialependymomayap1|supratentorial ependymoma, YAP1 fusion positive
+cnstumorsupratentorialependymomazfta|supratentorial ependymoma, ZFTA fusion positive
+cnstumorcentralneurocytoma|central neurocytoma
+cnstumorcerebellarliponeurocytoma|cerebellar liponeurocytoma
+cnstumordesmoplasticinfantileganglioglioma|desmoplastic infantile ganglioglioma / astrocytoma
+cnstumordiffuseleptglioneurtumor|diffuse leptomeningeal glioneuronal tumor
+cnstumorDNET|dysembryoplastic neuroepithelial tumor
+cnstumordysplasticgangliocytoma|dysplastic cerebellar gangliocytoma (Lhermitte-Duclos disease)
+cnstumorextraventricularneurocytoma|extraventricular neurocytoma
+cnstumorganglioncelltumor|gangliocytoma & ganglioglioma
+CNStumorMVNT|multinodular and vacuolating neuronal tumor (MVNT)
+cnstumormyxoidglioneuronaltumor|myxoid glioneuronal tumor
+cnstumorpapillaryglioneuronal|papillary glioneuronal tumor
+cnstumorRGNT|rosette forming glioneuronal tumor (RGNT)
+cnstumormedulloblastoma|medulloblastoma
+cnstumortumorSHHactivated|SHH activated
+cnstumoratypicalteratoidrhabdoid|atypical teratoid / rhabdoid tumor
+cnstumortumorembryotumNOS|CNS embryonal tumor, NOS / NEC
+cnsneuroblastoma|CNS neuroblastoma, FOXR2 activated
+CNStumorBCOR|CNS tumor with BCOR internal tandem duplication
+cnstumorETMR|embryonal tumor with multilayered rosettes
+cnstumorchoroidplexuspapillomas|choroid plexus tumors (papilloma, atypical papilloma, carcinoma)
+cnstumorSMARCB1mutant|desmoplastic myxoid tumor of the pineal region, SMARCB1 mutant
+cnstumorpapillarytumorpineal|papillary tumor of pineal region
+cnstumorpineoblastoma|pineoblastoma
+cnstumorpineocytoma|pineocytoma
+cnstumorpinealparenchymalintermediate|pineal parenchymal tumor of intermediate differentiation
+cnstumormeningiomageneral|meningioma
+cnstumorwhomeningioma|WHO grading of meningiomas
+cnstumoranaplasticmeningioma|anaplastic meningioma
+cnstumoratypicalmeningioma|atypical meningioma
+cnstumorchordoidmeningioma|chordoid meningioma
+cnstumorclearcellmeningioma|clear cell meningioma
+cnstumorpapillarymeningioma|papillary meningioma
+cnstumorrhabdoidmeningioma|rhabdoid meningioma
+cnstumorgermcelltumors|germ cell tumors
+cnstumoradamcraniopharyngioma|adamantinomatous craniopharyngioma
+CNSgranularcell|granular cell tumor (sellar)
+cnstumorpapcraniopharyngioma|papillary craniopharyngioma
+cnstumorpituicytoma|pituicytoma
+cnstumorpituitaryhyperplasia|pituitary hyperplasia
+CNSpituitaryendocrine|pituitary neuroendocrine tumor (PitNET)
+cnstumorspindlecellonco|spindle cell oncocytoma
+cnstumorhistiocytic|histiocytic tumors
+CNSlymphomadiffuseintra|intravascular large B cell lymphoma
+CNSlymphomatoidgran|lymphomatoid granulomatosis
+CNSMALTlymphomadura|MALT lymphoma of the dura
+CNSmiscrarelymphomas|miscellaneous rare CNS lymphomas
+CNSprimaryCNSlymphoma|primary CNS lymphoma
+cnstumorparaganglioma|cauda equina neuroendocrine tumor
+CNStumorCICrearrsarcoma|CIC rearranged sarcoma (pending)
+cnstumorhemangioblastoma|hemangioblastoma
+CNSintracranialmesenchymal|intracranial mesenchymal tumor, FET::CREB fusion positive (pending)
+cnstumormelanocytictumor|melanocytic tumors / melanoma
+cnstumormeningioangiomatosis|meningioangiomatosis
+cnstumormetastaticcarcinoma|metastases
+CNSintracranialsarcoma|primary intracranial sarcoma, DICER1 mutant
+cnstumorschwannoma|schwannoma
+cnstumorsft|solitary fibrous tumor

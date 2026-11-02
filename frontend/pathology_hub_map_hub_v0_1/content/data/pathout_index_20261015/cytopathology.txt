@@ -1,0 +1,66 @@
+managementlabcytologybilling|cytology billing
+managementlabappdigpathqa|quality assurance for cytopathology
+cytopathologycerebrospinalfluid|overview
+cytopathologyfnastepbystep|FNA procedure
+cytopathologyfnacontraindications|superficial FNA procedure: contraindications and complications
+cytopathologyimmunocytochemistry|immunocytochemistry (pending)
+cytopathologyliquidbased|liquid based cytology
+cytopathologymolecularcyto|molecular cytopathology
+cytopathologyrose|rapid on site evaluation (ROSE)
+cytopathologyfnasmearmaking|smear preparation
+informaticstelecytology|telecytology
+cytopathologyfnaterminology|ultrasound terminology
+breastcytology|overview
+cytopathologyIACYsystem|International Academy of Cytology Yokohama system
+cytopathologyautomation|automation
+cervixcytologypreparations|preparations
+cervixcytologybenignfeatures|normal and nonneoplastic findings
+cervixcytologybethesda|Bethesda system
+cervixASCH|ASC-H
+cervixcytologyatypicalsquamouscells|ASCUS
+cervixcytologyagc|atypical glandular cells
+cervixcytologyLSIL|LSIL
+cervixHSILcytology|HSIL
+cytopathologyinternationalsystem|International system for reporting serous fluid cytopathology
+cytopathologyihcpanels|IHC panels
+cytopathologylungWHO|WHO reporting system for lung cytopathology
+cytopathologylungatypical|atypical
+cytopathologylungbenign|benign
+cytopathologylungmalignant|malignant
+cytopathologylungnondiagnostic|nondiagnostic
+cytopathologylungsuspicious|suspicious for malignancy
+cytopathologylungancillary|ancillary techniques
+lymphnodessydneysystem|WHO system for reporting lymph node cytopathology (pending)
+pancreascytology|cytology
+pancreaspapanicolaousystem|WHO reporting system for pancreaticobiliary cytopathology
+cytopathologypancreasancillary|ancillary techniques
+salivaryglandsmilandiagnostic|Milan reporting system for salivary gland cytopathology
+salivaryglandsmilannondiagnostic|nondiagnostic
+salivaryglandsmilannonneoplastic|nonneoplastic
+salivaryglandsmilanAUS|atypia of undetermined significance (AUS)
+salivaryglandsneoplasmbenign|neoplasm: benign
+salivaryglandsmilanSUMP|neoplasm: salivary gland neoplasm of uncertain malignant potential (SUMP)
+salivaryglandsmilansuspicious|suspicious for malignancy
+salivaryglandsmalignant|malignant
+cytopathologysalivaryancillary|ancillary techniques (pending)
+cytopathologysofttissueWHO|WHO reporting system for soft tissue cytopathology (pending)
+thyroidFNA|FNA-general
+thyroidglandmolectestingfna|molecular testing in FNA
+thyroidultrasound|ultrasound
+thyroiddiagnostic|Bethesda system diagnostic categories
+thyroidadequacy|adequacy
+thyroidnduns|unsatisfactory
+thyroidbenign|benign
+thyroidatypia|atypia of undetermined significance
+thyroidfollicularneoplasm|follicular neoplasm
+thyroidhurthlecellneoplasm|oncocytic neoplasm
+thyroidsuspicious|suspicious for malignancy
+thyroidmalignant|malignant
+cytopathologypapillarythyroidcarc|papillary thyroid carcinoma and subtypes (pending)
+cytopathologymedullarythyroidcarc|medullary thyroid carcinoma
+cytopathologyhighgradefollicular|high grade follicular cell derived nonanaplastic thyroid carcinoma
+cytopathologyundiffanaplastic|undifferentiated (anaplastic) thyroid carcinoma (pending)
+bladdercytologynormal|cytology-general, normal findings & biomarker testing
+bladdercytologyneoplastic|cytology-neoplastic
+bladdercytologynonneoplastic|cytology-nonneoplastic
+bladdercytologyparissystemnew|Paris system

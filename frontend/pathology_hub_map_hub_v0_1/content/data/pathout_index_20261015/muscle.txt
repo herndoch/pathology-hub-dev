@@ -1,0 +1,48 @@
+muscleskeletalnormal|histology-skeletal muscle
+musclecentralcoredisease|central core disease
+musclecentronuclearmyopathy|centronuclear myopathy
+musclecongenitalfibertype|congenital fiber type disproportion (pending)
+musclemultiminicore|multiminicore myopathy
+musclenemalinemyo|nemaline myopathy
+muscleantisynthetase|antisynthetase syndrome associated myositis
+muscledermatomyositis|dermatomyositis
+muscleimmunemediated|immune mediated necrotizing myopathy
+muscleinclusionbody|inclusion body myositis
+musclepolymyositis|polymyositis
+muscleeosinophilicmyofasciitis|eosinophilic myofasciitis
+musclefocalmyositis|focal myositis (pending)
+muscleHIVmyositis|HIV myositis (pending)
+muscleimmunecheckpoint|immune checkpoint inhibitor related myositis (pending)
+musclelupusmyositis|lupus myositis (pending)
+musclescleromyositis|scleromyositis (pending)
+musclesjogrenassociatedmyositis|Sjogren disease associated myositis (pending)
+musclebeckerduchennemusculardystrophy|Duchenne and Becker muscular dystrophy
+musclecongenital|congenital muscular dystrophies
+muscleFSH|facioscapulohumeral muscular dystrophy
+musclelimb|limb girdle muscular dystrophy (pending)
+musclemyotonicdystrophy|myotonic dystrophy
+muscleOCPmusculardystrophy|oculopharyngeal muscular dystrophy
+muscleglycogen|glycogen storage diseases
+musclelipid|lipid storage diseases (pending)
+musclemitochondrial|mitochondrial myopathies (pending)
+muscleneurogenicatrophy|neurogenic atrophy
+musclespinal|spinal muscular atrophy (SMA)
+muscletypeII|type II atrophy (pending)
+muscledanon|Danon disease (pending)
+musclemyofibrillar|myofibrillar myopathies (pending)
+muscletubular|tubular aggregates myopathy (pending)
+musclexlinked|X linked myopathy with excessive autophagy (pending)
+musclehydroxychloroquine|hydroxychloroquine myopathy
+musclemacrophagic|macrophagic myofasciitis
+musclemyosinheavy|myosin heavy chain loss myopathy / critical illness myopathy
+musclemyosinstatin|statin myopathy (pending)
+musclesteroid|steroid myopathy
+musclezidovudine|zidovudine myopathy (pending)
+musclecharcot|Charcot-Marie-Tooth disease (pending)
+musclegiantaxon|giant axon neuropathy (pending)
+musclehereditarypressure|hereditary neuropathy with pressure palsies (pending)
+muscleautoimmunenodopathy|autoimmune nodopathy (pending)
+musclechronicinflammatory|chronic inflammatory demyelinating polyneuropathy (pending)
+musclevasculitic|vasculitic neuropathy (pending)
+muscleamyloid|amyloid neuropathy
+musclediabetic|diabetic peripheral neuropathy (pending)

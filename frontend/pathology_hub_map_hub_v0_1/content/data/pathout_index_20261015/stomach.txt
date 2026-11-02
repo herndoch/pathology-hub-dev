@@ -1,0 +1,75 @@
+stomachfeatures|features to report & grossing
+stomachnormalhistology|anatomy & histology
+stomachstagingcarcinomas|staging-carcinoma
+stomachgiststaging|staging-GIST
+stomachstagingneuroendocrine|staging-neuroendocrine tumors
+stomachWHOclassification|WHO classification
+softtissuewhoclassificationgi|WHO classification-GI mesenchymal tumors
+stomachgastritisfeatures|gastritis-features to report
+stomachacutegastritis|acute gastritis
+stomachchronicatrophic|atrophic gastritis (environmental and autoimmune)
+stomachautoimmunegastritis|autoimmune gastritis
+stomachchronicgastritis|chronic gastritis
+stomachcollagenous|collagenous gastritis
+stomacheosinophilic|eosinophilic gastroenterocolitis
+stomacherosive|erosive gastritis
+stomachGVHD|graft versus host disease
+stomachgranulomatousgastritis|granulomatous gastritis
+stomachlymphocyticgastritis|lymphocytic gastritis
+stomachrussellbody|Russell body gastritis
+stomachCMV|CMV
+stomachhh|Helicobacter heilmannii
+stomachhelicobacter|Helicobacter pylori
+stomachacutegastriculcer|acute gastric ulcer
+stomachPUD|peptic ulcer disease
+stomachmenetriers|Menetrier disease
+stomachAVM|arteriovenous malformation
+stomachbezoar|bezoars
+stomachdoxycycline|doxycycline
+stomachantralvascularect|gastric antral vascular ectasia
+stomachpancreaticheterotopia|heterotopic pancreas / pancreatic acinar metaplasia
+stomachiron|iron pill gastritis / pill gastritis
+stomachLCD|Lanthanum carbonate deposition
+stomachcalcinosis|mucosal calcinosis
+stomachportalhypertensivegastropathy|portal hypertensive gastropathy
+stomachPPI|proton pump inhibitors
+stomachpyloricstenosis|pyloric stenosis
+stomachchemical|reactive (chemical) gastropathy
+stomachxanthoma|xanthoma
+stomachadenomas|adenomas
+stomachcowdens|Cowden
+stomachcronkhite|Cronkhite-Canada
+stomachfundicgland|fundic gland polyp
+stomachgastritiscyst|gastritis cystica polyposa
+stomachhyperplastic|hyperplastic polyp
+stomachinflammatoryfibroid|inflammatory fibroid polyp
+stomachjuvenile|juvenile polyp
+stomachoxynticglandadenoma|oxyntic gland adenoma
+stomachpeutzjeghers|Peutz-Jeghers
+stomachpyloricglandadenoma|pyloric gland adenoma
+stomachdysplasia|dysplasia
+stomachintestinalmetaplasia|intestinal metaplasia
+stomachcarcinomageneral|carcinoma-general
+stomachamphicrinelike|amphicrine-like carcinoma
+stomachdiffuse|diffuse type
+stomachadenosquamouscarc|gastric adenosquamous carcinoma
+stomachLEL|gastric carcinoma with lymphoid stroma
+stomachgastricSCC|gastric squamous cell carcinoma
+stomachundiffcarc|gastric undifferentiated carcinoma (pending)
+stomachhepatoid|hepatoid
+stomachhdgc|hereditary diffuse gastric cancer
+stomachintestinal|intestinal type adenocarcinoma
+stomachmolecular|molecular pathology
+stomachneuroendocrineclassification|neuroendocrine-classification
+stomachamphicrine|mixed neuroendocrine-nonneuroendocrine
+stomachneuroendocrine|poorly differentiated neuroendocrine carcinoma
+stomachcarcinoid|well differentiated neuroendocrine tumor
+stomachdiffuselargeBcell|diffuse large B cell lymphoma
+stomachMALT|extranodal marginal zone lymphoma of mucosa associated lymphoid tissue (MALT lymphoma)
+stomachgastroblastoma|gastroblastoma
+stomachGIST|GIST
+stomachglomus|glomus tumor
+stomachleiomyoma|leiomyoma
+stomachleiomyosarcoma|leiomyosarcoma
+stomachplexiformfibromyxoma|plexiform fibromyxoma
+stomachschwannoma|schwannoma

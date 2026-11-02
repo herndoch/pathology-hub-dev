@@ -1,0 +1,33 @@
+appendixnormalanatomy|anatomy
+appendixfeatures|features to report & grossing
+appendixstaging|staging-carcinoma / mucinous neoplasms
+appendixstagingneuroendocrine|staging-neuroendocrine tumors
+appendixwhoclassification|WHO classification
+appendixcysticfibrosis|cystic fibrosis
+appendixacuteappendicitis|acute appendicitis
+appendixmeasles|adenovirus & measles
+appendixCMVappendicitis|CMV appendicitis
+appendixenterobius|Enterobius vermicularis
+appendixidiopathicgran|granulomatous appendicitis
+appendixinflammatorydisease|inflammatory bowel disease involving appendix (pending)
+appendixinterval|interval appendicitis
+appendixperiappendicitis|periappendicitis
+appendixxanthogranulomatous|xanthogranulomatous inflammation
+appendixdiverticula|diverticulosis
+appendixendometriosis|endometriosis (pending)
+appendixinverted|inverted appendix
+appendixlymphoidhyperplasia|lymphoid hyperplasia
+appendixmucocele|mucocele
+appendixmyxoglobulosis|myxoglobulosis
+appendixfibrousobliteration|fibrous obliteration
+appendixhyperplasticpolyp|hyperplastic polyp
+appendixserratedpolyps|serrated polyp
+appendixtubularadenoma|tubular adenoma
+appendixadenocarcinoma|adenocarcinoma
+appendixgobletcellcarcinoid|goblet cell adenocarcinoma
+appendixmucinousgeneral|mucinous neoplasms-general
+appendixmucinousneoplasm|LAMN and HAMN
+appendixpseudomyxoma|pseudomyxoma peritonei / mucinous carcinoma peritonei
+appendixGIST|gastrointestinal stromal tumor
+appendixmetastasis|metastasis (pending)
+appendixwdneuroendocrine|neuroendocrine tumor

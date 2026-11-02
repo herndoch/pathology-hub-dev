@@ -1,0 +1,173 @@
+colonhistology|anatomy & histology
+colontumorfeaturestoreport|grossing & features to report
+colontumorstaging8ed|staging-carcinoma
+colontumorstagingneuroendocrine|staging-neuroendocrine
+colontumorwhoclassification|WHO classification
+colonatresia|atresia
+colonchronicintest|chronic intestinal pseudo-obstruction
+coloncystsofretrorectalspace|cyst of retrorectal space
+colonduplication|duplication
+colonehlers|Ehlers Danlos syndrome
+colonhirschsprung|Hirschsprung disease
+colonintestinalneuronal|intestinal neuronal dysplasia
+colonbrownbowel|brown bowel syndrome
+coloncongenitalabsenceMP|congenital absence of muscularis propria (pending)
+colonscleroderma|scleroderma
+colonvisceralmyopathy|visceral myopathy
+colondiverticulosis|diverticulosis
+coloncrohns|Crohn's disease
+colonIBDdysplasia|dysplasia
+colonindeterminate|inflammatory bowel disease, indeterminate type
+colonnonconventionaldysplasia|nonconventional dysplasia
+colonserratedepithelialchange|serrated epithelial change
+colonuc|ulcerative colitis and proctitis
+colonbehcet|Behcet's syndrome
+colonchronicgran|chronic granulomatous disease
+coloncollagenous|collagenous colitis
+coloncvid|common variable immunodeficiency (CVID)
+colondiversion|diversion colitis
+coloneosinophilic|eosinophilic gastroenterocolitis
+colonactivecolitis|focal active colitis
+colonGVHD|graft versus host disease
+colonischemic|ischemic colitis
+colonlymphocytic|lymphocytic colitis
+colonmalakoplakia|malakoplakia
+colonNEC|necrotizing enterocolitis
+colonAAcolitis|pseudomembranous colitis
+colonradiationproctitis|radiation enterocolitis
+colondiverticulardisease|segmental colitis associated with diverticula (SCAD)
+colontyphlitis|typhlitis
+colondruginducedcolitis|drug induced colitis - overview
+colonARBcolitis|angiotensin receptor blocker (ARB) colitis
+colonAntiPD1|anti-PD1 associated colitis
+colonchemoinducedcolitis|chemotherapy induced colitis
+colonidelalisib|idelalisib associated
+coloncolitisipilimumab|ipilimumab associated colitis
+colonmmfcolitis|mycophenolate mofetil associated colitis
+colonnsaid|NSAID associated colitis
+colonpillfragmentassociatedcolitis|pill fragment associated colitis
+colonsecukinumab|secukinumab induced colitis
+colonactinomycosis|actinomycosis
+colonacuteselflimited|acute self limited colitis
+colonadenovirus|adenovirus
+colonamebic|amebic colitis
+colonbalantidiasis|balantidiasis
+colonbasidio|basidiobolomycosis
+coloncampylobacter|Campylobacter jejuni
+colonchagas|Chagas disease (trypanosomiasis)
+colonCMV|cytomegalovirus (CMV)
+colonCOVID19colitis|COVID-19 associated colitis
+coloncryptosporidium|cryptosporidiosis
+colonecoli|Escherichia coli
+colonhistoplasmosis|histoplasmosis
+colonHIV|HIV/AIDS associated
+colonspirochetosis|intestinal spirochetosis
+colonmycoaviumintra|Mycobacterium avium intracellulare
+colonsalmonella|Salmonella (typhoid and nontyphoidal)
+colonsapovirus|sapovirus
+colonschistosomiasis|schistosomiasis
+colonsexuallytranscolitis|sexually transmitted infectious colitis / proctitis
+colonshigella|shigella
+colonstrongyloides|Strongyloides stercoralis
+colontrichuriasis|trichuriasis
+colonTB|tuberculosis
+colonvibrio|Vibrio cholerae
+colonyersinia|yersiniosis
+colonadhesions|adhesions
+colonamyloidosis|amyloidosis
+colonbowelprep|apoptotic colopathy
+coloncystitiscystica|colitis cystica profunda
+colonelastofibromatous|elastofibromatous change
+colonendometriosis|endometriosis
+colonforeignmaterial|foreign materials / food
+colongastricheterotopia|gastric heterotopia
+colonmyointimalhyperplasia|idiopathic myointimal hyperplasia of mesenteric veins
+colontumorirf|idiopathic retroperitoneal fibrosis
+coloninfarct|infarct
+coloninfarcted|infarcted epiploic appendages
+colonliftagentgranuloma|lifting agent granuloma
+colonmelanosis|melanosis coli
+colonpneumatosis|pneumatosis cystoides intestinalis
+colonportalhypertensivecolopathy|portal hypertensive colopathy
+colonpulsegranuloma|pulse granuloma
+colontumorreactivenodular|reactive nodular fibrous pseudotumor
+colonsclerosingmes|sclerosing mesenteritis
+colonsolitaryrectalyulcer|solitary rectal ulcer syndrome
+colonstercoralulcer|stercoral ulcer
+colontclb|tactile corpuscle-like bodies
+colonvascularectasia|vascular ectasia
+colonvasculitis|vasculitis
+colonvolvulus|volvulus
+colonxanthoma|xanthoma
+colontumorpolypgeneral|polyp overview
+colontumoraberrantcrypts|aberrant crypt foci
+colontumoradenoma|adenoma overview
+colontumorcarcinomaarising|adenoma with invasive carcinoma
+colontumorhyperplastic|hyperplastic polyp
+colontumorinflammatory|inflammatory polyp
+colontumorcappolyposis|inflammatory cap polyp
+colontumorinflammatoryfibroid|inflammatory fibroid polyp
+colontumorjuvenilepolyp|juvenile (retention) polyp
+anuslymphoidpolyp|lymphoid polyp
+colonmucosalprolapsepolyp|mucosal prolapse polyp
+colonserratedlesions|serrated lesions - general
+colontumorsessileserrated|sessile serrated adenoma
+colontumortraditionalserratedadenoma|traditional serrated adenoma
+colontumortubularadenoma|tubular adenoma
+colontumortvadenoma|tubulovillous / villous adenoma
+colontumorcowden|Cowden syndrome
+colontumorcronkhite|Cronkhite-Canada syndrome
+colontumorFAP|familial adenomatous polyposis, classic
+colontumorafap|familial adenomatous polyposis, attenuated
+colontumorgardner|Gardner syndrome
+colonhereditarymixedpolyposis|hereditary mixed polyposis syndrome
+colontumorjuvenilepolyposissx|juvenile polyposis syndrome
+colontumorlynch|Lynch syndrome
+colontumorMuirTorre|Muir-Torre syndrome
+colontumormyhassociated|MUTYH associated polyposis
+colontumorPeutz|Peutz-Jeghers syndrome
+colontumorserratedpolyposissx|serrated polyposis
+colontumorturcot|Turcot syndrome
+colontumorcarcinomageneral|colon carcinoma overview
+colontumorposttreatment|posttreatment changes
+colontumorintramucosal|intramucosal carcinoma
+colontumoradenocarcinoma|adenocarcinoma
+colontumorvillousadenocarcinoma|adenoma-like adenocarcinoma
+colontumoradenosquamous|adenosquamous carcinoma
+coloncolorectalenteroblasticadeno|colorectal enteroblastic adenocarcinoma
+colontumorhepatoid|hepatoid carcinoma
+colontumoribdassociated|IBD associated
+colontumorlowgradetubulo|low grade tubuloglandular adenocarcinoma
+colonlymphoglandularcomplexcolocarc|lymphoglandular complex-like colorectal carcinoma
+colontumormedullary|medullary carcinoma
+colontumormicropapillary|micropapillary carcinoma
+colontumorcolloid|mucinous adenocarcinoma
+colontumorserratedadeno|serrated adenocarcinoma (SAC)
+colontumorsignetring|signet ring cell carcinoma
+colontumorscc|squamous cell carcinoma
+colontumorAPCgene|APC gene
+colontumormolecularpathwayschromosome|chromosomal instability & MUTYH pathways
+colontumormolecularmicrosatellite|microsatellite instability pathway
+colontumorpold1pole|POLD1 / POLE
+colontumormolecularCpG|serrated pathway
+colontumorneuroendocrinetumor|well differentiated neuroendocrine tumor
+colontumorneuroendocrinecarcinoma|poorly differentiated neuroendocrine carcinoma
+colontumormxdnrndcrnnonnrndocrnnplsm|mixed neuroendocrine nonneuroendocrine neoplasm
+colonangiosarcoma|angiosarcoma
+colontumorganglioneuroma|ganglioneuroma
+colontumorganglioneuromatosis|ganglioneuromatosis
+colontumorgist|gastrointestinal stromal tumor
+colontumorangioma|hemangioma
+colontumorimt|inflammatory myofibroblastic tumor
+colontumorkaposi|Kaposi sarcoma
+colontumorleiomyoma|leiomyoma
+colontumorLMS|leiomyosarcoma
+colontumorlipoma|lipoma
+colontumormucosalschwann|mucosal Schwann cell hamartoma
+colonneurofibroma|neurofibroma
+colontumorperineurioma|perineurioma
+colontumorpyogenicgranuloma|pyogenic granuloma
+colontumorschwannoma|schwannoma
+colontumormcl|mantle cell lymphoma
+colonmastocytosis|mastocytosis
+colontumormetastases|metastases
