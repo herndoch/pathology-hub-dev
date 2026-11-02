@@ -1121,6 +1121,21 @@ _TOPIC_FEATURE_ASK_RE = re.compile(
     r"ancillary\s+(studies|tests)|clinical\s+features)\b",
     re.IGNORECASE,
 )
+# Aspect / panel asks ("ihc for pulmonary adenocarcinoma", "stains for GIST")
+# must NOT be treated as bare entity topic pages — they want a focused answer.
+_ASPECT_ASK_RE = re.compile(
+    r"(?:"
+    r"^\s*(?:ihc|immunohistochem(?:istry)?|stains?|markers?|panel|ancillary|"
+    r"molecular|mutations?|genetics?|ddx|fish|ngs|cytology|imaging|gross)\b"
+    r"|"
+    r"\b(?:ihc|immunohistochem(?:istry)?|stains?|markers?|panel|ancillary|"
+    r"molecular|mutations?|ddx|differential(?:\s+diagnosis)?|"
+    r"fish|ngs)\s+(?:for|of|in|panel)\b"
+    r"|"
+    r"\b(?:what|which)\s+(?:stains?|markers?|ihc|panel|antibodies)\b"
+    r")",
+    re.IGNORECASE,
+)
 _ENTITY_ABBREV = {
     "lcis": "lobular carcinoma in situ",
     "dcis": "ductal carcinoma in situ",
@@ -1136,6 +1151,8 @@ _ENTITY_ABBREV = {
 def _extract_ask_entity(raw: str) -> Optional[str]:
     text = (raw or "").strip()
     if not text:
+        return None
+    if _ASPECT_ASK_RE.search(text):
         return None
     match = _ENTITY_ASK_RE.match(text)
     if match:
@@ -1172,6 +1189,11 @@ def _resolve_ask_mode(req: ChatRequest) -> Optional[str]:
     if _COMPARE_ASK_RE.search(raw):
         req.mode = "compare_sources"
         return "inferred:compare_sources"
+
+    # Aspect asks stay gpt_like (focused) — do not expand into full topic pages.
+    if _ASPECT_ASK_RE.search(raw):
+        req.mode = "gpt_like"
+        return "inferred:gpt_like_aspect"
 
     entity = _extract_ask_entity(raw)
     looks_topic = bool(entity) or bool(_TOPIC_FEATURE_ASK_RE.search(raw))

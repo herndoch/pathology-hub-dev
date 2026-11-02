@@ -617,12 +617,36 @@ class TestTopicPagePrompt(unittest.TestCase):
         self.assertIsNone(note)
         self.assertEqual(req.mode, "topic_page")
 
+    def test_ihc_aspect_ask_stays_gpt_like(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(
+            query="ihc for pulmonary adenocarcinoma",
+            mode="auto",
+            sources=["textbooks"],
+        )
+        note = _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "gpt_like")
+        self.assertIn("aspect", note or "")
+        # Must not rewrite the query into a bare entity topic label.
+        self.assertEqual(req.query, "ihc for pulmonary adenocarcinoma")
+
+    def test_stains_for_entity_stays_gpt_like(self):
+        from app import ChatRequest, _resolve_ask_mode  # noqa: E402
+
+        req = ChatRequest(query="stains for GIST", mode="auto", sources=["textbooks"])
+        _resolve_ask_mode(req)
+        self.assertEqual(req.mode, "gpt_like")
+
     def test_app_js_has_single_ask_auto_router(self):
         js = (MVP_DIR / "static" / "app.js").read_text(encoding="utf-8")
         html = (MVP_DIR / "static" / "index.html").read_text(encoding="utf-8")
         self.assertIn("function planAskRequest", js)
         self.assertIn("function extractEntityFromAskQuery", js)
+        self.assertIn("function isAspectAskQuery", js)
+        self.assertIn("isLikelyNetworkFailure", js)
         self.assertIn("Inferred topic page", js)
+        self.assertIn("focused aspect answer", js)
         self.assertNotIn('id="mode-select"', html)
         self.assertNotIn("modeSelect", js)
 
