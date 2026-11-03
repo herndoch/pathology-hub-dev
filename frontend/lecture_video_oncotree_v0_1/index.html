@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology Hub — Lecture Video OncoTree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand-block">
+        <p class="eyebrow">Pathology Hub</p>
+        <h1>Lecture Video OncoTree</h1>
+        <p class="lede">Same OncoTree browse shape as Chat MVP — but only topics that already have timestamped lecture clips.</p>
+      </div>
+      <div class="stats" id="stats" aria-live="polite"></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Filter topics or lecture titles…" autocomplete="off" />
+      <div class="oncotree-toolbar" id="oncotree-toolbar"></div>
+    </div>
+
+    <section class="tree-stage" aria-label="OncoTree">
+      <div id="tree" class="tree-host">Loading OncoTree…</div>
+    </section>
+
+    <section class="detail-pane" aria-label="Clips and player">
+      <div id="empty" class="empty">
+        <h2>Pick a node on the OncoTree</h2>
+        <p>Click a colored root or branch to expand. Click a leaf (or any node) to list timestamped clips and play them here.</p>
+      </div>
+      <div id="detail" class="detail hidden">
+        <header class="detail-head">
+          <h2 id="detail-title"></h2>
+          <p id="detail-path" class="path"></p>
+        </header>
+        <div class="detail-grid">
+          <div class="player-wrap">
+            <video id="player" controls playsinline preload="metadata"></video>
+            <p id="now-playing" class="now-playing"></p>
+          </div>
+          <ul id="clip-list" class="clip-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Local / shareable static site · visual OncoTree ported from Chat MVP Browse · video-only index</p>
+      <p id="limitations" class="limitations"></p>
+    </footer>
+  </div>
+  <script src="static/app.js"></script>
+</body>
+</html>
